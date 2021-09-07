@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phalcon\Build;
 
 use SplFileInfo;
@@ -263,13 +266,12 @@ class Generator_File_PhalconC
     /**
      * Scan files' content and extract referenced header files
      *
-     * @var array $files
      * @return array
+     *@var array $files
      */
-    protected function extractReferencedHeaders($files)
+    protected function extractReferencedHeaders(array $files): array
     {
         $result = [];
-        $headers = [];
 
         foreach ($files as $file) {
             foreach (file($file) as $line) {
@@ -284,41 +286,31 @@ class Generator_File_PhalconC
                 }
 
                 if (strpos($headerFile, 'Zend/') !== false) {
-                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 if (strpos($headerFile, 'main/') !== false) {
-                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 if (strpos($headerFile, 'ext/') !== false) {
-                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 if (strpos($headerFile, 'php_') !== false) {
-                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 if (strpos($headerFile, 'spl_') !== false) {
-                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 $possiblePathFromCurrent = Util::normalize('ext/' . $headerFile);
-                if ($possiblePathFromCurrent === null) {
+                if ($possiblePathFromCurrent === null || isset($this->skipFiles[$possiblePathFromCurrent])) {
                     continue;
                 }
 
-                if (isset($this->skipFiles[$possiblePathFromCurrent])) {
-                    continue;
-                }
-
-                $fullPath = $possiblePathFromCurrent;
-                $result[$fullPath] = true;
+                $result[$possiblePathFromCurrent] = true;
             }
         }
 
@@ -332,7 +324,7 @@ class Generator_File_PhalconC
     {
         $resContent = '';
 
-        $prefixes = array('zephir', 'phalcon', 'phannot', 'phvolt', 'phql');
+        $prefixes = ['zephir', 'phalcon', 'phannot', 'phvolt', 'phql'];
         foreach (file($this->outputFile) as $line) {
 
             $modified = true;

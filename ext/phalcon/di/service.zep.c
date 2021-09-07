@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		}
 	} else {
 		if (Z_TYPE_P(&definition) == IS_OBJECT) {
-			if (zephir_instance_of_ev(&definition, zend_ce_closure)) {
+			if (zephir_is_instance_of(&definition, SL("Closure"))) {
 				if (Z_TYPE_P(container) == IS_OBJECT) {
 					_4$$14 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 					ZEPHIR_CALL_CE_STATIC(&_3$$14, _4$$14, "bind", NULL, 0, &definition, container);

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(partialPath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(params)
+		Z_PARAM_ZVAL_OR_NULL(params)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

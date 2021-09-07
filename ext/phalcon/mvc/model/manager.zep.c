@@ -1576,7 +1576,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne)
 		Z_PARAM_STR(referencedModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1699,7 +1699,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOneThrough)
 		Z_PARAM_STR(referencedModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1831,7 +1831,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo)
 		Z_PARAM_STR(referencedModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1944,7 +1944,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany)
 		Z_PARAM_STR(referencedModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2068,7 +2068,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany)
 		Z_PARAM_STR(referencedModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2864,7 +2864,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 		Z_PARAM_OBJECT_OF_CLASS(relation, phalcon_mvc_model_relationinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_STR_OR_NULL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -3274,7 +3274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords)
 		Z_PARAM_STR(modelRelation)
 		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_STR_OR_NULL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -3360,7 +3360,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords)
 		Z_PARAM_STR(modelRelation)
 		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_STR_OR_NULL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -3446,7 +3446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords)
 		Z_PARAM_STR(modelRelation)
 		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_STR_OR_NULL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -4120,8 +4120,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(phql)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(placeholders)
-		Z_PARAM_ZVAL(types)
+		Z_PARAM_ZVAL_OR_NULL(placeholders)
+		Z_PARAM_ZVAL_OR_NULL(types)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -4190,7 +4190,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(params)
+		Z_PARAM_ZVAL_OR_NULL(params)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

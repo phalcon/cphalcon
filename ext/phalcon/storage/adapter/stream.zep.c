@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, get)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set)
 		Z_PARAM_STR(key)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(ttl)
+		Z_PARAM_ZVAL_OR_NULL(ttl)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

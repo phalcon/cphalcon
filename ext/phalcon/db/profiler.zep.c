@@ -197,8 +197,8 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(sqlStatement)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(sqlVariables)
-		Z_PARAM_ZVAL(sqlBindTypes)
+		Z_PARAM_ZVAL_OR_NULL(sqlVariables)
+		Z_PARAM_ZVAL_OR_NULL(sqlBindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

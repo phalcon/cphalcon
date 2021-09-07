@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 	}
 	_9 = Z_TYPE_P(&compiledPath) == IS_OBJECT;
 	if (_9) {
-		_9 = zephir_instance_of_ev(&compiledPath, zend_ce_closure);
+		_9 = zephir_is_instance_of(&compiledPath, SL("Closure"));
 	}
 	if (Z_TYPE_P(&compiledPath) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(&compiledPath))) {
@@ -2699,7 +2699,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(arguments)
+		Z_PARAM_ZVAL_OR_NULL(arguments)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2902,7 +2902,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 					RETURN_MM();
 				}
 				if (Z_TYPE_P(&definition) == IS_OBJECT) {
-					if (zephir_instance_of_ev(&definition, zend_ce_closure)) {
+					if (zephir_is_instance_of(&definition, SL("Closure"))) {
 						ZEPHIR_INIT_VAR(&_3$$12);
 						zephir_create_array(&_3$$12, 2, 0);
 						zephir_array_fast_append(&_3$$12, &arguments);
@@ -3228,7 +3228,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix)
 	if (Z_TYPE_P(&_3) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(&_4$$4);
 		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC);
-		if (zephir_instance_of_ev(&_4$$4, zend_ce_closure)) {
+		if (zephir_is_instance_of(&_4$$4, SL("Closure"))) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			zephir_read_property(&_6$$5, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_7$$5);
@@ -3963,7 +3963,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 			RETURN_MM();
 		}
 		if (Z_TYPE_P(&definition) == IS_OBJECT) {
-			if (zephir_instance_of_ev(&definition, zend_ce_closure)) {
+			if (zephir_is_instance_of(&definition, SL("Closure"))) {
 				ZEPHIR_INIT_VAR(&_9$$14);
 				zephir_create_array(&_9$$14, 2, 0);
 				zephir_array_fast_append(&_9$$14, &arguments);

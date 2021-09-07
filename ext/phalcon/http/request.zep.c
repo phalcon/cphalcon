@@ -167,8 +167,8 @@ PHP_METHOD(Phalcon_Http_Request, get)
 	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredQuery)
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -732,7 +732,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPost)
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -817,7 +817,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPut)
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1536,8 +1536,8 @@ PHP_METHOD(Phalcon_Http_Request, getPost)
 	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1632,8 +1632,8 @@ PHP_METHOD(Phalcon_Http_Request, getPut)
 	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1759,8 +1759,8 @@ PHP_METHOD(Phalcon_Http_Request, getQuery)
 	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();
@@ -3689,8 +3689,8 @@ PHP_METHOD(Phalcon_Http_Request, getHelper)
 		Z_PARAM_ARRAY(source)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 		Z_PARAM_BOOL(notAllowEmpty)
 		Z_PARAM_BOOL(noRecursive)
 	ZEND_PARSE_PARAMETERS_END();

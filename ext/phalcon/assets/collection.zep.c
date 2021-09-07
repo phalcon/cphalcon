@@ -385,9 +385,9 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss)
 	ZEND_PARSE_PARAMETERS_START(1, 6)
 		Z_PARAM_STR(path)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(local)
+		Z_PARAM_ZVAL_OR_NULL(local)
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ZVAL(attributes)
+		Z_PARAM_ZVAL_OR_NULL(attributes)
 		Z_PARAM_STR_OR_NULL(version)
 		Z_PARAM_BOOL(autoVersion)
 	ZEND_PARSE_PARAMETERS_END();
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ZVAL(attributes)
+		Z_PARAM_ZVAL_OR_NULL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ZVAL(attributes)
+		Z_PARAM_ZVAL_OR_NULL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -666,9 +666,9 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs)
 	ZEND_PARSE_PARAMETERS_START(1, 6)
 		Z_PARAM_STR(path)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(local)
+		Z_PARAM_ZVAL_OR_NULL(local)
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ZVAL(attributes)
+		Z_PARAM_ZVAL_OR_NULL(attributes)
 		Z_PARAM_STR_OR_NULL(version)
 		Z_PARAM_BOOL(autoVersion)
 	ZEND_PARSE_PARAMETERS_END();

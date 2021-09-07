@@ -350,8 +350,8 @@ PHP_METHOD(Phalcon_Mvc_Router, add)
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
-		Z_PARAM_ZVAL(httpMethods)
+		Z_PARAM_ZVAL_OR_NULL(paths)
+		Z_PARAM_ZVAL_OR_NULL(httpMethods)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addConnect)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -833,7 +833,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -902,7 +902,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPurge)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1038,7 +1038,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addTrace)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(paths)
+		Z_PARAM_ZVAL_OR_NULL(paths)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

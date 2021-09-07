@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(params)
+		Z_PARAM_ZVAL_OR_NULL(params)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -2492,7 +2492,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_LONG(limit)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(offset)
+		Z_PARAM_ZVAL_OR_NULL(offset)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

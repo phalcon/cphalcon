@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phalcon\Build;
 
 /**
@@ -11,20 +14,20 @@ class Generator_File_PhalconH
      *
      * @var string
      */
-    protected $sourceDir;
+    protected string $sourceDir;
 
     /**
      * Path of generated phalcon.h file
      *
      * @var string
      */
-    protected $outputFile;
+    protected string $outputFile;
 
     /**
      * @param string $sourceDir
      * @param string $outputDir
      */
-    public function __construct($sourceDir, $outputDir)
+    public function __construct(string $sourceDir, string $outputDir)
     {
         $this->sourceDir = $sourceDir;
         $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'phalcon.zep.h';
@@ -38,14 +41,14 @@ class Generator_File_PhalconH
      *
      * @return array
      */
-    public function generate()
+    public function generate(): array
     {
         $fileHandle = fopen($this->outputFile, 'w');
 
         $includedHeaderFiles = $this->appendFileAndReferencedHeaders($fileHandle, $this->sourceDir . '/phalcon.h');
         fclose($fileHandle);
 
-        $this->limitVisibilityOfPhalconFuncs();
+        $this->limitVisibilityOfPhalconFunctions();
 
         return $includedHeaderFiles;
     }
@@ -58,7 +61,7 @@ class Generator_File_PhalconH
      * @param string $filePath
      * @return array
      */
-    protected function appendFileAndReferencedHeaders($fileHandle, $filePath)
+    protected function appendFileAndReferencedHeaders($fileHandle, string $filePath): array
     {
         $includedHeaderFiles = array();
 
@@ -87,7 +90,7 @@ class Generator_File_PhalconH
      * @param string $file
      * @return string
      */
-    protected function getCleanHeaderFileContent($file)
+    protected function getCleanHeaderFileContent(string $file): string
     {
         $result = '';
         $openComment = false;
@@ -108,6 +111,7 @@ class Generator_File_PhalconH
             // Add line to result
             $result .= $this->cleanExtern($line);
         }
+
         return $result;
     }
 
@@ -117,18 +121,19 @@ class Generator_File_PhalconH
      * @param string $line
      * @return string
      */
-    protected function cleanExtern($line)
+    protected function cleanExtern(string $line): string
     {
-        if (strncmp($line, 'extern ', 7) == 0) {
+        if (strncmp($line, 'extern ', 7) === 0) {
             $line = substr($line, 7);
         }
+
         return $line;
     }
 
     /**
      * Go through the generated file and put 'static' to all declarations of Phalcon-related functions
      */
-    protected function limitVisibilityOfPhalconFuncs()
+    protected function limitVisibilityOfPhalconFunctions(): void
     {
         $resContent = '';
 
@@ -136,6 +141,7 @@ class Generator_File_PhalconH
             if (preg_match('/^PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
                 $line = str_replace($matches[0], 'static PHP_METHOD(' . $matches[1] . ', ' . $matches[2] . ')', $line);
             }
+
             $line = preg_replace('/^PHALCON_STATIC /', 'static ', $line);
             $resContent .= $line;
         }

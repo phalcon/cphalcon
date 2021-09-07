@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, get)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set)
 		Z_PARAM_STR(key)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(ttl)
+		Z_PARAM_ZVAL_OR_NULL(ttl)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -678,7 +678,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(connection)
+		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("memcached")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

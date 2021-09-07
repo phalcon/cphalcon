@@ -5,6 +5,13 @@
 #
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
+# After ./install files
+build/phalcon/build
+build/phalcon/include
+build/phalcon/config.h
+build/phalcon/config.nice
+build/phalcon/config.status
+
 ext/ltmain.sh
 ext/Makefile
 ext/Makefile.fragments
