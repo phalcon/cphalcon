@@ -605,10 +605,10 @@ jobs:
           retention-days: 1
 
   release:
-    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
     needs: [generate, build-and-test-linux, build-and-test-macos, build-and-test-windows]
-    name: Create release
+    name: Create Release
     runs-on: ubuntu-20.04
 
     steps:
@@ -633,26 +633,13 @@ jobs:
           echo "-- Creating Release Notes"
           GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
-      - name: Check Release Action
-        run: |
-          ls -R ./build-artifacts/release
-
-      - name: Upload build artifacts for Test
-        if: always()
-        uses: actions/upload-artifact@v2
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          name: release-build-artifacts
-          path: |
-            ${{ github.workspace }}/build-artifacts/
-          retention-days: 1
-
-      # - name: Create Release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     name: ${{ steps.get-version.outputs.version }}
-      #     tag: ${{ steps.get-version.outputs.version }}
-      #     bodyFile: "./build-artifacts/release/release-notes.md"
-      #     allowUpdates: true
-      #     artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
-      #     artifactContentType: application/octet-stream
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.get-version.outputs.version }}
+          tag: ${{ steps.get-version.outputs.version }}
+          bodyFile: "./build-artifacts/release/release-notes.md"
+          allowUpdates: true
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
+          artifactContentType: application/octet-stream
