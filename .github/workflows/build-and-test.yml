@@ -542,22 +542,22 @@ jobs:
         run: |
           Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
+      - name: Prepare Build Artifact
+        run: |
+          $Destination = ".\build-artifacts"
+          if (-not (Test-Path -Path $Destination -PathType Container)) {
+            New-Item $Destination -ItemType Directory | Out-Null
+          }
+          Copy-Item -Path "${env:RELEASE_DLL_PATH}" -Destination $Destination
+          Copy-Item -Path ".\3rdparty\licenses\*.txt" -Destination $Destination
+          Set-Location $Destination
+          & 7z a "${{ env.RELEASE_ZIPBALL }}.zip" *
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.RELEASE_ZIPBALL }}.zip
-          path: ${{ env.RELEASE_DLL_PATH }}
-
-      - name: Upload Licenses
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.RELEASE_ZIPBALL }}.zip
-          path: |
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ATLAS.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-AURA.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-DIACTOROS.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-PHP.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ZEND.txt
+          path: .\build-artifacts\phalcon*.zip
 
       - name: Enable Extensions
         run: |
@@ -629,6 +629,7 @@ jobs:
         run: |
           mkdir -p ./build-artifacts/release
           find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
