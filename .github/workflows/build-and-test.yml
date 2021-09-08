@@ -618,11 +618,19 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=release_body::$(.ci/release-notes.sh CHANGELOG-5.0.md)
 
       - name: Download Phalcon build artifacts
         id: download
         uses: actions/download-artifact@v2
+        with:
+          path: ./build-artifacts
+
+      - name: Prepare Release assets
+        run: |
+          mkdir -p ./build-artifacts/release
+          find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          echo "-- Creating Release Notes"
+          GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -630,7 +638,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ steps.get-version.outputs.version }}
           tag: ${{ steps.get-version.outputs.version }}
-          body: ${{ steps.get-version.outputs.release_body }}
+          bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "${{steps.download.outputs.download-path}}/phalcon_*.zip,${{steps.download.outputs.download-path}}/phalcon-pecl/*"
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
           artifactContentType: application/octet-stream
