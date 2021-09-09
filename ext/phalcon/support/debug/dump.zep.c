@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		zephir_read_property(&_41$$9, this_ptr, ZEND_STRL("detailed"), PH_NOISY_CC | PH_READONLY);
 		_42$$9 = !zephir_is_true(&_41$$9);
 		if (!(_42$$9)) {
-			_42$$9 = zephir_instance_of_ev(variable, zend_standard_class_def);
+			_42$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 		}
 		if (zephir_instance_of_ev(variable, phalcon_di_ce)) {
 			ZVAL_LONG(&_43$$11, tab);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phalcon\Build;
 
 class Autoloader
@@ -12,7 +14,7 @@ class Autoloader
     /**
      * @param string $baseDir Base directory for all script source files
      */
-    public function __construct($baseDir)
+    public function __construct(string $baseDir)
     {
         $this->baseDir = str_replace('\\', '/', $baseDir);
     }
@@ -20,18 +22,18 @@ class Autoloader
     /**
      * Add autoloader to autoloaders queue
      */
-    public function register()
+    public function register(): void
     {
         spl_autoload_register(array($this, 'autoload'));
     }
 
     /**
      * This function is not intended for public calls. It is public just because in PHP 5.3 it is not possible
-     * to create a callable to a protected method, which will be called outside of the class.
+     * to create a callable to a protected method, which will be called outside the class.
      *
-     * @param $className
+     * @param string $className
      */
-    public function autoload($className)
+    public function autoload(string $className): void
     {
         $className = str_replace(__NAMESPACE__, '', $className);
         $className = ltrim($className, '\\');

@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, column)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(column)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL_OR_NULL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, set)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(column)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL_OR_NULL(value)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

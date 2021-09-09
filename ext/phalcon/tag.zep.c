@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(separator)
 		Z_PARAM_BOOL(lowercase)
-		Z_PARAM_ZVAL(replace)
+		Z_PARAM_ZVAL_OR_NULL(replace)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1279,7 +1279,7 @@ PHP_METHOD(Phalcon_Tag, image)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_BOOL(local)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_BOOL(local)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1540,7 +1540,7 @@ PHP_METHOD(Phalcon_Tag, linkTo)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(parameters)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(text)
+		Z_PARAM_ZVAL_OR_NULL(text)
 		Z_PARAM_ZVAL(local)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -2403,7 +2403,7 @@ PHP_METHOD(Phalcon_Tag, select)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(parameters)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL_OR_NULL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2449,7 +2449,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(parameters)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL_OR_NULL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2748,7 +2748,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_BOOL(local)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -2898,7 +2898,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml)
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(tagName)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 		Z_PARAM_BOOL(selfClose)
 		Z_PARAM_BOOL(onlyStart)
 		Z_PARAM_BOOL(useEol)

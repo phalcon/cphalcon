@@ -1,5 +1,8 @@
 <?php
-// This is the header, which will be added to the start of generated phalcon.c file
+
+/**
+ * This is the header, which will be added to the start of generated phalcon.c file
+ */
 
 return <<<HEADER
 #include <stdio.h>

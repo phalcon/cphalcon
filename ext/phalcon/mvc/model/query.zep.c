@@ -7088,7 +7088,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(ast)
+		Z_PARAM_ZVAL_OR_NULL(ast)
 		Z_PARAM_BOOL(merge)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

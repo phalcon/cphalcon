@@ -34,7 +34,7 @@ class Util
         $iterator = new DirectoryIterator($dir);
         foreach ($iterator as $entry) {
             /** @var $entry DirectoryIterator */
-            if ($entry->isDot() || $entry->getBasename() == 'tests') {
+            if ($entry->isDot() || $entry->getBasename() === 'tests') {
                 continue;
             }
 

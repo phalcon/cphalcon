@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("originalValues"), &_0);
-	_1 = !((zephir_instance_of_ev(handler, zend_ce_closure)));
+	_1 = !((zephir_is_instance_of(handler, SL("Closure"))));
 	if (_1) {
 		_1 = ZEPHIR_IS_NULL(&methodName);
 	}

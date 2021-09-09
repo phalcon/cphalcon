@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	ZEND_PARSE_PARAMETERS_START(1, 8)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL_OR_NULL(value)
 		Z_PARAM_LONG(expire)
 		Z_PARAM_STR(path)
 		Z_PARAM_BOOL_OR_NULL(secure, is_null_true)

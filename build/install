@@ -8,12 +8,11 @@
 # file that was distributed with this source code.
 #
 #  Available params:
-#  --arch
 #  --phpize
 #  --php-config
 #
 #  Example:
-#  ./install --phpize /usr/bin/phpize7.4 --php-config /usr/bin/php-config7.4 --arch 64bits
+#  ./install --phpize /usr/bin/phpize7.4 --php-config /usr/bin/php-config7.4
 
 # Check best compilation flags for GCC
 # By default we compile to be as compatible as possible with all processors.
@@ -32,7 +31,6 @@ fi
 export CPPFLAGS="-DPHALCON_RELEASE"
 
 # Set defaults
-ARCH=
 PHPIZE_BIN=$(command -v phpize 2>/dev/null)
 PHPCONFIG_BIN=$(command -v php-config 2>/dev/null)
 
@@ -40,7 +38,6 @@ PHPCONFIG_BIN=$(command -v php-config 2>/dev/null)
 for arg in "$@"; do
   shift
   case "$arg" in
-    "--arch") set -- "$@" "-a" ;;
     "--phpize") set -- "$@" "-i" ;;
     "--php-config") set -- "$@" "-c" ;;
     *) set -- "$@" "$arg"
@@ -50,7 +47,6 @@ done
 # Options switcher
 while getopts a:i:c: opts; do
    case ${opts} in
-      a) ARCH=${OPTARG} ;;
       i) PHPIZE_BIN=${OPTARG} ;;
       c) PHPCONFIG_BIN=${OPTARG} ;;
    esac
@@ -63,7 +59,7 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
-if [ "${PHP_FULL_VERSION:0:1}" == "7" && ${PHP_FULL_VERSION:2:1} < 4 ]; then
+if [[ "${PHP_FULL_VERSION:0:1}" == "7" && ${PHP_FULL_VERSION:2:1} < 4 ]]; then
 	echo "PHP <= 7.4 is no longer supported"
 	exit 1
 fi
@@ -89,22 +85,7 @@ fi
 # gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
-# Check processor architecture
-if [ -z ${ARCH} ]; then
-	DIR="32bits"
-	gcc gccarch.c -o gccarch
-	if [ -f gccarch ]; then
-		P64BITS=`./gccarch`
-		if [ "$P64BITS" == "1" ]; then
-			DIR="64bits"
-		fi
-	fi
-else
-	DIR=${ARCH}
-fi
-
-# Move to specified architecture
-cd "phalcon/$DIR"
+cd "phalcon/"
 
 # Clean current compilation
 if [ -f Makefile ]; then

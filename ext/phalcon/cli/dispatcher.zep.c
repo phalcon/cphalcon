@@ -189,8 +189,8 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(option)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(filters)
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

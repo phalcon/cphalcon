@@ -17,7 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "ext/psr/psr_link.h"
 
 
 /**
@@ -228,7 +227,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getKey)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
+		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
