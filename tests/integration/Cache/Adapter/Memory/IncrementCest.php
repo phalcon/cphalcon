@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
 
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 class IncrementCest
 {

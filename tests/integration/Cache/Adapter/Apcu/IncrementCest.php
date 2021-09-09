@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Cache\Adapter\Apcu;
 
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use IntegrationTester;
 
 class IncrementCest
 {
