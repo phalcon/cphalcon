@@ -92,7 +92,8 @@ jobs:
   build-and-test-linux:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    #     git commit -m "......... [linux skip] - to skip only linux builds"
+    if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
     services:
@@ -256,7 +257,8 @@ jobs:
   build-and-test-macos:
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    #    git commit -m "......... [mac skip] - to skip only macOS builds"
+    if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
     runs-on: ${{ matrix.operating-system }}
@@ -345,7 +347,8 @@ jobs:
   build-and-test-windows:
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    #    git commit -m "......... [win skip] - to skip only Windows builds"
+    if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
@@ -539,22 +542,22 @@ jobs:
         run: |
           Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
+      - name: Prepare Build Artifact
+        run: |
+          $Destination = ".\build-artifacts"
+          if (-not (Test-Path -Path $Destination -PathType Container)) {
+            New-Item $Destination -ItemType Directory | Out-Null
+          }
+          Copy-Item -Path "${env:RELEASE_DLL_PATH}" -Destination $Destination
+          Copy-Item -Path ".\3rdparty\licenses\*.txt" -Destination $Destination
+          Set-Location $Destination
+          & 7z a "${{ env.RELEASE_ZIPBALL }}.zip" *
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.RELEASE_ZIPBALL }}.zip
-          path: ${{ env.RELEASE_DLL_PATH }}
-
-      - name: Upload Licenses
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.RELEASE_ZIPBALL }}.zip
-          path: |
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ATLAS.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-AURA.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-DIACTOROS.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-PHP.txt
-            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ZEND.txt
+          path: .\build-artifacts\phalcon*.zip
 
       - name: Enable Extensions
         run: |
@@ -605,7 +608,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
     needs: [generate, build-and-test-linux, build-and-test-macos, build-and-test-windows]
-    name: Create release
+    name: Create Release
     runs-on: ubuntu-20.04
 
     steps:
@@ -615,11 +618,20 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=release_body::$(.ci/release-notes.sh CHANGELOG-5.0.md)
 
       - name: Download Phalcon build artifacts
         id: download
         uses: actions/download-artifact@v2
+        with:
+          path: ./build-artifacts
+
+      - name: Prepare Release assets
+        run: |
+          mkdir -p ./build-artifacts/release
+          find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
+          echo "-- Creating Release Notes"
+          GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -627,7 +639,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ steps.get-version.outputs.version }}
           tag: ${{ steps.get-version.outputs.version }}
-          body: ${{ steps.get-version.outputs.release_body }}
+          bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "${{steps.download.outputs.download-path}}/phalcon_*.zip,${{steps.download.outputs.download-path}}/phalcon-pecl/*"
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
           artifactContentType: application/octet-stream
