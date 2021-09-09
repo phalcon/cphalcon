@@ -77,7 +77,7 @@ abstract class AbstractAdapter implements AdapterInterface
             this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
             this->lifetime          = Arr::get(options, "lifetime", 3600);
 
-        if isset options["prefix"] {
+        if array_key_exists("prefix", options) {
             let this->prefix = options["prefix"];
         }
     }

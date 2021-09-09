@@ -38,10 +38,7 @@ class GetPrefixCest
             ]
         );
 
-        $I->assertEquals(
-            'my-prefix',
-            $adapter->getPrefix()
-        );
+        $I->assertEquals('my-prefix', $adapter->getPrefix());
     }
 
     /**
@@ -57,9 +54,28 @@ class GetPrefixCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $I->assertEquals(
-            'ph-memo-',
-            $adapter->getPrefix()
+        $I->assertEquals('ph-memo-', $adapter->getPrefix());
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Memory :: getPrefix() - empty
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     * @issue  15480
+     */
+    public function storageAdapterMemoryGetSetPrefixEmpty(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Memory - getPrefix() - empty');
+
+        $serializer = new SerializerFactory();
+        $adapter = new Memory(
+            $serializer,
+            [
+                'prefix' => '',
+            ]
         );
+
+        $I->assertEquals('', $adapter->getPrefix());
     }
 }
