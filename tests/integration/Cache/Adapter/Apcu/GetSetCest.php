@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Cache\Adapter\Apcu;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use IntegrationTester;
 
 class GetSetCest
 {

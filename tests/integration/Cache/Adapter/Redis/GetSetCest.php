@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Cache\Adapter\Redis;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use IntegrationTester;
 
 use function array_merge;
 use function getOptionsRedis;
@@ -175,7 +175,7 @@ class GetSetCest
             )
         );
 
-        $key    = 'cache-data';
+        $key = 'cache-data';
         $source = 'Phalcon Framework';
 
         $I->assertTrue(

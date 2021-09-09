@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Cache\Adapter\Redis;
 
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use IntegrationTester;
 
 use function getOptionsRedis;
 

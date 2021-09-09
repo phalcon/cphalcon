@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Cache\Adapter\Redis;
 
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use IntegrationTester;
 
 use function getOptionsRedis;
 use function uniqid;
@@ -66,7 +66,7 @@ class DecrementCest
          * Get: new value in key - 10
          */
         $expected = 10;
-        $actual = $adapter->get($key);
+        $actual   = $adapter->get($key);
         $I->assertEquals($expected, $actual);
 
         /**
