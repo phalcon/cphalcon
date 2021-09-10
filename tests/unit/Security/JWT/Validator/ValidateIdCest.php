@@ -23,6 +23,7 @@ class ValidateIdCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateId()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateId(UnitTester $I)

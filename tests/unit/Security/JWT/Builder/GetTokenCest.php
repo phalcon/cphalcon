@@ -25,7 +25,8 @@ class GetTokenCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getToken()
      *
-     * @since  2019-12-19
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetToken(UnitTester $I)
     {
@@ -71,9 +72,9 @@ class GetTokenCest
                 'Invalid passphrase (empty)'
             ),
             function () {
-                $signer  = new Hmac();
+                $signer = new Hmac();
                 $builder = new Builder($signer);
-                $token   = $builder->getToken();
+                $token = $builder->getToken();
             }
         );
     }

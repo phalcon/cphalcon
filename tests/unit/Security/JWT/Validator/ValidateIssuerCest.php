@@ -23,6 +23,7 @@ class ValidateIssuerCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateIssuer()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateIssuer(UnitTester $I)

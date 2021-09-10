@@ -23,6 +23,7 @@ class ValidateNotBeforeCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateNotBefore()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateNotBefore(UnitTester $I)

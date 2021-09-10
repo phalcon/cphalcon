@@ -19,6 +19,7 @@ class ConstructCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Signature :: __construct()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenSignatureConstruct(UnitTester $I)

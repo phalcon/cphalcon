@@ -22,7 +22,8 @@ class GetSetExpirationTimeCest
      * Unit Tests Phalcon\Security\JWT\Builder ::
      * getExpirationTime()/setExpirationTime()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetExpirationTime(UnitTester $I)
     {

@@ -21,6 +21,7 @@ class GetClaimsCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Token :: getClaims()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenTokenGetClaims(UnitTester $I)

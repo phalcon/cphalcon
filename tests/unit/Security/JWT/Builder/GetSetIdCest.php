@@ -20,7 +20,8 @@ class GetSetIdCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getId()/setId()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetId(UnitTester $I)
     {

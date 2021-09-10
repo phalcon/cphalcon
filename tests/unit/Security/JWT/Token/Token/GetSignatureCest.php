@@ -21,6 +21,7 @@ class GetSignatureCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Token :: getSignature()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenTokenGetSignature(UnitTester $I)

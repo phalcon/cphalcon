@@ -26,6 +26,7 @@ class ParseCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParse(UnitTester $I)
@@ -69,6 +70,7 @@ class ParseCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - no signature
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseNoSignature(UnitTester $I)
@@ -114,6 +116,7 @@ class ParseCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - aud not an array
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseAudNotAnArray(UnitTester $I)
@@ -165,6 +168,7 @@ class ParseCest
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception claims
      * not array
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseExceptionClaimsNotArray(UnitTester $I)
@@ -191,6 +195,7 @@ class ParseCest
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception headers
      * not array
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseExceptionHeadersNotArray(UnitTester $I)
@@ -219,6 +224,7 @@ class ParseCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception no typ
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseExceptionNoTyp(UnitTester $I)
@@ -248,6 +254,7 @@ class ParseCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception wrong JWT
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenParserParseExceptionWrongJwt(UnitTester $I)

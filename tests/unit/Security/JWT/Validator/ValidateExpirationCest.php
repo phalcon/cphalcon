@@ -23,6 +23,7 @@ class ValidateExpirationCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateExpiration()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateExpiration(UnitTester $I)

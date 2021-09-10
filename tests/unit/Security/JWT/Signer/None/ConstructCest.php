@@ -19,7 +19,8 @@ class ConstructCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\None :: __construct()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTSignerNoneConstruct(UnitTester $I)
     {

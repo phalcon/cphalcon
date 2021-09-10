@@ -19,6 +19,7 @@ class SignCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\None :: sign()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTSignerNoneSign(UnitTester $I)

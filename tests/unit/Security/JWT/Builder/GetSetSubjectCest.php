@@ -20,7 +20,8 @@ class GetSetSubjectCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getSubject()/setSubject()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetSubject(UnitTester $I)
     {

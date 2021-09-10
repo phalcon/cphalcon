@@ -19,6 +19,7 @@ class GetAlgorithmCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\None :: getAlgorithm()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTSignerNoneGetAlgorithm(UnitTester $I)
