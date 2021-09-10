@@ -20,7 +20,8 @@ class GetSetContentTypeCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getContentType()/setContentType()
      *
-     * @since  2019-12-19
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetContentType(UnitTester $I)
     {

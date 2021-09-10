@@ -20,7 +20,8 @@ class GetSetIssuerCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getIssuer()/setIssuer()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetIssuer(UnitTester $I)
     {

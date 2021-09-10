@@ -25,6 +25,7 @@ class ValidateSignatureCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateSignature()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateNotBefore(UnitTester $I)
@@ -47,8 +48,7 @@ class ValidateSignatureCest
             ->setNotBefore($notBefore)
             ->setSubject('Mary had a little lamb')
             ->setPassphrase($passphrase)
-            ->getToken()
-        ;
+            ->getToken();
 
         $validator = new Validator($token);
         $I->assertInstanceOf(Validator::class, $validator);
@@ -62,6 +62,7 @@ class ValidateSignatureCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: validateSignature() - exception
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorValidateNotBeforeException(UnitTester $I)

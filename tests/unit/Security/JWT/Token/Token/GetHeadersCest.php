@@ -21,6 +21,7 @@ class GetHeadersCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Token :: getHeaders()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenTokenGetHeaders(UnitTester $I)

@@ -21,7 +21,8 @@ class GetSetNotBeforeCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getNotBefore()/setNotBefore()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetNotBefore(UnitTester $I)
     {

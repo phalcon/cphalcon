@@ -19,6 +19,7 @@ class GetCest
     /**
      * Unit Tests Phalcon\Security\JWT\Token\Item :: get()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTTokenItemGet(UnitTester $I)

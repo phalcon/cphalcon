@@ -21,7 +21,8 @@ class GetSetAudienceCest
     /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getAudience()/setAudience()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetAudience(UnitTester $I)
     {

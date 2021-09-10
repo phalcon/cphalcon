@@ -24,7 +24,9 @@ class GetSetPassphraseCest
      *
      * @throws ValidatorException
      * @throws UnsupportedAlgorithmException
-     * @since  2019-12-19
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTBuilderGetSetPassphrase(UnitTester $I)
     {
