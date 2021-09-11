@@ -95,12 +95,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function begin(bool nesting = true) -> bool
     {
-        var pdo, transactionLevel, eventsManager, savepointName;
-
-        let pdo = this->pdo;
-        if typeof pdo != "object" {
-            return false;
-        }
+        var transactionLevel, eventsManager, savepointName;
 
         /**
          * Increase the transaction nesting level
@@ -121,7 +116,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 eventsManager->fire("db:beginTransaction", this);
             }
 
-            return pdo->beginTransaction();
+            return this->pdo->beginTransaction();
         }
 
         /**
@@ -149,12 +144,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function commit(bool nesting = true) -> bool
     {
-        var pdo, transactionLevel, eventsManager, savepointName;
-
-        let pdo = this->pdo;
-        if typeof pdo != "object" {
-            return false;
-        }
+        var transactionLevel, eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
@@ -178,7 +168,7 @@ abstract class AbstractPdo extends AbstractAdapter
              */
             let this->transactionLevel--;
 
-            return pdo->commit();
+            return this->pdo->commit();
         }
 
         /**
@@ -217,11 +207,9 @@ abstract class AbstractPdo extends AbstractAdapter
      * Closes the active connection returning success. Phalcon automatically
      * closes and destroys active connections when the request ends
      */
-    public function close() -> bool
+    public function close() -> void
     {
         let this->pdo = null;
-
-        return true;
     }
 
     /**
@@ -248,13 +236,14 @@ abstract class AbstractPdo extends AbstractAdapter
      * $connection->connect();
      * ```
      */
-    public function connect(array descriptor = null) -> bool
+    public function connect(array! descriptor = []) -> void
     {
-        var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw,
+        var username, password, dsnAttributes, dsnAttributesCustomRaw,
             dsnAttributesMap, key, options, persistent, value;
+        array dsnParts = [];
 
         if empty descriptor {
-            let descriptor = (array) this->descriptor;
+            let descriptor = this->descriptor;
         }
 
         // Check for a username or use null as default
@@ -276,7 +265,8 @@ abstract class AbstractPdo extends AbstractAdapter
          * Check if the developer has defined custom options or create one from
          * scratch
          */
-        if fetch options, descriptor["options"] {
+        if isset descriptor["options"] && is_array(descriptor["options"]) {
+            let options = descriptor["options"];
             unset descriptor["options"];
         } else {
             let options = [];
@@ -288,8 +278,6 @@ abstract class AbstractPdo extends AbstractAdapter
 
         // Set PDO to throw exceptions when an error is encountered.
         let options[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
-
-        let dsnParts = [];
 
         // Check if the user has defined a custom dsn string. It should be in
         // the form of key=value with semicolons delineating sections.
@@ -323,8 +311,6 @@ abstract class AbstractPdo extends AbstractAdapter
             password,
             options
         );
-
-        return true;
     }
 
     /**
@@ -416,7 +402,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
     {
-        var eventsManager, affectedRows, pdo, newStatement, statement;
+        var eventsManager, affectedRows, newStatement, statement;
 
         /**
          * Execute the beforeQuery event if an EventsManager is available
@@ -439,10 +425,8 @@ abstract class AbstractPdo extends AbstractAdapter
 
         this->prepareRealSql(sqlStatement, bindParams);
 
-        let pdo = <\PDO> this->pdo;
-
         if !empty bindParams {
-            let statement = pdo->prepare(sqlStatement);
+            let statement = this->pdo->prepare(sqlStatement);
 
             if typeof statement == "object" {
                 let newStatement = this->executePrepared(
@@ -454,7 +438,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 let affectedRows = newStatement->rowCount();
             }
         } else {
-            let affectedRows = pdo->exec(sqlStatement);
+            let affectedRows = this->pdo->exec(sqlStatement);
         }
 
         /**
@@ -584,13 +568,14 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         statement->execute();
+
         return statement;
     }
 
     /**
      * Return the error info, if any
      */
-    public function getErrorInfo()
+    public function getErrorInfo() -> array
     {
         return this->pdo->errorInfo();
     }
@@ -625,15 +610,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function isUnderTransaction() -> bool
     {
-        var pdo;
-
-        let pdo = this->pdo;
-
-        if typeof pdo != "object" {
-            return false;
-        }
-
-        return pdo->inTransaction();
+        return this->pdo->inTransaction();
     }
 
     /**
@@ -657,18 +634,13 @@ abstract class AbstractPdo extends AbstractAdapter
      * // Getting the generated id
      * $id = $connection->lastInsertId();
      *```
+     *
+     * @param string|null $name
+     * @return string|bool
      */
-    public function lastInsertId(sequenceName = null) -> int | bool
+    public function lastInsertId(string! name = null) -> string | bool
     {
-        var pdo;
-
-        let pdo = this->pdo;
-
-        if typeof pdo != "object" {
-            return false;
-        }
-
-        return pdo->lastInsertId(sequenceName);
+        return this->pdo->lastInsertId(name);
     }
 
     /**
@@ -718,7 +690,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
     {
-        var eventsManager, pdo, statement, params, types;
+        var eventsManager, statement, params, types;
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
@@ -735,7 +707,6 @@ abstract class AbstractPdo extends AbstractAdapter
             }
         }
 
-        let pdo = <\PDO> this->pdo;
         if !empty bindParams {
             let params = bindParams;
             let types = bindTypes;
@@ -744,7 +715,7 @@ abstract class AbstractPdo extends AbstractAdapter
             let types = [];
         }
 
-        let statement = pdo->prepare(sqlStatement);
+        let statement = this->pdo->prepare(sqlStatement);
         if unlikely typeof statement != "object" {
             throw new Exception("Cannot prepare statement");
         }
@@ -778,12 +749,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function rollback(bool nesting = true) -> bool
     {
-        var pdo, transactionLevel, eventsManager, savepointName;
-
-        let pdo = this->pdo;
-        if typeof pdo != "object" {
-            return false;
-        }
+        var transactionLevel, eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
@@ -807,7 +773,7 @@ abstract class AbstractPdo extends AbstractAdapter
              */
             let this->transactionLevel--;
 
-            return pdo->rollback();
+            return this->pdo->rollback();
         }
 
         /**
@@ -859,6 +825,7 @@ abstract class AbstractPdo extends AbstractAdapter
 
         let result = statement,
             values = parameters;
+
         if !empty parameters {
             let keys = [];
 
