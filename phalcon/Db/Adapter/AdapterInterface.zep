@@ -322,8 +322,10 @@ interface AdapterInterface
     /**
      * Returns insert id for the auto_increment column inserted in the last SQL
      * statement
+     *
+     * @param string|null $name Name of the sequence object from which the ID should be returned.
      */
-    public function lastInsertId(string! sequenceName = null) -> string|bool;
+    public function lastInsertId(string! name = null) -> string|bool;
 
     /**
      * Appends a LIMIT clause to sqlQuery argument
