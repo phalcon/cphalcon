@@ -323,7 +323,7 @@ interface AdapterInterface
      * Returns insert id for the auto_increment column inserted in the last SQL
      * statement
      */
-    public function lastInsertId(sequenceName = null);
+    public function lastInsertId(string! sequenceName = null) -> string|bool;
 
     /**
      * Appends a LIMIT clause to sqlQuery argument

@@ -656,18 +656,13 @@ abstract class AbstractPdo extends AbstractAdapter
      * // Getting the generated id
      * $id = $connection->lastInsertId();
      *```
+     *
+     * @param string|null $name
+     * @return string|bool
      */
-    public function lastInsertId(sequenceName = null) -> int | bool
+    public function lastInsertId(string! name = null) -> string | bool
     {
-        var pdo;
-
-        let pdo = this->pdo;
-
-        if typeof pdo != "object" {
-            return false;
-        }
-
-        return pdo->lastInsertId(sequenceName);
+        return this->pdo->lastInsertId(name);
     }
 
     /**
