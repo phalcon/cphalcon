@@ -19,13 +19,18 @@ use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\Objects;
 
+use function getOptionsRedis;
 use function outputDir;
+use function uniqid;
 
 /**
  * Class FindCest
@@ -38,11 +43,6 @@ class FindCest
     {
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
-        $migration->clear();
     }
 
     /**
@@ -252,5 +252,128 @@ class FindCest
                 );
             }
         );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find() - private property with Redis cache
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-05-25
+     * @issue  15439
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindPrivatePropertyWithRedisCache(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - find() - private property with Redis cache');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, 1, 1, 'Test', 101);
+
+        $cacheKey = uniqid('redis-');
+
+        /**
+         * Find without models cache
+         */
+        /** @var Invoices $original */
+        $original = Invoices::find(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+            ]
+        );
+
+        $I->assertCount(1, $original);
+
+        $record = $original[0];
+        $actual = $record->getIsActive();
+
+        $I->assertTrue($actual);
+
+        // Models Cache setup
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $adapter           = $adapterFactory->newInstance('redis', getOptionsRedis());
+        $cache             = new Cache($adapter);
+        $this->container->setShared('modelsCache', $cache);
+
+        /**
+         * Find it - so that we can use the models cache now
+         */
+        /** @var Invoices $cached */
+        $cached = Invoices::find(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+                'cache'      => [
+                    'key'      => $cacheKey,
+                    'lifetime' => 60,
+                ],
+            ]
+        );
+
+        $I->assertCount(1, $cached);
+
+        $record = $cached[0];
+        $actual = $record->getIsActive();
+        $I->assertTrue($actual);
+
+        /**
+         * Delete the record just in case to ensure we get it from the cache
+         */
+        $result = $original->delete();
+        $I->assertNotFalse($result);
+
+        /**
+         * Ensure we do not have anything in the db
+         */
+        /** @var Invoices $original */
+        $original = Invoices::find(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+            ]
+        );
+
+        $I->assertCount(0, $original);
+
+        /**
+         * Finally get it back from the cache
+         */
+        /** @var Invoices $cached */
+        $cached = Invoices::find(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+                'cache'      => [
+                    'key'      => $cacheKey,
+                    'lifetime' => 60,
+                ],
+            ]
+        );
+
+        $I->assertCount(1, $cached);
+
+        $record = $cached[0];
+        $actual = $record->getIsActive();
+        $I->assertTrue($actual);
+
+        /**
+         * delete the cached entry
+         */
+        $result = $cache->delete($cacheKey);
+        $I->assertTrue($result);
     }
 }
