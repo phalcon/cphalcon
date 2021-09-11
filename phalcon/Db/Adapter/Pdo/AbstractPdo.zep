@@ -322,8 +322,6 @@ abstract class AbstractPdo extends AbstractAdapter
             password,
             options
         );
-
-        return true;
     }
 
     /**
