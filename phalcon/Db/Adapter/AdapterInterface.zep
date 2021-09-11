@@ -57,7 +57,7 @@ interface AdapterInterface
      * Closes active connection returning success. Phalcon automatically closes
      * and destroys active connections within Phalcon\Db\Pool
      */
-    public function close() -> bool;
+    public function close() -> void;
 
     /**
      * Commits the active transaction in the connection

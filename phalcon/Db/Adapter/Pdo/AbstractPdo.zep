@@ -217,11 +217,9 @@ abstract class AbstractPdo extends AbstractAdapter
      * Closes the active connection returning success. Phalcon automatically
      * closes and destroys active connections when the request ends
      */
-    public function close() -> bool
+    public function close() -> void
     {
         let this->pdo = null;
-
-        return true;
     }
 
     /**
