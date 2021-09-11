@@ -67,12 +67,12 @@ class Postgresql extends PdoAdapter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
      */
-    public function connect(array descriptor = null) -> bool
+    public function connect(array! descriptor = []) -> void
     {
-        var schema, sql, status;
+        var schema, sql;
 
         if empty descriptor {
-            let descriptor = (array) this->descriptor;
+            let descriptor = this->descriptor;
         }
 
         if fetch schema, descriptor["schema"] {
@@ -87,15 +87,13 @@ class Postgresql extends PdoAdapter
             }
         }
 
-        let status = parent::connect(descriptor);
+        parent::connect(descriptor);
 
         if !empty schema {
             let sql = "SET search_path TO '" . schema . "'";
 
             this->execute(sql);
         }
-
-        return status;
     }
 
     /**

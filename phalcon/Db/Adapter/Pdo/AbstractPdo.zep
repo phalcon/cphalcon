@@ -246,13 +246,14 @@ abstract class AbstractPdo extends AbstractAdapter
      * $connection->connect();
      * ```
      */
-    public function connect(array descriptor = null) -> bool
+    public function connect(array! descriptor = []) -> void
     {
-        var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw,
+        var username, password, dsnAttributes, dsnAttributesCustomRaw,
             dsnAttributesMap, key, options, persistent, value;
+        array dsnParts = [];
 
         if empty descriptor {
-            let descriptor = (array) this->descriptor;
+            let descriptor = this->descriptor;
         }
 
         // Check for a username or use null as default

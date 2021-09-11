@@ -68,7 +68,7 @@ interface AdapterInterface
      * This method is automatically called in \Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection
      */
-    public function connect(array descriptor = null) -> bool;
+    public function connect(array! descriptor = []) -> void;
 
     /**
      * Creates a new savepoint
