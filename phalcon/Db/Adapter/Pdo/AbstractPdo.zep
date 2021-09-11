@@ -587,7 +587,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Return the error info, if any
      */
-    public function getErrorInfo()
+    public function getErrorInfo() -> array
     {
         return this->pdo->errorInfo();
     }
