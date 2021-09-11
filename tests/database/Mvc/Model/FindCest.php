@@ -262,8 +262,6 @@ class FindCest
      * @issue  15439
      *
      * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
     public function mvcModelFindPrivatePropertyWithRedisCache(DatabaseTester $I)
     {
