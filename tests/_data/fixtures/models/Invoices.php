@@ -44,7 +44,7 @@ class Invoices extends Model
     public $inv_created_at;
 
     private $secretValue;   // Used with getter and setter
-    private $uperSecret;    // Used to check exception when accessing it
+    private $superSecret;   // Used to check exception when accessing it
     private ?bool $isActive = true;
 
     public function initialize()
