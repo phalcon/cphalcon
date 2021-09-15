@@ -11,6 +11,12 @@
     whenever its needed, without expensive file stats and file reads that traditional PHP frameworks employ.
   </description>
   <lead>
+    <name>Anton Vasiliev</name>
+    <user>jeckerson</user>
+    <email>anton@phalcon.io</email>
+    <active>yes</active>
+  </lead>
+  <lead>
     <name>Ruud Boon</name>
     <user>ruudboon</user>
     <email>ruud@ruudboon.io</email>
