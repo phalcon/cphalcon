@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(type)
+		Z_PARAM_ZVAL_OR_NULL(type)
 		Z_PARAM_BOOL(remove)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Flash_Session, has)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(type)
+		Z_PARAM_ZVAL_OR_NULL(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionMessages)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_BOOL(remove)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(type)
+		Z_PARAM_ZVAL_OR_NULL(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

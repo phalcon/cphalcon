@@ -264,8 +264,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(docBlock)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(file)
-		Z_PARAM_ZVAL(line)
+		Z_PARAM_ZVAL_OR_NULL(file)
+		Z_PARAM_ZVAL_OR_NULL(line)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

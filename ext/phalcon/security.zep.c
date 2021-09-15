@@ -271,8 +271,8 @@ PHP_METHOD(Phalcon_Security, checkToken)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(tokenKey)
-		Z_PARAM_ZVAL(tokenValue)
+		Z_PARAM_ZVAL_OR_NULL(tokenKey)
+		Z_PARAM_ZVAL_OR_NULL(tokenValue)
 		Z_PARAM_BOOL(destroyIfValid)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

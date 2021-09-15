@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, getHeader)
 		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_collection_collectioninterface_ce)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

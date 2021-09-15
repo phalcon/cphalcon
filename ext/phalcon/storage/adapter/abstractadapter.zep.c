@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getTtl)
 	}
 	_0 = Z_TYPE_P(ttl) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(ttl, php_date_get_interval_ce());
+		_0 = zephir_is_instance_of(ttl, SL("DateInterval"));
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&dateTime);
