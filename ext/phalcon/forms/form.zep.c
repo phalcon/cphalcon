@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(entity)
+		Z_PARAM_ZVAL(entity)
 		Z_PARAM_ARRAY(userOptions)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_ZVAL(entity)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(whitelist)
+		Z_PARAM_ZVAL(whitelist)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(fields)
+		Z_PARAM_ZVAL(fields)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -989,7 +989,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(option)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1273,8 +1273,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(data)
-		Z_PARAM_ZVAL_OR_NULL(entity)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL(entity)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

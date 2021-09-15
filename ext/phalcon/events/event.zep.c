@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		Z_PARAM_STR(type)
 		Z_PARAM_OBJECT(source)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(data)
+		Z_PARAM_ZVAL(data)
 		Z_PARAM_BOOL(cancelable)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Events_Event, setData)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(data)
+		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

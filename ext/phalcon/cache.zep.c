@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Cache, get)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(key)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(keys)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Cache, set)
 		Z_PARAM_ZVAL(key)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(ttl)
+		Z_PARAM_ZVAL(ttl)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(values)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(ttl)
+		Z_PARAM_ZVAL(ttl)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

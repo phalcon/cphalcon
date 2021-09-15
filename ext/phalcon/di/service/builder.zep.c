@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 		Z_PARAM_ARRAY(definition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(parameters)
+		Z_PARAM_ZVAL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

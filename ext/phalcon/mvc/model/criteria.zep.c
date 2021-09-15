@@ -102,8 +102,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(conditions)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(bindParams)
-		Z_PARAM_ZVAL_OR_NULL(bindTypes)
+		Z_PARAM_ZVAL(bindParams)
+		Z_PARAM_ZVAL(bindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1082,8 +1082,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(conditions)
-		Z_PARAM_ZVAL_OR_NULL(alias)
+		Z_PARAM_ZVAL(conditions)
+		Z_PARAM_ZVAL(alias)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1286,9 +1286,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(model)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(conditions)
-		Z_PARAM_ZVAL_OR_NULL(alias)
-		Z_PARAM_ZVAL_OR_NULL(type)
+		Z_PARAM_ZVAL(conditions)
+		Z_PARAM_ZVAL(alias)
+		Z_PARAM_ZVAL(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1380,8 +1380,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(conditions)
-		Z_PARAM_ZVAL_OR_NULL(alias)
+		Z_PARAM_ZVAL(conditions)
+		Z_PARAM_ZVAL(alias)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1737,8 +1737,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(conditions)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(bindParams)
-		Z_PARAM_ZVAL_OR_NULL(bindTypes)
+		Z_PARAM_ZVAL(bindParams)
+		Z_PARAM_ZVAL(bindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1805,8 +1805,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(conditions)
-		Z_PARAM_ZVAL_OR_NULL(alias)
+		Z_PARAM_ZVAL(conditions)
+		Z_PARAM_ZVAL(alias)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1972,8 +1972,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(conditions)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(bindParams)
-		Z_PARAM_ZVAL_OR_NULL(bindTypes)
+		Z_PARAM_ZVAL(bindParams)
+		Z_PARAM_ZVAL(bindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

@@ -112,8 +112,8 @@ PHP_METHOD(Phalcon_Http_Response, __construct)
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(content)
-		Z_PARAM_ZVAL_OR_NULL(code)
-		Z_PARAM_ZVAL_OR_NULL(status)
+		Z_PARAM_ZVAL(code)
+		Z_PARAM_ZVAL(status)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(location)
+		Z_PARAM_ZVAL(location)
 		Z_PARAM_BOOL(externalRedirect)
 		Z_PARAM_LONG(statusCode)
 	ZEND_PARSE_PARAMETERS_END();
@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(contentType)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(charset)
+		Z_PARAM_ZVAL(charset)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1155,7 +1155,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(filePath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(attachmentName)
+		Z_PARAM_ZVAL(attachmentName)
 		Z_PARAM_ZVAL(attachment)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Helper_Arr, filter)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Helper_Arr, first)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Helper_Arr, firstKey)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Helper_Arr, get)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ZVAL(index)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 		Z_PARAM_STR_OR_NULL(cast)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Helper_Arr, last)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Helper_Arr, lastKey)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -986,7 +986,7 @@ PHP_METHOD(Phalcon_Helper_Arr, set)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(index)
+		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1195,7 +1195,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAll)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1241,7 +1241,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAny)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
+		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

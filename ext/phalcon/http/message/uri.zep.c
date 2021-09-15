@@ -874,7 +874,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withUserInfo)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(user)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(password)
+		Z_PARAM_ZVAL(password)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

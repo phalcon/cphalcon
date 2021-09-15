@@ -20,7 +20,6 @@
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_array.h"
 
 
 /**
@@ -64,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Collection)
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_collection_ce, 1, phalcon_collection_collectioninterface_ce);
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_countable);
-	zend_class_implements(phalcon_collection_ce, 1, zend_ce_aggregate);
+	zend_class_implements(phalcon_collection_ce, 1, zephir_get_internal_ce(SL("iteratoraggregate")));
 	zend_class_implements(phalcon_collection_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_serializable);
 	return SUCCESS;
@@ -309,7 +308,7 @@ PHP_METHOD(Phalcon_Collection, get)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(element)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 		Z_PARAM_STR_OR_NULL(cast)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -376,7 +375,7 @@ PHP_METHOD(Phalcon_Collection, getIterator)
 
 	ZEPHIR_MM_GROW();
 
-	object_init_ex(return_value, spl_ce_ArrayIterator);
+	object_init_ex(return_value, zephir_get_internal_ce(SL("arrayiterator")));
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 11, &_0);
 	zephir_check_call_status();

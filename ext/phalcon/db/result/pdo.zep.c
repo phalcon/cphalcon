@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(result, zephir_get_internal_ce(SL("pdostatement")))
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(sqlStatement)
-		Z_PARAM_ZVAL_OR_NULL(bindParams)
-		Z_PARAM_ZVAL_OR_NULL(bindTypes)
+		Z_PARAM_ZVAL(sqlStatement)
+		Z_PARAM_ZVAL(bindParams)
+		Z_PARAM_ZVAL(bindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -285,9 +285,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(fetchStyle)
-		Z_PARAM_ZVAL_OR_NULL(cursorOrientation)
-		Z_PARAM_ZVAL_OR_NULL(cursorOffset)
+		Z_PARAM_ZVAL(fetchStyle)
+		Z_PARAM_ZVAL(cursorOrientation)
+		Z_PARAM_ZVAL(cursorOffset)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -345,9 +345,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(fetchStyle)
-		Z_PARAM_ZVAL_OR_NULL(fetchArgument)
-		Z_PARAM_ZVAL_OR_NULL(ctorArgs)
+		Z_PARAM_ZVAL(fetchStyle)
+		Z_PARAM_ZVAL(fetchArgument)
+		Z_PARAM_ZVAL(ctorArgs)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -584,8 +584,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_LONG(fetchMode)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(colNoOrClassNameOrObject)
-		Z_PARAM_ZVAL_OR_NULL(ctorargs)
+		Z_PARAM_ZVAL(colNoOrClassNameOrObject)
+		Z_PARAM_ZVAL(ctorargs)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

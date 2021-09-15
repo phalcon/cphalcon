@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct)
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(method)
-		Z_PARAM_ZVAL_OR_NULL(uri)
+		Z_PARAM_ZVAL(uri)
 		Z_PARAM_ZVAL(body)
 		Z_PARAM_ZVAL(headers)
 	ZEND_PARSE_PARAMETERS_END();

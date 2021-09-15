@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Cli_Router, add)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(pattern)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(paths)
+		Z_PARAM_ZVAL(paths)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(arguments)
+		Z_PARAM_ZVAL(arguments)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

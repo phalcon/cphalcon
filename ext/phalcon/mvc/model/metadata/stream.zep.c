@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		ZVAL_OBJ(&_6, EG(exception));
 		Z_ADDREF_P(&_6);
 		ZEPHIR_INIT_VAR(&_7);
-		if (zephir_is_instance_of(&_6, SL("Exception"))) {
+		if (zephir_instance_of_ev(&_6, zend_ce_exception)) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_6);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);

@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
-		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_annotations_reflection_ce)
+		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

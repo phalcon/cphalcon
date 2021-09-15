@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(filePath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(mode)
+		Z_PARAM_ZVAL(mode)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

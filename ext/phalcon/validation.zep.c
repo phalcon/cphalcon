@@ -901,8 +901,8 @@ PHP_METHOD(Phalcon_Validation, validate)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(data)
-		Z_PARAM_ZVAL_OR_NULL(entity)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL(entity)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

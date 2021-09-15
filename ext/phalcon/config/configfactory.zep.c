@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance)
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(fileName)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(params)
+		Z_PARAM_ZVAL(params)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

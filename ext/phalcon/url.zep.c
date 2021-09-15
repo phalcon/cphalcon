@@ -188,10 +188,10 @@ PHP_METHOD(Phalcon_Url, get)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(uri)
-		Z_PARAM_ZVAL_OR_NULL(args)
+		Z_PARAM_ZVAL(uri)
+		Z_PARAM_ZVAL(args)
 		Z_PARAM_BOOL_OR_NULL(local, is_null_true)
-		Z_PARAM_ZVAL_OR_NULL(baseUri)
+		Z_PARAM_ZVAL(baseUri)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Url, getStatic)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(uri)
+		Z_PARAM_ZVAL(uri)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

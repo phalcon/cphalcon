@@ -1996,18 +1996,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterf
 	ZEND_ARG_TYPE_INFO(0, nesting, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_close, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_close, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_commit, 0, 0, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, nesting, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_connect, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_connect, 0, 0, IS_VOID, 0)
+
 #if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 1, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
 #else
-	ZEND_ARG_ARRAY_INFO(0, descriptor, 1)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -2225,7 +2226,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterf
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_lastinsertid, 0, 0, 0)
-	ZEND_ARG_INFO(0, sequenceName)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_limit, 0, 2, IS_STRING, 0)
@@ -4135,14 +4136,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 	ZEND_ARG_TYPE_INFO(0, nesting, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, 0, 0, IS_VOID, 0)
+
 #if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 1, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
 #else
-	ZEND_ARG_ARRAY_INFO(0, descriptor, 1)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -4179,7 +4181,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpd
 	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_geterrorinfo, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_geterrorinfo, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, 0, 0, PDO, 0)
@@ -4192,7 +4194,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_lastinsertid, 0, 0, 0)
-	ZEND_ARG_INFO(0, sequenceName)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_prepare, 0, 1, PDOStatement, 0)
@@ -4237,11 +4239,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_abstractpdo_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString, arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute, arginfo_phalcon_db_adapter_pdo_abstractpdo_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared, arginfo_phalcon_db_adapter_pdo_abstractpdo_executeprepared, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getErrorInfo, arginfo_phalcon_db_adapter_pdo_abstractpdo_geterrorinfo, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getErrorInfo, NULL, ZEND_ACC_PUBLIC)
-#endif
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getInternalHandler, arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getTransactionLevel, arginfo_phalcon_db_adapter_pdo_abstractpdo_gettransactionlevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, isUnderTransaction, arginfo_phalcon_db_adapter_pdo_abstractpdo_isundertransaction, ZEND_ACC_PUBLIC)
@@ -15297,11 +15295,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql___construct, 0,
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_connect, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_connect, 0, 0, IS_VOID, 0)
+
 #if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 1, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
 #else
-	ZEND_ARG_ARRAY_INFO(0, descriptor, 1)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -15372,11 +15371,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite___construct, 0, 0, 
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, IS_VOID, 0)
+
 #if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 1, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
 #else
-	ZEND_ARG_ARRAY_INFO(0, descriptor, 1)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -28040,6 +28040,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Builder);
 
 static PHP_METHOD(Phalcon_Security_JWT_Builder, __construct);
 static PHP_METHOD(Phalcon_Security_JWT_Builder, init);
+static PHP_METHOD(Phalcon_Security_JWT_Builder, addClaim);
 static PHP_METHOD(Phalcon_Security_JWT_Builder, getAudience);
 static PHP_METHOD(Phalcon_Security_JWT_Builder, getClaims);
 static PHP_METHOD(Phalcon_Security_JWT_Builder, getContentType);
@@ -28068,6 +28069,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_jwt_builder___construct, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_builder_init, 0, 0, Phalcon\\Security\\JWT\\Builder, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_builder_addclaim, 0, 2, Phalcon\\Security\\JWT\\Builder, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_jwt_builder_getaudience, 0, 0, 0)
@@ -28150,6 +28156,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Security_JWT_Builder, __construct, arginfo_phalcon_security_jwt_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Security_JWT_Builder, init, arginfo_phalcon_security_jwt_builder_init, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_JWT_Builder, addClaim, arginfo_phalcon_security_jwt_builder_addclaim, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Security_JWT_Builder, getAudience, arginfo_phalcon_security_jwt_builder_getaudience, ZEND_ACC_PUBLIC)
 #else

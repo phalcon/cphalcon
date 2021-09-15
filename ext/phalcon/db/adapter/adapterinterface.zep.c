@@ -282,6 +282,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, isUnderTransaction);
 /**
  * Returns insert id for the auto_increment column inserted in the last SQL
  * statement
+ *
+ * @param string|null $name Name of the sequence object from which the ID should be returned.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, lastInsertId);
 /**

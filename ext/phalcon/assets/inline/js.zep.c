@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ZVAL_OR_NULL(attributes)
+		Z_PARAM_ZVAL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

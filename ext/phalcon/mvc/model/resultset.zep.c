@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "ext/psr/psr_simple_cache.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
@@ -167,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(result)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, PsrSimpleCacheCacheInterface_ce_ptr)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

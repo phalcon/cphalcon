@@ -943,7 +943,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle)
 			ZEPHIR_CPY_WRT(&modelBinder, &_16$$7);
 			_27$$7 = Z_TYPE_P(&handler) == IS_OBJECT;
 			if (_27$$7) {
-				_27$$7 = zephir_is_instance_of(&handler, SL("Closure"));
+				_27$$7 = zephir_instance_of_ev(&handler, zend_ce_closure);
 			}
 			if (_27$$7) {
 				_29$$21 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
@@ -2196,7 +2196,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(modelBinder, phalcon_mvc_model_binderinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(cache)
+		Z_PARAM_ZVAL(cache)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

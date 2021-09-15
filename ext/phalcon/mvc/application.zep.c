@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 		ZEPHIR_CALL_METHOD(&match, &matchedRoute, "getmatch", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&match) != IS_NULL) {
-			if (zephir_is_instance_of(&match, SL("Closure"))) {
+			if (zephir_instance_of_ev(&match, zend_ce_closure)) {
 				_10$$8 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 				ZEPHIR_CALL_CE_STATIC(&_9$$8, _10$$8, "bind", NULL, 0, &match, &container);
 				zephir_check_call_status();
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 			ZEPHIR_CALL_METHOD(NULL, &moduleObject, "registerservices", NULL, 0, &container);
 			zephir_check_call_status();
 		} else {
-			if (UNEXPECTED(!((zephir_is_instance_of(&module, SL("Closure")))))) {
+			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure))))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 241);
 				return;
 			}

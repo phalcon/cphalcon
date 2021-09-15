@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(start)
-		Z_PARAM_ZVAL_OR_NULL(end)
+		Z_PARAM_ZVAL(end)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

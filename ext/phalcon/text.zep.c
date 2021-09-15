@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Text, camelize)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(delimiter)
+		Z_PARAM_ZVAL(delimiter)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Text, uncamelize)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(delimiter)
+		Z_PARAM_ZVAL(delimiter)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

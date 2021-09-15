@@ -615,7 +615,7 @@ PHP_METHOD(Phalcon_Security_Random, base)
 		Z_PARAM_STR(alphabet)
 		Z_PARAM_LONG(base)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(n)
+		Z_PARAM_ZVAL(n)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

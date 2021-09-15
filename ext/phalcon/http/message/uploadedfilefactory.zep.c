@@ -16,6 +16,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "ext/psr/psr_http_message.h"
 
 
 /**
@@ -75,7 +76,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
-		Z_PARAM_OBJECT_OF_CLASS(stream, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")))
+		Z_PARAM_OBJECT_OF_CLASS(stream, PsrHttpMessageStreamInterface_ce_ptr)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(size, is_null_true)
 		Z_PARAM_LONG(error)

@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getMetadata)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(key)
+		Z_PARAM_ZVAL(key)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

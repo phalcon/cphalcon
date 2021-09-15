@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCss)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(filter)
-		Z_PARAM_ZVAL_OR_NULL(attributes)
+		Z_PARAM_ZVAL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineJs)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(filter)
-		Z_PARAM_ZVAL_OR_NULL(attributes)
+		Z_PARAM_ZVAL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

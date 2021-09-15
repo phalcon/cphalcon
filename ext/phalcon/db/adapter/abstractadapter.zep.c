@@ -2188,8 +2188,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 		Z_PARAM_STR(table)
 		Z_PARAM_ARRAY(values)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(fields)
-		Z_PARAM_ZVAL_OR_NULL(dataTypes)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_ZVAL(dataTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2425,7 +2425,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict)
 		Z_PARAM_STR(table)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(dataTypes)
+		Z_PARAM_ZVAL(dataTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3278,8 +3278,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 		Z_PARAM_ZVAL(fields)
 		Z_PARAM_ZVAL(values)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(whereCondition)
-		Z_PARAM_ZVAL_OR_NULL(dataTypes)
+		Z_PARAM_ZVAL(whereCondition)
+		Z_PARAM_ZVAL(dataTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3510,8 +3510,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict)
 		Z_PARAM_STR(table)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(whereCondition)
-		Z_PARAM_ZVAL_OR_NULL(dataTypes)
+		Z_PARAM_ZVAL(whereCondition)
+		Z_PARAM_ZVAL(dataTypes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

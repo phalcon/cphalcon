@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "ext/psr/psr_link.h"
 #include "kernel/array.h"
 
 
@@ -64,7 +65,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -110,7 +111,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

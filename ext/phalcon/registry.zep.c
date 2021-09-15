@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Registry, get)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(element)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 		Z_PARAM_STR_OR_NULL(cast)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

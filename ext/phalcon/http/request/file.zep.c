@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(file)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(key)
+		Z_PARAM_ZVAL(key)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

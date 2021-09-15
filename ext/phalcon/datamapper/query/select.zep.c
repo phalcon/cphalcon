@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, andHaving)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendHaving)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, having)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -744,7 +744,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 		Z_PARAM_STR(table)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -851,7 +851,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, orHaving)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(condition)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_LONG(type)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

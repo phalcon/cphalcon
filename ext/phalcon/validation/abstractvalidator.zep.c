@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

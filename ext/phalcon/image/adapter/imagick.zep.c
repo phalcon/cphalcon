@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct)
 
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("image"), PH_NOISY_CC);
-	if (zephir_is_instance_of(&_0, SL("Imagick"))) {
+	if (zephir_instance_of_ev(&_0, zephir_get_internal_ce(SL("imagick")))) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("image"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "clear", NULL, 0);
 		zephir_check_call_status();

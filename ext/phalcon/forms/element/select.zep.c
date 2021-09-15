@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(options)
+		Z_PARAM_ZVAL(options)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

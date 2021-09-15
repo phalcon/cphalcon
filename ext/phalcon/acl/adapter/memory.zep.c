@@ -862,7 +862,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(role)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(accessInherits)
+		Z_PARAM_ZVAL(accessInherits)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow)
 		Z_PARAM_STR(componentName)
 		Z_PARAM_ZVAL(access)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(func)
+		Z_PARAM_ZVAL(func)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1062,7 +1062,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny)
 		Z_PARAM_STR(componentName)
 		Z_PARAM_ZVAL(access)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(func)
+		Z_PARAM_ZVAL(func)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1857,7 +1857,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allowOrDeny)
 		Z_PARAM_ZVAL(access)
 		Z_PARAM_ZVAL(action)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(func)
+		Z_PARAM_ZVAL(func)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

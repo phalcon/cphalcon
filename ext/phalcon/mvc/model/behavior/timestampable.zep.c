@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp)
 	if (zephir_array_isset_string_fetch(&generator, &options, SL("generator"), 0)) {
 		_0$$4 = Z_TYPE_P(&generator) == IS_OBJECT;
 		if (_0$$4) {
-			_0$$4 = zephir_is_instance_of(&generator, SL("Closure"));
+			_0$$4 = zephir_instance_of_ev(&generator, zend_ce_closure);
 		}
 		if (_0$$4) {
 			ZEPHIR_CALL_USER_FUNC(return_value, &generator);

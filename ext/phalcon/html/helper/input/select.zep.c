@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder)
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 		Z_PARAM_ARRAY(attributes)
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, processValue)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(attributes)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(value)
+		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

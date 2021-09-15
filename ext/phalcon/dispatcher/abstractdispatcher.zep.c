@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 			ZEPHIR_INIT_VAR(&_9$$4);
 			ZVAL_OBJ(&_9$$4, EG(exception));
 			Z_ADDREF_P(&_9$$4);
-			if (zephir_is_instance_of(&_9$$4, SL("Exception"))) {
+			if (zephir_instance_of_ev(&_9$$4, zend_ce_exception)) {
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_9$$4);
 				ZEPHIR_CALL_METHOD(&status, this_ptr, "handleexception", NULL, 0, &e);
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_20$$12);
 				ZVAL_OBJ(&_20$$12, EG(exception));
 				Z_ADDREF_P(&_20$$12);
-				if (zephir_is_instance_of(&_20$$12, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_20$$12, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_20$$12);
 					ZEPHIR_CALL_METHOD(&_21$$15, this_ptr, "handleexception", &_22, 0, &e);
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_60$$30);
 				ZVAL_OBJ(&_60$$30, EG(exception));
 				Z_ADDREF_P(&_60$$30);
-				if (zephir_is_instance_of(&_60$$30, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_60$$30, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_60$$30);
 					ZEPHIR_CALL_METHOD(&_61$$33, this_ptr, "handleexception", &_62, 0, &e);
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_70$$35);
 				ZVAL_OBJ(&_70$$35, EG(exception));
 				Z_ADDREF_P(&_70$$35);
-				if (zephir_is_instance_of(&_70$$35, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_70$$35, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_70$$35);
 					ZEPHIR_CALL_METHOD(&_71$$38, this_ptr, "handleexception", &_72, 0, &e);
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					ZEPHIR_INIT_NVAR(&_76$$41);
 					ZVAL_OBJ(&_76$$41, EG(exception));
 					Z_ADDREF_P(&_76$$41);
-					if (zephir_is_instance_of(&_76$$41, SL("Exception"))) {
+					if (zephir_instance_of_ev(&_76$$41, zend_ce_exception)) {
 						zend_clear_exception();
 						ZEPHIR_CPY_WRT(&e, &_76$$41);
 						if (0) {
@@ -717,7 +717,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					ZEPHIR_INIT_NVAR(&_86$$45);
 					ZVAL_OBJ(&_86$$45, EG(exception));
 					Z_ADDREF_P(&_86$$45);
-					if (zephir_is_instance_of(&_86$$45, SL("Exception"))) {
+					if (zephir_instance_of_ev(&_86$$45, zend_ce_exception)) {
 						zend_clear_exception();
 						ZEPHIR_CPY_WRT(&e, &_86$$45);
 						ZEPHIR_CALL_METHOD(&_87$$48, this_ptr, "handleexception", &_88, 0, &e);
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 			ZEPHIR_INIT_NVAR(&_102$$10);
 			ZVAL_OBJ(&_102$$10, EG(exception));
 			Z_ADDREF_P(&_102$$10);
-			if (zephir_is_instance_of(&_102$$10, SL("Exception"))) {
+			if (zephir_instance_of_ev(&_102$$10, zend_ce_exception)) {
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_102$$10);
 				ZEPHIR_CALL_METHOD(&_103$$59, this_ptr, "handleexception", &_104, 0, &e);
@@ -830,7 +830,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_112$$61);
 				ZVAL_OBJ(&_112$$61, EG(exception));
 				Z_ADDREF_P(&_112$$61);
-				if (zephir_is_instance_of(&_112$$61, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_112$$61, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_112$$61);
 					ZEPHIR_CALL_METHOD(&_113$$64, this_ptr, "handleexception", &_114, 0, &e);
@@ -870,7 +870,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_120$$66);
 				ZVAL_OBJ(&_120$$66, EG(exception));
 				Z_ADDREF_P(&_120$$66);
-				if (zephir_is_instance_of(&_120$$66, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_120$$66, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_120$$66);
 					ZEPHIR_CALL_METHOD(&_121$$69, this_ptr, "handleexception", &_122, 0, &e);
@@ -904,7 +904,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				ZEPHIR_INIT_NVAR(&_127$$71);
 				ZVAL_OBJ(&_127$$71, EG(exception));
 				Z_ADDREF_P(&_127$$71);
-				if (zephir_is_instance_of(&_127$$71, SL("Exception"))) {
+				if (zephir_instance_of_ev(&_127$$71, zend_ce_exception)) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_127$$71);
 					ZEPHIR_CALL_METHOD(&_128$$73, this_ptr, "handleexception", &_129, 0, &e);
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 			ZEPHIR_INIT_VAR(&_133$$75);
 			ZVAL_OBJ(&_133$$75, EG(exception));
 			Z_ADDREF_P(&_133$$75);
-			if (zephir_is_instance_of(&_133$$75, SL("Exception"))) {
+			if (zephir_instance_of_ev(&_133$$75, zend_ce_exception)) {
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_133$$75);
 				ZEPHIR_CALL_METHOD(&_134$$77, this_ptr, "handleexception", NULL, 0, &e);
@@ -1249,8 +1249,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParam)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(param)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(filters)
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_ZVAL(filters)
+		Z_PARAM_ZVAL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1672,7 +1672,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModelBinder)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(modelBinder, phalcon_mvc_model_binderinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(cache)
+		Z_PARAM_ZVAL(cache)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
