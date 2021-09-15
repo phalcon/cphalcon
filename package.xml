@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.10.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.10.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>phalcon</name>
   <channel>pecl.php.net</channel>
   <summary>Phalcon is a full stack PHP framework offering low resource consumption and high performance.</summary>
   <description>
-    Phalcon is an open source full stack framework for PHP, written as a C-extension. Phalcon is optimized for high performance. Its unique architecture allows the framework to always be memory resident, offering its functionality whenever its needed, without expensive file stats and file reads that traditional PHP frameworks employ.</description>
+    Phalcon is an open source full stack framework for PHP, written as a C-extension. Phalcon is optimized for high
+    performance. Its unique architecture allows the framework to always be memory resident, offering its functionality
+    whenever its needed, without expensive file stats and file reads that traditional PHP frameworks employ.
+  </description>
   <lead>
     <name>Ruud Boon</name>
     <user>ruudboon</user>
@@ -26,7 +31,8 @@
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
     ## Changed
-    - Merged all architectures (`build/phalcon/32bits`, `build/phalcon/64bits` and `build/phalcon/safe`) into single universal inside `build/phalcon` [#15647](https://github.com/phalcon/cphalcon/issues/15647)
+    - Merged all architectures (`build/phalcon/32bits`, `build/phalcon/64bits` and `build/phalcon/safe`) into single
+    universal inside `build/phalcon` [#15647](https://github.com/phalcon/cphalcon/issues/15647)
 
     ## Fixed
     - Fixed C code in `build/` directory [#15647](https://github.com/phalcon/cphalcon/issues/15647)
@@ -34,15 +40,15 @@
   </notes>
   <contents>
     <dir name="/">
-      <file name="config.m4" role="src" />
-      <file name="config.w32" role="src" />
-      <file name="phalcon.zep.c" role="src" />
-      <file name="phalcon.zep.h" role="src" />
-      <file name="php_phalcon.h" role="src" />
-      <file name="LICENSE.txt" role="doc" />
-      <file name="CHANGELOG-5.0.md" role="doc" />
-      <file name="CODE_OF_CONDUCT.md" role="doc" />
-      <file name="CODE_OWNERS.TXT" role="doc" />
+      <file name="config.m4" role="src"/>
+      <file name="config.w32" role="src"/>
+      <file name="phalcon.zep.c" role="src"/>
+      <file name="phalcon.zep.h" role="src"/>
+      <file name="php_phalcon.h" role="src"/>
+      <file name="LICENSE.txt" role="doc"/>
+      <file name="CHANGELOG-5.0.md" role="doc"/>
+      <file name="CODE_OF_CONDUCT.md" role="doc"/>
+      <file name="CODE_OWNERS.TXT" role="doc"/>
     </dir>
   </contents>
   <dependencies>
