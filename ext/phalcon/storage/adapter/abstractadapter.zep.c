@@ -184,7 +184,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("lifetime"), &_4);
-	if (zephir_array_isset_string(&options, SL("prefix"))) {
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "prefix");
+	if (zephir_array_key_exists(&options, &_2)) {
 		zephir_array_fetch_string(&_6$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 81);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_6$$3);
 	}

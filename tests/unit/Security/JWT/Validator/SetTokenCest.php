@@ -24,15 +24,16 @@ class SetTokenCest
     /**
      * Unit Tests Phalcon\Security\JWT\Validator :: setToken()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTValidatorSetToken(UnitTester $I)
     {
         $I->wantToTest('Security\JWT\Validator - setToken()');
 
-        $token1    = $this->newToken();
-        $token2    = $this->newToken(Hmac::class, 5);
-        $now       = strtotime("+1 second");
+        $token1 = $this->newToken();
+        $token2 = $this->newToken(Hmac::class, 5);
+        $now = strtotime("+1 second");
         $validator = new Validator($token1);
         $I->assertInstanceOf(Validator::class, $validator);
         $I->assertInstanceOf(

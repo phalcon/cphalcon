@@ -19,6 +19,7 @@ class GetAlgHeaderCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\None :: getAlgHeader()
      *
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-22
      */
     public function securityJWTSignerNoneGetAlgHeader(UnitTester $I)

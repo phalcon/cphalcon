@@ -21,7 +21,8 @@ class VerifyCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: verify()
      *
-     * @since  2019-12-15
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTSignerHmacVerify(UnitTester $I)
     {

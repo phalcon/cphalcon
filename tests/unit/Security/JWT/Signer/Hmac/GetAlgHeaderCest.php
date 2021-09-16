@@ -19,7 +19,8 @@ class GetAlgHeaderCest
     /**
      * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: getAlgHeader()
      *
-     * @since  2019-12-19
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-22
      */
     public function securityJWTSignerHmacGetAlgHeader(UnitTester $I)
     {

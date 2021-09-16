@@ -57,7 +57,7 @@ interface AdapterInterface
      * Closes active connection returning success. Phalcon automatically closes
      * and destroys active connections within Phalcon\Db\Pool
      */
-    public function close() -> bool;
+    public function close() -> void;
 
     /**
      * Commits the active transaction in the connection
@@ -68,7 +68,7 @@ interface AdapterInterface
      * This method is automatically called in \Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection
      */
-    public function connect(array descriptor = null) -> bool;
+    public function connect(array! descriptor = []) -> void;
 
     /**
      * Creates a new savepoint
@@ -322,8 +322,10 @@ interface AdapterInterface
     /**
      * Returns insert id for the auto_increment column inserted in the last SQL
      * statement
+     *
+     * @param string|null $name Name of the sequence object from which the ID should be returned.
      */
-    public function lastInsertId(sequenceName = null);
+    public function lastInsertId(string! name = null) -> string|bool;
 
     /**
      * Appends a LIMIT clause to sqlQuery argument

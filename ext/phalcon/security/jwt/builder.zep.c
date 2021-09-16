@@ -16,11 +16,11 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/time.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/string.h"
 
 
@@ -144,6 +144,53 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init)
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("jose"), &_1);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a custom claim
+ *
+ * @param string $name
+ * @param mixed  $value
+ *
+ * @return Builder
+ */
+PHP_METHOD(Phalcon_Security_JWT_Builder, addClaim)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, *value, value_sub, _0;
+	zval name;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name_param, &value);
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(&name, name_param);
+	} else {
+		ZEPHIR_INIT_VAR(&name);
+	}
+
+
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &name, value);
+	zephir_check_call_status();
 	RETURN_THIS();
 }
 
@@ -451,7 +498,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("passphrase"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Security/JWT/Builder.zep", 183);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Security/JWT/Builder.zep", 198);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getclaims", NULL, 0);
@@ -554,7 +601,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setAudience)
 		_0 = Z_TYPE_P(audience) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Security/JWT/Builder.zep", 233);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Security/JWT/Builder.zep", 248);
 		return;
 	}
 	if (Z_TYPE_P(audience) == IS_STRING) {
@@ -650,7 +697,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setExpirationTime)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_GT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Security/JWT/Builder.zep", 278);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Security/JWT/Builder.zep", 293);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -849,7 +896,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setNotBefore)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_LT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Security/JWT/Builder.zep", 352);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Security/JWT/Builder.zep", 367);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -958,7 +1005,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setPassphrase)
 	ZVAL_STRING(&_3, "/(?=^.{16,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/");
 	zephir_preg_match(&_2, &_3, &passphrase, &_0, 0, 0 , 0 );
 	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Security/JWT/Builder.zep", 390);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Security/JWT/Builder.zep", 405);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &passphrase);
