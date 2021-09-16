@@ -396,7 +396,7 @@ jobs:
       - name: Setup Environment Variables
         run: |
           Write-Output "PHP_SDK_VERSION=2.2.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PSR_VERSION=1.0.1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PSR_VERSION=1.1.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
