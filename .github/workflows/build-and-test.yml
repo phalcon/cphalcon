@@ -13,6 +13,18 @@ env:
   ZEPHIR_PARSER_VERSION: 1.4.1
   ZEPHIR_VERSION: 0.14.0
   PSR_VERSION: 1.1.0
+
+  # Windows
+  PHALCON_VERSION: 5.0.0alpha6
+  PHP_SDK_VERSION: 2.2.0
+  PHP_DEVPACK: "C:\tools\php-devpack"
+  PHP_SDK_PATH: "C:\tools\php-sdk"
+  PHP_PECL_PATH: "C:\tools\pecl"
+  PACKAGE_PREFIX: "phalcon"
+  EXTENSION_NAME: "phalcon"
+  EXTENSION_FILE: "php_phalcon.dll"
+
+  # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
   LC_ALL: en_US.UTF-8
@@ -429,14 +441,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Environment Variables
-        # Write-Output "PSR_VERSION=1.1.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         run: |
-          Write-Output "PHP_SDK_VERSION=2.2.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-          Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_PECL_PATH=C:\tools\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
           #    https://windows.php.net/downloads/releases/sha256sum.txt
@@ -450,11 +455,8 @@ jobs:
           Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PACKAGE_PREFIX=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "EXTENSION_NAME=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "EXTENSION_FILE=php_phalcon.dll" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHALCON_VERSION=5.0.0alpha6" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
           If ("${{ matrix.ts }}" -eq "nts") {
             Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
