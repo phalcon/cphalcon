@@ -12,7 +12,10 @@ ENV MY_USER="phalcon" \
 	MY_GROUP="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
-	PHP_VERSION="7.4"
+	PHP_VERSION="7.4" \
+	LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 # User and Group
 RUN set -eux && \
@@ -40,15 +43,16 @@ RUN apt update -y && \
         zip
 
 # PECL Packages
-RUN pecl install psr && \
-    pecl install -o -f redis && \
-    pecl install igbinary && \
-    pecl install msgpack && \
-    pecl install apcu && \
-    pecl install yaml && \
-    pecl install imagick && \
-    pecl install memcached && \
-    pecl install xdebug
+RUN pecl install -o -f redis && \
+    pecl install psr \
+      igbinary \
+      msgpack \
+      apcu \
+      yaml \
+      imagick \
+      memcached \
+      xdebug \
+      zephir_parser
 
 # Locale
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -58,14 +62,6 @@ RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
-
-# Locale Environment
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
-
-# Zephir Parser
-RUN curl -s https://raw.githubusercontent.com/phalcon/zephir/development/.ci/install-zephir-parser.sh | bash
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg=/usr/include/ --enable-gd
@@ -90,7 +86,8 @@ RUN docker-php-ext-enable \
         imagick \
         yaml \
         memcached \
-        xdebug
+        xdebug \
+        zephir_parser
 
 # Composer
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

@@ -10,35 +10,90 @@ on:
   pull_request:
 
 env:
-  ZEPHIR_PARSER_VERSION: v1.3.6
-  ZEPHIR_VERSION: 0.14.0-beta.3
+  ZEPHIR_PARSER_VERSION: 1.4.1
+  ZEPHIR_VERSION: 0.14.0
+  PSR_VERSION: 1.1.0
+
+  # Windows
+  PHALCON_VERSION: 5.0.0alpha6
+  PHP_SDK_VERSION: 2.2.0
+  PHP_DEVPACK: "C:\\tools\\php-devpack"
+  PHP_SDK_PATH: "C:\\tools\\php-sdk"
+  PHP_PECL_PATH: "C:\\tools\\pecl"
+  PACKAGE_PREFIX: "phalcon"
+  EXTENSION_NAME: "phalcon"
+  EXTENSION_FILE: "php_phalcon.dll"
+
+  # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
   LC_ALL: en_US.UTF-8
 
 jobs:
-  generate:
-    # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
+  phpcs:
+    name: Validate Tests code style
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
-    name: Build Phalcon Pecl Package
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
+
+  stubs:
+    name: PHP ${{ matrix.php-versions }} Stubs validation
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: pecl
+          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt update --quiet --yes 1>/dev/null
+          sudo apt install --no-install-recommends -q -y re2c
+
+      - run: composer install --prefer-dist
+
+      - name: Install Zephir
+        run: .ci/install-zephir.sh
+
+      - name: Validate stubs
+        if: always()
+        run: |
+          $HOME/bin/zephir stubs
+          vendor/bin/psalm ide/
+
+  generate:
+    name: Build Phalcon Pecl Package
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          extensions: mbstring, intl, json, psr
+          extensions: mbstring, intl, json, psr, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Setup APT Repositories
         run: |
@@ -90,12 +145,13 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: generate
+    needs: [generate]
     services:
       mysql:
         image: mysql:5.7
@@ -129,20 +185,15 @@ jobs:
         operating-system: [ubuntu-20.04]
         php-versions: ['7.4', '8.0']
 
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v2
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup Composer Cache
         uses: actions/cache@v2
@@ -185,8 +236,7 @@ jobs:
           sudo dpkg-reconfigure --frontend=noninteractive locales
           sudo update-locale LANG=en_US.UTF-8
 
-      - name: Install Packages
-        run: composer install --prefer-dist
+      - run: composer install --prefer-dist
 
       - name: Setup Tests
         run: |
@@ -255,29 +305,29 @@ jobs:
           file: ./tests/_output/coverage-*.xml
 
   build-and-test-macos:
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
     if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: generate
+    needs: [generate]
     runs-on: ${{ matrix.operating-system }}
+
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       ext_cache_key: v5.0.0-alpha.6-macOS-2
+
     strategy:
       fail-fast: false
       matrix:
         operating-system: [macos-latest]
         php-versions: ['7.4', '8.0']
 
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v2
 
 #      - name: Setup cache environment
 #        id: extcache
@@ -351,7 +401,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-    needs: generate
+    needs: [generate]
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -377,10 +427,7 @@ jobs:
       - name: Disable Git autocrlf
         run: git config --global core.autocrlf false
 
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -395,13 +442,6 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          Write-Output "PHP_SDK_VERSION=2.2.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PSR_VERSION=1.1.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-          Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_PECL_PATH=C:\tools\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
           #    https://windows.php.net/downloads/releases/sha256sum.txt
@@ -415,11 +455,8 @@ jobs:
           Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PACKAGE_PREFIX=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "EXTENSION_NAME=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "EXTENSION_FILE=php_phalcon.dll" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHALCON_VERSION=5.0.0alpha6" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
           If ("${{ matrix.ts }}" -eq "nts") {
             Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
@@ -569,8 +606,7 @@ jobs:
         run: php --ri phalcon
 
       - name: Install Packages
-        # TODO: Imagick isn't available for PHP8.0
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Setup Tests
         run: |
@@ -604,10 +640,40 @@ jobs:
             !${{ github.workspace }}\ext\x64\
           retention-days: 1
 
+  install-from-build:
+    name: PHP ${{ matrix.php-versions }} Install from build
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, json, psr
+          tools: pecl
+
+      - name: Install from build/ directory
+        run: |
+          cd build/
+          php gen-build.php
+          sudo ./install
+
+      - name: Validate extension
+        if: success()
+        run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
+
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
-    needs: [generate, build-and-test-linux, build-and-test-macos, build-and-test-windows]
+    needs: [generate, install-from-build, build-and-test-linux, build-and-test-macos, build-and-test-windows]
     name: Create Release
     runs-on: ubuntu-20.04
 

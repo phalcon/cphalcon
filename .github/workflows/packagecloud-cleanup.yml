@@ -1,3 +1,5 @@
+# TODO: Move to phalcon/packagecloud
+
 name: Cleanup Packagecloud packages
 
 on:
