@@ -66,36 +66,6 @@ jobs:
           $HOME/bin/zephir stubs
           vendor/bin/psalm ide/
 
-  install-from-build:
-    name: PHP ${{ matrix.php-versions }} Install from build
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
-    runs-on: ubuntu-20.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['7.4', '8.0']
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl, json, psr
-          tools: pecl
-
-      - name: Install from build/ directory
-        run: |
-          cd build/
-          php gen-build.php
-          sudo ./install
-
-      - name: Validate extension
-        if: success()
-        run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
-
   generate:
     name: Build Phalcon Pecl Package
     if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -169,7 +139,7 @@ jobs:
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: [generate, install-from-build]
+    needs: [generate]
     services:
       mysql:
         image: mysql:5.7
@@ -330,7 +300,7 @@ jobs:
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
     if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: [generate, install-from-build]
+    needs: [generate]
     runs-on: ${{ matrix.operating-system }}
 
     env:
@@ -419,7 +389,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-    needs: [generate, install-from-build]
+    needs: [generate]
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -667,6 +637,36 @@ jobs:
             ${{ github.workspace }}\ext\
             !${{ github.workspace }}\ext\x64\
           retention-days: 1
+
+  install-from-build:
+    name: PHP ${{ matrix.php-versions }} Install from build
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, json, psr
+          tools: pecl
+
+      - name: Install from build/ directory
+        run: |
+          cd build/
+          php gen-build.php
+          sudo ./install
+
+      - name: Validate extension
+        if: success()
+        run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
 
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
