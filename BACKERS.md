@@ -86,7 +86,6 @@ Thanks for the support
 [//]: github-sponsors
 
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
-<a href="https://github.com/evansims"><img src="https://avatars2.githubusercontent.com/u/3093?s=460&u=cfba72529ae60e76c15dca111246baea93e333a7&v=4" title="Evan Sims" width="60" height="60"></a>
 <a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
 <a href="https://github.com/DestinyMKas"><img src="https://avatars.githubusercontent.com/u/170159?v=4" title="Karolis Mačiulskis" width="60" height="60"></a>
 <a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
