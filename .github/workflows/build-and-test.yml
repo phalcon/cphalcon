@@ -17,9 +17,9 @@ env:
   # Windows
   PHALCON_VERSION: 5.0.0alpha6
   PHP_SDK_VERSION: 2.2.0
-  PHP_DEVPACK: "C:\tools\php-devpack"
-  PHP_SDK_PATH: "C:\tools\php-sdk"
-  PHP_PECL_PATH: "C:\tools\pecl"
+  PHP_DEVPACK: "C:\\tools\\php-devpack"
+  PHP_SDK_PATH: "C:\tools\\php-sdk"
+  PHP_PECL_PATH: "C:\\tools\\pecl"
   PACKAGE_PREFIX: "phalcon"
   EXTENSION_NAME: "phalcon"
   EXTENSION_FILE: "php_phalcon.dll"
