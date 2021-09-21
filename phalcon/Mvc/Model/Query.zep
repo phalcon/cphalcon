@@ -1542,9 +1542,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Resolves an expression from its intermediate code into a string
+     * Resolves an expression from its intermediate code into an array
      */
-    final protected function getExpression(array expr, bool quoting = true) -> string
+    final protected function getExpression(array expr, bool quoting = true) -> array
     {
         var exprType, exprLeft, exprRight, left = null, right = null,
             listItems, exprListItem, exprReturn, value, escapedValue,
