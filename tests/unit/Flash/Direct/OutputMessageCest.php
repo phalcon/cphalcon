@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Flash\Direct;
 use Codeception\Example;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Exception;
-use Phalcon\Html\Escaper;
+use Phalcon\Escaper;
 use UnitTester;
 
 use const PHP_EOL;
@@ -82,7 +82,7 @@ class OutputMessageCest
     }
 
     /**
-     * @return array
+     * @return \string[][]
      */
     private function getExamples(): array
     {

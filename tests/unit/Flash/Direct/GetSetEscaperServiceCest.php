@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Flash\Direct;
 
-use Phalcon\Di\Di;
+use Phalcon\Di;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Exception;
-use Phalcon\Html\Escaper;
+use Phalcon\Escaper;
 use UnitTester;
 
 use function spl_object_hash;
@@ -91,7 +91,7 @@ class GetSetEscaperServiceCest
         $I->expectThrowable(
             new Exception(
                 'A dependency injection container is required to ' .
-                'access the "escaper" service'
+                "access the 'escaper' service"
             ),
             function () {
                 $flash = new Direct();

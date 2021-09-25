@@ -86,6 +86,7 @@ class OutputCest
 
         $flash = new Session();
         $flash->setDI($this->container);
+        $flash->clear();
 
         $message1 = uniqid('m-');
         $message2 = uniqid('m-');

@@ -63,7 +63,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception(
                 'A dependency injection container is required to ' .
-                'access the "session" service'
+                "access the 'session' service"
             ),
             function () {
                 $flash = new Session();

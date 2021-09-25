@@ -255,71 +255,42 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     public function outputMessage(string type, var message)
     {
-        bool implicitFlush;
-        var content, msg, htmlMessage, preparedMsg;
+        var content, html, item, prepared;
 
-        let implicitFlush = this->implicitFlush;
+        let content = "";
 
-        if typeof message == "array" {
-            /**
-             * We create the message with implicit flush or other
-             */
-            if !implicitFlush {
-                let content = "";
-            }
+        if typeof message !== "array" && typeof message !== "string" {
+            throw new Exception("The message must be an array or a string");
+        }
 
-            /**
-             * We create the message with implicit flush or other
-             */
-            for msg in message {
-                /**
-                 * Check if the message needs to be escaped
-                 */
-                let preparedMsg = this->prepareEscapedMessage(msg);
+        /**
+         * Make this an array. Same code processes string and array
+         */
+        if typeof message !== "array" {
+            let message = [message];
+        }
 
-                /**
-                 * We create the applying formatting or not
-                 */
-                let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
+        for item in message {
+            let prepared = this->prepareEscapedMessage(item),
+                html     = this->prepareHtmlMessage(type, prepared);
 
-                if implicitFlush {
-                    echo htmlMessage;
-                } else {
-                    let content .= htmlMessage;
-                    let this->messages[] = htmlMessage;
-                }
-            }
-
-            /**
-             * We return the message as a string if the implicitFlush is turned
-             * off
-             */
-            if !implicitFlush {
-                return content;
-            }
-        } else {
-            /**
-             * Check if the message needs to be escaped
-             */
-            let preparedMsg = this->prepareEscapedMessage(message);
-
-            /**
-             * We create the applying formatting or not
-             */
-            let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
-
-            /**
-             * We return the message as a string if the implicitFlush is turned
-             * off
-             */
-            if implicitFlush {
-                echo htmlMessage;
+            if (true === this->implicitFlush) {
+                echo html;
             } else {
-                let this->messages[] = htmlMessage;
-
-                return htmlMessage;
+                let content          .= html,
+                    this->messages[] = html;
             }
         }
+
+        /**
+         * We return the message as a string if the implicitFlush is turned
+         * off
+         */
+        if (true !== this->implicitFlush) {
+            return content;
+        }
+
+        return null;
     }
 
     /**
@@ -343,18 +314,18 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     {
         string divString, iconString, template;
 
-        let template     = "<div%divString%>%iconString%%message%</div>" . PHP_EOL,
-            divString    = "",
-            iconString   = "";
+        let template   = "<div%divString%>%iconString%%message%</div>" . PHP_EOL,
+            divString  = "",
+            iconString = "";
 
         if !empty this->customTemplate {
             return this->customTemplate;
         }
 
-        if !empty cssClassses || !empty cssIconClasses {
+        if !empty cssClassses {
             let divString = " class=\"%cssClass%\"";
             if !empty cssIconClasses {
-                let iconString = "<i class=\"%cssIconClasses%\"></i> ";
+                let iconString = "<i class=\"%cssIconClass%\"></i> ";
             }
         }
 
@@ -392,45 +363,47 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     private function prepareHtmlMessage(string type, string message) -> string
     {
-        var classes, cssClasses, cssIconClasses, typeClasses, typeIconClasses, automaticHtml;
+        var cssClasses, cssIconClasses;
 
-        let automaticHtml = this->automaticHtml;
-
-        if true !== automaticHtml {
+        if true !== this->automaticHtml {
             return message;
         }
 
-        let classes        = this->cssClasses,
-            cssIconClasses = this->cssIconClasses;
-
-        if fetch typeClasses, classes[type] {
-            if typeof typeClasses == "array" {
-                let cssClasses = join(" ", typeClasses);
-            } else {
-                let cssClasses = typeClasses;
-            }
-        } else {
-            let cssClasses = "";
-        }
-
-        if fetch typeIconClasses, cssIconClasses[type] {
-            if typeof typeIconClasses == "array" {
-                let cssIconClasses = join(" ", typeIconClasses);
-            } else {
-                let cssIconClasses = typeIconClasses;
-            }
-        } else {
-            let cssIconClasses = "";
-        }
-
+        let cssClasses     = this->checkClasses(this->cssClasses, type),
+            cssIconClasses = this->checkClasses(this->cssIconClasses, type);
 
         return this->interpolator->__invoke(
             this->getTemplate(cssClasses, cssIconClasses),
             [
                 "cssClass"     : cssClasses,
-                "iconCssClass" : cssIconClasses,
+                "cssIconClass" : cssIconClasses,
                 "message"      : message
             ]
         );
+    }
+
+    /**
+     * Checks the collection and returns the content as a string
+     * (array is joined)
+     */
+    private function checkClasses(array collection, string type) -> string
+    {
+        var content;
+
+        let content = "";
+
+        if isset collection[type] {
+            let content = collection[type];
+        }
+
+        if true !== empty(content) {
+            if typeof content !== "array" {
+                let content = [content];
+            }
+
+            let content = join(" ", content);
+        }
+
+        return content;
     }
 }

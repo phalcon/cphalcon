@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Flash\Session;
 
 use Phalcon\Flash\Exception;
 use Phalcon\Flash\Session;
-use Phalcon\Html\Escaper;
+use Phalcon\Escaper;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -104,7 +104,7 @@ class GetSetEscaperServiceCest
         $I->expectThrowable(
             new Exception(
                 'A dependency injection container is required to ' .
-                'access the "escaper" service'
+                "access the 'escaper' service"
             ),
             function () {
                 $flash = new Session();

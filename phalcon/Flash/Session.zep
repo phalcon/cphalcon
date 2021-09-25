@@ -92,7 +92,6 @@ class Session extends AbstractFlash
         var type, message, messages;
 
         let messages = this->getSessionMessages(remove);
-
         for type, message in messages {
             this->outputMessage(type, message);
         }
@@ -108,7 +107,7 @@ class Session extends AbstractFlash
      *
      * @return array
      */
-    protected function getSessionMessages(bool remove, var type = null) -> array
+    protected function getSessionMessages(bool remove, string type = null) -> array
     {
         var session, messages, returnMessages;
 
@@ -118,11 +117,11 @@ class Session extends AbstractFlash
         /**
          * Session might be empty
          */
-        if typeof messages != "array" {
+        if typeof messages !== "array" {
             let messages = [];
         }
 
-        if typeof type == "string" {
+        if true !== empty(type) {
             if fetch returnMessages, messages[type] {
                 if remove {
                     unset(messages[type]);
