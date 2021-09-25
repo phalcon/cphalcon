@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Registry;
+namespace Phalcon\Tests\Unit\Registry;
 
 use Phalcon\Registry;
 use UnitTester;

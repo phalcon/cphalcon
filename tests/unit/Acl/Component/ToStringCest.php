@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Component;
+namespace Phalcon\Tests\Unit\Acl\Component;
 
 use Phalcon\Acl\Component;
 use UnitTester;

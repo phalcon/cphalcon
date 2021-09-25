@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Close;
+namespace Phalcon\Tests\Unit\Html\Helper\Close;
 
 use Phalcon\Escaper;
 use Phalcon\Factory\Exception;

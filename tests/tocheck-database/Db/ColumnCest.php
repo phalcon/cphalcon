@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db;
+namespace Phalcon\Tests\Integration\Db;
 
 use IntegrationTester;
 use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Tests\Fixtures\Traits\DialectTrait;
 
 class ColumnCest
 {

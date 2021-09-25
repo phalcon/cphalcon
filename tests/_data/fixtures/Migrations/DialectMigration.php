@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Migrations;
+namespace Phalcon\Tests\Fixtures\Migrations;
 
 use PDO;
 use Phalcon\Db\Column;

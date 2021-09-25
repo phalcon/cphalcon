@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Manager;
+namespace Phalcon\Tests\Unit\Events\Manager;
 
 use UnitTester;
 

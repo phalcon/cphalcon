@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Statistics;
+namespace Phalcon\Tests\Models\Statistics;
 
 use Phalcon\Mvc\Model;
 

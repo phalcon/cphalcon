@@ -16,7 +16,7 @@ declare(strict_types=1);
  *       tests in this namespace
  */
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
+namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog {
     function syslog($level, $message)
     {
     }

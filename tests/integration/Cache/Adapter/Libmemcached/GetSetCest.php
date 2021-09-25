@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Libmemcached;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
-use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
+use Phalcon\Tests\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
 
 use function getOptionsLibmemcached;
 

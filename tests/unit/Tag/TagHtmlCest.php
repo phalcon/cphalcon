@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
 use Codeception\Example;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Helpers\TagSetup;
+use Phalcon\Tests\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
 class TagHtmlCest extends TagSetup

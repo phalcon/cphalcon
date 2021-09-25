@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Apcu;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\ApcuTrait;
+use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
 use IntegrationTester;
 
 class GetKeysCest

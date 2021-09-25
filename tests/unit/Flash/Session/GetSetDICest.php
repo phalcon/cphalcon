@@ -11,37 +11,37 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Flash\Session;
+namespace Phalcon\Tests\Unit\Flash\Session;
 
-use Phalcon\Di;
-use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Di\Di;
+use Phalcon\Flash\Session;
 use UnitTester;
 
+/**
+ * Class GetSetDICest
+ *
+ * @package Phalcon\Tests\Unit\Flash\Session
+ */
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Flash\Session :: getDI() / setDI()
+     * Tests Phalcon\Flash\Session :: getDI()/setDI()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2019-12-07
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function flashSessionSetDI(UnitTester $I)
+    public function flashSessionGetSetDI(UnitTester $I)
     {
-        $I->wantToTest('Flash\Session - getDI() / setDI()');
+        $I->wantToTest('Flash\Session - getDI()/setDI()');
 
         $container = new Di();
+        $flash     = new Session();
+        $flash->setDI($container);
 
-        $oFlashSession = new FlashSession();
-
-        $oFlashSession->setDI($container);
-
-        $I->assertSame(
-            $container,
-            $oFlashSession->getDI()
-        );
-
-        $class  = Di::class;
-        $actual = $oFlashSession->getDI();
-        $I->assertInstanceOf($class, $actual);
+        $actual = $flash->getDI();
+        $I->assertSame($container, $actual);
+        $I->assertInstanceOf(Di::class, $actual);
     }
 }

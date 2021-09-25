@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
+namespace Phalcon\Tests\Integration\Db\Dialect\Sqlite;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Sqlite;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Tests\Fixtures\Traits\DialectTrait;
 
 class GetColumnDefinitionCest
 {

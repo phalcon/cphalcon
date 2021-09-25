@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Container;
+namespace Phalcon\Tests\Unit\Container;
 
 use Phalcon\Container;
 use Phalcon\Di;

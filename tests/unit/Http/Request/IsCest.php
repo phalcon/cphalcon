@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Request;
+namespace Phalcon\Tests\Unit\Http\Request;
 
 use Codeception\Example;
 use Phalcon\Http\Request;

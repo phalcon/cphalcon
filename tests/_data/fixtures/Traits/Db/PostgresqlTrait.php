@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits\Db;
+namespace Phalcon\Tests\Fixtures\Traits\Db;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -20,7 +20,7 @@ use function array_shift;
 /**
  * Trait PostgresqlTrait
  *
- * @package Phalcon\Test\Fixtures\Traits\Db
+ * @package Phalcon\Tests\Fixtures\Traits\Db
  */
 trait PostgresqlTrait
 {

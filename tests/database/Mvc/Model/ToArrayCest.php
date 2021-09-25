@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesMap;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesMap;
 
 use function uniqid;
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Ip;
+namespace Phalcon\Tests\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
 use Phalcon\Validation;

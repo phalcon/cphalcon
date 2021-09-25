@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;

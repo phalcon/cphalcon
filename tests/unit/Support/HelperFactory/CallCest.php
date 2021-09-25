@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\HelperFactory;
+namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Helper\Str\Interpolate;

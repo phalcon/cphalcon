@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Memory;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Tests\Fixtures\Cache\CacheFixtureData;
 
 class GetSetCest
 {

@@ -9,13 +9,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Builder;
+namespace Phalcon\Tests\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Signer\Hmac;
 use Phalcon\Security\JWT\Token\Token;
-use Phalcon\Test\Fixtures\Traits\JWTTrait;
+use Phalcon\Tests\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
 class GetTokenCest

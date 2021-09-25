@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Form;
+namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetAttributesCest
 {

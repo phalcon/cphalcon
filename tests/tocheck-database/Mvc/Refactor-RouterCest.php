@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Fixtures\Traits\RouterTrait;
+use Phalcon\Tests\Fixtures\Traits\RouterTrait;
 
 class RouterCest
 {

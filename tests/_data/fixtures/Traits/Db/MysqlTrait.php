@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits\Db;
+namespace Phalcon\Tests\Fixtures\Traits\Db;
 
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
@@ -18,7 +18,7 @@ use Phalcon\Db\Reference;
 /**
  * Trait MysqlTrait
  *
- * @package Phalcon\Test\Fixtures\Traits\Db
+ * @package Phalcon\Tests\Fixtures\Traits\Db
  */
 trait MysqlTrait
 {

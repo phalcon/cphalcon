@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Result\Pdo;
+namespace Phalcon\Tests\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Stream\Memory;
+namespace Phalcon\Tests\Unit\Http\Message\Stream\Memory;
 
 use Phalcon\Http\Message\Stream\Memory;
 use UnitTester;

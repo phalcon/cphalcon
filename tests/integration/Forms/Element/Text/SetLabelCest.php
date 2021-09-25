@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Text;
+namespace Phalcon\Tests\Integration\Forms\Element\Text;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class SetLabelCest
 {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\AdapterFactory;
+namespace Phalcon\Tests\Unit\Logger\AdapterFactory;
 
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter\AdapterInterface;

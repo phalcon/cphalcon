@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\AdapterFactory;
+namespace Phalcon\Tests\Integration\Storage\AdapterFactory;
 
 use Codeception\Example;
 use Phalcon\Storage\Exception;

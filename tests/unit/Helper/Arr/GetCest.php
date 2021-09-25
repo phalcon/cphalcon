@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Helper\Arr;
+namespace Phalcon\Tests\Unit\Helper\Arr;
 
 use Codeception\Example;
 use Phalcon\Helper\Arr;

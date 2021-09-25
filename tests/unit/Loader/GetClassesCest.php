@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Tests\Unit\Loader;
 
 use Phalcon\Loader;
 use UnitTester;

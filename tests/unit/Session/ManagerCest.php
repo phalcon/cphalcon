@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Session;
+namespace Phalcon\Tests\Unit\Session;
 
 use Codeception\Example;
 use Phalcon\Session\Adapter\Noop;

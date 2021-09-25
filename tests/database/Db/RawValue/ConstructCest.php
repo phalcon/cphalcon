@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\RawValue;
+namespace Phalcon\Tests\Database\Db\RawValue;
 
 use Codeception\Example;
 use DatabaseTester;

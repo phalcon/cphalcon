@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\EvolvableLink;
+namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 
 use Phalcon\Html\Link\EvolvableLink;
 use Psr\Link\EvolvableLinkInterface;

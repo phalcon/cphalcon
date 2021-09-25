@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Listener;
+namespace Phalcon\Tests\Fixtures\Listener;
 
 class SecondListener
 {

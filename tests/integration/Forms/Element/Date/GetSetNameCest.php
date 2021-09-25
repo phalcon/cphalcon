@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Date;
+namespace Phalcon\Tests\Integration\Forms\Element\Date;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Date;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetNameCest
 {

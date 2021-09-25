@@ -1,7 +1,7 @@
 <?php
 
 use Phalcon\Config;
-use Phalcon\Test\Module\UnitTest;
+use Phalcon\Tests\Module\UnitTest;
 
 return [
     'unit-test' => [

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Tests\Integration\Mvc\Micro;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
-use Phalcon\Test\Fixtures\Micro\RestHandler;
+use Phalcon\Tests\Fixtures\Micro\RestHandler;
 
 use function is_array;
 

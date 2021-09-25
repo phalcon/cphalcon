@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Controllers\Micro\Collections;
+namespace Phalcon\Tests\Controllers\Micro\Collections;
 
 class PersonasLazyController
 {

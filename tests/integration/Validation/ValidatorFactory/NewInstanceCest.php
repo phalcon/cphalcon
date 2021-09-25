@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\ValidatorFactory;
+namespace Phalcon\Tests\Integration\Validation\ValidatorFactory;
 
 use IntegrationTester;
 use Phalcon\Validation\Validator\Alnum;

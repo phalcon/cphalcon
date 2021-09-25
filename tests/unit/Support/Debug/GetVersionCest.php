@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug;
+namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Support\Version;
 use UnitTester;
 

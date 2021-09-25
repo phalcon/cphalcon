@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Helper;
 
 use IntegrationTester;
 use Phalcon\Di;
@@ -10,7 +10,7 @@ use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher
+ * \Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher
  * Base IntegrationTest to assist with testing various \Phalcon\Dispatcher,
  * Phalcon\Mvc\Dispatcher, and other related components.
  *
@@ -66,7 +66,7 @@ abstract class BaseDispatcher
                 $dispatcher = new Dispatcher();
 
                 // Initialize defaults such that these don't need to be specified everywhere
-                $dispatcher->setNamespaceName('Phalcon\Test\Integration\Mvc\Dispatcher\Helper');
+                $dispatcher->setNamespaceName('Phalcon\Tests\Integration\Mvc\Dispatcher\Helper');
                 $dispatcher->setControllerName('dispatcher-test-default');
                 $dispatcher->setActionName('index');
 

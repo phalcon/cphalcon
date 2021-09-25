@@ -1,13 +1,13 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Helper;
 
 use Exception;
 use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\Event;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherListener
+ * \Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherListener
  * Early listener for all dispatch events.
  *
  * @copyright (c) 2011-2017 Phalcon Team

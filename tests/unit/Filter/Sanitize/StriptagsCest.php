@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter\Sanitize;
+namespace Phalcon\Tests\Unit\Filter\Sanitize;
 
 use Codeception\Example;
 use Phalcon\Filter\Sanitize\Striptags;

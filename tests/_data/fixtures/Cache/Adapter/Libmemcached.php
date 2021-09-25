@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Cache\Adapter;
+namespace Phalcon\Tests\Fixtures\Cache\Adapter;
 
 use Phalcon\Cache\Adapter\Libmemcached as CacheLibmemcached;
 use Phalcon\Storage\Exception;
 
 /**
- * Phalcon\Test\Fixtures\Cache\Adapter
+ * Phalcon\Tests\Fixtures\Cache\Adapter
  *
  * Libmemcached adapter fixture
  */

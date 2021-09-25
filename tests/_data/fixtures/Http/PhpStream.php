@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Http;
+namespace Phalcon\Tests\Fixtures\Http;
 
 /**
  * @link http://php.net/manual/en/class.streamwrapper.php

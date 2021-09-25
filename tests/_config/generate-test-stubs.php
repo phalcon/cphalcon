@@ -24,7 +24,7 @@ $template = '<?php
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\%type%\%n%;
+namespace Phalcon\Tests\%type%\%n%;
 
 use %type%Tester;
 

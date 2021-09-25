@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
+namespace Phalcon\Tests\Integration\Mvc\Model\Transaction;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Transaction\Failed;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Personas;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Personas;
 
 class RollbackCest
 {

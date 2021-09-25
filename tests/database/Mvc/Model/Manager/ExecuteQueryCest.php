@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Manager;
+namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\ManagerInterface;
@@ -19,8 +19,8 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 class ExecuteQueryCest
 {

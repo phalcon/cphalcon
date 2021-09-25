@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
 use Phalcon\Tag;
 use UnitTester;

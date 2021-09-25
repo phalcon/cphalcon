@@ -1,16 +1,16 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Relations\Deles;
-use Phalcon\Test\Models\Relations\M2MParts;
-use Phalcon\Test\Models\Relations\M2MRobots;
-use Phalcon\Test\Models\Relations\RelationsRobots;
-use Phalcon\Test\Models\Relations\Robotters;
-use Phalcon\Test\Models\Relations\RobottersDeles;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Relations\Deles;
+use Phalcon\Tests\Models\Relations\M2MParts;
+use Phalcon\Tests\Models\Relations\M2MRobots;
+use Phalcon\Tests\Models\Relations\RelationsRobots;
+use Phalcon\Tests\Models\Relations\Robotters;
+use Phalcon\Tests\Models\Relations\RobottersDeles;
 
 class ModelsRelationsCest
 {

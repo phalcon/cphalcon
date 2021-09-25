@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Libmemcached;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Libmemcached;
 
 use Codeception\Example;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
+use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
 use stdClass;
 use IntegrationTester;
 

@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 use Phalcon\Dispatcher\Exception;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
 class DispatchCest extends BaseDispatcher
 {
@@ -36,7 +36,7 @@ class DispatchCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -98,7 +98,7 @@ class DispatchCest extends BaseDispatcher
 
         $I->expectThrowable(
             new Exception(
-                'Phalcon\Test\Integration\Mvc\Dispatcher\Helper\Non' .
+                'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\Non' .
                 'ExistentDispatcherHandlerController handler class cannot be loaded',
                 Exception::EXCEPTION_HANDLER_NOT_FOUND
             ),

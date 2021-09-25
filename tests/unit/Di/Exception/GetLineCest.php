@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di\Exception;
+namespace Phalcon\Tests\Unit\Di\Exception;
 
 use UnitTester;
 

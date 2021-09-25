@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Criteria;
+namespace Phalcon\Tests\Database\Mvc\Model\Criteria;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 /**
  * Class ColumnsCest
@@ -56,7 +56,7 @@ class ColumnsCest
         $I->assertInstanceOf(Builder::class, $builder);
 
         $expected = 'SELECT inv_id, inv_total '
-            . 'FROM [Phalcon\Test\Models\Invoices]';
+            . 'FROM [Phalcon\Tests\Models\Invoices]';
         $actual   = $builder->getPhql();
         $I->assertEquals($expected, $actual);
     }
@@ -91,7 +91,7 @@ class ColumnsCest
         $I->assertInstanceOf(Builder::class, $builder);
 
         $expected = 'SELECT inv_id AS [id], inv_total AS [total] '
-            . 'FROM [Phalcon\Test\Models\Invoices]';
+            . 'FROM [Phalcon\Tests\Models\Invoices]';
         $actual   = $builder->getPhql();
         $I->assertEquals($expected, $actual);
     }

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Style;
+namespace Phalcon\Tests\Unit\Html\Helper\Style;
 
 use Phalcon\Escaper;
 use Phalcon\Html\Helper\Style;

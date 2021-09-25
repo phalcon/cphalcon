@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
@@ -19,14 +19,14 @@ use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
-use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Objects;
+use Phalcon\Tests\Fixtures\Migrations\AbstractMigration;
+use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\ObjectsMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Customers;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\Objects;
 
 use function getOptionsRedis;
 use function outputDir;

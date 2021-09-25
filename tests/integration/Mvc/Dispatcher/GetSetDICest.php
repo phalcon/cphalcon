@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
 {

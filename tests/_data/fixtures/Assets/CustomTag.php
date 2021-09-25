@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Assets;
+namespace Phalcon\Tests\Fixtures\Assets;
 
 class CustomTag extends \Phalcon\Tag
 {

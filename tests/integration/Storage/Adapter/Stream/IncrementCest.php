@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Stream;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;

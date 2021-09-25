@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Security;
+namespace Phalcon\Tests\Fixtures\Security;
 
 use Phalcon\Security\JWT\Builder;
 
 /**
  * Class ExtendedBuilder
  *
- * @package Phalcon\Test\Fixtures\Security
+ * @package Phalcon\Tests\Fixtures\Security
  */
 class ExtendedBuilder extends Builder
 {

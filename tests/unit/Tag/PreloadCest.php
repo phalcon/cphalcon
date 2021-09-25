@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
 use Phalcon\Http\Response;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class PreloadCest

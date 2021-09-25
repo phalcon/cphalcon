@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Ini;
+namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ToArrayCest

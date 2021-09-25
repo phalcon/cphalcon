@@ -11,10 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Version;
+namespace Phalcon\Tests\Unit\Support\Version;
 
-use Phalcon\Test\Fixtures\Traits\VersionTrait;
-use Phalcon\Support\Version;
+use Codeception\Example;
+use Phalcon\Tests\Fixtures\Traits\VersionTrait;
+use Phalcon\Tests\Fixtures\Support\Version\VersionAlphaFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionBetaFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionRcFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionStableFixture;
 use UnitTester;
 
 use function is_string;
@@ -24,54 +28,54 @@ class GetIdCest
     use VersionTrait;
 
     /**
-     * Tests Phalcon\Support\Version :: getId()
+     * Tests get()
+     *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function supportVersionGetId(UnitTester $I)
+    public function supportVersionGetId(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Version - getId()');
+        $I->wantToTest('Version - getId() - ' . $example[0]);
 
-        $version = new Version();
-        $I->assertTrue(is_string($version->getId()));
+        $version = new $example[1]();
+
+        $expected = $example[2];
+        $actual   = $version->getId();
+        $I->assertTrue(is_string($actual));
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests the get() translation to getId()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return string[][]
      */
-    public function supportVersionGetToGetId(UnitTester $I)
+    private function getExamples(): array
     {
-        $I->wantToTest('Version - get() to getId()');
-
-        $object  = new Version();
-        $version = $object->get();
-        $chunks  = preg_split('/(alpha|beta|RC)/', $version);
-
-        $special   = '4';
-        $specialNo = '0';
-
-        // There are pre-release version parts (eg. 4.0.0alpha2)
-        if (count($chunks) > 1) {
-            preg_match('/(alpha|beta|RC)/', $version, $stages);
-            $special = $this->specialToNumber($stages[0]);
-            if (!empty($chunks[1])) { // 4.0.0alpha
-                $specialNo = $chunks[1];
-            }
-        }
-
-        // Now the version itself
-        $verChunks = explode('.', $chunks[0]);
-        $major     = intval($verChunks[0]);
-        $med       = substr('00' . intval($verChunks[1]), -2);
-        $min       = substr('00' . intval($verChunks[2]), -2);
-
-        $I->assertEquals(
-            "{$major}{$med}{$min}{$special}{$specialNo}",
-            $object->getId()
-        );
+        return [
+            [
+                'alpha',
+                VersionAlphaFixture::class,
+                '5000011',
+            ],
+            [
+                'beta',
+                VersionBetaFixture::class,
+                '5000022',
+            ],
+            [
+                'rc',
+                VersionRcFixture::class,
+                '5000033',
+            ],
+            [
+                'stable',
+                VersionStableFixture::class,
+                '5000000',
+            ],
+        ];
     }
 }

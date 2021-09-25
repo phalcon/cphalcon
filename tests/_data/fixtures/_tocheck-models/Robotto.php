@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Tests\Models;
 
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model;

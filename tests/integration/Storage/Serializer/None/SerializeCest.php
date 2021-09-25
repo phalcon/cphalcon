@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\None;
+namespace Phalcon\Tests\Integration\Storage\Serializer\None;
 
 use Codeception\Example;
 use Phalcon\Storage\Serializer\None;

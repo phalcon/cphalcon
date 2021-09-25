@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Tests\Unit\Loader;
 
 use LoaderEvent;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
-use Phalcon\Test\Fixtures\Traits\LoaderTrait;
+use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
 use function dataDir;

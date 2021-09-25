@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Events;
+namespace Phalcon\Tests\Fixtures\Events;
 
 use Phalcon\Events\Manager;
 

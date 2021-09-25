@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
 use Phalcon\Config;
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class MergeCest

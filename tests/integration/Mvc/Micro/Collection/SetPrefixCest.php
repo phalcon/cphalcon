@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
+namespace Phalcon\Tests\Integration\Mvc\Micro\Collection;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Test\Controllers\Micro\Collections\PersonasController;
+use Phalcon\Tests\Controllers\Micro\Collections\PersonasController;
 
 /**
  * Class SetPrefixCest

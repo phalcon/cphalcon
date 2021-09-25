@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 use function getOptionsMysql;
 

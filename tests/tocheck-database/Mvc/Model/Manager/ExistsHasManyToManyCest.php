@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Manager;
+namespace Phalcon\Tests\Integration\Mvc\Model\Manager;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Relations\RelationsParts;
-use Phalcon\Test\Models\Relations\RelationsRobots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Relations\RelationsParts;
+use Phalcon\Tests\Models\Relations\RelationsRobots;
 
 class ExistsHasManyToManyCest
 {

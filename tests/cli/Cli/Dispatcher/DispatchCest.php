@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
@@ -35,7 +35,7 @@ class DispatchCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->dispatch();
         $I->assertEquals(
             'main',
@@ -60,7 +60,7 @@ class DispatchCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setTaskName('echo');
         $dispatcher->dispatch();
         $I->assertEquals(
@@ -85,7 +85,7 @@ class DispatchCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setTaskName('main');
         $dispatcher->setActionName('hello');
         $dispatcher->dispatch();
@@ -111,7 +111,7 @@ class DispatchCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setActionName('hello');
         $dispatcher->setParams(
             [
@@ -145,7 +145,7 @@ class DispatchCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setActionName('hello');
         $dispatcher->setParams(
             [

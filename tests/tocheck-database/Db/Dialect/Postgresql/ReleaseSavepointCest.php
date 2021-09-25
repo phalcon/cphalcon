@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
+namespace Phalcon\Tests\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
 use Phalcon\Db\Dialect\Postgresql;

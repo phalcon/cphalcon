@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Stream;
+namespace Phalcon\Tests\Unit\Http\Message\Stream;
 
 use Phalcon\Http\Message\Stream;
-use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
+use Phalcon\Tests\Fixtures\Http\Message\StreamFixture;
 use UnitTester;
 
 use function dataDir;

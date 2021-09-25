@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+namespace Phalcon\Tests\Integration\Mvc\Router;
 
 use IntegrationTester;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Fixtures\Traits\RouterTrait;
+use Phalcon\Tests\Fixtures\Traits\RouterTrait;
 
 class GetRouteByIdCest
 {

@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo;
 
 use IntegrationTester;
 use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DbDescribePostgresqlCest
 {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Strategy\Annotations;
+namespace Phalcon\Tests\Integration\Mvc\Model\MetaData\Strategy\Annotations;
 
 use IntegrationTester;
 

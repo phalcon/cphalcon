@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Crypt;
+namespace Phalcon\Tests\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Mismatch;

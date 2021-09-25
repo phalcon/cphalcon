@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
+namespace Phalcon\Tests\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Resultset\Complex;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\RobotsParts;
 
 class ComplexCest
 {

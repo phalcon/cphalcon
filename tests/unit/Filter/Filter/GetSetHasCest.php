@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter\Filter;
+namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Closure;
 use Phalcon\Filter;
-use Phalcon\Test\Fixtures\Service\HelloService;
+use Phalcon\Tests\Fixtures\Service\HelloService;
 use UnitTester;
 
 class GetSetHasCest

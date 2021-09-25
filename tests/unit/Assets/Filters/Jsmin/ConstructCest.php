@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Filters\Jsmin;
+namespace Phalcon\Tests\Unit\Assets\Filters\Jsmin;
 
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Filters\Jsmin;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Helper\Base64;
+namespace Phalcon\Tests\Unit\Helper\Base64;
 
 use Phalcon\Helper\Base64;
 use UnitTester;

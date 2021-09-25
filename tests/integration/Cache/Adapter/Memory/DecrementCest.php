@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Memory;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Memory;

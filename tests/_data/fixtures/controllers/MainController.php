@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Controllers;
+namespace Phalcon\Tests\Controllers;
 
 /**
  * Class MainController

@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Response;
+namespace Phalcon\Tests\Unit\Http\Response;
 
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 class GetSetStatusCodeCest extends HttpBase

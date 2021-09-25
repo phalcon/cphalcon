@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\AdapterFactory;
+namespace Phalcon\Tests\Integration\Cache\AdapterFactory;
 
 use Codeception\Example;
 use Phalcon\Cache\Adapter\Apcu;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Forms;
+namespace Phalcon\Tests\Integration\Forms;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
@@ -12,7 +12,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
 /**
- * Phalcon\Test\Integration\Forms\FormCest
+ * Phalcon\Tests\Integration\Forms\FormCest
  * Tests the \Phalcon\Forms\Form component
  *
  * @copyright (c) 2011-2017 Phalcon Team

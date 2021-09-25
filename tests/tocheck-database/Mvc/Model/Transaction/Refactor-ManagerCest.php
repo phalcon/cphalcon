@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
+namespace Phalcon\Tests\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Transaction\Failed;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Test\Models\Select;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Personas;
+use Phalcon\Tests\Models\Select;
 
 class ManagerCest
 {

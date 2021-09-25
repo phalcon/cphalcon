@@ -1,17 +1,17 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Deles;
-use Phalcon\Test\Models\Parts;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\RobottersDeles;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Deles;
+use Phalcon\Tests\Models\Parts;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\RobotsParts;
+use Phalcon\Tests\Models\Robotters;
+use Phalcon\Tests\Models\RobottersDeles;
 
 class ModelsForeignKeysCest
 {
@@ -93,7 +93,7 @@ class ModelsForeignKeysCest
 
         $messages = [
             0 => new Message(
-                'Record is referenced by model Phalcon\Test\Models\RobotsParts',
+                'Record is referenced by model Phalcon\Tests\Models\RobotsParts',
                 'id',
                 'ConstraintViolation'
             ),
@@ -192,7 +192,7 @@ class ModelsForeignKeysCest
 
         $messages = [
             0 => new Message(
-                'Record is referenced by model Phalcon\Test\Models\RobottersDeles',
+                'Record is referenced by model Phalcon\Tests\Models\RobottersDeles',
                 'code',
                 'ConstraintViolation'
             ),

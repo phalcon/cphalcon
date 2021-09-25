@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
+namespace Phalcon\Tests\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function uniqid;
 

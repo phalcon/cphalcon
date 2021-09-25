@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\RequestFactory;
+namespace Phalcon\Tests\Unit\Http\Message\RequestFactory;
 
 use Phalcon\Http\Message\Request;
 use Psr\Http\Message\RequestInterface;

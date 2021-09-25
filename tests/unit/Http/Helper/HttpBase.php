@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Helper;
+namespace Phalcon\Tests\Unit\Http\Helper;
 
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class HttpBase

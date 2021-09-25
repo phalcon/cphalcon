@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Form;
+namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Email;
@@ -21,7 +21,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Test\Models\Select as MvcModel;
+use Phalcon\Tests\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\Validator\StringLength\Min;

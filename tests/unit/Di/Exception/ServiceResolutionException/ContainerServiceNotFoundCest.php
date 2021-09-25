@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di\Exception\ServiceResolutionException;
+namespace Phalcon\Tests\Unit\Di\Exception\ServiceResolutionException;
 
 use UnitTester;
 

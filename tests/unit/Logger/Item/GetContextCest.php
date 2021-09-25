@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Item;
+namespace Phalcon\Tests\Unit\Logger\Item;
 
 use DateTimeImmutable;
 use Phalcon\Logger;

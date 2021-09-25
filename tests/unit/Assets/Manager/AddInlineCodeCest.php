@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Inline;
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 use function ob_end_clean;

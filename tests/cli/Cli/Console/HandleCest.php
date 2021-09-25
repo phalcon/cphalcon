@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
 use Exception;
@@ -20,9 +20,9 @@ use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
-use Phalcon\Test\Fixtures\Tasks\Issue787Task;
-use Phalcon\Test\Modules\Backend\Module as BackendModule;
-use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
+use Phalcon\Tests\Fixtures\Tasks\Issue787Task;
+use Phalcon\Tests\Modules\Backend\Module as BackendModule;
+use Phalcon\Tests\Modules\Frontend\Module as FrontendModule;
 
 class HandleCest
 {
@@ -48,7 +48,7 @@ class HandleCest
         $console = new CliConsole($container);
 
         $dispatcher = $console->getDI()->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
         $console->handle([]);
 
@@ -181,7 +181,7 @@ class HandleCest
         );
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception('Task Run'),
@@ -276,7 +276,7 @@ class HandleCest
             ]
         );
 
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception('Console Before Start BackendModule Event Fired'),
@@ -317,7 +317,7 @@ class HandleCest
             ]
         );
 
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $eventsManager->attach(
             'console:afterStartModule',
@@ -401,7 +401,7 @@ class HandleCest
                 ],
             ]
         );
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception(
@@ -432,7 +432,7 @@ class HandleCest
         $console = new CliConsole(new DiFactoryDefault());
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $console->registerModules(
             [
@@ -454,7 +454,7 @@ class HandleCest
         $console = new CliConsole(new DiFactoryDefault());
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Tests\Modules\Backend\Tasks');
 
         $console->registerModules(
             [
@@ -527,7 +527,7 @@ class HandleCest
     public function testIssue787(CliTester $I)
     {
         $console = new CliConsole(new DiFactoryDefault());
-        $console->dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $console->dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
         $console->handle(
             [

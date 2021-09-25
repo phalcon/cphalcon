@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Relation;
+namespace Phalcon\Tests\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Relation;

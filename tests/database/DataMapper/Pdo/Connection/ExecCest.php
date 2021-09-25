@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Pdo\Connection;
+namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Connection;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 
 class ExecCest
 {

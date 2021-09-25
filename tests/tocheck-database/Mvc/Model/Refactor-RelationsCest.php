@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\AlbumORama\Artists;
-use Phalcon\Test\Models\Language;
-use Phalcon\Test\Models\LanguageI18n;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\AlbumORama\Albums;
+use Phalcon\Tests\Models\AlbumORama\Artists;
+use Phalcon\Tests\Models\Language;
+use Phalcon\Tests\Models\LanguageI18n;
 
 class RelationsCest
 {

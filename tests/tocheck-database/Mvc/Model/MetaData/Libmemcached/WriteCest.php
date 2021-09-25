@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
+namespace Phalcon\Tests\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 use function getOptionsLibmemcached;
 

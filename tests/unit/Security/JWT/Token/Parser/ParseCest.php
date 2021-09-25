@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Token\Parser;
+namespace Phalcon\Tests\Unit\Security\JWT\Token\Parser;
 
 use InvalidArgumentException;
 use Phalcon\Security\JWT\Signer\None;
 use Phalcon\Security\JWT\Token\Item;
 use Phalcon\Security\JWT\Token\Parser;
 use Phalcon\Security\JWT\Token\Signature;
-use Phalcon\Test\Fixtures\Traits\JWTTrait;
+use Phalcon\Tests\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
 class ParseCest

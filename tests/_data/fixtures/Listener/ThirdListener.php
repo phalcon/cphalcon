@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Listener;
+namespace Phalcon\Tests\Fixtures\Listener;
 
 use Phalcon\Events\Event;
-use Phalcon\Test\Fixtures\Events\ComponentX;
-use Phalcon\Test\Unit\Events\ManagerCest;
+use Phalcon\Tests\Fixtures\Events\ComponentX;
+use Phalcon\Tests\Unit\Events\ManagerCest;
 use UnitTester;
 
 class ThirdListener

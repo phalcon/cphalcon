@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\ConfigFactory;
+namespace Phalcon\Tests\Unit\Config\ConfigFactory;
 
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\Exception;
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 use function dataDir;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\StreamFactory;
+namespace Phalcon\Tests\Unit\Http\Message\StreamFactory;
 
 use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\StreamFactory;

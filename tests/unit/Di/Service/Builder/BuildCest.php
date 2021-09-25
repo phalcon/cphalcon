@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di\Service\Builder;
+namespace Phalcon\Tests\Unit\Di\Service\Builder;
 
 use UnitTester;
 

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di\Service;
+namespace Phalcon\Tests\Unit\Di\Service;
 
 use UnitTester;
 

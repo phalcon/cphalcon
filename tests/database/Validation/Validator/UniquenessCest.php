@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Validation\Validator;
+namespace Phalcon\Tests\Database\Validation\Validator;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Objects;
-use Phalcon\Test\Models\ObjectsWithColumnMap;
+use Phalcon\Tests\Fixtures\Migrations\ObjectsMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Objects;
+use Phalcon\Tests\Models\ObjectsWithColumnMap;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
 

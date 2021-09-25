@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Helper\Fs;
+namespace Phalcon\Tests\Unit\Helper\Fs;
 
 use Phalcon\Helper\Fs;
 use UnitTester;

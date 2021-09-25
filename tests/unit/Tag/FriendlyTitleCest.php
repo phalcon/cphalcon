@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
 use Phalcon\Tag;
 use Phalcon\Tag\Exception;
-use Phalcon\Test\Fixtures\Helpers\TagSetup;
+use Phalcon\Tests\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
 class FriendlyTitleCest extends TagSetup

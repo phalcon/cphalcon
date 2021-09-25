@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use DateTime;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Snapshot\Personas;
-use Phalcon\Test\Models\Snapshot\Requests;
-use Phalcon\Test\Models\Snapshot\Robots;
-use Phalcon\Test\Models\Snapshot\Robotters;
-use Phalcon\Test\Models\Snapshot\Subscribers;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Snapshot\Personas;
+use Phalcon\Tests\Models\Snapshot\Requests;
+use Phalcon\Tests\Models\Snapshot\Robots;
+use Phalcon\Tests\Models\Snapshot\Robotters;
+use Phalcon\Tests\Models\Snapshot\Subscribers;
 
 class SnapshotCest
 {

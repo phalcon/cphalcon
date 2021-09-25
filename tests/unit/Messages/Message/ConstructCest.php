@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Messages\Message;
+namespace Phalcon\Tests\Unit\Messages\Message;
 
 use InvalidArgumentException;
 use Phalcon\Messages\Message;

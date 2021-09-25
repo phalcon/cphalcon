@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Objects;
+use Phalcon\Tests\Fixtures\Migrations\ObjectsMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Objects;
 
 /**
  * Class InvokeFinderCest

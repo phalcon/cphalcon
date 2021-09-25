@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Console as CliConsole;
@@ -46,7 +46,7 @@ class SetArgumentCest
         );
 
         $dispatcher = $di->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $console->setArgument([
             'php',
             '--foo=bar',
@@ -89,7 +89,7 @@ class SetArgumentCest
 
 
         $dispatcher = $di->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
         $console->setArgument(
             [
@@ -217,7 +217,7 @@ class SetArgumentCest
         $console = new CliConsole($di);
 
         $dispatcher = $di->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
         $console->setArgument(
             [],
@@ -349,7 +349,7 @@ class SetArgumentCest
         );
 
         $dispatcher = $di->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
 
         $console->setArgument(

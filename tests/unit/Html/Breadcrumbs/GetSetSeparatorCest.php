@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Breadcrumbs;
+namespace Phalcon\Tests\Unit\Html\Breadcrumbs;
 
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;

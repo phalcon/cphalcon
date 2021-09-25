@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Paginator\PaginatorFactory;
+namespace Phalcon\Tests\Integration\Paginator\PaginatorFactory;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\AdapterInterface;

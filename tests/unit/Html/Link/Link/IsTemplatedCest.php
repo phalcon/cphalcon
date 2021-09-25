@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\Link;
+namespace Phalcon\Tests\Unit\Html\Link\Link;
 
 use Phalcon\Html\Link\Link;
 use UnitTester;

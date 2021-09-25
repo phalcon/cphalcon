@@ -11,22 +11,32 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Flash\Direct;
+namespace Phalcon\Tests\Unit\Flash\Direct;
 
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\FlashInterface;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Flash\Direct
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Flash\Direct :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function flashDirectConstruct(UnitTester $I)
     {
         $I->wantToTest('Flash\Direct - __construct()');
 
-        $I->skipTest('Need implementation');
+        $flash = new Direct();
+        $I->assertInstanceOf(FlashInterface::class, $flash);
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\HelperFactory;
+namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
 use Codeception\Example;
 use Phalcon\Support\HelperFactory;

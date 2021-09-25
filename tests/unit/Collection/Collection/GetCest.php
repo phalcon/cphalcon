@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Collection\Collection;
+namespace Phalcon\Tests\Unit\Collection\Collection;
 
 use Codeception\Example;
 use Phalcon\Collection;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\InterpolatorFactory;
+namespace Phalcon\Tests\Unit\Translate\InterpolatorFactory;
 
 use Codeception\Example;
 use Phalcon\Translate\Exception;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Route;
+namespace Phalcon\Tests\Integration\Mvc\Router\Route;
 
 use IntegrationTester;
 

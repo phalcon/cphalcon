@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Form;
+namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Form;
-use Phalcon\Test\Fixtures\Forms\SetActionForm;
+use Phalcon\Tests\Fixtures\Forms\SetActionForm;
 
 class GetSetActionCest
 {

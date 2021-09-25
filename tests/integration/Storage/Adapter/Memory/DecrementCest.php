@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Memory;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;

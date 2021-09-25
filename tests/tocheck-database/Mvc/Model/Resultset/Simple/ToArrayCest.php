@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
+namespace Phalcon\Tests\Integration\Mvc\Model\Resultset\Simple;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesWithColumnMap;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesWithColumnMap;
 
 /**
  * Class ToArrayCest

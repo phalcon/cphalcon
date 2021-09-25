@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Translate\Adapter;
+namespace Phalcon\Tests\Fixtures\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\NativeArray;
 

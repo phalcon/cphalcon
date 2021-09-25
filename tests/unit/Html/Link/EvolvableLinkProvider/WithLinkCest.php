@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\EvolvableLinkProvider;
+namespace Phalcon\Tests\Unit\Html\Link\EvolvableLinkProvider;
 
 use Phalcon\Html\Link\EvolvableLinkProvider;
 use Phalcon\Html\Link\Link;

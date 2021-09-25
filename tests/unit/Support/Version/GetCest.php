@@ -11,9 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Version;
+namespace Phalcon\Tests\Unit\Support\Version;
 
-use Phalcon\Test\Fixtures\Traits\VersionTrait;
+use Codeception\Example;
+use Codeception\Util\Stub;
+use Phalcon\Tests\Fixtures\Support\Version\VersionAlphaFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionBetaFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionRcFixture;
+use Phalcon\Tests\Fixtures\Support\Version\VersionStableFixture;
 use Phalcon\Support\Version;
 use UnitTester;
 
@@ -21,49 +26,60 @@ use function is_string;
 
 class GetCest
 {
-    use VersionTrait;
-
     /**
-     * Tests Phalcon\Support\Version :: get()
+     * Tests get()
+     *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function supportVersionGet(UnitTester $I)
+    public function supportVersionGet(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Version - get()');
+        $I->wantToTest('Version - get() - ' . $example[0]);
 
-        $version = (new Version())->get();
+        $version = Stub::make(
+            Version::class,
+            [
+                'getVersion' => $example[2]
+            ]
+        );
 
-        $I->assertTrue(is_string($version));
+        $expected = $example[1];
+        $actual   = $version->get();
+        $I->assertTrue(is_string($actual));
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests the getId() translation to get()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return string[][]
      */
-    public function supportVersionGetIdToGet(UnitTester $I)
+    private function getExamples(): array
     {
-        $I->wantToTest('Version - getId() to get()');
-
-        $version = new Version();
-        $id      = $version->getId();
-
-        $major     = intval($id[0]);
-        $med       = intval($id[1] . $id[2]);
-        $min       = intval($id[3] . $id[4]);
-        $special   = $this->numberToSpecial($id[5]);
-        $specialNo = ($special) ? $id[6] : '';
-        $expected  = "{$major}.{$med}.{$min}";
-        if (true !== empty($special)) {
-            $expected .= "{$special}";
-            if (true !== empty($specialNo)) {
-                $expected .= "{$specialNo}";
-            }
-        }
-
-        $I->assertEquals(trim($expected), $version->get());
+        return [
+            [
+                'alpha',
+                '5.0.0alpha1',
+                [5, 0, 0, 1, 1]
+            ],
+            [
+                'beta',
+                '5.0.0beta2',
+                [5, 0, 0, 2, 2]
+            ],
+            [
+                'rc',
+                '5.0.0RC3',
+                [5, 0, 0, 3, 3]
+            ],
+            [
+                'stable',
+                '5.0.0',
+                [5, 0, 0, 4, 0]
+            ],
+        ];
     }
 }

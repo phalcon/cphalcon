@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Role;
+namespace Phalcon\Tests\Unit\Acl\Role;
 
 use Phalcon\Acl\Role;
 use UnitTester;

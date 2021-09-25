@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Select;
+namespace Phalcon\Tests\Integration\Forms\Element\Select;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Select;

@@ -9,23 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Deles;
-use Phalcon\Test\Models\Parts;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Products;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\RobottersDeles;
-use Phalcon\Test\Models\Some\Products as SomeProducts;
-use Phalcon\Test\Models\Some\Robotters as SomeRobotters;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Deles;
+use Phalcon\Tests\Models\Parts;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Personers;
+use Phalcon\Tests\Models\Products;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\RobotsParts;
+use Phalcon\Tests\Models\Robotters;
+use Phalcon\Tests\Models\RobottersDeles;
+use Phalcon\Tests\Models\Some\Products as SomeProducts;
+use Phalcon\Tests\Models\Some\Robotters as SomeRobotters;
 
 class QueryOldCest
 {

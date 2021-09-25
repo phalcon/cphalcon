@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
+namespace Phalcon\Tests\Integration\Paginator\Adapter\NativeArray;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Repository;
-use Phalcon\Test\Fixtures\Paginator\Store;
+use Phalcon\Tests\Fixtures\Paginator\Store;
 
 use function array_fill;
 

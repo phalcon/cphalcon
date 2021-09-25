@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits;
+namespace Phalcon\Tests\Fixtures\Traits;
 
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use PHPUnit\Framework\Assert;
 
 use function uniqid;

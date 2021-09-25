@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Router\Route;
+namespace Phalcon\Tests\Cli\Cli\Router\Route;
 
 use CliTester;
 use Phalcon\Cli\Router\Route;

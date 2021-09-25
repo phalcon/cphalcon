@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db;
+namespace Phalcon\Tests\Integration\Db;
 
 use IntegrationTester;
 

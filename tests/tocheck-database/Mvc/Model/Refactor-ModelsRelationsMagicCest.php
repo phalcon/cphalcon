@@ -1,13 +1,13 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\AlbumORama\Artists;
-use Phalcon\Test\Models\AlbumORama\Songs;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\AlbumORama\Albums;
+use Phalcon\Tests\Models\AlbumORama\Artists;
+use Phalcon\Tests\Models\AlbumORama\Songs;
 
 class ModelsRelationsMagicCest
 {

@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Tests\Models;
 
 /**
  * Class InvoicesValidationFails
  *
- * @package Phalcon\Test\Models
+ * @package Phalcon\Tests\Models
  */
 class InvoicesValidationFails extends Invoices
 {

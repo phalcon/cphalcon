@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Plugin;
+namespace Phalcon\Tests\Integration\Plugin;
 
 use IntegrationTester;
 

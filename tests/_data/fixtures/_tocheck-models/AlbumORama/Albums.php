@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\AlbumORama;
+namespace Phalcon\Tests\Models\AlbumORama;
 
 use Phalcon\Mvc\Model;
 

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Signer\Hmac;
+namespace Phalcon\Tests\Unit\Security\JWT\Signer\Hmac;
 
 use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;

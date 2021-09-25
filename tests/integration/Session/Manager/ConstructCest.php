@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Manager;
+namespace Phalcon\Tests\Integration\Session\Manager;
 
 use IntegrationTester;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
 use Phalcon\Session\ManagerInterface;
-use Phalcon\Test\Fixtures\Session\ExtendedManager;
+use Phalcon\Tests\Fixtures\Session\ExtendedManager;
 use SessionHandlerInterface;
 
 class ConstructCest

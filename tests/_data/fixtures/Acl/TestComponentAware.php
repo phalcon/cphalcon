@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Acl;
+namespace Phalcon\Tests\Fixtures\Acl;
 
 use Phalcon\Acl\ComponentAware;
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di\FactoryDefault;
+namespace Phalcon\Tests\Unit\Di\FactoryDefault;
 
 use Codeception\Example;
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;

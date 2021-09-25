@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Tests\Integration\Mvc\Micro;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Fixtures\Micro\MyMiddleware;
-use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
+use Phalcon\Tests\Fixtures\Micro\MyMiddleware;
+use Phalcon\Tests\Fixtures\Micro\MyMiddlewareStop;
 
 class AfterBindingCest
 {

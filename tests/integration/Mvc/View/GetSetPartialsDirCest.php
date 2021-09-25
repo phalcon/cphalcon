@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View;
+namespace Phalcon\Tests\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Mvc\View;
-use Phalcon\Test\Fixtures\Traits\ViewTrait;
+use Phalcon\Tests\Fixtures\Traits\ViewTrait;
 
 class GetSetPartialsDirCest
 {

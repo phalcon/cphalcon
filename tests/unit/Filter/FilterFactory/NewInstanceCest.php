@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter\FilterFactory;
+namespace Phalcon\Tests\Unit\Filter\FilterFactory;
 
 use Codeception\Example;
 use Phalcon\Filter;

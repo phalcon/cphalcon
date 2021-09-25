@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Http\Response;
+namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Di;
 use Phalcon\Http\Cookie;
@@ -9,11 +9,11 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 /**
- * Phalcon\Test\Unit\Http\Response\Http\CookiesTest
+ * Phalcon\Tests\Unit\Http\Response\Http\CookiesTest
  * Tests the Phalcon\Http\Response\Cookies component
  *
  * @copyright (c) 2011-2017 Phalcon Team

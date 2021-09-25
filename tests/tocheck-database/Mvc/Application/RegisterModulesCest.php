@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Application;
+namespace Phalcon\Tests\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Di;
@@ -20,7 +20,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Test\Modules\Backend\Module;
+use Phalcon\Tests\Modules\Backend\Module;
 
 class RegisterModulesCest
 {
@@ -44,7 +44,7 @@ class RegisterModulesCest
                     [
                         'controller' => 'index',
                         'module'     => 'frontend',
-                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                        'namespace'  => 'Phalcon\Tests\Modules\Frontend\Controllers',
                     ]
                 );
 
@@ -58,7 +58,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
-                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'className' => \Phalcon\Tests\Modules\Frontend\Module::class,
                 ],
                 'backend'  => [
                     'path'      => dataDir('fixtures/modules/backend/Module.php'),
@@ -97,7 +97,7 @@ class RegisterModulesCest
                     [
                         'controller' => 'index',
                         'module'     => 'frontend',
-                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                        'namespace'  => 'Phalcon\Tests\Modules\Frontend\Controllers',
                     ]
                 );
 
@@ -106,7 +106,7 @@ class RegisterModulesCest
                     [
                         'controller' => 'login',
                         'module'     => 'backend',
-                        'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers',
+                        'namespace'  => 'Phalcon\Tests\Modules\Backend\Controllers',
                     ]
                 );
 
@@ -181,7 +181,7 @@ class RegisterModulesCest
                     [
                         'controller' => 'index',
                         'module'     => 'frontend',
-                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                        'namespace'  => 'Phalcon\Tests\Modules\Frontend\Controllers',
                     ]
                 );
 
@@ -195,7 +195,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'path'      => dataDir('not-a-real-file.php'),
-                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'className' => \Phalcon\Tests\Modules\Frontend\Module::class,
                 ],
             ]
         );

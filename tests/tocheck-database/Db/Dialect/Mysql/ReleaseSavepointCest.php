@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
+namespace Phalcon\Tests\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 use Phalcon\Db\Dialect\Mysql;

@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Helpers;
+namespace Phalcon\Tests\Fixtures\Helpers;
 
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class TagSetup

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Between;
+namespace Phalcon\Tests\Integration\Validation\Validator\Between;
 
 use IntegrationTester;
 use Phalcon\Messages\Message;

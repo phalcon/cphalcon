@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Cache;
+namespace Phalcon\Tests\Fixtures\Cache;
 
 use stdClass;
 
 /**
- * Phalcon\Test\Fixtures\Cache
+ * Phalcon\Tests\Fixtures\Cache
  *
  */
 class CacheFixtureData

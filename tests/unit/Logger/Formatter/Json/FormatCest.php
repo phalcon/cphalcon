@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Formatter\Json;
+namespace Phalcon\Tests\Unit\Logger\Formatter\Json;
 
 use DateTimeImmutable;
 use Phalcon\Logger;

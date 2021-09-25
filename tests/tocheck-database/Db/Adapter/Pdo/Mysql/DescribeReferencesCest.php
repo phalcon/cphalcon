@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DescribeReferencesCest
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Modules\Backend;
+namespace Phalcon\Tests\Modules\Backend;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Loader;
@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
 use function dataDir;
 
 /**
- * \Phalcon\Test\Modules\Backend\Module
+ * \Phalcon\Tests\Modules\Backend\Module
  * Backend Module
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -50,7 +50,7 @@ class Module implements ModuleDefinitionInterface
          */
         $loader = new Loader();
         $loader->registerNamespaces([
-                'Phalcon\Test\Modules\Backend\Tasks' =>
+                'Phalcon\Tests\Modules\Backend\Tasks' =>
                     dataDir('fixtures/modules/backend/tasks/')
             ]
         );

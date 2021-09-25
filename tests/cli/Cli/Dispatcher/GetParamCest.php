@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetParamCest
 {
@@ -39,7 +39,7 @@ class GetParamCest
         );
 
         // Test $this->dispatcher->getParam()
-        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setTaskName('params');
         $dispatcher->setActionName('param');
 

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
 use PDO;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Snapshot\Robots;
 
 class HavingCest
 {

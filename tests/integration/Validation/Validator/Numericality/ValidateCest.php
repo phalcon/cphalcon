@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Numericality;
+namespace Phalcon\Tests\Integration\Validation\Validator\Numericality;
 
 use Codeception\Example;
 use IntegrationTester;

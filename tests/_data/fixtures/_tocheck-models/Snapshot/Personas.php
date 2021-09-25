@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Snapshot;
+namespace Phalcon\Tests\Models\Snapshot;
 
 use Phalcon\Mvc\Model;
 

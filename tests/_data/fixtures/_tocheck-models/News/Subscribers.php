@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\News;
+namespace Phalcon\Tests\Models\News;
 
 use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;

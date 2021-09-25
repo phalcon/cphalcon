@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Text;
+namespace Phalcon\Tests\Unit\Text;
 
 use Codeception\Example;
 use Phalcon\Text;

@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Events;
+namespace Phalcon\Tests\Unit\Events;
 
 use Codeception\Example;
 use Phalcon\Events\Manager;
-use Phalcon\Test\Fixtures\Events\ComponentX;
-use Phalcon\Test\Fixtures\Events\ComponentY;
-use Phalcon\Test\Fixtures\Listener\FirstListener;
-use Phalcon\Test\Fixtures\Listener\SecondListener;
-use Phalcon\Test\Fixtures\Listener\ThirdListener;
+use Phalcon\Tests\Fixtures\Events\ComponentX;
+use Phalcon\Tests\Fixtures\Events\ComponentY;
+use Phalcon\Tests\Fixtures\Listener\FirstListener;
+use Phalcon\Tests\Fixtures\Listener\SecondListener;
+use Phalcon\Tests\Fixtures\Listener\ThirdListener;
 use UnitTester;
 
 class ManagerCest

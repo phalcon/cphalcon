@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Request;
+namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
-use Phalcon\Test\Fixtures\Http\PhpStream;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Http\PhpStream;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 use function file_put_contents;

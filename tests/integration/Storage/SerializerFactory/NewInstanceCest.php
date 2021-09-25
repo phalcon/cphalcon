@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\SerializerFactory;
+namespace Phalcon\Tests\Integration\Storage\SerializerFactory;
 
 use Codeception\Example;
 use Phalcon\Storage\Exception;

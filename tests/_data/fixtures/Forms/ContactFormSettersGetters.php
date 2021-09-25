@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Forms;
+namespace Phalcon\Tests\Fixtures\Forms;
 
 class ContactFormSettersGetters
 {

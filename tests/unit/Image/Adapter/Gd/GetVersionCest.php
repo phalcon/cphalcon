@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Image\Adapter\Gd;
+namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Test\Fixtures\Traits\GdTrait;
+use Phalcon\Tests\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class GetVersionCest

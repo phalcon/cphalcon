@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Manager;
+namespace Phalcon\Tests\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\AlbumORama\Artists;
-use Phalcon\Test\Models\AlbumORama\Songs;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\AlbumORama\Albums;
+use Phalcon\Tests\Models\AlbumORama\Artists;
+use Phalcon\Tests\Models\AlbumORama\Songs;
 
 class GetRelationRecordsCest
 {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Response\Cookies;
+namespace Phalcon\Tests\Unit\Http\Response\Cookies;
 
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Http\Response\CookiesInterface;

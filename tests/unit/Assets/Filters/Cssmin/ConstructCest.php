@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Filters\Cssmin;
+namespace Phalcon\Tests\Unit\Assets\Filters\Cssmin;
 
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Filters\Cssmin;

@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Column;
+namespace Phalcon\Tests\Database\Db\Column;
 
 use DatabaseTester;
-use Phalcon\Test\Fixtures\Traits\DbTrait;
+use Phalcon\Tests\Fixtures\Traits\DbTrait;
 
 class IsNumericCest
 {

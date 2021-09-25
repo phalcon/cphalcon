@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\Random;
+namespace Phalcon\Tests\Unit\Security\Random;
 
 use Phalcon\Security\Random;
 use UnitTester;

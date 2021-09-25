@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Codeception\Example;
 use Phalcon\Assets\Manager;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Messages\Messages;
+namespace Phalcon\Tests\Unit\Messages\Messages;
 
 use JsonSerializable;
 use Phalcon\Messages\Message;

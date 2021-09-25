@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;

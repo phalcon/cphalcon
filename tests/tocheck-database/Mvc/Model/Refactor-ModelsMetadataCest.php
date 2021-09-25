@@ -1,11 +1,11 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Personas;
+use Phalcon\Tests\Models\Robots;
 
 class ModelsMetadataCest
 {

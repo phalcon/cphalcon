@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Closure;
 use Phalcon\Acl\Adapter\Memory;

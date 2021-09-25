@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Label;
+namespace Phalcon\Tests\Unit\Html\Helper\Label;
 
 use Codeception\Example;
 use Phalcon\Escaper;

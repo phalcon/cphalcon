@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Validator;
+namespace Phalcon\Tests\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Validator;
-use Phalcon\Test\Fixtures\Traits\JWTTrait;
+use Phalcon\Tests\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
 class ValidateNotBeforeCest

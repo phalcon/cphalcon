@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Paginator\PaginatorFactory;
+namespace Phalcon\Tests\Integration\Paginator\PaginatorFactory;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\PaginatorFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 
 class LoadCest
 {

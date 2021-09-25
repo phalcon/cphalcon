@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Domain\Payload\PayloadFactory;
+namespace Phalcon\Tests\Unit\Domain\Payload\PayloadFactory;
 
 use Phalcon\Domain\Payload\PayloadFactory;
 use Phalcon\Domain\Payload\PayloadInterface;

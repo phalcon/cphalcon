@@ -1,12 +1,12 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Helper;
 
 use Exception;
 use Phalcon\Mvc\Controller;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestBeforeExecuteRouteExceptionController
+ * \Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestBeforeExecuteRouteExceptionController
  * Dispatcher Controller for testing different dispatch scenarios
  *
  * @copyright (c) 2011-2017 Phalcon Team

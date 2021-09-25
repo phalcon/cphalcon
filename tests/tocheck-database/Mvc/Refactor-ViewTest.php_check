@@ -1,13 +1,13 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use Helper\ViewTrait;
 use Phalcon\Cache\Backend\File as BackendCache;
 use Phalcon\Cache\Frontend\Output as FrontendCache;
 use Phalcon\Di;
 use Phalcon\Mvc\View;
-use Phalcon\Test\Module\IntegrationTest;
+use Phalcon\Tests\Module\IntegrationTest;
 use PHPIntegration\Framework\Exception as PhpIntegrationException;
 
 class ViewTest extends IntegrationTest

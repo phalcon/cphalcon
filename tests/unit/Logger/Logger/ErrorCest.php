@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Logger;
+namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Test\Fixtures\Traits\LoggerTrait;
+use Phalcon\Tests\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 class ErrorCest

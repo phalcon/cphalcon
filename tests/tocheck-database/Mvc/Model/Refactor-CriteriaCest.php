@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Users;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Personas;
+use Phalcon\Tests\Models\Personers;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\Users;
 
 use function cacheModelsDir;
 

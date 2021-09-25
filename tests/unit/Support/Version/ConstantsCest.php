@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Version;
+namespace Phalcon\Tests\Unit\Support\Version;
 
 use Phalcon\Support\Version;
 use UnitTester;

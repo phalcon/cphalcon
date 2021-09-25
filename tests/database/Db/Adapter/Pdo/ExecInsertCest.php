@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Column;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
-use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
-use Phalcon\Test\Fixtures\Migrations\DialectMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Migrations\AbstractMigration;
+use Phalcon\Tests\Fixtures\Migrations\ComplexDefaultMigration;
+use Phalcon\Tests\Fixtures\Migrations\DialectMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use PHPUnit\Framework\Assert;
 
 use function array_keys;

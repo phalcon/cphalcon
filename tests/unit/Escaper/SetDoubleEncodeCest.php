@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Escaper;
 
 use Phalcon\Escaper;
 use UnitTester;

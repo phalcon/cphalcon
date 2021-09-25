@@ -1,15 +1,15 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
-use Phalcon\Test\Controllers\ViewRequestController;
+use Phalcon\Tests\Controllers\ViewRequestController;
 
 /**
- * \Phalcon\Test\Integration\Mvc\ControllerCest
+ * \Phalcon\Tests\Integration\Mvc\ControllerCest
  * Tests the Phalcon\Mvc\Controller component
  *
  * @copyright (c) 2011-2017 Phalcon Team

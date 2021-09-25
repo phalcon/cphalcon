@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\AnnotationsFactory;
+namespace Phalcon\Tests\Unit\Annotations\AnnotationsFactory;
 
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\AnnotationsFactory;
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest

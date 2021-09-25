@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetHandlerSuffixCest
 {

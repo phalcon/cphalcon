@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
-use Phalcon\Test\Fixtures\Migrations\DialectMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Migrations\ComplexDefaultMigration;
+use Phalcon\Tests\Fixtures\Migrations\DialectMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DescribeColumnsCest
 {

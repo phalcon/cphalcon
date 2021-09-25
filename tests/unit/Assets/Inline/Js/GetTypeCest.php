@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Inline\Js;
+namespace Phalcon\Tests\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
 use UnitTester;

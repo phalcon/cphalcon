@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Cacheable;
+namespace Phalcon\Tests\Models\Cacheable;
 
 use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Mvc\ModelInterface;

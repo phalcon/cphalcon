@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use Codeception\Example;
 use DatabaseTester;
@@ -19,13 +19,13 @@ use PDO;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesExtended;
-use Phalcon\Test\Models\InvoicesMap;
-use Phalcon\Test\Models\ModelWithStringPrimary;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\StringPrimaryMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesExtended;
+use Phalcon\Tests\Models\InvoicesMap;
+use Phalcon\Tests\Models\ModelWithStringPrimary;
 
 use function uniqid;
 

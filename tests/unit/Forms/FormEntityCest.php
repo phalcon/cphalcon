@@ -1,11 +1,11 @@
 <?php
 
-namespace Phalcon\Test\Unit\Forms;
+namespace Phalcon\Tests\Unit\Forms;
 
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Products;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Products;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength\Max;
 use UnitTester;

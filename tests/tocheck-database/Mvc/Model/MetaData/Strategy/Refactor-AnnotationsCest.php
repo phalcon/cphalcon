@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Strategy;
+namespace Phalcon\Tests\Integration\Mvc\Model\MetaData\Strategy;
 
 use IntegrationTester;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Annotations\Robot;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Annotations\Robot;
 
 class AnnotationsCest
 {

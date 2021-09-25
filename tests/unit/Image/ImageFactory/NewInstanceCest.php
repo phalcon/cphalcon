@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Image\ImageFactory;
+namespace Phalcon\Tests\Unit\Image\ImageFactory;
 
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\ImageFactory;

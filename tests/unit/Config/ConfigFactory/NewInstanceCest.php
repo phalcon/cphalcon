@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\ConfigFactory;
+namespace Phalcon\Tests\Unit\Config\ConfigFactory;
 
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;

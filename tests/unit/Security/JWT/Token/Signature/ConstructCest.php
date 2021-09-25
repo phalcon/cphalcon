@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Token\Signature;
+namespace Phalcon\Tests\Unit\Security\JWT\Token\Signature;
 
 use Phalcon\Security\JWT\Token\Signature;
 use UnitTester;

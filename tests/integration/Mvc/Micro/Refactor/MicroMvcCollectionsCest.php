@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Micro\Refactor;
+namespace Phalcon\Tests\Integration\Mvc\Micro\Refactor;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Test\Controllers\Micro\Collections\PersonasController;
+use Phalcon\Tests\Controllers\Micro\Collections\PersonasController;
 
 class MicroMvcCollectionsCest
 {

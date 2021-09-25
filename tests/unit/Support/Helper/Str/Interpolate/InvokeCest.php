@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Helper\Str\Interpolate;
+namespace Phalcon\Tests\Unit\Support\Helper\Str\Interpolate;
 
 use Codeception\Example;
 use Phalcon\Support\Helper\Str\Interpolate;

@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models;
+use Phalcon\Tests\Models\Invoices;
 
 class UnderscoreGetCest
 {

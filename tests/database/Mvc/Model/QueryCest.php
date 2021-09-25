@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RecordsTrait;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\CustomersKeepSnapshots;
-use Phalcon\Test\Models\InvoicesKeepSnapshots;
+use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RecordsTrait;
+use Phalcon\Tests\Models\Customers;
+use Phalcon\Tests\Models\CustomersKeepSnapshots;
+use Phalcon\Tests\Models\InvoicesKeepSnapshots;
 
 use function uniqid;
 

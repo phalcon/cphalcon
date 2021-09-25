@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Application;
+namespace Phalcon\Tests\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
@@ -52,7 +52,7 @@ class HandleCest
             function () {
                 $dispatcher = new Dispatcher();
                 $dispatcher->setDefaultNamespace(
-                    'Phalcon\Test\Controllers'
+                    'Phalcon\Tests\Controllers'
                 );
 
                 return $dispatcher;
@@ -104,7 +104,7 @@ class HandleCest
             function () use ($eventsManager) {
                 $dispatcher = new Dispatcher();
                 $dispatcher->setDefaultNamespace(
-                    'Phalcon\Test\Controllers'
+                    'Phalcon\Tests\Controllers'
                 );
 
                 $eventsManager->attach(
@@ -173,7 +173,7 @@ class HandleCest
             function () use ($eventsManager) {
                 $dispatcher = new Dispatcher();
                 $dispatcher->setDefaultNamespace(
-                    'Phalcon\Test\Controllers'
+                    'Phalcon\Tests\Controllers'
                 );
 
                 $eventsManager->attach(

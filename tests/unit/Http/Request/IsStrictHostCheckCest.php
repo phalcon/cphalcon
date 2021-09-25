@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Request;
+namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 class IsStrictHostCheckCest extends HttpBase

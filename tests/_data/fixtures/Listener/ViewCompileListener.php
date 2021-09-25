@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Listener;
+namespace Phalcon\Tests\Fixtures\Listener;
 
 use IntegrationTester;
 use Phalcon\Events\Event;
-use Phalcon\Test\Integration\Mvc\View\Engine\Volt\RenderCest;
+use Phalcon\Tests\Integration\Mvc\View\Engine\Volt\RenderCest;
 use UnitTester;
 
 /**

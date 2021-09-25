@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Tests\Models;
 
 use Phalcon\Mvc\Model;
 

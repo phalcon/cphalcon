@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
+namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Min;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\StringLength\Min;
 
 class ConstructCest

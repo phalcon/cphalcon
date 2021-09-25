@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di\Injectable;
+namespace Phalcon\Tests\Unit\Di\Injectable;
 
 use InjectableComponent;
 use Phalcon\Di;

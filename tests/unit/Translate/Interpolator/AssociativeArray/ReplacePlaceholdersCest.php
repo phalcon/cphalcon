@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Interpolator\AssociativeArray;
+namespace Phalcon\Tests\Unit\Translate\Interpolator\AssociativeArray;
 
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use UnitTester;

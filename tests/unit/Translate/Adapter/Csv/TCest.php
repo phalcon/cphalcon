@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
+use Phalcon\Tests\Fixtures\Helpers\TranslateCsvHelper;
 
 class TCest extends TranslateCsvHelper
 {

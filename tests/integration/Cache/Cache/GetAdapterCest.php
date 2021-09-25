@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Cache;
+namespace Phalcon\Tests\Integration\Cache\Cache;
 
 use Phalcon\Cache;
 use Phalcon\Cache\Adapter\AdapterInterface;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Manager;
+namespace Phalcon\Tests\Integration\Session\Manager;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;

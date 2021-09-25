@@ -15,7 +15,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Test\Unit\Di;
+namespace Phalcon\Tests\Unit\Di;
 
 use InjectableComponent;
 use Phalcon\Config;

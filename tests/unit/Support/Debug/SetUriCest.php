@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug;
+namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug;
 use UnitTester;

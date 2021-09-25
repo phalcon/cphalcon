@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Mvc\View;
+namespace Phalcon\Tests\Fixtures\Mvc\View;
 
 use Phalcon\Events\Event;
 use Phalcon\Mvc\View;

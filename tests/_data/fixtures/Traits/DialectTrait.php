@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits;
+namespace Phalcon\Tests\Fixtures\Traits;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;

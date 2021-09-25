@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
+namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;

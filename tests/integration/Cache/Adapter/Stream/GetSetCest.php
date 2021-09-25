@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Tests\Fixtures\Cache\CacheFixtureData;
 
 use function file_put_contents;
 use function outputDir;

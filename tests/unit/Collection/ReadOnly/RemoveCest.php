@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Collection\ReadOnly;
 
 use Phalcon\Collection\Exception;
 use Phalcon\Collection\ReadOnly;

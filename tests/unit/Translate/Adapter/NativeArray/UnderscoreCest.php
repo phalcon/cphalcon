@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
+namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateNativeArrayHelper;
+use Phalcon\Tests\Fixtures\Helpers\TranslateNativeArrayHelper;
 
 class UnderscoreCest extends TranslateNativeArrayHelper
 {

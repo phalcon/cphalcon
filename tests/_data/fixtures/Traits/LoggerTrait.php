@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\Traits;
+namespace Phalcon\Tests\Fixtures\Traits;
 
 use DateTime;
 use Phalcon\Logger;

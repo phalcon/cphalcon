@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Codeception\Example;

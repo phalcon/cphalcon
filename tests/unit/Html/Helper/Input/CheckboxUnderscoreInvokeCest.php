@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Input;
+namespace Phalcon\Tests\Unit\Html\Helper\Input;
 
 use Codeception\Example;
 use Phalcon\Escaper;

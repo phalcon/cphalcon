@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Paginator\Adapter\QueryBuilder;
+namespace Phalcon\Tests\Database\Paginator\Adapter\QueryBuilder;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Repository;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RecordsTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RecordsTrait;
+use Phalcon\Tests\Models\Invoices;
 
 use function is_int;
 

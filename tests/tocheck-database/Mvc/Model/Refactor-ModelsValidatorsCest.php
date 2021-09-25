@@ -1,10 +1,10 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Abonnes;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Abonnes;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\ExclusionIn;
 use Phalcon\Validation\Validator\InclusionIn;

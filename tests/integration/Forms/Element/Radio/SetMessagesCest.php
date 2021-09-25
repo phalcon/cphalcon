@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Radio;
+namespace Phalcon\Tests\Integration\Forms\Element\Radio;
 
 use IntegrationTester;
 

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View\Simple;
+namespace Phalcon\Tests\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\ViewTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\ViewTrait;
 
 use function dataDir;
 use function ob_end_clean;

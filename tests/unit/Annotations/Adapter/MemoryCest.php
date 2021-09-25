@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Annotations\Adapter;
+namespace Phalcon\Tests\Unit\Annotations\Adapter;
 
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Collection;

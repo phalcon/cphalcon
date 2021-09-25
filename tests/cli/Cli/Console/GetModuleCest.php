@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Application\Exception;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Test\Modules\Backend\Module as BackendModule;
-use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
+use Phalcon\Tests\Modules\Backend\Module as BackendModule;
+use Phalcon\Tests\Modules\Frontend\Module as FrontendModule;
 
 class GetModuleCest
 {

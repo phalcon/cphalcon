@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Annotations;
+namespace Phalcon\Tests\Integration\Mvc\Router\Annotations;
 
 use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;

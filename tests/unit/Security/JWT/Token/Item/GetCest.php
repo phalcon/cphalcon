@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security\JWT\Token\Item;
+namespace Phalcon\Tests\Unit\Security\JWT\Token\Item;
 
 use Phalcon\Security\JWT\Token\Item;
 use UnitTester;

@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
 use Phalcon\Db\Enum;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use function is_object;
 
 class QueryCest

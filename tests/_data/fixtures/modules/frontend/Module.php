@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Modules\Frontend;
+namespace Phalcon\Tests\Modules\Frontend;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -9,7 +9,7 @@ use Phalcon\Mvc\View;
 use function dataDir;
 
 /**
- * \Phalcon\Test\Modules\Frontend\Module
+ * \Phalcon\Tests\Modules\Frontend\Module
  * Frontend Module
  *
  * @copyright (c) 2011-2017 Phalcon Team

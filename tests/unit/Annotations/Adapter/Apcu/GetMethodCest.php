@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
+namespace Phalcon\Tests\Unit\Annotations\Adapter\Apcu;
 
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\Collection;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Helper\Json;
+namespace Phalcon\Tests\Unit\Helper\Json;
 
 use InvalidArgumentException;
 use Phalcon\Helper\Json;

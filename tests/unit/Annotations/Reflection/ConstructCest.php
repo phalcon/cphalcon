@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\Reflection;
+namespace Phalcon\Tests\Unit\Annotations\Reflection;
 
 use Phalcon\Annotations\Reflection;
 use UnitTester;

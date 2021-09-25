@@ -1,13 +1,13 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 use function cacheDir;
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Url;
+namespace Phalcon\Tests\Integration\Url;
 
 use IntegrationTester;
 use Phalcon\Url;

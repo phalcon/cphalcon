@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures;
+namespace Phalcon\Tests\Fixtures;
 
 class Resultset
 {

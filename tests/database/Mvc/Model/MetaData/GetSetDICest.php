@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\MetaData;
+namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Exception as ExpectedException;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
 {

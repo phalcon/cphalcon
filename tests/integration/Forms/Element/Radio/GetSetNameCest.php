@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Radio;
+namespace Phalcon\Tests\Integration\Forms\Element\Radio;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Radio;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetNameCest
 {

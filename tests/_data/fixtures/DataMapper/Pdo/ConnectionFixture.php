@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\DataMapper\Pdo;
+namespace Phalcon\Tests\Fixtures\DataMapper\Pdo;
 
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;

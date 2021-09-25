@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Response;
+namespace Phalcon\Tests\Unit\Http\Response;
 
 use Codeception\Example;
 use Phalcon\Events\Event;
 use Phalcon\Http\Response\Headers;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 class HeadersCest extends HttpBase

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Security;
+namespace Phalcon\Tests\Unit\Security;
 
 use Codeception\Example;
 use Phalcon\Security;

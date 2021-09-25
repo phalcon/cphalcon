@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\UriFactory;
+namespace Phalcon\Tests\Unit\Http\Message\UriFactory;
 
 use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriFactoryInterface;

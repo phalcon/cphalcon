@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Collection\Collection;
+namespace Phalcon\Tests\Unit\Collection\Collection;
 
 use Phalcon\Collection;
-use Phalcon\Test\Fixtures\Helper\JsonFixture;
+use Phalcon\Tests\Fixtures\Helper\JsonFixture;
 use UnitTester;
 
 class JsonSerializeCest

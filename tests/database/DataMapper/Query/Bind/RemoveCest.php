@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Bind;
+namespace Phalcon\Tests\Database\DataMapper\Query\Bind;
 
 use DatabaseTester;
 use PDO;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Inline\Css;
+namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
 use UnitTester;

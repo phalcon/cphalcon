@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\ModelWithStringPrimary;
+use Phalcon\Tests\Fixtures\Migrations\StringPrimaryMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\AlbumORama\Albums;
+use Phalcon\Tests\Models\ModelWithStringPrimary;
 
 class ModelCest
 {
@@ -904,7 +904,7 @@ class ModelCest
 //            function () {
 //                $robots = new Robots();
 //                $robots->name = '';
-//                $robots->datetime = new \Phalcon\Test\Db\DateTime();
+//                $robots->datetime = new \Phalcon\Tests\Db\DateTime();
 //                $robots->text = 'text';
 //                $result = $robots->save();
 //                expect($result)->true();

@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Refactor;
+namespace Phalcon\Tests\Integration\Mvc\Router\Refactor;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 use function is_object;
 
 /**
  * Class AnnotationsCest
  *
- * @package Phalcon\Test\Integration\Mvc\Router\Refactor
+ * @package Phalcon\Tests\Integration\Mvc\Router\Refactor
  * @todo: refactor
  */
 class AnnotationsCest
@@ -45,9 +45,9 @@ class AnnotationsCest
 
         $router->setDI($container);
 
-        $router->addResource("Phalcon\Test\Controllers\Robots", '/');
-        $router->addResource("Phalcon\Test\Controllers\Products", '/products');
-        $router->addResource("Phalcon\Test\Controllers\About", '/about');
+        $router->addResource("Phalcon\Tests\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Tests\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Tests\Controllers\About", '/about');
 
         $router->handle('/products');
 
@@ -61,9 +61,9 @@ class AnnotationsCest
 
         $router->setDI($container);
 
-        $router->addResource("Phalcon\Test\Controllers\Robots", '/');
-        $router->addResource("Phalcon\Test\Controllers\Products", '/products');
-        $router->addResource("Phalcon\Test\Controllers\About", '/about');
+        $router->addResource("Phalcon\Tests\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Tests\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Tests\Controllers\About", '/about');
 
         $router->handle('/about');
 
@@ -125,10 +125,10 @@ class AnnotationsCest
 
         $router->setDI($container);
 
-        $router->addResource("Phalcon\Test\Controllers\Robots");
-        $router->addResource("Phalcon\Test\Controllers\Products");
-        $router->addResource("Phalcon\Test\Controllers\About");
-        $router->addResource("Phalcon\Test\Controllers\Main");
+        $router->addResource("Phalcon\Tests\Controllers\Robots");
+        $router->addResource("Phalcon\Tests\Controllers\Products");
+        $router->addResource("Phalcon\Tests\Controllers\About");
+        $router->addResource("Phalcon\Tests\Controllers\Main");
 
         $router->handle('/');
 

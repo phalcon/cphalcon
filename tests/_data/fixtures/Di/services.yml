@@ -1,5 +1,5 @@
 unit-test:
-  className: \Phalcon\Test\Module\UnitTest
+  className: \Phalcon\Tests\Module\UnitTest
 
 config:
   className: \Phalcon\Config

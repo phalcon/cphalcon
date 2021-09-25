@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter;
+namespace Phalcon\Tests\Integration\Cache\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;

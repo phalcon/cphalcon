@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Translate\Interpolator\IndexedArray;
+namespace Phalcon\Tests\Unit\Translate\Interpolator\IndexedArray;
 
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\Php;
+namespace Phalcon\Tests\Integration\Storage\Serializer\Php;
 
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;

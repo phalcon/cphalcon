@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 use function env;
 

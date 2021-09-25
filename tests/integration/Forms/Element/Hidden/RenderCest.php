@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Hidden;
+namespace Phalcon\Tests\Integration\Forms\Element\Hidden;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Hidden;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class RenderCest
 {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Manager;
+namespace Phalcon\Tests\Integration\Forms\Manager;
 
 use IntegrationTester;
 use Phalcon\Forms\Exception;

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Annotations;
+namespace Phalcon\Tests\Unit\Annotations;
 
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query\Builder;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 class OrderByCest
 {

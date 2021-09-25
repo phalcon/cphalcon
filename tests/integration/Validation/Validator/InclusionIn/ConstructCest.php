@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\InclusionIn;
+namespace Phalcon\Tests\Integration\Validation\Validator\InclusionIn;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\InclusionIn;
 
 /**

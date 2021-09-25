@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Password;
+namespace Phalcon\Tests\Integration\Forms\Element\Password;
 
 use IntegrationTester;
 

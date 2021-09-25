@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Server\Middleware;
+namespace Phalcon\Tests\Unit\Http\Server\Middleware;
 
-use Phalcon\Test\Fixtures\Http\Server\MiddlewareFixture;
+use Phalcon\Tests\Fixtures\Http\Server\MiddlewareFixture;
 use Psr\Http\Server\MiddlewareInterface;
 use UnitTester;
 

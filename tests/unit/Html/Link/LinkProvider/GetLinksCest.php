@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\LinkProvider;
+namespace Phalcon\Tests\Unit\Html\Link\LinkProvider;
 
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\LinkProvider;
