@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Version;
 
 use Codeception\Example;
-use Phalcon\Tests\Fixtures\Traits\VersionTrait;
 use Phalcon\Tests\Fixtures\Support\Version\VersionAlphaFixture;
 use Phalcon\Tests\Fixtures\Support\Version\VersionBetaFixture;
 use Phalcon\Tests\Fixtures\Support\Version\VersionRcFixture;
 use Phalcon\Tests\Fixtures\Support\Version\VersionStableFixture;
+use Phalcon\Tests\Fixtures\Traits\VersionTrait;
 use UnitTester;
 
 use function is_string;
@@ -35,8 +35,8 @@ class GetIdCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
     public function supportVersionGetId(UnitTester $I, Example $example)
     {

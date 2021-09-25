@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Support\Version;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetVersionCest

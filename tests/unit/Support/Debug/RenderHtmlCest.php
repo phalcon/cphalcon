@@ -39,7 +39,7 @@ class RenderHtmlCest
             1024
         );
 
-        $actual   = $debug->renderHtml($ex);
+        $actual = $debug->renderHtml($ex);
 
         $expected = '<title>Phalcon\Exception: Some Message</title>';
         $I->assertStringContainsString($expected, $actual);

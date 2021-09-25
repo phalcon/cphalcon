@@ -15,10 +15,6 @@ namespace Phalcon\Tests\Unit\Support\Version;
 
 use Codeception\Example;
 use Codeception\Util\Stub;
-use Phalcon\Tests\Fixtures\Support\Version\VersionAlphaFixture;
-use Phalcon\Tests\Fixtures\Support\Version\VersionBetaFixture;
-use Phalcon\Tests\Fixtures\Support\Version\VersionRcFixture;
-use Phalcon\Tests\Fixtures\Support\Version\VersionStableFixture;
 use Phalcon\Support\Version;
 use UnitTester;
 
@@ -44,7 +40,7 @@ class GetCest
         $version = Stub::make(
             Version::class,
             [
-                'getVersion' => $example[2]
+                'getVersion' => $example[2],
             ]
         );
 
@@ -63,22 +59,22 @@ class GetCest
             [
                 'alpha',
                 '5.0.0alpha1',
-                [5, 0, 0, 1, 1]
+                [5, 0, 0, 1, 1],
             ],
             [
                 'beta',
                 '5.0.0beta2',
-                [5, 0, 0, 2, 2]
+                [5, 0, 0, 2, 2],
             ],
             [
                 'rc',
                 '5.0.0RC3',
-                [5, 0, 0, 3, 3]
+                [5, 0, 0, 3, 3],
             ],
             [
                 'stable',
                 '5.0.0',
-                [5, 0, 0, 4, 0]
+                [5, 0, 0, 4, 0],
             ],
         ];
     }

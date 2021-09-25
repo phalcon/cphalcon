@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
-use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Support\HelperFactory;
 use UnitTester;
 
 class CallCest
@@ -36,8 +36,8 @@ class CallCest
         $format   = '%date% is the date %level% is the level';
         $expected = '2020-09-09 is the date CRITICAL is the level';
         $context  = [
-            'date' => '2020-09-09',
-            'level' => 'CRITICAL'
+            'date'  => '2020-09-09',
+            'level' => 'CRITICAL',
         ];
         $actual   = $factory->interpolate($format, $context);
         $I->assertEquals($expected, $actual);

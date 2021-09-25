@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
 use Codeception\Example;
-use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Support\HelperFactory;
 use UnitTester;
 
 class NewInstanceCest
@@ -27,8 +27,8 @@ class NewInstanceCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function supportHelperFactoryNewInstance(UnitTester $I, Example $example)
     {

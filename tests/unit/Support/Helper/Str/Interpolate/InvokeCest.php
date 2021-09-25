@@ -27,8 +27,8 @@ class InvokeCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-04-28
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2021-04-28
      */
     public function supportHelperStrInterpolateInvoke(UnitTester $I, Example $example)
     {
@@ -53,16 +53,16 @@ class InvokeCest
                 '%date% is the date',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date/level',
                 '2020-09-09 is the date CRITICAL is the level',
                 '%date% is the date %level% is the level',
                 [
-                    'date' => '2020-09-09',
-                    'level' => 'CRITICAL'
-                ]
+                    'date'  => '2020-09-09',
+                    'level' => 'CRITICAL',
+                ],
             ],
             [
                 'empty',
@@ -70,7 +70,7 @@ class InvokeCest
                 'no format',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date',
@@ -78,7 +78,7 @@ class InvokeCest
                 '%date% is the date',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date and context',
@@ -87,7 +87,7 @@ class InvokeCest
                 [
                     'date' => '2020-09-09',
                     'stub' => 'AAA',
-                ]
+                ],
             ],
         ];
     }
