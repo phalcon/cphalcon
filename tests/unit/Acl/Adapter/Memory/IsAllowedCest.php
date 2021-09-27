@@ -251,8 +251,8 @@ class IsAllowedCest
 
         $I->expectThrowable(
             new AclException(
-                'You did not provide all necessary parameters for the ' .
-                'defined function when checking if "Members" can "update" for "Post".'
+                "You did not provide all necessary parameters for the " .
+                "defined function when checking if 'Members' can 'update' for 'Post'."
             ),
             function () use ($I) {
                 $acl = new Memory();
@@ -346,7 +346,7 @@ class IsAllowedCest
         $acl = Stub::make(
             Memory::class,
             [
-                'fireEvent' => false,
+                'fireManagerEvent' => false,
             ]
         );
 

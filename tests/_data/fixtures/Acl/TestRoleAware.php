@@ -13,24 +13,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Acl;
 
-use Phalcon\Acl\RoleAware;
+use Phalcon\Acl\RoleAwareInterface;
 
 /**
  * Class TestRoleAware
+ *
+ * @property int    $id
+ * @property string $roleName
  */
-class TestRoleAware implements RoleAware
+class TestRoleAware implements RoleAwareInterface
 {
     /**
      * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var string
      */
-    protected $roleName;
+    protected string $roleName;
 
-    public function __construct($id, string $roleName)
+    /**
+     * TestRoleAware constructor.
+     *
+     * @param int    $id
+     * @param string $roleName
+     */
+    public function __construct(int $id, string $roleName)
     {
         $this->id       = $id;
         $this->roleName = $roleName;
@@ -39,7 +48,7 @@ class TestRoleAware implements RoleAware
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

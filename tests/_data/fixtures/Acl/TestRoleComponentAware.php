@@ -13,41 +13,58 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Acl;
 
-use Phalcon\Acl\ComponentAware;
-use Phalcon\Acl\RoleAware;
+use Phalcon\Acl\ComponentAwareInterface;
+use Phalcon\Acl\RoleAwareInterface;
 
 /**
  * Class TestRoleComponentAware
+ *
+ * @property int    $user
+ * @property string $componentName
+ * @property string $roleName
  */
-class TestRoleComponentAware implements RoleAware, ComponentAware
+class TestRoleComponentAware implements RoleAwareInterface, ComponentAwareInterface
 {
     /**
      * @var int
      */
-    protected $user;
+    protected int $user;
 
     /**
      * @var string
      */
-    protected $componentName;
+    protected string $componentName;
 
     /**
      * @var string
      */
-    protected $roleName;
+    protected string $roleName;
 
-    public function __construct($user, string $componentName, string $roleName)
+    /**
+     * TestRoleComponentAware constructor.
+     *
+     * @param int    $user
+     * @param string $componentName
+     * @param string $roleName
+     */
+    public function __construct(int $user, string $componentName, string $roleName)
     {
         $this->user          = $user;
         $this->componentName = $componentName;
         $this->roleName      = $roleName;
     }
 
+    /**
+     * @return string
+     */
     public function getComponentName(): string
     {
         return $this->componentName;
     }
 
+    /**
+     * @return string
+     */
     public function getRoleName(): string
     {
         return $this->roleName;
@@ -56,7 +73,7 @@ class TestRoleComponentAware implements RoleAware, ComponentAware
     /**
      * @return int
      */
-    public function getUser()
+    public function getUser(): int
     {
         return $this->user;
     }

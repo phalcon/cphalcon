@@ -137,7 +137,7 @@ class AddInheritCest
 
         $I->expectThrowable(
             new Exception(
-                'Role "unknown" (to inherit) does not exist in the role list'
+                "Role 'unknown' (to inherit) does not exist in the role list"
             ),
             function () {
                 $acl = new Memory();
@@ -165,7 +165,7 @@ class AddInheritCest
 
         $I->expectThrowable(
             new Exception(
-                'Role "administrator" (to inherit) produces an infinite loop'
+                "Role 'administrator' (to inherit) produces an infinite loop"
             ),
             function () {
                 $acl = new Memory();
