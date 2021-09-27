@@ -16,10 +16,17 @@ namespace Phalcon\Tests\Unit\Acl\Role;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetDescriptionCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Role
+ */
 class GetDescriptionCest
 {
     /**
      * Tests Phalcon\Acl\Role :: getDescription()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -30,14 +37,13 @@ class GetDescriptionCest
 
         $role = new Role('Administrators', 'The admin unit');
 
-        $I->assertEquals(
-            'The admin unit',
-            $role->getDescription()
-        );
+        $I->assertEquals('The admin unit', $role->getDescription());
     }
 
     /**
      * Tests Phalcon\Acl\Role :: getDescription() - empty
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -48,8 +54,6 @@ class GetDescriptionCest
 
         $role = new Role('Administrators');
 
-        $I->assertEmpty(
-            $role->getDescription()
-        );
+        $I->assertEmpty($role->getDescription());
     }
 }

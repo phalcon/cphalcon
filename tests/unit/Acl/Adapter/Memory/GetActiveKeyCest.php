@@ -18,10 +18,17 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetActiveKeyCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetActiveKeyCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveKey()
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13
@@ -31,11 +38,7 @@ class GetActiveKeyCest
         $I->wantToTest('Acl\Adapter\Memory - getActiveKey()');
 
         $acl = new Memory();
-
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             ['index', 'update', 'create']
@@ -47,9 +50,6 @@ class GetActiveKeyCest
             $acl->isAllowed('Guests', 'Post', 'create')
         );
 
-        $I->assertEquals(
-            'Guests!Post!create',
-            $acl->getActiveKey()
-        );
+        $I->assertEquals('Guests!Post!create', $acl->getActiveKey());
     }
 }

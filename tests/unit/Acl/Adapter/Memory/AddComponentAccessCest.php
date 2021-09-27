@@ -18,10 +18,17 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
 use UnitTester;
 
+/**
+ * Class AddComponentAccessCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class AddComponentAccessCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,8 +40,7 @@ class AddComponentAccessCest
         $acl = new Memory();
 
         $component = new Component('Customer', 'Customer component');
-
-        $added = $acl->addComponent(
+        $added     = $acl->addComponent(
             'Customer',
             ['index']
         );
@@ -50,6 +56,8 @@ class AddComponentAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - unknown
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -58,14 +66,10 @@ class AddComponentAccessCest
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - unknown');
 
         $I->expectThrowable(
-            new Exception("Component 'Post' does not exist in ACL"),
+            new Exception("Component 'Post' does not exist in the ACL"),
             function () {
                 $acl = new Memory();
-
-                $acl->addComponentAccess(
-                    'Post',
-                    ['update']
-                );
+                $acl->addComponentAccess('Post', ['update']);
             }
         );
     }
@@ -73,6 +77,8 @@ class AddComponentAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - wrong access
      * list
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -82,16 +88,12 @@ class AddComponentAccessCest
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - wrong access list');
 
         $I->expectThrowable(
-            new Exception('Invalid value for accessList'),
+            new Exception('Invalid value for the accessList'),
             function () {
                 $acl  = new Memory();
                 $post = new Component('Post');
 
-                $acl->addComponent(
-                    $post,
-                    ['update']
-                );
-
+                $acl->addComponent($post, ['update']);
                 $acl->addComponentAccess('Post', 123);
             }
         );

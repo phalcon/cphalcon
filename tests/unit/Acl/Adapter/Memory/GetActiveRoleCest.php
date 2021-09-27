@@ -17,10 +17,17 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Enum;
 use UnitTester;
 
+/**
+ * Class GetActiveRoleCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetActiveRoleCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -39,6 +46,8 @@ class GetActiveRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -47,18 +56,9 @@ class GetActiveRoleCest
         $I->wantToTest('Acl\Adapter\Memory - getActiveRole()');
 
         $acl = new Memory();
-
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests');
-
-        $acl->addComponent(
-            'Login',
-            ['help', 'index']
-        );
-
+        $acl->addComponent('Login', ['help', 'index']);
         $acl->allow('Guests', 'Login', '*');
 
 
@@ -66,9 +66,6 @@ class GetActiveRoleCest
             $acl->isAllowed('Guests', 'Login', 'index')
         );
 
-        $I->assertEquals(
-            'Guests',
-            $acl->getActiveRole()
-        );
+        $I->assertEquals('Guests', $acl->getActiveRole());
     }
 }

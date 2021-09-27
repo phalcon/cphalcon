@@ -19,10 +19,17 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetActiveFunctionCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetActiveFunctionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveFunction()
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13
@@ -36,18 +43,13 @@ class GetActiveFunctionCest
         };
 
         $acl = new Memory();
-
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             ['index', 'update', 'create']
         );
 
         $acl->allow('Guests', 'Post', 'create', $function);
-
         $I->assertTrue(
             $acl->isAllowed(
                 'Guests',
@@ -61,21 +63,8 @@ class GetActiveFunctionCest
 
 
         $returnedFunction = $acl->getActiveFunction();
-
-        $I->assertInstanceOf(
-            Closure::class,
-            $returnedFunction
-        );
-
-
-        $I->assertEquals(
-            1,
-            $function(1)
-        );
-
-        $I->assertEquals(
-            1,
-            $acl->getActiveFunctionCustomArgumentsCount()
-        );
+        $I->assertInstanceOf(Closure::class, $returnedFunction);
+        $I->assertEquals(1, $function(1));
+        $I->assertEquals(1, $acl->getActiveFunctionCustomArgumentsCount());
     }
 }

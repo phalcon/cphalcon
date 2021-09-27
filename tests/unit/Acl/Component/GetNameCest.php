@@ -16,10 +16,17 @@ namespace Phalcon\Tests\Unit\Acl\Component;
 use Phalcon\Acl\Component;
 use UnitTester;
 
+/**
+ * Class GetNameCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Component
+ */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Acl\Component :: getName()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -30,9 +37,6 @@ class GetNameCest
 
         $component = new Component('Customers');
 
-        $I->assertEquals(
-            'Customers',
-            $component->getName()
-        );
+        $I->assertEquals('Customers', $component->getName());
     }
 }

@@ -17,10 +17,17 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetRolesCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetRolesCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getRoles()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -37,11 +44,11 @@ class GetRolesCest
         $acl->addRole($role1);
         $acl->addRole($role2);
 
-        $expected = [$role1, $role2];
-
-        $I->assertEquals(
-            $expected,
-            $acl->getRoles()
-        );
+        $expected = [
+            'Admin' => $role1,
+            'Guest' => $role2,
+        ];
+        $actual   = $acl->getRoles();
+        $I->assertEquals($expected, $actual);
     }
 }

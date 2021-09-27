@@ -13,16 +13,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Acl\Component;
 
-use ArgumentCountError;
-use BadMethodCallException;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Component
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Component :: __construct()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,14 +38,13 @@ class ConstructCest
 
         $component = new Component('Customers');
 
-        $I->assertInstanceOf(
-            Component::class,
-            $component
-        );
+        $I->assertInstanceOf(Component::class, $component);
     }
 
     /**
      * Tests Phalcon\Acl\Component :: __construct() - wildcard
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -55,32 +59,5 @@ class ConstructCest
                 $component = new Component('*');
             }
         );
-    }
-
-    /**
-     * Tests Phalcon\Acl\Component :: __construct() - without name
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function aclComponentConstructWithoutName(UnitTester $I)
-    {
-        $I->wantToTest('Acl\Component - __construct() - exception parameters');
-
-        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-            $I->expectThrowable(
-                new ArgumentCountError('Phalcon\Acl\Component::__construct() expects at least 1 argument, 0 given'),
-                function () {
-                    $component = new Component();
-                }
-            );
-        } else {
-            $I->expectThrowable(
-                new BadMethodCallException('Wrong number of parameters'),
-                function () {
-                    $component = new Component();
-                }
-            );
-        }
     }
 }

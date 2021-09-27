@@ -16,10 +16,17 @@ namespace Phalcon\Tests\Unit\Acl\Component;
 use Phalcon\Acl\Component;
 use UnitTester;
 
+/**
+ * Class GetDescriptionCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Component
+ */
 class GetDescriptionCest
 {
     /**
      * Tests Phalcon\Acl\Component :: getDescription()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -39,6 +46,8 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Component :: getDescription() - empty
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -48,8 +57,6 @@ class GetDescriptionCest
 
         $component = new Component('Customers');
 
-        $I->assertEmpty(
-            $component->getDescription()
-        );
+        $I->assertEmpty($component->getDescription());
     }
 }

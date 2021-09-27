@@ -24,10 +24,17 @@ use function file_get_contents;
 use function serialize;
 use function unserialize;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct() - constants
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -43,6 +50,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -52,14 +61,13 @@ class ConstructCest
 
         $acl = new Memory();
 
-        $I->assertInstanceOf(
-            Memory::class,
-            $acl
-        );
+        $I->assertInstanceOf(Memory::class, $acl);
     }
 
     /**
      * Tests serializing the ACL
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -79,49 +87,31 @@ class ConstructCest
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        $I->writeToFile(
-            cacheDir($filename),
-            serialize($acl)
-        );
+        $I->writeToFile(cacheDir($filename), serialize($acl));
 
-        $acl = null;
-
-        $contents = file_get_contents(
-            cacheDir($filename)
-        );
-
-        $I->safeDeleteFile(
-            cacheDir($filename)
-        );
+        $acl      = null;
+        $contents = file_get_contents(cacheDir($filename));
+        $I->safeDeleteFile(cacheDir($filename));
 
         $acl = unserialize($contents);
 
-        $I->assertInstanceOf(
-            Memory::class,
-            $acl
-        );
-
-        $I->assertTrue(
-            $acl->isRole('Administrators')
-        );
-
-        $I->assertTrue(
-            $acl->isComponent('Customers')
-        );
-
-        $I->assertTrue(
-            $acl->isAllowed('Administrators', 'Customers', 'search')
-        );
-
-        $I->assertFalse(
-            $acl->isAllowed('Administrators', 'Customers', 'destroy')
-        );
+        $I->assertInstanceOf(Memory::class, $acl);
+        $actual = $acl->isRole('Administrators');
+        $I->assertTrue($actual);
+        $actual = $acl->isComponent('Customers');
+        $I->assertTrue($actual);
+        $actual = $acl->isAllowed('Administrators', 'Customers', 'search');
+        $I->assertTrue($actual);
+        $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests negation of inherited Roles
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
+     *
+     * @param UnitTester $I
      *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2014-10-04
@@ -157,6 +147,8 @@ class ConstructCest
      * Tests function in Acl Allow Method
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/12004
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-07-22
@@ -207,6 +199,8 @@ class ConstructCest
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
+     * @param UnitTester $I
+     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
      */
@@ -249,6 +243,8 @@ class ConstructCest
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
+     * @param UnitTester $I
+     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
      */
@@ -288,6 +284,8 @@ class ConstructCest
 
     /**
      * Tests negation of multiple inherited Roles
+     *
+     * @param UnitTester $I
      *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
@@ -339,6 +337,8 @@ class ConstructCest
     /**
      * Tests negation of multilayer inherited Roles
      *
+     * @param UnitTester $I
+     *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
      */
@@ -346,10 +346,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests1');
         $acl->addRole('Guests12', 'Guests1');
         $acl->addRole('Guests2');

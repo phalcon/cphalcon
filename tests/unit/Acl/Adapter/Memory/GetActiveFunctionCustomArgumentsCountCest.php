@@ -18,11 +18,18 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetActiveFunctionCustomArgumentsCountCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetActiveFunctionCustomArgumentsCountCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getActiveFunctionCustomArgumentsCount()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
