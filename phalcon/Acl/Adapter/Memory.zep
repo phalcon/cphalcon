@@ -945,9 +945,10 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * @param array<string, mixed> $collection
-     * @param string               $element
-     * @param string               $elementName
+     * @param array  $collection
+     * @param string $element
+     * @param string $elementName
+     * @param string $suffix
      *
      * @throws Exception
      */
