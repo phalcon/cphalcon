@@ -93,5 +93,6 @@ RUN docker-php-ext-enable \
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # Bash script with helper aliases
 COPY ./.bashrc /root/.bashrc
+COPY ./.bashrc /phalcon/.bashrc
 
 CMD ["php-fpm"]
