@@ -68,7 +68,7 @@ class GetActiveFunctionCustomArgumentsCountCest
         $I->assertTrue($isAllowed);
 
         $expected = 2;
-        $actual   =$acl->getActiveFunctionCustomArgumentsCount();
+        $actual   = $acl->getActiveFunctionCustomArgumentsCount();
         $I->assertEquals($expected, $actual);
     }
 }
