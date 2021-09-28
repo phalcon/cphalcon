@@ -50,21 +50,29 @@ class GetActiveFunctionCest
         );
 
         $acl->allow('Guests', 'Post', 'create', $function);
-        $I->assertTrue(
-            $acl->isAllowed(
-                'Guests',
-                'Post',
-                'create',
-                [
-                    'a' => 1,
-                ]
-            )
-        );
 
+        $actual = $acl->isAllowed(
+            'Guests',
+            'Post',
+            'create',
+            [
+                'a' => 1,
+            ]
+        );
+        $I->assertTrue($actual);
 
         $returnedFunction = $acl->getActiveFunction();
-        $I->assertInstanceOf(Closure::class, $returnedFunction);
-        $I->assertEquals(1, $function(1));
-        $I->assertEquals(1, $acl->getActiveFunctionCustomArgumentsCount());
+
+        $class  = Closure::class;
+        $actual = $returnedFunction;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = 1;
+        $actual   = $function(1);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 1;
+        $actual   = $acl->getActiveFunctionCustomArgumentsCount();
+        $I->assertEquals($expected, $actual);
     }
 }

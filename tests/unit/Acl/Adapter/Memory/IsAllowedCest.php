@@ -58,7 +58,6 @@ class IsAllowedCest
                 'create',
             ]
         );
-
         $acl->addRole(new Role('Guests'));
         $acl->allow('Guests', 'Post', 'index');
 
@@ -96,7 +95,6 @@ class IsAllowedCest
                 'create',
             ]
         );
-
         $acl->allow('Guests', 'Post', 'index');
 
         $actual = $acl->isAllowed($role, $component, 'index');
@@ -125,11 +123,7 @@ class IsAllowedCest
         $component = new TestRoleComponentAware(2, 'User', 'Admin');
 
         $acl->addRole('Admin');
-        $acl->addComponent(
-            'User',
-            ['update']
-        );
-
+        $acl->addComponent('User', ['update']);
         $acl->allow(
             'Admin',
             'User',

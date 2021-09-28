@@ -130,17 +130,14 @@ class ConstructCest
         $acl->deny('Guests', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Guests', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'help');
+        $I->assertFalse($actual);
     }
 
     /**
@@ -177,21 +174,17 @@ class ConstructCest
         $acl->allow($roleGuest->getName(), 'payment', 'facebook');
         $acl->allow($roleUser->getName(), 'payment', '*');
 
-        $I->assertTrue(
-            $acl->isAllowed($roleUser->getName(), 'payment', 'notSet')
-        );
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', 'notSet');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleUser->getName(), 'payment', '*')
-        );
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', '*');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet')
-        );
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleAdmin->getName(), 'payment', '*')
-        );
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', '*');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -208,10 +201,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             [
@@ -225,17 +215,14 @@ class ConstructCest
         $acl->allow('*', 'Post', 'index');
         $acl->allow('Guests', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'create');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'update');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -252,10 +239,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             [
@@ -269,17 +253,14 @@ class ConstructCest
         $acl->allow('*', 'Post', 'index');
         $acl->allow('*', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'create');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'update');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -294,10 +275,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests');
         $acl->addRole('Guests2');
 
@@ -321,17 +299,14 @@ class ConstructCest
         $acl->deny('Guests2', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'help');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'help');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -362,20 +337,16 @@ class ConstructCest
         $acl->deny('Guests2', 'Logout', '*');
         $acl->allow('Guests22', 'Logout', ['index']);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'help');
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Logout', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Logout', 'help');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertTrue($actual);
     }
 }

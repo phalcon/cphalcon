@@ -44,12 +44,10 @@ class DenyCest
 
         $acl->deny('Member', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guest', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guest', 'Post', 'update');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Member', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Member', 'Post', 'update');
+        $I->assertFalse($actual);
     }
 }

@@ -46,10 +46,11 @@ class GetActiveKeyCest
 
         $acl->allow('Guests', 'Post', 'create');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'create');
+        $I->assertTrue($actual);
 
-        $I->assertEquals('Guests!Post!create', $acl->getActiveKey());
+        $expected = 'Guests!Post!create';
+        $actual   = $acl->getActiveKey();
+        $I->assertEquals($expected, $actual);
     }
 }

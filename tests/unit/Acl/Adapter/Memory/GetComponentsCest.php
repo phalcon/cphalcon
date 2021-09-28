@@ -36,14 +36,12 @@ class GetComponentsCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getComponents()');
 
-        $acl = new Memory();
-
+        $acl        = new Memory();
         $component1 = new Component('Posts');
         $component2 = new Component('Tags');
 
         $acl->addComponent($component1, ['index']);
         $acl->addComponent($component2, ['index']);
-
 
         $expected = [
             'Posts' => $component1,

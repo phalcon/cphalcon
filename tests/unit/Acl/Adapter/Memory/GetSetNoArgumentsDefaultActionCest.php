@@ -40,15 +40,11 @@ class GetSetNoArgumentsDefaultActionCest
         );
 
         $acl = new Memory();
+        $acl->setNoArgumentsDefaultAction(Enum::ALLOW);
 
-        $acl->setNoArgumentsDefaultAction(
-            Enum::ALLOW
-        );
-
-        $I->assertEquals(
-            Enum::ALLOW,
-            $acl->getNoArgumentsDefaultAction()
-        );
+        $expected = Enum::ALLOW;
+        $actual   = $acl->getNoArgumentsDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -68,9 +64,8 @@ class GetSetNoArgumentsDefaultActionCest
 
         $acl = new Memory();
 
-        $I->assertEquals(
-            Enum::DENY,
-            $acl->getNoArgumentsDefaultAction()
-        );
+        $expected = Enum::DENY;
+        $actual   = $acl->getNoArgumentsDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 }

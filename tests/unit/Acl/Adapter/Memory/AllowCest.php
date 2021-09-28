@@ -225,10 +225,7 @@ class AllowCest
         $acl->addRole('Members', 'Guests');
         $acl->addRole('Admins', 'Members');
 
-        $acl->addComponent(
-            'Post',
-            ['update']
-        );
+        $acl->addComponent('Post', ['update']);
 
         $guest         = new TestRoleAware(1, 'Guests');
         $member        = new TestRoleAware(2, 'Members');
@@ -315,21 +312,17 @@ class AllowCest
 
             $acl->allow('Admins', 'Post', 'update');
 
-            $I->assertFalse(
-                $acl->isAllowed($guest, $model, 'update')
-            );
+            $actual = $acl->isAllowed($guest, $model, 'update');
+            $I->assertFalse($actual);
 
-            $I->assertFalse(
-                $acl->isAllowed($member, $model, 'update')
-            );
+            $actual = $acl->isAllowed($member, $model, 'update');
+            $I->assertFalse($actual);
 
-            $I->assertFalse(
-                $acl->isAllowed($anotherMember, $model, 'update')
-            );
+            $actual = $acl->isAllowed($anotherMember, $model, 'update');
+            $I->assertFalse($actual);
 
-            $I->assertTrue(
-                $acl->isAllowed($admin, $model, 'update')
-            );
+            $actual = $acl->isAllowed($admin, $model, 'update');
+            $I->assertTrue($actual);
         } catch (Exception $ex) {
             $actual = $ex->getMessage();
             $code   = $ex->getCode();

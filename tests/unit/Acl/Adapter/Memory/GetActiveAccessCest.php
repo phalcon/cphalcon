@@ -59,9 +59,8 @@ class GetActiveAccessCest
         $acl->addComponent('Login', ['help', 'index']);
         $acl->allow('Guests', 'Login', '*');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
 
         $I->assertEquals('index', $acl->getActiveAccess());
     }

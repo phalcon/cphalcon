@@ -38,9 +38,8 @@ class GetActiveRoleCest
 
         $acl = new Memory();
 
-        $I->assertNull(
-            $acl->getActiveRole()
-        );
+        $actual = $acl->getActiveRole();
+        $I->assertNull($actual);
     }
 
     /**
@@ -62,10 +61,11 @@ class GetActiveRoleCest
         $acl->allow('Guests', 'Login', '*');
 
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertEquals('Guests', $acl->getActiveRole());
+        $expected = 'Guests';
+        $actual   = $acl->getActiveRole();
+        $I->assertEquals($expected, $actual);
     }
 }

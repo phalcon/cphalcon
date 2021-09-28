@@ -141,8 +141,6 @@ class AddInheritCest
             ),
             function () {
                 $acl = new Memory();
-
-                // New role
                 $acl->addRole(new Role('administrator'));
 
                 //Add Inherit

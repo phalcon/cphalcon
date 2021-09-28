@@ -41,7 +41,8 @@ class IsComponentCest
 
         $acl->addComponent($aclComponent, 'search');
 
-        $I->assertTrue($acl->isComponent('Customers'));
+        $actual = $acl->isComponent('Customers');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -61,6 +62,7 @@ class IsComponentCest
 
         $acl->addComponent($aclComponent, 'search');
 
-        $I->assertFalse($acl->isComponent('unknown'));
+        $actual = $acl->isComponent('unknown');
+        $I->assertFalse($actual);
     }
 }

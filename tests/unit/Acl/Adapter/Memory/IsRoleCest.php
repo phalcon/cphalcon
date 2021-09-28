@@ -41,7 +41,8 @@ class IsRoleCest
 
         $acl->addRole($aclRole);
 
-        $I->assertTrue($acl->isRole('Administrators'));
+        $actual = $acl->isRole('Administrators');
+        $I->assertTrue($actual);
     }
 
     /**
@@ -61,6 +62,7 @@ class IsRoleCest
 
         $acl->addRole($aclRole);
 
-        $I->assertFalse($acl->isRole('unknown'));
+        $actual = $acl->isRole('unknown');
+        $I->assertFalse($actual);
     }
 }

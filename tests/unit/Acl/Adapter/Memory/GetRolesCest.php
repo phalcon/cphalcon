@@ -36,8 +36,7 @@ class GetRolesCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getRoles()');
 
-        $acl = new Memory();
-
+        $acl   = new Memory();
         $role1 = new Role('Admin');
         $role2 = new Role('Guest');
 

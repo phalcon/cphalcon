@@ -39,7 +39,9 @@ class GetSetDefaultActionCest
         $acl = new Memory();
         $acl->setDefaultAction(Enum::ALLOW);
 
-        $I->assertEquals(Enum::ALLOW, $acl->getDefaultAction());
+        $expected = Enum::ALLOW;
+        $actual   = $acl->getDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -56,6 +58,8 @@ class GetSetDefaultActionCest
 
         $acl = new Memory();
 
-        $I->assertEquals(Enum::DENY, $acl->getDefaultAction());
+        $expected = Enum::DENY;
+        $actual   = $acl->getDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 }

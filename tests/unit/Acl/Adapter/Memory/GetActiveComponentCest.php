@@ -63,9 +63,11 @@ class GetActiveComponentCest
 
         $acl->allow('Guests', 'Login', '*');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
-        $I->assertEquals('Login', $acl->getActiveComponent());
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
+
+        $expected = 'Login';
+        $actual   = $acl->getActiveComponent();
+        $I->assertEquals($expected, $actual);
     }
 }
