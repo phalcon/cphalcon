@@ -23,9 +23,9 @@
 /**
  * Interface for classes which could be used in allow method as ROLE
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleAware)
+ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleAwareInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleAware, phalcon, acl_roleaware, phalcon_acl_roleaware_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleAwareInterface, phalcon, acl_roleawareinterface, phalcon_acl_roleawareinterface_method_entry);
 
 	return SUCCESS;
 }
@@ -33,4 +33,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleAware)
 /**
  * Returns role name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleAware, getRoleName);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleAwareInterface, getRoleName);

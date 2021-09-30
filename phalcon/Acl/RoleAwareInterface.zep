@@ -11,12 +11,12 @@
 namespace Phalcon\Acl;
 
 /**
- * Interface for classes which could be used in allow method as RESOURCE
+ * Interface for classes which could be used in allow method as ROLE
  */
-interface ComponentAware
+interface RoleAwareInterface
 {
     /**
-     * Returns component name
+     * Returns role name
      */
-    public function getComponentName() -> string;
+    public function getRoleName() -> string;
 }

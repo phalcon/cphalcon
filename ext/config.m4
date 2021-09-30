@@ -82,6 +82,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/dispatcher/exception.zep.c
 	phalcon/domain/payload/readableinterface.zep.c
 	phalcon/domain/payload/writeableinterface.zep.c
+	phalcon/events/abstracteventsaware.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/http/message/abstractrequest.zep.c
 	phalcon/http/message/responsestatuscodeinterface.zep.c
@@ -169,11 +170,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validationinterface.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/component.zep.c
-	phalcon/acl/componentaware.zep.c
+	phalcon/acl/componentawareinterface.zep.c
 	phalcon/acl/enum.zep.c
 	phalcon/acl/exception.zep.c
 	phalcon/acl/role.zep.c
-	phalcon/acl/roleaware.zep.c
+	phalcon/acl/roleawareinterface.zep.c
 	phalcon/annotations/adapter/apcu.zep.c
 	phalcon/annotations/adapter/memory.zep.c
 	phalcon/annotations/adapter/stream.zep.c

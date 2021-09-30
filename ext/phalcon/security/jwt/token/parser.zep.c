@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeClaims)
 	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_base64_ce, "decodeurl", &_2, 0, &claims);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 180, &_1, &_3);
+	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 182, &_1, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Security/JWT/Token/Parser.zep", 62);
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeHeaders)
 	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_base64_ce, "decodeurl", &_2, 0, &headers);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 180, &_1, &_3);
+	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 182, &_1, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Security/JWT/Token/Parser.zep", 91);

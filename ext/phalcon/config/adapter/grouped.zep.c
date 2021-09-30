@@ -183,9 +183,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 				if (ZEPHIR_IS_IDENTICAL(&_6$$5, &defaultAdapter)) {
 					ZEPHIR_INIT_NVAR(&_7$$6);
 					object_init_ex(&_7$$6, phalcon_config_configfactory_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 175);
+					ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 177);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_9$$6, &_7$$6, "load", &_10, 176, &configName);
+					ZEPHIR_CALL_METHOD(&_9$$6, &_7$$6, "load", &_10, 178, &configName);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "merge", &_5, 0, &_9$$6);
 					zephir_check_call_status();
@@ -223,9 +223,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 			} else {
 				ZEPHIR_INIT_NVAR(&_18$$10);
 				object_init_ex(&_18$$10, phalcon_config_configfactory_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_18$$10, "__construct", &_8, 175);
+				ZEPHIR_CALL_METHOD(NULL, &_18$$10, "__construct", &_8, 177);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_19$$10, &_18$$10, "load", &_10, 176, &configInstance);
+				ZEPHIR_CALL_METHOD(&_19$$10, &_18$$10, "load", &_10, 178, &configInstance);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&configInstance, &_19$$10);
 			}
@@ -258,9 +258,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 					if (ZEPHIR_IS_IDENTICAL(&_21$$13, &defaultAdapter)) {
 						ZEPHIR_INIT_NVAR(&_22$$14);
 						object_init_ex(&_22$$14, phalcon_config_configfactory_ce);
-						ZEPHIR_CALL_METHOD(NULL, &_22$$14, "__construct", &_8, 175);
+						ZEPHIR_CALL_METHOD(NULL, &_22$$14, "__construct", &_8, 177);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_23$$14, &_22$$14, "load", &_10, 176, &configName);
+						ZEPHIR_CALL_METHOD(&_23$$14, &_22$$14, "load", &_10, 178, &configName);
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(NULL, this_ptr, "merge", &_5, 0, &_23$$14);
 						zephir_check_call_status();
@@ -298,9 +298,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 				} else {
 					ZEPHIR_INIT_NVAR(&_29$$18);
 					object_init_ex(&_29$$18, phalcon_config_configfactory_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_29$$18, "__construct", &_8, 175);
+					ZEPHIR_CALL_METHOD(NULL, &_29$$18, "__construct", &_8, 177);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_30$$18, &_29$$18, "load", &_10, 176, &configInstance);
+					ZEPHIR_CALL_METHOD(&_30$$18, &_29$$18, "load", &_10, 178, &configInstance);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&configInstance, &_30$$18);
 				}

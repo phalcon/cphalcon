@@ -11,13 +11,13 @@
 namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl\Enum;
-use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\AbstractEventsAware;
 use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Adapter for Phalcon\Acl adapters
  */
-abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
+abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInterface, EventsAwareInterface
 {
     /**
      * Active access which the list is checking if some role can access it
@@ -56,13 +56,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected defaultAccess = Enum::DENY;
 
     /**
-     * Events manager
-     *
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
-
-    /**
      * Returns the default ACL access level
      */
     public function getDefaultAction() -> int
@@ -71,26 +64,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
-    }
-
-    /**
      * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
      */
     public function setDefaultAction(int defaultAccess) -> void
     {
         let this->defaultAccess = defaultAccess;
-    }
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
     }
 }

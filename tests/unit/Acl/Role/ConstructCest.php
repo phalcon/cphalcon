@@ -13,16 +13,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Acl\Role;
 
-use ArgumentCountError;
-use BadMethodCallException;
 use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Role
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Role :: __construct()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,14 +38,13 @@ class ConstructCest
 
         $role = new Role('Administrator');
 
-        $I->assertInstanceOf(
-            Role::class,
-            $role
-        );
+        $I->assertInstanceOf(Role::class, $role);
     }
 
     /**
      * Tests Phalcon\Acl\Role :: __construct() - wildcard
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -55,32 +59,5 @@ class ConstructCest
                 $role = new Role('*');
             }
         );
-    }
-
-    /**
-     * Tests Phalcon\Acl\Role :: __construct() - without name
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function aclRoleConstructWithoutName(UnitTester $I)
-    {
-        $I->wantToTest('Acl\Role - __construct() - exception params');
-
-        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-            $I->expectThrowable(
-                new ArgumentCountError('Phalcon\Acl\Role::__construct() expects at least 1 argument, 0 given'),
-                function () {
-                    $role = new Role();
-                }
-            );
-        } else {
-            $I->expectThrowable(
-                new BadMethodCallException('Wrong number of parameters'),
-                function () {
-                    $role = new Role();
-                }
-            );
-        }
     }
 }

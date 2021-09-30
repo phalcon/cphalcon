@@ -23,9 +23,9 @@
 /**
  * Interface for classes which could be used in allow method as RESOURCE
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware)
+ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAwareInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAware, phalcon, acl_componentaware, phalcon_acl_componentaware_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAwareInterface, phalcon, acl_componentawareinterface, phalcon_acl_componentawareinterface_method_entry);
 
 	return SUCCESS;
 }
@@ -33,4 +33,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware)
 /**
  * Returns component name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentAware, getComponentName);
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentAwareInterface, getComponentName);
