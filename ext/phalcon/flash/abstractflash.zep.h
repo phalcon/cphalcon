@@ -25,6 +25,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, warning);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareEscapedMessage);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage);
+PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses);
 zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getautoescape, 0, 0, _IS_BOOL, 0)
@@ -113,6 +114,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_prep
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_checkclasses, 0, 2, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_abstractflash_zephir_init_properties_phalcon_flash_abstractflash, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -139,5 +145,6 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, getTemplate, arginfo_phalcon_flash_abstractflash_gettemplate, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Flash_AbstractFlash, prepareEscapedMessage, arginfo_phalcon_flash_abstractflash_prepareescapedmessage, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Flash_AbstractFlash, prepareHtmlMessage, arginfo_phalcon_flash_abstractflash_preparehtmlmessage, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Flash_AbstractFlash, checkClasses, arginfo_phalcon_flash_abstractflash_checkclasses, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

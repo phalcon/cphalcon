@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/json/php_json.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
@@ -65,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Collection)
 	zend_class_implements(phalcon_collection_ce, 1, phalcon_collection_collectioninterface_ce);
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_aggregate);
-	zend_class_implements(phalcon_collection_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_collection_ce, 1, php_json_serializable_ce);
 	zend_class_implements(phalcon_collection_ce, 1, zend_ce_serializable);
 	return SUCCESS;
 }

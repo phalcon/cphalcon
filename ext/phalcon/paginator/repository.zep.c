@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/json/php_json.h"
 #include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
@@ -49,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Repository)
 	phalcon_paginator_repository_ce->create_object = zephir_init_properties_Phalcon_Paginator_Repository;
 
 	zend_class_implements(phalcon_paginator_repository_ce, 1, phalcon_paginator_repositoryinterface_ce);
-	zend_class_implements(phalcon_paginator_repository_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_paginator_repository_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
 

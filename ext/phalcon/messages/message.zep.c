@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/json/php_json.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
@@ -60,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 	phalcon_messages_message_ce->create_object = zephir_init_properties_Phalcon_Messages_Message;
 
 	zend_class_implements(phalcon_messages_message_ce, 1, phalcon_messages_messageinterface_ce);
-	zend_class_implements(phalcon_messages_message_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_messages_message_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
 

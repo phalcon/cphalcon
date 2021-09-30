@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, item, "getcontext", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&message, &interpolate, "__invoke", NULL, 418, &_0, &_1);
+	ZEPHIR_CALL_METHOD(&message, &interpolate, "__invoke", NULL, 420, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 3, 0);
