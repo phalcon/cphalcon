@@ -118,7 +118,7 @@ class Loader implements EventsAwareInterface
                 eventsManager->fire("loader:pathFound", this, filePath);
             }
 
-            require filePath;
+            require_once filePath;
 
             return true;
         }
@@ -191,7 +191,7 @@ class Loader implements EventsAwareInterface
                         /**
                          * Simulate a require
                          */
-                        require filePath;
+                        require_once filePath;
 
                         /**
                          * Return true mean success
@@ -250,7 +250,7 @@ class Loader implements EventsAwareInterface
                     /**
                      * Simulate a require
                      */
-                    require filePath;
+                    require_once filePath;
 
                     /**
                      * Return true meaning success
@@ -375,7 +375,7 @@ class Loader implements EventsAwareInterface
                 /**
                  * Simulate a require
                  */
-                require filePath;
+                require_once filePath;
             }
         }
     }
