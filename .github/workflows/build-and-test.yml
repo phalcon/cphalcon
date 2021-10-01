@@ -674,7 +674,6 @@ jobs:
       - name: Install from build/ directory
         run: |
           cd build/
-#          php gen-build.php
           sudo ./install
 
       - name: Validate extension
