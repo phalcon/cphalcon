@@ -25,6 +25,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Messages\Message :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -62,6 +64,8 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Messages\Message :: __construct() - chain
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
