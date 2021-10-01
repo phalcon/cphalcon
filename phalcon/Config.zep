@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
 

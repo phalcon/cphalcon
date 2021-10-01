@@ -8,12 +8,12 @@
 * file that was distributed with this source code.
 */
 
-namespace Phalcon\Collection;
+namespace Phalcon\Support\Collection;
 
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 
 /**
- * Phalcon\Collection\ReadOnly is a read only Collection object
+ * Phalcon\Support\Collection\ReadOnly is a read only Collection object
  */
 class ReadOnly extends Collection
 {

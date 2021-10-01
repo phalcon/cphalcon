@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Collection;
+namespace Phalcon\Support\Collection;
 
 use Throwable;
 

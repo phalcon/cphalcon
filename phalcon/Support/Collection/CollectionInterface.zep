@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Collection;
+namespace Phalcon\Support\Collection;
 
 /**
- * Phalcon\Collection\CollectionInterface
+ * Phalcon\Support\Collection\CollectionInterface
  *
- * Interface for Phalcon\Collection class
+ * Interface for Phalcon\Support\Collection class
  */
 interface CollectionInterface
 {

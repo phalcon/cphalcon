@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 use Phalcon\Html\Attributes\RenderInterface;
 use Phalcon\Tag;
 

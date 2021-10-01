@@ -8,20 +8,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Support;
 
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Helper\Json;
 use Serializable;
 use Traversable;
 
 /**
- * `Phalcon\Collection` is a supercharged object oriented array. It implements:
+ * `Phalcon\Support\Collection` is a supercharged object oriented array. It implements:
  * - [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php)
  * - [Countable](https://www.php.net/manual/en/class.countable.php)
  * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php)

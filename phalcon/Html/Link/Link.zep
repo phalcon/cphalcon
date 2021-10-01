@@ -10,8 +10,8 @@
 
 namespace Phalcon\Html\Link;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Psr\Link\LinkInterface;
 
 /**
