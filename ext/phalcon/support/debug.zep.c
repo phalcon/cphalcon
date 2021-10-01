@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 		array_init(&_19$$3);
 		ZEPHIR_INIT_VAR(&_20$$3);
 		ZVAL_STRING(&_20$$3, "request");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 16, &_18$$3, &_20$$3, &_19$$3);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 10, &_18$$3, &_20$$3, &_19$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&_REQUEST, 0, "phalcon/Support/Debug.zep", 350);
 		if (Z_TYPE_P(&_REQUEST) == IS_ARRAY) {
@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 		array_init(&_20$$3);
 		ZEPHIR_INIT_VAR(&_36$$3);
 		ZVAL_STRING(&_36$$3, "server");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 16, &_35$$3, &_36$$3, &_20$$3);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 10, &_35$$3, &_36$$3, &_20$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&_SERVER, 0, "phalcon/Support/Debug.zep", 366);
 		if (Z_TYPE_P(&_SERVER) == IS_ARRAY) {
@@ -924,7 +924,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "request");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 16, &blacklist, &_2, &_1);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 10, &blacklist, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "server");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 16, &blacklist, &_7, &_2);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 10, &blacklist, &_7, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);

@@ -30,7 +30,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, Attributes, phalcon, html_attributes, phalcon_collection_ce, phalcon_html_attributes_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, Attributes, phalcon, html_attributes, phalcon_support_collection_ce, phalcon_html_attributes_method_entry, 0);
 
 	zend_class_implements(phalcon_html_attributes_ce, 1, phalcon_html_attributes_renderinterface_ce);
 	return SUCCESS;

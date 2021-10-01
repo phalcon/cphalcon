@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -33,7 +33,7 @@
  * file that was distributed with this source code.
  */
 /**
- * `Phalcon\Collection` is a supercharged object oriented array. It implements:
+ * `Phalcon\Support\Collection` is a supercharged object oriented array. It implements:
  * - [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php)
  * - [Countable](https://www.php.net/manual/en/class.countable.php)
  * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php)
@@ -44,37 +44,37 @@
  * Such implementations are for instance accessing globals `$_GET`, `$_POST`
  * etc.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Collection)
+ZEPHIR_INIT_CLASS(Phalcon_Support_Collection)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon, Collection, phalcon, collection, phalcon_collection_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Support, Collection, phalcon, support_collection, phalcon_support_collection_method_entry, 0);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_collection_ce, SL("data"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_support_collection_ce, SL("data"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_collection_ce, SL("insensitive"), 1, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_support_collection_ce, SL("insensitive"), 1, ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_collection_ce, SL("lowerKeys"), ZEND_ACC_PROTECTED);
-	phalcon_collection_ce->create_object = zephir_init_properties_Phalcon_Collection;
+	zend_declare_property_null(phalcon_support_collection_ce, SL("lowerKeys"), ZEND_ACC_PROTECTED);
+	phalcon_support_collection_ce->create_object = zephir_init_properties_Phalcon_Support_Collection;
 
-	zend_class_implements(phalcon_collection_ce, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_collection_ce, 1, phalcon_collection_collectioninterface_ce);
-	zend_class_implements(phalcon_collection_ce, 1, zend_ce_countable);
-	zend_class_implements(phalcon_collection_ce, 1, zend_ce_aggregate);
-	zend_class_implements(phalcon_collection_ce, 1, php_json_serializable_ce);
-	zend_class_implements(phalcon_collection_ce, 1, zend_ce_serializable);
+	zend_class_implements(phalcon_support_collection_ce, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_support_collection_ce, 1, phalcon_support_collection_collectioninterface_ce);
+	zend_class_implements(phalcon_support_collection_ce, 1, zend_ce_countable);
+	zend_class_implements(phalcon_support_collection_ce, 1, zend_ce_aggregate);
+	zend_class_implements(phalcon_support_collection_ce, 1, php_json_serializable_ce);
+	zend_class_implements(phalcon_support_collection_ce, 1, zend_ce_serializable);
 	return SUCCESS;
 }
 
 /**
  * Collection constructor.
  */
-PHP_METHOD(Phalcon_Collection, __construct)
+PHP_METHOD(Phalcon_Support_Collection, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Collection, __construct)
 /**
  * Magic getter to get an element from the collection
  */
-PHP_METHOD(Phalcon_Collection, __get)
+PHP_METHOD(Phalcon_Support_Collection, __get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Collection, __get)
 /**
  * Magic isset to check whether an element exists or not
  */
-PHP_METHOD(Phalcon_Collection, __isset)
+PHP_METHOD(Phalcon_Support_Collection, __isset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Collection, __isset)
 /**
  * Magic setter to assign values to an element
  */
-PHP_METHOD(Phalcon_Collection, __set)
+PHP_METHOD(Phalcon_Support_Collection, __set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Collection, __set)
 /**
  * Magic unset to remove an element from the collection
  */
-PHP_METHOD(Phalcon_Collection, __unset)
+PHP_METHOD(Phalcon_Support_Collection, __unset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Collection, __unset)
 /**
  * Clears the internal collection
  */
-PHP_METHOD(Phalcon_Collection, clear)
+PHP_METHOD(Phalcon_Support_Collection, clear)
 {
 	zval _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Collection, clear)
  * Count elements of an object.
  * See [count](https://php.net/manual/en/countable.count.php)
  */
-PHP_METHOD(Phalcon_Collection, count)
+PHP_METHOD(Phalcon_Support_Collection, count)
 {
 	zval _0;
 	zval *this_ptr = getThis();
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Collection, count)
 /**
  * Get the element from the collection
  */
-PHP_METHOD(Phalcon_Collection, get)
+PHP_METHOD(Phalcon_Support_Collection, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -352,10 +352,10 @@ PHP_METHOD(Phalcon_Collection, get)
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&value);
-	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Collection.zep", 135);
+	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Support/Collection.zep", 135);
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 12, &value, &cast);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Collection, get)
 /**
  * Returns the iterator of the class
  */
-PHP_METHOD(Phalcon_Collection, getIterator)
+PHP_METHOD(Phalcon_Support_Collection, getIterator)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -379,12 +379,12 @@ PHP_METHOD(Phalcon_Collection, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 11, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Collection, getKeys)
+PHP_METHOD(Phalcon_Support_Collection, getKeys)
 {
 	zval *insensitive_param = NULL, _0$$3, _1$$4;
 	zend_bool insensitive;
@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Collection, getKeys)
 	}
 }
 
-PHP_METHOD(Phalcon_Collection, getValues)
+PHP_METHOD(Phalcon_Support_Collection, getValues)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Collection, getValues)
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 12, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Collection, getValues)
 /**
  * Determines whether an element is present in the collection.
  */
-PHP_METHOD(Phalcon_Collection, has)
+PHP_METHOD(Phalcon_Support_Collection, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element_param = NULL, _0, _2, _1$$3;
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Collection, has)
 /**
  * Initialize internal array
  */
-PHP_METHOD(Phalcon_Collection, init)
+PHP_METHOD(Phalcon_Support_Collection, init)
 {
 	zend_string *_3;
 	zend_ulong _2;
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Collection, init)
 	}
 
 
-	zephir_is_iterable(&data, 0, "phalcon/Collection.zep", 189);
+	zephir_is_iterable(&data, 0, "phalcon/Support/Collection.zep", 189);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Collection, init)
  * Specify data which should be serialized to JSON
  * See [jsonSerialize](https://php.net/manual/en/jsonserializable.jsonserialize.php)
  */
-PHP_METHOD(Phalcon_Collection, jsonSerialize)
+PHP_METHOD(Phalcon_Support_Collection, jsonSerialize)
 {
 	zend_bool _5$$3, _7$$6;
 	zend_string *_4;
@@ -580,7 +580,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize)
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Collection.zep", 210);
+	zephir_is_iterable(&_0, 0, "phalcon/Support/Collection.zep", 210);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize)
  * Whether a offset exists
  * See [offsetExists](https://php.net/manual/en/arrayaccess.offsetexists.php)
  */
-PHP_METHOD(Phalcon_Collection, offsetExists)
+PHP_METHOD(Phalcon_Support_Collection, offsetExists)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Collection, offsetExists)
  * Offset to retrieve
  * See [offsetGet](https://php.net/manual/en/arrayaccess.offsetget.php)
  */
-PHP_METHOD(Phalcon_Collection, offsetGet)
+PHP_METHOD(Phalcon_Support_Collection, offsetGet)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Collection, offsetGet)
  * Offset to set
  * See [offsetSet](https://php.net/manual/en/arrayaccess.offsetset.php)
  */
-PHP_METHOD(Phalcon_Collection, offsetSet)
+PHP_METHOD(Phalcon_Support_Collection, offsetSet)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Collection, offsetSet)
  * Offset to unset
  * See [offsetUnset](https://php.net/manual/en/arrayaccess.offsetunset.php)
  */
-PHP_METHOD(Phalcon_Collection, offsetUnset)
+PHP_METHOD(Phalcon_Support_Collection, offsetUnset)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -778,7 +778,7 @@ PHP_METHOD(Phalcon_Collection, offsetUnset)
 /**
  * Delete the element from the collection
  */
-PHP_METHOD(Phalcon_Collection, remove)
+PHP_METHOD(Phalcon_Support_Collection, remove)
 {
 	zval lowerKeys, data;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -822,7 +822,7 @@ PHP_METHOD(Phalcon_Collection, remove)
 		ZEPHIR_CPY_WRT(&data, &_3$$3);
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&lowerKeys, &_4$$3);
-		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 272);
+		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 272);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &key, PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Collection, remove)
 /**
  * Set an element in the collection
  */
-PHP_METHOD(Phalcon_Collection, set)
+PHP_METHOD(Phalcon_Support_Collection, set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -867,7 +867,7 @@ PHP_METHOD(Phalcon_Collection, set)
  * String representation of object
  * See [serialize](https://php.net/manual/en/serializable.serialize.php)
  */
-PHP_METHOD(Phalcon_Collection, serialize)
+PHP_METHOD(Phalcon_Support_Collection, serialize)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Collection, serialize)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 13, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 15, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -889,7 +889,7 @@ PHP_METHOD(Phalcon_Collection, serialize)
 /**
  * Returns the object in an array format
  */
-PHP_METHOD(Phalcon_Collection, toArray)
+PHP_METHOD(Phalcon_Support_Collection, toArray)
 {
 	zval *this_ptr = getThis();
 
@@ -908,7 +908,7 @@ PHP_METHOD(Phalcon_Collection, toArray)
  *
  * See [rfc4627](https://www.ietf.org/rfc/rfc4627.txt)
  */
-PHP_METHOD(Phalcon_Collection, toJson)
+PHP_METHOD(Phalcon_Support_Collection, toJson)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Collection, toJson)
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, options);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 14, &_1, &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 16, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Collection, toJson)
  * Constructs the object
  * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
  */
-PHP_METHOD(Phalcon_Collection, unserialize)
+PHP_METHOD(Phalcon_Support_Collection, unserialize)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Collection, unserialize)
 
 	zephir_cast_to_string(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 15, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 17, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
@@ -984,7 +984,7 @@ PHP_METHOD(Phalcon_Collection, unserialize)
 /**
  * Internal method to set data
  */
-PHP_METHOD(Phalcon_Collection, setData)
+PHP_METHOD(Phalcon_Support_Collection, setData)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element_param = NULL, *value, value_sub, key, _0, _1;
@@ -1023,7 +1023,7 @@ PHP_METHOD(Phalcon_Collection, setData)
 	ZEPHIR_MM_RESTORE();
 }
 
-zend_object *zephir_init_properties_Phalcon_Collection(zend_class_entry *class_type)
+zend_object *zephir_init_properties_Phalcon_Support_Collection(zend_class_entry *class_type)
 {
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

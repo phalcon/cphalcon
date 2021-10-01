@@ -1397,7 +1397,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent)
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, jsonOptions);
 	ZVAL_LONG(&_4, depth);
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "encode", &_2, 14, content, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "encode", &_2, 16, content, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcontent", NULL, 0, &_1);
 	zephir_check_call_status();

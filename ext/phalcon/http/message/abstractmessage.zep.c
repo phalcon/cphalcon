@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, checkHeaderHost)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(collection, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(collection, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1017,7 +1017,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, populateHeaderCollection)
 
 
 	ZEPHIR_INIT_VAR(&collection);
-	object_init_ex(&collection, phalcon_collection_ce);
+	object_init_ex(&collection, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 22);
 	zephir_check_call_status();
 	zephir_is_iterable(&headers, 0, "phalcon/Http/Message/AbstractMessage.zep", 466);
@@ -1182,7 +1182,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processHeaders)
 	} else {
 		_1$$4 = Z_TYPE_P(headers) == IS_OBJECT;
 		if (_1$$4) {
-			_1$$4 = zephir_instance_of_ev(headers, phalcon_collection_collectioninterface_ce);
+			_1$$4 = zephir_instance_of_ev(headers, phalcon_support_collection_collectioninterface_ce);
 		}
 		if (UNEXPECTED(!(_1$$4))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Headers needs to be either an array or instance of Phalcon\\Collection", "phalcon/Http/Message/AbstractMessage.zep", 506);

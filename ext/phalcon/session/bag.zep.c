@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_collection_ce, phalcon_session_bag_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_support_collection_ce, phalcon_session_bag_method_entry, 0);
 
 	/**
 	 * @var DiInterface|null

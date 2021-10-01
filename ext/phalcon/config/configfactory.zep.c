@@ -202,14 +202,14 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 		ZEPHIR_INIT_VAR(&_12$$10);
 		ZVAL_STRING(&_12$$10, "mode");
 		ZVAL_LONG(&_13$$10, 1);
-		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 16, config, &_12$$10, &_13$$10);
+		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 10, config, &_12$$10, &_13$$10);
 		zephir_check_call_status();
 	} else if (ZEPHIR_IS_IDENTICAL(&_10, &adapter)) {
 		ZEPHIR_INIT_VAR(&_14$$11);
 		array_init(&_14$$11);
 		ZEPHIR_INIT_VAR(&_15$$11);
 		ZVAL_STRING(&_15$$11, "callbacks");
-		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 16, config, &_15$$11, &_14$$11);
+		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 10, config, &_15$$11, &_14$$11);
 		zephir_check_call_status();
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &adapter, &first, &second);

@@ -431,13 +431,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "lifetime");
 		ZVAL_LONG(&_3$$3, 3600);
-		ZEPHIR_CALL_CE_STATIC(&lifetime, phalcon_helper_arr_ce, "get", &_1, 16, &cacheOptions, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_CE_STATIC(&lifetime, phalcon_helper_arr_ce, "get", &_1, 10, &cacheOptions, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "service");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "modelsCache");
-		ZEPHIR_CALL_CE_STATIC(&cacheService, phalcon_helper_arr_ce, "get", &_1, 16, &cacheOptions, &_2$$3, &_4$$3);
+		ZEPHIR_CALL_CE_STATIC(&cacheService, phalcon_helper_arr_ce, "get", &_1, 10, &cacheOptions, &_2$$3, &_4$$3);
 		zephir_check_call_status();
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&cache, &_3$$3, "getshared", NULL, 0, &cacheService);
@@ -2910,7 +2910,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getCaseExpression)
 }
 
 /**
- * Resolves an expression from its intermediate code into a string
+ * Resolves an expression from its intermediate code into an array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 {

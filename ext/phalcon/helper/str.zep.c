@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Helper_Str, concat)
 	ZVAL_STRING(&suffix, "");
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
-	ZEPHIR_CALL_SELF(&_1, "startswith", &_4, 17, &first, &delimiter);
+	ZEPHIR_CALL_SELF(&_1, "startswith", &_4, 11, &first, &delimiter);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_CPY_WRT(&prefix, &delimiter);
@@ -1208,7 +1208,7 @@ PHP_METHOD(Phalcon_Helper_Str, friendly)
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_array_keys(&_7, &matrix);
-	ZEPHIR_CALL_FUNCTION(&_8, "array_values", NULL, 12, &matrix);
+	ZEPHIR_CALL_FUNCTION(&_8, "array_values", NULL, 14, &matrix);
 	zephir_check_call_status();
 	zephir_fast_str_replace(&_6, &_7, &_8, &text);
 	zephir_get_strval(&text, &_6);

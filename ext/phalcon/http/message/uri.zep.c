@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_4$$3, "fragment");
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "filterfragment", NULL, 332, &_2$$3);
 		zephir_check_call_status();
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "host");
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_6$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_6$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		zephir_fast_strtolower(&_4$$3, &_6$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("host"), &_4$$3);
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "pass");
 		ZEPHIR_INIT_NVAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_8$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_8$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_9$$3, "rawurlencode", NULL, 231, &_8$$3);
 		zephir_check_call_status();
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "path");
 		ZEPHIR_INIT_NVAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_11$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_11$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_10$$3, this_ptr, "filterpath", NULL, 333, &_11$$3);
 		zephir_check_call_status();
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "port");
 		ZVAL_NULL(&_14$$3);
-		ZEPHIR_CALL_CE_STATIC(&_13$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_14$$3);
+		ZEPHIR_CALL_CE_STATIC(&_13$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_14$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_12$$3, this_ptr, "filterport", NULL, 334, &_13$$3);
 		zephir_check_call_status();
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "query");
 		ZEPHIR_INIT_NVAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_16$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_16$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_15$$3, this_ptr, "filterquery", NULL, 335, &_16$$3);
 		zephir_check_call_status();
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "scheme");
 		ZEPHIR_INIT_NVAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_18$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_18$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_17$$3, this_ptr, "filterscheme", NULL, 336, &_18$$3);
 		zephir_check_call_status();
@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __construct)
 		ZVAL_STRING(&_5$$3, "user");
 		ZEPHIR_INIT_NVAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&_19$$3, phalcon_helper_arr_ce, "get", &_3, 16, &urlParts, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_CE_STATIC(&_19$$3, phalcon_helper_arr_ce, "get", &_3, 10, &urlParts, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_20$$3, "rawurlencode", NULL, 231, &_19$$3);
 		zephir_check_call_status();

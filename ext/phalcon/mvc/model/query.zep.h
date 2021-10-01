@@ -199,7 +199,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getcasee
 	ZEND_ARG_ARRAY_INFO(0, expr, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getexpression, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getexpression, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, expr, 0)
 	ZEND_ARG_TYPE_INFO(0, quoting, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()

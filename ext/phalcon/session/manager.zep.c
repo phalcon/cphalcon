@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Session_Manager, get)
 	}
 	ZEPHIR_CALL_METHOD(&uniqueKey, this_ptr, "getuniquekey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 16, &_SESSION, &uniqueKey, defaultValue);
+	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 10, &_SESSION, &uniqueKey, defaultValue);
 	zephir_check_call_status();
 	if (remove) {
 		zephir_array_unset(&_SESSION, &uniqueKey, PH_SEPARATE);
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions)
 	ZVAL_STRING(&_2, "uniqueId");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uniqueId"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);

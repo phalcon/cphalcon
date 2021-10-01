@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct)
 	ZVAL_STRING(&_1, "storageDir");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_CE_STATIC(&storageDir, phalcon_helper_arr_ce, "get", &_0, 16, &options, &_1, &_2);
+	ZEPHIR_CALL_CE_STATIC(&storageDir, phalcon_helper_arr_ce, "get", &_0, 10, &options, &_1, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&storageDir)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 57);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, get)
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "content");
 	ZVAL_NULL(&_4);
-	ZEPHIR_CALL_CE_STATIC(&content, phalcon_helper_arr_ce, "get", &_2, 16, &payload, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&content, phalcon_helper_arr_ce, "get", &_2, 10, &payload, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content);
 	zephir_check_call_status();
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set)
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getserializeddata", NULL, 0, value);
 	zephir_check_call_status();
 	zephir_array_update_string(&payload, SL("content"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&_1, "serialize", NULL, 13, &payload);
+	ZEPHIR_CALL_FUNCTION(&_1, "serialize", NULL, 15, &payload);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&payload, &_1);
 	ZEPHIR_CALL_METHOD(&directory, this_ptr, "getdir", NULL, 136, &key);
@@ -1002,7 +1002,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_7$$6, &_8$$6);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_9, "unserialize", NULL, 15, &payload);
+	ZEPHIR_CALL_FUNCTION(&_9, "unserialize", NULL, 17, &payload);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&payload, &_9);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 90);
@@ -1058,12 +1058,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired)
 	zephir_time(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "created");
-	ZEPHIR_CALL_CE_STATIC(&created, phalcon_helper_arr_ce, "get", &_0, 16, &payload, &_2, &_1);
+	ZEPHIR_CALL_CE_STATIC(&created, phalcon_helper_arr_ce, "get", &_0, 10, &payload, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "ttl");
 	ZVAL_LONG(&_3, 3600);
-	ZEPHIR_CALL_CE_STATIC(&ttl, phalcon_helper_arr_ce, "get", &_0, 16, &payload, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&ttl, phalcon_helper_arr_ce, "get", &_0, 10, &payload, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_add_function(&_4, &created, &ttl);

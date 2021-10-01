@@ -80,7 +80,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Registry)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_support_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
 }
