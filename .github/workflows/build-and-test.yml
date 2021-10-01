@@ -79,7 +79,7 @@ jobs:
           vendor/bin/psalm ide/
 
   generate:
-    name: Build Phalcon Pecl Package
+    name: Generate ext and build code
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
@@ -123,6 +123,15 @@ jobs:
           name: compile-errors
           path: compile-errors.log
 
+  generate-pecl:
+    name: Build Phalcon Pecl Package
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    needs: [generate]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
@@ -151,7 +160,7 @@ jobs:
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: [generate]
+    needs: [generate-pecl]
     services:
       mysql:
         image: mysql:5.7
@@ -312,7 +321,7 @@ jobs:
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
     if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
-    needs: [generate]
+    needs: [generate-pecl]
     runs-on: ${{ matrix.operating-system }}
 
     env:
@@ -401,7 +410,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-    needs: [generate]
+
+    needs: [generate-pecl]
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -645,6 +655,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     runs-on: ubuntu-20.04
 
+    needs: [generate-pecl]
     strategy:
       fail-fast: false
       matrix:
@@ -663,7 +674,7 @@ jobs:
       - name: Install from build/ directory
         run: |
           cd build/
-          php gen-build.php
+#          php gen-build.php
           sudo ./install
 
       - name: Validate extension
