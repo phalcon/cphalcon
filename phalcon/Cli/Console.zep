@@ -109,7 +109,7 @@ class Console extends AbstractApplication
                 }
 
                 if !class_exists(className, false) {
-                    require path;
+                    require_once path;
                 }
             }
 
