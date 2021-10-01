@@ -1906,23 +1906,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * If there are any arguments, Manager with handle the caching of the records
          */
         if arguments === null {
+//            /**
+//             * If the related records are already in cache and the relation is reusable,
+//             * we return the cached records.
+//             */
+//            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+//                let result = this->related[lowerAlias];
+//            } else {
+//                /**
+//                 * Call the 'getRelationRecords' in the models manager.
+//                 */
+//                let result = manager->getRelationRecords(relation, this, arguments);
+//
+//                /**
+//                 * We store relationship objects in the related cache if there were no arguments.
+//                 */
+//                let this->related[lowerAlias] = result;
+//            }
             /**
-             * If the related records are already in cache and the relation is reusable,
-             * we return the cached records.
+             * We do not need conditionals here. The models manager stores
+             * reusable related records so we utilize that and remove complexity
+             * from here. There is a very small decrease in performance since
+             * the models manager needs to calculate the unique key from
+             * the passed arguments and then check its internal cache
              */
-            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
-                let result = this->related[lowerAlias];
-            } else {
-                /**
-                 * Call the 'getRelationRecords' in the models manager.
-                 */
-                let result = manager->getRelationRecords(relation, this, arguments);
+            let result = manager->getRelationRecords(relation, this, arguments);
 
-                /**
-                 * We store relationship objects in the related cache if there were no arguments.
-                 */
-                let this->related[lowerAlias] = result;
-            }
+            /**
+             * We store relationship objects in the related cache if there were no arguments.
+             */
+            let this->related[lowerAlias] = result;
         } else {
             /**
              * Individually queried related records are handled by Manager.
