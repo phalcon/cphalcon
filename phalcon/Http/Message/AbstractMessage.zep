@@ -502,7 +502,7 @@ abstract class AbstractMessage extends AbstractCommon
         } else {
             if unlikely !(typeof headers === "object" && headers instanceof CollectionInterface) {
                 throw new InvalidArgumentException(
-                    "Headers needs to be either an array or instance of Phalcon\\Collection"
+                    "Headers needs to be either an array or instance of Phalcon\\Support\\Collection"
                 );
             }
 
