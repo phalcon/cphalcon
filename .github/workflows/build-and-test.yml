@@ -646,7 +646,6 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     runs-on: ubuntu-20.04
 
-    needs: [generate]
     strategy:
       fail-fast: false
       matrix:
@@ -665,6 +664,7 @@ jobs:
       - name: Install from build/ directory
         run: |
           cd build/
+          php gen-build.php
           sudo ./install
 
       - name: Validate extension
