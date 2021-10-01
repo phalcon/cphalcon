@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	ZVAL_STRING(&_2, "value");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 16, &attributes, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 10, &attributes, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	array_init(&_2);

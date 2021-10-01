@@ -14,8 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\ServerRequestFactoryInterface;

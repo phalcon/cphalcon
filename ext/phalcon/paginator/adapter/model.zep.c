@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_STRING(&_6, "parameters");
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "array");
-	ZEPHIR_CALL_CE_STATIC(&parameters, phalcon_helper_arr_ce, "get", &_4, 16, &config, &_6, &_5, &_7);
+	ZEPHIR_CALL_CE_STATIC(&parameters, phalcon_helper_arr_ce, "get", &_4, 10, &config, &_6, &_5, &_7);
 	zephir_check_call_status();
 	if (pageNumber <= 0) {
 		pageNumber = 1;

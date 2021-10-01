@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, toJson)
 
 
 	ZVAL_LONG(&_1, ((128 | 64) | 256));
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 14, variable, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 16, variable, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -14,8 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -502,7 +502,7 @@ abstract class AbstractMessage extends AbstractCommon
         } else {
             if unlikely !(typeof headers === "object" && headers instanceof CollectionInterface) {
                 throw new InvalidArgumentException(
-                    "Headers needs to be either an array or instance of Phalcon\\Collection"
+                    "Headers needs to be either an array or instance of Phalcon\\Support\\Collection"
                 );
             }
 

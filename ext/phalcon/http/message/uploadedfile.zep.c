@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getErrorDescription)
 	ZVAL_LONG(&_1, error);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "Unknown upload error");
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 16, &errors, &_1, &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 10, &errors, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

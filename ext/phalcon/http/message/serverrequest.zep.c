@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cookieParams"), &cookies);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("queryParams"), &queryParams);
 	ZEPHIR_INIT_NVAR(&_6);
-	object_init_ex(&_6, phalcon_collection_ce);
+	object_init_ex(&_6, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 22);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_6);

@@ -353,8 +353,8 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, calculateUriHost)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, calculateUriPath)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, calculateUriQuery)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -630,8 +630,8 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, calculateUriScheme)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, getHeader)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_support_collection_collectioninterface_ce)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(defaultValue)
@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseHeaders)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -976,7 +976,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseHeaders)
 
 
 	ZEPHIR_INIT_VAR(&headers);
-	object_init_ex(&headers, phalcon_collection_ce);
+	object_init_ex(&headers, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &headers, "__construct", NULL, 22);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&serverArray, server, "toarray", NULL, 0);
@@ -1161,7 +1161,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseProtocol)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1271,7 +1271,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseServer)
 
 
 	ZEPHIR_INIT_VAR(&collection);
-	object_init_ex(&collection, phalcon_collection_ce);
+	object_init_ex(&collection, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 22, &server);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL, 0);
@@ -1286,7 +1286,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseServer)
 	}
 	if (UNEXPECTED(_2)) {
 		ZEPHIR_INIT_VAR(&headersCollection);
-		object_init_ex(&headersCollection, phalcon_collection_ce);
+		object_init_ex(&headersCollection, phalcon_support_collection_ce);
 		ZEPHIR_CALL_METHOD(NULL, &headersCollection, "__construct", NULL, 22, &headers);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -1354,7 +1354,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles)
 
 
 	ZEPHIR_INIT_VAR(&collection);
-	object_init_ex(&collection, phalcon_collection_ce);
+	object_init_ex(&collection, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 22);
 	zephir_check_call_status();
 	zephir_is_iterable(&files, 0, "phalcon/Http/Message/ServerRequestFactory.zep", 559);
@@ -1490,8 +1490,8 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUri)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_collection_collectioninterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(server, phalcon_support_collection_collectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_support_collection_collectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

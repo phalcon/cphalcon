@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 	ZVAL_STRING(&_2, "defaultInterpolator");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "associativeArray");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorFactory"), interpolator);

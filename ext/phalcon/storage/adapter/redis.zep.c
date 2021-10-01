@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_STRING(&_3, "127.0.0.1");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "string");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("host"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_LONG(&_6, 6379);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "int");
-	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("port"), &_5, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_LONG(&_6, 0);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "int");
-	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("index"), &_7, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_BOOL(&_6, 0);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "bool");
-	ZEPHIR_CALL_CE_STATIC(&_8, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_8, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("persistent"), &_8, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_STRING(&_3, "");
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "string");
-	ZEPHIR_CALL_CE_STATIC(&_9, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_9, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("auth"), &_9, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_STRING(&_3, "");
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "string");
-	ZEPHIR_CALL_CE_STATIC(&_10, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_10, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("socket"), &_10, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_LONG(&_6, 0);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "int");
-	ZEPHIR_CALL_CE_STATIC(&_11, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_11, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("connectionTimeout"), &_11, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_NULL(&_6);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "int");
-	ZEPHIR_CALL_CE_STATIC(&_12, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_12, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("retryInterval"), &_12, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 	ZVAL_LONG(&_6, 0);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "int");
-	ZEPHIR_CALL_CE_STATIC(&_13, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_13, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_6, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("readTimeout"), &_13, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);

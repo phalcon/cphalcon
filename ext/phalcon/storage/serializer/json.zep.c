@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_7, 14, &_8);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_7, 16, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
 }

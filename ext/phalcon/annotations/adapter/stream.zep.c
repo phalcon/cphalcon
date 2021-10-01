@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_9$$6, &_10$$6);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_11, "unserialize", NULL, 15, &contents);
+	ZEPHIR_CALL_FUNCTION(&_11, "unserialize", NULL, 17, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_11);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 90);
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 13, data);
+	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 15, data);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_file_put_contents(&_4, &path, &code);

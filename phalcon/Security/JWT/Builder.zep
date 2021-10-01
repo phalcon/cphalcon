@@ -10,8 +10,8 @@
 
 namespace Phalcon\Security\JWT;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Helper\Base64;
 use Phalcon\Helper\Json;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;

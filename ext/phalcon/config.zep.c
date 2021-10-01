@@ -56,7 +56,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Config, phalcon, config, phalcon_collection_ce, phalcon_config_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Config, phalcon, config, phalcon_support_collection_ce, phalcon_config_method_entry, 0);
 
 	/**
 	 * @var string|null

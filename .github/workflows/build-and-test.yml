@@ -79,7 +79,7 @@ jobs:
           vendor/bin/psalm ide/
 
   generate:
-    name: Build Phalcon Pecl Package
+    name: Build Phalcon PECL package
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
@@ -401,6 +401,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
+
     needs: [generate]
     runs-on: ${{ matrix.operating-system }}
     strategy:

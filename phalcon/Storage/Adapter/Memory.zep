@@ -10,8 +10,8 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;

@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZVAL_STRING(&_5$$3, "");
 		} else {
-			ZEPHIR_CALL_CE_STATIC(&_5$$3, phalcon_helper_json_ce, "encode", &_9, 14, &values);
+			ZEPHIR_CALL_CE_STATIC(&_5$$3, phalcon_helper_json_ce, "encode", &_9, 16, &values);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(&_10$$3);

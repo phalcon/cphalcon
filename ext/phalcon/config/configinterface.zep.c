@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Config, ConfigInterface, phalcon, config_configinterface, phalcon_config_configinterface_method_entry);
 
-	zend_class_implements(phalcon_config_configinterface_ce, 1, phalcon_collection_collectioninterface_ce);
+	zend_class_implements(phalcon_config_configinterface_ce, 1, phalcon_support_collection_collectioninterface_ce);
 	return SUCCESS;
 }
 

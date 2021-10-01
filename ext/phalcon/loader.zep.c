@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 			ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_2$$5, this_ptr, &filePath);
 			zephir_check_call_status();
 		}
-		if (zephir_require_zval(&filePath) == FAILURE) {
+		if (zephir_require_once_zval(&filePath) == FAILURE) {
 			RETURN_MM_NULL();
 		}
 		RETURN_MM_BOOL(1);
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 									ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_20, 0, &_19$$13, this_ptr, &filePath);
 									zephir_check_call_status();
 								}
-								if (zephir_require_zval(&filePath) == FAILURE) {
+								if (zephir_require_once_zval(&filePath) == FAILURE) {
 									RETURN_MM_NULL();
 								}
 								RETURN_MM_BOOL(1);
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 										ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_25, 0, &_24$$17, this_ptr, &filePath);
 										zephir_check_call_status();
 									}
-									if (zephir_require_zval(&filePath) == FAILURE) {
+									if (zephir_require_once_zval(&filePath) == FAILURE) {
 										RETURN_MM_NULL();
 									}
 									RETURN_MM_BOOL(1);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 										ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_33, 0, &_32$$22, this_ptr, &filePath);
 										zephir_check_call_status();
 									}
-									if (zephir_require_zval(&filePath) == FAILURE) {
+									if (zephir_require_once_zval(&filePath) == FAILURE) {
 										RETURN_MM_NULL();
 									}
 									RETURN_MM_BOOL(1);
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 											ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_38, 0, &_37$$26, this_ptr, &filePath);
 											zephir_check_call_status();
 										}
-										if (zephir_require_zval(&filePath) == FAILURE) {
+										if (zephir_require_once_zval(&filePath) == FAILURE) {
 											RETURN_MM_NULL();
 										}
 										RETURN_MM_BOOL(1);
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 										ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_51, 0, &_50$$34, this_ptr, &filePath);
 										zephir_check_call_status();
 									}
-									if (zephir_require_zval(&filePath) == FAILURE) {
+									if (zephir_require_once_zval(&filePath) == FAILURE) {
 										RETURN_MM_NULL();
 									}
 									RETURN_MM_BOOL(1);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 											ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_56, 0, &_55$$38, this_ptr, &filePath);
 											zephir_check_call_status();
 										}
-										if (zephir_require_zval(&filePath) == FAILURE) {
+										if (zephir_require_once_zval(&filePath) == FAILURE) {
 											RETURN_MM_NULL();
 										}
 										RETURN_MM_BOOL(1);
@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 											ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_64, 0, &_63$$43, this_ptr, &filePath);
 											zephir_check_call_status();
 										}
-										if (zephir_require_zval(&filePath) == FAILURE) {
+										if (zephir_require_once_zval(&filePath) == FAILURE) {
 											RETURN_MM_NULL();
 										}
 										RETURN_MM_BOOL(1);
@@ -640,7 +640,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 												ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_69, 0, &_68$$47, this_ptr, &filePath);
 												zephir_check_call_status();
 											}
-											if (zephir_require_zval(&filePath) == FAILURE) {
+											if (zephir_require_once_zval(&filePath) == FAILURE) {
 												RETURN_MM_NULL();
 											}
 											RETURN_MM_BOOL(1);
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 							ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_79, 0, &_78$$52, this_ptr, &filePath);
 							zephir_check_call_status();
 						}
-						if (zephir_require_zval(&filePath) == FAILURE) {
+						if (zephir_require_once_zval(&filePath) == FAILURE) {
 							RETURN_MM_NULL();
 						}
 						RETURN_MM_BOOL(1);
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 								ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_84, 0, &_83$$56, this_ptr, &filePath);
 								zephir_check_call_status();
 							}
-							if (zephir_require_zval(&filePath) == FAILURE) {
+							if (zephir_require_once_zval(&filePath) == FAILURE) {
 								RETURN_MM_NULL();
 							}
 							RETURN_MM_BOOL(1);
@@ -787,7 +787,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 								ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_92, 0, &_91$$61, this_ptr, &filePath);
 								zephir_check_call_status();
 							}
-							if (zephir_require_zval(&filePath) == FAILURE) {
+							if (zephir_require_once_zval(&filePath) == FAILURE) {
 								RETURN_MM_NULL();
 							}
 							RETURN_MM_BOOL(1);
@@ -823,7 +823,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad)
 									ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_97, 0, &_96$$65, this_ptr, &filePath);
 									zephir_check_call_status();
 								}
-								if (zephir_require_zval(&filePath) == FAILURE) {
+								if (zephir_require_once_zval(&filePath) == FAILURE) {
 									RETURN_MM_NULL();
 								}
 								RETURN_MM_BOOL(1);
@@ -1008,7 +1008,7 @@ PHP_METHOD(Phalcon_Loader, loadFiles)
 					ZEPHIR_CALL_METHOD(NULL, &_9$$6, "fire", NULL, 0, &_10$$6, this_ptr, &filePath);
 					zephir_check_call_status();
 				}
-				if (zephir_require_zval(&filePath) == FAILURE) {
+				if (zephir_require_once_zval(&filePath) == FAILURE) {
 					RETURN_MM_NULL();
 				}
 			}
@@ -1047,7 +1047,7 @@ PHP_METHOD(Phalcon_Loader, loadFiles)
 						ZEPHIR_CALL_METHOD(NULL, &_16$$10, "fire", NULL, 0, &_17$$10, this_ptr, &filePath);
 						zephir_check_call_status();
 					}
-					if (zephir_require_zval(&filePath) == FAILURE) {
+					if (zephir_require_once_zval(&filePath) == FAILURE) {
 						RETURN_MM_NULL();
 					}
 				}

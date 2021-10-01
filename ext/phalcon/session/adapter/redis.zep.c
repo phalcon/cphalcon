@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_STRING(&_2, "prefix");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "sess-reds-");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 10, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);

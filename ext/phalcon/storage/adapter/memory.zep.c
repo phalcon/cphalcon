@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_INIT_NVAR(&_0);
-	object_init_ex(&_0, phalcon_collection_ce);
+	object_init_ex(&_0, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
