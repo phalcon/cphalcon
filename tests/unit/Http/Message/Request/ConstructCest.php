@@ -90,7 +90,7 @@ class ConstructCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Headers needs to be either an array or instance of Phalcon\Collection'
+                'Headers needs to be either an array or instance of Phalcon\Support\Collection'
             ),
             function () {
                 $request = new Request(

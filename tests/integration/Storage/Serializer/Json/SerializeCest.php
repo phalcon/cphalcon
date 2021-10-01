@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Storage\Serializer\Json;
 
 use Codeception\Example;
 use InvalidArgumentException;
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 use Phalcon\Storage\Serializer\Json;
 use stdClass;
 use IntegrationTester;
