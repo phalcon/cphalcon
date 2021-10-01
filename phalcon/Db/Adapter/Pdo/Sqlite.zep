@@ -146,7 +146,7 @@ class Sqlite extends PdoAdapter
                  */
                 let definition["type"] = Column::TYPE_BIGINTEGER,
                     definition["isNumeric"] = true,
-                    definition["bindType"] = Column::BIND_PARAM_INT;
+                    definition["bindType"] = Column::BIND_PARAM_STR;
             } elseif memstr(columnType, "int") || memstr(columnType, "INT") {
                 /**
                  * Smallint/Integers/Int are int

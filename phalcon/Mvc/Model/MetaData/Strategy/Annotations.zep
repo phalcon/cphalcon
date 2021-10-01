@@ -182,7 +182,7 @@ class Annotations implements StrategyInterface
             switch feature {
                 case "biginteger":
                     let fieldTypes[columnName] = Column::TYPE_BIGINTEGER,
-                        fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
+                        fieldBindTypes[columnName] = Column::BIND_PARAM_STR,
                         numericTyped[columnName] = true;
                     break;
 
