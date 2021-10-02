@@ -11,6 +11,10 @@
   - Renamed  `Phalcon\Collection\Exception` to `Phalcon\Support\Collection\Exception`
   - Renamed  `Phalcon\Collection\ReadOnly` to `Phalcon\Support\Collection\ReadOnly`
   - Renamed  `Phalcon\Collection` to `Phalcon\Support\Collection` [#15700](https://github.com/phalcon/cphalcon/issues/15700)
+- Changes to `Phalcon\Session\Bag`:
+  - Changed `Phalcon\Session\Bag::construct` to accept a container instead of internally calling the default
+  - Changed `Phalcon\Session\Bag::construct` to throw an exception if the container is not specified
+  - Changed `Phalcon\Session\Bag::init` to store the data in the session [#15494](https://github.com/phalcon/cphalcon/issues/15494)
 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
