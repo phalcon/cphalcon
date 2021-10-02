@@ -508,23 +508,6 @@ class Memory extends AbstractAdapter
      }
 
     /**
-     * Returns the default ACL access level for no arguments provided in
-     * `isAllowed` action if a `func` (callable) exists for `accessKey`
-     */
-    public function getNoArgumentsDefaultAction() -> int
-    {
-        return this->noArgumentsDefaultAction;
-    }
-
-    /**
-     * Return an array with every role registered in the list
-     */
-    public function getRoles() -> <RoleInterface[]>
-    {
-        return this->roles;
-    }
-
-    /**
      * Return an array with every component registered in the list
      */
     public function getComponents() -> <ComponentInterface[]>
@@ -550,6 +533,23 @@ class Memory extends AbstractAdapter
         }
 
         return result;
+    }
+
+    /**
+     * Returns the default ACL access level for no arguments provided in
+     * `isAllowed` action if a `func` (callable) exists for `accessKey`
+     */
+    public function getNoArgumentsDefaultAction() -> int
+    {
+        return this->noArgumentsDefaultAction;
+    }
+
+    /**
+     * Return an array with every role registered in the list
+     */
+    public function getRoles() -> <RoleInterface[]>
+    {
+        return this->roles;
     }
 
     /**
