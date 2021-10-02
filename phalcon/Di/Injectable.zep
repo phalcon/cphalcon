@@ -73,7 +73,8 @@ abstract class Injectable implements InjectionAwareInterface
             let this->{"persistent"} = <BagInterface> container->get(
                 "sessionBag",
                 [
-                    get_class(this)
+                    get_class(this),
+                    container
                 ]
             );
 
