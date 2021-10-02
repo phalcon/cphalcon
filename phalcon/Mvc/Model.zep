@@ -876,7 +876,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if value != "" && value !== null {
                 switch attribute[1] {
-                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_INTEGER:
                     case Column::TYPE_MEDIUMINTEGER:
                     case Column::TYPE_SMALLINTEGER:
