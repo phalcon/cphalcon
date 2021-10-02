@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Bag;
 use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionBagTrait;
 
 class CountCest
 {
@@ -44,18 +43,16 @@ class CountCest
             'five'  => 'six',
         ];
 
-        $collection = new Bag('BagTest');
+        $collection = new Bag('BagTest', $this->container);
 
         $collection->init($data);
 
-        $I->assertCount(
-            3,
-            $collection->toArray()
-        );
+        $expected = 3;
+        $actual   = $collection->toArray();
+        $I->assertCount($expected, $actual);
 
-        $I->assertEquals(
-            3,
-            $collection->count()
-        );
+        $expected = 3;
+        $actual   = $collection->count();
+        $I->assertEquals($expected, $actual);
     }
 }
