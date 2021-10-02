@@ -96,6 +96,13 @@ interface AdapterInterface
     public function getComponents() -> <ComponentInterface[]>;
 
     /**
+     * Returns the inherited roles for a passed role name. If no role name
+     * has been specified it will return the whole array. If the role has not
+     * been found it returns an empty array
+     */
+    public function getInheritedRoles(string roleName = "") -> array;
+
+    /**
      * Check whether a role is allowed to access an action from a component
      */
     public function isAllowed(roleName, componentName, string access, array parameters = null) -> bool;

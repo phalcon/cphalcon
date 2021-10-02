@@ -533,6 +533,26 @@ class Memory extends AbstractAdapter
     }
 
     /**
+     * Returns the inherited roles for a passed role name. If no role name
+     * has been specified it will return the whole array. If the role has not
+     * been found it returns an empty array
+     */
+    public function getInheritedRoles(string roleName = "") -> array
+    {
+        var result;
+
+        if empty roleName {
+            return this->roleInherits;
+        }
+
+        if !fetch result, this->roleInherits[roleName] {
+            return [];
+        }
+
+        return result;
+    }
+
+    /**
      * Check whether a role is allowed to access an action from a component
      *
      * ```php
