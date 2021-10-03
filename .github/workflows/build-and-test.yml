@@ -569,7 +569,7 @@ jobs:
       - name: Phalcon | Configure Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          configure --enable-phalcon
+          .\configure.bat --enable-phalcon
 #          --with-extra-libs=${{ env.PHP_PECL_PATH }}\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
