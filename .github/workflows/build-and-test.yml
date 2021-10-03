@@ -298,9 +298,8 @@ jobs:
     name: PHP ${{ matrix.php-version }} Test on ${{ matrix.operating-system }}
 
     # To prevent build a particular commit use
-    #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
-    if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, '[ci skip]')"
+    if: !contains(github.event.head_commit.message, '[mac skip]')
 
     needs: [generate]
     runs-on: ${{ matrix.operating-system }}
@@ -386,9 +385,8 @@ jobs:
 
   build-and-test-windows:
     # To prevent build a particular commit use
-    #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [win skip] - to skip only Windows builds"
-    if: ${{ !contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, '[ci skip]') }}
+    if: !contains(github.event.head_commit.message, '[win skip]')
     needs: [generate]
 
     name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
@@ -446,15 +444,6 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
-          # We should parse the following file to get the correct version:
-          #    https://windows.php.net/downloads/releases/sha256sum.txt
-          If ("${{ matrix.php-version }}" -eq "7.4") {
-            Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          } Else {
-            Write-Output "PHP_VERSION=$(php -r 'echo phpversion();')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
-
           Write-Output "PHP_MINOR=${{ matrix.php-version }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -520,15 +509,6 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           InitializeReleaseVars
 
-#      - name: Fix Environment Variables
-#        shell: powershell
-#        run: |
-#          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-#          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#
-#          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-#          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Unpack Package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -564,7 +544,6 @@ jobs:
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
           phpize
-#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
 
       - name: Phalcon | Configure Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
@@ -576,8 +555,6 @@ jobs:
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
           nmake
-#          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
 
       - name: Inspecting Phalcon Extension DLL File
         run: |
@@ -603,7 +580,6 @@ jobs:
       - name: Enable Extensions
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
@@ -646,7 +622,6 @@ jobs:
 
   install-from-build:
     name: PHP ${{ matrix.php-version }} Install from build
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
     runs-on: ubuntu-20.04
 
     strategy:
