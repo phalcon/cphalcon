@@ -503,7 +503,7 @@ jobs:
           cache_dir: ${{ env.CACHE_DIR }}
 
       - name: Configure Developer Command Prompt for MSVC compiler
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.9.0
         with:
           arch: ${{ inputs.arch }}
 
