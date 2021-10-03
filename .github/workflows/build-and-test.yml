@@ -505,7 +505,7 @@ jobs:
       - name: Configure Developer Command Prompt for MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1.9.0
         with:
-          arch: ${{ inputs.arch }}
+          arch: ${{ matrix.arch }}
 
       - name: Getting Details About Installed PHP
         run: |
