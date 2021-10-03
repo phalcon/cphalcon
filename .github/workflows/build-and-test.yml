@@ -404,6 +404,9 @@ jobs:
     name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
 
+    env:
+      CACHE_DIR: 'C:\Downloads'
+
     strategy:
       fail-fast: false
 
@@ -430,18 +433,15 @@ jobs:
             php-version: '7.4'
 
     steps:
-      - name: Disable Git autocrlf
-        run: git config --global core.autocrlf false
-
       - uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl
           extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis, zip
+          tools: pecl
+          ini-values: apc.enable_cli=on, session.save_path=C:\temp
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -471,8 +471,8 @@ jobs:
 
       - name: Setup Common Environment
         run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          SetupCommonEnvironment
+          git config --global core.autocrlf false
+          mkdir "${{ env.CACHE_DIR }}\Choco"
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -492,7 +492,7 @@ jobs:
           name: phalcon-pecl
 
       - name: Install System Dependencies
-        run: choco install -y --cache-location=C:\Downloads\Choco re2c
+        run: choco install -y --cache-location=${{ env.CACHE_DIR }}\Choco re2c
 
       - name: Setup PHP SDK tool kit
         uses: zephir-lang/setup-php-sdk@v1
@@ -502,7 +502,7 @@ jobs:
           msvc: ${{ matrix.vc_num }}
           arch: ${{ matrix.arch }}
           install_dir: 'C:\tools'
-          cache_dir: 'C:\Downloads'
+          cache_dir: ${{ env.CACHE_DIR }}
 
       - name: Configure Developer Command Prompt for MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1
@@ -533,33 +533,33 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-      - name: PSR extension | init, phpize
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          phpize
-
-      - name: PSR extension | configure
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          configure --enable-psr
-
-      - name: PSR extension | build
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          nmake
-          nmake install
-
-      - name: PSR extension | Inspecting Extension DLL File
-        run: |
-          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+#      - name: PSR extension | init, phpize
+#        shell: cmd
+#        run: |
+#          set PATH=%PATH%;%PHP_DEVPACK%
+#          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+#          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+#          phpize
+#
+#      - name: PSR extension | configure
+#        shell: cmd
+#        run: |
+#          set PATH=%PATH%;%PHP_DEVPACK%
+#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+#          configure --enable-psr
+#
+#      - name: PSR extension | build
+#        shell: cmd
+#        run: |
+#          set PATH=%PATH%;%PHP_DEVPACK%
+#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+#          nmake
+#          nmake install
+#
+#      - name: PSR extension | Inspecting Extension DLL File
+#        run: |
+#          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Phalcon | phpize
         shell: cmd
