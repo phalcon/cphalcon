@@ -137,9 +137,8 @@ jobs:
   build-and-test-linux:
     name: PHP ${{ matrix.php-version }} Test on ${{ matrix.operating-system }}
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
     #     git commit -m "......... [linux skip] - to skip only linux builds"
-    if: ${{ !contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, '[ci skip]') }}
+    if: "!contains(github.event.head_commit.message, '[linux skip]')"
 
     needs: [generate]
     services:
@@ -299,7 +298,7 @@ jobs:
 
     # To prevent build a particular commit use
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
-    if: !contains(github.event.head_commit.message, '[mac skip]')
+    if: "!contains(github.event.head_commit.message, '[mac skip]')"
 
     needs: [generate]
     runs-on: ${{ matrix.operating-system }}
@@ -386,7 +385,7 @@ jobs:
   build-and-test-windows:
     # To prevent build a particular commit use
     #    git commit -m "......... [win skip] - to skip only Windows builds"
-    if: !contains(github.event.head_commit.message, '[win skip]')
+    if: "!contains(github.event.head_commit.message, '[win skip]')"
     needs: [generate]
 
     name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
