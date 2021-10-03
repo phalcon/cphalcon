@@ -14,16 +14,6 @@ env:
   ZEPHIR_VERSION: 0.14.0
   PSR_VERSION: 1.1.0
 
-  # Windows
-  PHALCON_VERSION: 5.0.0alpha6
-  PHP_SDK_VERSION: 2.2.0
-  PHP_DEVPACK: "C:\\tools\\php-devpack"
-  PHP_SDK_PATH: "C:\\tools\\php-sdk"
-  PHP_PECL_PATH: "C:\\tools\\pecl"
-  PACKAGE_PREFIX: "phalcon"
-  EXTENSION_NAME: "phalcon"
-  EXTENSION_FILE: "php_phalcon.dll"
-
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -149,7 +139,7 @@ jobs:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
     #     git commit -m "......... [linux skip] - to skip only linux builds"
-    if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    if: !contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, '[ci skip]')
 
     needs: [generate]
     services:
@@ -310,7 +300,7 @@ jobs:
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
-    if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    if: !contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, '[ci skip]')
 
     needs: [generate]
     runs-on: ${{ matrix.operating-system }}
@@ -398,13 +388,21 @@ jobs:
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [win skip] - to skip only Windows builds"
-    if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    if: !contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, '[ci skip]')
     needs: [generate]
 
     name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
 
     env:
+      PHALCON_VERSION: 5.0.0alpha6
+      PHP_SDK_VERSION: 2.2.0
+#      PHP_DEVPACK: "C:\\tools\\php-devpack"
+#      PHP_SDK_PATH: "C:\\tools\\php-sdk"
+      PHP_PECL_PATH: 'C:\tools\pecl'
+      PACKAGE_PREFIX: 'phalcon'
+      EXTENSION_NAME: 'phalcon'
+      EXTENSION_FILE: 'php_phalcon.dll'
       CACHE_DIR: 'C:\Downloads'
 
     strategy:
@@ -557,29 +555,28 @@ jobs:
 #          nmake
 #          nmake install
 #
-#      - name: PSR extension | Inspecting Extension DLL File
-#        run: |
+      - name: PSR extension | Inspecting Extension DLL File
+        run: |
+          php  --ri psr
 #          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Phalcon | phpize
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
       - name: Phalcon | Configure Project
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+          configure --enable-phalcon
+#          --with-extra-libs=${{ env.PHP_PECL_PATH }}\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+#          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
