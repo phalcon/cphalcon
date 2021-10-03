@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Bag;
 use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionBagTrait;
 
 class GetCest
 {
@@ -37,12 +36,13 @@ class GetCest
     public function sessionBagGet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - get()');
+
         $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest');
+        $collection = new Bag('BagTest', $this->container);
         $collection->init($data);
 
         $expected = 'four';

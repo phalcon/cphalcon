@@ -15,9 +15,13 @@ namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
+use Phalcon\Tests\Fixtures\Session\InjectableBag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
-class ToArrayCest
+/**
+ * This is part of the DI Injectable
+ */
+class InjectableCest
 {
     use DiTrait;
 
@@ -28,26 +32,47 @@ class ToArrayCest
     }
 
     /**
-     * Tests Phalcon\Session\Bag :: toArray()
+     * Tests Phalcon\Session\Bag :: clear()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function sessionBagToArray(IntegrationTester $I)
+    public function sessionBagClear(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Bag - toArray()');
+        $I->wantToTest('Session\Bag - injectable');
 
+        /**
+         * Set a session bag
+         */
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
         $collection = new Bag('BagTest', $this->container);
-
         $collection->init($data);
 
+        /**
+         * Store it in the container
+         */
+        $this->container->set('sessionBag', $collection);
+
+        /**
+         * Create the injectable component - this can be a controller for
+         * instance, and set the container
+         */
+        $injectable = new InjectableBag();
+        $injectable->setDI($this->container);
+
+        /**
+         * Get the `persistent` property
+         */
+        $class      = Bag::class;
+        $sessionBag = $injectable->persistent;
+        $I->assertInstanceOf($class, $sessionBag);
+
         $expected = $data;
-        $actual = $collection->toArray();
+        $actual   = $sessionBag->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

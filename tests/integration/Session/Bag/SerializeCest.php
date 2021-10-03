@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Bag;
 use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionBagTrait;
 
 class SerializeCest
 {
@@ -43,14 +42,12 @@ class SerializeCest
             'three' => 'four',
             'five'  => 'six',
         ];
-
-        $collection = new Bag('BagTest');
+        $collection = new Bag('BagTest', $this->container);
 
         $collection->init($data);
 
-        $I->assertEquals(
-            serialize($data),
-            $collection->serialize()
-        );
+        $expected = serialize($data);
+        $actual   = $collection->serialize();
+        $I->assertEquals($expected, $actual);
     }
 }
