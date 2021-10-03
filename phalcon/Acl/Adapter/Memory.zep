@@ -524,7 +524,7 @@ class Memory extends AbstractAdapter
     {
         var result;
 
-        if empty roleName {
+        if "" === roleName {
             return this->roleInherits;
         }
 
