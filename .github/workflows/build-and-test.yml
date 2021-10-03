@@ -563,8 +563,8 @@ jobs:
       - name: Phalcon | phpize
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
+#          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
 
       - name: Phalcon | Configure Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
@@ -575,9 +575,9 @@ jobs:
       - name: Phalcon | Build Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
+          nmake
 #          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 #          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          nmake
 
       - name: Inspecting Phalcon Extension DLL File
         run: |
