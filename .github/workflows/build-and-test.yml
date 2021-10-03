@@ -399,28 +399,33 @@ jobs:
     #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [win skip] - to skip only Windows builds"
     if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    needs: [generate]
 
     name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-
-    needs: [generate]
     runs-on: ${{ matrix.operating-system }}
+
     strategy:
       fail-fast: false
+
       matrix:
         operating-system: [windows-2016, windows-2019]
         php-version: ['7.4', '8.0']
         ts: [ts, nts]
         arch: [x64]
+
         include:
           - php-version: '7.4'
             vc_num: 'vc15'
             build_type: Win32
+
           - php-version: '8.0'
             vc_num: 'vs16'
             build_type: Win32
+
         exclude:
           - operating-system: windows-2016
             php-version: '8.0'
+
           - operating-system: windows-2019
             php-version: '7.4'
 
@@ -492,7 +497,7 @@ jobs:
       - name: Setup PHP SDK tool kit
         uses: zephir-lang/setup-php-sdk@v1
         with:
-          php_version: ${{ matrix.php_version }}
+          php_version: ${{ matrix.php-version }}
           ts: ${{ matrix.ts }}
           msvc: ${{ matrix.vc_num }}
           arch: ${{ matrix.arch }}
