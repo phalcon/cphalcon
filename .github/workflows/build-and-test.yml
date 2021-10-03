@@ -300,7 +300,7 @@ jobs:
     # To prevent build a particular commit use
     #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
-    if: ${{ !contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, '[ci skip]') }}
+    if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, '[ci skip]')"
 
     needs: [generate]
     runs-on: ${{ matrix.operating-system }}
@@ -397,7 +397,7 @@ jobs:
     env:
       PHALCON_VERSION: 5.0.0alpha6
       PHP_SDK_VERSION: 2.2.0
-#      PHP_DEVPACK: "C:\\tools\\php-devpack"
+      PHP_DEVPACK: 'C:\tools\php-devpack'
 #      PHP_SDK_PATH: "C:\\tools\\php-sdk"
       PHP_PECL_PATH: 'C:\tools\pecl'
       PACKAGE_PREFIX: 'phalcon'
@@ -467,6 +467,10 @@ jobs:
             Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           }
 
+          $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+          $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+          Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
       - name: Setup Common Environment
         run: |
           git config --global core.autocrlf false
@@ -516,14 +520,14 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           InitializeReleaseVars
 
-      - name: Fix Environment Variables
-        shell: powershell
-        run: |
-          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#      - name: Fix Environment Variables
+#        shell: powershell
+#        run: |
+#          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
+#          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#
+#          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
+#          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Unpack Package
         run: |
@@ -531,34 +535,30 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-#      - name: PSR extension | init, phpize
-#        shell: cmd
-#        run: |
-#          set PATH=%PATH%;%PHP_DEVPACK%
-#          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-#          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-#          phpize
-#
-#      - name: PSR extension | configure
-#        shell: cmd
-#        run: |
-#          set PATH=%PATH%;%PHP_DEVPACK%
-#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-#          configure --enable-psr
-#
-#      - name: PSR extension | build
-#        shell: cmd
-#        run: |
-#          set PATH=%PATH%;%PHP_DEVPACK%
-#          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-#          nmake
-#          nmake install
-#
+      - name: PSR extension | init, phpize
+        run: |
+          git clone https://github.com/jbboehr/php-psr.git ${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}
+          if (-not (Test-Path "${{ env.PHP_DEVPACK }}\include\ext\psr")) {
+            mkdir "${{ env.PHP_DEVPACK }}\include\ext\psr"
+          }
+          Set-Location "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}"
+          phpize
+
+      - name: PSR extension | configure
+        working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+        run: |
+          .\configure.bat --enable-psr
+
+      - name: PSR extension | build
+        working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+        run: |
+          nmake
+          nmake install
+
       - name: PSR extension | Inspecting Extension DLL File
         run: |
           php  --ri psr
-#          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+          Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
 
       - name: Phalcon | phpize
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
@@ -569,8 +569,8 @@ jobs:
       - name: Phalcon | Configure Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          .\configure.bat --enable-phalcon
-#          --with-extra-libs=${{ env.PHP_PECL_PATH }}\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+          .\configure.bat --enable-phalcon `
+            --with-extra-libs="${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}"
 
       - name: Phalcon | Build Project
         working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
