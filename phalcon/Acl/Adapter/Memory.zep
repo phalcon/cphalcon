@@ -508,6 +508,34 @@ class Memory extends AbstractAdapter
      }
 
     /**
+     * Return an array with every component registered in the list
+     */
+    public function getComponents() -> <ComponentInterface[]>
+    {
+        return this->components;
+    }
+
+    /**
+     * Returns the inherited roles for a passed role name. If no role name
+     * has been specified it will return the whole array. If the role has not
+     * been found it returns an empty array
+     */
+    public function getInheritedRoles(string roleName = "") -> array
+    {
+        var result;
+
+        if "" === roleName {
+            return this->roleInherits;
+        }
+
+        if !fetch result, this->roleInherits[roleName] {
+            return [];
+        }
+
+        return result;
+    }
+
+    /**
      * Returns the default ACL access level for no arguments provided in
      * `isAllowed` action if a `func` (callable) exists for `accessKey`
      */
@@ -522,14 +550,6 @@ class Memory extends AbstractAdapter
     public function getRoles() -> <RoleInterface[]>
     {
         return this->roles;
-    }
-
-    /**
-     * Return an array with every component registered in the list
-     */
-    public function getComponents() -> <ComponentInterface[]>
-    {
-        return this->components;
     }
 
     /**
