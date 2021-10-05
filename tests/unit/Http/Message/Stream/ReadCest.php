@@ -33,7 +33,7 @@ class ReadCest
 
         $stream = new Stream($fileName, 'rb');
 
-        $expected = 'The MIT License (MIT)'.PHP_EOL.PHP_EOL.'Copyright (c) 2015-present, Phalcon PHP';
+        $expected = 'The MIT License (MIT)' . PHP_EOL . PHP_EOL . 'Copyright (c) 2015-present, Phalcon PHP';
         $actual   = $stream->read(62);
         $I->assertEquals($expected, $actual);
     }
