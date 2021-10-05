@@ -44,9 +44,10 @@ class VariablesCest
             )
         );
 
-        $I->assertEquals(
-            $expected,
-            $dump->variables($test1, $test2, $test3)
-        );
+        $actual = $dump->variables($test1, $test2, $test3);
+        if (PHP_OS === 'Windows') {
+            $actual = str_replace('\n', PHP_EOL, $actual);
+        }
+        $I->assertEquals($expected, $actual);
     }
 }
