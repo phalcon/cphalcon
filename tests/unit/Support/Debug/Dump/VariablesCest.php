@@ -44,7 +44,7 @@ class VariablesCest
             )
         );
 
-        if (PHP_OS === 'Windows') {
+        if (PHP_OS_FAMILY === 'Windows') {
             $expected = str_replace(PHP_EOL, '\n', $expected);
         }
         $I->assertEquals($expected, $dump->variables($test1, $test2, $test3));

@@ -41,7 +41,7 @@ class AllCest
             )
         );
 
-        if (PHP_OS === 'Windows') {
+        if (PHP_OS_FAMILY === 'Windows') {
             $expected = str_replace(PHP_EOL, '\n', $expected);
         }
         $I->assertEquals($expected, $dump->all($test1, $test2, $test3));
