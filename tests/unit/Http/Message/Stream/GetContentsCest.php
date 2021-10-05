@@ -36,7 +36,7 @@ class GetContentsCest
         $I->openFile($fileName);
 
         $I->seeFileContentsEqual(
-            $stream->getContents()
+            str_replace('\n', PHP_EOL, $stream->getContents())
         );
     }
 
@@ -61,8 +61,8 @@ class GetContentsCest
             . 'OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR '
             . 'OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE '
             . 'SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
-            . "\n";
-        $actual   = $stream->getContents();
+            . PHP_EOL;
+        $actual = $stream->getContents();
         $I->assertEquals($expected, $actual);
     }
 
