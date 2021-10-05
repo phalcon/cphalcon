@@ -444,18 +444,6 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-#          Write-Output "PHP_MINOR=${{ matrix.php-version }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#
-#          If ("${{ matrix.ts }}" -eq "nts") {
-#            Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          } Else {
-#            Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-#          }
-
           $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
           $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
           Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -464,6 +452,7 @@ jobs:
           Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           $ReleaseZipBall = "phalcon-php${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.os_name }}-${{ matrix.vc_num }}-${{ matrix.arch }}"
+          Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup Common Environment
         run: |
