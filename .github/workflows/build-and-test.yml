@@ -395,7 +395,6 @@ jobs:
       PHALCON_VERSION: 5.0.0alpha6
       PHP_SDK_VERSION: 2.2.0
       PHP_DEVPACK: 'C:\tools\php-devpack'
-#      PHP_SDK_PATH: "C:\\tools\\php-sdk"
       PHP_PECL_PATH: 'C:\tools\pecl'
       PACKAGE_PREFIX: 'phalcon'
       EXTENSION_NAME: 'phalcon'
@@ -414,10 +413,12 @@ jobs:
         include:
           - php-version: '7.4'
             vc_num: 'vc15'
+            os_name: 'windows2016'
             build_type: Win32
 
           - php-version: '8.0'
             vc_num: 'vs16'
+            os_name: 'windows2019'
             build_type: Win32
 
         exclude:
@@ -443,21 +444,26 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          Write-Output "PHP_MINOR=${{ matrix.php-version }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-          If ("${{ matrix.ts }}" -eq "nts") {
-            Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          } Else {
-            Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
+#          Write-Output "PHP_MINOR=${{ matrix.php-version }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#
+#          If ("${{ matrix.ts }}" -eq "nts") {
+#            Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          } Else {
+#            Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+#          }
 
           $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
           $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
           Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+          $ReleaseDllPath = "${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\${{ env.EXTENSION_FILE }}"
+          Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+          $ReleaseZipBall = "phalcon-php${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.os_name }}-${{ matrix.vc_num }}-${{ matrix.arch }}"
 
       - name: Setup Common Environment
         run: |
@@ -502,11 +508,6 @@ jobs:
       - name: Getting Details About Installed PHP
         run: |
           Get-Php (Get-Command php).Path
-
-      - name: Initialize Release Variables
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          InitializeReleaseVars
 
       - name: Unpack Package
         run: |
@@ -557,7 +558,7 @@ jobs:
 
       - name: Inspecting Phalcon Extension DLL File
         run: |
-          Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+          Get-PhpExtension "${{ env.RELEASE_DLL_PATH }}"
 
       - name: Prepare Build Artifact
         run: |
@@ -565,7 +566,7 @@ jobs:
           if (-not (Test-Path -Path $Destination -PathType Container)) {
             New-Item $Destination -ItemType Directory | Out-Null
           }
-          Copy-Item -Path "${env:RELEASE_DLL_PATH}" -Destination $Destination
+          Copy-Item -Path "${{ env.RELEASE_DLL_PATH }}" -Destination $Destination
           Copy-Item -Path ".\3rdparty\licenses\*.txt" -Destination $Destination
           Set-Location $Destination
           & 7z a "${{ env.RELEASE_ZIPBALL }}.zip" *
