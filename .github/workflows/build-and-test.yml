@@ -604,7 +604,7 @@ jobs:
           retention-days: 1
 
   install-from-build:
-    name: PHP ${{ matrix.php }} Install from build
+    name: Install from build for PHP ${{ matrix.php }}-nts-x64
     runs-on: ubuntu-20.04
 
     strategy:
