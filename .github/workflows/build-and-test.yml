@@ -181,20 +181,37 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup platform specific environment
+        shell: pwsh
+        run: |
+          $SessionSavePath = '/tmp'
+
+          if ("${{ runner.os }}" -eq "Windows") {
+            $SessionSavePath = 'C:\temp'
+          }
+
+          Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
           tools: pecl
         env:
+          PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v2
         with:
           name: phalcon-pecl
+
+#      - name: Install package
+#        run: |
+#          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+#          sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
