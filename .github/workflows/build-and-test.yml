@@ -212,7 +212,7 @@ jobs:
           name: phalcon-pecl
 
       - name: Build Phalcon Extension (Linux)
-        uses: actions/build-phalcon-linux
+        uses: .github/actions/build-phalcon-linux
         if: runner.os == 'Linux'
         with:
           pecl: 'phalcon-pecl/phalcon-pecl.tgz'
