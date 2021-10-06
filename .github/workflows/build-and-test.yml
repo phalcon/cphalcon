@@ -14,16 +14,6 @@ env:
   ZEPHIR_VERSION: 0.14.0
   PSR_VERSION: 1.1.0
 
-  # Windows
-  PHALCON_VERSION: 5.0.0alpha6
-  PHP_SDK_VERSION: 2.2.0
-  PHP_DEVPACK: "C:\\tools\\php-devpack"
-  PHP_SDK_PATH: "C:\\tools\\php-sdk"
-  PHP_PECL_PATH: "C:\\tools\\pecl"
-  PACKAGE_PREFIX: "phalcon"
-  EXTENSION_NAME: "phalcon"
-  EXTENSION_FILE: "php_phalcon.dll"
-
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -32,7 +22,6 @@ env:
 jobs:
   phpcs:
     name: Validate Tests code style
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
     steps:
@@ -41,16 +30,16 @@ jobs:
       - name: Run PHP_CodeSniffer
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
+
   stubs:
-    name: PHP ${{ matrix.php-versions }} Stubs validation
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    name: Stubs validation for PHP ${{ matrix.php }}
 
     runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -58,7 +47,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
           tools: pecl
           extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
@@ -80,7 +69,6 @@ jobs:
 
   generate:
     name: Build Phalcon PECL package
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
     steps:
@@ -145,11 +133,10 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    name: Test on Linux PHP ${{ matrix.php }}-nts-x64
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
     #     git commit -m "......... [linux skip] - to skip only linux builds"
-    if: "!contains(github.event.head_commit.message, '[linux skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.event.head_commit.message, '[linux skip]')"
 
     needs: [generate]
     services:
@@ -178,12 +165,11 @@ jobs:
         ports:
           - 11211
 
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-20.04]
-        php-versions: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -199,13 +185,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
@@ -246,18 +232,18 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter unit
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
 
       - name: Run CLI Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter cli
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter integration
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter integration
 
       - name: Run Database Tests (Common)
         env:
@@ -265,7 +251,7 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database -g common
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
         env:
@@ -274,14 +260,14 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env mysql -g mysql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env sqlite -g sqlite
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
         env:
@@ -290,7 +276,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env pgsql -g pgsql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
       #   env:
@@ -298,22 +284,21 @@ jobs:
       #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
-      - name: Upload Code Coverage on 7.4
+      - name: Upload Code Coverage on ${{ matrix.php }}
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./tests/_output/coverage-*.xml
 
   build-and-test-macos:
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    name: Test on macOS PHP ${{ matrix.php }}-nts-x64
 
     # To prevent build a particular commit use
-    #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
-    if: "!contains(github.event.head_commit.message, '[mac skip]') || !contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.event.head_commit.message, '[mac skip]')"
 
     needs: [generate]
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: macos-10.15
 
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
@@ -323,8 +308,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [macos-latest]
-        php-versions: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -333,7 +317,7 @@ jobs:
 #        id: extcache
 #        uses: shivammathur/cache-extensions@v1
 #        with:
-#          php-version: ${{ matrix.php-versions }}
+#          php-version: ${{ matrix.php }}
 #          extensions: ${{ env.extensions }}
 #          key: ${{ env.ext_cache_key }}
 
@@ -347,7 +331,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           extensions: ${{ env.extensions }}
         env:
@@ -396,78 +380,78 @@ jobs:
 
   build-and-test-windows:
     # To prevent build a particular commit use
-    #    git commit -m "......... [ci skip]"
     #    git commit -m "......... [win skip] - to skip only Windows builds"
-    if: "!contains(github.event.head_commit.message, '[win skip]') || !contains(github.event.head_commit.message, 'ci skip')"
-
-    name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-
+    if: "!contains(github.event.head_commit.message, '[win skip]')"
     needs: [generate]
-    runs-on: ${{ matrix.operating-system }}
+
+    name: Test on ${{ matrix.os }} PHP ${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+
+    env:
+      PHALCON_VERSION: 5.0.0alpha6
+      PHP_SDK_VERSION: 2.2.0
+      PHP_DEVPACK: 'C:\tools\php-devpack'
+      PHP_PECL_PATH: 'C:\tools\pecl'
+      PACKAGE_PREFIX: 'phalcon'
+      EXTENSION_NAME: 'phalcon'
+      EXTENSION_FILE: 'php_phalcon.dll'
+      CACHE_DIR: 'C:\Downloads'
+
     strategy:
       fail-fast: false
+
       matrix:
-        operating-system: [windows-2016, windows-2019]
-        php-versions: ['7.4', '8.0']
-        ts: [ts, nts]
-        arch: [x64]
+        os: [windows-2016, windows-2019]
+        php: ['7.4', '8.0']
+        ts: ['ts', 'nts']
+        arch: ['x64']
+
         include:
-          - php-versions: '7.4'
-            vc_num: 'vc15'
-            build_type: Win32
-          - php-versions: '8.0'
-            vc_num: 'vs16'
-            build_type: Win32
+          - php: '7.4'
+            msvc: 'vc15'
+            os_name: 'windows2016'
+
+          - php: '8.0'
+            msvc: 'vs16'
+            os_name: 'windows2019'
+
         exclude:
-          - operating-system: windows-2016
-            php-versions: '8.0'
-          - operating-system: windows-2019
-            php-versions: '7.4'
+          - os: windows-2016
+            php: '8.0'
+
+          - os: windows-2019
+            php: '7.4'
 
     steps:
-      - name: Disable Git autocrlf
-        run: git config --global core.autocrlf false
-
       - uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis, zip
+          tools: pecl
+          ini-values: apc.enable_cli=on, session.save_path=C:\temp
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Environment Variables
         run: |
-          # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
-          # We should parse the following file to get the correct version:
-          #    https://windows.php.net/downloads/releases/sha256sum.txt
-          If ("${{ matrix.php-versions }}" -eq "7.4") {
-            Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          } Else {
-            Write-Output "PHP_VERSION=$(php -r 'echo phpversion();')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
+          $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+          $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+          Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-          Write-Output "PHP_MINOR=${{ matrix.php-versions }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          $ReleaseDllPath = "${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\${{ env.EXTENSION_FILE }}"
+          Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-          If ("${{ matrix.ts }}" -eq "nts") {
-            Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          } Else {
-            Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
+          $ReleaseZipBall = "phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.os_name }}-${{ matrix.vc_num }}-${{ matrix.arch }}"
+          Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup Common Environment
         run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          SetupCommonEnvironment
+          git config --global core.autocrlf false
+          mkdir "${{ env.CACHE_DIR }}\Choco"
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -478,7 +462,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
@@ -486,40 +470,27 @@ jobs:
         with:
           name: phalcon-pecl
 
-      - name: Install PHP SDK Binary Tools
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          InstallPhpSdk
+      - name: Install System Dependencies
+        run: choco install -y --cache-location=${{ env.CACHE_DIR }}\Choco re2c
 
-      - name: Install PHP Dev pack
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          InstallPhpDevPack
+      - name: Setup PHP SDK tool kit
+        uses: zephir-lang/setup-php-sdk@v1
+        with:
+          php_version: ${{ matrix.php }}
+          ts: ${{ matrix.ts }}
+          msvc: ${{ matrix.msvc }}
+          arch: ${{ matrix.arch }}
+          install_dir: 'C:\tools'
+          cache_dir: ${{ env.CACHE_DIR }}
+
+      - name: Configure Developer Command Prompt for MSVC compiler
+        uses: ilammy/msvc-dev-cmd@v1.9.0
+        with:
+          arch: ${{ matrix.arch }}
 
       - name: Getting Details About Installed PHP
         run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          Get-Php "${env:PHPROOT}"
-
-      - name: Install System Dependencies
-        run: choco install -y --cache-location=C:\Downloads\Choco re2c
-
-      - name: Initialize Release Variables
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          InitializeReleaseVars
-
-      - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
-        run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
-
-      - name: Fix Environment Variables
-        shell: powershell
-        run: |
-          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Get-Php (Get-Command php).Path
 
       - name: Unpack Package
         run: |
@@ -528,57 +499,49 @@ jobs:
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: PSR extension | init, phpize
-        shell: cmd
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          git clone https://github.com/jbboehr/php-psr.git ${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}
+          if (-not (Test-Path "${{ env.PHP_DEVPACK }}\include\ext\psr")) {
+            mkdir "${{ env.PHP_DEVPACK }}\include\ext\psr"
+          }
+          Set-Location "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}"
           phpize
 
       - name: PSR extension | configure
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          configure --enable-psr
+          .\configure.bat --enable-psr
 
       - name: PSR extension | build
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           nmake
           nmake install
 
       - name: PSR extension | Inspecting Extension DLL File
         run: |
-          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+          php  --ri psr
+          Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
 
       - name: Phalcon | phpize
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
       - name: Phalcon | Configure Project
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+          .\configure.bat --enable-phalcon `
+            --with-extra-libs="${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}"
 
       - name: Phalcon | Build Project
-        shell: cmd
+        working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
         run: |
-          Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+          Get-PhpExtension "${{ env.RELEASE_DLL_PATH }}"
 
       - name: Prepare Build Artifact
         run: |
@@ -586,7 +549,7 @@ jobs:
           if (-not (Test-Path -Path $Destination -PathType Container)) {
             New-Item $Destination -ItemType Directory | Out-Null
           }
-          Copy-Item -Path "${env:RELEASE_DLL_PATH}" -Destination $Destination
+          Copy-Item -Path "${{ env.RELEASE_DLL_PATH }}" -Destination $Destination
           Copy-Item -Path ".\3rdparty\licenses\*.txt" -Destination $Destination
           Set-Location $Destination
           & 7z a "${{ env.RELEASE_ZIPBALL }}.zip" *
@@ -600,7 +563,6 @@ jobs:
       - name: Enable Extensions
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
@@ -624,7 +586,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: tools-${{ matrix.php-versions }}
+          name: tools-${{ matrix.php }}
           path: |
             C:\tools\pecl\
             C:\tools\php\
@@ -635,21 +597,20 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: ext-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
+          name: ext-${{ matrix.php }}-${{ matrix.arch }}-${{ matrix.ts }}
           path: |
             ${{ github.workspace }}\ext\
             !${{ github.workspace }}\ext\x64\
           retention-days: 1
 
   install-from-build:
-    name: PHP ${{ matrix.php-versions }} Install from build
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    name: Install from build for PHP ${{ matrix.php }}-nts-x64
     runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -657,7 +618,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, psr
           tools: pecl
 

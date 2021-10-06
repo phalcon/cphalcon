@@ -37,9 +37,7 @@ class GetBodyCest
 
         $I->openFile($fileName);
 
-        $I->seeFileContentsEqual(
-            $request->getBody()
-        );
+        $I->assertStringEqualsFile($fileName, $request->getBody());
     }
 
     /**
