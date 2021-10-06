@@ -211,10 +211,11 @@ jobs:
         with:
           name: phalcon-pecl
 
-      - name: Build Phalcon Extension
-        uses: ./.github/workflows/build-phalcon
+      - name: Build Phalcon Extension (Linux)
+        uses: actions/build-phalcon-linux
+        if: runner.os == 'Linux'
         with:
-          ts: ${{ matrix.ts }}
+          pecl: 'phalcon-pecl/phalcon-pecl.tgz'
 
 #      - name: Install package
 #        run: |
