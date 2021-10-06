@@ -32,7 +32,7 @@ jobs:
 
 
   stubs:
-    name: PHP ${{ matrix.php }} Stubs validation
+    name: Stubs validation for PHP ${{ matrix.php }}
 
     runs-on: ubuntu-20.04
 
@@ -133,7 +133,7 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
-    name: PHP ${{ matrix.php }} Test on Linux
+    name: Test on Linux PHP ${{ matrix.php }}-nts-x64
     # To prevent build a particular commit use
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]')"
@@ -291,7 +291,7 @@ jobs:
           file: ./tests/_output/coverage-*.xml
 
   build-and-test-macos:
-    name: PHP ${{ matrix.php }} Test on macOS
+    name: Test on macOS PHP ${{ matrix.php }}-nts-x64
 
     # To prevent build a particular commit use
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
@@ -384,7 +384,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]')"
     needs: [generate]
 
-    name: PHP ${{ matrix.php }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.os }}
+    name: Test on ${{ matrix.os }} PHP ${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
 
     env:
@@ -408,14 +408,12 @@ jobs:
 
         include:
           - php: '7.4'
-            vc_num: 'vc15'
+            msvc: 'vc15'
             os_name: 'windows2016'
-            build_type: Win32
 
           - php: '8.0'
-            vc_num: 'vs16'
+            msvc: 'vs16'
             os_name: 'windows2019'
-            build_type: Win32
 
         exclude:
           - os: windows-2016
@@ -480,7 +478,7 @@ jobs:
         with:
           php_version: ${{ matrix.php }}
           ts: ${{ matrix.ts }}
-          msvc: ${{ matrix.vc_num }}
+          msvc: ${{ matrix.msvc }}
           arch: ${{ matrix.arch }}
           install_dir: 'C:\tools'
           cache_dir: ${{ env.CACHE_DIR }}
