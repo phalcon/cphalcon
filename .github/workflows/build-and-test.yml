@@ -20,7 +20,7 @@ env:
   LC_ALL: en_US.UTF-8
 
   # PHP extensions required by Composer
-  EXTENSIONS: apcu, gd, igbinary, imagick, intl, json, mbstring, msgpack, gettext, memcached, yaml, redis
+  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
 jobs:
   phpcs:
@@ -151,7 +151,7 @@ jobs:
           - ubuntu-gcc
           - macos-clang
           - win2016-vc15
-          - win2019-vs16
+#          - win2019-vs16
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
@@ -171,16 +171,16 @@ jobs:
             os: windows-2016
             compiler: vc15
 
-          - name: win2019-vs16
-            os: windows-2019
-            compiler: vs16
+#          - name: win2019-vs16
+#            os: windows-2019
+#            compiler: vs16
 
-        exclude:
-          - name: win2019-vs16
-            php: '7.4'
-
-          - name: win2016-vc15
-            php: '8.0'
+#        exclude:
+#          - name: win2019-vs16
+#            php: '7.4'
+#
+#          - name: win2016-vc15
+#            php: '8.0'
     steps:
       - uses: actions/checkout@v2
 
@@ -233,6 +233,11 @@ jobs:
 
       - run: composer install --prefer-dist
 
+      - name: Setup Tests
+        run: |
+          cp tests/_config/.env.default .env
+          vendor/bin/codecept build
+
       - name: Run Unit Tests
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
@@ -259,7 +264,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: psr-${{ env.PSR_VERSION }}
           tools: pecl
-          # mbstring, intl, json,
+
       - name: Install from build/ directory
         run: |
           cd build/
