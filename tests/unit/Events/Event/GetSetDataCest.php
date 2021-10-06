@@ -19,95 +19,79 @@ use UnitTester;
 class GetSetDataCest
 {
     /**
-     * Tests Phalcon\Events\Event - getData() when not explicitly set
+     * Tests Phalcon\Events\Event - setData() - default
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-20
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-06
      */
-    public function eventsEventGetSetDataNotExplicitlySet(UnitTester $I)
+    public function eventsEventGetSetData(UnitTester $I)
     {
-        $I->wantToTest('Events\Event - getData() when not explicitly set');
+        $I->wantToTest('Events\Event - getData()/setData() - default');
 
+        $event = new Event('some-type:beforeSome', $this);
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this
-        );
-
-        $I->assertNull(
-            $event->getData()
-        );
+        $actual = $event->getData();
+        $I->assertNull($actual);
     }
 
     /**
-     * Tests Phalcon\Events\Event - getData() when explicitly set
+     * Tests Phalcon\Events\Event - setData() - constructor
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-20
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-06
      */
-    public function eventsEventGetDataExplicitlySet(UnitTester $I)
+    public function eventsEventGetSetDataConstructor(UnitTester $I)
     {
-        $I->wantToTest('Events\Event - getData() when explicitly set');
+        $I->wantToTest('Events\Event - getData()/setData() - constructor');
 
-        $data = [1, 2, 3];
-
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            $data
-        );
-
-        $I->assertEquals(
-            $data,
-            $event->getData()
-        );
+        $data     = [1, 2, 3];
+        $event    = new Event('some-type:beforeSome', $this, $data);
+        $expected = $data;
+        $actual   = $event->getData();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Events\Event - setData() overwrites previous data
+     * Tests Phalcon\Events\Event - setData() - overwrite
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-20
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-06
      */
     public function eventsEventGetSetDataOverwrite(UnitTester $I)
     {
-        $I->wantToTest('Events\Event - setData() overwrites previous data');
+        $I->wantToTest('Events\Event - getData()/setData() - overwrite');
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this
-        );
+        $data     = [1, 2, 3];
+        $event    = new Event('some-type:beforeSome', $this, $data);
+        $expected = $data;
+        $actual   = $event->getData();
+        $I->assertEquals($expected, $actual);
 
-        $data = [1, 2, 3];
-
-        $event->setData($data);
-
-        $I->assertEquals(
-            $data,
-            $event->getData()
-        );
+        $newData = [4, 5, 6];
+        $event->setData($newData);
+        $expected = $newData;
+        $actual   = $event->getData();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Events\Event - setData() with no parameters
+     * Tests Phalcon\Events\Event - setData() - empty
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-21
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-06
      */
-    public function eventsEventGetSetDataWithNoParameters(UnitTester $I)
+    public function eventsEventGetSetDataEmpty(UnitTester $I)
     {
-        $I->wantToTest('Events\Event - setData() with no parameters');
+        $I->wantToTest('Events\Event - getData()/setData() - empty');
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            [1, 2, 3]
-        );
+        $data     = [1, 2, 3];
+        $event    = new Event('some-type:beforeSome', $this, $data);
+        $expected = $data;
+        $actual   = $event->getData();
+        $I->assertEquals($expected, $actual);
 
         $event->setData();
-
-        $I->assertNull(
-            $event->getData()
-        );
+        $actual = $event->getData();
+        $I->assertNull($actual);
     }
 }

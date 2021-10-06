@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Event;
 
+use Phalcon\Events\Event;
+use Phalcon\Events\EventInterface;
 use UnitTester;
 
 class ConstructCest
@@ -21,12 +23,21 @@ class ConstructCest
      * Tests Phalcon\Events\Event :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-06
+     * @issue  https://github.com/phalcon/cphalcon/issues/15133
      */
     public function eventsEventConstruct(UnitTester $I)
     {
         $I->wantToTest('Events\Event - __construct()');
 
-        $I->skipTest('Need implementation');
+        $event = new Event('test', $this);
+
+        $class = EventInterface::class;
+        $I->assertInstanceOf($class, $event);
+
+        $event = new Event('test');
+
+        $class = EventInterface::class;
+        $I->assertInstanceOf($class, $event);
     }
 }
