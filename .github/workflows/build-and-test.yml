@@ -216,6 +216,28 @@ jobs:
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Composer Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-${{ matrix.php }}-
+
+      - run: composer install --prefer-dist
+
+      - name: Run Unit Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
+
+      - name: Run CLI Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+
   install-from-build:
     name: Install from build for PHP ${{ matrix.php }}-nts-x64
     runs-on: ubuntu-20.04
