@@ -15,6 +15,7 @@
   - Changed `Phalcon\Session\Bag::construct` to accept a container instead of internally calling the default
   - Changed `Phalcon\Session\Bag::construct` to throw an exception if the container is not specified
   - Changed `Phalcon\Session\Bag::init` to store the data in the session [#15494](https://github.com/phalcon/cphalcon/issues/15494)
+- Changed `Phalcon\Events\Event::construct()` to allow `source` to be nullable [#15133](https://github.com/phalcon/cphalcon/issues/15133)
 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
