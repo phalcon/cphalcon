@@ -135,8 +135,8 @@
       "default": "NULL"
     },
     "orm.resultset_prefetch_records": {
-      "type": "int",
-      "default": 0
+      "type": "string",
+      "default": "0"
     },
     "orm.unique_cache_id": {
       "type": "int",
