@@ -216,7 +216,7 @@ jobs:
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
-    needs: [generate, install-from-build, build-and-test-linux, build-and-test-macos, build-and-test-windows]
+    needs: [generate, install-from-build, build-and-test]
     name: Create Release
     runs-on: ubuntu-20.04
 
