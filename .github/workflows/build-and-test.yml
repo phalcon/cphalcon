@@ -215,7 +215,7 @@ jobs:
         uses: ./.github/actions/build-phalcon-linux
         if: runner.os == 'Linux'
         with:
-          pecl: 'phalcon-pecl/phalcon-pecl.tgz'
+          pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
 #      - name: Install package
 #        run: |
