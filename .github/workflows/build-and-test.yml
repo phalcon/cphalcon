@@ -211,6 +211,11 @@ jobs:
         with:
           name: phalcon-pecl
 
+      - name: Build Phalcon Extension
+        uses: ./.github/workflows/build-phalcon
+        with:
+          ts: ${{ matrix.ts }}
+
 #      - name: Install package
 #        run: |
 #          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"

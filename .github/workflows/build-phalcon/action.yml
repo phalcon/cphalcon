@@ -1,0 +1,19 @@
+name: 'Phalcon PHP extension build action'
+description: 'Build Phalcon Framework for specified OS according to various PHP versions.'
+
+inputs:
+  ts:
+    description: 'Thread Safety'
+    required: false
+    default: 'nts'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Build Phalcon for Linux'
+      shell: powershell
+      run: if ("${{ runner.os }}" -eq "Windows") { exit 0 }
+
+    - name: Test Extension
+      shell: bash
+      run: php --ini
