@@ -19,6 +19,9 @@ env:
   LANGUAGE: en_US.UTF-8
   LC_ALL: en_US.UTF-8
 
+  # PHP extensions required by Composer
+  EXTENSIONS: apcu, gd, igbinary, imagick, intl, json, mbstring, msgpack, gettext, memcached, yaml, redis
+
 jobs:
   phpcs:
     name: Validate Tests code style
@@ -48,7 +51,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
@@ -77,7 +80,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          extensions: mbstring, intl, json, psr, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -196,7 +199,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
+          extensions: ${{ env.EXTENSIONS }}, psr-${{ env.PSR_VERSION }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
           tools: pecl
         env:
@@ -254,9 +257,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, intl, json, psr
+          extensions: psr-${{ env.PSR_VERSION }}
           tools: pecl
-
+          # mbstring, intl, json,
       - name: Install from build/ directory
         run: |
           cd build/
