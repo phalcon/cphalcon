@@ -132,7 +132,7 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test:
-    name: Test on ${{ matrix.os }} PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}"
+    name: Test with PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}"
 
     needs: [generate]
 
@@ -180,6 +180,21 @@ jobs:
             php: '8.0'
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Phalcon Pecl Package
+        uses: actions/download-artifact@v2
+        with:
+          name: phalcon-pecl
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
