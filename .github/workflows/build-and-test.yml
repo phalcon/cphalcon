@@ -32,7 +32,7 @@ jobs:
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   stubs:
-    name: PHP ${{ matrix.php-version }} Stubs validation
+    name: PHP ${{ matrix.php }} Stubs validation
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           tools: pecl
           extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
@@ -135,7 +135,7 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
-    name: PHP ${{ matrix.php-version }} Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} Test on ${{ matrix.operating-system }}
     # To prevent build a particular commit use
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]')"
@@ -172,7 +172,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-20.04]
-        php-version: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -194,7 +194,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
@@ -235,18 +235,18 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter unit
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
 
       - name: Run CLI Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter cli
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter integration
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter integration
 
       - name: Run Database Tests (Common)
         env:
@@ -254,7 +254,7 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter database -g common
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
         env:
@@ -263,14 +263,14 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter database --env mysql -g mysql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter database --env sqlite -g sqlite
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
         env:
@@ -279,7 +279,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-version }}.xml --ext DotReporter database --env pgsql -g pgsql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
       #   env:
@@ -287,14 +287,14 @@ jobs:
       #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
-      - name: Upload Code Coverage on 7.4
+      - name: Upload Code Coverage on ${{ matrix.php }}
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./tests/_output/coverage-*.xml
 
   build-and-test-macos:
-    name: PHP ${{ matrix.php-version }} Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} Test on ${{ matrix.operating-system }}
 
     # To prevent build a particular commit use
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
@@ -312,7 +312,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [macos-latest]
-        php-version: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -321,7 +321,7 @@ jobs:
 #        id: extcache
 #        uses: shivammathur/cache-extensions@v1
 #        with:
-#          php-version: ${{ matrix.php-version }}
+#          php-version: ${{ matrix.php }}
 #          extensions: ${{ env.extensions }}
 #          key: ${{ env.ext_cache_key }}
 
@@ -335,7 +335,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           extensions: ${{ env.extensions }}
         env:
@@ -388,7 +388,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]')"
     needs: [generate]
 
-    name: PHP ${{ matrix.php-version }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
 
     env:
@@ -406,27 +406,27 @@ jobs:
 
       matrix:
         operating-system: [windows-2016, windows-2019]
-        php-version: ['7.4', '8.0']
+        php: ['7.4', '8.0']
         ts: [ts, nts]
         arch: [x64]
 
         include:
-          - php-version: '7.4'
+          - php: '7.4'
             vc_num: 'vc15'
             os_name: 'windows2016'
             build_type: Win32
 
-          - php-version: '8.0'
+          - php: '8.0'
             vc_num: 'vs16'
             os_name: 'windows2019'
             build_type: Win32
 
         exclude:
           - operating-system: windows-2016
-            php-version: '8.0'
+            php: '8.0'
 
           - operating-system: windows-2019
-            php-version: '7.4'
+            php: '7.4'
 
     steps:
       - uses: actions/checkout@v2
@@ -434,7 +434,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis, zip
           tools: pecl
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
@@ -451,7 +451,7 @@ jobs:
           $ReleaseDllPath = "${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\${{ env.EXTENSION_FILE }}"
           Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-          $ReleaseZipBall = "phalcon-php${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.os_name }}-${{ matrix.vc_num }}-${{ matrix.arch }}"
+          $ReleaseZipBall = "phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.os_name }}-${{ matrix.vc_num }}-${{ matrix.arch }}"
           Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup Common Environment
@@ -482,7 +482,7 @@ jobs:
       - name: Setup PHP SDK tool kit
         uses: zephir-lang/setup-php-sdk@v1
         with:
-          php_version: ${{ matrix.php-version }}
+          php_version: ${{ matrix.php }}
           ts: ${{ matrix.ts }}
           msvc: ${{ matrix.vc_num }}
           arch: ${{ matrix.arch }}
@@ -592,7 +592,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: tools-${{ matrix.php-version }}
+          name: tools-${{ matrix.php }}
           path: |
             C:\tools\pecl\
             C:\tools\php\
@@ -603,20 +603,20 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: ext-${{ matrix.php-version }}-${{ matrix.arch }}-${{ matrix.ts }}
+          name: ext-${{ matrix.php }}-${{ matrix.arch }}-${{ matrix.ts }}
           path: |
             ${{ github.workspace }}\ext\
             !${{ github.workspace }}\ext\x64\
           retention-days: 1
 
   install-from-build:
-    name: PHP ${{ matrix.php-version }} Install from build
+    name: PHP ${{ matrix.php }} Install from build
     runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0']
+        php: ['7.4', '8.0']
 
     steps:
       - uses: actions/checkout@v2
@@ -624,7 +624,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: mbstring, intl, json, psr
           tools: pecl
 
