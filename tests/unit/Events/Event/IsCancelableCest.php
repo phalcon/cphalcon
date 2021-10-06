@@ -28,39 +28,15 @@ class IsCancelableCest
     {
         $I->wantToTest('Events\Event - isCancelable()');
 
+        $type  = 'some-type:beforeSome';
+        $event = new Event($type, $this);
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            []
-        );
+        $actual = $event->isCancelable();
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $event->isCancelable()
-        );
+        $event = new Event($type, $this, [], false);
 
-
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            [],
-            false
-        );
-
-        $I->assertFalse(
-            $event->isCancelable()
-        );
-
-
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            [],
-            true
-        );
-
-        $I->assertTrue(
-            $event->isCancelable()
-        );
+        $actual = $event->isCancelable();
+        $I->assertFalse($actual);
     }
 }
