@@ -22,7 +22,6 @@ env:
 jobs:
   phpcs:
     name: Validate Tests code style
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
     steps:
@@ -31,9 +30,9 @@ jobs:
       - name: Run PHP_CodeSniffer
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
+
   stubs:
     name: PHP ${{ matrix.php }} Stubs validation
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
 
@@ -70,7 +69,6 @@ jobs:
 
   generate:
     name: Build Phalcon PECL package
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
     steps:
@@ -135,7 +133,7 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
-    name: PHP ${{ matrix.php }} Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} Test on Linux
     # To prevent build a particular commit use
     #     git commit -m "......... [linux skip] - to skip only linux builds"
     if: "!contains(github.event.head_commit.message, '[linux skip]')"
@@ -167,11 +165,10 @@ jobs:
         ports:
           - 11211
 
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-20.04]
         php: ['7.4', '8.0']
 
     steps:
@@ -294,14 +291,14 @@ jobs:
           file: ./tests/_output/coverage-*.xml
 
   build-and-test-macos:
-    name: PHP ${{ matrix.php }} Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} Test on macOS
 
     # To prevent build a particular commit use
     #    git commit -m "......... [mac skip] - to skip only macOS builds"
     if: "!contains(github.event.head_commit.message, '[mac skip]')"
 
     needs: [generate]
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: macos-10.15
 
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
@@ -311,7 +308,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [macos-latest]
         php: ['7.4', '8.0']
 
     steps:
@@ -388,8 +384,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[win skip]')"
     needs: [generate]
 
-    name: PHP ${{ matrix.php }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
-    runs-on: ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     env:
       PHALCON_VERSION: 5.0.0alpha6
@@ -405,10 +401,10 @@ jobs:
       fail-fast: false
 
       matrix:
-        operating-system: [windows-2016, windows-2019]
+        os: [windows-2016, windows-2019]
         php: ['7.4', '8.0']
-        ts: [ts, nts]
-        arch: [x64]
+        ts: ['ts', 'nts']
+        arch: ['x64']
 
         include:
           - php: '7.4'
@@ -422,10 +418,10 @@ jobs:
             build_type: Win32
 
         exclude:
-          - operating-system: windows-2016
+          - os: windows-2016
             php: '8.0'
 
-          - operating-system: windows-2019
+          - os: windows-2019
             php: '7.4'
 
     steps:
