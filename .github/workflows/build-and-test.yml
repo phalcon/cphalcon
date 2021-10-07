@@ -21,11 +21,6 @@ env:
   LANGUAGE: en_US.UTF-8
   LC_ALL: en_US.UTF-8
 
-  # Test credentials
-  DB_USER: phalcon
-  DB_PASS: secret
-  DB_NAME: phalcon
-
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
@@ -189,27 +184,6 @@ jobs:
 #          - name: win2016-vc15
 #            php: '8.0'
 
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASS }}
-          MYSQL_USER: ${{ env.DB_USER }}
-          MYSQL_DATABASE: ${{ env.DB_NAME }}
-          MYSQL_PASSWORD: ${{ env.DB_PASS }}
-
-      redis:
-        image: redis:5-alpine
-        ports:
-          - 6379
-
-      memcached:
-        image: memcached:1.5-alpine
-        ports:
-          - 11211
-
     steps:
       - uses: actions/checkout@v2
 
@@ -304,15 +278,6 @@ jobs:
       - name: Run CLI Tests
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
-
-      - name: Run Database Tests (MySQL)
-        env:
-          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-          DATA_MYSQL_USER: root
-        if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
 
   install-from-build:
     name: Install from build for PHP ${{ matrix.php }}-nts-x64
