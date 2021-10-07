@@ -220,7 +220,7 @@ jobs:
 
       - name: Build Pahlcon Extension (macOS)
         uses: ./.github/actions/build-phalcon-mac
-        if: runner.os = 'macOS'
+        if: runner.os == 'macOS'
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
