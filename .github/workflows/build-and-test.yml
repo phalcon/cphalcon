@@ -24,7 +24,7 @@ env:
   # Test credentials
   DB_USER: phalcon
   DB_PASS: secret
-  DB_NAME: phalcon_test
+  DB_NAME: phalcon
 
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
