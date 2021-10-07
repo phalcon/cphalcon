@@ -50,7 +50,7 @@ runs:
         }
         Write-Output "::endgroup::"
 
-        $OsName = ${{ matrix.os }}.replace('-','').ToLower()
+        $OsName = "${{ matrix.os }}".replace('-','').ToLower()
         $ReleaseFolder = if ("${{ inputs.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
         $ReleaseFolder = if ("${{ inputs.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
         $ReleaseDllPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
