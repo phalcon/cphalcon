@@ -54,7 +54,7 @@ runs:
         $ReleaseFolder = if ("${{ inputs.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
         $ReleaseFolder = if ("${{ inputs.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
         $ReleaseDllPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
-        $ReleaseZipBall = "phalcon-php${{ inputs.php }}-${{ inputs.ts }}-${OsName}-${{ inputs.msvc }}-${{ inputs.arch }}"
+        $ReleaseZipBall = "phalcon-php${{ inputs.php_version }}-${{ inputs.ts }}-${OsName}-${{ inputs.msvc }}-${{ inputs.arch }}"
 
         Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
