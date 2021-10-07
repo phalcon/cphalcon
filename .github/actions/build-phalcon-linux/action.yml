@@ -14,7 +14,9 @@ runs:
       working-directory: ${{ github.workspace }}
       run: |
         export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+        echo "::group::Install Phalcon with PECL"
         sudo pecl -v install ${{ inputs.pecl }}
+        echo "::endgroup::"
 
     - name: Check Extension
       shell: bash
