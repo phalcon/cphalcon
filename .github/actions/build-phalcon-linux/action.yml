@@ -13,7 +13,6 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}
       run: |
-        ls -lah
         export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
         sudo pecl -v install ${{ inputs.pecl }}
 

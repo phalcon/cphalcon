@@ -210,6 +210,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: phalcon-pecl
+          path: ./phalcon-pecl
 
       - name: Build Phalcon Extension (Linux)
         uses: ./.github/actions/build-phalcon-linux
