@@ -190,6 +190,8 @@ jobs:
           $SessionSavePath = '/tmp'
 
           if ("${{ runner.os }}" -eq "Windows") {
+            git config --global core.autocrlf false
+
             $SessionSavePath = 'C:\temp'
           }
 
@@ -201,7 +203,8 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}, psr-${{ env.PSR_VERSION }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
-          tools: pecl
+          tools: pecl, phpize, php-config
+          coverage: xdebug
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -218,11 +221,24 @@ jobs:
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
-      - name: Build Pahlcon Extension (macOS)
+      - name: Build Phalcon Extension (macOS)
         uses: ./.github/actions/build-phalcon-mac
         if: runner.os == 'macOS'
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Build Phalcon Extension (Windows)
+        uses: ./.github/actions/build-phalcon-win
+        if: runner.os == 'Windows'
+        with:
+          pecl: 'phalcon-pecl\phalcon-pecl.tgz'
+          php_version: ${{ matrix.php }}
+          ts: ${{ matrix.ts }}
+          msvc: ${{ matrix.compiler }}
+          arch: ${{ matrix.arch }}
+        env:
+          CACHE_DIR: 'C:\Downloads'
+          TOOLS_DIR: 'C:\tools'
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish

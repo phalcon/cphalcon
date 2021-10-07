@@ -1,0 +1,92 @@
+name: 'Phalcon PHP extension build action'
+description: 'Build Phalcon Framework for Windows according to various PHP versions.'
+
+inputs:
+  pecl:
+    description: 'PECL package path'
+    required: true
+
+  php_version:
+    description: 'PHP version to build for (e.g: 7.4, 8.0)'
+    required: true
+  ts:
+    description: 'Thread Safety'
+    required: false
+    default: 'nts'
+  msvc:
+    description: 'Microsoft Visual C++ compiler toolset prefix (e.g: vc14, vs15, vs16)'
+    required: true
+  arch:
+    description: 'Target architecture (x64, x86)'
+    required: false
+    default: 'x64'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Downloads Cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.CACHE_DIR }}
+        key: ${{ runner.os }}-downloads-${{ hashFiles('**/.github/actions/build-phalcon-win/action.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-downloads-${{ env.cache-name }}-
+          ${{ runner.os }}-downloads-
+          ${{ runner.os }}
+
+    - name: Setup Prerequisites
+      shell: powershell
+      run: |
+        Write-Output "::group::Install dependencies"
+        mkdir ${{ env.CACHE_DIR }}\Choco
+        choco install --no-progress -y --cache-location=${{ env.CACHE_DIR }}\Choco re2c
+        Write-Output "::endgroup::"
+
+        Write-Output "Install PowerShell PHP Manager module"
+        if (Get-Module -ListAvailable -Name PhpManager) {
+          Write-Host "PhpManager powershell module exist, skip install"
+        } else {
+          Install-Module -Name PhpManager -Repository PSGallery -Force
+        }
+        Write-Output "::endgroup::"
+
+        Write-Output "PHP_PECL_PATH=${{ env.TOOLS_DIR }}\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Setup PHP SDK tool kit
+      uses: zephir-lang/setup-php-sdk@v1
+      with:
+        php_version: ${{ inputs.php_version }}
+        ts: ${{ inputs.ts }}
+        msvc: ${{ inputs.msvc }}
+        arch: ${{ inputs.arch }}
+        install_dir: ${{ env.TOOLS_DIR }}
+        cache_dir: ${{ env.CACHE_DIR }}
+
+    - name: Configure Developer Command Prompt for MSVC compiler
+      uses: ilammy/msvc-dev-cmd@v1.9.0
+      with:
+        arch: ${{ inputs.arch }}
+
+    - name: Getting Details About Installed PHP
+      shell: powershell
+      run: |
+        Get-Php (Get-Command php).Path
+
+    - name: Install PECL Package
+      shell: powershell
+      run: |
+        .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${{ inputs.pecl }}" "${{ env.TEMP }}"
+        .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${{ env.TEMP }}\phalcon-pecl.tar" "${{ env.PHP_PECL_PATH }}\phalcon"
+
+    - name: 'Build Phalcon for Windows'
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+        echo "::group::Install Phalcon with PECL"
+        sudo pecl -v install ${{ inputs.pecl }}
+        echo "::endgroup::"
+
+    - name: Check Extension
+      shell: bash
+      run: php --ri phalcon
