@@ -10,6 +10,7 @@ on:
   pull_request:
 
 env:
+  PHALCON_VERSION: 5.0.0alpha6
   ZEPHIR_PARSER_VERSION: 1.4.1
   ZEPHIR_VERSION: 0.15.0
   PSR_VERSION: 1.1.0

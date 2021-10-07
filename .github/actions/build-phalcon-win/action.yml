@@ -50,6 +50,16 @@ runs:
         }
         Write-Output "::endgroup::"
 
+        $OsName = ${{ matrix.os }}.replace('-','').ToLower()
+        $ReleaseFolder = if ("${{ inputs.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+        $ReleaseFolder = if ("${{ inputs.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+        $ReleaseDllPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+        $ReleaseZipBall = "phalcon-php${{ inputs.php }}-${{ inputs.ts }}-${OsName}-${{ inputs.msvc }}-${{ inputs.arch }}"
+
+        Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
         Write-Output "PHP_PECL_PATH=${{ env.TOOLS_DIR }}\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "PHP_DEVPACK=${{ env.TOOLS_DIR }}\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
@@ -89,7 +99,50 @@ runs:
         Set-Location "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}"
         phpize
 
-#    - name: 'Build Phalcon for Windows'
+    - name: PSR extension | configure
+      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+      shell: powershell
+      run: |
+        .\configure.bat --enable-psr
+
+    - name: PSR extension | build
+      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+      shell: powershell
+      run: |
+        nmake
+        nmake install
+
+    - name: PSR extension | Inspecting Extension DLL File
+      shell: powershell
+      run: |
+        php  --ri psr
+        Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
+
+    - name: Phalcon | phpize
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        phpize
+
+    - name: Phalcon | Configure Project
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        .\configure.bat --enable-phalcon `
+          --with-extra-libs="${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}"
+
+    - name: Phalcon | Build Project
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        nmake
+
+    - name: Inspecting Phalcon Extension DLL File
+      shell: powershell
+      run: |
+        Get-PhpExtension "${{ env.RELEASE_DLL_PATH }}"
+
+    #    - name: 'Build Phalcon for Windows'
 #      shell: powershell
 #      working-directory: ${{ github.workspace }}
 #      run: |
