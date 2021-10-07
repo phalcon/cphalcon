@@ -60,6 +60,7 @@ runs:
         Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
+        Write-Output "PHP_ROOT=${{ env.TOOLS_DIR }}\php" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "PHP_PECL_PATH=${{ env.TOOLS_DIR }}\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "PHP_DEVPACK=${{ env.TOOLS_DIR }}\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
@@ -103,7 +104,9 @@ runs:
       working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
       shell: powershell
       run: |
+        echo "::group::Configure"
         .\configure.bat --enable-psr
+        echo "::endgroup::"
 
     - name: PSR extension | build
       working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
@@ -115,7 +118,7 @@ runs:
     - name: PSR extension | Inspecting Extension DLL File
       shell: powershell
       run: |
-        php  --ri psr
+        php --ri psr
         Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
 
     - name: Phalcon | phpize
@@ -141,6 +144,12 @@ runs:
       shell: powershell
       run: |
         Get-PhpExtension "${{ env.RELEASE_DLL_PATH }}"
+
+    - name: Enable Phalcon Extension
+      shell: powershell
+      run: |
+        Copy-Item -Path "${{ env.RELEASE_DLL_PATH }}" -Destination "${{ env.PHP_ROOT }}\ext\"
+        Enable-PhpExtension -Extension 'phalcon' -Path "${{ env.PHP_ROOT }}"
 
     #    - name: 'Build Phalcon for Windows'
 #      shell: powershell
