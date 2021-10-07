@@ -218,6 +218,12 @@ jobs:
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
+      - name: Build Pahlcon Extension (macOS)
+        uses: ./.github/actions/build-phalcon-mac
+        if: runner.os = 'macOS'
+        with:
+          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
@@ -236,6 +242,7 @@ jobs:
       - run: composer install --prefer-dist
 
       - name: Setup Tests
+        shell: bash
         run: |
           if [ "${{ runner.os }}" = "Linux" ]; then
             ./.ci/linux-setup-locales.sh
