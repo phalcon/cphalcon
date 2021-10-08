@@ -26,14 +26,15 @@ env:
 
 jobs:
   phpcs:
-    name: Validate Tests code style
-
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run PHP_CodeSniffer
-        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
+    uses: phalcon/cphalcon/.github/workflows/phpcs.yml
+#    name: Validate Tests code style
+#
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Run PHP_CodeSniffer
+#        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   stubs:
     name: Stubs validation for PHP ${{ matrix.php }}

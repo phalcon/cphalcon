@@ -1,0 +1,15 @@
+name: PHPCS inspection
+
+on:
+  workflow_call:
+
+jobs:
+  phpcs:
+    name: Validate Tests code style
+
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
