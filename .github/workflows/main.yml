@@ -195,7 +195,7 @@ jobs:
         uses: ./.github/actions/pack-phalcon-ext
         with:
           target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-          ext-path: ${{ steps.phalcon-ext-path.extension-path }}
+          ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
