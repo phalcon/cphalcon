@@ -56,13 +56,13 @@ jobs:
   # Generates stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/stubs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
-    uses: phalcon/cphalcon/.github/workflows/phalcon-pecl.yml@feature/unify-builds
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
     secrets:
