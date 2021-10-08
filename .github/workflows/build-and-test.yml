@@ -211,34 +211,11 @@ jobs:
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
-  install-from-build:
-    name: Install from build for PHP ${{ matrix.php }}-nts-x64
-    runs-on: ubuntu-20.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['7.4', '8.0']
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: psr-${{ env.PSR_VERSION }}
-          tools: pecl
-
-      - name: Install from build/ directory
-        run: |
-          cd build/
-          php gen-build.php
-          sudo ./install
-
-      - name: Validate extension
-        if: success()
-        run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
+  install:
+    needs: setup_workflow
+    uses: zephir-lang/templates/.github/workflows/phalcon-install-from-build.yml@main
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
