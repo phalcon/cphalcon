@@ -26,7 +26,8 @@ env:
 
 jobs:
   phpcs:
-    uses: phalcon/cphalcon/.github/workflows/phpcs.yml@main
+    uses: phalcon/cphalcon/.github/workflows/phpcs.yml@feature/unify-builds
+
 #    name: Validate Tests code style
 #
 #    runs-on: ubuntu-20.04
