@@ -29,6 +29,9 @@ env:
   LANGUAGE: en_US.UTF-8
   LC_ALL: en_US.UTF-8
 
+  # Windows specific
+  TOOLS_DIR: 'C:\tools'
+
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
@@ -174,7 +177,25 @@ jobs:
           arch: ${{ matrix.arch }}
         env:
           CACHE_DIR: 'C:\Downloads'
-          TOOLS_DIR: 'C:\tools'
+          TOOLS_DIR: ${{ env.TOOLS_DIR }}
+
+      - name: Get Phalcon Extension path
+        id: phalcon-ext-path
+        shell: pwsh
+        run: |
+          $PhalconExtPath = './ext/modules/phalcon.so'
+          if ( "${{ runner.os }}" -eq 'Windows' ) {
+            $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+            $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+            $PhalconExtPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+          }
+          echo "::set-output name=extension-path::$PhalconExtPath"
+
+      - name: Creates build artifact with Phalcon extension
+        uses: ./github/actions/pack-phalcon-ext
+        with:
+          target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+          ext-path: ${{ steps.phalcon-ext-path.extension-path }}
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish

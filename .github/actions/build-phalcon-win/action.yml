@@ -151,15 +151,6 @@ runs:
         Copy-Item -Path "${{ env.RELEASE_DLL_PATH }}" -Destination "${{ env.PHP_ROOT }}\ext\"
         Enable-PhpExtension -Extension 'phalcon' -Path "${{ env.PHP_ROOT }}"
 
-    #    - name: 'Build Phalcon for Windows'
-#      shell: powershell
-#      working-directory: ${{ github.workspace }}
-#      run: |
-#        export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
-#        echo "::group::Install Phalcon with PECL"
-#        sudo pecl -v install ${{ inputs.pecl }}
-#        echo "::endgroup::"
-
     - name: Check Extension
       shell: powershell
       run: php --ri phalcon
