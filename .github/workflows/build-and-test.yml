@@ -39,8 +39,9 @@ jobs:
   # Generates stubs and validates with PSALM
   stubs:
     uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
-    with:
+    env:
       PSR_VERSION: ${{ env.PSR_VERSION }}
+      ZEPHIR_PARSER_VERSION: ${{ env.PSR_VERSION }}
 #      extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
 #
