@@ -32,6 +32,9 @@ env:
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
 jobs:
+  # Configure Workflow for correct run reusable workflow
+  # This is required step. It's workaround for non-initialized ENVs when trying to pass input variables from ENVs.
+  # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
     runs-on: ubuntu-latest
@@ -54,110 +57,77 @@ jobs:
     uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-#      psr-version: ${env:PSR_VERSION}
-#      ZEPHIR_PARSER_VERSION: 0.15.0
-#      extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
-#
-#    name: Stubs validation for PHP ${{ matrix.php }}
-#
+  generate:
+    needs: setup_workflow
+    name: Build Phalcon PECL package
+    uses: phalcon/cphalcon/.github/workflows/phalcon-pecl.yml@feature/unify-builds
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+    secrets:
+      composer-token: ${{ secrets.GITHUB_TOKEN }}
+
 #    runs-on: ubuntu-20.04
-#
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        php: ['7.4', '8.0']
-#
 #    steps:
 #      - uses: actions/checkout@v2
 #
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@v2
 #        with:
-#          php-version: ${{ matrix.php }}
-#          tools: pecl
+#          php-version: '8.0'
 #          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+#          tools: pecl
+#        env:
+#          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Setup APT Repositories
+#        run: |
+#          # We don't need this at all, and our
+#          # builds often fails because Microsoft
+#          # servers are unstable or even offline.
+#          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+#          sudo rm -f /etc/apt/sources.list.d/azure*.list
 #
 #      - name: Install System Dependencies
 #        run: |
-#          sudo apt update --quiet --yes 1>/dev/null
-#          sudo apt install --no-install-recommends -q -y re2c
-#
-#      - run: composer install --prefer-dist
+#          sudo apt-get update --quiet --yes 1>/dev/null
+#          sudo apt-get install --no-install-recommends -q -y re2c
 #
 #      - name: Install Zephir
 #        run: .ci/install-zephir.sh
 #
-#      - name: Validate stubs
-#        if: always()
+#      - name: Generate C Code
 #        run: |
-#          $HOME/bin/zephir stubs
-#          vendor/bin/psalm ide/
-
-  generate:
-    name: Build Phalcon PECL package
-
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
-          tools: pecl
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup APT Repositories
-        run: |
-          # We don't need this at all, and our
-          # builds often fails because Microsoft
-          # servers are unstable or even offline.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
-
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
-          sudo apt-get install --no-install-recommends -q -y re2c
-
-      - name: Install Zephir
-        run: .ci/install-zephir.sh
-
-      - name: Generate C Code
-        run: |
-          $HOME/bin/zephir fullclean
-          $HOME/bin/zephir generate
-          (cd build && php gen-build.php)
-
-      - name: Upload compile-errors.log
-        uses: actions/upload-artifact@v2
-        with:
-          name: compile-errors
-          path: compile-errors.log
-
-      - name: Create Pecl Package (PHP 8)
-        id: pecl_create
-        run: |
-          cp build/phalcon/config.w32 config.w32
-          cp build/phalcon/phalcon.zep.c phalcon.zep.c
-          cp build/phalcon/config.m4 config.m4
-          cp build/phalcon/php_phalcon.h php_phalcon.h
-          cp build/phalcon/phalcon.zep.h phalcon.zep.h
-          pecl package
-          phalcon_package="`ls | grep phalcon-*tgz`"
-          mv $phalcon_package phalcon-pecl.tgz
-
-      - name: Validate Pecl Package
-        run: pecl package-validate phalcon-pecl.tgz
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: 'phalcon-pecl'
-          path: phalcon-pecl.tgz
+#          $HOME/bin/zephir fullclean
+#          $HOME/bin/zephir generate
+#          (cd build && php gen-build.php)
+#
+#      - name: Upload compile-errors.log
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: compile-errors
+#          path: compile-errors.log
+#
+#      - name: Create Pecl Package (PHP 8)
+#        id: pecl_create
+#        run: |
+#          cp build/phalcon/config.w32 config.w32
+#          cp build/phalcon/phalcon.zep.c phalcon.zep.c
+#          cp build/phalcon/config.m4 config.m4
+#          cp build/phalcon/php_phalcon.h php_phalcon.h
+#          cp build/phalcon/phalcon.zep.h phalcon.zep.h
+#          pecl package
+#          phalcon_package="`ls | grep phalcon-*tgz`"
+#          mv $phalcon_package phalcon-pecl.tgz
+#
+#      - name: Validate Pecl Package
+#        run: pecl package-validate phalcon-pecl.tgz
+#
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: 'phalcon-pecl'
+#          path: phalcon-pecl.tgz
 
   build-and-test:
     name: Test with PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}

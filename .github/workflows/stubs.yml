@@ -7,13 +7,6 @@ on:
         description: 'PHP extensions which must be installed for current PHP version.'
         type: string
         required: true
-#      psr-version:
-#        required: true
-#        type: string
-#      ZEPHIR_PARSER_VERSION:
-#        required: true
-#        type: string
-
 
 jobs:
   stubs:
@@ -35,7 +28,6 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: pecl
           extensions: ${{ inputs.extensions }}
-          # psr-${{ github.event.inputs.psr-version }}, zephir_parser-${{ inputs.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
