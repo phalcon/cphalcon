@@ -21,7 +21,7 @@ env:
   PHALCON_VERSION: 5.0.0alpha6
   ZEPHIR_PARSER_VERSION: 1.4.1
   ZEPHIR_VERSION: 0.15.0
-  PSR_VERSION: '1.1.0'
+  PSR_VERSION: 1.1.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -56,7 +56,7 @@ jobs:
   # Generates stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
+    uses: zephir-lang/templates/.github/workflows/stubs.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
