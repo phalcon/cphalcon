@@ -15,6 +15,7 @@ on:
       - '**.md'
       - '**.txt'
   pull_request:
+  workflow_dispatch:
 
 env:
   # All versions should be declared here
