@@ -2,7 +2,9 @@ name: Stubs Generation
 
 on:
   workflow_call:
-#    inputs:
+    inputs:
+      PSR_VERSION:
+        required: true
 #      extensions:
 #        description: 'PHP extensions which must be installed for current PHP version.'
 #        type: string
@@ -27,7 +29,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          extensions: psr-${{ inputs.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
