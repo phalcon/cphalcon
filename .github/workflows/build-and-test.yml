@@ -38,6 +38,10 @@ jobs:
 
   # Generates stubs and validates with PSALM
   stubs:
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo "${{ env.PSR_VERSION }}"
+
     uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
     with:
       psr-version: ${env:PSR_VERSION}
