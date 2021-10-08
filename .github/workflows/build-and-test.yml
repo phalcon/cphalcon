@@ -40,8 +40,8 @@ jobs:
   stubs:
     uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
     with:
-      psr-version: ${{ env.PSR_VERSION }}
-      ZEPHIR_PARSER_VERSION: ${env:PSR_VERSION}
+      psr-version: ${env:PSR_VERSION}
+      ZEPHIR_PARSER_VERSION: 0.15.0
 #      extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
 #

@@ -34,7 +34,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: psr-${{ inputs.psr-version }}, zephir_parser-${{ inputs.ZEPHIR_PARSER_VERSION }}
+          extensions: psr-${{ github.event.inputs.psr-version }}, zephir_parser-${{ inputs.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
