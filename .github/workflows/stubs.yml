@@ -2,11 +2,11 @@ name: Stubs Generation
 
 on:
   workflow_call:
-    inputs:
-      extensions:
-        description: 'PHP extensions which must be installed for current PHP version.'
-        type: string
-        required: true
+#    inputs:
+#      extensions:
+#        description: 'PHP extensions which must be installed for current PHP version.'
+#        type: string
+#        required: true
 
 jobs:
   stubs:
@@ -27,7 +27,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: ${{ inputs.extensions }}
+          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
