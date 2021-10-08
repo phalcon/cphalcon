@@ -1,3 +1,10 @@
+# This file is part of Phalcon.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE file that was distributed with this source code.
+
 name: Phalcon CI
 
 on:
@@ -25,53 +32,49 @@ env:
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
 jobs:
+  # PHP CodeSniffer inspection
   phpcs:
-    uses: phalcon/cphalcon/.github/workflows/phpcs.yml@feature/unify-builds
+    uses: phalcon/cphalcon/.github/workflows/reusable/phpcs.yml@feature/unify-builds
 
-#    name: Validate Tests code style
+  stubs:
+    uses: phalcon/cphalcon/.github/workflows/reusable/stubs.yml@feature/unify-builds
+    with:
+      extensions: "psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+#
+#    name: Stubs validation for PHP ${{ matrix.php }}
 #
 #    runs-on: ubuntu-20.04
+#
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        php: ['7.4', '8.0']
+#
 #    steps:
 #      - uses: actions/checkout@v2
 #
-#      - name: Run PHP_CodeSniffer
-#        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
-
-  stubs:
-    name: Stubs validation for PHP ${{ matrix.php }}
-
-    runs-on: ubuntu-20.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['7.4', '8.0']
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: pecl
-          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
-
-      - name: Install System Dependencies
-        run: |
-          sudo apt update --quiet --yes 1>/dev/null
-          sudo apt install --no-install-recommends -q -y re2c
-
-      - run: composer install --prefer-dist
-
-      - name: Install Zephir
-        run: .ci/install-zephir.sh
-
-      - name: Validate stubs
-        if: always()
-        run: |
-          $HOME/bin/zephir stubs
-          vendor/bin/psalm ide/
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php }}
+#          tools: pecl
+#          extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+#
+#      - name: Install System Dependencies
+#        run: |
+#          sudo apt update --quiet --yes 1>/dev/null
+#          sudo apt install --no-install-recommends -q -y re2c
+#
+#      - run: composer install --prefer-dist
+#
+#      - name: Install Zephir
+#        run: .ci/install-zephir.sh
+#
+#      - name: Validate stubs
+#        if: always()
+#        run: |
+#          $HOME/bin/zephir stubs
+#          vendor/bin/psalm ide/
 
   generate:
     name: Build Phalcon PECL package
@@ -139,7 +142,7 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test:
-    name: Test with PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}"
+    name: Test with PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
 
     needs: [generate]
 
