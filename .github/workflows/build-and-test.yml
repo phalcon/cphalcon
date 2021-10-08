@@ -34,10 +34,10 @@ env:
 jobs:
   # PHP CodeSniffer inspection
   phpcs:
-    uses: phalcon/cphalcon/.github/workflows/reusable/phpcs.yml@feature/unify-builds
+    uses: phalcon/cphalcon/.github/workflows/phpcs.yml@feature/unify-builds
 
   stubs:
-    uses: phalcon/cphalcon/.github/workflows/reusable/stubs.yml@feature/unify-builds
+    uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
     with:
       extensions: "psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 #
