@@ -32,20 +32,30 @@ env:
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
 
 jobs:
+  setup_workflow:
+    name: Setup workflow
+    runs-on: ubuntu-latest
+    outputs:
+      zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
+
+    steps:
+    - id: setup-zephir-ext
+      name: Setup Zephir Extensions
+      run: |
+        echo "::set-output name=extensions::psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+
   # PHP CodeSniffer inspection
   phpcs:
     uses: phalcon/cphalcon/.github/workflows/phpcs.yml@feature/unify-builds
 
   # Generates stubs and validates with PSALM
   stubs:
-    runs-on: ubuntu-20.04
-    steps:
-      - run: echo "${{ env.PSR_VERSION }}"
-
+    needs: setup_workflow
     uses: phalcon/cphalcon/.github/workflows/stubs.yml@feature/unify-builds
     with:
-      psr-version: ${env:PSR_VERSION}
-      ZEPHIR_PARSER_VERSION: 0.15.0
+      extensions: ${{ needs.setup_workflow.outputs.extensions }}
+#      psr-version: ${env:PSR_VERSION}
+#      ZEPHIR_PARSER_VERSION: 0.15.0
 #      extensions: psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
 #
