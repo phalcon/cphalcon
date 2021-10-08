@@ -183,7 +183,8 @@ jobs:
         id: phalcon-ext-path
         shell: pwsh
         run: |
-          $PhalconExtPath = './build/phalcon/modules/phalcon.so'
+          $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
+          echo "$PhalconExtPath"
           if ( "${{ runner.os }}" -eq 'Windows' ) {
             $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
             $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
