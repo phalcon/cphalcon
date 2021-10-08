@@ -3,7 +3,7 @@ name: Stubs Generation
 on:
   workflow_call:
     inputs:
-      PSR_VERSION:
+      psr-version:
         required: true
         type: string
       ZEPHIR_PARSER_VERSION:
@@ -34,7 +34,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: psr-${{ inputs.PSR_VERSION }}, zephir_parser-${{ inputs.ZEPHIR_PARSER_VERSION }}
+          extensions: psr-${{ inputs.psr-version }}, zephir_parser-${{ inputs.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
