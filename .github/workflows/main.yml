@@ -81,15 +81,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4' ]
-        ts: [ 'nts' ]
+        php: [ '7.4', '8.0' ]
+        ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
         name:
           - ubuntu-gcc
           - macos-clang
           - win2016-vc15
-#          - win2019-vs16
+          - win2019-vs16
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
@@ -109,16 +109,16 @@ jobs:
             os: windows-2016
             compiler: vc15
 
-#          - name: win2019-vs16
-#            os: windows-2019
-#            compiler: vs16
+          - name: win2019-vs16
+            os: windows-2019
+            compiler: vs16
 
-#        exclude:
-#          - name: win2019-vs16
-#            php: '7.4'
-#
-#          - name: win2016-vc15
-#            php: '8.0'
+        exclude:
+          - name: win2019-vs16
+            php: '7.4'
+
+          - name: win2016-vc15
+            php: '8.0'
 
     steps:
       - uses: actions/checkout@v2
@@ -183,12 +183,12 @@ jobs:
         id: phalcon-ext-path
         shell: pwsh
         run: |
-          $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
-          echo "$PhalconExtPath"
           if ( "${{ runner.os }}" -eq 'Windows' ) {
             $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
             $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
             $PhalconExtPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+          } else {
+            $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
           echo "::set-output name=extension-path::$PhalconExtPath"
 
