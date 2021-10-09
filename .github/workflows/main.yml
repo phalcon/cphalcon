@@ -73,7 +73,7 @@ jobs:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-test:
-    name: Test with PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+    name: tests / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
 
     needs: [generate]
 
@@ -88,8 +88,8 @@ jobs:
         name:
           - ubuntu-gcc
           - macos-clang
-          - win2016-vc15
-          - win2019-vs16
+          - windows2016-vc15
+          - windows2019-vs16
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
@@ -105,19 +105,19 @@ jobs:
             compiler: clang
 
           # Windows
-          - name: win2016-vc15
+          - name: windows2016-vc15
             os: windows-2016
             compiler: vc15
 
-          - name: win2019-vs16
+          - name: windows2019-vs16
             os: windows-2019
             compiler: vs16
 
         exclude:
-          - name: win2019-vs16
+          - name: windows2019-vs16
             php: '7.4'
 
-          - name: win2016-vc15
+          - name: windows2016-vc15
             php: '8.0'
 
     steps:
@@ -126,14 +126,8 @@ jobs:
       - name: Setup platform specific environment
         shell: pwsh
         run: |
-          $SessionSavePath = '/tmp'
-
-          if ("${{ runner.os }}" -eq "Windows") {
-            git config --global core.autocrlf false
-
-            $SessionSavePath = 'C:\temp'
-          }
-
+          git config --global core.autocrlf false
+          $SessionSavePath = if ("${{ runner.os }}" -eq "Windows") { 'C:\temp' } else { '/tmp' }
           Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup PHP
