@@ -379,12 +379,6 @@ jobs:
       #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
-      - name: Upload Code Coverage on ${{ matrix.php }}
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./tests/_output/coverage-*.xml
-
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
