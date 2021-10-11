@@ -1,0 +1,413 @@
+# This file is part of Phalcon.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE file that was distributed with this source code.
+
+name: Phalcon CI
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Daily at 02:00 runs only on default branch
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # All versions should be declared here
+  PHALCON_VERSION: 5.0.0alpha6
+  ZEPHIR_PARSER_VERSION: 1.4.1
+  ZEPHIR_VERSION: 0.15.0
+  PSR_VERSION: 1.1.0
+
+  # For tests
+  LANG: en_US.UTF-8
+  LANGUAGE: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+
+  # Windows specific
+  TOOLS_DIR: 'C:\tools'
+
+  # PHP extensions required by Composer
+  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
+
+jobs:
+  # Configure Workflow for correct run reusable workflow
+  # This is required step. It's workaround for non-initialized ENVs when trying to pass input variables from ENVs.
+  # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
+  setup_workflow:
+    name: Setup workflow
+    runs-on: ubuntu-latest
+    outputs:
+      zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
+
+    steps:
+    - id: setup-zephir-ext
+      name: Setup Zephir Extensions
+      run: |
+        echo "::set-output name=extensions::psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+
+  # PHP CodeSniffer inspection
+  phpcs:
+    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
+    with:
+      standard: ./phpcs.xml
+
+  # Generates stubs and validates with PSALM
+  stubs:
+    needs: setup_workflow
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+
+  generate:
+    needs: setup_workflow
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+    secrets:
+      composer-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-test:
+    name: tests / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+
+    needs: [generate]
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.0' ]
+        ts: [ 'nts', 'ts' ]
+        arch: [ 'x64' ]
+
+        name:
+          - ubuntu-gcc
+          - macos-clang
+          - windows2016-vc15
+          - windows2019-vs16
+
+        # matrix names should be in next format:
+        #     {php}-{ts}-{os.name}-{compiler}-{arch}
+        include:
+          # Linux
+          - name: ubuntu-gcc
+            os: ubuntu-18.04
+            compiler: gcc
+
+          # macOS
+          - name: macos-clang
+            os: macos-10.15
+            compiler: clang
+
+          # Windows
+          - name: windows2016-vc15
+            os: windows-2016
+            compiler: vc15
+
+          - name: windows2019-vs16
+            os: windows-2019
+            compiler: vs16
+
+        exclude:
+          - name: windows2019-vs16
+            php: '7.4'
+
+          - name: windows2016-vc15
+            php: '8.0'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup platform specific environment
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          $SessionSavePath = if ("${{ runner.os }}" -eq "Windows") { 'C:\temp' } else { '/tmp' }
+          Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}, psr-${{ env.PSR_VERSION }}
+          ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
+          tools: pecl, phpize, php-config
+          coverage: xdebug
+        env:
+          PHPTS: ${{ matrix.ts }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Phalcon Pecl Package
+        uses: actions/download-artifact@v2
+        with:
+          name: phalcon-pecl
+          path: ./phalcon-pecl
+
+      - name: Build Phalcon Extension (Linux)
+        uses: ./.github/actions/build-phalcon-linux
+        if: runner.os == 'Linux'
+        with:
+          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Build Phalcon Extension (macOS)
+        uses: ./.github/actions/build-phalcon-mac
+        if: runner.os == 'macOS'
+        with:
+          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Build Phalcon Extension (Windows)
+        uses: ./.github/actions/build-phalcon-win
+        if: runner.os == 'Windows'
+        with:
+          pecl: 'phalcon-pecl\phalcon-pecl.tgz'
+          php_version: ${{ matrix.php }}
+          ts: ${{ matrix.ts }}
+          msvc: ${{ matrix.compiler }}
+          arch: ${{ matrix.arch }}
+        env:
+          CACHE_DIR: 'C:\Downloads'
+          TOOLS_DIR: ${{ env.TOOLS_DIR }}
+
+      - name: Get Phalcon Extension path
+        id: phalcon-ext-path
+        shell: pwsh
+        run: |
+          if ( "${{ runner.os }}" -eq 'Windows' ) {
+            $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+            $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+            $PhalconExtPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+          } else {
+            $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
+          }
+          echo "::set-output name=extension-path::$PhalconExtPath"
+
+      - name: Creates build artifact with Phalcon extension
+        uses: ./.github/actions/pack-phalcon-ext
+        with:
+          target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+          ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Composer Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-${{ matrix.php }}-
+
+      - run: composer install --prefer-dist
+
+      - name: Setup Tests
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            ./.ci/linux-setup-locales.sh
+          fi
+
+          cp tests/_config/.env.default .env
+          php tests/_config/generate-db-schemas.php
+          vendor/bin/codecept build
+
+      - name: Run Unit Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
+
+      - name: Run CLI Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+
+  install:
+    needs: setup_workflow
+    uses: zephir-lang/templates/.github/workflows/phalcon-install-from-build.yml@main
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+
+  integration-test:
+    needs: [generate]
+    runs-on: ubuntu-20.04
+
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432
+        env:
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: phalcon
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379
+      memcached:
+        image: memcached:1.5-alpine
+        ports:
+          - 11211
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.0' ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Phalcon Pecl Package
+        uses: actions/download-artifact@v2
+        with:
+          name: phalcon-pecl
+          path: ./phalcon-pecl
+
+      - name: Build Phalcon Extension from Pecl
+        uses: ./.github/actions/build-phalcon-linux
+        with:
+          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Prepare test Environment
+        run: |
+          echo "::group::Set up locales"
+          ./.ci/linux-setup-locales.sh
+          echo "::endgroup::"
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Composer Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-php${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-php${{ matrix.php }}-
+
+      - run: composer install --prefer-dist
+
+      - name: Setup Tests
+        run: |
+          cp tests/_config/.env.default .env
+          php tests/_config/generate-db-schemas.php
+          vendor/bin/codecept build
+
+      - name: Run Unit Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
+
+      - name: Run CLI Tests
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+
+      - name: Run Integration Tests
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter integration
+
+      - name: Run Database Tests (Common)
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database -g common
+
+      - name: Run Database Tests (MySQL)
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
+
+      - name: Run Database Tests (Sqlite)
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
+
+      - name: Run Database Tests (Postgres)
+        env:
+          DATA_POSTGRES_USER: postgres
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
+
+      # - name: Run Database Tests (SQL Server)
+      #   env:
+      #     DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+      #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+      #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
+
+  release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+
+    needs: [generate, install, build-and-test, integration-test]
+    name: Create Release
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get the release version
+        id: get-version
+        run: |
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+
+      - name: Download Phalcon build artifacts
+        id: download
+        uses: actions/download-artifact@v2
+        with:
+          path: ./build-artifacts
+
+      - name: Prepare Release assets
+        run: |
+          mkdir -p ./build-artifacts/release
+          find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
+          echo "-- Creating Release Notes"
+          GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.get-version.outputs.version }}
+          tag: ${{ steps.get-version.outputs.version }}
+          bodyFile: "./build-artifacts/release/release-notes.md"
+          allowUpdates: true
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
+          artifactContentType: application/octet-stream

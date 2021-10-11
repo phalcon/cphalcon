@@ -1,0 +1,156 @@
+name: 'Phalcon PHP extension build action'
+description: 'Build Phalcon Framework for Windows according to various PHP versions.'
+
+inputs:
+  pecl:
+    description: 'PECL package path'
+    required: true
+
+  php_version:
+    description: 'PHP version to build for (e.g: 7.4, 8.0)'
+    required: true
+  ts:
+    description: 'Thread Safety'
+    required: false
+    default: 'nts'
+  msvc:
+    description: 'Microsoft Visual C++ compiler toolset prefix (e.g: vc14, vs15, vs16)'
+    required: true
+  arch:
+    description: 'Target architecture (x64, x86)'
+    required: false
+    default: 'x64'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Downloads Cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.CACHE_DIR }}
+        key: ${{ runner.os }}-downloads-${{ hashFiles('**/.github/actions/build-phalcon-win/action.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-downloads-${{ env.cache-name }}-
+          ${{ runner.os }}-downloads-
+          ${{ runner.os }}
+
+    - name: Setup Prerequisites
+      shell: powershell
+      run: |
+        Write-Output "::group::Install dependencies"
+        mkdir ${{ env.CACHE_DIR }}\Choco
+        choco install --no-progress -y --cache-location=${{ env.CACHE_DIR }}\Choco re2c
+        Write-Output "::endgroup::"
+
+        Write-Output "Install PowerShell PHP Manager module"
+        if (Get-Module -ListAvailable -Name PhpManager) {
+          Write-Host "PhpManager powershell module exist, skip install"
+        } else {
+          Install-Module -Name PhpManager -Repository PSGallery -Force
+        }
+        Write-Output "::endgroup::"
+
+        $OsName = "${{ matrix.os }}".replace('-','').ToLower()
+        $ReleaseFolder = if ("${{ inputs.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
+        $ReleaseFolder = if ("${{ inputs.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
+        $ReleaseDllPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+        $ReleaseZipBall = "phalcon-php${{ inputs.php_version }}-${{ inputs.ts }}-${OsName}-${{ inputs.msvc }}-${{ inputs.arch }}"
+
+        Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+        Write-Output "PHP_ROOT=${{ env.TOOLS_DIR }}\php" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "PHP_PECL_PATH=${{ env.TOOLS_DIR }}\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "PHP_DEVPACK=${{ env.TOOLS_DIR }}\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Setup PHP SDK tool kit
+      uses: zephir-lang/setup-php-sdk@v1
+      with:
+        php_version: ${{ inputs.php_version }}
+        ts: ${{ inputs.ts }}
+        msvc: ${{ inputs.msvc }}
+        arch: ${{ inputs.arch }}
+        install_dir: ${{ env.TOOLS_DIR }}
+        cache_dir: ${{ env.CACHE_DIR }}
+
+    - name: Configure Developer Command Prompt for MSVC compiler
+      uses: ilammy/msvc-dev-cmd@v1.9.0
+      with:
+        arch: ${{ inputs.arch }}
+
+    - name: Getting Details About Installed PHP
+      shell: powershell
+      run: |
+        Get-Php (Get-Command php).Path
+
+    - name: Install PECL Package
+      shell: powershell
+      run: |
+        .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${{ inputs.pecl }}" "${env:TEMP}"
+        .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${env:TEMP}\phalcon-pecl.tar" "${{ env.PHP_PECL_PATH }}\phalcon"
+
+    - name: PSR extension | init, phpize
+      shell: powershell
+      run: |
+        git clone https://github.com/jbboehr/php-psr.git ${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}
+        if (-not (Test-Path "${{ env.PHP_DEVPACK }}\include\ext\psr")) {
+          mkdir "${{ env.PHP_DEVPACK }}\include\ext\psr"
+        }
+        Set-Location "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}"
+        phpize
+
+    - name: PSR extension | configure
+      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+      shell: powershell
+      run: |
+        echo "::group::Configure"
+        .\configure.bat --enable-psr
+        echo "::endgroup::"
+
+    - name: PSR extension | build
+      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
+      shell: powershell
+      run: |
+        nmake
+        nmake install
+
+    - name: PSR extension | Inspecting Extension DLL File
+      shell: powershell
+      run: |
+        php --ri psr
+        Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
+
+    - name: Phalcon | phpize
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        phpize
+
+    - name: Phalcon | Configure Project
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        .\configure.bat --enable-phalcon `
+          --with-extra-libs="${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}"
+
+    - name: Phalcon | Build Project
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        nmake
+
+    - name: Inspecting Phalcon Extension DLL File
+      shell: powershell
+      run: |
+        Get-PhpExtension "${{ env.RELEASE_DLL_PATH }}"
+
+    - name: Enable Phalcon Extension
+      shell: powershell
+      run: |
+        Copy-Item -Path "${{ env.RELEASE_DLL_PATH }}" -Destination "${{ env.PHP_ROOT }}\ext\"
+        Enable-PhpExtension -Extension 'phalcon' -Path "${{ env.PHP_ROOT }}"
+
+    - name: Check Extension
+      shell: powershell
+      run: php --ri phalcon
