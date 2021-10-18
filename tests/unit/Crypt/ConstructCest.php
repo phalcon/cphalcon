@@ -13,36 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Codeception\Stub;
+use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt\Exception\Exception;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Crypt :: __construct()
+     * Tests Phalcon\Crypt\Crypt :: __construct()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function cryptConstruct(UnitTester $I)
     {
         $I->wantToTest('Crypt - __construct()');
 
-
         $crypt = new Crypt();
-
-        $I->assertInstanceOf(
-            Crypt::class,
-            $crypt
-        );
-
+        $I->assertInstanceOf(Crypt::class, $crypt);
 
         $crypt = new Crypt('aes-256-cfb', true);
-
-        $I->assertInstanceOf(
-            Crypt::class,
-            $crypt
-        );
+        $I->assertInstanceOf(Crypt::class, $crypt);
     }
 
     /**

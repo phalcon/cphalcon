@@ -13,39 +13,36 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
+use Codeception\Util\Stub;
 use Phalcon\Crypt\Crypt;
 use UnitTester;
 
-use function array_values;
-use function openssl_get_cipher_methods;
-use function sort;
+use function function_exists;
+use function hash_hmac_algos;
 
 /**
- * Class GetAvailableCiphersCest
+ * Class GetAvailableHashAlgorithmsCest
  *
  * @package Phalcon\Tests\Unit\Crypt
  */
-class GetAvailableCiphersCest
+class GetAvailableHashAlgorithmsCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: getAvailableCiphers()
+     * Tests Phalcon\Crypt\Crypt :: getAvailableHashAlgorithms()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function cryptGetAvailableCiphers(UnitTester $I)
+    public function cryptGetAvailableHashAlgorithms(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAvailableCiphers()');
+        $I->wantToTest('Crypt - getAvailableHashAlgorithms()');
 
         $crypt = new Crypt();
 
-        $expected = openssl_get_cipher_methods(true);
-        $expected = sort($expected);
-        $actual   = $crypt->getAvailableCiphers();
-        $values   = array_values($actual);
-        $actual   = sort($values);
+        $expected = hash_hmac_algos();
+        $actual   = $crypt->getAvailableHashAlgorithms();
         $I->assertEquals($expected, $actual);
     }
 }

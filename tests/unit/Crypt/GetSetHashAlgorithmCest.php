@@ -17,46 +17,53 @@ use Phalcon\Crypt\Crypt;
 use Phalcon\Crypt\Exception\Exception;
 use UnitTester;
 
-class GetSetCipherCest
+/**
+ * Class GetSetHashAlgoCest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
+class GetSetHashAlgorithmCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: getCipher() / setCipher()
+     * Tests Phalcon\Crypt\Crypt :: getHashAlgorithm() / setHashAlgorithm()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function cryptGetSetCipher(UnitTester $I)
+    public function cryptGetSetHashAlgo(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getCipher() / setCipher()');
+        $I->wantToTest('Crypt - getHashAlgorithm() / setHashAlgorithm()');
 
-        $cipher = 'aes-256-cfb';
+        $cipher = 'blowfish';
         $crypt  = new Crypt();
-        $crypt->setCipher($cipher);
+        $crypt->setHashAlgorithm($cipher);
 
-        $I->assertEquals($cipher, $crypt->getCipher());
+        $expected = $cipher;
+        $actual   = $crypt->getHashAlgorithm();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Crypt\Crypt :: setCipher() - unknown
+     * Tests Phalcon\Crypt\Crypt :: setHashAlgo() - unknown
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function cryptGetSetCipherUnknown(UnitTester $I)
+    public function cryptGetSetHashAlgoUnknown(UnitTester $I)
     {
-        $I->wantToTest('Crypt - setCipher() - unknown');
+        $I->wantToTest('Crypt - setHashAlgorithm() - unknown');
         $I->expectThrowable(
             new Exception(
-                "The cipher algorithm 'xxx-yyy-zzz' is not supported on this system."
+                "The hash algorithm 'xxx-yyy-zzz' is not supported on this system."
             ),
             function () {
                 $crypt = new Crypt();
 
-                $crypt->setCipher('xxx-yyy-zzz');
+                $crypt->setHashAlgorithm('xxx-yyy-zzz');
             }
         );
     }

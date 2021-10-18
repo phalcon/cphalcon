@@ -13,19 +13,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
-use Phalcon\Crypt\Exception;
+use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt\Exception\Exception;
+use Phalcon\Tests\Fixtures\Crypt\CryptFixture;
 use UnitTester;
 
+use function str_repeat;
 use function substr;
 
+/**
+ * Class EncryptCest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
 class EncryptCest
 {
     /**
-     * Tests Phalcon\Crypt :: encrypt()
+     * Tests Phalcon\Crypt\Crypt :: encrypt()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function cryptEncrypt(UnitTester $I)
     {
@@ -84,18 +93,43 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Crypt :: encrypt() - unsupported algo
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - empty key
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function cryptEncryptException(UnitTester $I)
+    public function cryptEncryptExceptionEmptyKey(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - exception');
+        $I->wantToTest('Crypt - encrypt() - exception empty key');
 
         $I->expectThrowable(
             new Exception(
-                'The cipher algorithm "AES-128-ECB" is not supported on this system.'
+                'Encryption key cannot be empty'
+            ),
+            function () {
+                $crypt = new Crypt();
+                $crypt->encrypt('sample text', '');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - unsupported algo
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cryptEncryptExceptionUnsupportedAlgo(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() - exception unsupported algo');
+
+        $I->expectThrowable(
+            new Exception(
+                "The cipher algorithm 'AES-128-ECB' is not supported on this system."
             ),
             function () {
                 $crypt = new Crypt();
@@ -106,33 +140,145 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Crypt :: encrypt() - gcm
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - gcm/ccm with data
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-15
+     * @since  2020-09-09
      */
-    public function cryptEncryptGcm(UnitTester $I)
+    public function cryptEncryptGcmCcmWithData(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt()');
+        $I->wantToTest('Crypt - encrypt() - gcm/ccm with data');
 
         $ciphers = [
             'aes-128-gcm',
             'aes-128-ccm',
+            'aes-256-gcm',
+            'aes-256-ccm',
         ];
 
-        $crypt = new Crypt();
 
         foreach ($ciphers as $cipher) {
+            $crypt = new Crypt();
             $crypt
                 ->setCipher($cipher)
+                ->setKey('123456')
                 ->setAuthTag('1234')
                 ->setAuthData('abcd')
-                ->setKey('123456')
             ;
 
             $encryption = $crypt->encrypt('phalcon');
-            $actual     = $crypt->decrypt($encryption);
+
+            $crypt = new Crypt();
+            $crypt
+                ->setCipher($cipher)
+                ->setKey('123456')
+                ->setAuthData('abcd')
+            ;
+
+            $actual = $crypt->decrypt($encryption);
             $I->assertEquals('phalcon', $actual);
         }
+    }
+
+    /**
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - gcm/ccm exception without data
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cryptEncryptGcmCcmExceptionWithoutData(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() - gcm/ccm exception without data');
+
+        $ciphers = [
+            'aes-128-gcm',
+            'aes-128-ccm',
+            'aes-256-gcm',
+            'aes-256-ccm',
+        ];
+
+        foreach ($ciphers as $cipher) {
+            $I->expectThrowable(
+                new Exception(
+                    "Auth data must be provided when using AEAD mode"
+                ),
+                function () use ($cipher) {
+                    $crypt = new Crypt();
+
+                    $crypt
+                        ->setCipher($cipher)
+                        ->setKey('123456')
+                    ;
+
+                    $encryption = $crypt->encrypt('phalcon');
+                }
+            );
+        }
+    }
+
+    /**
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - exception invalid padding size
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cryptEncryptCryptPadExceptionInvalidPaddingSize(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() - cryptPadText() - exception invalid padding size');
+
+        $I->expectThrowable(
+            new Exception("Padding size cannot be less than 0 or greater than 256"),
+            function () {
+                $crypt       = new CryptFixture();
+                $input       = str_repeat("A", 4096);
+                $mode        = "cbc";
+                $blockSize   = 1024;
+                $paddingType = Crypt::PADDING_PKCS7;
+
+                $result = $crypt->cryptPadText($input, $mode, $blockSize, $paddingType);
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception("Padding size cannot be less than 0 or greater than 256"),
+            function () {
+                $crypt       = new CryptFixture();
+                $input       = str_repeat("A", 4096);
+                $mode        = "cbc";
+                $blockSize   = -1024;
+                $paddingType = Crypt::PADDING_PKCS7;
+
+                $result = $crypt->cryptPadText($input, $mode, $blockSize, $paddingType);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Crypt\Crypt :: encrypt() - Zero padding returns input
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cryptEncryptCryptPadZeroPaddingReturnsInput(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() - cryptPadText() - zero padding returns input');
+
+        $crypt       = new CryptFixture();
+        $input       = str_repeat("A", 32);
+        $mode        = "ccb";
+        $blockSize   = 16;
+        $paddingType = Crypt::PADDING_PKCS7;
+
+        $expected = $input;
+        $actual   = $crypt->cryptPadText($input, $mode, $blockSize, $paddingType);
+        $I->assertEquals($expected, $actual);
     }
 }

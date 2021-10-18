@@ -132,7 +132,7 @@ class ConfigFactory extends AbstractFactory
     /**
      * Returns the adapters for the factory
      */
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "grouped" : "Phalcon\\Config\\Adapter\\Grouped",

@@ -47,7 +47,7 @@ class AdapterFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "noop"   : "Phalcon\\Logger\\Adapter\\Noop",

@@ -57,7 +57,7 @@ class HelperFactory extends AbstractFactory
     /**
      * @return string[]
      */
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "interpolate" : "Phalcon\\Support\\Helper\\Str\\Interpolate"

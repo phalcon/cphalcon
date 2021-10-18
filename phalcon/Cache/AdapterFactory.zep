@@ -78,7 +78,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Returns the available adapters
      */
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "apcu"         : "Phalcon\\Cache\\Adapter\\Apcu",

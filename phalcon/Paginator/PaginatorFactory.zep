@@ -84,7 +84,7 @@ class PaginatorFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "model"        : "Phalcon\\Paginator\\Adapter\\Model",

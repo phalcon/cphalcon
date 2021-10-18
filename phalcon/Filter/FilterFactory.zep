@@ -21,11 +21,11 @@ class FilterFactory
     public function newInstance() -> <FilterInterface>
     {
         return new Filter(
-            this->getAdapters()
+            this->getServices()
         );
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             Filter::FILTER_ABSINT     : "Phalcon\\Filter\\Sanitize\\AbsInt",

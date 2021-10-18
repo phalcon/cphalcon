@@ -81,7 +81,7 @@ class AnnotationsFactory extends AbstractFactory
     /**
      * The available adapters
      */
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "apcu"   : "Phalcon\\Annotations\\Adapter\\Apcu",

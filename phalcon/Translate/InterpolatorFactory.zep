@@ -37,7 +37,7 @@ class InterpolatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "associativeArray" : "Phalcon\\Translate\\Interpolator\\AssociativeArray",

@@ -16,36 +16,34 @@ namespace Phalcon\Tests\Unit\Crypt;
 use Phalcon\Crypt\Crypt;
 use UnitTester;
 
-use function array_values;
-use function openssl_get_cipher_methods;
-use function sort;
+use function uniqid;
 
 /**
- * Class GetAvailableCiphersCest
+ * Class GetSetAuthTagCest
  *
  * @package Phalcon\Tests\Unit\Crypt
  */
-class GetAvailableCiphersCest
+class GetSetAuthTagCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: getAvailableCiphers()
+     * Unit Tests Phalcon\Crypt\Crypt :: getAuthTag()/setAuthTag()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function cryptGetAvailableCiphers(UnitTester $I)
+    public function cryptGetSetAuthTag(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAvailableCiphers()');
+        $I->wantToTest('Crypt - getAuthTag()/setAuthTag()');
 
         $crypt = new Crypt();
 
-        $expected = openssl_get_cipher_methods(true);
-        $expected = sort($expected);
-        $actual   = $crypt->getAvailableCiphers();
-        $values   = array_values($actual);
-        $actual   = sort($values);
+        $data = uniqid('t-');
+        $crypt->setAuthTag($data);
+
+        $expected = $data;
+        $actual   = $crypt->getAuthTag();
         $I->assertEquals($expected, $actual);
     }
 }

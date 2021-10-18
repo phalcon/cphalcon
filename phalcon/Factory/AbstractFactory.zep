@@ -56,7 +56,7 @@ abstract class AbstractFactory
     /**
      * Returns the adapters for the factory
      */
-    abstract protected function getAdapters() -> array;
+    abstract protected function getServices() -> array;
 
     /**
      * Checks if a service exists and throws an exception
@@ -77,7 +77,7 @@ abstract class AbstractFactory
     {
         var adapters, name, service;
 
-        let adapters = this->getAdapters(),
+        let adapters = this->getServices(),
             adapters = array_merge(adapters, services);
 
         for name, service in adapters {

@@ -59,7 +59,7 @@ class TagFactory extends AbstractFactory
         return this->services[name];
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "a"                  : "Phalcon\\Html\\Helper\\Anchor",

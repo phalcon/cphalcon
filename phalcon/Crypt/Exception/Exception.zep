@@ -8,11 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Crypt;
+
+namespace Phalcon\Crypt\Exception;
 
 /**
- * Exceptions thrown in Phalcon\Crypt will use this class.
+ * Exceptions thrown in Phalcon\Crypt use this class
  */
-class Mismatch extends Exception
+class Exception extends \Exception
 {
 }
