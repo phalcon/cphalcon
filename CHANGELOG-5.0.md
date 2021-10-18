@@ -16,6 +16,23 @@
   - Changed `Phalcon\Session\Bag::construct` to throw an exception if the container is not specified
   - Changed `Phalcon\Session\Bag::init` to store the data in the session [#15494](https://github.com/phalcon/cphalcon/issues/15494)
 - Changed `Phalcon\Events\Event::construct()` to allow `source` to be nullable [#15133](https://github.com/phalcon/cphalcon/issues/15133)
+- Changes to `Phalcon\Crypt`
+  - Moved `Phalcon\Crypt` to `Phalcon\Crypt\Crypt`
+  - Moved `Phalcon\Crypt\Exception` to `Phalcon\Crypt\Exception\Exception`
+  - Moved `Phalcon\Crypt\Mismatch` to `Phalcon\Crypt\Exception\Mismatch`
+  - Added `Phalcon\Crypt\Padding\PadInteface` and padding adapters
+      - `Phalcon\Crypt\Padding\Ansi`
+      - `Phalcon\Crypt\Padding\Iso10126`
+      - `Phalcon\Crypt\Padding\IsoIek`
+      - `Phalcon\Crypt\Padding\Noop`
+      - `Phalcon\Crypt\Padding\PadInterface`
+      - `Phalcon\Crypt\Padding\Pkcs7`
+      - `Phalcon\Crypt\Padding\Space`
+      - `Phalcon\Crypt\Padding\Zero`
+  - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
+  - Added more tests increasing coverage
+  - Changed the ccm/gcm modes to store the `authTag` with the encryption string and process it with the decryption string [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Renamed `Phalcon\Factory\AdapterFactory::getAdapters()` to `Phalcon\Factory\AdapterFactory::getServices()` [#15717](https://github.com/phalcon/cphalcon/issues/15717)
 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
