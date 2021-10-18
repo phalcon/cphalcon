@@ -29,7 +29,7 @@ interface CryptInterface
      * Decrypt a text that is coded as a base64 string
      *
      * @param string      $input
-     * @param strubg|null $key
+     * @param string|null $key
      *
      * @return string
      */
@@ -49,7 +49,7 @@ interface CryptInterface
      * Encrypts a text returning the result as a base64 string
      *
      * @param string      $input
-     * @param strubg|null $key
+     * @param string|null $key
      *
      * @return string
      */
