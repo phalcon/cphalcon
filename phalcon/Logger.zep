@@ -239,7 +239,7 @@ class Logger implements LoggerInterface
      *
      * @return AdapterInterface[]
      */
-    public function getServices() -> array
+    public function getAdapters() -> array
     {
         return this->adapters;
     }
