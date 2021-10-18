@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance)
 /**
  * Returns the adapters for the factory
  */
-PHP_METHOD(Phalcon_Config_ConfigFactory, getAdapters)
+PHP_METHOD(Phalcon_Config_ConfigFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Translate_TranslateFactory, getAdapters)
+PHP_METHOD(Phalcon_Translate_TranslateFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

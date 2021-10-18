@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_factory_abstractfactory_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory);
 
 PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig);
-PHP_METHOD(Phalcon_Factory_AbstractFactory, getAdapters);
+PHP_METHOD(Phalcon_Factory_AbstractFactory, getServices);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getService);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, init);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getException);
@@ -14,7 +14,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_factory_abstractfactory_
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_factory_abstractfactory_getadapters, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_factory_abstractfactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_factory_abstractfactory_getservice, 0, 0, 1)
@@ -39,7 +39,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_factory_abstractfactory_method_entry) {
 	PHP_ME(Phalcon_Factory_AbstractFactory, checkConfig, arginfo_phalcon_factory_abstractfactory_checkconfig, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Factory_AbstractFactory, getAdapters, arginfo_phalcon_factory_abstractfactory_getadapters, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Factory_AbstractFactory, getServices, arginfo_phalcon_factory_abstractfactory_getservices, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Factory_AbstractFactory, getService, arginfo_phalcon_factory_abstractfactory_getservice, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Factory_AbstractFactory, init, arginfo_phalcon_factory_abstractfactory_init, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Factory_AbstractFactory, getException, arginfo_phalcon_factory_abstractfactory_getexception, ZEND_ACC_PROTECTED)

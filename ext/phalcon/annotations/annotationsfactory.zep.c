@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance)
 /**
  * The available adapters
  */
-PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getAdapters)
+PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

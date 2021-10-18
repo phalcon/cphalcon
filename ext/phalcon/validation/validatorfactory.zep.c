@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Validation_ValidatorFactory, getAdapters)
+PHP_METHOD(Phalcon_Validation_ValidatorFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Base64.zep", 39);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 190, data);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 191, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_MM_RESTORE();

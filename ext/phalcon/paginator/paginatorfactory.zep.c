@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getAdapters)
+PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

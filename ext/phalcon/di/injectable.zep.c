@@ -124,10 +124,11 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	}
 	if (ZEPHIR_IS_STRING(&propertyName, "persistent")) {
 		ZEPHIR_INIT_VAR(&_2$$4);
-		zephir_create_array(&_2$$4, 1, 0);
+		zephir_create_array(&_2$$4, 2, 0);
 		ZEPHIR_INIT_VAR(&_3$$4);
 		zephir_get_class(&_3$$4, this_ptr, 0);
 		zephir_array_fast_append(&_2$$4, &_3$$4);
+		zephir_array_fast_append(&_2$$4, &container);
 		ZEPHIR_INIT_NVAR(&_3$$4);
 		ZVAL_STRING(&_3$$4, "sessionBag");
 		ZEPHIR_CALL_METHOD(&_1$$4, &container, "get", NULL, 0, &_3$$4, &_2$$4);
@@ -227,7 +228,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 124);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 125);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

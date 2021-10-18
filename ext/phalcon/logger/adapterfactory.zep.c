@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Logger_AdapterFactory, getAdapters)
+PHP_METHOD(Phalcon_Logger_AdapterFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

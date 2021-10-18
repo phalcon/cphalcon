@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig)
 /**
  * Returns the adapters for the factory
  */
-PHP_METHOD(Phalcon_Factory_AbstractFactory, getAdapters)
+PHP_METHOD(Phalcon_Factory_AbstractFactory, getServices)
 {
 }
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getadapters", NULL, 0);
+	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &adapters, &services);

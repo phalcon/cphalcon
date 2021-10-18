@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Storage_AdapterFactory, getAdapters)
+PHP_METHOD(Phalcon_Storage_AdapterFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

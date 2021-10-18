@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory);
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, __construct);
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load);
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance);
-PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getAdapters);
+PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdofactory___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 80000
@@ -29,13 +29,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdofactory_new
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdofactory_getadapters, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdofactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdofactory_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_PdoFactory, __construct, arginfo_phalcon_db_adapter_pdofactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Adapter_PdoFactory, load, arginfo_phalcon_db_adapter_pdofactory_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_PdoFactory, newInstance, arginfo_phalcon_db_adapter_pdofactory_newinstance, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_PdoFactory, getAdapters, arginfo_phalcon_db_adapter_pdofactory_getadapters, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Adapter_PdoFactory, getServices, arginfo_phalcon_db_adapter_pdofactory_getservices, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

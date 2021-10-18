@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 /**
  * @return string[]
  */
-PHP_METHOD(Phalcon_Support_HelperFactory, getAdapters)
+PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

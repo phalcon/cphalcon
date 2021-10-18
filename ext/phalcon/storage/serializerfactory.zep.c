@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Storage_SerializerFactory, getAdapters)
+PHP_METHOD(Phalcon_Storage_SerializerFactory, getServices)
 {
 	zval *this_ptr = getThis();
 
