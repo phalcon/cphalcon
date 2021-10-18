@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault;
 use Codeception\Example;
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
 use Phalcon\Assets\Manager as ManagerAssets;
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as ManagerEvents;

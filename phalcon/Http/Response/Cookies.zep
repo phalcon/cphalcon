@@ -28,7 +28,7 @@ use Phalcon\Http\Cookie\CookieInterface;
  *
  * ```php
  * use Phalcon\Di;
- * use Phalcon\Crypt;
+ * use Phalcon\Crypt\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *
  * $di = new Di();

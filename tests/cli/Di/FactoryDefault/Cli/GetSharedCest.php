@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Escaper;
 
