@@ -129,10 +129,6 @@ class Crypt implements CryptInterface
         bool useSigning = false,
         <PadFactory> padFactory = null
     ) {
-//        if empty(cipher) {
-//            let cipher = self::DEFAULT_CIPHER;
-//        }
-
         if null === padFactory {
             let padFactory = new PadFactory();
         }
