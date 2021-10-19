@@ -30,6 +30,7 @@ zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_support_collection_collectioninterface_ce;
 zend_class_entry *phalcon_storage_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_forms_element_elementinterface_ce;
+zend_class_entry *phalcon_crypt_padding_padinterface_ce;
 zend_class_entry *phalcon_dispatcher_dispatcherinterface_ce;
 zend_class_entry *phalcon_storage_serializer_serializerinterface_ce;
 zend_class_entry *phalcon_assets_assetinterface_ce;
@@ -172,7 +173,7 @@ zend_class_entry *phalcon_security_jwt_token_abstractitem_ce;
 zend_class_entry *phalcon_session_adapter_abstractadapter_ce;
 zend_class_entry *phalcon_validation_abstractvalidatorcomposite_ce;
 zend_class_entry *phalcon_acl_adapter_abstractadapter_ce;
-zend_class_entry *phalcon_crypt_exception_ce;
+zend_class_entry *phalcon_crypt_exception_exception_ce;
 zend_class_entry *phalcon_di_exception_ce;
 zend_class_entry *phalcon_di_factorydefault_ce;
 zend_class_entry *phalcon_html_helper_input_checkbox_ce;
@@ -259,8 +260,16 @@ zend_class_entry *phalcon_config_adapter_yaml_ce;
 zend_class_entry *phalcon_config_configfactory_ce;
 zend_class_entry *phalcon_config_exception_ce;
 zend_class_entry *phalcon_container_ce;
-zend_class_entry *phalcon_crypt_ce;
-zend_class_entry *phalcon_crypt_mismatch_ce;
+zend_class_entry *phalcon_crypt_crypt_ce;
+zend_class_entry *phalcon_crypt_exception_mismatch_ce;
+zend_class_entry *phalcon_crypt_padding_ansi_ce;
+zend_class_entry *phalcon_crypt_padding_iso10126_ce;
+zend_class_entry *phalcon_crypt_padding_isoiek_ce;
+zend_class_entry *phalcon_crypt_padding_noop_ce;
+zend_class_entry *phalcon_crypt_padding_pkcs7_ce;
+zend_class_entry *phalcon_crypt_padding_space_ce;
+zend_class_entry *phalcon_crypt_padding_zero_ce;
+zend_class_entry *phalcon_crypt_padfactory_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_decorated_ce;
 zend_class_entry *phalcon_datamapper_pdo_connectionlocator_ce;
@@ -619,6 +628,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Support_Collection_CollectionInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Forms_Element_ElementInterface);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_PadInterface);
 	ZEPHIR_INIT(Phalcon_Dispatcher_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_SerializerInterface);
 	ZEPHIR_INIT(Phalcon_Assets_AssetInterface);
@@ -761,7 +771,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Session_Adapter_AbstractAdapter);
 	ZEPHIR_INIT(Phalcon_Validation_AbstractValidatorComposite);
 	ZEPHIR_INIT(Phalcon_Acl_Adapter_AbstractAdapter);
-	ZEPHIR_INIT(Phalcon_Crypt_Exception);
+	ZEPHIR_INIT(Phalcon_Crypt_Exception_Exception);
 	ZEPHIR_INIT(Phalcon_Di_Exception);
 	ZEPHIR_INIT(Phalcon_Di_FactoryDefault);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Input_Checkbox);
@@ -830,8 +840,16 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Config_ConfigFactory);
 	ZEPHIR_INIT(Phalcon_Config_Exception);
 	ZEPHIR_INIT(Phalcon_Container);
-	ZEPHIR_INIT(Phalcon_Crypt);
-	ZEPHIR_INIT(Phalcon_Crypt_Mismatch);
+	ZEPHIR_INIT(Phalcon_Crypt_Crypt);
+	ZEPHIR_INIT(Phalcon_Crypt_Exception_Mismatch);
+	ZEPHIR_INIT(Phalcon_Crypt_PadFactory);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Ansi);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Iso10126);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_IsoIek);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Noop);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Pkcs7);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Space);
+	ZEPHIR_INIT(Phalcon_Crypt_Padding_Zero);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_ConnectionLocator);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection_Decorated);
@@ -1219,7 +1237,6 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 	phalcon_globals->orm.parser_cache = NULL;
 	phalcon_globals->orm.resultset_prefetch_records = 0;
 	phalcon_globals->orm.unique_cache_id = 3;
-
 
 
 

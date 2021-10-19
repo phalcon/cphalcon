@@ -14,9 +14,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropComponentAccess);
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, getComponents);
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, getInheritedRoles);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getComponents);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isComponent);
@@ -79,13 +80,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_dropc
 	ZEND_ARG_INFO(0, accessList)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getcomponents, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getinheritedroles, 0, 0, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getnoargumentsdefaultaction, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getroles, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getcomponents, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_isallowed, 0, 3, _IS_BOOL, 0)
@@ -155,9 +160,10 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry) {
 	PHP_ME(Phalcon_Acl_Adapter_Memory, allow, arginfo_phalcon_acl_adapter_memory_allow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, deny, arginfo_phalcon_acl_adapter_memory_deny, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, dropComponentAccess, arginfo_phalcon_acl_adapter_memory_dropcomponentaccess, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, getComponents, arginfo_phalcon_acl_adapter_memory_getcomponents, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, getInheritedRoles, arginfo_phalcon_acl_adapter_memory_getinheritedroles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction, arginfo_phalcon_acl_adapter_memory_getnoargumentsdefaultaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getRoles, arginfo_phalcon_acl_adapter_memory_getroles, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getComponents, arginfo_phalcon_acl_adapter_memory_getcomponents, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isAllowed, arginfo_phalcon_acl_adapter_memory_isallowed, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isRole, arginfo_phalcon_acl_adapter_memory_isrole, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isComponent, arginfo_phalcon_acl_adapter_memory_iscomponent, ZEND_ACC_PUBLIC)

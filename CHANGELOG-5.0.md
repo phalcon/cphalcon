@@ -16,7 +16,29 @@
   - Changed `Phalcon\Session\Bag::construct` to throw an exception if the container is not specified
   - Changed `Phalcon\Session\Bag::init` to store the data in the session [#15494](https://github.com/phalcon/cphalcon/issues/15494)
 - Changed `Phalcon\Events\Event::construct()` to allow `source` to be nullable [#15133](https://github.com/phalcon/cphalcon/issues/15133)
-
+- Changes to `Phalcon\Crypt`
+  - Moved `Phalcon\Crypt` to `Phalcon\Crypt\Crypt`
+  - Moved `Phalcon\Crypt\Exception` to `Phalcon\Crypt\Exception\Exception`
+  - Moved `Phalcon\Crypt\Mismatch` to `Phalcon\Crypt\Exception\Mismatch`
+  - Added `Phalcon\Crypt\Padding\PadInteface` and padding adapters
+      - `Phalcon\Crypt\Padding\Ansi`
+      - `Phalcon\Crypt\Padding\Iso10126`
+      - `Phalcon\Crypt\Padding\IsoIek`
+      - `Phalcon\Crypt\Padding\Noop`
+      - `Phalcon\Crypt\Padding\PadInterface`
+      - `Phalcon\Crypt\Padding\Pkcs7`
+      - `Phalcon\Crypt\Padding\Space`
+      - `Phalcon\Crypt\Padding\Zero`
+  - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
+  - Added more tests increasing coverage
+  - Changed the ccm/gcm modes to store the `authTag` with the encryption string and process it with the decryption string [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Renamed 
+    - `Phalcon\Crypt\Crypt::getHashAlgo()` to `Phalcon\Crypt\Crypt::getHashAlgorithm()` 
+    - `Phalcon\Crypt\Crypt::getAvailableHashAlgos()` to `Phalcon\Crypt\Crypt::getAvailableHashAlgorithms()` 
+    - `Phalcon\Crypt\Crypt::setHashAlgo()` to `Phalcon\Crypt\Crypt::setHashAlgorithm()` [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Renamed `Phalcon\Factory\AdapterFactory::getAdapters()` to `Phalcon\Factory\AdapterFactory::getServices()` [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Changed `Phalcon\Crypt\Crypt::__construct()` to have `useSigning` set to `true` by default [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
 - Added `Phalcon\Events\AbstractEventsAware` class to handle the Events Manager when necessary [#15691](https://github.com/phalcon/cphalcon/issues/15691)
@@ -26,6 +48,7 @@
 - Fixed `Query::getExpression()` return type [#15553](https://github.com/phalcon/cphalcon/issues/15553)
 - Fixed `Phalcon\Mvc\Model::getRelated()` to correctly return relationships (cached or not) when the foreign key has changed [#15649](https://github.com/phalcon/cphalcon/issues/15649)
 - Fixed `Phalcon\Db\Adapter\Pdo\*`, `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\MetaData\Strategy\Annotations` to treat `BIGINT` numbers as string [#15632](https://github.com/phalcon/cphalcon/issues/15632)
+- Fixed `Phalcon\Crypt\Crypt::decrypt()` to correctly calculate the hash when using signed mode [#15717](https://github.com/phalcon/cphalcon/issues/15717)
 
 # [5.0.0alpha6](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha6) (2021-09-16)
 

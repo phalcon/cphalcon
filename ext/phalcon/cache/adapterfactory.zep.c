@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance)
 /**
  * Returns the available adapters
  */
-PHP_METHOD(Phalcon_Cache_AdapterFactory, getAdapters)
+PHP_METHOD(Phalcon_Cache_AdapterFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

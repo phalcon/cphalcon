@@ -19,7 +19,7 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cli\Console;
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Di;

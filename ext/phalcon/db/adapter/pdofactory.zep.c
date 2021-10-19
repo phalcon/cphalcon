@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance)
 /**
  * Returns the available adapters
  */
-PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getAdapters)
+PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

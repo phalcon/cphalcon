@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_PaginatorFactory);
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct);
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load);
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance);
-PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getAdapters);
+PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_paginatorfactory___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 80000
@@ -29,13 +29,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactor
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_getadapters, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_paginator_paginatorfactory_method_entry) {
 	PHP_ME(Phalcon_Paginator_PaginatorFactory, __construct, arginfo_phalcon_paginator_paginatorfactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Paginator_PaginatorFactory, load, arginfo_phalcon_paginator_paginatorfactory_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_PaginatorFactory, newInstance, arginfo_phalcon_paginator_paginatorfactory_newinstance, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_PaginatorFactory, getAdapters, arginfo_phalcon_paginator_paginatorfactory_getadapters, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Paginator_PaginatorFactory, getServices, arginfo_phalcon_paginator_paginatorfactory_getservices, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	RETURN_CTOR(&_5);
 }
 
-PHP_METHOD(Phalcon_Html_TagFactory, getAdapters)
+PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

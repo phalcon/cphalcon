@@ -13,16 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use UnitTester;
 
+use function array_values;
+use function openssl_get_cipher_methods;
+use function sort;
+
+/**
+ * Class GetAvailableCiphersCest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
 class GetAvailableCiphersCest
 {
     /**
-     * Tests Phalcon\Crypt :: getAvailableCiphers()
+     * Tests Phalcon\Crypt\Crypt :: getAvailableCiphers()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-18
      */
     public function cryptGetAvailableCiphers(UnitTester $I)
     {
@@ -30,6 +41,11 @@ class GetAvailableCiphersCest
 
         $crypt = new Crypt();
 
-        $I->assertTrue(is_array($crypt->getAvailableCiphers()));
+        $expected = openssl_get_cipher_methods(true);
+        $expected = sort($expected);
+        $actual   = $crypt->getAvailableCiphers();
+        $values   = array_values($actual);
+        $actual   = sort($values);
+        $I->assertEquals($expected, $actual);
     }
 }

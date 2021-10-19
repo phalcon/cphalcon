@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -63,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
 	/**
 	 * Event source
 	 *
-	 * @var object
+	 * @var object|null
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("source"), ZEND_ACC_PROTECTED);
 	/**
@@ -127,8 +127,8 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancelable;
-	zval *type_param = NULL, *source, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null, _0$$3, _1$$3, _2$$3;
+	zend_bool cancelable, _0;
+	zval *type_param = NULL, *source = NULL, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null, _1$$3, _2$$3, _3$$3;
 	zval type;
 	zval *this_ptr = getThis();
 
@@ -138,15 +138,15 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 4)
+	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(type)
-		Z_PARAM_OBJECT(source)
 		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(source)
 		Z_PARAM_ZVAL_OR_NULL(data)
 		Z_PARAM_BOOL(cancelable)
 	ZEND_PARSE_PARAMETERS_END();
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
+	zephir_fetch_params(1, 1, 3, &type_param, &source, &data, &cancelable_param);
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
@@ -163,6 +163,10 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		zephir_get_strval(&type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(&type);
+	}
+	if (!source) {
+		source = &source_sub;
+		source = &__$null;
 	}
 	if (!data) {
 		data = &data_sub;
@@ -175,16 +179,20 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	}
 
 
-	if (UNEXPECTED(Z_TYPE_P(source) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_events_exception_ce);
+	_0 = Z_TYPE_P(source) != IS_NULL;
+	if (_0) {
+		_0 = Z_TYPE_P(source) != IS_OBJECT;
+	}
+	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		zephir_gettype(&_1$$3, source);
+		object_init_ex(&_1$$3, phalcon_events_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVSV(&_2$$3, "The source of ", &type, " event must be an object, got ", &_1$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_2$$3);
+		zephir_gettype(&_2$$3, source);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZEPHIR_CONCAT_SVSV(&_3$$3, "The source of ", &type, " event must be an object, got ", &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Events/Event.zep", 75);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 75);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

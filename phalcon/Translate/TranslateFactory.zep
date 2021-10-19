@@ -80,7 +80,7 @@ class TranslateFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "csv"     : "Phalcon\\Translate\\Adapter\\Csv",

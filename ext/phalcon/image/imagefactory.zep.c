@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Image_ImageFactory, getAdapters)
+PHP_METHOD(Phalcon_Image_ImageFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

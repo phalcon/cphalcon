@@ -34,7 +34,7 @@ class FactoryDefault extends \Phalcon\Di
         let this->services = [
             "annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
             "assets":             new Service("Phalcon\\Assets\\Manager", true),
-            "crypt":              new Service("Phalcon\\Crypt", true),
+            "crypt":              new Service("Phalcon\\Crypt\\Crypt", true),
             "cookies":            new Service("Phalcon\\Http\\Response\\Cookies", true),
             "dispatcher":         new Service("Phalcon\\Mvc\\Dispatcher", true),
             "escaper":            new Service("Phalcon\\Escaper", true),

@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 		if (!(zephir_is_true(&_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 491);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 496);
 		zephir_check_call_status();
 		zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset/Complex.zep", 287);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);

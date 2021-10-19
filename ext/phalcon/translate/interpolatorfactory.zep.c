@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getAdapters)
+PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

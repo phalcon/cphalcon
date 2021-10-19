@@ -50,14 +50,14 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_filter_ce);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 238, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 244, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters)
+PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

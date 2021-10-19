@@ -37,7 +37,7 @@ class ValidatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "alnum"        : "Phalcon\\Validation\\Validator\\Alnum",

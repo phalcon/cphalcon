@@ -13,27 +13,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
-use Phalcon\Crypt\Mismatch;
+use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt\Exception\Mismatch;
 use UnitTester;
 
+/**
+ * Class DecryptBase64Cest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
 class DecryptBase64Cest
 {
     /**
      * Tests decrypt without using HMAC
      *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
-     * @author <k@yejune.com>
-     * @since  2019-04-16
      */
-    public function shouldNotThrowExceptionIfKeyMismatch(UnitTester $I)
+    public function cryptDecryptBase64UnsignedKeyMismatchNoException(UnitTester $I)
     {
         $I->wantToTest(
-            'Crypt - decryptBase64() not throwing Exception on key mismatch'
+            'Crypt - decryptBase64() unsigned key mismatch no exception'
         );
 
-        $crypt = new Crypt();
-
+        $crypt  = new Crypt();
+        $crypt->useSigning(false);
         $actual = $crypt->decryptBase64(
             $crypt->encryptBase64('le text', 'encrypt key'),
             'wrong key'
@@ -45,19 +52,22 @@ class DecryptBase64Cest
     /**
      * Tests decrypt using HMAC
      *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
-     * @author <k@yejune.com>
-     * @since  2019-04-16
      */
-    public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
+    public function cryptDecryptBase64SignedKeyMismatchThrowsException(UnitTester $I)
     {
+        $I->wantToTest(
+            'Crypt - decryptBase64() signed key mismatch throws exception'
+        );
+
         $I->expectThrowable(
             new Mismatch('Hash does not match.'),
             function () {
                 $crypt = new Crypt();
-
-                $crypt->useSigning(true);
-
                 $crypt->decryptBase64(
                     $crypt->encryptBase64('le text', 'encrypt key'),
                     'wrong key'
@@ -69,17 +79,19 @@ class DecryptBase64Cest
     /**
      * Tests decrypt using HMAC
      *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
-     * @author <k@yejune.com>
-     * @since  2019-04-16
      */
-    public function shouldDecryptSignedString(UnitTester $I)
+    public function cryptDecryptBase64DecryptSignedString(UnitTester $I)
     {
         $crypt = new Crypt();
-
-        $crypt->useSigning(true);
-
-        $crypt->setKey('secret');
+        $crypt
+            ->useSigning(true)
+            ->setKey('secret')
+        ;
 
         $expected  = 'le text';
         $encrypted = $crypt->encryptBase64($expected);

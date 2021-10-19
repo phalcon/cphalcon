@@ -13,16 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use UnitTester;
 
+use function md5;
+use function substr;
+use function uniqid;
+
+/**
+ * Class EncryptBase64Cest
+ *
+ * @package Phalcon\Tests\Unit\Crypt
+ */
 class EncryptBase64Cest
 {
     /**
-     * Tests Phalcon\Crypt :: encryptBase64()
+     * Tests Phalcon\Crypt\Crypt :: encryptBase64()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
+     * @since  2021-10-18
      */
     public function cryptEncryptBase64(UnitTester $I)
     {
@@ -47,17 +58,10 @@ class EncryptBase64Cest
             $crypt->setCipher($cipher);
 
             foreach ($tests as $key => $test) {
-                $crypt->setKey(
-                    substr($key, 0, 16)
-                );
+                $crypt->setKey(substr($key, 0, 16));
 
                 $encryption = $crypt->encryptBase64($test);
-
-                $actual = rtrim(
-                    $crypt->decryptBase64($encryption),
-                    "\0"
-                );
-
+                $actual     = rtrim($crypt->decryptBase64($encryption), "\0");
                 $I->assertEquals($test, $actual);
             }
 
@@ -78,5 +82,27 @@ class EncryptBase64Cest
                 $I->assertEquals($test, $actual);
             }
         }
+    }
+
+    /**
+     * Tests Phalcon\Crypt\Crypt :: encryptBase64() - safe
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
+     */
+    public function cryptEncryptBase64Safe(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encryptBase64() - safe');
+
+        $key    = substr(md5(uniqid()), 0, 16);
+        $source = 'BvQrk+D^b&saR/L#mQig+8V9v^W&S/&moY7';
+
+        $crypt = new Crypt();
+
+        $encrypted = $crypt->encryptBase64($source, $key, true);
+        $decrypted = $crypt->decryptBase64($encrypted, $key, true);
+        $I->assertEquals($source, $decrypted);
     }
 }

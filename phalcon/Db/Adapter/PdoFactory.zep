@@ -77,7 +77,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Returns the available adapters
      */
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "mysql"      : "Phalcon\\Db\\Adapter\\Pdo\\Mysql",

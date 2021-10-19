@@ -87,7 +87,7 @@ class ImageFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    protected function getServices() -> array
     {
         return [
             "gd"      : "Phalcon\\Image\\Adapter\\Gd",

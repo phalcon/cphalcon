@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use UnitTester;
 
 class GetSetKeyCest
 {
     /**
-     * Tests Phalcon\Crypt :: getKey()/setKey()
+     * Tests Phalcon\Crypt\Crypt :: getKey()/setKey()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-02-16
+     * @since  2021-10-18
      */
     public function cryptGetSetKey(UnitTester $I)
     {

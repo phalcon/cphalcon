@@ -1185,7 +1185,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processHeaders)
 			_1$$4 = zephir_instance_of_ev(headers, phalcon_support_collection_collectioninterface_ce);
 		}
 		if (UNEXPECTED(!(_1$$4))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Headers needs to be either an array or instance of Phalcon\\Collection", "phalcon/Http/Message/AbstractMessage.zep", 506);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Headers needs to be either an array or instance of Phalcon\\Support\\Collection", "phalcon/Http/Message/AbstractMessage.zep", 506);
 			return;
 		}
 		ZEPHIR_CPY_WRT(&collection, headers);
