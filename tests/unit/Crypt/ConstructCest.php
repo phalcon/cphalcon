@@ -31,7 +31,7 @@ class ConstructCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-10-18
      */
     public function cryptConstruct(UnitTester $I)
     {
@@ -48,7 +48,7 @@ class ConstructCest
      * Tests the Crypt constants
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2015-12-20
+     * @since  2021-10-18
      */
     public function testCryptConstants(UnitTester $I)
     {

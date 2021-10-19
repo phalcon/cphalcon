@@ -33,7 +33,7 @@ class EncryptBase64Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-10-18
      */
     public function cryptEncryptBase64(UnitTester $I)
     {
@@ -90,7 +90,7 @@ class EncryptBase64Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-10-18
      */
     public function cryptEncryptBase64Safe(UnitTester $I)
     {

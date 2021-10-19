@@ -25,7 +25,7 @@ class GetSetCipherCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-10-18
      */
     public function cryptGetSetCipher(UnitTester $I)
     {
@@ -44,7 +44,7 @@ class GetSetCipherCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-10-18
      */
     public function cryptGetSetCipherUnknown(UnitTester $I)
     {

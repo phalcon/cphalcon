@@ -126,7 +126,7 @@ class Crypt implements CryptInterface
      */
     public function __construct(
         string cipher = self::DEFAULT_CIPHER,
-        bool useSigning = false,
+        bool useSigning = true,
         <PadFactory> padFactory = null
     ) {
         if null === padFactory {
@@ -162,8 +162,8 @@ class Crypt implements CryptInterface
      */
     public function decrypt(string input, string key = null) -> string
     {
-        var blockSize, cipher, cipherText, decrypted, decryptKey, hash,
-            hashAlgorithm, hashLength, iv, ivLength, mode;
+        var blockSize, cipher, cipherText, decrypted, decryptKey, digest,
+            hashAlgorithm, hashLength, iv, ivLength, mode, padded;
 
         let decryptKey = this->key;
         if true !== empty(key) {
@@ -186,20 +186,17 @@ class Crypt implements CryptInterface
         /**
          * Check if we have chosen signing and use the hash
          */
-        let hash = "";
+        let digest        = "",
+            hashAlgorithm = this->getHashAlgorithm();
         if true === $this->useSigning {
-            let hashAlgorithm = this->getHashAlgorithm(),
-                hashLength    = strlen(hash(hashAlgorithm, "", true)),
-                hash          = mb_substr(input, ivLength, hashLength, "8bit"),
-                cipherText    = mb_substr(input, ivLength + hashLength, null, "8bit");
+            let hashLength = strlen(hash(hashAlgorithm, "", true)),
+                digest     = mb_substr(input, ivLength, hashLength, "8bit"),
+                cipherText = mb_substr(input, ivLength + hashLength, null, "8bit");
         } else {
             let cipherText = mb_substr(input, ivLength, null, "8bit");
         }
 
-        /**
-         * If CCM/GCM mode is selected use auth data (AEAD mode) (not signed)
-         */
-        let decrypted  = this->decryptGcmCcmAuth(
+        let decrypted = this->decryptGcmCcmAuth(
             mode,
             cipherText,
             decryptKey,
@@ -207,9 +204,12 @@ class Crypt implements CryptInterface
         );
 
         /**
-         * Otherwise the string is unaffected; check CBC/ECB modes (not signed)
+         *  The variable below keeps the string (not unpadded). It will be used
+         +         * to compare the hash if we use a digest (signed)
          */
-        let decrypted = this->decryptCbcEcb(
+        let padded = decrypted;
+
+        let decrypted = this->decryptGetUnpadded(
             mode,
             blockSize,
             decrypted
@@ -219,7 +219,7 @@ class Crypt implements CryptInterface
             /**
              * Checks on the decrypted message digest using the HMAC method.
              */
-            if hash !== hash_hmac(hashAlgorithm, decrypted, decryptKey, true) {
+            if digest !== hash_hmac(hashAlgorithm, padded, decryptKey, true) {
                 throw new Mismatch("Hash does not match.");
             }
         }
@@ -597,6 +597,7 @@ class Crypt implements CryptInterface
      * @param int    $paddingType
      *
      * @return string
+     * @throws Exception
      */
     protected function cryptPadText(
         string input,
@@ -642,6 +643,7 @@ class Crypt implements CryptInterface
      * @param int    $paddingType
      *
      * @return string
+     * @throws Exception
      */
     protected function cryptUnpadText(
         string input,
@@ -690,7 +692,7 @@ class Crypt implements CryptInterface
      *
      * @return string
      */
-    protected function decryptCbcEcb(
+    protected function decryptGetUnpadded(
         string mode,
         int blockSize,
         string decrypted
@@ -717,6 +719,7 @@ class Crypt implements CryptInterface
      * @param string $iv
      *
      * @return string
+     * @throws Exception
      */
     protected function decryptGcmCcmAuth(
         string mode,
@@ -790,6 +793,7 @@ class Crypt implements CryptInterface
      * @param string $iv
      *
      * @return string
+     * @throws Exception
      */
     protected function encryptGcmCcm(
         string mode,
@@ -904,6 +908,7 @@ class Crypt implements CryptInterface
      * @param string $mode
      *
      * @return int
+     * @throws Exception
      */
     private function getBlockSize(string mode) -> int
     {
@@ -922,6 +927,7 @@ class Crypt implements CryptInterface
      * @param string $cipher
      *
      * @return int
+     * @throws Exception
      */
     private function getIvLength(string cipher) -> int
     {

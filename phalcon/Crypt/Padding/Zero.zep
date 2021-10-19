@@ -44,7 +44,7 @@ class Zero implements PadInterface
             paddingSize = 0;
 
         while (
-            $counter >= 0 &&
+            counter >= 0 &&
             inputArray[counter] == chr(0) &&
             paddingSize <= blockSize
         ) {
