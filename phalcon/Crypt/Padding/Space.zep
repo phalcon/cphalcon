@@ -44,7 +44,7 @@ class Space implements PadInterface
             paddingSize = 0;
 
         while (
-            $counter >= 0 &&
+            counter >= 0 &&
             inputArray[counter] == chr(32) &&
             paddingSize <= blockSize
         ) {

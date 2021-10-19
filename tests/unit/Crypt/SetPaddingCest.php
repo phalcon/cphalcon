@@ -32,8 +32,8 @@ class SetPaddingCest
      * @throws Exception
      * @throws Mismatch
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2014-10-17
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      */
     public function cryptSetPadding(UnitTester $I, Example $example)
     {
@@ -52,6 +52,7 @@ class SetPaddingCest
         $crypt = new Crypt();
         $crypt
             ->setKey($key)
+            ->useSigning($example['sign'])
             ->setPadding($example['padding'])
             ->setCipher($example['cipher'])
         ;
@@ -69,67 +70,37 @@ class SetPaddingCest
      */
     private function getExamples(): array
     {
-        return [
-            [
-                'label'   => 'AES-256-CBC - PADDING_ANSI_X_923',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_ANSI_X_923,
-            ],
-            [
-                'label'   => 'AES-256-CBC - PADDING_PKCS7',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_PKCS7,
-            ],
-            [
-                'label'   => 'AES-256-CBC - PADDING_ISO_10126',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_ISO_10126,
-            ],
-            [
-                'label'   => 'AES-256-CBC - PADDING_ISO_IEC_7816_4',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_ISO_IEC_7816_4,
-            ],
-            [
-                'label'   => 'AES-256-CBC - PADDING_ZERO',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_ZERO,
-            ],
-            [
-                'label'   => 'AES-256-CBC - PADDING_SPACE',
-                'cipher'  => 'AES-256-CBC',
-                'padding' => Crypt::PADDING_SPACE,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_ANSI_X_923',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_ANSI_X_923,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_PKCS7',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_PKCS7,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_ISO_10126',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_ISO_10126,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_ISO_IEC_7816_4',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_ISO_IEC_7816_4,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_ZERO',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_ZERO,
-            ],
-            [
-                'label'   => 'AES-256-CFB - PADDING_SPACE',
-                'cipher'  => 'AES-256-CFB',
-                'padding' => Crypt::PADDING_SPACE,
-            ],
+        $ciphers = [
+            'AES-256-CBC',
+            'AES-256-CFB',
         ];
+        $paddings = [
+            Crypt::PADDING_ANSI_X_923     => 'PADDING_ANSI_X_923',
+            Crypt::PADDING_PKCS7          => 'PADDING_PKCS7',
+            Crypt::PADDING_ISO_10126      => 'PADDING_ISO_10126',
+            Crypt::PADDING_ISO_IEC_7816_4 => 'PADDING_ISO_IEC_7816_4',
+            Crypt::PADDING_ZERO           => 'PADDING_ZERO',
+            Crypt::PADDING_SPACE          => 'PADDING_SPACE',
+        ];
+        $signed  = [
+            'unsigned' => false,
+            'signed'   => true,
+        ];
+
+        $result = [];
+        foreach ($ciphers as $cipher) {
+            foreach ($signed as $signedLabel => $signedValue) {
+                foreach ($paddings as $padding => $paddingLabel) {
+                    $result[] = [
+                        'label'   => $cipher . ' - ' . $paddingLabel . ' - ' . $signedLabel,
+                        'cipher'  => $cipher,
+                        'padding' => $padding,
+                        'sign'    => $signedValue,
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }
 }
