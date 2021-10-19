@@ -30,17 +30,17 @@ class DecryptBase64Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptBase64UnsignedKeyMismatchNoException(UnitTester $I)
+    public function cryptDecryptBase64NoExceptionOnKeyMismatch(UnitTester $I)
     {
         $I->wantToTest(
-            'Crypt - decryptBase64() unsigned key mismatch no exception'
+            'Crypt - decryptBase64() not throwing Exception on key mismatch'
         );
 
-        $crypt  = new Crypt();
-        $crypt->useSigning(false);
+        $crypt = new Crypt();
+
         $actual = $crypt->decryptBase64(
             $crypt->encryptBase64('le text', 'encrypt key'),
             'wrong key'
@@ -55,19 +55,18 @@ class DecryptBase64Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptBase64SignedKeyMismatchThrowsException(UnitTester $I)
+    public function cryptDecryptBase64NoExceptionIfHashMismatch(UnitTester $I)
     {
-        $I->wantToTest(
-            'Crypt - decryptBase64() signed key mismatch throws exception'
-        );
-
         $I->expectThrowable(
             new Mismatch('Hash does not match.'),
             function () {
                 $crypt = new Crypt();
+
+                $crypt->useSigning(true);
+
                 $crypt->decryptBase64(
                     $crypt->encryptBase64('le text', 'encrypt key'),
                     'wrong key'
@@ -82,7 +81,7 @@ class DecryptBase64Cest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function cryptDecryptBase64DecryptSignedString(UnitTester $I)

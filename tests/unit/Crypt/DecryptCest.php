@@ -34,17 +34,17 @@ class DecryptCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptUnsignedKeyMismatchNoException(UnitTester $I)
+    public function cryptDecryptNoExceptionOnKeyMismatch(UnitTester $I)
     {
         $I->wantToTest(
-            'Crypt - decrypt() unsigned key mismatch no exception'
+            'Crypt - decrypt() not throwing Exception on key mismatch'
         );
 
         $crypt = new Crypt();
-        $crypt->useSigning(false);
+
         $actual = $crypt->decrypt(
             $crypt->encrypt('le text', 'encrypt key'),
             'wrong key'
@@ -59,19 +59,20 @@ class DecryptCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptSignedKeyMismatchThrowsException(UnitTester $I)
+    public function cryptDecryptExceptionHashMismatch(UnitTester $I)
     {
-        $I->wantToTest(
-            'Crypt - decrypt() signed key mismatch throws exception'
-        );
+        $I->wantToTest('Crypt - decrypt() - exception hash mismatch');
 
         $I->expectThrowable(
             new Mismatch('Hash does not match.'),
             function () {
                 $crypt = new Crypt();
+
+                $crypt->useSigning(true);
+
                 $crypt->decrypt(
                     $crypt->encrypt('le text', 'encrypt key'),
                     'wrong key'
@@ -87,7 +88,7 @@ class DecryptCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function cryptDecryptSignedString(UnitTester $I)
@@ -111,7 +112,7 @@ class DecryptCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      */
     public function cryptDecryptExceptionEmptyKey(UnitTester $I)
     {
@@ -134,7 +135,7 @@ class DecryptCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      */
     public function cryptDecryptCryptUnpadZeroPaddingReturnsInput(UnitTester $I)
     {

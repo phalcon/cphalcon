@@ -33,7 +33,7 @@ class GetAvailableHashAlgorithmsCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-18
+     * @since  2020-09-09
      */
     public function cryptGetAvailableHashAlgorithms(UnitTester $I)
     {
