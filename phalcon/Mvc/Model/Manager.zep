@@ -19,6 +19,8 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -417,12 +419,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
-        var properties, className;
+        var properties, className, cleanModel, publicProperties, classReflection,
+            reflectionProperties, reflectionProperty;
 
         let className = get_class(model);
 
         if !isset this->modelVisibility[className] {
-            let this->modelVisibility[className] = get_object_vars(model);
+            let publicProperties = [];
+            let classReflection = new ReflectionClass(className);
+            let reflectionProperties = classReflection->getProperties(ReflectionProperty::IS_PUBLIC);
+            for reflectionProperty in reflectionProperties {
+                let publicProperties[reflectionProperty->name] = true;
+            }
+            let this->modelVisibility[className] = publicProperties;
         }
 
         let properties = this->modelVisibility[className];
