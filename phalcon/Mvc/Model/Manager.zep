@@ -417,12 +417,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
-        var properties, className;
+        var properties, className, cleanModel;
 
         let className = get_class(model);
 
         if !isset this->modelVisibility[className] {
-            let this->modelVisibility[className] = get_object_vars(model);
+            let cleanModel = new className();
+            let this->modelVisibility[className] = get_object_vars(cleanModel);
         }
 
         let properties = this->modelVisibility[className];
