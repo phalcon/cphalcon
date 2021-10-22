@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Tests\Module\UnitTest;
 
 return [

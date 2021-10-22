@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class LoadFromYamlCest
