@@ -10,7 +10,6 @@
 
 namespace Phalcon\Logger;
 
-use Phalcon\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Logger;
@@ -60,7 +59,7 @@ class LoggerFactory
 
         if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config object"
+                "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 

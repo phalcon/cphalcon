@@ -14,7 +14,6 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache;
 use Psr\SimpleCache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
-use Phalcon\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Helper\Arr;
 
@@ -74,7 +73,7 @@ class CacheFactory
 
         if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config object"
+                "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 
