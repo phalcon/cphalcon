@@ -28,7 +28,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'mysql',
      *     'options' => [
      *         'host' => 'localhost',

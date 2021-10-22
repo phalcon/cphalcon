@@ -39,7 +39,7 @@ class CacheFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'apcu',
      *     'options' => [
      *         'servers' => [
