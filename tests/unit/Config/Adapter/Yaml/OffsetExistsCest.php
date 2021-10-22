@@ -29,11 +29,12 @@ class OffsetExistsCest
      * Tests Phalcon\Config\Adapter\Yaml :: offsetExists()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - offsetExists()');
+
         $this->checkOffsetExists($I, 'Yaml');
     }
 }

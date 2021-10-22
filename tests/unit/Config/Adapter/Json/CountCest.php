@@ -34,6 +34,7 @@ class CountCest
     public function configAdapterJsonCount(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - count()');
+
         $this->checkCount($I, 'Json');
     }
 }

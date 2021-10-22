@@ -29,11 +29,12 @@ class GetPathDelimiterCest
      * Tests Phalcon\Config\Adapter\Yaml :: getPathDelimiter()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlGetPathDelimiter(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - getPathDelimiter()');
+
         $this->checkGetPathDelimiter($I, 'Yaml');
     }
 }

@@ -32,16 +32,14 @@ class PathCest
 
         $config = $this->getConfig('Grouped');
 
-        $I->assertCount(
-            2,
-            $config->path('test')
-        );
+        $expected = 2;
+        $actual   = $config->path('test');
+        $I->assertCount($expected, $actual);
 
 
-        $I->assertEquals(
-            'something-else',
-            $config->path('test.property2')
-        );
+        $expected = 'something-else';
+        $actual   = $config->path('test.property2');
+        $I->assertEquals($expected, $actual);
     }
 
     /**

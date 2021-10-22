@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Config\Adapter\Grouped;
 
-use Phalcon\Config;
 use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;

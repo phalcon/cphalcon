@@ -29,6 +29,7 @@ class GetCest
     public function configAdapterIniGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Ini - get()');
+
         $this->checkGet($I, 'Ini');
     }
 }

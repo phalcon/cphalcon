@@ -34,6 +34,7 @@ class OffsetExistsCest
     public function configAdapterJsonOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - offsetExists()');
+
         $this->checkOffsetExists($I, 'Json');
     }
 }

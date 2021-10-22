@@ -23,8 +23,6 @@ use UnitTester;
 use function dataDir;
 use function hash;
 
-use const PROJECT_PATH;
-
 class LoadCest
 {
     use FactoryTrait;
@@ -33,6 +31,7 @@ class LoadCest
      * Executed before each test
      *
      * @param UnitTester $I
+     *
      * @return void
      */
     public function _before(UnitTester $I): void
@@ -52,31 +51,22 @@ class LoadCest
     {
         $I->wantToTest('Config\ConfigFactory - load() - Config');
 
+        $class   = Ini::class;
         $options = $this->config->get('config');
 
         /** @var Ini $ini */
         $ini = (new ConfigFactory())->load($options);
-
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $I->assertInstanceOf($class, $ini);
 
         //Issue 14756
         $configFile = dataDir('assets/config/config-with.in-file.name.ini');
         $ini        = new Ini($configFile, INI_SCANNER_NORMAL);
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $I->assertInstanceOf($class, $ini);
 
         /** @var Ini $ini */
-        $ini = (new ConfigFactory())->load($ini->get('config')->toArray());
-
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $ini = (new ConfigFactory())->load($ini->get('config')
+                                               ->toArray());
+        $I->assertInstanceOf($class, $ini);
     }
 
     /**
@@ -92,14 +82,11 @@ class LoadCest
         $I->wantToTest('Config\ConfigFactory - load() - array');
 
         $options = $this->arrayConfig['config'];
+        $class   = Ini::class;
 
         /** @var Ini $ini */
         $ini = (new ConfigFactory())->load($options);
-
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $I->assertInstanceOf($class, $ini);
     }
 
     /**
@@ -115,14 +102,11 @@ class LoadCest
         $I->wantToTest('Config\ConfigFactory - load() - string');
 
         $filePath = $this->arrayConfig['config']['filePathExtension'];
+        $class    = Ini::class;
 
         /** @var Ini $ini */
         $ini = (new ConfigFactory())->load($filePath);
-
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $I->assertInstanceOf($class, $ini);
     }
 
     /**
@@ -148,7 +132,7 @@ class LoadCest
 
         $I->expectThrowable(
             new Exception(
-                'Config must be array or Phalcon\Config object'
+                'Config must be array or Phalcon\Config\Config object'
             ),
             function () {
                 $ini = (new ConfigFactory())->load(false);
@@ -192,9 +176,9 @@ class LoadCest
     {
         $I->wantToTest('Config\ConfigFactory - load() - yaml callback');
 
+        $class   = Yaml::class;
         $factory = new ConfigFactory();
-
-        $config = [
+        $config  = [
             'adapter'   => 'yaml',
             'filePath'  => dataDir('assets/config/callbacks.yml'),
             'callbacks' => [
@@ -202,13 +186,13 @@ class LoadCest
                     return hash('sha256', $value);
                 },
                 '!approot' => function ($value) {
-                    return PROJECT_PATH . $value;
+                    return 'app/root/' . $value;
                 },
             ],
         ];
 
         $config = $factory->load($config);
-        $I->assertInstanceOf(Yaml::class, $config);
+        $I->assertInstanceOf($class, $config);
     }
 
     /**
@@ -229,11 +213,15 @@ class LoadCest
         $configFile1 = dataDir('assets/config/config.php');
         $config      = $factory->load($configFile1);
 
-        $I->assertEquals("/phalcon/", $config->get('phalcon')->baseUri);
+        $expected = "/phalcon/";
+        $actual   = $config->get('phalcon')->baseUri;
+        $I->assertEquals($expected, $actual);
 
         $configFile2 = dataDir('assets/config/config-2.php');
         $config2     = $factory->load($configFile2);
 
-        $I->assertEquals("/phalcon4/", $config2->get('phalcon')->baseUri);
+        $expected = "/phalcon4/";
+        $actual   = $config2->get('phalcon')->baseUri;
+        $I->assertEquals($expected, $actual);
     }
 }

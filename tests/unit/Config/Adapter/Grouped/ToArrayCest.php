@@ -28,14 +28,13 @@ class ToArrayCest
      */
     public function configAdapterGroupedToArray(UnitTester $I)
     {
-        $config = $this->getConfig('Grouped');
+        $config  = $this->getConfig('Grouped');
+        $options = $this->config;
 
-        $options                      = $this->config;
         $options['test']['property2'] = 'something-else';
 
-        $I->assertEquals(
-            $options,
-            $config->toArray()
-        );
+        $expected = $options;
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

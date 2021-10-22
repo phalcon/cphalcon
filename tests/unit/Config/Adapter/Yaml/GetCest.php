@@ -29,11 +29,12 @@ class GetCest
      * Tests Phalcon\Config\Adapter\Yaml :: get()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - get()');
+
         $this->checkGet($I, 'Yaml');
     }
 }

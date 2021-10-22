@@ -29,6 +29,7 @@ class MergeCest
     public function configAdapterIniMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Ini - merge()");
+
         $this->checkMergeException($I, 'Ini');
     }
 }

@@ -29,6 +29,7 @@ class GetPathDelimiterCest
     public function configAdapterPhpGetPathDelimiter(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - getPathDelimiter()');
+
         $this->checkGetPathDelimiter($I, 'Php');
     }
 }

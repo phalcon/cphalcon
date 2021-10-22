@@ -13,10 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Traits;
 
+/**
+ * Trait VersionTrait
+ *
+ * @package Phalcon\Tests\Fixtures\Traits
+ */
 trait VersionTrait
 {
     /**
      * Translates a number to a special version string (alpha, beta, RC)
+     *
+     * @param string $number
+     *
+     * @return string
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -45,6 +54,10 @@ trait VersionTrait
 
     /**
      * Translates a special version (alpha, beta, RC) to a version number
+     *
+     * @param string $input
+     *
+     * @return string
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
