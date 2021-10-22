@@ -10,7 +10,7 @@
 
 namespace Phalcon\Config;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
@@ -78,7 +78,7 @@ class ConfigFactory extends AbstractFactory
 
         if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config object"
+                "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 

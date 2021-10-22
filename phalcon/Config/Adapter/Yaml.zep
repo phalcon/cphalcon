@@ -10,11 +10,11 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
- * Reads YAML files and converts them to Phalcon\Config objects.
+ * Reads YAML files and converts them to Phalcon\Config\Config objects.
  *
  * Given the following configuration file:
  *

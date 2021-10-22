@@ -10,11 +10,11 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Helper\Json as JsonHelper;
 
 /**
- * Reads JSON files and converts them to Phalcon\Config objects.
+ * Reads JSON files and converts them to Phalcon\Config\Config objects.
  *
  * Given the following configuration file:
  *
