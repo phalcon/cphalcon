@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit)
 						break;
 					}
 					ZEPHIR_MAKE_REF(&checkRoleToInherits);
-					ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_20, 24, &checkRoleToInherits);
+					ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_20, 23, &checkRoleToInherits);
 					ZEPHIR_UNREF(&checkRoleToInherits);
 					zephir_check_call_status();
 					if (zephir_array_isset(&usedRoleToInherits, &checkRoleToInherit)) {
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit)
 							break;
 						}
 						ZEPHIR_MAKE_REF(&checkRoleToInherits);
-						ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_20, 24, &checkRoleToInherits);
+						ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_20, 23, &checkRoleToInherits);
 						ZEPHIR_UNREF(&checkRoleToInherits);
 						zephir_check_call_status();
 						if (zephir_array_isset(&usedRoleToInherits, &checkRoleToInherit)) {
@@ -2106,7 +2106,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess)
 				break;
 			}
 			ZEPHIR_MAKE_REF(&checkRoleToInherits);
-			ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_6, 24, &checkRoleToInherits);
+			ZEPHIR_CALL_FUNCTION(&checkRoleToInherit, "array_shift", &_6, 23, &checkRoleToInherits);
 			ZEPHIR_UNREF(&checkRoleToInherits);
 			zephir_check_call_status();
 			if (zephir_array_isset(&usedRoleToInherits, &checkRoleToInherit)) {

@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 463);
 			ZEPHIR_INIT_NVAR(&_63$$3);
 			object_init_ex(&_63$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_63$$3, "__construct", &_64, 220, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_63$$3, "__construct", &_64, 219, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_63$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 464);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -914,7 +914,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 463);
 				ZEPHIR_INIT_NVAR(&_124$$49);
 				object_init_ex(&_124$$49, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_124$$49, "__construct", &_64, 220, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_124$$49, "__construct", &_64, 219, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_124$$49, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 464);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);

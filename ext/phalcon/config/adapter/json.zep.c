@@ -30,7 +30,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Reads JSON files and converts them to Phalcon\Config objects.
+ * Reads JSON files and converts them to Phalcon\Config\Config objects.
  *
  * Given the following configuration file:
  *
@@ -51,7 +51,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, phalcon, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, phalcon, config_adapter_json, phalcon_config_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_file_get_contents(&_3, &filePath);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 182, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 181, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();

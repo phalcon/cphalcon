@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Text, endsWith)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 275, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 274, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

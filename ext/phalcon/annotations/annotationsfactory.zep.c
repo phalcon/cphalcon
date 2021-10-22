@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct)
 }
 
 /**
- * @param array|\Phalcon\Config config = [
+ * @param array|\Phalcon\Config\Config config = [
  *     'adapter' => 'apcu',
  *     'options' => [
  *         'prefix' => 'phalcon',

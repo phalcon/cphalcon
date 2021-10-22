@@ -30,7 +30,7 @@
 #include "phalcon/mvc/model/metadatainterface.zep.h"
 #include "phalcon/storage/serializer/abstractserializer.zep.h"
 #include "phalcon/cache/adapter/adapterinterface.zep.h"
-#include "phalcon/config.zep.h"
+#include "phalcon/config/config.zep.h"
 #include "phalcon/datamapper/query/abstractquery.zep.h"
 #include "phalcon/db/adapter/adapterinterface.zep.h"
 #include "phalcon/http/message/requestmethodinterface.zep.h"

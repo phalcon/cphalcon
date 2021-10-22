@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, __construct)
 /**
  * Load a config to create a new instance
  *
- * @param string|array|\Phalcon\Config config = [
+ * @param string|array|\Phalcon\Config\Config config = [
  *      'adapter' => 'ini',
  *      'filePath' => 'config.ini',
  *      'mode' => null,
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 		ZEPHIR_CPY_WRT(config, &_3$$5);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Config/ConfigFactory.zep", 82);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config\\Config object", "phalcon/Config/ConfigFactory.zep", 82);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("filePath"))))) {

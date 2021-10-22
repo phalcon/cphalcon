@@ -136,7 +136,7 @@ zend_class_entry *phalcon_support_collection_ce;
 zend_class_entry *phalcon_validation_validator_file_abstractfile_ce;
 zend_class_entry *phalcon_http_message_abstractcommon_ce;
 zend_class_entry *phalcon_storage_serializer_abstractserializer_ce;
-zend_class_entry *phalcon_config_ce;
+zend_class_entry *phalcon_config_config_ce;
 zend_class_entry *phalcon_datamapper_query_abstractquery_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_db_adapter_abstractadapter_ce;
@@ -734,7 +734,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Validation_Validator_File_AbstractFile);
 	ZEPHIR_INIT(Phalcon_Http_Message_AbstractCommon);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_AbstractSerializer);
-	ZEPHIR_INIT(Phalcon_Config);
+	ZEPHIR_INIT(Phalcon_Config_Config);
 	ZEPHIR_INIT(Phalcon_DataMapper_Query_AbstractQuery);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_AbstractAdapter);

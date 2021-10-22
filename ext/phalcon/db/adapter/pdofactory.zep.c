@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|\Phalcon\Config config = [
+ * @param array|\Phalcon\Config\Config config = [
  *     'adapter' => 'mysql',
  *     'options' => [
  *         'host' => 'localhost',

@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 113);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 212);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 211);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildreturning", NULL, 0);
 	zephir_check_call_status();

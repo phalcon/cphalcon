@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 	zephir_fetch_params(1, 1, 0, &data);
 
 
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 182, data);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 181, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_MM_RESTORE();
