@@ -45,7 +45,7 @@ class ConfigFactory extends AbstractFactory
     /**
      * Load a config to create a new instance
      *
-     * @param string|array|\Phalcon\Config config = [
+     * @param string|array|\Phalcon\Config\Config config = [
      *      'adapter' => 'ini',
      *      'filePath' => 'config.ini',
      *      'mode' => null,
