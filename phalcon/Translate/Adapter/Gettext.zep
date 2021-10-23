@@ -31,6 +31,11 @@ use Phalcon\Translate\InterpolatorFactory;
  * ```
  *
  * Allows translate using gettext
+ *
+ * @property int          $category
+ * @property string       $defaultDomain
+ * @property string|array $directory
+ * @property string|false $locale
  */
 class Gettext extends AbstractAdapter implements ArrayAccess
 {
@@ -55,14 +60,17 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     protected locale { get };
 
     /**
-     * Phalcon\Translate\Adapter\Gettext constructor
+     * Gettext constructor.
      *
-     * @param array options = [
-     *     'locale' => '',
-     *     'defaultDomain' => '',
-     *     'directory' => '',
-     *     'category' => ''
-     * ]
+     * @param InterpolatorFactory   $interpolator
+     * @param array<string, string> $options = [
+     *                                       'locale'        => '',
+     *                                       'defaultDomain' => '',
+     *                                       'directory'     => '',
+     *                                       'category'      => ''
+     *                                       ]
+     *
+     * @throws Exception
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
@@ -79,6 +87,10 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Check whether is defined a translation key in the internal array
+     *
+     * @param string $index
+     *
+     * @return bool
      */
     public function exists(string! index) -> bool
     {
@@ -93,6 +105,14 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * The plural version of gettext().
      * Some languages have more than one form for plural messages dependent on
      * the count.
+     *
+     * @param string      $msgid1
+     * @param string      $msgid2
+     * @param int         $count
+     * @param array       $placeholders
+     * @param string|null $domain
+     *
+     * @return string
      */
     public function nquery(
         string! msgid1,
@@ -119,8 +139,10 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param string translateKey
-     * @param array  placeholders
+     * @param string $index
+     * @param array  $placeholders
+     *
+     * @return string
      */
     public function query(string! translateKey, array placeholders = []) -> string
     {
@@ -129,6 +151,8 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Sets the default domain
+     *
+     * @return string
      */
     public function resetDomain() -> string
     {
@@ -139,6 +163,8 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Sets the domain default to search within when calls are made to gettext()
+     *
+     * @param string $domain
      */
     public function setDefaultDomain(string! domain) -> void
     {
@@ -187,8 +213,12 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Changes the current domain (i.e. the translation file)
+     *
+     * @param ?string $domain
+     *
+     * @return string
      */
-    public function setDomain(var domain) -> string
+    public function setDomain(?string $domain): string
     {
         return textdomain(domain);
     }
@@ -203,6 +233,11 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * // Try different possible locale names for German
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * ```
+     *
+     * @param int    $category
+     * @param array $locale
+     *
+     * @return false|string
      */
     public function setLocale(int! category, array localeArray = []) -> string | bool
     {
@@ -219,6 +254,8 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Gets default options
+     *
+     * @return array
      */
     protected function getOptionsDefault() -> array
     {
@@ -230,6 +267,10 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Validator for constructor
+     *
+     * @param array $options
+     *
+     * @throws Exception
      */
     protected function prepareOptions(array! options) -> void
     {

@@ -15,9 +15,14 @@ use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Phalcon\Translate\Adapter\NativeArray
+ * Class NativeArray
  *
- * Allows to define translation lists using PHP arrays
+ * Defines translation lists using PHP arrays
+ *
+ * @package Phalcon\Translate\Adapter
+ *
+ * @property array $translate
+ * @property bool  $triggerError
  */
 class NativeArray extends AbstractAdapter implements ArrayAccess
 {
@@ -32,12 +37,15 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     private triggerError = false;
 
     /**
-     * Phalcon\Translate\Adapter\NativeArray constructor
+     * NativeArray constructor.
      *
-     * @param array options = [
-     *     'content' => '',
-     *     'triggerError' => false
-     * ]
+     * @param InterpolatorFactory                       $interpolator
+     * @param array{content: array, triggerError: bool} $options = [
+     *                                                           'content'      => '',
+     *                                                           'triggerError' => false
+     *                                                           ]
+     *
+     * @throws Exception
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
@@ -62,6 +70,10 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
 
     /**
      * Check whether is defined a translation key in the internal array
+     *
+     * @param string $index
+     *
+     * @return bool
      */
     public function exists(string! index) -> bool
     {
@@ -70,6 +82,11 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
 
     /**
      * Whenever a key is not found this method will be called
+     *
+     * @param string $index
+     *
+     * @return string
+     * @throws Exception
      */
     public function notFound(string! index) -> string
     {
@@ -82,6 +99,12 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
 
     /**
      * Returns the translation related to the given key
+     *
+     * @param string                    $index
+     * @param array<int|string, string> $placeholders
+     *
+     * @return string
+     * @throws Exception
      */
     public function query(string! translateKey, array placeholders = []) -> string
     {

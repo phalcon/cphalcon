@@ -18,7 +18,9 @@ class InterpolatorFactory extends AbstractFactory
     protected exception = "Phalcon\\Translate\\Exception";
 
     /**
-     * AdapterFactory constructor.
+     * InterpolatorFactor constructor.
+     *
+     * @param array<string, string> $services
      */
     public function __construct(array! services = [])
     {
@@ -27,6 +29,11 @@ class InterpolatorFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param string $name
+     *
+     * @return InterpolatorInterface
+     * @throws Exception
      */
     public function newInstance(string! name) -> <InterpolatorInterface>
     {
@@ -37,6 +44,9 @@ class InterpolatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
+    /**
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

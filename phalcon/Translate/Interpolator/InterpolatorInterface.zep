@@ -19,6 +19,11 @@ interface InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
+     *
+     * @param string                   $translation
+     * @param array<int|string, mixed> $placeholders
+     *
+     * @return string
      */
     public function replacePlaceholders(
         string! translation,

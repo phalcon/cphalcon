@@ -14,12 +14,17 @@ class IndexedArray implements InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
+     *
+     * @param string                   $translation
+     * @param array<int|string, mixed> $placeholders
+     *
+     * @return string
      */
     public function replacePlaceholders(
         string! translation,
         array placeholders = []
     ) -> string {
-        if count(placeholders) {
+        if true !== empty(placeholders) {
             array_unshift(placeholders, translation);
 
             return call_user_func_array("sprintf", placeholders);

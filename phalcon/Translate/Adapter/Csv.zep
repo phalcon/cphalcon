@@ -15,9 +15,11 @@ use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Phalcon\Translate\Adapter\Csv
+ * Class Csv
  *
- * Allows to define translation lists using CSV file
+ * @package Phalcon\Translate\Adapter
+ *
+ * @property array $translate
  */
 class Csv extends AbstractAdapter implements ArrayAccess
 {
@@ -27,19 +29,22 @@ class Csv extends AbstractAdapter implements ArrayAccess
     protected translate = [];
 
     /**
-     * Phalcon\Translate\Adapter\Csv constructor
+     * Csv constructor.
      *
-     * @param array options = [
-     *     'content' => '',
-     *     'delimiter' => ';',
-     *     'enclosure' => '"'
-     * ]
+     * @param InterpolatorFactory   $interpolator
+     * @param array<string, string> $options = [
+     *                                       'content'   => '',
+     *                                       'delimiter' => ';',
+     *                                       'enclosure' => '"'
+     *                                       ]
+     *
+     * @throws Exception
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options)
-    {
-        var delimiter, enclosure;
-
-        parent::__construct(interpolator, options);
+    public function __construct(
+        <InterpolatorFactory> $interpolator,
+        array $options
+    ) {
+        parent::__construct($interpolator, $options);
 
         if unlikely !isset options["content"] {
             throw new Exception("Parameter 'content' is required");
@@ -62,6 +67,10 @@ class Csv extends AbstractAdapter implements ArrayAccess
 
     /**
      * Check whether is defined a translation key in the internal array
+     *
+     * @param string $index
+     *
+     * @return bool
      */
     public function exists(string! index) -> bool
     {
@@ -70,6 +79,11 @@ class Csv extends AbstractAdapter implements ArrayAccess
 
     /**
      * Returns the translation related to the given key
+     *
+     * @param string $translateKey
+     * @param array  $placeholders
+     *
+     * @return string
      */
     public function query(string! translateKey, array placeholders = []) -> string
     {
@@ -83,8 +97,15 @@ class Csv extends AbstractAdapter implements ArrayAccess
     }
 
     /**
-    * Load translates from file
-    */
+     * Load translations from file
+     *
+     * @param string $file
+     * @param int    $length
+     * @param string $separator
+     * @param string $enclosure
+     *
+     * @throws Exception
+     */
     private function load(string file, int length, string delimiter, string enclosure) -> void
     {
         var data, fileHandler;
