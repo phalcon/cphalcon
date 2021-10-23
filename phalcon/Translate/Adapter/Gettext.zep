@@ -62,8 +62,8 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Gettext constructor.
      *
-     * @param InterpolatorFactory   $interpolator
-     * @param array<string, string> $options = [
+     * @param InterpolatorFactory $interpolator
+     * @param array               $options = [
      *                                       'locale'        => '',
      *                                       'defaultDomain' => '',
      *                                       'directory'     => '',
@@ -156,9 +156,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      */
     public function resetDomain() -> string
     {
-        return textdomain(
-            this->getDefaultDomain()
-        );
+        return textdomain(this->getDefaultDomain());
     }
 
     /**
@@ -234,7 +232,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * ```
      *
-     * @param int    $category
+     * @param int   $category
      * @param array $locale
      *
      * @return false|string
@@ -287,21 +285,9 @@ class Gettext extends AbstractAdapter implements ArrayAccess
             options
         );
 
-        this->setLocale(
-            options["category"],
-            options["locale"]
-        );
-
-        this->setDefaultDomain(
-            options["defaultDomain"]
-        );
-
-        this->setDirectory(
-            options["directory"]
-        );
-
-        this->setDomain(
-            options["defaultDomain"]
-        );
+        this->setLocale(options["category"], options["locale"]);
+        this->setDefaultDomain(options["defaultDomain"]);
+        this->setDirectory(options["directory"]);
+        this->setDomain(options["defaultDomain"]);
     }
 }
