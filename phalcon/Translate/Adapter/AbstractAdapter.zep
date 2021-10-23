@@ -75,7 +75,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param mixed $translateKey
      *
-     * @return string
+     * @return mixed
      */
     public function offsetGet(var translateKey) -> var
     {
