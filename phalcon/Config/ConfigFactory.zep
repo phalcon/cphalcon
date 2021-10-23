@@ -46,21 +46,109 @@ class ConfigFactory extends AbstractFactory
      * Load a config to create a new instance
      *
      * @param string|array|\Phalcon\Config\Config config = [
-     *      'adapter' => 'ini',
-     *      'filePath' => 'config.ini',
-     *      'mode' => null,
-     *      'callbacks' => null
-     * ]
+     *                                    'adapter'   => 'ini',
+     *                                    'filePath'  => 'config.ini',
+     *                                    'mode'      => null,
+     *                                    'callbacks' => null
+     *                                    ]
+     *
+     * @return ConfigInterface
+     * @throws Exception
      */
     public function load(config) -> <ConfigInterface>
     {
-        var adapter, extension, first, oldConfig, second;
+        var adapter, configArray, filePath, param;
+
+        let configArray = this->parseConfig(config),
+            adapter     = strtolower(configArray["adapter"]),
+            filePath    = configArray["filePath"];
+
+        if true === empty(pathinfo(filePath, PATHINFO_EXTENSION)) {
+            let filePath .= "." . lcfirst(adapter);
+        }
+
+        switch (adapter) {
+            case "ini":
+                let param = INI_SCANNER_RAW;
+                if isset configArray["mode"] {
+                    let param = configArray["mode"];
+                }
+                return this->newInstance(adapter, filePath, param);
+
+            case "yaml":
+                let param = null;
+                if isset configArray["callbacks"] {
+                    let param = configArray["callbacks"];
+                }
+                return this->newInstance(adapter, filePath, param);
+        }
+
+        return this->newInstance(adapter, filePath);
+    }
+
+    /**
+     * Returns a new Config instance
+     *
+     * @param string     $name
+     * @param string     $fileName
+     * @param mixed|null $params
+     *
+     * @return ConfigInterface
+     * @throws Exception
+     */
+    public function newInstance(
+        string name,
+        string fileName,
+        params = null
+    ) -> <ConfigInterface> {
+        var definition;
+        array arguments;
+
+        let definition = this->getService(name),
+            arguments  = [fileName];
+
+        switch (name) {
+            case "grouped":
+            case "ini":
+            case "yaml":
+                if null !== params {
+                    let arguments[] = params;
+                }
+                break;
+        }
+
+        return create_instance_params(definition, arguments);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getServices() -> array
+    {
+        return [
+            "grouped" : "Phalcon\\Config\\Adapter\\Grouped",
+            "ini"     : "Phalcon\\Config\\Adapter\\Ini",
+            "json"    : "Phalcon\\Config\\Adapter\\Json",
+            "php"     : "Phalcon\\Config\\Adapter\\Php",
+            "yaml"    : "Phalcon\\Config\\Adapter\\Yaml"
+        ];
+    }
+
+    /**
+     * @param mixed $config
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected function parseConfig(var config) -> array
+    {
+        var extension, oldConfig;
 
         if typeof config === "string" {
             let oldConfig = config,
                 extension = pathinfo(config, PATHINFO_EXTENSION);
 
-            if unlikely empty(extension) {
+            if true  == empty(extension) {
                 throw new Exception(
                     "You need to provide the extension in the file path"
                 );
@@ -76,70 +164,34 @@ class ConfigFactory extends AbstractFactory
             let config = config->toArray();
         }
 
-        if unlikely typeof config !== "array" {
+        if typeof config !== "array" {
             throw new Exception(
                 "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 
-        if unlikely !isset config["filePath"] {
+        this->checkConfigArray(config);
+
+        return config;
+    }
+
+    /**
+     * @param array $config
+     *
+     * @throws Exception
+     */
+    private function checkConfigArray(array config) -> void
+    {
+        if true !== isset(config["filePath"]) {
             throw new Exception(
                 "You must provide 'filePath' option in factory config parameter."
             );
         }
 
-        if unlikely !isset config["adapter"] {
+        if true !== isset(config["adapter"]) {
             throw new Exception(
                 "You must provide 'adapter' option in factory config parameter."
             );
         }
-
-        let adapter = strtolower(config["adapter"]),
-            first   = config["filePath"],
-            second  = null;
-
-        if (empty(pathinfo(first, PATHINFO_EXTENSION))) {
-            let first = first . "." . lcfirst(adapter);
-        }
-
-        if "ini" === adapter {
-            let second = Arr::get(config, "mode", 1);
-        } elseif "yaml" === adapter {
-            let second = Arr::get(config, "callbacks", []);
-        }
-
-        return this->newInstance(adapter, first, second);
-    }
-
-    /**
-     * Returns a new Config instance
-     */
-    public function newInstance(string name, string fileName, var params = null) -> <ConfigInterface>
-    {
-        var definition, options;
-
-        let definition = this->getService(name),
-            options    = [],
-            options[]  = fileName;
-
-        if "json" !== name && "php" !== name {
-            let options[] = params;
-        }
-
-        return create_instance_params(definition, options);
-    }
-
-    /**
-     * Returns the adapters for the factory
-     */
-    protected function getServices() -> array
-    {
-        return [
-            "grouped" : "Phalcon\\Config\\Adapter\\Grouped",
-            "ini"     : "Phalcon\\Config\\Adapter\\Ini",
-            "json"    : "Phalcon\\Config\\Adapter\\Json",
-            "php"     : "Phalcon\\Config\\Adapter\\Php",
-            "yaml"    : "Phalcon\\Config\\Adapter\\Yaml"
-        ];
     }
 }

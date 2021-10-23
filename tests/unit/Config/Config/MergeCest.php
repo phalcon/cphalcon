@@ -99,7 +99,7 @@ class MergeCest
         );
 
         $I->expectThrowable(
-            new \Exception(
+            new Exception(
                 'Invalid data type for merge.'
             ),
             function () use ($config) {
