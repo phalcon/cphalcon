@@ -10,6 +10,11 @@
 
 namespace Phalcon\Translate\Interpolator;
 
+/**
+ * Class IndexedArray
+ *
+ * @package Phalcon\Translate\Interpolator
+ */
 class IndexedArray implements InterpolatorInterface
 {
     /**

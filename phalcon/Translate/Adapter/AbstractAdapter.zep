@@ -17,7 +17,10 @@ use Phalcon\Translate\InterpolatorFactory;
 /**
  * Class AbstractAdapter
  *
- * Base class for Phalcon\Translate adapters
+ * @package Phalcon\Translate\Adapter
+ *
+ * @property string              $defaultInterpolator
+ * @property InterpolatorFactory $interpolatorFactory
  */
 abstract class AbstractAdapter implements AdapterInterface
 {

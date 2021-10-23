@@ -139,7 +139,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param string $index
+     * @param string $translateKey
      * @param array  $placeholders
      *
      * @return string
@@ -185,7 +185,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * );
      * ```
      *
-     * @param string|array directory The directory path or an array of directories and domains
+     * @param string|array $directory
      */
     public function setDirectory(var directory) -> void
     {
