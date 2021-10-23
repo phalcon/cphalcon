@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Closure;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Tests\Fixtures\Service\HelloService;
 use UnitTester;
 
@@ -23,10 +23,10 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - has()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-19
+     * @since  2020-09-09
      */
     public function filterFilterGetSetHasHas(UnitTester $I)
     {
@@ -46,10 +46,10 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - get()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function filterFilterLocatorGetSetHasGet(UnitTester $I)
     {
@@ -72,10 +72,10 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - get() same
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function filterFilterGetSetHasGetSame(UnitTester $I)
     {
@@ -98,10 +98,10 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - set()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function filterFilterGetSetHasSet(UnitTester $I)
     {
@@ -124,10 +124,10 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - set() closure
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-25
+     * @since  2020-09-09
      */
     public function filterFilterGetSetHasSetClosure(UnitTester $I)
     {

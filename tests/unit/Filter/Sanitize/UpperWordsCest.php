@@ -24,8 +24,11 @@ class UpperWordsCest
      *
      * @dataProvider getData
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @since        2020-09-09
      */
     public function filterSanitizeUpperWordsInvoke(UnitTester $I, Example $example)
     {
@@ -37,6 +40,9 @@ class UpperWordsCest
         $I->assertEquals($example[1], $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     private function getData(): array
     {
         return [
