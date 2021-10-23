@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Traits;
 
-trait TranslateArrayTrait
+trait TranslateNativeArrayTrait
 {
     protected function getArrayConfig(): array
     {
