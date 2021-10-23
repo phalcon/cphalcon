@@ -188,7 +188,7 @@ class Crypt implements CryptInterface
          */
         let digest        = "",
             hashAlgorithm = this->getHashAlgorithm();
-        if true === $this->useSigning {
+        if true === this->useSigning {
             let hashLength = strlen(hash(hashAlgorithm, "", true)),
                 digest     = mb_substr(input, ivLength, hashLength, "8bit"),
                 cipherText = mb_substr(input, ivLength + hashLength, null, "8bit");
