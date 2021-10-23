@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Logger, error);
 PHP_METHOD(Phalcon_Logger, emergency);
 PHP_METHOD(Phalcon_Logger, excludeAdapters);
 PHP_METHOD(Phalcon_Logger, getAdapter);
-PHP_METHOD(Phalcon_Logger, getServices);
+PHP_METHOD(Phalcon_Logger, getAdapters);
 PHP_METHOD(Phalcon_Logger, getName);
 PHP_METHOD(Phalcon_Logger, info);
 PHP_METHOD(Phalcon_Logger, log);
@@ -107,7 +107,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_getadapter, 0, 1, 
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getservices, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getadapters, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getname, 0, 0, IS_STRING, 0)
@@ -197,7 +197,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_method_entry) {
 	PHP_ME(Phalcon_Logger, emergency, arginfo_phalcon_logger_emergency, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, excludeAdapters, arginfo_phalcon_logger_excludeadapters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, getAdapter, arginfo_phalcon_logger_getadapter, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger, getServices, arginfo_phalcon_logger_getservices, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger, getAdapters, arginfo_phalcon_logger_getadapters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, getName, arginfo_phalcon_logger_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, info, arginfo_phalcon_logger_info, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, log, arginfo_phalcon_logger_log, ZEND_ACC_PUBLIC)

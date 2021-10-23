@@ -21,7 +21,7 @@ class PathCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: path()
+     * Tests Phalcon\Config\Config :: path()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
@@ -34,7 +34,7 @@ class PathCest
     }
 
     /**
-     * Tests Phalcon\Config :: path() - default
+     * Tests Phalcon\Config\Config :: path() - default
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19

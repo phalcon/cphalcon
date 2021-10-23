@@ -21,14 +21,15 @@ class OffsetSetCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: offsetSet()
+     * Tests Phalcon\Config\Config :: offsetSet()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-19
+     * @since  2021-10-21
      */
     public function configOffsetSet(UnitTester $I)
     {
         $I->wantToTest('Config - offsetSet()');
+
         $this->checkOffsetSet($I);
     }
 }

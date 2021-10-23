@@ -29,6 +29,7 @@ class GetPathDelimiterCest
     public function configAdapterJsonGetPathDelimiter(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - getPathDelimiter()');
+
         $this->checkGetPathDelimiter($I, 'Json');
     }
 }

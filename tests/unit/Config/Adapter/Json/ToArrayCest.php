@@ -34,6 +34,7 @@ class ToArrayCest
     public function configAdapterJsonToArray(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - toArray()');
+
         $this->checkToArray($I, 'Json');
     }
 }

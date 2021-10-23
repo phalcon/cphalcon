@@ -35,7 +35,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
-	phalcon/config.zep.c
+	phalcon/config/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
 	phalcon/http/message/requestmethodinterface.zep.c

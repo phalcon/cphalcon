@@ -30,7 +30,7 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'apcu',
      *     'options' => [
      *         'prefix' => 'phalcon',

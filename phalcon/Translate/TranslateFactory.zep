@@ -10,7 +10,6 @@
 
 namespace Phalcon\Translate;
 
-use Phalcon\Config;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\Adapter\AdapterInterface;
@@ -37,7 +36,7 @@ class TranslateFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config = [
+     * @param array|\Phalcon\Config\Config = [
      *     'adapter' => 'ini,
      *     'options' => [
      *         'content' => '',

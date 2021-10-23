@@ -34,6 +34,7 @@ class GetCest
     public function configAdapterJsonGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - get()');
+
         $this->checkGet($I, 'Json');
     }
 }

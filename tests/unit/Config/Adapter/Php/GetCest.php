@@ -29,6 +29,7 @@ class GetCest
     public function configAdapterPhpGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - get()');
+
         $this->checkGet($I, 'Php');
     }
 }

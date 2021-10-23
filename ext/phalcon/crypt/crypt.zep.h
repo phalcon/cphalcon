@@ -27,7 +27,7 @@ PHP_METHOD(Phalcon_Crypt_Crypt, useSigning);
 PHP_METHOD(Phalcon_Crypt_Crypt, checkCipherHashIsAvailable);
 PHP_METHOD(Phalcon_Crypt_Crypt, cryptPadText);
 PHP_METHOD(Phalcon_Crypt_Crypt, cryptUnpadText);
-PHP_METHOD(Phalcon_Crypt_Crypt, decryptCbcEcb);
+PHP_METHOD(Phalcon_Crypt_Crypt, decryptGetUnpadded);
 PHP_METHOD(Phalcon_Crypt_Crypt, decryptGcmCcmAuth);
 PHP_METHOD(Phalcon_Crypt_Crypt, encryptGetPadded);
 PHP_METHOD(Phalcon_Crypt_Crypt, encryptGcmCcm);
@@ -142,7 +142,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_crypt_cryptunpadte
 	ZEND_ARG_TYPE_INFO(0, paddingType, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_crypt_decryptcbcecb, 0, 3, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_crypt_decryptgetunpadded, 0, 3, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, blockSize, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, decrypted, IS_STRING, 0)
@@ -215,7 +215,7 @@ ZEPHIR_INIT_FUNCS(phalcon_crypt_crypt_method_entry) {
 	PHP_ME(Phalcon_Crypt_Crypt, checkCipherHashIsAvailable, arginfo_phalcon_crypt_crypt_checkcipherhashisavailable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt_Crypt, cryptPadText, arginfo_phalcon_crypt_crypt_cryptpadtext, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt_Crypt, cryptUnpadText, arginfo_phalcon_crypt_crypt_cryptunpadtext, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Crypt_Crypt, decryptCbcEcb, arginfo_phalcon_crypt_crypt_decryptcbcecb, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Crypt_Crypt, decryptGetUnpadded, arginfo_phalcon_crypt_crypt_decryptgetunpadded, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt_Crypt, decryptGcmCcmAuth, arginfo_phalcon_crypt_crypt_decryptgcmccmauth, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt_Crypt, encryptGetPadded, arginfo_phalcon_crypt_crypt_encryptgetpadded, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt_Crypt, encryptGcmCcm, arginfo_phalcon_crypt_crypt_encryptgcmccm, ZEND_ACC_PROTECTED)

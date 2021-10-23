@@ -33,7 +33,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
 	return SUCCESS;
 }
 
+/**
+ * @return string
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, getPathDelimiter);
+/**
+ * @param array|ConfigInterface $toMerge
+ *
+ * @return ConfigInterface
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, merge);
+/**
+ * @param string      $path
+ * @param mixed|null  $defaultValue
+ * @param string|null $delimiter
+ *
+ * @return mixed
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, path);
+/**
+ * @param string|null $delimiter
+ *
+ * @return ConfigInterface
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, setPathDelimiter);

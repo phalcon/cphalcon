@@ -10,7 +10,6 @@
 
 namespace Phalcon\Logger;
 
-use Phalcon\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Logger;
@@ -35,7 +34,7 @@ class LoggerFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'name' => 'messages',
      *     'adapters' => [
      *         'adapter' => 'stream',
@@ -60,7 +59,7 @@ class LoggerFactory
 
         if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config object"
+                "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 

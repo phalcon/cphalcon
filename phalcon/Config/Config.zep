@@ -8,11 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Config;
 
 use Phalcon\Support\Collection;
-use Phalcon\Config\ConfigInterface;
-use Phalcon\Config\Exception;
 
 /**
  * `Phalcon\Config` is designed to simplify the access to, and the use of,
@@ -38,15 +36,17 @@ use Phalcon\Config\Exception;
  *     ]
  * );
  *```
+ *
+ * @property string $pathDelimiter
  */
 class Config extends Collection implements ConfigInterface
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected pathDelimiter = null;
+    protected pathDelimiter = self::DEFAULT_PATH_DELIMITER;
 
     /**
      * Gets the default path delimiter
@@ -55,10 +55,6 @@ class Config extends Collection implements ConfigInterface
      */
     public function getPathDelimiter() -> string
     {
-        if unlikely !this->pathDelimiter {
-            let this->pathDelimiter = self::DEFAULT_PATH_DELIMITER;
-        }
-
         return this->pathDelimiter;
     }
 
@@ -76,27 +72,37 @@ class Config extends Collection implements ConfigInterface
      *
      * $globalConfig->merge($appConfig);
      *```
+     *
+     * @param array|ConfigInterface $toMerge
+     *
+     * @return ConfigInterface
+     * @throws Exception
      */
     public function merge(var toMerge) -> <ConfigInterface>
     {
-        var config, result, source, target;
+        var result, source;
 
-        if typeof toMerge === "array" {
-            let config = new Config(toMerge);
-        } elseif typeof toMerge === "object" && toMerge instanceof ConfigInterface {
-            let config = toMerge;
-        } else {
-            throw new Exception("Invalid data type for merge.");
-        }
-
-        let source = this->toArray(),
-            target = config->toArray(),
-            result = this->internalMerge(source, target);
+        let source = this->toArray();
 
         this->clear();
-        this->init(result);
 
-        return this;
+        if typeof toMerge === "array" {
+            let result = this->internalMerge(source, toMerge);
+
+            this->init(result);
+
+            return this;
+        }
+
+        if typeof toMerge === "object" && toMerge instanceof ConfigInterface {
+            let result = this->internalMerge(source, toMerge->toArray());
+
+            this->init(result);
+
+            return this;
+        }
+
+        throw new Exception("Invalid data type for merge.");
     }
 
     /**
@@ -105,35 +111,46 @@ class Config extends Collection implements ConfigInterface
      *```php
      * echo $config->path("unknown.path", "default", ".");
      *```
+     *
+     * @param string      $path
+     * @param mixed|null  $defaultValue
+     * @param string|null $delimiter
+     *
+     * @return mixed
      */
-    public function path(string path, defaultValue = null, var delimiter = null) -> var | null
-    {
-        var config, key, keys;
+    public function path(
+        string path,
+        var defaultValue = null,
+        string delimiter = null
+    ) -> var {
+        var config, key, keys, pathDelimiter;
 
-        if this->has(path) {
+        if (true === this->has(path)) {
             return this->get(path);
         }
 
-        if likely empty(delimiter) {
-            let delimiter = this->getPathDelimiter();
+        let pathDelimiter = delimiter;
+        if (true === empty(pathDelimiter)) {
+            let pathDelimiter = this->pathDelimiter;
         }
 
         let config = clone this,
-            keys   = explode(delimiter, path);
+            keys   = explode(pathDelimiter, path);
 
-        while (!empty(keys)) {
+        while (true !== empty(keys)) {
             let key = array_shift(keys);
 
-            if !config->has(key) {
+            if (true !== config->has(key)) {
                 break;
             }
 
-            if empty(keys) {
+            if (true === empty(keys)) {
                 return config->get(key);
             }
 
             let config = config->get(key);
-            if empty(config) {
+
+            if (true === empty(config)) {
                 break;
             }
         }
@@ -143,6 +160,10 @@ class Config extends Collection implements ConfigInterface
 
     /**
      * Sets the default path delimiter
+     *
+     * @param string|null $delimiter
+     *
+     * @return ConfigInterface
      */
     public function setPathDelimiter(string delimiter = null) -> <ConfigInterface>
     {
@@ -159,6 +180,8 @@ class Config extends Collection implements ConfigInterface
      *     $config->toArray()
      * );
      *```
+     *
+     * @return array
      */
     public function toArray() -> array
     {
@@ -169,7 +192,10 @@ class Config extends Collection implements ConfigInterface
             data    = parent::toArray();
 
         for key, value in data {
-            if typeof value === "object" && method_exists(value, "toArray") {
+            if (
+                typeof value === "object" &&
+                true === method_exists(value, "toArray")
+            ) {
                 let value = value->toArray();
             }
 
@@ -181,19 +207,28 @@ class Config extends Collection implements ConfigInterface
 
     /**
      * Performs a merge recursively
+     *
+     * @param array $source
+     * @param array $target
+     *
+     * @return array
      */
     final protected function internalMerge(array source, array target) -> array
     {
         var key, value;
 
         for key, value in target {
-            if typeof value === "array" && isset source[key]  && typeof source[key] === "array" {
+            if (
+                typeof value === "array" &&
+                true === isset(source[key]) &&
+                typeof source[key] === "array"
+            ) {
                 let source[key] = this->internalMerge(source[key], value);
-            } elseif typeof key === "int" {
-                let source[] = value;
-            } else {
-                let source[key] = value;
+
+                continue;
             }
+
+            let source[key] = value;
         }
 
         return source;
@@ -201,22 +236,25 @@ class Config extends Collection implements ConfigInterface
 
     /**
      * Sets the collection data
+     *
+     * @param mixed $element
+     * @param mixed $value
      */
     protected function setData(var element, var value) -> void
     {
         var data, key;
-
-        let element = (string) element,
+        let data    = this->data,
+            element = (string) element,
             key     = (this->insensitive) ? mb_strtolower(element) : element;
 
         let this->lowerKeys[key] = element;
 
         if typeof value === "array" {
-            let data = new Config(value);
+            let data[element] = new Config(value);
         } else {
-            let data = value;
+            let data[element] = value;
         }
 
-        let this->data[element]  = data;
+        let this->data = data;
     }
 }

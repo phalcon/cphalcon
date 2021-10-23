@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
+use Codeception\Stub;
 use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Exception;
 use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
@@ -42,11 +44,11 @@ class ConstructCest
         $this->config['database']['num7'] = null;
         $this->config['database']['num8'] = 123;
         $this->config['database']['num9'] = (float) 123.45;
-        $config                           = $this->getConfig('Ini');
+
+        $config = $this->getConfig('Ini');
 
         $this->compareConfig($I, $this->config, $config);
     }
-
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: __construct() - constants
@@ -83,9 +85,7 @@ class ConstructCest
 
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

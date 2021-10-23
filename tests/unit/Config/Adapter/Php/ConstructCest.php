@@ -29,6 +29,7 @@ class ConstructCest
     public function configAdapterPhpConstruct(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - construct');
+
         $this->checkConstruct($I, 'Php');
     }
 }

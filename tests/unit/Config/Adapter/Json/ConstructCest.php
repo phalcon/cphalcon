@@ -34,6 +34,7 @@ class ConstructCest
     public function configAdapterJsonConstruct(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - construct');
+
         $this->checkConstruct($I, 'Json');
     }
 }

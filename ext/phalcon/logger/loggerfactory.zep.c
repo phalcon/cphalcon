@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|\Phalcon\Config config = [
+ * @param array|\Phalcon\Config\Config config = [
  *     'name' => 'messages',
  *     'adapters' => [
  *         'adapter' => 'stream',
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 426, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 425, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 }

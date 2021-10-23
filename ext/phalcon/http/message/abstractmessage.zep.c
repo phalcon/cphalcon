@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, populateHeaderCollection)
 
 	ZEPHIR_INIT_VAR(&collection);
 	object_init_ex(&collection, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 22);
+	ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 25);
 	zephir_check_call_status();
 	zephir_is_iterable(&headers, 0, "phalcon/Http/Message/AbstractMessage.zep", 466);
 	if (Z_TYPE_P(&headers) == IS_ARRAY) {

@@ -29,6 +29,7 @@ class CountCest
     public function configAdapterPhpCount(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - count()');
+
         $this->checkCount($I, 'Php');
     }
 }

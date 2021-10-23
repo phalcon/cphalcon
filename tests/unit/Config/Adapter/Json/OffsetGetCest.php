@@ -34,6 +34,7 @@ class OffsetGetCest
     public function configAdapterJsonOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - offsetGet()');
+
         $this->checkOffsetGet($I, 'Json');
     }
 }

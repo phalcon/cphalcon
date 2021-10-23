@@ -80,13 +80,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 247, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 246, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 248, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 247, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 250, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 249, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
