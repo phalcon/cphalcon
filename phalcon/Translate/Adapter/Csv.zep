@@ -41,10 +41,12 @@ class Csv extends AbstractAdapter implements ArrayAccess
      * @throws Exception
      */
     public function __construct(
-        <InterpolatorFactory> $interpolator,
-        array $options
+        <InterpolatorFactory> interpolator,
+        array options
     ) {
-        parent::__construct($interpolator, $options);
+        var delimiter, enclosure;
+
+        parent::__construct(interpolator, options);
 
         if unlikely !isset options["content"] {
             throw new Exception("Parameter 'content' is required");

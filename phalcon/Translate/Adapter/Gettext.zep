@@ -214,11 +214,11 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Changes the current domain (i.e. the translation file)
      *
-     * @param ?string $domain
+     * @param string|null $domain
      *
      * @return string
      */
-    public function setDomain(?string $domain): string
+    public function setDomain(string domain = null) -> string
     {
         return textdomain(domain);
     }

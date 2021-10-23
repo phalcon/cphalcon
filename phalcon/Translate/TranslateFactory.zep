@@ -36,8 +36,10 @@ class TranslateFactory extends AbstractFactory
      * @param InterpolatorFactory   $interpolator
      * @param array<string, string> $services
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! services = [])
-    {
+    public function __construct(
+        <InterpolatorFactory> interpolator,
+        array! services = []
+    ) {
         let this->interpolator = interpolator;
 
         this->init(services);
@@ -63,7 +65,7 @@ class TranslateFactory extends AbstractFactory
      * @return AdapterInterface
      * @throws Exception
      */
-    public function load(var config): <AdapterInterface>
+    public function load(var config) -> <AdapterInterface>
     {
         var name, options;
 
