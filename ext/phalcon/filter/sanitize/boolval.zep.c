@@ -39,7 +39,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param mixed $input The text to sanitize
+ *
+ * @return bool
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 {

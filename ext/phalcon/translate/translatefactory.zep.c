@@ -29,6 +29,13 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Class TranslateFactory
+ *
+ * @package Phalcon\Translate
+ *
+ * @property InterpolatorFactory $interpolator
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, TranslateFactory, phalcon, translate_translatefactory, phalcon_factory_abstractfactory_ce, phalcon_translate_translatefactory_method_entry, 0);
@@ -43,6 +50,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param InterpolatorFactory $interpolator
+ * @param array               $services
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 {
@@ -83,19 +93,22 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|\Phalcon\Config = [
+ * @param array|ConfigInterface $config = [
  *     'adapter' => 'ini,
  *     'options' => [
- *         'content' => '',
- *         'delimiter' => ';',
- *         'enclosure' => '"',
- *         'locale' => '',
+ *         'content'       => '',
+ *         'delimiter'     => ';',
+ *         'enclosure'     => '"',
+ *         'locale'        => '',
  *         'defaultDomain' => '',
- *         'directory' => '',
- *         'category' => ''
- *         'triggerError' => false
+ *         'directory'     => '',
+ *         'category'      => ''
+ *         'triggerError'  => false
  *     ]
  * ]
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 {
@@ -128,7 +141,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 59);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 74);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
@@ -142,6 +155,12 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param string $name
+ * @param array  $options
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 {
@@ -199,6 +218,9 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getServices)
 {
 	zval *this_ptr = getThis();

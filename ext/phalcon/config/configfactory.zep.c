@@ -16,10 +16,10 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/string.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -93,41 +93,32 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, __construct)
  * Load a config to create a new instance
  *
  * @param string|array|\Phalcon\Config\Config config = [
- *      'adapter' => 'ini',
- *      'filePath' => 'config.ini',
- *      'mode' => null,
- *      'callbacks' => null
- * ]
+ *                                    'adapter'   => 'ini',
+ *                                    'filePath'  => 'config.ini',
+ *                                    'mode'      => null,
+ *                                    'callbacks' => null
+ *                                    ]
+ *
+ * @return ConfigInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 {
-	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, adapter, extension, first, oldConfig, second, _4, _5, _6, _9, _10, _0$$3, _1$$3, _3$$5, _7$$9, _8$$9, _12$$10, _13$$10, _14$$11, _15$$11;
+	zval *config, config_sub, adapter, configArray, filePath, param, _0, _1, _2, _3$$3, _4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&adapter);
-	ZVAL_UNDEF(&extension);
-	ZVAL_UNDEF(&first);
-	ZVAL_UNDEF(&oldConfig);
-	ZVAL_UNDEF(&second);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_7$$9);
-	ZVAL_UNDEF(&_8$$9);
-	ZVAL_UNDEF(&_12$$10);
-	ZVAL_UNDEF(&_13$$10);
-	ZVAL_UNDEF(&_14$$11);
-	ZVAL_UNDEF(&_15$$11);
+	ZVAL_UNDEF(&configArray);
+	ZVAL_UNDEF(&filePath);
+	ZVAL_UNDEF(&param);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -138,94 +129,71 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
-	ZEPHIR_SEPARATE_PARAM(config);
 
 
-	if (Z_TYPE_P(config) == IS_STRING) {
-		ZEPHIR_CPY_WRT(&oldConfig, config);
-		ZVAL_LONG(&_0$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 110, config, &_0$$3);
-		zephir_check_call_status();
-		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&extension))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 66);
-			return;
-		}
-		ZEPHIR_INIT_VAR(&_1$$3);
-		zephir_create_array(&_1$$3, 2, 0);
-		zephir_array_update_string(&_1$$3, SL("adapter"), &extension, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_1$$3, SL("filePath"), &oldConfig, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CPY_WRT(config, &_1$$3);
-	}
-	_2 = Z_TYPE_P(config) == IS_OBJECT;
-	if (_2) {
-		_2 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
-	}
-	if (_2) {
-		ZEPHIR_CALL_METHOD(&_3$$5, config, "toarray", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(config, &_3$$5);
-	}
-	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config\\Config object", "phalcon/Config/ConfigFactory.zep", 82);
-		return;
-	}
-	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("filePath"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 88);
-		return;
-	}
-	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 94);
-		return;
-	}
-	zephir_array_fetch_string(&_4, config, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 97);
-	ZEPHIR_INIT_VAR(&adapter);
-	zephir_fast_strtolower(&adapter, &_4);
-	ZEPHIR_OBS_VAR(&first);
-	zephir_array_fetch_string(&first, config, SL("filePath"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 98);
-	ZEPHIR_INIT_VAR(&second);
-	ZVAL_NULL(&second);
-	ZVAL_LONG(&_5, 4);
-	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 110, &first, &_5);
+	ZEPHIR_CALL_METHOD(&configArray, this_ptr, "parseconfig", NULL, 0, config);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_EMPTY(&_6)) {
-		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 96, &adapter);
+	zephir_array_fetch_string(&_0, &configArray, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 63);
+	ZEPHIR_INIT_VAR(&adapter);
+	zephir_fast_strtolower(&adapter, &_0);
+	ZEPHIR_OBS_VAR(&filePath);
+	zephir_array_fetch_string(&filePath, &configArray, SL("filePath"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 64);
+	ZVAL_LONG(&_1, 4);
+	ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 110, &filePath, &_1);
+	zephir_check_call_status();
+	if (1 == ZEPHIR_IS_EMPTY(&_2)) {
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "lcfirst", NULL, 96, &adapter);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_8$$9);
-		ZEPHIR_CONCAT_VSV(&_8$$9, &first, ".", &_7$$9);
-		ZEPHIR_CPY_WRT(&first, &_8$$9);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZEPHIR_CONCAT_SV(&_4$$3, ".", &_3$$3);
+		zephir_concat_self(&filePath, &_4$$3);
 	}
-	ZEPHIR_INIT_VAR(&_9);
-	ZVAL_STRING(&_9, "ini");
-	ZEPHIR_INIT_VAR(&_10);
-	ZVAL_STRING(&_10, "yaml");
-	if (ZEPHIR_IS_IDENTICAL(&_9, &adapter)) {
-		ZEPHIR_INIT_VAR(&_12$$10);
-		ZVAL_STRING(&_12$$10, "mode");
-		ZVAL_LONG(&_13$$10, 1);
-		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 10, config, &_12$$10, &_13$$10);
-		zephir_check_call_status();
-	} else if (ZEPHIR_IS_IDENTICAL(&_10, &adapter)) {
-		ZEPHIR_INIT_VAR(&_14$$11);
-		array_init(&_14$$11);
-		ZEPHIR_INIT_VAR(&_15$$11);
-		ZVAL_STRING(&_15$$11, "callbacks");
-		ZEPHIR_CALL_CE_STATIC(&second, phalcon_helper_arr_ce, "get", &_11, 10, config, &_15$$11, &_14$$11);
-		zephir_check_call_status();
-	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &adapter, &first, &second);
+	do {
+		if (ZEPHIR_IS_STRING(&adapter, "ini")) {
+			ZEPHIR_INIT_VAR(&param);
+			ZVAL_LONG(&param, 1);
+			if (zephir_array_isset_string(&configArray, SL("mode"))) {
+				ZEPHIR_OBS_NVAR(&param);
+				zephir_array_fetch_string(&param, &configArray, SL("mode"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 74);
+			}
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &adapter, &filePath, &param);
+			zephir_check_call_status();
+			RETURN_MM();
+		}
+		if (ZEPHIR_IS_STRING(&adapter, "yaml")) {
+			ZEPHIR_INIT_NVAR(&param);
+			ZVAL_NULL(&param);
+			if (zephir_array_isset_string(&configArray, SL("callbacks"))) {
+				ZEPHIR_OBS_NVAR(&param);
+				zephir_array_fetch_string(&param, &configArray, SL("callbacks"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 81);
+			}
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &adapter, &filePath, &param);
+			zephir_check_call_status();
+			RETURN_MM();
+		}
+	} while(0);
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &adapter, &filePath);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
  * Returns a new Config instance
+ *
+ * @param string     $name
+ * @param string     $fileName
+ * @param mixed|null $params
+ *
+ * @return ConfigInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance)
 {
-	zend_bool _1;
+	zval arguments;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *fileName_param = NULL, *params = NULL, params_sub, __$null, definition, options, _0, _2;
+	zval *name_param = NULL, *fileName_param = NULL, *params = NULL, params_sub, __$null, definition;
 	zval name, fileName;
 	zval *this_ptr = getThis();
 
@@ -234,9 +202,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance)
 	ZVAL_UNDEF(&params_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&arguments);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
@@ -260,27 +226,25 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance)
 
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&options);
-	array_init(&options);
-	zephir_array_append(&options, &fileName, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 123);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "json");
-	_1 = !ZEPHIR_IS_IDENTICAL(&_0, &name);
-	if (_1) {
-		ZEPHIR_INIT_VAR(&_2);
-		ZVAL_STRING(&_2, "php");
-		_1 = !ZEPHIR_IS_IDENTICAL(&_2, &name);
-	}
-	if (_1) {
-		zephir_array_append(&options, params, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 126);
-	}
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &options);
+	ZEPHIR_INIT_VAR(&arguments);
+	zephir_create_array(&arguments, 1, 0);
+	zephir_array_fast_append(&arguments, &fileName);
+	do {
+		if (ZEPHIR_IS_STRING(&name, "grouped") || ZEPHIR_IS_STRING(&name, "ini") || ZEPHIR_IS_STRING(&name, "yaml")) {
+			if (Z_TYPE_P(params) != IS_NULL) {
+				zephir_array_append(&arguments, params, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 115);
+			}
+			break;
+		}
+	} while(0);
+
+	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Returns the adapters for the factory
+ * @return array
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, getServices)
 {
@@ -295,5 +259,109 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("php"), SL("Phalcon\\Config\\Adapter\\Php"));
 	add_assoc_stringl_ex(return_value, SL("yaml"), SL("Phalcon\\Config\\Adapter\\Yaml"));
 	return;
+}
+
+/**
+ * @param mixed $config
+ *
+ * @return array
+ * @throws Exception
+ */
+PHP_METHOD(Phalcon_Config_ConfigFactory, parseConfig)
+{
+	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *config = NULL, config_sub, extension, oldConfig, _0$$3, _1$$3, _3$$5;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&extension);
+	ZVAL_UNDEF(&oldConfig);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config);
+	ZEPHIR_SEPARATE_PARAM(config);
+
+
+	if (Z_TYPE_P(config) == IS_STRING) {
+		ZEPHIR_CPY_WRT(&oldConfig, config);
+		ZVAL_LONG(&_0$$3, 4);
+		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 110, config, &_0$$3);
+		zephir_check_call_status();
+		if (1 == ZEPHIR_IS_EMPTY(&extension)) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 154);
+			return;
+		}
+		ZEPHIR_INIT_VAR(&_1$$3);
+		zephir_create_array(&_1$$3, 2, 0);
+		zephir_array_update_string(&_1$$3, SL("adapter"), &extension, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1$$3, SL("filePath"), &oldConfig, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CPY_WRT(config, &_1$$3);
+	}
+	_2 = Z_TYPE_P(config) == IS_OBJECT;
+	if (_2) {
+		_2 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
+	}
+	if (_2) {
+		ZEPHIR_CALL_METHOD(&_3$$5, config, "toarray", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(config, &_3$$5);
+	}
+	if (Z_TYPE_P(config) != IS_ARRAY) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config\\Config object", "phalcon/Config/ConfigFactory.zep", 170);
+		return;
+	}
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkconfigarray", NULL, 184, config);
+	zephir_check_call_status();
+	RETVAL_ZVAL(config, 1, 0);
+	RETURN_MM();
+}
+
+/**
+ * @param array $config
+ *
+ * @throws Exception
+ */
+PHP_METHOD(Phalcon_Config_ConfigFactory, checkConfigArray)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *config_param = NULL;
+	zval config;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(config)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config_param);
+	zephir_get_arrval(&config, config_param);
+
+
+	if (1 != zephir_array_isset_string(&config, SL("filePath"))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 188);
+		return;
+	}
+	if (1 != zephir_array_isset_string(&config, SL("adapter"))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 194);
+		return;
+	}
+	ZEPHIR_MM_RESTORE();
 }
 

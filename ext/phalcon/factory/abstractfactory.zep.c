@@ -92,10 +92,10 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig)
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
-		ZVAL_STRING(&_3$$4, "Config must be array or Phalcon\\Config object");
+		ZVAL_STRING(&_3$$4, "Config must be array or Phalcon\\Config\\Config object");
 		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getexception", NULL, 0, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Factory/AbstractFactory.zep", 44);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Factory/AbstractFactory.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig)
 		ZVAL_STRING(&_5$$5, "You must provide 'adapter' option in factory config parameter.");
 		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "getexception", NULL, 0, &_5$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Factory/AbstractFactory.zep", 50);
+		zephir_throw_exception_debug(&_4$$5, "phalcon/Factory/AbstractFactory.zep", 49);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -163,12 +163,12 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "getexception", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 67);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 66);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 70);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 69);
 	RETURN_CTOR(&_4);
 }
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &adapters, &services);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
-	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 87);
+	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 86);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
 		{

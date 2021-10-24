@@ -41,7 +41,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Trim)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param string $input The text to sanitize
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Trim, __invoke)
 {

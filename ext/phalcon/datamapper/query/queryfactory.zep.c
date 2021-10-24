@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 	object_init_ex(return_value, phalcon_datamapper_query_delete_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 212, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 213, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 	object_init_ex(return_value, phalcon_datamapper_query_insert_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 213, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 214, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate)
 	object_init_ex(return_value, phalcon_datamapper_query_update_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 214, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 215, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
