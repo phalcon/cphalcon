@@ -138,5 +138,4 @@ class SanitizeMultipleCest
             ],
         ];
     }
-
 }

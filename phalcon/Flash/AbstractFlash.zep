@@ -174,10 +174,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set the autoescape mode in generated HTML
      *
      * @param bool $autoescape
-     *
-     * @return $this
      */
-    public function setAutoescape(bool autoescape) -> <FlashInterface>
+    public function setAutoescape(bool autoescape) -> <AbstractFlash>
     {
         let this->autoescape = autoescape;
 
@@ -188,10 +186,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set if the output must be implicitly formatted with HTML
      *
      * @param bool $automaticHtml
-     *
-     * @return $this
      */
-    public function setAutomaticHtml(bool automaticHtml) -> <FlashInterface>
+    public function setAutomaticHtml(bool automaticHtml) -> <AbstractFlash>
     {
         let this->automaticHtml = automaticHtml;
 
@@ -202,10 +198,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set an array with CSS classes to format the messages
      *
      * @param array $cssClasses
-     *
-     * @return $this
      */
-    public function setCssClasses(array! cssClasses) -> <FlashInterface>
+    public function setCssClasses(array! cssClasses) -> <AbstractFlash>
     {
         let this->cssClasses = cssClasses;
 
@@ -216,10 +210,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set an array with CSS classes to format the icon messages
      *
      * @param array $cssIconClasses
-     *
-     * @return $this
      */
-    public function setCssIconClasses(array! cssIconClasses) -> <FlashInterface>
+    public function setCssIconClasses(array! cssIconClasses) -> <AbstractFlash>
     {
         let this->cssIconClasses  = cssIconClasses;
 
@@ -230,10 +222,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set a custom template for showing the messages
      *
      * @param string $customTemplate
-     *
-     * @return $this
      */
-    public function setCustomTemplate(string! customTemplate) -> <FlashInterface>
+    public function setCustomTemplate(string! customTemplate) -> <AbstractFlash>
     {
         let this->customTemplate = customTemplate;
 
@@ -244,10 +234,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Sets the Escaper Service
      *
      * @param EscaperInterface $escaperService
-     *
-     * @return $this
      */
-    public function setEscaperService(<EscaperInterface> escaperService) -> <FlashInterface>
+    public function setEscaperService(<EscaperInterface> escaperService) -> <AbstractFlash>
     {
         let this->escaperService = escaperService;
 
@@ -259,10 +247,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * returned as string
      *
      * @param bool $implicitFlush
-     *
-     * @return $this
      */
-    public function setImplicitFlush(bool implicitFlush) -> <FlashInterface>
+    public function setImplicitFlush(bool implicitFlush) -> <AbstractFlash>
     {
         let this->implicitFlush = implicitFlush;
 
