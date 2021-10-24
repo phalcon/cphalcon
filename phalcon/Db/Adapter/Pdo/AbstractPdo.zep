@@ -583,7 +583,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Return internal PDO handler
      */
-    public function getInternalHandler() -> <\PDO>
+    public function getInternalHandler() -> var
     {
         return this->pdo;
     }
