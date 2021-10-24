@@ -233,7 +233,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * ```
      *
      * @param int   $category
-     * @param array $locale
+     * @param array $localeArray
      *
      * @return false|string
      */

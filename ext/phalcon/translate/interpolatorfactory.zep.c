@@ -38,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorFactory)
 }
 
 /**
- * AdapterFactory constructor.
+ * InterpolatorFactor constructor.
+ *
+ * @param array $services
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 {
@@ -75,6 +77,11 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param string $name
+ *
+ * @return InterpolatorInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 {
@@ -114,6 +121,9 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getServices)
 {
 	zval *this_ptr = getThis();

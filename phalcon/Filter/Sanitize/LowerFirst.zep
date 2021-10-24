@@ -18,7 +18,9 @@ namespace Phalcon\Filter\Sanitize;
 class LowerFirst
 {
     /**
-     * @var string input The text to sanitize
+     * @param string $input The text to sanitize
+     *
+     * @return string
      */
     public function __invoke(string! input)
     {

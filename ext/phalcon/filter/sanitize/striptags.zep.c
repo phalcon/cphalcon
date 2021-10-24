@@ -41,7 +41,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags)
 }
 
 /**
- * @var string input The text to sanitize
+ * @param string $input The text to sanitize
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke)
 {
@@ -73,7 +75,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke)
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 248, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 253, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

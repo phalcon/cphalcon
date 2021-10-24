@@ -38,7 +38,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param mixed $input
+ * @param mixed $pattern
+ * @param mixed $replace
+ *
+ * @return string|string[]|null
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 {

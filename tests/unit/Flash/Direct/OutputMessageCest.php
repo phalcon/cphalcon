@@ -82,7 +82,7 @@ class OutputMessageCest
     }
 
     /**
-     * @return \string[][]
+     * @return array
      */
     private function getExamples(): array
     {

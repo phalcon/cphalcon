@@ -90,7 +90,7 @@ class GetSetEscaperServiceCest
 
         $I->expectThrowable(
             new Exception(
-                'A dependency injection container is required to ' .
+                "A dependency injection container is required to " .
                 "access the 'escaper' service"
             ),
             function () {

@@ -32,5 +32,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterInterface)
 
 /**
  * Sanitizes a value with a specified single or set of sanitizers
+ *
+ * @param mixed $value
+ * @param mixed $sanitizers
+ * @param bool  $noRecursive
+ *
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_FilterInterface, sanitize);
