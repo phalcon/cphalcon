@@ -17,7 +17,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_translatefactory___construct, 0
 #endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_translatefactory_load, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_translate_translatefactory_load, 0, 1, Phalcon\\Translate\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 

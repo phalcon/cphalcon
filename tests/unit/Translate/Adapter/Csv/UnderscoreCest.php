@@ -13,9 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Tests\Fixtures\Helpers\TranslateCsvHelper;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvHelperTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvTrait;
 
-class UnderscoreCest extends TranslateCsvHelper
+/**
+ * Class UnderscoreCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
+ */
+class UnderscoreCest
 {
-    protected $function = '_';
+    use TranslateCsvTrait;
+    use TranslateCsvHelperTrait;
+
+    /**
+     * @return string
+     */
+    protected function func(): string
+    {
+        return '_';
+    }
 }

@@ -18,6 +18,11 @@ use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class ResetDomainCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class ResetDomainCest
 {
     use TranslateGettextTrait;
@@ -25,33 +30,27 @@ class ResetDomainCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: resetDomain()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function translateAdapterGettextResetDomain(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - resetDomain()');
 
-        $I->wantToTest('Translate\Adapter\Gettext - setDomain()');
-
         $params     = $this->getGettextConfig();
-        $translator = new Gettext(
-            new InterpolatorFactory(),
-            $params
-        );
+        $translator = new Gettext(new InterpolatorFactory(), $params);
 
         //Put the good one to get the return textdomain
         $oTextDomainMessage = $translator->setDomain('messages');
-
         $I->assertEquals('Hello', $translator->_('hi'));
 
         //Check with a domain which doesn't exist
         $oTextDomainNoExist = $translator->setDomain('no_exist');
-
         $I->assertEquals('hi', $translator->_('hi'));
 
         $oTextDomainReset = $translator->resetDomain();
-
         $I->assertEquals('Hello', $translator->_('hi'));
         $I->assertNotEquals($oTextDomainNoExist, $oTextDomainReset);
         $I->assertEquals($oTextDomainMessage, $oTextDomainReset);

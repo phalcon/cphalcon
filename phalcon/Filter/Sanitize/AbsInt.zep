@@ -18,7 +18,9 @@ namespace Phalcon\Filter\Sanitize;
 class AbsInt
 {
     /**
-     * @var mixed input The text to sanitize
+     * @param mixed $input The text to sanitize
+     *
+     * @return int
      */
     public function __invoke(var input)
     {

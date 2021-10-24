@@ -27,7 +27,7 @@ class Base64
      */
     final public static function encodeUrl(string! input) -> string
     {
-        return str_replace("=", "", strtr(base64_encode($input), "+/", "-_"));
+        return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
     }
 
     /**

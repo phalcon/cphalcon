@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Filter\Filter;
 
+use Codeception\Example;
 use Phalcon\Filter\FilterFactory;
 use UnitTester;
 
@@ -24,95 +25,48 @@ use const E_USER_NOTICE;
 class SanitizeMultipleCest
 {
     /**
-     * Tests sanitizing string with filters
+     * Tests sanitizing values
+     *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-30
+     * @since  2021-10-23
      */
-    public function filterFilterSanitizeStringWithMultipleFilters(UnitTester $I)
+    public function filterFilterSanitize(UnitTester $I, Example $example)
     {
+        $I->wantToTest('Filter\Filter - sanitize() - ' . $example['label']);
+
         $locator = new FilterFactory();
         $filter  = $locator->newInstance();
 
-        $value    = '    lol<<<   ';
-        $expected = 'lol';
-        $actual   = $filter->sanitize($value, ['string', 'trim']);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests sanitizing array with filters
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-30
-     */
-    public function filterFilterSanitizeArray(UnitTester $I)
-    {
-        $locator = new FilterFactory();
-        $filter  = $locator->newInstance();
-
-        $value    = [' 1 ', '  2', '3  '];
-        $expected = ['1', '2', '3'];
-        $actual   = $filter->sanitize($value, 'trim');
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests sanitizing array with multiple filters
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-30
-     */
-    public function filterFilterSanitizeArrayWithMultipleFilters(UnitTester $I)
-    {
-        $locator = new FilterFactory();
-        $filter  = $locator->newInstance();
-
-        $value    = [' <a href="a">1</a> ', '  <h1>2</h1>', '<p>3</p>'];
-        $expected = ['1', '2', '3'];
-        $actual   = $filter->sanitize($value, ['trim', 'striptags']);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests sanitizing array with multiple filters and more parameters
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-30
-     */
-    public function filterFilterSanitizeWithMultipleFiltersMoreParameters(UnitTester $I)
-    {
-        $locator = new FilterFactory();
-        $filter  = $locator->newInstance();
-
-        $value    = '  mary had a little lamb ';
-        $filters  = [
-            'trim',
-            'replace' => [' ', '-'],
-            'remove'  => ['mary'],
-        ];
-        $expected = '-had-a-little-lamb';
-        $actual   = $filter->sanitize($value, $filters);
+        $source   = $example['source'];
+        $expected = $example['expected'];
+        $filters  = $example['filters'];
+        $actual   = $filter->sanitize($source, $filters);
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests sanitizing array with multiple filters and one not existing
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-02-22
+     * @since  2020-09-09
      */
     public function filterFilterSanitizeWithMultipleFiltersNotExisting(UnitTester $I)
     {
         $locator = new FilterFactory();
         $filter  = $locator->newInstance();
 
-        $value    = '  mary had a little lamb ';
-        $filters  = [
+        $value   = '  mary had a little lamb ';
+        $filters = [
             'trim',
             'something',
         ];
-        $expected = 'had a little lamb';
 
         $error = [];
         set_error_handler(
@@ -134,5 +88,54 @@ class SanitizeMultipleCest
             "Sanitizer 'something' is not registered",
             $error['message']
         );
+    }
+
+    /**
+     * @return array<array-key, array<string, mixed>>
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'label' => 'null value',
+                'source' => null,
+                'filters' => [
+                    'string',
+                    'trim',
+                ],
+                'expected' => null,
+            ],
+            [
+                'label' => 'string with filters',
+                'source' => '    lol<<<   ',
+                'filters' => [
+                    'string',
+                    'trim',
+                ],
+                'expected' => 'lol',
+            ],
+            [
+                'label' => 'array with filters',
+                'source' => [' 1 ', '  2', '3  '],
+                'filters' => 'trim',
+                'expected' => ['1', '2', '3'],
+            ],
+            [
+                'label' => 'array with multiple filters',
+                'source' => [' <a href="a">1</a> ', '  <h1>2</h1>', '<p>3</p>'],
+                'filters' => ['striptags', 'trim'],
+                'expected' => ['1', '2', '3'],
+            ],
+            [
+                'label' => 'multiple filters and more parameters',
+                'source' => '  mary had a little lamb ',
+                'filters' => [
+                    'trim',
+                    'replace' => [' ', '-'],
+                    'remove'  => ['mary'],
+                ],
+                'expected' => '-had-a-little-lamb',
+            ],
+        ];
     }
 }

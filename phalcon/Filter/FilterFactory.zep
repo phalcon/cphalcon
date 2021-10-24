@@ -10,19 +10,24 @@
 
 namespace Phalcon\Filter;
 
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
+/**
+ * Class FilterFactory
+ *
+ * @package Phalcon\Filter
+ */
 class FilterFactory
 {
     /**
      * Returns a Locator object with all the helpers defined in anonymous
      * functions
+     *
+     * @return FilterInterface
      */
     public function newInstance() -> <FilterInterface>
     {
-        return new Filter(
-            this->getServices()
-        );
+        return new Filter(this->getServices());
     }
 
     protected function getServices() -> array

@@ -13,20 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Tests\Fixtures\Traits\TranslateArrayTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class OffsetExistsCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
+ */
 class OffsetExistsCest
 {
-    use TranslateArrayTrait;
+    use TranslateNativeArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativeArrayOffsetExists(UnitTester $I)
     {
@@ -41,8 +48,6 @@ class OffsetExistsCest
             ]
         );
 
-        $I->assertTrue(
-            $translator->offsetExists('hi')
-        );
+        $I->assertTrue($translator->offsetExists('hi'));
     }
 }

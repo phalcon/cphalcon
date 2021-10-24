@@ -18,10 +18,16 @@ namespace Phalcon\Filter\Sanitize;
 class FloatVal
 {
     /**
-     * @var mixed input The text to sanitize
+     * @param mixed $input The text to sanitize
+     *
+     * @return float
      */
     public function __invoke(var input)
     {
-        return (double) filter_var(input, FILTER_SANITIZE_NUMBER_FLOAT, ["flags": FILTER_FLAG_ALLOW_FRACTION]);
+        return (double) filter_var(
+            input,
+            FILTER_SANITIZE_NUMBER_FLOAT,
+            ["flags": FILTER_FLAG_ALLOW_FRACTION]
+        );
     }
 }

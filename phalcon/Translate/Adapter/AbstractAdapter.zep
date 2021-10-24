@@ -15,9 +15,12 @@ use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Phalcon\Translate\Adapter
+ * Class AbstractAdapter
  *
- * Base class for Phalcon\Translate adapters
+ * @package Phalcon\Translate\Adapter
+ *
+ * @property string              $defaultInterpolator
+ * @property InterpolatorFactory $interpolatorFactory
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
@@ -31,8 +34,16 @@ abstract class AbstractAdapter implements AdapterInterface
     */
     protected interpolatorFactory;
 
-    public function __construct(<InterpolatorFactory> interpolator, array! options)
-    {
+    /**
+     * AbstractAdapter constructor.
+     *
+     * @param InterpolatorFactory $interpolator
+     * @param array               $options
+     */
+    public function __construct(
+        <InterpolatorFactory> interpolator,
+        array options = []
+    ) {
         let this->defaultInterpolator = Arr::get(options, "defaultInterpolator", "associativeArray"),
             this->interpolatorFactory = interpolator;
     }
@@ -40,7 +51,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns the translation string of the given key (alias of method 't')
      *
-     * @param array   placeholders
+     * @param string $translateKey
+     * @param array  $placeholders
+     *
+     * @return string
      */
     public function _(string! translateKey, array placeholders = []) -> string
     {
@@ -49,6 +63,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Check whether a translation key exists
+     *
+     * @param mixed $translateKey
+     *
+     * @return bool
      */
     public function offsetExists(var translateKey) -> bool
     {
@@ -57,6 +75,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the translation related to the given key
+     *
+     * @param mixed $translateKey
+     *
+     * @return mixed
      */
     public function offsetGet(var translateKey) -> var
     {
@@ -66,7 +88,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets a translation value
      *
-     * @param string value
+     * @param mixed $offset
+     * @param mixed $value
+     *
+     * @throws Exception
      */
     public function offsetSet(var offset, var value) -> void
     {
@@ -75,6 +100,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Unsets a translation from the dictionary
+     *
+     * @param mixed $offset
+     *
+     * @throws Exception
      */
     public function offsetUnset(var offset) -> void
     {
@@ -84,7 +113,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns the translation string of the given key
      *
-     * @param array   placeholders
+     * @param string $translateKey
+     * @param array  $placeholders
+     *
+     * @return string
      */
     public function t(string! translateKey, array placeholders = []) -> string
     {
@@ -93,6 +125,11 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Replaces placeholders by the values passed
+     *
+     * @param string $translation
+     * @param array  $placeholders
+     *
+     * @return string
      */
     protected function replacePlaceholders(
         string! translation,

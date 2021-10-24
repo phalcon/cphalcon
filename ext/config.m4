@@ -276,8 +276,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/exception.zep.c
 	phalcon/events/manager.zep.c
 	phalcon/factory/exception.zep.c
-	phalcon/filter.zep.c
 	phalcon/filter/exception.zep.c
+	phalcon/filter/filter.zep.c
 	phalcon/filter/filterfactory.zep.c
 	phalcon/filter/sanitize/absint.zep.c
 	phalcon/filter/sanitize/alnum.zep.c

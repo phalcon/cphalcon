@@ -13,22 +13,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Tests\Fixtures\Traits\TranslateArrayTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayTrait;
 use Phalcon\Tests\Fixtures\Translate\Adapter\NativeAdapter;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class NotFoundCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
+ */
 class NotFoundCest
 {
-    use TranslateArrayTrait;
+    use TranslateNativeArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - default
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativearrayNotFound(UnitTester $I)
     {
@@ -44,18 +51,17 @@ class NotFoundCest
         );
 
         $expected = 'unknown';
-
-        $I->assertEquals(
-            $expected,
-            $translator->query($expected)
-        );
+        $actual   = $translator->query($expected);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativearrayNotFoundTriggerError(UnitTester $I)
     {
@@ -83,8 +89,10 @@ class NotFoundCest
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
      * random value
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativearrayNotFoundTriggerErrorRandomVaue(UnitTester $I)
     {
@@ -111,8 +119,10 @@ class NotFoundCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - custom
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativearrayNotFoundCustom(UnitTester $I)
     {
@@ -127,9 +137,8 @@ class NotFoundCest
             ]
         );
 
-        $I->assertEquals(
-            '',
-            $translator->query('unknown')
-        );
+        $expected = '';
+        $actual   = $translator->query('unknown');
+        $I->assertEquals($expected, $actual);
     }
 }

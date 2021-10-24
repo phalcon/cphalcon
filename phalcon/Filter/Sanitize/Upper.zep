@@ -18,7 +18,9 @@ namespace Phalcon\Filter\Sanitize;
 class Upper
 {
     /**
-     * @var string input The text to sanitize
+     * @param string $input The text to sanitize
+     *
+     * @return false|string|string[]
      */
     public function __invoke(string! input)
     {
@@ -26,8 +28,6 @@ class Upper
             return mb_convert_case(input, MB_CASE_UPPER, "UTF-8");
         }
 
-        return strtoupper(
-            utf8_decode(input)
-        );
+        return strtoupper(utf8_decode(input));
     }
 }

@@ -24,8 +24,11 @@ class UrlCest
      *
      * @dataProvider getData
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @since        2020-09-09
      */
     public function filterSanitizeUrlInvoke(UnitTester $I, Example $example)
     {
@@ -37,10 +40,13 @@ class UrlCest
         $I->assertEquals($example[1], $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     private function getData(): array
     {
         return [
-            ['http://juhara��.co�m', 'http://juhara.com'],
+            ['https://pha�lc�on.i�o', 'https://phalcon.io'],
         ];
     }
 }

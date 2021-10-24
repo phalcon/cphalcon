@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
 use ArrayAccess;
+use Codeception\Stub;
 use Phalcon\Tests\Fixtures\Traits\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
@@ -21,6 +22,13 @@ use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+use function dataDir;
+
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
+ */
 class ConstructCest
 {
     use TranslateCsvTrait;
@@ -28,48 +36,38 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterCsvConstruct(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor');
 
-        $language = $this->getCsvConfig()['en'];
+        $language   = $this->getCsvConfig()['en'];
+        $translator = new Csv(new InterpolatorFactory(), $language);
 
-        $translator = new Csv(
-            new InterpolatorFactory(),
-            $language
-        );
-
-        $I->assertInstanceOf(
-            ArrayAccess::class,
-            $translator
-        );
-
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $translator
-        );
+        $I->assertInstanceOf(ArrayAccess::class, $translator);
+        $I->assertInstanceOf(AdapterInterface::class, $translator);
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterCsvContentParamExist(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor without content throws exception');
 
         $I->expectThrowable(
-            new Exception('Parameter \'content\' is required'),
+            new Exception("Parameter 'content' is required"),
             function () {
-                new Csv(
-                    new InterpolatorFactory(),
-                    []
-                );
+                new Csv(new InterpolatorFactory(), []);
             }
         );
     }

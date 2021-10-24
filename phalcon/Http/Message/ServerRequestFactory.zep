@@ -556,7 +556,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface, RequestMeth
             }
         }
 
-        return $collection;
+        return collection;
     }
 
     /**

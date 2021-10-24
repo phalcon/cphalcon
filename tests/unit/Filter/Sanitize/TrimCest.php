@@ -24,8 +24,11 @@ class TrimCest
      *
      * @dataProvider getData
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @since        2020-09-09
      */
     public function filterSanitizeTrimInvoke(UnitTester $I, Example $example)
     {
@@ -39,6 +42,9 @@ class TrimCest
         );
     }
 
+    /**
+     * @return string[][]
+     */
     private function getData(): array
     {
         return [

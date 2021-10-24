@@ -4,24 +4,31 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Flash;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Session\ManagerInterface;
 
 /**
  * This is an implementation of the Phalcon\Flash\FlashInterface that
  * temporarily stores the messages in session, then messages can be printed in
  * the next request.
+ *
+ * Class Session
+ *
+ * @package Phalcon\Flash
  */
 class Session extends AbstractFlash
 {
+    const SESSION_KEY = "_flashMessages";
+
     /**
      * Clear messages in the session messenger
+     *
+     * @throws Exception
      */
     public function clear() -> void
     {
@@ -32,10 +39,11 @@ class Session extends AbstractFlash
     /**
      * Returns the messages in the session flasher
      *
-     * @param string|null $type
-     * @param bool $remove
+     * @param mixed|null $type
+     * @param bool       $remove
      *
      * @return array
+     * @throws Exception
      */
     public function getMessages(var type = null, bool remove = true) -> array
     {
@@ -48,32 +56,37 @@ class Session extends AbstractFlash
      * @param string|null $type
      *
      * @return bool
+     * @throws Exception
      */
-    public function has(var type = null) -> bool
+    public function has(string type = null) -> bool
     {
         var messages;
 
         let messages = this->getSessionMessages(false);
 
-        if typeof type == "string" {
-            return isset messages[type];
+        if !type {
+            return (true !== empty(messages));
         }
 
-        return count(messages) > 0;
+        return isset(messages[type]);
     }
 
     /**
      * Adds a message to the session flasher
      *
-     * @return null|string|void
+     * @param string $type
+     * @param mixed  $message
+     *
+     * @return string|null
+     * @throws Exception
      */
-    public function message(var type, string message) -> string | null
+    public function message(string type, var message) -> string | null
     {
         var messages;
 
         let messages = this->getSessionMessages(false);
 
-        if !isset messages[type] {
+        if (true !== isset(messages[type])) {
             let messages[type] = [];
         }
 
@@ -86,12 +99,17 @@ class Session extends AbstractFlash
 
     /**
      * Prints the messages in the session flasher
+     *
+     * @param bool $remove
+     *
+     * @throws Exception
      */
     public function output(bool remove = true) -> void
     {
-        var type, message, messages;
+        var message, messages, type;
 
         let messages = this->getSessionMessages(remove);
+
         for type, message in messages {
             this->outputMessage(type, message);
         }
@@ -102,17 +120,18 @@ class Session extends AbstractFlash
     /**
      * Returns the messages stored in session
      *
-     * @param bool        $remove
-     * @param string|null $type
+     * @param bool       $remove
+     * @param mixed|null $type
      *
      * @return array
+     * @throws Exception
      */
     protected function getSessionMessages(bool remove, string type = null) -> array
     {
         var session, messages, returnMessages;
 
         let session  = this->getSessionService(),
-            messages = session->get("_flashMessages");
+            messages = session->get(self::SESSION_KEY);
 
         /**
          * Session might be empty
@@ -125,7 +144,7 @@ class Session extends AbstractFlash
             if fetch returnMessages, messages[type] {
                 if remove {
                     unset(messages[type]);
-                    session->set("_flashMessages", messages);
+                    session->set(self::SESSION_KEY, messages);
                 }
 
                 return returnMessages;
@@ -135,7 +154,7 @@ class Session extends AbstractFlash
         }
 
         if remove {
-            session->remove("_flashMessages");
+            session->remove(self::SESSION_KEY);
         }
 
         return messages;
@@ -143,6 +162,11 @@ class Session extends AbstractFlash
 
     /**
      * Stores the messages in session
+     *
+     * @param array $messages
+     *
+     * @return array
+     * @throws Exception
      */
     protected function setSessionMessages(array! messages) -> array
     {
@@ -150,36 +174,34 @@ class Session extends AbstractFlash
 
         let session  = this->getSessionService();
 
-        session->set("_flashMessages", messages);
+        session->set(self::SESSION_KEY, messages);
 
         return messages;
     }
 
     /**
      * Returns the Session Service
+     *
+     * @return ManagerInterface
+     * @throws Exception
      */
     public function getSessionService() -> <ManagerInterface>
     {
-        var container;
-
-        if this->sessionService {
+        if null !== this->sessionService {
             return this->sessionService;
         }
 
-        let container = <DiInterface> this->container;
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
+        if (
+            null !== this->container &&
+            true === this->container->has("session")
+        ) {
+            let this->sessionService = this->container->getShared("session");
+
+            return this->sessionService;
         }
 
-        if likely container->has("session") {
-            return <ManagerInterface> container->getShared("session");
-        } else {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
-        }
+        throw new Exception(
+            Exception::containerServiceNotFound("the 'session' service")
+        );
     }
-
 }

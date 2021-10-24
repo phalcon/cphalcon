@@ -5231,7 +5231,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * shared prepare query logic for find and findFirst method
      */
-    private static function getPreparedQuery(var params, var limit = null) -> <Query>
+    private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
     {
         var builder, bindParams, bindTypes, transaction, cache, manager, query,
             container;

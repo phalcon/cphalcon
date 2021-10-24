@@ -133,6 +133,6 @@ class Confirmation extends AbstractValidator
             let b = mb_strtolower(b, "utf-8");
         }
 
-        return strcmp($a, $b) === 0;
+        return strcmp(a, b) === 0;
     }
 }

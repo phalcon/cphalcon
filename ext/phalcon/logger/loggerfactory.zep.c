@@ -136,15 +136,15 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Logger/LoggerFactory.zep", 64);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Config must be array or Phalcon\\Config\\Config object", "phalcon/Logger/LoggerFactory.zep", 63);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("name"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "You must provide 'name' option in factory config parameter.", "phalcon/Logger/LoggerFactory.zep", 70);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "You must provide 'name' option in factory config parameter.", "phalcon/Logger/LoggerFactory.zep", 69);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 73);
+	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 72);
 	ZEPHIR_INIT_VAR(&_3);
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
-	zephir_is_iterable(&adapters, 0, "phalcon/Logger/LoggerFactory.zep", 90);
+	zephir_is_iterable(&adapters, 0, "phalcon/Logger/LoggerFactory.zep", 89);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _6)
 		{
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 			zephir_read_property(&_10$$6, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_11$$6, &_10$$6, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 			zephir_check_call_status();
-			zephir_array_append(&data, &_11$$6, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 87);
+			zephir_array_append(&data, &_11$$6, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 86);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &adapters, "rewind", NULL, 0);
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 				zephir_read_property(&_14$$7, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_15$$7, &_14$$7, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 				zephir_check_call_status();
-				zephir_array_append(&data, &_15$$7, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 87);
+				zephir_array_append(&data, &_15$$7, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 86);
 			ZEPHIR_CALL_METHOD(NULL, &adapters, "next", NULL, 0);
 			zephir_check_call_status();
 		}
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 425, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 430, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 }

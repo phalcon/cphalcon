@@ -28,6 +28,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Class AssociativeArray
+ *
+ * @package Phalcon\Translate\Interpolator
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, AssociativeArray, phalcon, translate_interpolator_associativearray, phalcon_translate_interpolator_associativearray_method_entry, 0);
@@ -38,6 +43,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 
 /**
  * Replaces placeholders by the values passed
+ *
+ * @param string $translation
+ * @param array  $placeholders
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 {
@@ -87,7 +97,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 424, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 429, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }

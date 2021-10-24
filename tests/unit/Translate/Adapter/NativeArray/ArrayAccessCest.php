@@ -13,20 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Tests\Fixtures\Traits\TranslateArrayTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class ArrayAccessCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
+ */
 class ArrayAccessCest
 {
-    use TranslateArrayTrait;
+    use TranslateNativeArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: array access
      *
-     * @author Nikos Dimopoulos <nikos@phalcon.io>
-     * @since  2014-09-12
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function translateAdapterNativeArrayWithArrayAccess(UnitTester $I)
     {
@@ -41,21 +48,14 @@ class ArrayAccessCest
             ]
         );
 
-        $I->assertTrue(
-            isset(
-                $translator['Hello!']
-            )
-        );
+        $actual = isset($translator['Hello!']);
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            isset(
-                $translator['Hi there!']
-            )
-        );
+        $actual = isset($translator['Hi there!']);
+        $I->assertFalse($actual);
 
-        $I->assertEquals(
-            $language['Hello!'],
-            $translator['Hello!']
-        );
+        $expected = $language['Hello!'];
+        $actual   = $translator['Hello!'];
+        $I->assertEquals($expected, $actual);
     }
 }

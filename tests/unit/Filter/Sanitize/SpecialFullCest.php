@@ -23,6 +23,12 @@ class SpecialFullCest
      * Tests Phalcon\Filter\Sanitize\SpecialFull :: __invoke()
      *
      * @dataProvider getData
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function filterSanitizeSpecialFullInvoke(UnitTester $I, Example $example)
     {
@@ -34,6 +40,9 @@ class SpecialFullCest
         $I->assertEquals($example[1], $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     private function getData(): array
     {
         return [
