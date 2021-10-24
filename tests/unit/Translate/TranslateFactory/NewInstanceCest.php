@@ -20,6 +20,11 @@ use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use UnitTester;
 
+/**
+ * Class NewInstanceCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\TranslateFactory
+ */
 class NewInstanceCest
 {
     use TranslateCsvTrait;
@@ -27,9 +32,11 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Translate\TranslateFactory :: newInstance()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-18
-     */
+     * @since  2020-09-09
+     * `     */
     public function translateTranslateFactoryNewInstance(UnitTester $I)
     {
         $I->wantToTest('Translate\TranslateFactory - newInstance()');

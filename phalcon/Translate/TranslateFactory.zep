@@ -10,10 +10,18 @@
 
 namespace Phalcon\Translate;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\Adapter\AdapterInterface;
 
+/**
+ * Class TranslateFactory
+ *
+ * @package Phalcon\Translate
+ *
+ * @property InterpolatorFactory $interpolator
+ */
 class TranslateFactory extends AbstractFactory
 {
     protected exception = "Phalcon\\Translate\\Exception";
@@ -25,9 +33,14 @@ class TranslateFactory extends AbstractFactory
 
     /**
      * AdapterFactory constructor.
+     *
+     * @param InterpolatorFactory $interpolator
+     * @param array               $services
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! services = [])
-    {
+    public function __construct(
+        <InterpolatorFactory> interpolator,
+        array! services = []
+    ) {
         let this->interpolator = interpolator;
 
         this->init(services);
@@ -36,21 +49,24 @@ class TranslateFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config\Config = [
+     * @param array|ConfigInterface $config = [
      *     'adapter' => 'ini,
      *     'options' => [
-     *         'content' => '',
-     *         'delimiter' => ';',
-     *         'enclosure' => '"',
-     *         'locale' => '',
+     *         'content'       => '',
+     *         'delimiter'     => ';',
+     *         'enclosure'     => '"',
+     *         'locale'        => '',
      *         'defaultDomain' => '',
-     *         'directory' => '',
-     *         'category' => ''
-     *         'triggerError' => false
+     *         'directory'     => '',
+     *         'category'      => ''
+     *         'triggerError'  => false
      *     ]
      * ]
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
-    public function load(var config) -> var
+    public function load(var config) -> <AdapterInterface>
     {
         var name, options;
 
@@ -63,6 +79,12 @@ class TranslateFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param string $name
+     * @param array  $options
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
@@ -79,6 +101,9 @@ class TranslateFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

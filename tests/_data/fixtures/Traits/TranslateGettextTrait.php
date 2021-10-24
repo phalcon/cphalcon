@@ -21,15 +21,18 @@ trait TranslateGettextTrait
     /**
      * Executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('gettext');
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $scenario->skip('Locale en_US.utf8 not enabled');
+            $I->skipTest('Locale en_US.utf8 not enabled');
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getGettextConfig(): array
     {
         return [
