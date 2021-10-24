@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ZEPHIR_VERSION="0.15.0"
+ZEPHIR_VERSION="0.15.2"
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
@@ -82,6 +82,7 @@ fi
 alias zephir='./zephir '
 alias zf='./zephir fullclean'
 alias zg='./zephir generate'
+alias zs='./zephir generate'
 alias cpl='zf && zg && cd ext/ && ./install && ..'
 alias codecept='php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept '
 alias phpcs='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcs '
