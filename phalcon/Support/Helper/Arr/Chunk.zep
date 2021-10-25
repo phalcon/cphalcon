@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Chunk
- *
- * @package Phalcon\Support\Arr
+ * Chunks an array into smaller arrays of a specified size.
  */
 class Chunk
 {
     /**
-     * Chunks an array into smaller arrays of a specified size.
-     *
      * @param array $collection
      * @param int   $size
      * @param bool  $preserveKeys

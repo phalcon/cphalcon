@@ -11,15 +11,13 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Get
- *
- * @package Phalcon\Support\Arr
+ * Gets an array element by key and if it does not exist returns the default.
+ * It also allows for casting the returned value to a specific type using
+ * `settype` internally
  */
 class Get
 {
     /**
-     * Helper method to get an array element or a default
-     *
      * @param array       $collection
      * @param mixed       $index
      * @param mixed|null  $defaultValue

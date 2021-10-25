@@ -13,32 +13,16 @@ namespace Phalcon\Support\Helper\Str;
 use Phalcon\Support\Helper\Exception;
 
 /**
- * Class Concat
- *
- * @package Phalcon\Support\Str
+ * Concatenates strings using the separator only once without duplication in
+ * places concatenation
  */
 class Concat extends AbstractStr
 {
     /**
-     * Concatenates strings using the separator only once without duplication in
-     * places concatenation
-     *
-     * ```php
-     * $str = Phalcon\Helper\Str::concat(
-     *     "/",
-     *     "/tmp/",
-     *     "/folder_1/",
-     *     "/folder_2",
-     *     "folder_3/"
-     * );
-     *
-     * echo $str;   // /tmp/folder_1/folder_2/folder_3/
-     * ```
-     *
-     * @param string separator
-     * @param string a
-     * @param string b
-     * @param string ...N
+     * @param string $delimiter
+     * @param string $first
+     * @param string $second
+     * @param string ...$arguments
      *
      * @return string
      */

@@ -13,35 +13,13 @@ namespace Phalcon\Support\Helper\Str;
 use RuntimeException;
 
 /**
- * Class Dynamic
- *
- * @package Phalcon\Support\Str
+ * Generates random text in accordance with the template. The template is
+ * defined by the left and right delimiter and it can contain values separated
+ * by the separator
  */
 class Dynamic
 {
     /**
-     * Generates random text in accordance with the template
-     *
-     * ```php
-     * use Phalcon\Helper\Str;
-     *
-     * // Hi my name is a Bob
-     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
-     *
-     * // Hi my name is a Jon
-     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
-     *
-     * // Hello my name is a Bob
-     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
-     *
-     * // Hello my name is a Zyxep
-     * echo Str::dynamic(
-     *     "[Hi/Hello], my name is a [Zyxep/Mark]!",
-     *     "[", "]",
-     *     "/"
-     * );
-     * ```
-     *
      * @param string $text
      * @param string $leftDelimiter
      * @param string $rightDelimiter

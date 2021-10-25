@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Whitelist
- *
- * @package Phalcon\Support\Arr
+ * White list filter by key: obtain elements of an array filtering by the keys
+ * obtained from the elements of a whitelist
  */
 class Whitelist extends AbstractArr
 {
     /**
-     * White list filter by key: obtain elements of an array filtering
-     * by the keys obtained from the elements of a whitelist
-     *
      * @param array $collection
      * @param array $whiteList
      *

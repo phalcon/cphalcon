@@ -11,17 +11,13 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Decapitalize
- *
- * @package Phalcon\Support\Str
+ * Decapitalizes the first letter of the string and then adds it with rest
+ * of the string. Omit the upperRest parameter to keep the rest of the
+ * string intact, or set it to true to convert to uppercase.
  */
 class Decapitalize extends AbstractStr
 {
     /**
-     * Decapitalizes the first letter of the string and then adds it with rest
-     * of the string. Omit the upperRest parameter to keep the rest of the
-     * string intact, or set it to true to convert to uppercase.
-     *
      * @param string $text
      * @param bool   $upperRest
      * @param string $encoding

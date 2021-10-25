@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Humanize
- *
- * @package Phalcon\Support\Str
+ * Makes an underscored or dashed text human-readable
  */
 class Humanize
 {
     /**
-     * Makes an underscored or dashed phrase human-readable
-     *
      * @param string $text
      *
      * @return string

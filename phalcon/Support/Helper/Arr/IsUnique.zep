@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class IsUnique
- *
- * @package Phalcon\Support\Arr
+ * Checks a flat list for duplicate values. Returns true if duplicate
+ * values exist and false if values are all unique.
  */
 class IsUnique
 {
     /**
-     * Checks a flat list for duplicate values. Returns true if duplicate
-     * values exist and false if values are all unique.
-     *
      * @param array $collection
      *
      * @return bool

@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class ValidateAny
- *
- * @package Phalcon\Support\Arr
+ * Returns `true` if the provided function returns `true` for at least one
+ * element of the collection, `false` otherwise.
  */
 class ValidateAny extends AbstractArr
 {
     /**
-     * Returns true if the provided function returns true for at least one
-     * element of the collection, false otherwise.
-     *
      * @param array    $collection
      * @param callable $method
      *

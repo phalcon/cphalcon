@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Ucwords
- *
- * @package Phalcon\Support\Str
+ * Capitalizes the first letter of each word
  */
 class Ucwords
 {
     /**
-     * Capitalizes the first letter of each word
-     *
      * @param string $text
      * @param string $encoding
      *

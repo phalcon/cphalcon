@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class IsUpper
- *
- * @package Phalcon\Support\Str
+ * Returns `true` if the given string is in upper case, `false` otherwise.
  */
 class IsUpper extends AbstractStr
 {
     /**
-     * Returns true if the given string is upper case, false otherwise.
-     *
      * @param string $text
      * @param string $encoding
      *

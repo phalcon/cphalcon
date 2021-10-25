@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class FirstBetween
- *
- * @package Phalcon\Support\Str
+ * Returns the first string there is between the strings from the
+ * parameter start and end.
  */
 class FirstBetween
 {
     /**
-     * Returns the first string there is between the strings from the
-     * parameter start and end.
-     *
      * @param string $text
      * @param string $start
      * @param string $end

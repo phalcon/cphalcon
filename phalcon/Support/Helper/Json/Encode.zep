@@ -11,40 +11,20 @@
 namespace Phalcon\Support\Helper\Json;
 
 use JsonException;
-
 /**
- * Class Encode
+ * Encodes a string using `json_encode` and throws an exception if the
+ * JSON data cannot be encoded
  *
- * @package Phalcon\Support\Json
+ * The following options are used if none specified for json_encode
+ *
+ * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
+ * JSON_UNESCAPED_SLASHES, JSON_THROW_ON_ERROR
+ *
+ * @see  https://www.ietf.org/rfc/rfc4627.txt
  */
 class Encode
 {
     /**
-     * Encodes a string using `json_encode` and throws an exception if the
-     * JSON data cannot be encoded
-     *
-     * The following options are used if none specified for json_encode
-     *
-     * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
-     * JSON_UNESCAPED_SLASHES, JSON_THROW_ON_ERROR
-     *
-     * @see  https://www.ietf.org/rfc/rfc4627.txt
-     *
-     * ```php
-     * use Phalcon\Support\Helper\Json\Encode;
-     *
-     * $data = [
-     *     'one' => 'two',
-     *     'three'
-     * ];
-     *
-     * $encoder = new Encode();
-     * echo $encoder($data);
-     * echo $encoder->__invoke($data);
-     * echo (new Encode())($data);
-     * // {"one":"two","0":"three"}
-     * ```
-     *
      * @param mixed $data    JSON data to parse
      * @param int   $options Bitmask of JSON decode options.
      * @param int   $depth   Recursion depth.

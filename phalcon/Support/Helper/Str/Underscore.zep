@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Underscore
- *
- * @package Phalcon\Support\Str
+ * Makes a text underscored instead of spaced
  */
 class Underscore
 {
     /**
-     * Makes a phrase underscored instead of spaced
-     *
      * @param string $text
      *
      * @return string

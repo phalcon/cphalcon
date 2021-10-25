@@ -13,15 +13,13 @@ namespace Phalcon\Support\Helper\Str;
 use Phalcon\Support\Helper\Exception;
 
 /**
- * Class Friendly
- *
- * @package Phalcon\Support\Str
+ * Changes a text to a URL friendly one. Replaces commonly known accented
+ * characters with their Latin equivalents. If a `replace` string or array
+ * is passed, it will also be used to replace those characters with a space.
  */
 class Friendly extends AbstractStr
 {
     /**
-     * Changes a text to a URL friendly one
-     *
      * @param string     $text
      * @param string     $separator
      * @param bool       $lowercase

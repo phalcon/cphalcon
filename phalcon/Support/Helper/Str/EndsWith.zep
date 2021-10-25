@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class EndsWith
- *
- * @package Phalcon\Support\Str
+ * Check if a string ends with a given string
  */
 class EndsWith extends AbstractStr
 {
     /**
-     * Check if a string ends with a given string
-     *
      * @param string $haystack
      * @param string $needle
      * @param bool   $ignoreCase

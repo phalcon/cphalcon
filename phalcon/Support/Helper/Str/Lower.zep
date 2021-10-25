@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Lower
- *
- * @package Phalcon\Support\Str
+ * Converts a string to lowercase using mbstring
  */
 class Lower extends AbstractStr
 {
     /**
-     * Lowercases a string using mbstring
-     *
      * @param string $text
      * @param string $encoding
      *

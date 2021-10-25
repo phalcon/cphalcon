@@ -11,15 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Has
- *
- * @package Phalcon\Support\Arr
+ * Checks an array if it has an element with a specific key and returns
+ * `true`/`false` accordingly
  */
 class Has
 {
     /**
-     * Helper method to check if an element exists in a collection
-     *
      * @param array      $collection
      * @param string|int $index
      *

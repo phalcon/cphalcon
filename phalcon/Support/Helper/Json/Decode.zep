@@ -13,28 +13,12 @@ namespace Phalcon\Support\Helper\Json;
 use InvalidArgumentException;
 
 /**
- * Class Decode
- *
- * @package Phalcon\Support\Json
+ * Decodes a string using `json_decode` and throws an exception if the
+ * JSON data cannot be decoded
  */
 class Decode
 {
     /**
-     * Decodes a string using `json_decode` and throws an exception if the
-     * JSON data cannot be decoded
-     *
-     * ```php
-     * use Phalcon\Helper\Json;
-     *
-     * $data = '{"one":"two","0":"three"}';
-     *
-     * var_dump(Json::decode($data));
-     * // [
-     * //     'one' => 'two',
-     * //     'three'
-     * // ];
-     * ```
-     *
      * @param string $data        JSON data to parse
      * @param bool   $associative When `true`, objects are converted to arrays
      * @param int    $depth       Recursion depth.

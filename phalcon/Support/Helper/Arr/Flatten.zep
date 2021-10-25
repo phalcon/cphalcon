@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Flatten
- *
- * @package Phalcon\Support\Arr
+ * Flattens an array up to the one level depth, unless `$deep` is set to
+ * `true`
  */
 class Flatten
 {
     /**
-     * Flattens an array up to the one level depth, unless `$deep` is set to
-     * `true`
-     *
      * @param array $collection
      * @param bool  $deep
      *

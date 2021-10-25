@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Increment
- *
- * @package Phalcon\Support\Str
+ * Adds a number to the end of a string or increments that number if it
+ * is already defined
  */
 class Increment
 {
     /**
-     * Adds a number to a string or increment that number if it already is
-     * defined
-     *
      * @param string $text
      * @param string $separator
      *

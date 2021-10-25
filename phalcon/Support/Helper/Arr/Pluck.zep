@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Pluck
- *
- * @package Phalcon\Support\Arr
+ * Returns a subset of the collection based on the values of the collection
  */
 class Pluck
 {
     /**
-     * Retrieves all the values for a given key:
-     *
      * @param array  $collection
      * @param string $element
      *

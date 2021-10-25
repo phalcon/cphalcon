@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class ReduceSlashes
- *
- * @package Phalcon\Support\Str
+ * Reduces multiple slashes in a string to single slashes
  */
 class ReduceSlashes
 {
     /**
-     * Reduces multiple slashes in a string to single slashes
-     *
      * @param string $text
      *
      * @return string

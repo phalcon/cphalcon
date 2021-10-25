@@ -10,19 +10,13 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+/**
+ * Removes a number from the end of a string or decrements that number if it
+ * is already defined
+ */
 class Decrement
 {
     /**
-     * Removes a number from a string or decrements that number if it is already
-     * defined
-     *
-     * ```php
-     * use Phalcon\Support\Helper\Str;
-     *
-     * echo Str::decrement('a_1');  // 'a'
-     * echo Str::decrement('a_2');  // 'a_1'
-     * ```
-     *
      * @param string $text
      * @param string $separator
      *

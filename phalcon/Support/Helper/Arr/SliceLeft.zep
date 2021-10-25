@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class SliceLeft
- *
- * @package Phalcon\Support\Arr
+ * Returns a new array with n elements removed from the left.
  */
 class SliceLeft
 {
     /**
-     * Returns a new array with n elements removed from the left.
-     *
      * @param array $collection
      * @param int   $elements
      *

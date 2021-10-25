@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class LastKey
- *
- * @package Phalcon\Support\Arr
+ * Returns the key of the last element of the collection. If a callable is
+ * passed, the element returned is the first that validates true
  */
 class LastKey extends AbstractArr
 {
     /**
-     * Returns the key of the last element of the collection. If a callable is
-     * passed, the element returned is the first that validates true
-     *
      * @param array         $collection
      * @param callable|null $method
      *

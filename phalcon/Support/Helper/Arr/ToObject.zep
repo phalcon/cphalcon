@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class ToObject
- *
- * @package Phalcon\Support\Arr
+ * Returns the passed array as an object.
  */
 class ToObject
 {
     /**
-     * Returns the passed array as an object
-     *
      * @param array $collection
      *
      * @return object

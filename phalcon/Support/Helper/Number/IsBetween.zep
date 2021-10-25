@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Number;
 
 /**
- * Class IsBetween
- *
- * @package Phalcon\Support\Number
+ * Checks if a number is within a range
  */
 class IsBetween
 {
     /**
-     * Checks if a number is within a range
-     *
      * @param int $value
      * @param int $start
      * @param int $end

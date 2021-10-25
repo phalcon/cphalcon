@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class IsPalindrome
- *
- * @package Phalcon\Support\Str
+ * Returns `true` if the given string is a palindrome, `false` otherwise.
  */
 class IsPalindrome
 {
     /**
-     * Returns true if the given string is a palindrome, false otherwise.
-     *
      * @param string $text
      *
      * @return bool

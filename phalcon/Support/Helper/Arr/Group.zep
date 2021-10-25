@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Group
- *
- * @package Phalcon\Support\Arr
+ * Groups the elements of an array based on the passed callable
  */
 class Group
 {
     /**
-     * Groups the elements of an array based on the passed callable
-     *
      * @param array           $collection
      * @param callable|string $method
      *

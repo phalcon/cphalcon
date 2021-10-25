@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class DirFromFile
- *
- * @package Phalcon\Support\Str
+ * Accepts a file name (without extension) and returns a calculated
+ * directory structure with the filename in the end
  */
 class DirFromFile
 {
     /**
-     * Accepts a file name (without extension) and returns a calculated
-     * directory structure with the filename in the end
-     *
      * @param string $file
      *
      * @return string

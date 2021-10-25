@@ -11,23 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Uncamelize
- *
- * @package Phalcon\Support\Str
+ * Converts strings to non camelized style
  */
 class Uncamelize
 {
     /**
-     * Converts strings to camelize style
-     *
-     * ```php
-     * use Phalcon\Support\Helper\Str;
-     *
-     * echo Str::camelize("coco_bongo");            // CocoBongo
-     * echo Str::camelize("co_co-bon_go", "-");     // Co_coBon_go
-     * echo Str::camelize("co_co-bon_go", "_-");    // CoCoBonGo
-     * ```
-     *
      * @param string $text
      * @param string $delimiters
      *

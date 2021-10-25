@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Class Suffix
- *
- * @package Phalcon\Support\Str
+ * Suffixes the text with the supplied suffix
  */
 class Suffix
 {
     /**
-     * Suffixes the text with the supplied suffix
-     *
      * @param mixed  $text
      * @param string $suffix
      *

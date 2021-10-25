@@ -11,15 +11,11 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Set
- *
- * @package Phalcon\Support\Arr
+ * Sets an array element. Using a key is optional
  */
 class Set
 {
     /**
-     * Helper method to set an array element
-     *
      * @param array $collection
      * @param mixed $value
      * @param mixed $index

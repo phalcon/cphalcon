@@ -11,16 +11,12 @@
 namespace Phalcon\Support\Helper\Arr;
 
 /**
- * Class Split
- *
- * @package Phalcon\Support\Arr
+ * Returns a new array with keys of the collection as one element and values
+ * as another
  */
 class Split
 {
     /**
-     * Returns a new array with keys of the passed array as one element and
-     * values as another
-     *
      * @param array $collection
      *
      * @return array
