@@ -11,9 +11,10 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * class AbstractStr
+ * Abstract class offering methods to help with the Str namespace. This can
+ * be moved to a trait once Zephir supports it.
  *
- * @package Phalcon\Support\Helper\Str
+ * @todo move to trait when there is support for it
  */
 abstract class AbstractStr
 {
