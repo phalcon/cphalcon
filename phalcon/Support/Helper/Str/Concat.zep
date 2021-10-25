@@ -44,7 +44,7 @@ class Concat extends AbstractStr
      */
     public function __invoke() -> string
     {
-        var argument, arguments, delimiter, data, filtered, first, last,
+        var argument, arguments, delimiter, data, first, last,
             prefix, suffix;
 
         let arguments = func_get_args();
@@ -53,12 +53,10 @@ class Concat extends AbstractStr
             throw new Exception("concat needs at least three parameters");
         }
 
-        let filtered  = array_filter(arguments),
-            delimiter = reset(filtered),
+        let delimiter = reset(arguments),
             arguments = array_slice(arguments, 1),
-            filtered  = array_filter(arguments),
-            first     = reset(filtered),
-            last      = end(filtered),
+            first     = reset(arguments),
+            last      = end(arguments),
             prefix    = "",
             suffix    = "",
             data      = [];
