@@ -41,6 +41,7 @@ class Cli extends FactoryDefault
             "escaper":            new Service("Phalcon\\Escaper", true),
             "eventsManager":      new Service("Phalcon\\Events\\Manager", true),
             "filter":             new Service(filter->newInstance(), true),
+            "helper":             new Service("Phalcon\\Support\\HelperFactory", true),
             "modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
             "modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
             "router":             new Service("Phalcon\\Cli\\Router", true),

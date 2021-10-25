@@ -15,14 +15,18 @@ namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 use Codeception\Example;
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Escaper;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\Filter;
+use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Security;
+use Phalcon\Support\HelperFactory;
 
 class ConstructCest
 {
@@ -39,65 +43,9 @@ class ConstructCest
         $container = new Cli();
         $services  = $this->getServices();
 
-        $I->assertEquals(
-            count($services),
-            count($container->getServices())
-        );
-    }
-
-    private function getServices(): array
-    {
-        return [
-            [
-                'service' => 'annotations',
-                'class'   => \Phalcon\Annotations\Adapter\Memory::class,
-            ],
-
-            [
-                'service' => 'dispatcher',
-                'class'   => Dispatcher::class,
-            ],
-
-            [
-                'service' => 'escaper',
-                'class'   => Escaper::class,
-            ],
-
-            [
-                'service' => 'eventsManager',
-                'class'   => \Phalcon\Events\Manager::class,
-            ],
-
-            [
-                'service' => 'filter',
-                'class'   => Filter::class,
-            ],
-
-            [
-                'service' => 'modelsManager',
-                'class'   => \Phalcon\Mvc\Model\Manager::class,
-            ],
-
-            [
-                'service' => 'modelsMetadata',
-                'class'   => Memory::class,
-            ],
-
-            [
-                'service' => 'router',
-                'class'   => Router::class,
-            ],
-
-            [
-                'service' => 'security',
-                'class'   => Security::class,
-            ],
-
-            [
-                'service' => 'transactionManager',
-                'class'   => Manager::class,
-            ],
-        ];
+        $expected = count($services);
+        $actual   = count($container->getServices());
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -120,12 +68,58 @@ class ConstructCest
             $params = null;
         }
 
-        $I->assertInstanceOf(
-            $example['class'],
-            $container->get(
-                $example['service'],
-                $params
-            )
-        );
+        $class  = $example['class'];
+        $actual = $container->get($example['service'], $params);
+        $I->assertInstanceOf($class, $actual);
+    }
+
+    private function getServices(): array
+    {
+        return [
+            [
+                'service' => 'annotations',
+                'class'   => AnnotationsMemory::class,
+            ],
+            [
+                'service' => 'dispatcher',
+                'class'   => Dispatcher::class,
+            ],
+            [
+                'service' => 'escaper',
+                'class'   => Escaper::class,
+            ],
+            [
+                'service' => 'eventsManager',
+                'class'   => EventsManager::class,
+            ],
+            [
+                'service' => 'filter',
+                'class'   => Filter::class,
+            ],
+            [
+                'service' => 'helper',
+                'class'   => HelperFactory::class,
+            ],
+            [
+                'service' => 'modelsManager',
+                'class'   => ModelsManager::class,
+            ],
+            [
+                'service' => 'modelsMetadata',
+                'class'   => Memory::class,
+            ],
+            [
+                'service' => 'router',
+                'class'   => Router::class,
+            ],
+            [
+                'service' => 'security',
+                'class'   => Security::class,
+            ],
+            [
+                'service' => 'transactionManager',
+                'class'   => Manager::class,
+            ],
+        ];
     }
 }

@@ -36,46 +36,15 @@ class Friendly extends AbstractStr
         bool lowercase = true,
         var replace = null
     ) -> string {
-        var friendly, matrix, search;
-
-        let matrix = [
-                "Š"    : "S",     "š"    : "s", "Đ"    : "Dj", "Ð"    : "Dj",
-                "đ"    : "dj",    "Ž"    : "Z", "ž"    : "z",  "Č"    : "C",
-                "č"    : "c",     "Ć"    : "C", "ć"    : "c",  "À"    : "A",
-                "Á"    : "A",     "Â"    : "A", "Ã"    : "A",  "Ä"    : "A",
-                "Å"    : "A",     "Æ"    : "A", "Ç"    : "C",  "È"    : "E",
-                "É"    : "E",     "Ê"    : "E", "Ë"    : "E",  "Ì"    : "I",
-                "Í"    : "I",     "Î"    : "I", "Ï"    : "I",  "Ñ"    : "N",
-                "Ò"    : "O",     "Ó"    : "O", "Ô"    : "O",  "Õ"    : "O",
-                "Ö"    : "O",     "Ø"    : "O", "Ù"    : "U",  "Ú"    : "U",
-                "Û"    : "U",     "Ü"    : "U", "Ý"    : "Y",  "Þ"    : "B",
-                "ß"    : "Ss",    "à"    : "a", "á"    : "a",  "â"    : "a",
-                "ã"    : "a",     "ä"    : "a", "å"    : "a",  "æ"    : "a",
-                "ç"    : "c",     "è"    : "e", "é"    : "e",  "ê"    : "e",
-                "ë"    : "e",     "ì"    : "i", "í"    : "i",  "î"    : "i",
-                "ï"    : "i",     "ð"    : "o", "ñ"    : "n",  "ò"    : "o",
-                "ó"    : "o",     "ô"    : "o", "õ"    : "o",  "ö"    : "o",
-                "ø"    : "o",     "ù"    : "u", "ú"    : "u",  "û"    : "u",
-                "ý"    : "y",     "ý"    : "y", "þ"    : "b",  "ÿ"    : "y",
-                "Ŕ"    : "R",     "ŕ"    : "r", "ē"    : "e",  "'"    : "",
-                "&"    : " and ", "\r\n" : " ", "\n"   : " "
-        ];
+        var friendly, matrix;
 
         if replace {
-            if unlikely (typeof replace != "array" && typeof replace != "string") {
-                throw new Exception(
-                    "Parameter replace must be an array or a string"
-                );
-            }
-
-            if typeof replace !== "array" {
-                let replace = [replace];
-            }
-
-            for search in replace {
-                let matrix[search] = " ";
-            }
+            let replace = this->checkReplace(replace);
+        } else {
+            let replace = [];
         }
+
+        let matrix = $this->getMatrix(replace);
 
         let text     = str_replace(array_keys(matrix), array_values(matrix), text),
             friendly = preg_replace(
@@ -88,20 +57,18 @@ class Friendly extends AbstractStr
             let friendly = strtolower(friendly);
         }
 
-        let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
-            friendly = trim(friendly, separator);
+        let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly);
 
-        return friendly;
+        return trim(friendly, separator);
     }
 
     /**
-     * @param mixed  $replace
-     * @param string $text
+     * @param mixed $replace
      *
-     * @return string
+     * @return array
      * @throws Exception
      */
-    private function checkReplace(var replace, string text) -> string
+    private function checkReplace(replace) -> array
     {
         if typeof replace !== "array" && typeof replace !== "string" {
             throw new Exception(
@@ -113,6 +80,47 @@ class Friendly extends AbstractStr
             let replace = [replace];
         }
 
-        return str_replace(replace, " ", text);
+        return replace;
+    }
+
+    /**
+     * @param mixed $replace
+     *
+     * @return array
+     * @throws Exception
+     */
+    private function getMatrix(array replace) -> array
+    {
+        var item;
+        array matrix;
+
+        let matrix = [
+            "Š"    : "S",     "š"    : "s", "Đ"    : "Dj", "Ð"    : "Dj",
+            "đ"    : "dj",    "Ž"    : "Z", "ž"    : "z",  "Č"    : "C",
+            "č"    : "c",     "Ć"    : "C", "ć"    : "c",  "À"    : "A",
+            "Á"    : "A",     "Â"    : "A", "Ã"    : "A",  "Ä"    : "A",
+            "Å"    : "A",     "Æ"    : "A", "Ç"    : "C",  "È"    : "E",
+            "É"    : "E",     "Ê"    : "E", "Ë"    : "E",  "Ì"    : "I",
+            "Í"    : "I",     "Î"    : "I", "Ï"    : "I",  "Ñ"    : "N",
+            "Ò"    : "O",     "Ó"    : "O", "Ô"    : "O",  "Õ"    : "O",
+            "Ö"    : "O",     "Ø"    : "O", "Ù"    : "U",  "Ú"    : "U",
+            "Û"    : "U",     "Ü"    : "U", "Ý"    : "Y",  "Þ"    : "B",
+            "ß"    : "Ss",    "à"    : "a", "á"    : "a",  "â"    : "a",
+            "ã"    : "a",     "ä"    : "a", "å"    : "a",  "æ"    : "a",
+            "ç"    : "c",     "è"    : "e", "é"    : "e",  "ê"    : "e",
+            "ë"    : "e",     "ì"    : "i", "í"    : "i",  "î"    : "i",
+            "ï"    : "i",     "ð"    : "o", "ñ"    : "n",  "ò"    : "o",
+            "ó"    : "o",     "ô"    : "o", "õ"    : "o",  "ö"    : "o",
+            "ø"    : "o",     "ù"    : "u", "ú"    : "u",  "û"    : "u",
+            "ý"    : "y",     "þ"    : "b",  "ÿ"   : "y",  "Ŕ"    : "R",
+            "ŕ"    : "r",     "ē"    : "e",  "'"   : "",   "&"    : " and ",
+            "\r\n" : " ",     "\n"   : " "
+        ];
+
+        for item in replace {
+            let matrix[item] = " ";
+        }
+
+        return matrix;
     }
 }
