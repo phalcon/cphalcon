@@ -10,6 +10,11 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+/**
+ * Class Interpolate
+ *
+ * @package Phalcon\Support\Str
+ */
 class Interpolate
 {
     /**
