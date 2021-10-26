@@ -34,8 +34,8 @@ class LoadFromYamlCest
         // load php
         $di->loadFromYaml(dataDir('fixtures/Di/services.yml'));
 
-        // there are 3 new + 10 from Default
-        $I->assertCount(13, $di->getServices());
+        // there are 3 new + 11 from Default
+        $I->assertCount(14, $di->getServices());
 
         // check some services
         $actual = $di->get('config');

@@ -72,6 +72,69 @@
 
 ## Added
 - Added `Phalcon\Security\JWT\Builder::addClaim` for custom JWT claims. [#15656](https://github.com/phalcon/cphalcon/issues/15656)
+- Added `Phalcon\Support\Helper` namespace:
+  - Added `Phalcon\Support\HelperFactory`, a handy factory to help with string, array and other manipulations
+  - Added `helper` service in `Phalon\Di\FactoryDefault` and `Phalcon\Di\FactoryDefault\Cli` to point to the `Phalcon\Support\HelperFactory`
+  - Added array manipulation classes:
+    - `Phalcon\Support\Helper\Arr\Blacklist`
+    - `Phalcon\Support\Helper\Arr\Chunk`
+    - `Phalcon\Support\Helper\Arr\First`
+    - `Phalcon\Support\Helper\Arr\FirstKey`
+    - `Phalcon\Support\Helper\Arr\Flatten`
+    - `Phalcon\Support\Helper\Arr\Get`
+    - `Phalcon\Support\Helper\Arr\Group`
+    - `Phalcon\Support\Helper\Arr\Has`
+    - `Phalcon\Support\Helper\Arr\IsUnique`
+    - `Phalcon\Support\Helper\Arr\Last`
+    - `Phalcon\Support\Helper\Arr\LastKey`
+    - `Phalcon\Support\Helper\Arr\Order`
+    - `Phalcon\Support\Helper\Arr\Pluck`
+    - `Phalcon\Support\Helper\Arr\Set`
+    - `Phalcon\Support\Helper\Arr\SliceLeft`
+    - `Phalcon\Support\Helper\Arr\SliceRight`
+    - `Phalcon\Support\Helper\Arr\Split`
+    - `Phalcon\Support\Helper\Arr\ToObject`
+    - `Phalcon\Support\Helper\Arr\ValidateAll`
+    - `Phalcon\Support\Helper\Arr\ValidateAny`
+    - `Phalcon\Support\Helper\Arr\Whitelist`
+  - Added file manipulation classes:
+    - `Phalcon\Support\Helper\File\Basename`
+  - Added JSON manipulation classes:
+    - `Phalcon\Support\Helper\Json\Encode`
+    - `Phalcon\Support\Helper\Json\Decode`
+  - Added number manipulation classes:
+    - `Phalcon\Support\Helper\Number\IsBetween`
+  - Added array manipulation classes:
+    - `Phalcon\Support\Helper\Str\Camelize`
+    - `Phalcon\Support\Helper\Str\Concat`
+    - `Phalcon\Support\Helper\Str\CountVowels`
+    - `Phalcon\Support\Helper\Str\Decapitalize`
+    - `Phalcon\Support\Helper\Str\Decrement`
+    - `Phalcon\Support\Helper\Str\DirFromFile`
+    - `Phalcon\Support\Helper\Str\DirSeparator`
+    - `Phalcon\Support\Helper\Str\Dynamic`
+    - `Phalcon\Support\Helper\Str\EndsWith`
+    - `Phalcon\Support\Helper\Str\FirstBetween`
+    - `Phalcon\Support\Helper\Str\Friendly`
+    - `Phalcon\Support\Helper\Str\Humanize`
+    - `Phalcon\Support\Helper\Str\Includes`
+    - `Phalcon\Support\Helper\Str\Increment`
+    - `Phalcon\Support\Helper\Str\Interpolate`
+    - `Phalcon\Support\Helper\Str\IsAnagram`
+    - `Phalcon\Support\Helper\Str\IsLower`
+    - `Phalcon\Support\Helper\Str\IsPalindrome`
+    - `Phalcon\Support\Helper\Str\IsUpper`
+    - `Phalcon\Support\Helper\Str\Len`
+    - `Phalcon\Support\Helper\Str\Lower`
+    - `Phalcon\Support\Helper\Str\Prefix`
+    - `Phalcon\Support\Helper\Str\Random`
+    - `Phalcon\Support\Helper\Str\ReduceSlashes`
+    - `Phalcon\Support\Helper\Str\StartsWith`
+    - `Phalcon\Support\Helper\Str\Suffix`
+    - `Phalcon\Support\Helper\Str\Ucwords`
+    - `Phalcon\Support\Helper\Str\Uncamelize`
+    - `Phalcon\Support\Helper\Str\Underscore`
+    - `Phalcon\Support\Helper\Str\Upper`[#15738](https://github.com/phalcon/cphalcon/issues/15738)
 
 # [5.0.0alpha5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha5) (2021-09-09)
 
