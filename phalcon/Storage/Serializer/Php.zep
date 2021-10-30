@@ -18,7 +18,7 @@ class Php extends AbstractSerializer
     /**
      * Serializes data
      *
-     * @return string|null
+     * @return string
      */
 	public function serialize() -> string
 	{

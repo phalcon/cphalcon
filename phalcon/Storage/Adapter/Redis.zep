@@ -97,8 +97,8 @@ class Redis extends AbstractAdapter
     /**
      * Reads data from the adapter
      *
-     * @param string $key
-     * @param null   $defaultValue
+     * @param string     $key
+     * @param mixed|null $defaultValue
      *
      * @return mixed|null
      * @throws StorageException
@@ -115,7 +115,7 @@ class Redis extends AbstractAdapter
      * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
-     * @return mixed|RedisService
+     * @return mixed|\Redis
      * @throws StorageException
      */
     public function getAdapter() -> var
@@ -205,7 +205,7 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * @param RedisService $connection
+     * @param \Redis $connection
      *
      * @return Redis
      * @throws StorageException
@@ -232,7 +232,7 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * @param RedisService $connection
+     * @param \Redis $connection
      *
      * @return Redis
      * @throws StorageException
@@ -281,7 +281,7 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * @param RedisService $connection
+     * @param \Redis $connection
      *
      * @return Redis
      * @throws StorageException
@@ -305,7 +305,7 @@ class Redis extends AbstractAdapter
      * Checks the serializer. If it is a supported one it is set, otherwise
      * the custom one is set.
      *
-     * @param RedisService $connection
+     * @param \Redis $connection
      */
     private function setSerializer(<\Redis> connection) -> void
     {

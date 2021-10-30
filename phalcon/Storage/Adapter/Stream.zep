@@ -11,7 +11,6 @@
 namespace Phalcon\Storage\Adapter;
 
 use DateInterval;
-use Exception as BaseException;
 use FilesystemIterator;
 use Iterator;
 use Phalcon\Storage\Exception;
@@ -53,8 +52,7 @@ class Stream extends AbstractAdapter
      *     'prefix'            => ''
      * ]
      *
-     * @throws StorageException
-     * @throws SupportException
+     * @throws Exception
      */
     public function __construct(<SerializerFactory> factory, array! options = [])
     {
@@ -103,7 +101,6 @@ class Stream extends AbstractAdapter
      * @param int    $value
      *
      * @return bool|int
-     * @throws BaseException
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
@@ -231,7 +228,6 @@ class Stream extends AbstractAdapter
      * @param int    $value
      *
      * @return bool|int
-     * @throws BaseException
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
@@ -255,7 +251,6 @@ class Stream extends AbstractAdapter
      * @param DateInterval|int|null $ttl
      *
      * @return bool
-     * @throws BaseException
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {

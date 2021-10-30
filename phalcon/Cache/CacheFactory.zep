@@ -10,8 +10,9 @@
 
 namespace Phalcon\Cache;
 
-use Phalcon\Cache\Cache;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Cache;
+use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
 use Psr\SimpleCache\CacheInterface;
