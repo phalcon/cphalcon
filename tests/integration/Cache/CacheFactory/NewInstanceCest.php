@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\CacheFactory;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
-use IntegrationTester;
 
 class NewInstanceCest
 {
@@ -26,11 +26,30 @@ class NewInstanceCest
      * Tests Phalcon\Cache\CacheFactory :: newInstance()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-03
+     * @since  2020-09-09
      */
     public function cacheCacheFactoryNewInstance(IntegrationTester $I)
     {
         $I->wantToTest('Cache\CacheFactory - newInstance()');
+
+        $serializer     = new SerializerFactory();
+        $adapterFactory = new AdapterFactory($serializer);
+        $cacheFactory   = new CacheFactory($adapterFactory);
+        $adapter        = $cacheFactory->newInstance('apcu');
+
+        $I->assertInstanceOf(Cache::class, $adapter);
+        $I->assertInstanceOf(CacheInterface::class, $adapter);
+    }
+
+    /**
+     * Tests Phalcon\Cache\CacheFactory :: newInstance() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cacheCacheFactoryNewInstanceException(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\CacheFactory - newInstance() - exception');
 
         $serializer     = new SerializerFactory();
         $adapterFactory = new AdapterFactory($serializer);

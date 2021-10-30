@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withAddedHeader)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "headers");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &headers, &_4);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 22, &headers, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withBody)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "body");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &newBody, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 22, &newBody, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withHeader)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "headers");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &headers, &_3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 22, &headers, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withProtocolVersion)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "protocolVersion");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, version, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 22, version, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -571,7 +571,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withoutHeader)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "headers");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &headers, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 22, &headers, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

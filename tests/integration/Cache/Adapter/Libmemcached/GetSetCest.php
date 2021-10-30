@@ -16,9 +16,11 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
+use stdClass;
 
 use function getOptionsLibmemcached;
 
@@ -31,46 +33,52 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
-     * @throws Exception
-     * @since        2019-03-31
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws CacheException
+     * @throws HelperException
      *
      * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
-    public function cacheAdapterLibmemcachedGetSet(IntegrationTester $I, Example $example)
+    public function storageAdapterLibmemcachedGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - ' . $example[0]);
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
-
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, $example[1])
+        $adapter    = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
         );
 
-        $I->assertEquals(
-            $example[1],
-            $adapter->get($key)
-        );
+        $key    = uniqid();
+        $actual = $adapter->set($key, $example[1]);
+        $I->assertTrue($actual);
+
+        $expected = $example[1];
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: get()/set() - custom
      * serializer
      *
-     * @throws Exception
-     * @since  2019-04-29
+     * @param IntegrationTester $I
+     *
+     * @throws CacheException
+     * @throws HelperException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterLibmemcachedGetSetCustomSerializer(IntegrationTester $I)
+    public function storageAdapterLibmemcachedGetSetCustomSerializer(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - custom serializer');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Libmemcached(
+        $adapter    = new Libmemcached(
             $serializer,
             array_merge(
                 getOptionsLibmemcached(),
@@ -80,21 +88,47 @@ class GetSetCest
             )
         );
 
-        $key = 'cache-data';
+        $key    = uniqid();
         $source = 'Phalcon Framework';
+        $actual = $adapter->set($key, $source);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->set($key, $source)
-        );
-
-        $I->assertEquals(
-            $source,
-            $adapter->get($key)
-        );
+        $expected = $source;
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     private function getExamples(): array
     {
-        return CacheFixtureData::getExamples();
+        return [
+            [
+                'string',
+                'random string',
+            ],
+            [
+                'integer',
+                123456,
+            ],
+            [
+                'float',
+                123.456,
+            ],
+            [
+                'boolean true',
+                true,
+            ],
+            [
+                'boolean false',
+                false,
+            ],
+            [
+                'null',
+                null,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
+        ];
     }
 }

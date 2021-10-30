@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, TranslateFactory, phalcon, translate_translatefactory, phalcon_factory_abstractfactory_ce, phalcon_translate_translatefactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_translate_translatefactory_ce, SL("exception"), "Phalcon\\Translate\\Exception", ZEND_ACC_PROTECTED);
 	/**
 	 * @var InterpolatorFactory
 	 */
@@ -141,12 +140,12 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 74);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 72);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 10, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 81, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -219,6 +218,20 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 }
 
 /**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Translate\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
  * @return string[]
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getServices)

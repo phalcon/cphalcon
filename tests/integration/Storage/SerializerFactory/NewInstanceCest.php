@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\SerializerFactory;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
@@ -22,7 +23,8 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
+
+use function uniqid;
 
 class NewInstanceCest
 {
@@ -31,10 +33,13 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
      * @throws Exception
-     * @since        2019-05-04
      *
      * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageSerializerFactoryNewInstance(IntegrationTester $I, Example $example)
     {
@@ -52,24 +57,28 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
      *
-     * @throws Exception
-     * @since  2019-05-04
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 
+        $name = uniqid();
         $I->expectThrowable(
-            new Exception('Service unknown is not registered'),
-            function () {
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
                 $factory = new SerializerFactory();
-                $service = $factory->newInstance('unknown');
+                $service = $factory->newInstance($name);
             }
         );
     }
 
+    /**
+     * @return string[][]
+     */
     private function getExamples(): array
     {
         return [

@@ -12,6 +12,11 @@ namespace Phalcon\Storage\Serializer;
 
 use Serializable;
 
+/**
+ * Interface SerializerInterface
+ *
+ * @package Phalcon\Storage\Serializer
+ */
 interface SerializerInterface extends Serializable
 {
     /**

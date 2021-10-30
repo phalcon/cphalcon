@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 	ZEPHIR_CALL_FUNCTION(&obLevel, "ob_get_level", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(&obLevel, 0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 508);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_read_static_property_ce(&_0, phalcon_support_debug_ce, SL("isActive"), PH_NOISY_CC | PH_READONLY);
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 		array_init(&_19$$3);
 		ZEPHIR_INIT_VAR(&_20$$3);
 		ZVAL_STRING(&_20$$3, "request");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 10, &_18$$3, &_20$$3, &_19$$3);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 81, &_18$$3, &_20$$3, &_19$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&_REQUEST, 0, "phalcon/Support/Debug.zep", 350);
 		if (Z_TYPE_P(&_REQUEST) == IS_ARRAY) {
@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 		array_init(&_20$$3);
 		ZEPHIR_INIT_VAR(&_36$$3);
 		ZVAL_STRING(&_36$$3, "server");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 10, &_35$$3, &_36$$3, &_20$$3);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_17, 81, &_35$$3, &_36$$3, &_20$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&_SERVER, 0, "phalcon/Support/Debug.zep", 366);
 		if (Z_TYPE_P(&_SERVER) == IS_ARRAY) {
@@ -924,7 +924,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "request");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 10, &blacklist, &_2, &_1);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 81, &blacklist, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "server");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 10, &blacklist, &_7, &_2);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 81, &blacklist, &_7, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);
@@ -1539,7 +1539,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 158, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 165, &className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
@@ -1572,7 +1572,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		if ((zephir_function_exists(&functionName) == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 153, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 160, &functionName);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();

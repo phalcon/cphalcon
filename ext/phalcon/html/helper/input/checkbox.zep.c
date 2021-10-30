@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __toString)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 115);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 116);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 116);
+	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_checkbox_ce, getThis(), "__tostring", &_0, 0);
 	zephir_check_call_status();
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, label)
 	ZVAL_STRING(&_1, "text");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_CE_STATIC(&text, phalcon_helper_arr_ce, "get", &_0, 10, &attributes, &_1, &_2);
+	ZEPHIR_CALL_CE_STATIC(&text, phalcon_helper_arr_ce, "get", &_0, 81, &attributes, &_1, &_2);
 	zephir_check_call_status();
 	zephir_array_unset_string(&attributes, SL("text"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processChecked)
 	ZVAL_STRING(&_2, "checked");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	ZEPHIR_CALL_CE_STATIC(&checked, phalcon_helper_arr_ce, "get", &_1, 10, &attributes, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&checked, phalcon_helper_arr_ce, "get", &_1, 81, &attributes, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_unset_string(&attributes, SL("checked"), PH_SEPARATE);
 	if (!(ZEPHIR_IS_EMPTY(&checked))) {
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processChecked)
 		ZVAL_STRING(&_4$$3, "value");
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "");
-		ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 10, &attributes, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 81, &attributes, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_IDENTICAL(&checked, &value)) {
 			ZEPHIR_INIT_VAR(&_6$$4);
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processUnchecked)
 	ZVAL_STRING(&_2, "unchecked");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	ZEPHIR_CALL_CE_STATIC(&unchecked, phalcon_helper_arr_ce, "get", &_1, 10, &attributes, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&unchecked, phalcon_helper_arr_ce, "get", &_1, 81, &attributes, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_unset_string(&attributes, SL("unchecked"), PH_SEPARATE);
 	if (!(ZEPHIR_IS_EMPTY(&unchecked))) {

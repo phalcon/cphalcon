@@ -12,16 +12,28 @@ namespace Phalcon\Storage\Adapter;
 
 use DateInterval;
 use DateTime;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
-use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
+use Exception;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as SupportException;
 
+/**
+ * Class AbstractAdapter
+ *
+ * @package Phalcon\Storage\Adapter
+ *
+ * @property mixed               $adapter
+ * @property string              $defaultSerializer
+ * @property int                 $lifetime
+ * @property array               $options
+ * @property string              $prefix
+ * @property SerializerInterface $serializer
+ * @property SerializerFactory   $serializerFactory
+ */
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * @var mixed|null
+     * @var mixed
      */
     protected adapter;
 
@@ -30,7 +42,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var string
      */
-    protected defaultSerializer = "Php" { get, set };
+    protected defaultSerializer = "php" { get };
 
     /**
      * Name of the default TTL (time to live)
@@ -40,14 +52,19 @@ abstract class AbstractAdapter implements AdapterInterface
     protected lifetime = 3600;
 
     /**
+     * @var array
+     */
+    protected options = [];
+
+    /**
      * @var string
      */
-    protected prefix = "" { get };
+    protected prefix = "ph-memo-";
 
     /**
      * Serializer
      *
-     * @var SerializerInterface
+     * @var SerializerInterface|null
      */
     protected serializer;
 
@@ -59,49 +76,68 @@ abstract class AbstractAdapter implements AdapterInterface
     protected serializerFactory;
 
     /**
-     * Sets parameters based on options
+     * AbstractAdapter constructor.
      *
-     * @param array options = [
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => ''
-     * ]
+     * @param SerializerFactory $factory
+     * @param array             $options
      */
-    protected function __construct(<SerializerFactory> factory, array! options = [])
-    {
+    protected function __construct(
+        <SerializerFactory> factory,
+        array options = []
+    ) {
         /**
          * Lets set some defaults and options here
          */
         let this->serializerFactory = factory,
-            this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
-            this->lifetime          = Arr::get(options, "lifetime", 3600);
+            this->defaultSerializer = mb_strtolower(
+                this->getArrVal(options, "defaultSerializer", "php")
+            ),
+            this->lifetime   = this->getArrVal(options, "lifetime", 3600),
+            this->serializer = this->getArrVal(options, "serializer", null);
 
-        if array_key_exists("prefix", options) {
+        if isset options["prefix"] {
             let this->prefix = options["prefix"];
         }
+
+        unset options["defaultSerializer"];
+        unset options["lifetime"];
+        unset options["serializer"];
+        unset options["prefix"];
+
+        let this->options = options;
     }
 
     /**
      * Flushes/clears the cache
+     *
+     * @return bool
      */
     abstract public function clear() -> bool;
 
     /**
      * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return int | bool
      */
     abstract public function decrement(string! key, int value = 1) -> int | bool;
 
     /**
      * Deletes data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     abstract public function delete(string! key) -> bool;
 
     /**
      * Reads data from the adapter
      *
-     * @param string key
-     * @param mixed|null defaultValue
+     * @param string     $key
+     * @param mixed|null $defaultValue
      *
      * @return mixed
      */
@@ -109,32 +145,70 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the adapter - connects to the storage if not connected
+     *
+     * @return mixed
      */
-    abstract public function getAdapter() -> var;
+    public function getAdapter() -> var
+    {
+        return this->adapter;
+    }
 
     /**
      * Returns all the keys stored
+     *
+     * @param string $prefix
+     *
+     * @return array
      */
-    abstract public function getKeys(string! prefix = "") -> array;
+    abstract public function getKeys(string prefix = "") -> array;
+
+    /**
+     * Returns the prefix
+     *
+     * @return string
+     */
+    public function getPrefix() -> string
+    {
+        return this->prefix;
+    }
 
     /**
      * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     abstract public function has(string! key) -> bool;
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return int | bool
      */
     abstract public function increment(string! key, int value = 1) -> int | bool;
 
     /**
      * Stores data in the adapter
      *
-     * @param string key
-     * @param mixed value
-     * @param DateInterval|int|null ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
+     *
+     * @return bool
      */
-    abstract public function set(string! key, var value, var ttl = null) -> bool;
+    abstract public function set(string key, var value, var ttl = null) -> bool;
+
+    /**
+     * @param string $serializer
+     */
+    public function setDefaultSerializer(string serializer) -> void
+    {
+        let this->defaultSerializer = mb_strtolower(serializer);
+    }
 
     /**
      * Filters the keys array based on global and passed prefix
@@ -154,7 +228,7 @@ abstract class AbstractAdapter implements AdapterInterface
             keys    = !keys ? [] : keys;
 
         for key in keys {
-            if Str::startsWith(key, pattern) {
+            if starts_with(key, pattern) {
                 let results[] = key;
             }
         }
@@ -164,6 +238,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the key requested, prefixed
+     *
+     * @param string $key
+     *
+     * @return string
      */
     protected function getPrefixedKey(var key) -> string
     {
@@ -174,10 +252,14 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns serialized data
+     *
+     * @param mixed $content
+     *
+     * @return mixed
      */
     protected function getSerializedData(var content) -> var
     {
-        if this->defaultSerializer !== "" {
+        if true !== empty(this->defaultSerializer) {
             this->serializer->setData(content);
             let content = this->serializer->serialize();
         }
@@ -211,11 +293,19 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns unserialized data
+     *
+     * @param mixed      $content
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed
      */
-    protected function getUnserializedData(var content) -> var
+    protected function getUnserializedData(var content, var defaultValue = null) -> var
     {
+        if !content {
+            return defaultValue;
+        }
 
-        if this->defaultSerializer !== "" {
+        if true !== empty(this->defaultSerializer) {
             this->serializer->unserialize(content);
             let content = this->serializer->getData();
         }
@@ -225,14 +315,42 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Initializes the serializer
+     *
+     * @throws SupportException
      */
     protected function initSerializer() -> void
     {
-        string className;
+        var className;
 
-        if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
-            let className        = strtolower(this->defaultSerializer),
+        if (
+            true !== empty(this->defaultSerializer) &&
+            typeof this->serializer !== "object"
+        ) {
+            let className        = this->defaultSerializer,
                 this->serializer = this->serializerFactory->newInstance(className);
         }
     }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    protected function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null,
+        string! cast = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        if unlikely cast {
+            settype(value, cast);
+        }
+
+        return value;
+    }
+
 }

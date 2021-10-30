@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -34,30 +34,37 @@ class GetSetDefaultSerializerCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageAdapterGetSetDefaultSerializer(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - getDefaultSerializer()/setDefaultSerializer()'
+            sprintf(
+                'Storage\Adapter\%s - getDefaultSerializer()/setDefaultSerializer()',
+                $example['className']
+            )
         );
 
-        $extension  = $example['extension'];
-        $class      = $example['class'];
-        $options    = $example['options'];
+        $extension = $example['extension'];
+        $class     = $example['class'];
+        $options   = $example['options'];
 
         if (!empty($extension)) {
             $I->checkExtensionIsLoaded($extension);
         }
 
         $serializer = new SerializerFactory();
-        $adapter = new $class($serializer, $options);
+        $adapter    = new $class($serializer, $options);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $expected = 'php';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+        $expected = 'base64';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
     }
 
     /**

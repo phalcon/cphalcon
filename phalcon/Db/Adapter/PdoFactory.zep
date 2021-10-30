@@ -15,8 +15,6 @@ use Phalcon\Helper\Arr;
 
 class PdoFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Db\\Exception";
-
     /**
      * Constructor
      */
@@ -75,7 +73,17 @@ class PdoFactory extends AbstractFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Db\\Exception";
+    }
+
+    /**
      * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {

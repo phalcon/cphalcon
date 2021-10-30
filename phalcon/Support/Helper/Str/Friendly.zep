@@ -42,7 +42,7 @@ class Friendly extends AbstractStr
             let replace = [];
         }
 
-        let matrix = $this->getMatrix(replace);
+        let matrix = this->getMatrix(replace);
 
         let text     = str_replace(array_keys(matrix), array_values(matrix), text),
             friendly = preg_replace(

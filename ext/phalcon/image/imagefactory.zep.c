@@ -36,7 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_ImageFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image, ImageFactory, phalcon, image_imagefactory, phalcon_factory_abstractfactory_ce, phalcon_image_imagefactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_image_imagefactory_ce, SL("exception"), "Phalcon\\Image\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -119,25 +118,25 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("file"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "You must provide 'file' option in factory config parameter.", "phalcon/Image/ImageFactory.zep", 51);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "You must provide 'file' option in factory config parameter.", "phalcon/Image/ImageFactory.zep", 49);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 54);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 52);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "file");
-	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 10, config, &_2);
+	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "height");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 10, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "width");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 10, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -221,6 +220,23 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Image_ImageFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Image\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Image_ImageFactory, getServices)
 {
 	zval *this_ptr = getThis();

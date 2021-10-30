@@ -79,12 +79,12 @@ PHP_METHOD(Phalcon_Helper_Arr, blackList)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_create_closure_ex(&_0, NULL, phalcon_6__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 260, &blackList, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 18, &blackList, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&blackList, &_1);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_flip", NULL, 176, &blackList);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_flip", NULL, 183, &blackList);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 261, &collection, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 265, &collection, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Helper_Arr, chunk)
 
 	ZVAL_LONG(&_0, size);
 	ZVAL_BOOL(&_1, (preserveKeys ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("array_chunk", NULL, 262, &collection, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_chunk", NULL, 266, &collection, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Helper_Arr, filter)
 	if (_0) {
 		RETURN_CTOR(&collection);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 260, &collection, method);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 18, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -231,10 +231,10 @@ PHP_METHOD(Phalcon_Helper_Arr, first)
 	}
 
 
-	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 267, &collection, method);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 264, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 268, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -281,13 +281,13 @@ PHP_METHOD(Phalcon_Helper_Arr, firstKey)
 	}
 
 
-	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 267, &collection, method);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 264, &filtered);
+	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 268, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 265, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 269, &filtered);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -358,13 +358,13 @@ PHP_METHOD(Phalcon_Helper_Arr, flatten)
 				if (deep) {
 					ZEPHIR_INIT_NVAR(&_2$$6);
 					ZVAL_BOOL(&_5$$6, 1);
-					ZEPHIR_CALL_SELF(&_3$$6, "flatten", &_4, 266, &item, &_5$$6);
+					ZEPHIR_CALL_SELF(&_3$$6, "flatten", &_4, 270, &item, &_5$$6);
 					zephir_check_call_status();
 					zephir_fast_array_merge(&_2$$6, &data, &_3$$6);
 					ZEPHIR_CPY_WRT(&data, &_2$$6);
 				} else {
 					ZEPHIR_INIT_NVAR(&_6$$7);
-					ZEPHIR_CALL_FUNCTION(&_7$$7, "array_values", &_8, 14, &item);
+					ZEPHIR_CALL_FUNCTION(&_7$$7, "array_values", &_8, 13, &item);
 					zephir_check_call_status();
 					zephir_fast_array_merge(&_6$$7, &data, &_7$$7);
 					ZEPHIR_CPY_WRT(&data, &_6$$7);
@@ -388,13 +388,13 @@ PHP_METHOD(Phalcon_Helper_Arr, flatten)
 					if (deep) {
 						ZEPHIR_INIT_NVAR(&_9$$11);
 						ZVAL_BOOL(&_11$$11, 1);
-						ZEPHIR_CALL_SELF(&_10$$11, "flatten", &_4, 266, &item, &_11$$11);
+						ZEPHIR_CALL_SELF(&_10$$11, "flatten", &_4, 270, &item, &_11$$11);
 						zephir_check_call_status();
 						zephir_fast_array_merge(&_9$$11, &data, &_10$$11);
 						ZEPHIR_CPY_WRT(&data, &_9$$11);
 					} else {
 						ZEPHIR_INIT_NVAR(&_12$$12);
-						ZEPHIR_CALL_FUNCTION(&_13$$12, "array_values", &_8, 14, &item);
+						ZEPHIR_CALL_FUNCTION(&_13$$12, "array_values", &_8, 13, &item);
 						zephir_check_call_status();
 						zephir_fast_array_merge(&_12$$12, &data, &_13$$12);
 						ZEPHIR_CPY_WRT(&data, &_12$$12);
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Helper_Arr, get)
 	}
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 12, &value, &cast);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 11, &value, &cast);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Helper_Arr, group)
 				_3$$3 = (zephir_function_exists(method) == SUCCESS);
 			}
 			if (_3$$3) {
-				ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 267, method, &element);
+				ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 271, method, &element);
 				zephir_check_call_status();
 				zephir_array_update_multi(&filtered, &element, SL("za"), 2, &key);
 			} else if (Z_TYPE_P(&element) == IS_OBJECT) {
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Helper_Arr, group)
 					_6$$7 = (zephir_function_exists(method) == SUCCESS);
 				}
 				if (_6$$7) {
-					ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 267, method, &element);
+					ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 271, method, &element);
 					zephir_check_call_status();
 					zephir_array_update_multi(&filtered, &element, SL("za"), 2, &key);
 				} else if (Z_TYPE_P(&element) == IS_OBJECT) {
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Helper_Arr, isUnique)
 	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 268, &collection);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 272, &collection);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&collection) == zephir_fast_count_int(&_0));
 }
@@ -693,10 +693,10 @@ PHP_METHOD(Phalcon_Helper_Arr, last)
 	}
 
 
-	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 267, &collection, method);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_RETURN_CALL_FUNCTION("end", NULL, 269, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("end", NULL, 273, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -743,13 +743,13 @@ PHP_METHOD(Phalcon_Helper_Arr, lastKey)
 	}
 
 
-	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&filtered, "filter", &_0, 267, &collection, method);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_CALL_FUNCTION(NULL, "end", NULL, 269, &filtered);
+	ZEPHIR_CALL_FUNCTION(NULL, "end", NULL, 273, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 265, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 269, &filtered);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -844,16 +844,16 @@ PHP_METHOD(Phalcon_Helper_Arr, order)
 	ZEPHIR_INIT_NVAR(&item);
 	if (ZEPHIR_IS_STRING_IDENTICAL(&order, "asc")) {
 		ZEPHIR_MAKE_REF(&sorted);
-		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 270, &sorted);
+		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 274, &sorted);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_MAKE_REF(&sorted);
-		ZEPHIR_CALL_FUNCTION(NULL, "krsort", NULL, 271, &sorted);
+		ZEPHIR_CALL_FUNCTION(NULL, "krsort", NULL, 275, &sorted);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &sorted);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 13, &sorted);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1049,7 +1049,7 @@ PHP_METHOD(Phalcon_Helper_Arr, sliceLeft)
 
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, elements);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 272, &collection, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 276, &collection, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1093,7 +1093,7 @@ PHP_METHOD(Phalcon_Helper_Arr, sliceRight)
 
 
 	ZVAL_LONG(&_0, elements);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 272, &collection, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 276, &collection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1134,7 +1134,7 @@ PHP_METHOD(Phalcon_Helper_Arr, split)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, &collection);
 	zephir_array_fast_append(return_value, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 14, &collection);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 13, &collection);
 	zephir_check_call_status();
 	zephir_array_fast_append(return_value, &_1);
 	RETURN_MM();
@@ -1209,7 +1209,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAll)
 	}
 
 
-	ZEPHIR_CALL_SELF(&_0, "filter", &_1, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&_0, "filter", &_1, 267, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&_0) == zephir_fast_count_int(&collection));
 }
@@ -1255,7 +1255,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAny)
 	}
 
 
-	ZEPHIR_CALL_SELF(&_0, "filter", &_1, 263, &collection, method);
+	ZEPHIR_CALL_SELF(&_0, "filter", &_1, 267, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&_0) > 0);
 }
@@ -1300,10 +1300,10 @@ PHP_METHOD(Phalcon_Helper_Arr, whiteList)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_create_closure_ex(&_0, NULL, phalcon_7__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 260, &whiteList, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 18, &whiteList, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&whiteList, &_1);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_flip", NULL, 176, &whiteList);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_flip", NULL, 183, &whiteList);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 2, &collection, &_2);
 	zephir_check_call_status();

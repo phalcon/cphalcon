@@ -25,6 +25,7 @@ use Phalcon\Storage\SerializerFactory;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 
 class GetSetDefaultSerializerCest
 {
@@ -40,7 +41,10 @@ class GetSetDefaultSerializerCest
     public function cacheAdapterGetSetDefaultSerializer(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - getDefaultSerializer()/setDefaultSerializer()'
+            sprintf(
+                'Cache\Adapter\%s - getDefaultSerializer()/setDefaultSerializer()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];
@@ -54,10 +58,14 @@ class GetSetDefaultSerializerCest
         $serializer = new SerializerFactory();
         $adapter    = new $class($serializer, $options);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $expected = 'php';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+        $expected = 'base64';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
     }
 
     /**

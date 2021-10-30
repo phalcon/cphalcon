@@ -15,8 +15,6 @@ use Phalcon\Storage\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Storage\\Exception";
-
     /**
      * @var SerializerFactory
      */
@@ -55,6 +53,9 @@ class AdapterFactory extends AbstractFactory
      *     'socket' => '',
      *     'storageDir' => '',
      * ]
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
@@ -71,6 +72,19 @@ class AdapterFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Storage\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

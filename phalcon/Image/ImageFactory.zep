@@ -19,8 +19,6 @@ use Phalcon\Image\Adapter\AdapterInterface;
  */
 class ImageFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Image\\Exception";
-
     /**
      * TagFactory constructor.
      */
@@ -86,6 +84,19 @@ class ImageFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Image\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

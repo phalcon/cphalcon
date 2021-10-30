@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
 
 use function getOptionsLibmemcached;
@@ -27,21 +29,26 @@ class GetKeysCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: getKeys()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-13
+     * @since  2020-09-09
      */
-    public function cacheAdapterLibmemcachedGetKeys(IntegrationTester $I)
+    public function storageAdapterLibmemcachedGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getKeys()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Libmemcached(
+        $adapter    = new Libmemcached(
             $serializer,
             getOptionsLibmemcached()
         );
 
-        $memcachedServerVersions   = $adapter->getAdapter()->getVersion();
+        $memcachedServerVersions   = $adapter->getAdapter()
+                                             ->getVersion();
         $memcachedExtensionVersion = phpversion('memcached');
 
         foreach ($memcachedServerVersions as $server => $memcachedServerVersion) {
@@ -64,43 +71,38 @@ class GetKeysCest
             }
         }
 
-        $adapter->clear();
+        $I->assertTrue($adapter->clear());
 
         $adapter->set('key-1', 'test');
         $adapter->set('key-2', 'test');
+        $adapter->set('one-1', 'test');
+        $adapter->set('one-2', 'test');
 
-        $actual = $adapter->getKeys();
+        $actual = $adapter->has('key-1');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('key-2');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('one-1');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('one-2');
+        $I->assertTrue($actual);
+
+        $expected = [
+            'ph-memc-key-1',
+            'ph-memc-key-2',
+            'ph-memc-one-1',
+            'ph-memc-one-2',
+        ];
+        $actual   = $adapter->getKeys();
         sort($actual);
-        $I->assertEquals(
-            [
-                'ph-memc-key-1',
-                'ph-memc-key-2',
-            ],
-            $actual
-        );
-    }
+        $I->assertEquals($expected, $actual);
 
-    /**
-     * Tests Phalcon\Cache\Adapter\Libmemcached :: GetNoNExistingKeys()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-03-28
-     */
-    public function cacheAdapterLibmemcachedGetNoNExistingKeys(IntegrationTester $I)
-    {
-        $I->wantToTest('Cache\Adapter\Libmemcached - GetNoNExistingKeys()');
-
-        $serializer = new SerializerFactory();
-
-        $adapter = new Libmemcached(
-            $serializer,
-            getOptionsLibmemcached()
-        );
-
-        $key = 'random-non-existing-key';
-
-        $I->assertNull($adapter->get($key));
-        $I->assertEquals(123, $adapter->get($key, 123));
-        $I->assertFalse($adapter->get($key, false));
+        $expected = [
+            'ph-memc-one-1',
+            'ph-memc-one-2',
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $I->assertEquals($expected, $actual);
     }
 }

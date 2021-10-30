@@ -154,33 +154,33 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
-	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 86);
+	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 87);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "8.0");
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, ">=");
-	ZEPHIR_CALL_FUNCTION(&_6, "version_compare", NULL, 87, &version, &_4, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "version_compare", NULL, 88, &version, &_4, &_5);
 	zephir_check_call_status();
 	if (zephir_is_true(&_6)) {
 		ZEPHIR_INIT_VAR(&_7$$5);
 		ZEPHIR_INIT_NVAR(&_7$$5);
 		zephir_create_closure_ex(&_7$$5, NULL, phalcon_4__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$5, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_7$$5, &_8$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_7$$5, &_8$$5);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_9$$6);
 		ZEPHIR_INIT_NVAR(&_9$$6);
 		zephir_create_closure_ex(&_9$$6, NULL, phalcon_5__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_10$$6, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_9$$6, &_10$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_9$$6, &_10$$6);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_11, "unserialize", NULL, 17, &contents);
+	ZEPHIR_CALL_FUNCTION(&_11, "unserialize", NULL, 16, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_11);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 90);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 91);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "Cannot read annotation data", "phalcon/Annotations/Adapter/Stream.zep", 102);
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 15, data);
+	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 14, data);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_file_put_contents(&_4, &path, &code);

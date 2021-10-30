@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, PdoFactory, phalcon, db_adapter_pdofactory, phalcon_factory_abstractfactory_ce, phalcon_db_adapter_pdofactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_db_adapter_pdofactory_ce, SL("exception"), "Phalcon\\Db\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -122,13 +121,13 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 51);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 49);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 10, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 81, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -191,7 +190,21 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance)
 }
 
 /**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Db\\Exception");
+}
+
+/**
  * Returns the available adapters
+ *
+ * @return string[]
  */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getServices)
 {

@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 	}
 	if (mustClean) {
 		zephir_read_property(&_6$$7, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 511);
+		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_6$$7, "setcontent", NULL, 0, &_7$$7);
 		zephir_check_call_status();

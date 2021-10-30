@@ -10,47 +10,34 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use Phalcon\Support\Collection;
-use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Arr;
-use Phalcon\Storage\Exception;
+use DateInterval;
+use Exception as BaseException;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Support\Exception as SupportException;
 
 /**
  * Memory adapter
+ *
+ * @property array $data
+ * @property array $options
  */
 class Memory extends AbstractAdapter
 {
     /**
-     * @var Collection|CollectionInterface
-     */
-    protected data;
-
-    /**
      * @var array
      */
-    protected options = [];
+    protected data = [];
 
     /**
-     * Constructor
+     * Memory constructor.
      *
-     * @param array options = [
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => ''
-     * ]
+     * @param SerializerFactory $factory
+     * @param array             $options
+     *
+     * @throws SupportException
      */
     public function __construct(<SerializerFactory> factory, array! options = [])
     {
-        /**
-         * Lets set some defaults and options here
-         */
-        let this->prefix  = "ph-memo-",
-            this->options = options,
-            this->data    = new Collection();
-
         parent::__construct(factory, options);
 
         this->initSerializer();
@@ -61,7 +48,7 @@ class Memory extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        this->data->clear();
+        let this->data = [];
 
         return true;
     }
@@ -76,24 +63,22 @@ class Memory extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var current, newValue, prefixedKey, result;
+        var current, prefixedKey, result;
 
-        let prefixedKey = this->getPrefixedKey(key),
-            result      = this->data->has(prefixedKey);
+        let prefixedKey = this->getPrefixedKey(key);
 
-        if result {
-            let current  = this->data->get(prefixedKey),
-                newValue = (int) current - value,
-                result   = newValue;
-
-            this->data->set(prefixedKey, newValue);
+        if unlikely !fetch current, this->data[prefixedKey] {
+            return false;
         }
+
+        let result = (int) current - value,
+            this->data[prefixedKey] = result;
 
         return result;
     }
 
     /**
-     * Reads data from the adapter
+     * Deletes data from the adapter
      *
      * @param string $key
      *
@@ -104,9 +89,9 @@ class Memory extends AbstractAdapter
         var exists, prefixedKey;
 
         let prefixedKey = this->getPrefixedKey(key),
-            exists      = this->data->has(prefixedKey);
+            exists      = isset(this->data[prefixedKey]);
 
-        this->data->remove(prefixedKey);
+        unset(this->data[prefixedKey]);
 
         return exists;
     }
@@ -119,41 +104,26 @@ class Memory extends AbstractAdapter
      *
      * @return mixed
      */
-    public function get(string! key, var defaultValue = null) -> var
+    public function get(string key, defaultValue = null)
     {
         var content, prefixedKey;
 
-        if this->has(key) == false {
-            return defaultValue;
-        }
-
         let prefixedKey = this->getPrefixedKey(key),
-            content     = this->data->get(prefixedKey);
+            content     = this->data[prefixedKey];
 
-        return this->getUnserializedData(content);
-    }
-
-    /**
-     * Always returns null
-     *
-     * @return null
-     */
-    public function getAdapter() -> var
-    {
-        return this->adapter;
+        return this->getUnserializedData(content, defaultValue);
     }
 
     /**
      * Stores data in the adapter
      *
+     * @param string $prefix
+     *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys(string prefix = "") -> array
     {
-        return this->getFilteredKeys(
-            this->data->getKeys(),
-            prefix
-        );
+        return this->getFilteredKeys(array_keys(this->data), prefix);
     }
 
     /**
@@ -169,7 +139,7 @@ class Memory extends AbstractAdapter
 
         let prefixedKey = this->getPrefixedKey(key);
 
-        return this->data->has(prefixedKey);
+        return isset(this->data[prefixedKey]);
     }
 
     /**
@@ -182,18 +152,16 @@ class Memory extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var current, newValue, prefixedKey, result;
+        var current, prefixedKey, result;
 
-        let prefixedKey = this->getPrefixedKey(key),
-            result      = this->data->has(prefixedKey);
+        let prefixedKey = this->getPrefixedKey(key);
 
-        if result {
-            let current  = this->data->get(prefixedKey),
-                newValue = (int) current + value,
-                result   = newValue;
-
-            this->data->set(prefixedKey, newValue);
+        if unlikely !fetch current, this->data[prefixedKey] {
+            return false;
         }
+
+        let result = (int) current + value,
+            this->data[prefixedKey] = result;
 
         return result;
     }
@@ -201,11 +169,12 @@ class Memory extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param \DateInterval|int|null ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
+     * @throws BaseException
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
@@ -215,7 +184,7 @@ class Memory extends AbstractAdapter
             lifetime    = this->getTtl(ttl),
             prefixedKey = this->getPrefixedKey(key);
 
-        this->data->set(prefixedKey, content);
+        let this->data[prefixedKey] = content;
 
         return true;
     }

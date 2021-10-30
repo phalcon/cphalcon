@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger, AdapterFactory, phalcon, logger_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_logger_adapterfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_logger_adapterfactory_ce, SL("exception"), "Phalcon\\Logger\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -140,6 +139,23 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_AdapterFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Logger\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, getServices)
 {
 	zval *this_ptr = getThis();

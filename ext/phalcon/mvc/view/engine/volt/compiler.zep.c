@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 	}
 	if (Z_TYPE_P(&compiledPath) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(&compiledPath))) {
-			ZEPHIR_CALL_FUNCTION(&_10$$22, "realpath", NULL, 94, &templatePath);
+			ZEPHIR_CALL_FUNCTION(&_10$$22, "realpath", NULL, 95, &templatePath);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&templateSepPath);
 			zephir_prepare_virtual_path(&templateSepPath, &_10$$22, &compiledSeparator);
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 						return;
 					}
 					if (zephir_is_true(&blocksCode)) {
-						ZEPHIR_CALL_FUNCTION(&compilation, "unserialize", NULL, 17, &blocksCode);
+						ZEPHIR_CALL_FUNCTION(&compilation, "unserialize", NULL, 16, &blocksCode);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(&compilation);
@@ -1131,7 +1131,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile)
 	ZEPHIR_CALL_METHOD(&compilation, this_ptr, "compilesource", NULL, 0, &viewCode, &_4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&compilation) == IS_ARRAY) {
-		ZEPHIR_CALL_FUNCTION(&finalCompilation, "serialize", NULL, 15, &compilation);
+		ZEPHIR_CALL_FUNCTION(&finalCompilation, "serialize", NULL, 14, &compilation);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&finalCompilation, &compilation);
@@ -2974,7 +2974,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 		}
 		ZEPHIR_INIT_VAR(&_12$$5);
 		zephir_camelize(&_12$$5, &name, NULL  );
-		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 96, &_12$$5);
+		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 97, &_12$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&arrayHelpers);
 		zephir_create_array(&arrayHelpers, 16, 0);

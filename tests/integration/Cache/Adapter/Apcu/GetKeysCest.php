@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\Adapter\Apcu;
 
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception;
 use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
 
 class GetKeysCest
@@ -25,64 +27,48 @@ class GetKeysCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: getKeys()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-13
+     * @since  2020-09-09
      */
-    public function cacheAdapterApcuGetKeys(IntegrationTester $I)
+    public function storageAdapterApcuGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getKeys()');
 
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $adapter->clear();
+        $I->assertTrue($adapter->clear());
 
+        $adapter->set('key-1', 'test');
+        $adapter->set('key-2', 'test');
+        $adapter->set('one-1', 'test');
+        $adapter->set('one-2', 'test');
 
-        $key = 'key-1';
-
-        $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
-
-
-        $key = 'key-2';
-
-        $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
-
+        $I->assertTrue($adapter->has('key-1'));
+        $I->assertTrue($adapter->has('key-2'));
+        $I->assertTrue($adapter->has('one-1'));
+        $I->assertTrue($adapter->has('one-2'));
 
         $expected = [
             'ph-apcu-key-1',
             'ph-apcu-key-2',
+            'ph-apcu-one-1',
+            'ph-apcu-one-2',
         ];
         $actual   = $adapter->getKeys();
         sort($actual);
         $I->assertEquals($expected, $actual);
-    }
 
-    /**
-     * Tests Phalcon\Cache\Adapter\Apcu :: GetNoNExistingKeys()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-03-28
-     */
-    public function cacheAdapterApcuGetNoNExistingKeys(IntegrationTester $I)
-    {
-        $I->wantToTest('Cache\Adapter\Apcu - GetNoNExistingKeys()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Apcu($serializer);
-
-        $adapter->clear();
-        $key = 'random-non-existing-key';
-
-        $I->assertNull($adapter->get($key));
-        $I->assertEquals(123, $adapter->get($key, 123));
-        $I->assertFalse($adapter->get($key, false));
+        $expected = [
+            'ph-apcu-one-1',
+            'ph-apcu-one-2',
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $I->assertEquals($expected, $actual);
     }
 }

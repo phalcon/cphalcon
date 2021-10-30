@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
 
 use function getOptionsLibmemcached;
@@ -27,55 +29,47 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: increment()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-31
+     * @since  2020-09-09
      */
-    public function cacheAdapterLibmemcachedIncrement(IntegrationTester $I)
+    public function storageAdapterLibmemcachedIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - increment()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
-
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 1)
+        $adapter    = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
         );
+
+        $key    = uniqid();
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
 
         $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key, 8)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         /**
          * unknown key
          */
-        $key = 'unknown';
-
-        $I->assertFalse(
-            $adapter->increment($key)
-        );
+        $key    = uniqid();
+        $result = $adapter->increment($key);
+        $I->assertFalse($result);
     }
 }

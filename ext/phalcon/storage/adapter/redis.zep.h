@@ -13,8 +13,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, has);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, increment);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, set);
+PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth);
+PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect);
+PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkIndex);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer);
-zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Redis(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_redis___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 0)
@@ -64,11 +66,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_se
 	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_redis_setserializer, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkauth, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_redis_zephir_init_properties_phalcon_storage_adapter_redis, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkconnect, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkindex, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_setserializer, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_redis_method_entry) {
@@ -86,6 +98,9 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_redis_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Redis, has, arginfo_phalcon_storage_adapter_redis_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, increment, arginfo_phalcon_storage_adapter_redis_increment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, set, arginfo_phalcon_storage_adapter_redis_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Redis, checkAuth, arginfo_phalcon_storage_adapter_redis_checkauth, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Storage_Adapter_Redis, checkConnect, arginfo_phalcon_storage_adapter_redis_checkconnect, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Storage_Adapter_Redis, checkIndex, arginfo_phalcon_storage_adapter_redis_checkindex, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, setSerializer, arginfo_phalcon_storage_adapter_redis_setserializer, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

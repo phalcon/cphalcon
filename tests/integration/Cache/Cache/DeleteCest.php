@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +27,7 @@ class DeleteCest
      * Tests Phalcon\Cache :: delete()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheDelete(IntegrationTester $I)
     {
@@ -44,36 +44,20 @@ class DeleteCest
         $key2 = uniqid();
 
         $adapter->set($key1, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
-
+        $I->assertTrue($adapter->has($key1));
 
         $adapter->set($key2, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
-
-        $I->assertTrue(
-            $adapter->delete($key1)
-        );
-
-        $I->assertFalse(
-            $adapter->has($key1)
-        );
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $I->assertTrue($adapter->has($key2));
+        $I->assertTrue($adapter->delete($key1));
+        $I->assertFalse($adapter->has($key1));
+        $I->assertTrue($adapter->has($key2));
     }
 
     /**
      * Tests Phalcon\Cache :: delete() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheDeleteException(IntegrationTester $I)
     {

@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Security_Random, base64)
 	ZVAL_LONG(&_1, len);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "bytes", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 193, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 200, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe)
 	ZVAL_LONG(&_1, len);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "base64", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "base64_encode", NULL, 193, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "base64_encode", NULL, 200, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "+/");
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Security_Random, hex)
 	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 0, &_2, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&_3);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_shift", NULL, 23, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_shift", NULL, 24, &_3);
 	ZEPHIR_UNREF(&_3);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Security_Random, uuid)
 	ZVAL_STRING(&_2, "N1a/n1b/n1c/n1d/n1e/N1f");
 	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 0, &_2, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 14, &_3);
+	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 13, &_3);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_4, &ary, 2, PH_NOISY | PH_READONLY, "phalcon/Security/Random.zep", 310);
 	ZEPHIR_INIT_NVAR(&_2);

@@ -19,8 +19,6 @@ use Phalcon\Helper\Arr;
  */
 class AnnotationsFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Annotations\\Exception";
-
     /**
      * AdapterFactory constructor.
      */
@@ -79,7 +77,17 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
-     * The available adapters
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Annotations\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {

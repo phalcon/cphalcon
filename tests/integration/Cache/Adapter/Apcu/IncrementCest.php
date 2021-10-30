@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Apcu;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception;
 use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
 
 class IncrementCest
@@ -25,44 +26,36 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: increment()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-31
+     * @since  2020-09-09
      */
-    public function cacheAdapterApcuIncrement(IntegrationTester $I)
+    public function storageAdapterApcuIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - increment()');
 
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 1)
-        );
+        $key    = uniqid();
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
 
         $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key, 8)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 }

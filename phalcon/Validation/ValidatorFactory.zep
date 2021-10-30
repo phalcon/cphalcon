@@ -15,8 +15,6 @@ use Phalcon\Helper\Arr;
 
 class ValidatorFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Validation\\Exception";
-
     /**
      * TagFactory constructor.
      */
@@ -37,6 +35,19 @@ class ValidatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Validation\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

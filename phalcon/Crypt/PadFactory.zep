@@ -22,11 +22,6 @@ use Phalcon\Helper\Arr;
 class PadFactory extends AbstractFactory
 {
     /**
-     * @var string
-     */
-    protected exception = "Phalcon\\Crypt\\Exception\\Exception";
-
-    /**
      * AdapterFactory constructor.
      */
     public function __construct(array! services = [])
@@ -71,6 +66,16 @@ class PadFactory extends AbstractFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Crypt\\Exception\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
      * @return string[]
      */
     protected function getServices() -> array

@@ -28,6 +28,12 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Interpolates context values into the message placeholders. By default, the
+ * right and left tokens are `%`
+ *
+ * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Interpolate)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Str, Interpolate, phalcon, support_helper_str_interpolate, phalcon_support_helper_str_interpolate_method_entry, 0);
@@ -36,10 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Interpolate)
 }
 
 /**
- * Interpolates context values into the message placeholders
- *
- * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
- *
  * @param string $message
  * @param array  $context
  */
@@ -102,7 +104,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	if (!(ZEPHIR_IS_EMPTY(&context))) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);
-		zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/Interpolate.zep", 39);
+		zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/Interpolate.zep", 41);
 		if (Z_TYPE_P(&context) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _2$$3, _3$$3, _0$$3)
 			{

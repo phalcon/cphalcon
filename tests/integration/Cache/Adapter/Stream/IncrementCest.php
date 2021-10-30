@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 use function outputDir;
 
@@ -24,41 +26,47 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: increment()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterStreamIncrement(IntegrationTester $I)
+    public function storageAdapterStreamIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - increment()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 1);
-        $I->assertTrue($result);
+        $key    = uniqid();
+        $actual = $adapter->set($key, 1);
+        $I->assertTrue($actual);
 
         $expected = 2;
         $actual   = $adapter->increment($key);
         $I->assertEquals($expected, $actual);
-
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
 
         $expected = 10;
         $actual   = $adapter->increment($key, 8);
         $I->assertEquals($expected, $actual);
-
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
 
         /**
          * unknown key
          */
-        $key    = 'unknown';
-        $result = $adapter->increment($key);
-        $I->assertFalse($result);
+        $key    = uniqid();
+        $actual = $adapter->increment($key);
+        $I->assertFalse($actual);
     }
 }

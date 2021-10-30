@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception;
 use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
-use IntegrationTester;
 
 class IncrementCest
 {
@@ -25,8 +26,12 @@ class IncrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: increment()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-31
+     * @since  2020-09-09
      */
     public function storageAdapterApcuIncrement(IntegrationTester $I)
     {
@@ -35,7 +40,7 @@ class IncrementCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $key    = 'cache-data';
+        $key    = uniqid();
         $result = $adapter->set($key, 1);
         $I->assertTrue($result);
 

@@ -11,39 +11,33 @@
 namespace Phalcon\Storage\Adapter;
 
 use APCuIterator;
-use Phalcon\Helper\Arr;
-use Phalcon\Storage\Exception;
+use DateInterval;
+use Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Support\Exception as SupportException;
 
 /**
  * Apcu adapter
+ *
+ * @property array $options
  */
 class Apcu extends AbstractAdapter
 {
     /**
-     * @var array
+     * @var string
      */
-    protected options = [];
+    protected prefix = "ph-apcu-";
 
     /**
-     * Constructor
+     * Apcu constructor.
      *
-     * @param array options = [
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => ''
-     * ]
+     * @param SerializerFactory $factory
+     * @param array             $options
+     *
+     * @throws SupportException
      */
     public function __construct(<SerializerFactory> factory, array! options = [])
     {
-        /**
-         * Lets set some defaults and options here
-         */
-        let this->prefix  = "ph-apcu-",
-            this->options = options;
-
         parent::__construct(factory, options);
 
         this->initSerializer();
@@ -102,36 +96,24 @@ class Apcu extends AbstractAdapter
     /**
      * Reads data from the adapter
      *
-     * @param string $key
-     * @param mixed|null   $defaultValue
+     * @param string     $key
+     * @param mixed|null $defaultValue
      *
      * @return mixed
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-    	var content;
-
-    	if this->has(key) == false {
-            return defaultValue;
-        }
+        var content;
 
         let content = apcu_fetch(this->getPrefixedKey(key));
 
-        return this->getUnserializedData(content);
-    }
-
-    /**
-     * Always returns null
-     *
-     * @return null
-     */
-    public function getAdapter() -> var
-    {
-        return this->adapter;
+        return this->getUnserializedData(content, defaultValue);
     }
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $prefix
      *
      * @return array
      */
@@ -164,7 +146,11 @@ class Apcu extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        return apcu_exists(this->getPrefixedKey(key));
+        var result;
+
+        let result = apcu_exists(this->getPrefixedKey(key));
+
+        return typeof result === "bool" ? result : false;
     }
 
     /**
@@ -183,19 +169,23 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string                    $key
-     * @param mixed                    $value
-     * @param \DateInterval|int|null   $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        return apcu_store(
+        var result;
+
+        let result = apcu_store(
             this->getPrefixedKey(key),
             this->getSerializedData(value),
             this->getTtl(ttl)
         );
+
+        return typeof result === "bool" ? result : false;
     }
 }

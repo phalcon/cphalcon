@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -32,25 +32,27 @@
 /**
  * This component offers caching capabilities for your application.
  * Phalcon\Cache implements PSR-16.
+ *
+ * @property AdapterInterface $adapter
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cache)
+ZEPHIR_INIT_CLASS(Phalcon_Cache_Cache)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon, Cache, phalcon, cache, phalcon_cache_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, Cache, phalcon, cache_cache, phalcon_cache_cache_method_entry, 0);
 
 	/**
 	 * The adapter
 	 *
 	 * @var AdapterInterface
 	 */
-	zend_declare_property_null(phalcon_cache_ce, SL("adapter"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_cache_ce, 1, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")));
+	zend_declare_property_null(phalcon_cache_cache_ce, SL("adapter"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_cache_cache_ce, 1, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")));
 	return SUCCESS;
 }
 
 /**
  * The adapter
  */
-PHP_METHOD(Phalcon_Cache, getAdapter)
+PHP_METHOD(Phalcon_Cache_Cache, getAdapter)
 {
 	zval *this_ptr = getThis();
 
@@ -62,9 +64,9 @@ PHP_METHOD(Phalcon_Cache, getAdapter)
 /**
  * Constructor.
  *
- * @param AdapterInterface  adapter The cache adapter
+ * @param AdapterInterface $adapter The cache adapter
  */
-PHP_METHOD(Phalcon_Cache, __construct)
+PHP_METHOD(Phalcon_Cache_Cache, __construct)
 {
 	zval *adapter, adapter_sub;
 	zval *this_ptr = getThis();
@@ -89,7 +91,7 @@ PHP_METHOD(Phalcon_Cache, __construct)
  *
  * @return bool True on success and false on failure.
  */
-PHP_METHOD(Phalcon_Cache, clear)
+PHP_METHOD(Phalcon_Cache_Cache, clear)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -112,11 +114,13 @@ PHP_METHOD(Phalcon_Cache, clear)
  *
  * @param string $key The unique cache key of the item to delete.
  *
- * @return bool True if the item was successfully removed. False if there was an error.
+ * @return bool True if the item was successfully removed. False if there
+ *              was an error.
  *
- * @throws InvalidArgumentException MUST be thrown if the $key string is not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if the $key string is
+ *                                  not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, delete)
+PHP_METHOD(Phalcon_Cache_Cache, delete)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -155,11 +159,14 @@ PHP_METHOD(Phalcon_Cache, delete)
  *
  * @param iterable $keys A list of string-based keys to be deleted.
  *
- * @return bool True if the items were successfully removed. False if there was an error.
+ * @return bool True if the items were successfully removed. False if there
+ *              was an error.
  *
- * @throws InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if $keys is neither an
+ *                                  array nor a Traversable, or if any of
+ *                                  the $keys are not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, deleteMultiple)
+PHP_METHOD(Phalcon_Cache_Cache, deleteMultiple)
 {
 	zend_bool result = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -189,7 +196,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 93);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/Cache.zep", 100);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -231,13 +238,16 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple)
  * Fetches a value from the cache.
  *
  * @param string $key          The unique key of this item in the cache.
- * @param mixed  $defaultValue Default value to return if the key does not exist.
+ * @param mixed  $defaultValue Default value to return if the key does
+ *                             not exist.
  *
- * @return mixed The value of the item from the cache, or $default in case of cache miss.
+ * @return mixed The value of the item from the cache, or $default in case
+ * of cache miss.
  *
- * @throws InvalidArgumentException MUST be thrown if the $key string is not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if the $key string is
+ * not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, get)
+PHP_METHOD(Phalcon_Cache_Cache, get)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -282,14 +292,18 @@ PHP_METHOD(Phalcon_Cache, get)
 /**
  * Obtains multiple cache items by their unique keys.
  *
- * @param iterable $keys         A list of keys that can obtained in a single operation.
- * @param mixed    $defaultValue Default value to return for keys that do not exist.
+ * @param iterable $keys        A list of keys that can obtained in a
+ *                              single operation.
+ * @param mixed    defaultValue Default value to return for keys that do
+ *                              not exist.
  *
- * @return iterable A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
+ * @return iterable<array-key, mixed> A list of key => value pairs. Cache
+ * keys that do not exist or are stale will have $default as value.
  *
- * @throws InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if $keys is neither an
+ * array nor a Traversable, or if any of the $keys are not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, getMultiple)
+PHP_METHOD(Phalcon_Cache_Cache, getMultiple)
 {
 	zval results;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -328,7 +342,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 137);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/Cache.zep", 151);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -367,9 +381,10 @@ PHP_METHOD(Phalcon_Cache, getMultiple)
  *
  * @return bool
  *
- * @throws InvalidArgumentException MUST be thrown if the $key string is not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if the $key string is
+ * not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, has)
+PHP_METHOD(Phalcon_Cache_Cache, has)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -404,19 +419,24 @@ PHP_METHOD(Phalcon_Cache, has)
 }
 
 /**
- * Persists data in the cache, uniquely referenced by a key with an optional expiration TTL time.
+ * Persists data in the cache, uniquely referenced by a key with an optional
+ * expiration TTL time.
  *
- * @param string                 $key   The key of the item to store.
- * @param mixed                  $value The value of the item to store. Must be serializable.
- * @param null|int|\DateInterval $ttl   Optional. The TTL value of this item. If no value is sent and
- *                                      the driver supports TTL then the library may set a default value
- *                                      for it or let the driver take care of that.
+ * @param string                $key    The key of the item to store.
+ * @param mixed                 $value  The value of the item to store.
+ *                                      Must be serializable.
+ * @param null|int|DateInterval $ttl    Optional. The TTL value of this
+ *                                      item. If no value is sent and the
+ *                                      driver supports TTL then the library
+ *                                      may set a default value for it or
+ *                                      let the driver take care of that.
  *
  * @return bool True on success and false on failure.
  *
- * @throws InvalidArgumentException MUST be thrown if the $key string is not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if the $key string is not
+ * a legal value.
  */
-PHP_METHOD(Phalcon_Cache, set)
+PHP_METHOD(Phalcon_Cache_Cache, set)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -463,16 +483,21 @@ PHP_METHOD(Phalcon_Cache, set)
 /**
  * Persists a set of key => value pairs in the cache, with an optional TTL.
  *
- * @param iterable               $values A list of key => value pairs for a multiple-set operation.
- * @param null|int|\DateInterval $ttl    Optional. The TTL value of this item. If no value is sent and
- *                                       the driver supports TTL then the library may set a default value
- *                                       for it or let the driver take care of that.
+ * @param iterable              $values A list of key => value pairs for a
+ *                                      multiple-set operation.
+ * @param null|int|DateInterval $ttl    Optional. The TTL value of this
+ *                                      item. If no value is sent and the
+ *                                      driver supports TTL then the
+ *                                      library may set a default value for
+ *                                      it or let the driver take care of
+ *                                      that.
  *
  * @return bool True on success and false on failure.
  *
- * @throws InvalidArgumentException MUST be thrown if $values is neither an array nor a Traversable, or if any of the $values are not a legal value.
+ * @throws InvalidArgumentException MUST be thrown if $values is neither an
+ * array nor a Traversable, or if any of the $values are not a legal value.
  */
-PHP_METHOD(Phalcon_Cache, setMultiple)
+PHP_METHOD(Phalcon_Cache_Cache, setMultiple)
 {
 	zend_string *_3;
 	zend_ulong _2;
@@ -512,7 +537,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache.zep", 206);
+	zephir_is_iterable(values, 0, "phalcon/Cache/Cache.zep", 231);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{
@@ -559,8 +584,12 @@ PHP_METHOD(Phalcon_Cache, setMultiple)
 
 /**
  * Checks the key. If it contains invalid characters an exception is thrown
+ *
+ * @param mixed $key
+ *
+ * @throws InvalidArgumentException
  */
-PHP_METHOD(Phalcon_Cache, checkKey)
+PHP_METHOD(Phalcon_Cache_Cache, checkKey)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, _0, _1, _2, _3;
@@ -593,7 +622,7 @@ PHP_METHOD(Phalcon_Cache, checkKey)
 	ZVAL_STRING(&_3, "/[^A-Za-z0-9-_.]/");
 	zephir_preg_match(&_2, &_3, &key, &_0, 0, 0 , 0 );
 	if (zephir_is_true(&_2)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache.zep", 217);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache/Cache.zep", 246);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -601,8 +630,12 @@ PHP_METHOD(Phalcon_Cache, checkKey)
 
 /**
  * Checks the key. If it contains invalid characters an exception is thrown
+ *
+ * @param mixed $keys
+ *
+ * @throws InvalidArgumentException
  */
-PHP_METHOD(Phalcon_Cache, checkKeys)
+PHP_METHOD(Phalcon_Cache_Cache, checkKeys)
 {
 	zend_bool _0;
 	zval *keys, keys_sub;
@@ -625,7 +658,7 @@ PHP_METHOD(Phalcon_Cache, checkKeys)
 		_0 = zephir_zval_is_traversable(keys);
 	}
 	if (!(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache.zep", 229);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache/Cache.zep", 262);
 		return;
 	}
 }

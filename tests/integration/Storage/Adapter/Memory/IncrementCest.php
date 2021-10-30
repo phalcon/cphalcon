@@ -13,17 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Memory;
 
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
+use Phalcon\Support\Exception as HelperException;
 
 class IncrementCest
 {
     /**
      * Tests Phalcon\Storage\Adapter\Memory :: increment()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-31
+     * @since  2020-09-09
      */
     public function storageAdapterMemoryIncrement(IntegrationTester $I)
     {
@@ -32,7 +37,7 @@ class IncrementCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $key    = 'cache-data';
+        $key    = uniqid();
         $result = $adapter->set($key, 1);
         $I->assertTrue($result);
 

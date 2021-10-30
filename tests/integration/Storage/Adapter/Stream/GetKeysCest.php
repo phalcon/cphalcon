@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Stream;
 
-use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 use function outputDir;
 use function sort;
@@ -26,16 +28,20 @@ class GetKeysCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-24
+     * @since  2020-09-09
      */
     public function storageAdapterStreamGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - getKeys()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $adapter    = new Stream(
             $serializer,
             [
                 'storageDir' => outputDir(),
@@ -49,10 +55,14 @@ class GetKeysCest
         $key3 = uniqid('one');
         $key4 = uniqid('one');
 
-        $adapter->set($key1, 'test');
-        $adapter->set($key2, 'test');
-        $adapter->set($key3, 'test');
-        $adapter->set($key4, 'test');
+        $result = $adapter->set($key1, 'test');
+        $I->assertNotFalse($result);
+        $result = $adapter->set($key2, 'test');
+        $I->assertNotFalse($result);
+        $result = $adapter->set($key3, 'test');
+        $I->assertNotFalse($result);
+        $result = $adapter->set($key4, 'test');
+        $I->assertNotFalse($result);
 
         $I->assertTrue($adapter->has($key1));
         $I->assertTrue($adapter->has($key2));
@@ -83,16 +93,21 @@ class GetKeysCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
      *
-     * @author       ekmst <https://github.com/ekmst>
-     * @since        2019-06-26
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
+     *
+     * @author ekmst <https://github.com/ekmst>
+     * @since  2020-09-09
+     * @issue  cphalcon/#14190
      */
     public function storageAdapterStreamGetKeysIssue14190(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - getKeys() - issue 14190');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $adapter    = new Stream(
             $serializer,
             [
                 'storageDir' => outputDir(),
@@ -102,8 +117,10 @@ class GetKeysCest
 
         $adapter->clear();
 
-        $adapter->set('key', 'test');
-        $adapter->set('key1', 'test');
+        $actual = $adapter->set('key', 'test');
+        $I->assertNotFalse($actual);
+        $actual = $adapter->set('key1', 'test');
+        $I->assertNotFalse($actual);
 
         $expected = [
             'basePrefix-key',
@@ -116,9 +133,8 @@ class GetKeysCest
         $I->assertEquals($expected, $actual);
 
         foreach ($expected as $key) {
-            $I->assertTrue(
-                $adapter->delete($key)
-            );
+            $actual = $adapter->delete($key);
+            $I->assertTrue($actual);
         }
 
         $I->safeDeleteDirectory(outputDir('basePrefix-'));
@@ -127,16 +143,21 @@ class GetKeysCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
      *
-     * @author       ekmst <https://github.com/ekmst>
-     * @since        2020-01-17
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
+     *
+     * @author ekmst <https://github.com/ekmst>
+     * @since  2020-09-09
+     * @issue  cphalcon/#14190
      */
     public function storageAdapterStreamGetKeysPrefix(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - getKeys() - prefix');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $adapter    = new Stream(
             $serializer,
             [
                 'storageDir' => outputDir(),
@@ -144,13 +165,19 @@ class GetKeysCest
             ]
         );
 
-        $I->assertTrue($adapter->clear());
-        $I->assertEmpty($adapter->getKeys());
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
+        $actual = $adapter->getKeys();
+        $I->assertEmpty($actual);
 
-        $adapter->set('key', 'test');
-        $adapter->set('key1', 'test');
-        $adapter->set('somekey', 'test');
-        $adapter->set('somekey1', 'test');
+        $actual = $adapter->set('key', 'test');
+        $I->assertNotFalse($actual);
+        $actual = $adapter->set('key1', 'test');
+        $I->assertNotFalse($actual);
+        $actual = $adapter->set('somekey', 'test');
+        $I->assertNotFalse($actual);
+        $actual = $adapter->set('somekey1', 'test');
+        $I->assertNotFalse($actual);
 
         $expected = [
             'pref-key',
@@ -162,16 +189,17 @@ class GetKeysCest
         sort($actual);
         $I->assertEquals($expected, $actual);
 
-        $expected1 = [
+        $expected = [
             'pref-somekey',
             'pref-somekey1',
         ];
 
-        $actual1 = $adapter->getKeys('so');
-        sort($actual1);
-        $I->assertEquals($expected1, $actual1);
+        $actual = $adapter->getKeys('so');
+        sort($actual);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertTrue($adapter->clear());
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
 
         $I->safeDeleteDirectory(outputDir('pref-'));
     }

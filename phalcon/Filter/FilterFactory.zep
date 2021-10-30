@@ -30,6 +30,11 @@ class FilterFactory
         return new Filter(this->getServices());
     }
 
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Serializer\Igbinary;
 
-use Phalcon\Storage\Serializer\Igbinary;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\Igbinary;
 
 class SetDataCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Igbinary :: getData()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-30
+     * @since  2020-09-09
      */
     public function storageSerializerIgbinarySetData(IntegrationTester $I)
     {
