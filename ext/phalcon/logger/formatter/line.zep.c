@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	ZEPHIR_CALL_METHOD(&_3, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&context, SL("message"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 429, &format, &context);
+	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 434, &format, &context);
 	zephir_check_call_status();
 	RETURN_MM();
 }

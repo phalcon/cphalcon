@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken)
 	}
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getclaims", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_2, phalcon_helper_json_ce, "encode", &_3, 16, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_2, phalcon_helper_json_ce, "encode", &_3, 15, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_CE_STATIC(&encodedClaims, phalcon_helper_base64_ce, "encodeurl", &_1, 0, &_2);
 	zephir_check_call_status();
@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_json_ce, "encode", &_3, 16, &_7);
+	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_json_ce, "encode", &_3, 15, &_7);
 	zephir_check_call_status();
 	ZEPHIR_CALL_CE_STATIC(&encodedHeaders, phalcon_helper_base64_ce, "encodeurl", &_1, 0, &_6);
 	zephir_check_call_status();

@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
@@ -32,12 +32,8 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Factory, AbstractFactory, phalcon, factory_abstractfactory, phalcon_factory_abstractfactory_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Factory, AbstractFactory, phalcon, factory_abstractfactory, phalcon_factory_abstractconfigfactory_ce, phalcon_factory_abstractfactory_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_factory_abstractfactory_ce, SL("exception"), "Phalcon\\Exception", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
@@ -52,68 +48,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory)
 }
 
 /**
- * Checks the config if it is a valid object
- */
-PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig)
-{
-	zend_bool _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, _1$$3, _2$$4, _3$$4, _4$$5, _5$$5;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&config_sub);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_5$$5);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(config)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &config);
-	ZEPHIR_SEPARATE_PARAM(config);
-
-
-	_0 = Z_TYPE_P(config) == IS_OBJECT;
-	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
-	}
-	if (_0) {
-		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(config, &_1$$3);
-	}
-	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(&_3$$4);
-		ZVAL_STRING(&_3$$4, "Config must be array or Phalcon\\Config\\Config object");
-		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getexception", NULL, 0, &_3$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Factory/AbstractFactory.zep", 43);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_INIT_VAR(&_5$$5);
-		ZVAL_STRING(&_5$$5, "You must provide 'adapter' option in factory config parameter.");
-		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "getexception", NULL, 0, &_5$$5);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Factory/AbstractFactory.zep", 49);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETVAL_ZVAL(config, 1, 0);
-	RETURN_MM();
-}
-
-/**
  * Returns the adapters for the factory
+ *
+ * @return string[]
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getServices)
 {
@@ -163,12 +100,12 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "getexception", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 66);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 40);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 69);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 43);
 	RETURN_CTOR(&_4);
 }
 
@@ -217,7 +154,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &adapters, &services);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
-	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 86);
+	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 60);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
 		{
@@ -258,48 +195,6 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZEPHIR_INIT_NVAR(&service);
 	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Returns the exception object for the child class
- */
-PHP_METHOD(Phalcon_Factory_AbstractFactory, getException)
-{
-	zend_class_entry *_2;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, exception, _0, _1;
-	zval message;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&exception);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(message)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
-	zephir_get_strval(&message, message_param);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("exception"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&exception, &_0);
-	zephir_fetch_safe_class(&_1, &exception);
-	_2 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1), Z_STRLEN_P(&_1), ZEND_FETCH_CLASS_AUTO);
-	if(!_2) {
-		RETURN_MM_NULL();
-	}
-	object_init_ex(return_value, _2);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &message);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type)

@@ -36,7 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, TagFactory, phalcon, html_tagfactory, phalcon_factory_abstractfactory_ce, phalcon_html_tagfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_html_tagfactory_ce, SL("exception"), "Phalcon\\Html\\Exception", ZEND_ACC_PROTECTED);
 	/**
 	 * @var EscaperInterface
 	 */
@@ -134,10 +133,27 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 59);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 57);
 	RETURN_CTOR(&_5);
 }
 
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Html_TagFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Html\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 {
 	zval *this_ptr = getThis();

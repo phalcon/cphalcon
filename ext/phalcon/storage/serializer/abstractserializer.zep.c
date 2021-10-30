@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -24,6 +25,13 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ */
+/**
+ * Class AbstractSerializer
+ *
+ * @package Phalcon\Storage\Serializer
+ *
+ * @property mixed $data
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 {
@@ -38,10 +46,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 }
 
 /**
- * Constructor
+ * Constructor.
+ *
+ * @param mixed|null $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL, data_sub, __$null;
 	zval *this_ptr = getThis();
 
@@ -56,18 +68,25 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(0, 1, &data);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &data);
 	if (!data) {
 		data = &data_sub;
 		data = &__$null;
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdata", NULL, 0, data);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * If this returns true, then the data returns back as is
+ *
+ * @param mixed $data
+ *
+ * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 {

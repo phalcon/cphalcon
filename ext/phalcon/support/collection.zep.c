@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Support_Collection, get)
 	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Support/Collection.zep", 135);
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 12, &value, &cast);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 11, &value, &cast);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Support_Collection, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 13, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 12, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Support_Collection, getValues)
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Support_Collection, serialize)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 15, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 14, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Support_Collection, toJson)
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, options);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 16, &_1, &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 15, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Support_Collection, unserialize)
 
 	zephir_cast_to_string(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 17, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 16, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();

@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain)
  * ```
  *
  * @param int   $category
- * @param array $locale
+ * @param array $localeArray
  *
  * @return false|string
  */

@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, SerializerFactory, phalcon, storage_serializerfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_serializerfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_storage_serializerfactory_ce, SL("exception"), "Phalcon\\Storage\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -119,6 +118,23 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Storage_SerializerFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Storage\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
 PHP_METHOD(Phalcon_Storage_SerializerFactory, getServices)
 {
 	zval *this_ptr = getThis();

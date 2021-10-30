@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create)
 
 	ZEPHIR_INIT_VAR(&form);
 	object_init_ex(&form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 259, entity);
+	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 264, entity);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("forms"), &name, &form);
 	RETURN_CCTOR(&form);

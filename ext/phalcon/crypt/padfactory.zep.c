@@ -38,10 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt_PadFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Crypt, PadFactory, phalcon, crypt_padfactory, phalcon_factory_abstractfactory_ce, phalcon_crypt_padfactory_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_crypt_padfactory_ce, SL("exception"), "Phalcon\\Crypt\\Exception\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -166,12 +162,26 @@ PHP_METHOD(Phalcon_Crypt_PadFactory, padNumberToService)
 	ZVAL_LONG(&_1, number);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 10, &map, &_1, &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 81, &map, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Crypt_PadFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Crypt\\Exception\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
  * @return string[]
  */
 PHP_METHOD(Phalcon_Crypt_PadFactory, getServices)
