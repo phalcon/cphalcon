@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Stream;
 
-use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 use function outputDir;
 
@@ -25,63 +26,47 @@ class IncrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: increment()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterStreamIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - increment()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $adapter    = new Stream(
             $serializer,
             [
                 'storageDir' => outputDir(),
             ]
         );
 
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 1)
-        );
-
+        $key    = uniqid();
+        $actual = $adapter->set($key, 1);
+        $I->assertTrue($actual);
 
         $expected = 2;
-
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 10;
-
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key, 8)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         /**
          * unknown key
          */
-        $key = 'unknown';
-
-        $I->assertFalse(
-            $adapter->increment($key)
-        );
+        $key    = uniqid();
+        $actual = $adapter->increment($key);
+        $I->assertFalse($actual);
     }
 }

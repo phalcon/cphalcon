@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Serializer\Php;
 
 use Codeception\Example;
+use IntegrationTester;
 use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Php;
 use stdClass;
-use IntegrationTester;
+
+use function serialize;
 
 class UnserializeCest
 {
@@ -26,8 +28,11 @@ class UnserializeCest
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-30
+     * @since        2020-09-09
      */
     public function storageSerializerPhpUnserialize(IntegrationTester $I, Example $example)
     {
@@ -35,21 +40,20 @@ class UnserializeCest
 
         $serializer = new Php();
 
-        $expected = $example[1];
 
         $serializer->unserialize($example[2]);
 
-        $I->assertEquals(
-            $expected,
-            $serializer->getData()
-        );
+        $expected = $example[1];
+        $actual   = $serializer->getData();
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error not string
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-11-21
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageSerializerPhpUnserializeErrorNotString(IntegrationTester $I)
     {
@@ -70,8 +74,8 @@ class UnserializeCest
     /**
      * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-11-21
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageSerializerPhpUnserializeError(IntegrationTester $I)
     {
@@ -90,27 +94,27 @@ class UnserializeCest
             [
                 'null',
                 null,
-                null,
+                serialize(null),
             ],
             [
                 'true',
                 true,
-                true,
+                serialize(true),
             ],
             [
                 'false',
                 false,
-                false,
+                serialize(false),
             ],
             [
                 'integer',
                 1234,
-                1234,
+                serialize(1234),
             ],
             [
                 'float',
                 1.234,
-                1.234,
+                serialize(1.234),
             ],
             [
                 'string',

@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\CacheFactory;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
-use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use Psr\SimpleCache\CacheInterface;
-use IntegrationTester;
 
 class LoadCest
 {
@@ -62,19 +61,14 @@ class LoadCest
     private function runTests(IntegrationTester $I, $options)
     {
         $cacheFactory = new CacheFactory(
-            new AdapterFactory(new SerializerFactory())
+            new AdapterFactory(
+                new SerializerFactory()
+            )
         );
 
         $adapter = $cacheFactory->load($options);
 
-        $I->assertInstanceOf(
-            Cache::class,
-            $adapter
-        );
-
-        $I->assertInstanceOf(
-            CacheInterface::class,
-            $adapter
-        );
+        $I->assertInstanceOf(Cache::class, $adapter);
+        $I->assertInstanceOf(CacheInterface::class, $adapter);
     }
 }

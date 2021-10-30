@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Serializer\Msgpack;
 
-use Phalcon\Storage\Serializer\Msgpack;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\Msgpack;
 
 class SetDataCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Msgpack :: getData()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-30
+     * @since  2020-09-09
      */
     public function storageSerializerMsgpackSetData(IntegrationTester $I)
     {

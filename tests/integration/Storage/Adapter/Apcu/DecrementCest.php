@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
-use Exception;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as ExceptionAlias;
 use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
-use IntegrationTester;
 
 class DecrementCest
 {
@@ -26,10 +26,12 @@ class DecrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: decrement()
      *
-     * @throws Exception
-     * @since  2019-03-31
+     * @param IntegrationTester $I
+     *
+     * @throws ExceptionAlias
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterApcuDecrement(IntegrationTester $I)
     {

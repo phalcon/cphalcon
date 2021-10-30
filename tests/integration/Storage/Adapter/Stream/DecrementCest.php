@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Stream;
 
-use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 use function outputDir;
 
@@ -25,61 +26,50 @@ class DecrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: decrement()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterStreamDecrement(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - decrement()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $adapter    = new Stream(
             $serializer,
             [
                 'storageDir' => outputDir(),
             ]
         );
 
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 100)
-        );
+        $key    = uniqid();
+        $actual = $adapter->set($key, 100);
+        $I->assertTrue($actual);
 
         $expected = 99;
+        $actual   = $adapter->decrement($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->decrement($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 90;
-        $I->assertEquals(
-            $expected,
-            $adapter->decrement($key, 9)
-        );
+        $actual   = $adapter->decrement($key, 9);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         /**
          * unknown key
          */
-        $key = 'unknown';
-
-        $I->assertFalse(
-            $adapter->decrement($key)
-        );
+        $key    = uniqid();
+        $actual = $adapter->decrement($key);
+        $I->assertFalse($actual);
 
         $I->safeDeleteDirectory(outputDir('ph-strm'));
     }

@@ -13,10 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Serializer\Msgpack;
 
-use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
-use IntegrationTester;
 
 use function msgpack_pack;
 
@@ -25,70 +24,69 @@ class SerializeCest
     /**
      * Tests Phalcon\Storage\Serializer\Msgpack :: serialize()
      *
-     * @note         dataProvider is not used here, it messes up console output
+     * @param IntegrationTester $I
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-30
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageSerializerMsgpackSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Msgpack - serialize()');
 
-        foreach ($this->getExamples() as $example) {
-            $serializer = new Msgpack($example[1]);
+        // null
+        $source     = null;
+        $serializer = new Msgpack($source);
+        $expected   = null;
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
 
-            $expected = $example[2];
+        // true
+        $source     = true;
+        $serializer = new Msgpack($source);
+        $expected   = true;
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
 
-            $I->assertEquals(
-                $expected,
-                $serializer->serialize()
-            );
-        }
-    }
+        // false
+        $source     = false;
+        $serializer = new Msgpack($source);
+        $expected   = false;
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
 
-    private function getExamples(): array
-    {
-        return [
-            [
-                'null',
-                null,
-                null,
-            ],
-            [
-                'true',
-                true,
-                true,
-            ],
-            [
-                'false',
-                false,
-                false,
-            ],
-            [
-                'integer',
-                1234,
-                1234,
-            ],
-            [
-                'float',
-                1.234,
-                1.234,
-            ],
-            [
-                'string',
-                'Phalcon Framework',
-                msgpack_pack('Phalcon Framework'),
-            ],
-            [
-                'array',
-                ['Phalcon Framework'],
-                msgpack_pack(['Phalcon Framework']),
-            ],
-            [
-                'object',
-                new stdClass(),
-                msgpack_pack(new stdClass()),
-            ],
-        ];
+        // integer
+        $source     = 1234;
+        $serializer = new Msgpack($source);
+        $expected   = 1234;
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
+
+        // float
+        $source     = 1.234;
+        $serializer = new Msgpack($source);
+        $expected   = 1.234;
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
+
+        // string
+        $source     = 'Phalcon Framework';
+        $serializer = new Msgpack($source);
+        $expected   = msgpack_pack('Phalcon Framework');
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
+
+        // array',
+        $source     = ['Phalcon Framework'];
+        $serializer = new Msgpack($source);
+        $expected   = msgpack_pack(['Phalcon Framework']);
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
+
+        // object
+        $source     = new stdClass();
+        $serializer = new Msgpack($source);
+        $expected   = msgpack_pack(new stdClass());
+        $actual     = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
     }
 }

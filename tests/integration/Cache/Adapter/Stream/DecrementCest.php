@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 use function outputDir;
 
@@ -24,20 +26,29 @@ class DecrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: decrement()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterStreamDecrement(IntegrationTester $I)
+    public function storageAdapterStreamDecrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - decrement()');
-        $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 100);
-        $I->assertTrue($result);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
+
+        $key    = uniqid();
+        $actual = $adapter->set($key, 100);
+        $I->assertTrue($actual);
 
         $expected = 99;
         $actual   = $adapter->decrement($key);
@@ -56,8 +67,10 @@ class DecrementCest
         /**
          * unknown key
          */
-        $key    = 'unknown';
-        $result = $adapter->decrement($key);
-        $I->assertFalse($result);
+        $key    = uniqid();
+        $actual = $adapter->decrement($key);
+        $I->assertFalse($actual);
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 }

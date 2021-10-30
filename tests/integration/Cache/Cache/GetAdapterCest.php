@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 class GetAdapterCest
 {
@@ -25,7 +25,7 @@ class GetAdapterCest
      * Tests Phalcon\Cache :: getAdapter()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheGetAdapter(IntegrationTester $I)
     {
@@ -37,9 +37,8 @@ class GetAdapterCest
 
         $adapter = new Cache($instance);
 
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $adapter->getAdapter()
-        );
+        $class  = AdapterInterface::class;
+        $actual = $adapter->getAdapter();
+        $I->assertInstanceOf($class, $actual);
     }
 }

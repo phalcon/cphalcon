@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +27,7 @@ class GetMultipleCest
      * Tests Phalcon\Cache :: getMultiple()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheGetMultiple(IntegrationTester $I)
     {
@@ -43,16 +43,10 @@ class GetMultipleCest
         $key2 = uniqid();
 
         $adapter->set($key1, 'test1');
-
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
+        $I->assertTrue($adapter->has($key1));
 
         $adapter->set($key2, 'test2');
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $I->assertTrue($adapter->has($key2));
 
         $expected = [
             $key1 => 'test1',
@@ -74,7 +68,7 @@ class GetMultipleCest
      * Tests Phalcon\Cache :: getMultiple() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheGetMultipleException(IntegrationTester $I)
     {

@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use Codeception\Stub;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +28,7 @@ class SetMultipleCest
      * Tests Phalcon\Cache :: setMultiple()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheSetMultiple(IntegrationTester $I)
     {
@@ -48,13 +49,8 @@ class SetMultipleCest
             ]
         );
 
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $I->assertTrue($adapter->has($key1));
+        $I->assertTrue($adapter->has($key2));
 
         $expected = [
             $key1     => 'test1',
@@ -66,10 +62,45 @@ class SetMultipleCest
     }
 
     /**
+     * Tests Phalcon\Cache :: setMultiple() - false
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function cacheCacheSetMultipleFalse(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Cache - setMultiple() - false');
+
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
+
+        $mock = Stub::make(
+            $adapter,
+            [
+                'set' => false,
+            ]
+        );
+
+        $key1   = uniqid();
+        $key2   = uniqid();
+        $actual = $mock->setMultiple(
+            [
+                $key1 => 'test1',
+                $key2 => 'test2',
+            ]
+        );
+
+        $I->assertFalse($actual);
+    }
+
+    /**
      * Tests Phalcon\Cache :: setMultiple() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheSetMultipleException(IntegrationTester $I)
     {

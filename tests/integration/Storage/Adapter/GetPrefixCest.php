@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function array_merge;
 use function getOptionsRedis;
@@ -33,8 +33,8 @@ class GetPrefixCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageAdapterGetSetPrefix(IntegrationTester $I, Example $example)
     {
@@ -42,16 +42,16 @@ class GetPrefixCest
             'Storage\Adapter\'' . $example['className'] . ' - getPrefix() - ' . $example['label']
         );
 
-        $extension  = $example['extension'];
-        $class      = $example['class'];
-        $options    = $example['options'];
+        $extension = $example['extension'];
+        $class     = $example['class'];
+        $options   = $example['options'];
 
         if (!empty($extension)) {
             $I->checkExtensionIsLoaded($extension);
         }
 
         $serializer = new SerializerFactory();
-        $adapter = new $class($serializer, $options);
+        $adapter    = new $class($serializer, $options);
 
         $expected = $example['expected'];
         $actual   = $adapter->getPrefix();

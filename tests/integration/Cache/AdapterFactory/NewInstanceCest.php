@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Cache\AdapterFactory;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
@@ -21,13 +22,12 @@ use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\Exception;
-use Phalcon\Storage\Serializer\Json;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function uniqid;
 
 class NewInstanceCest
 {
@@ -36,96 +36,81 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-04
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
      * @throws Exception
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function cacheAdapterFactoryNewInstance(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Storage\AdapterFactory - newInstance() - ' . $example[0]);
+        $I->wantToTest('Cache\AdapterFactory - newInstance() - ' . $example[0]);
 
         $serializer = new SerializerFactory();
         $adapter    = new AdapterFactory($serializer);
 
         $service = $adapter->newInstance($example[0], $example[2]);
 
-        $I->assertInstanceOf(
-            $example[1],
-            $service
-        );
-
-        // Given `serializer` parameter
-        $adapter = new AdapterFactory($serializer);
-        $service = $adapter->newInstance($example[0], $example[3]);
-
-        $I->assertInstanceOf(
-            $example[1],
-            $service
-        );
+        $class = $example[1];
+        $I->assertInstanceOf($class, $service);
     }
 
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
      *
+     *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-04
-     * @throws Exception
+     * @since  2020-09-09
      */
     public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 
+        $name = uniqid();
         $I->expectThrowable(
-            new Exception('Service unknown is not registered'),
-            function () {
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
                 $serializer = new SerializerFactory();
                 $adapter    = new AdapterFactory($serializer);
 
-                $service = $adapter->newInstance('unknown');
+                $service = $adapter->newInstance($name);
             }
         );
     }
 
+
     private function getExamples(): array
     {
-        $jsonSerializer        = new Json();
-        $optionsWithSerializer = [
-            'serializer' => $jsonSerializer,
-        ];
         return [
             [
                 'apcu',
                 Apcu::class,
                 [],
-                $optionsWithSerializer,
             ],
             [
                 'libmemcached',
                 Libmemcached::class,
                 getOptionsLibmemcached(),
-                array_merge(getOptionsLibmemcached(), $optionsWithSerializer),
             ],
             [
                 'memory',
                 Memory::class,
                 [],
-                $optionsWithSerializer,
             ],
             [
                 'redis',
                 Redis::class,
                 getOptionsRedis(),
-                array_merge(getOptionsRedis(), $optionsWithSerializer),
             ],
             [
                 'stream',
                 Stream::class,
                 [
                     'storageDir' => outputDir(),
-                ],
-                [
-                    'storageDir' => outputDir(),
-                    'serializer' => $jsonSerializer,
                 ],
             ],
         ];

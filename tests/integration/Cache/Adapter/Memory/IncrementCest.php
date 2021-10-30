@@ -16,50 +16,43 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Memory;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
 
 class IncrementCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: increment()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-31
+     * @since  2020-09-09
      */
-    public function cacheAdapterMemoryIncrement(IntegrationTester $I)
+    public function storageAdapterMemoryIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - increment()');
 
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 1)
-        );
+        $key    = uniqid();
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
 
         $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key, 8)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 }
