@@ -15,8 +15,6 @@ use Phalcon\Storage\Serializer\SerializerInterface;
 
 class SerializerFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Storage\\Exception";
-
     /**
      * SerializerFactory constructor.
      *
@@ -42,6 +40,19 @@ class SerializerFactory extends AbstractFactory
         return create_instance(definition);
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Storage\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

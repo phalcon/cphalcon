@@ -12,9 +12,11 @@ namespace Phalcon\Storage\Serializer;
 
 class Msgpack extends AbstractSerializer
 {
-	/**
-	 * Serializes data
-	 */
+    /**
+     * Serializes data
+     *
+     * @return string|null
+     */
 	public function serialize() -> string|null
 	{
         if !this->isSerializable(this->data) {
@@ -24,9 +26,13 @@ class Msgpack extends AbstractSerializer
 		return msgpack_pack(this->data);
 	}
 
-	/**
-	 * Unserializes data
-	 */
+    /**
+     * Unserializes data
+     *
+     * @param string $data
+     *
+     * @return void
+     */
 	public function unserialize(var data) -> void
 	{
 	    var version;

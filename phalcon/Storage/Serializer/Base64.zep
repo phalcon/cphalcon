@@ -12,11 +12,18 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 
+/**
+ * Class Base64
+ *
+ * @package Phalcon\Storage\Serializer
+ */
 class Base64 extends AbstractSerializer
 {
-	/**
-	 * Serializes data
-	 */
+    /**
+     * Serializes data
+     *
+     * @return string
+     */
 	public function serialize() -> string
 	{
 	    if typeof this->data !== "string" {
@@ -28,9 +35,13 @@ class Base64 extends AbstractSerializer
 		return base64_encode(this->data);
 	}
 
-	/**
-	 * Unserializes data
-	 */
+    /**
+     * Unserializes data
+     *
+     * @param string $data
+     *
+     * @retrun void
+     */
 	public function unserialize(var data) -> void
 	{
 	    if typeof data !== "string" {
@@ -39,6 +50,6 @@ class Base64 extends AbstractSerializer
 	        );
 	    }
 
-		let this->data = base64_decode(data);
-	}
+        let this->data = base64_decode(data);
+    }
 }

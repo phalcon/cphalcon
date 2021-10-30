@@ -10,49 +10,57 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use DateInterval;
+use Exception as BaseException;
 use FilesystemIterator;
 use Iterator;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
+use Phalcon\Support\Exception as SupportException;
+use Phalcon\Traits\Helper\Str\DirFromFileTrait;
+use Phalcon\Traits\Helper\Str\DirSeparatorTrait;
+use Phalcon\Traits\Php\FileTrait;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 /**
  * Stream adapter
+ *
+ * @property string $storageDir
+ * @property array  $options
  */
 class Stream extends AbstractAdapter
 {
     /**
-    * @var string
-    */
-    protected storageDir = "";
+     * @var string
+     */
+    protected prefix = "ph-strm";
 
     /**
-     * @var array
+     * @var string
      */
-    protected options = [];
+    protected storageDir = "";
 
     /**
      * Stream constructor.
      *
-     * @param array options = [
-     *     'storageDir' => '',
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => ''
+     * @param SerializerFactory $factory
+     * @param array             $options = [
+     *     'storageDir'        => '',
+     *     'defaultSerializer' => 'php',
+     *     'lifetime'          => 3600,
+     *     'prefix'            => ''
      * ]
      *
-     * @throws Exception
+     * @throws StorageException
+     * @throws SupportException
      */
     public function __construct(<SerializerFactory> factory, array! options = [])
     {
         var storageDir;
 
-        let storageDir = Arr::get(options, "storageDir", "");
+        let storageDir = this->getArrVal(options, "storageDir", "");
         if empty storageDir {
             throw new Exception("The 'storageDir' must be specified in the options");
         }
@@ -60,9 +68,7 @@ class Stream extends AbstractAdapter
         /**
          * Lets set some defaults and options here
          */
-        let this->storageDir = Str::dirSeparator(storageDir),
-            this->prefix     = "ph-strm",
-            this->options    = options;
+        let this->storageDir = this->getDirSeparator(storageDir);
 
         parent::__construct(factory, options);
 
@@ -78,7 +84,7 @@ class Stream extends AbstractAdapter
         bool result;
 
         let result    = true,
-            directory = Str::dirSeparator(this->storageDir),
+            directory = this->getDirSeparator(this->storageDir),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
@@ -97,7 +103,7 @@ class Stream extends AbstractAdapter
      * @param int    $value
      *
      * @return bool|int
-     * @throws \Exception
+     * @throws BaseException
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
@@ -136,52 +142,38 @@ class Stream extends AbstractAdapter
     /**
      * Reads data from the adapter
      *
-     * @param string key
-     * @param mixed|null defaultValue
+     * @param string     $key
+     * @param mixed|null $defaultValue
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function get(string! key, var defaultValue = null) -> var
     {
         var content, filepath, payload;
 
-        if this->has(key) == false {
-            return defaultValue;
-        }
-
         let filepath = this->getFilepath(key);
 
-        if !file_exists(filepath) {
+        if (true !== file_exists(filepath)) {
             return defaultValue;
         }
 
         let payload = this->getPayload(filepath);
 
-        if unlikely empty payload {
+        if (empty(payload) || this->isExpired(payload)) {
             return defaultValue;
         }
 
-        if this->isExpired(payload) {
-            return defaultValue;
-        }
+        let content = this->getArrVal(payload, "content");
 
-        let content = Arr::get(payload, "content", null);
-
-        return this->getUnserializedData(content);
-    }
-
-    /**
-     * Always returns null
-     *
-     * @return null
-     */
-    public function getAdapter() -> var
-    {
-        return this->adapter;
+        return this->getUnserializedData(content, defaultValue);
     }
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $prefix
+     *
+     * @return array
      */
     public function getKeys(string! prefix = "") -> array
     {
@@ -239,7 +231,7 @@ class Stream extends AbstractAdapter
      * @param int    $value
      *
      * @return bool|int
-     * @throws \Exception
+     * @throws BaseException
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
@@ -260,10 +252,10 @@ class Stream extends AbstractAdapter
      *
      * @param string                $key
      * @param mixed                 $value
-     * @param \DateInterval|int|null $ttl
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
-     * @throws \Exception
+     * @throws BaseException
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
@@ -296,45 +288,65 @@ class Stream extends AbstractAdapter
     {
         var dirFromFile, dirPrefix;
 
-        let dirPrefix   = Str::dirSeparator(this->storageDir . this->prefix),
-            dirFromFile = Str::dirFromFile(
+        let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
+            dirFromFile = this->getDirFromFile(
                 str_replace(this->prefix, "", key)
             );
 
-        return Str::dirSeparator(dirPrefix . dirFromFile);
+        return this->getDirSeparator(dirPrefix . dirFromFile);
     }
 
     /**
      * Returns the full path to the file
+     *
+     * @param string $key
+     *
+     * @return string
      */
     private function getFilepath(string! key) -> string
     {
-        return this->getDir(key) . str_replace(this->prefix, "", key, 1);
+        return this->getDir(key) . str_replace(this->prefix, "", key);
     }
 
     /**
      * Returns an iterator for the directory contents
+     *
+     * @param string $dir
+     *
+     * @return Iterator
      */
     private function getIterator(string! dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
-           new RecursiveDirectoryIterator(
+            new RecursiveDirectoryIterator(
                 dir,
                 FilesystemIterator::SKIP_DOTS
-           ),
-           RecursiveIteratorIterator::CHILD_FIRST
-       );
+            ),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
     }
 
     /**
      * Gets the file contents and returns an array or an error if something
      * went wrong
+     *
+     * @param string $filepath
+     *
+     * @return array
      */
     private function getPayload(string filepath) -> array
     {
         var payload, pointer, version;
 
-        let pointer = fopen(filepath, 'r');
+        let payload = false,
+            pointer = fopen(filepath, 'r');
+
+        /**
+         * Cannot open file
+         */
+        if (false === pointer) {
+            return [];
+        }
 
         if (flock(pointer, LOCK_SH)) {
             let payload = file_get_contents(filepath);
@@ -342,6 +354,9 @@ class Stream extends AbstractAdapter
 
         fclose(pointer);
 
+        /**
+         * No results
+         */
         if false === payload {
             return [];
         }
@@ -387,9 +402,38 @@ class Stream extends AbstractAdapter
     {
         var created, ttl;
 
-        let created = Arr::get(payload, "created", time()),
-            ttl     = Arr::get(payload, "ttl", 3600);
+        let created = this->getArrVal(payload, "created", time()),
+            ttl     = this->getArrVal(payload, "ttl", 3600);
 
         return (created + ttl) < time();
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getDirFromFile(string! file) -> string
+    {
+        var name, start;
+
+        let name  = pathinfo(file, PATHINFO_FILENAME),
+            start = substr(name, 0, -2);
+
+         if !empty start {
+            let start = str_replace(".", "-", start);
+        }
+
+        if !start {
+            let start = substr(name, 0, 1);
+        }
+
+        return implode("/", str_split(start, 2)) . "/";
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getDirSeparator(string! directory) -> string
+    {
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

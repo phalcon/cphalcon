@@ -16,11 +16,11 @@ use Phalcon\Storage\SerializerFactory;
 
 /**
  * Factory to create Cache adapters
+ *
+ * @property SerializerFactory $serializerFactory
  */
 class AdapterFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Cache\\Exception\\Exception";
-
     /**
      * @var SerializerFactory
      */
@@ -28,6 +28,9 @@ class AdapterFactory extends AbstractFactory
 
     /**
      * AdapterFactory constructor.
+     *
+     * @param SerializerFactory     $factory
+     * @param array<string, string> $services
      */
     public function __construct(<SerializerFactory> factory, array! services = [])
     {
@@ -39,26 +42,30 @@ class AdapterFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      *
-     * @param array options = [
-     *     'servers' => [
-     *         [
-     *             'host' => 'localhost',
-     *             'port' => 11211,
-     *             'weight' => 1,
-     *         ]
-     *     ],
-     *     'host' => '127.0.0.1',
-     *     'port' => 6379,
-     *     'index' => 0,
-     *     'persistent' => false,
-     *     'auth' => '',
-     *     'socket' => '',
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => 'phalcon',
-     *     'storageDir' => ''
-     * ]
+     * @param string               $name
+     * @param array<string, mixed> $options = [
+     *                                      'servers' => [
+     *                                      [
+     *                                      'host'   => 'localhost',
+     *                                      'port'   => 11211,
+     *                                      'weight' => 1,
+     *                                      ]
+     *                                      ],
+     *                                      'host'              => '127.0.0.1',
+     *                                      'port'              => 6379,
+     *                                      'index'             => 0,
+     *                                      'persistent'        => false,
+     *                                      'auth'              => '',
+     *                                      'socket'            => '',
+     *                                      'defaultSerializer' => 'Php',
+     *                                      'lifetime'          => 3600,
+     *                                      'serializer'        => null,
+     *                                      'prefix'            => 'phalcon',
+     *                                      'storageDir'        => ''
+     *                                      ]
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
@@ -76,7 +83,17 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Cache\\Exception\\Exception";
+    }
+
+    /**
      * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {
