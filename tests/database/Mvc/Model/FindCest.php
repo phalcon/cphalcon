@@ -15,11 +15,10 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\Fixtures\Migrations\AbstractMigration;
 use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Migrations\ObjectsMigration;
