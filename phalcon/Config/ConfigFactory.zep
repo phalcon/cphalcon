@@ -32,8 +32,6 @@ use Phalcon\Helper\Arr;
  */
 class ConfigFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Config\\Exception";
-
     /**
      * ConfigFactory constructor.
      */
@@ -121,7 +119,17 @@ class ConfigFactory extends AbstractFactory
     }
 
     /**
-     * @return array
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Config\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {

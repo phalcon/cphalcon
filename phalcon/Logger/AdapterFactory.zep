@@ -15,8 +15,6 @@ use Phalcon\Logger\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Logger\\Exception";
-
     /**
      * AdapterFactory constructor.
      */
@@ -47,6 +45,19 @@ class AdapterFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Logger\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

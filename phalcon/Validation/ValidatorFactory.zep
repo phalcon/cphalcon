@@ -37,6 +37,11 @@ class ValidatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

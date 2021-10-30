@@ -19,8 +19,6 @@ use Phalcon\Factory\AbstractFactory;
  */
 class TagFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Html\\Exception";
-
     /**
      * @var EscaperInterface
      */
@@ -59,6 +57,19 @@ class TagFactory extends AbstractFactory
         return this->services[name];
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Html\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

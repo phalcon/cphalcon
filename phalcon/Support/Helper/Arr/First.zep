@@ -26,7 +26,7 @@ class First extends AbstractArr
     {
         var filtered;
 
-        let filtered = $this->toFilter(collection, method);
+        let filtered = this->toFilter(collection, method);
 
         return reset(filtered);
     }

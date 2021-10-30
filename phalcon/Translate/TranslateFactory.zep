@@ -24,8 +24,6 @@ use Phalcon\Translate\Adapter\AdapterInterface;
  */
 class TranslateFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Translate\\Exception";
-
     /**
      * @var InterpolatorFactory
      */
@@ -102,6 +100,16 @@ class TranslateFactory extends AbstractFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Translate\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
      * @return string[]
      */
     protected function getServices() -> array

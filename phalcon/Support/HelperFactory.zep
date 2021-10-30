@@ -69,8 +69,6 @@ use Phalcon\Factory\AbstractFactory;
  */
 class HelperFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Support\\Exception";
-
     /**
      * FactoryTrait constructor.
      *
@@ -109,6 +107,16 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Support\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
      * @return string[]
      */
     protected function getServices() -> array

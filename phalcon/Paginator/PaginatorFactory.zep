@@ -16,8 +16,6 @@ use Phalcon\Helper\Arr;
 
 class PaginatorFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Annotations\\Exception";
-
     /**
      * AdapterFactory constructor.
      */
@@ -84,6 +82,19 @@ class PaginatorFactory extends AbstractFactory
         );
     }
 
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Paginator\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
     protected function getServices() -> array
     {
         return [

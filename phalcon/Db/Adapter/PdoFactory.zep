@@ -76,6 +76,8 @@ class PdoFactory extends AbstractFactory
 
     /**
      * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {
