@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(&_3);
-	ZVAL_STRING(&_3, "Phalcon\\Crypt\\Crypt");
+	ZVAL_STRING(&_3, "Phalcon\\Encryption\\Crypt");
 	ZVAL_BOOL(&_4, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 98, &_3, &_4);
 	zephir_check_call_status();
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(&_3);
-	ZVAL_STRING(&_3, "Phalcon\\Security");
+	ZVAL_STRING(&_3, "Phalcon\\Encryption\\Security");
 	ZVAL_BOOL(&_4, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 98, &_3, &_4);
 	zephir_check_call_status();

@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 435, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 453, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 }
