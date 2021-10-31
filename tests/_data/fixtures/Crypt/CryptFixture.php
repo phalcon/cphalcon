@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Crypt;
 
-use Phalcon\Crypt\Crypt;
-use Phalcon\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt;
+use Phalcon\Encryption\Crypt\Exception\Exception;
 
 class CryptFixture extends Crypt
 {

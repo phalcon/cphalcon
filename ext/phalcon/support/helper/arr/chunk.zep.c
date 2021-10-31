@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Chunk, __invoke)
 
 	ZVAL_LONG(&_0, size);
 	ZVAL_BOOL(&_1, (preserveKeys ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("array_chunk", NULL, 266, &collection, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_chunk", NULL, 284, &collection, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

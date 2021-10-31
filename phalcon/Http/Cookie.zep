@@ -12,8 +12,8 @@ namespace Phalcon\Http;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Crypt\CryptInterface;
-use Phalcon\Crypt\Mismatch;
+use Phalcon\Encryption\Crypt\CryptInterface;
+use Phalcon\Encryption\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Http\Response\Exception;

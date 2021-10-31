@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_IntVal, __invoke)
 
 
 	ZVAL_LONG(&_0, 519);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 255, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 273, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM_LONG(zephir_get_intval(&_1));
 }

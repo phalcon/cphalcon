@@ -17,7 +17,6 @@
   - Changed `Phalcon\Session\Bag::init` to store the data in the session [#15494](https://github.com/phalcon/cphalcon/issues/15494)
 - Changed `Phalcon\Events\Event::construct()` to allow `source` to be nullable [#15133](https://github.com/phalcon/cphalcon/issues/15133)
 - Changes to `Phalcon\Crypt`
-  - Moved `Phalcon\Crypt` to `Phalcon\Crypt\Crypt`
   - Moved `Phalcon\Crypt\Exception` to `Phalcon\Crypt\Exception\Exception`
   - Moved `Phalcon\Crypt\Mismatch` to `Phalcon\Crypt\Exception\Mismatch`
   - Added `Phalcon\Crypt\Padding\PadInteface` and padding adapters
@@ -32,6 +31,27 @@
   - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
   - Added more tests increasing coverage
   - Changed the ccm/gcm modes to store the `authTag` with the encryption string and process it with the decryption string [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Created new namespace `Phalcon\Encryption`
+  - Moved `Phalcon\Crypt` to `Phalcon\Encryption\Crypt`
+  - Moved `Phalcon\Security` to `Phalcon\Encryption\Security`
+  - Moved the whole `Security` namespace under `Encryption`
+    - `Security\JWT\Exceptions\UnsupportedAlgorithmException` to `Encryption\Security\JWT\Exceptions\UnsupportedAlgorithmException`
+    - `Security\JWT\Exceptions\ValidatorException` to `Encryption\Security\JWT\Exceptions\ValidatorException`
+    - `Security\JWT\Signer\AbstractSigner` to `Encryption\Security\JWT\Signer\AbstractSigner`
+    - `Security\JWT\Signer\Hmac` to `Encryption\Security\JWT\Signer\Hmac`
+    - `Security\JWT\Signer\None` to `Encryption\Security\JWT\Signer\None`
+    - `Security\JWT\Signer\SignerInterface` to `Encryption\Security\JWT\Signer\SignerInterface`
+    - `Security\JWT\Token\AbstractItem` to `Encryption\Security\JWT\Token\AbstractItem`
+    - `Security\JWT\Token\Enum` to `Encryption\Security\JWT\Token\Enum`
+    - `Security\JWT\Token\Item` to `Encryption\Security\JWT\Token\Item`
+    - `Security\JWT\Token\Parser` to `Encryption\Security\JWT\Token\Parser`
+    - `Security\JWT\Token\Signature` to `Encryption\Security\JWT\Token\Signature`
+    - `Security\JWT\Token\Token` to `Encryption\Security\JWT\Token\Token`
+    - `Security\JWT\Builder` to `Encryption\Security\JWT\Builder`
+    - `Security\JWT\Validator` to `Encryption\Security\JWT\Validator`
+    - `Security\JWT\Validator` to `Encryption\Security\JWT\Validator`
+    - `Security\Exception` to `Encryption\Security\Exception`
+    - `Security\Random` to `Encryption\Security\Random` [#15729](https://github.com/phalcon/cphalcon/issues/15729)
 - Renamed 
     - `Phalcon\Crypt\Crypt::getHashAlgo()` to `Phalcon\Crypt\Crypt::getHashAlgorithm()` 
     - `Phalcon\Crypt\Crypt::getAvailableHashAlgos()` to `Phalcon\Crypt\Crypt::getAvailableHashAlgorithms()` 
