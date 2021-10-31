@@ -15,6 +15,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, resetTransaction);
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___destruct, 0, 0, 0)
@@ -60,6 +62,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstracta
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_checktransaction, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_resettransaction, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_zephir_init_properties_phalcon_logger_adapter_abstractadapter, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -80,5 +88,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, rollback, arginfo_phalcon_logger_adapter_abstractadapter_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter, arginfo_phalcon_logger_adapter_abstractadapter_setformatter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem, arginfo_phalcon_logger_adapter_abstractadapter_getformatteditem, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction, arginfo_phalcon_logger_adapter_abstractadapter_checktransaction, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, resetTransaction, arginfo_phalcon_logger_adapter_abstractadapter_resettransaction, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

@@ -192,9 +192,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		object_init_ex(&ex, phalcon_datamapper_pdo_exception_exception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &ex, "__construct", NULL, 8);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 194, &__$true);
+		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 196, &__$true);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_1$$3, &ex, "gettraceasstring", NULL, 195);
+		ZEPHIR_CALL_METHOD(&_1$$3, &ex, "gettraceasstring", NULL, 197);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "backtrace");
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZVAL_STRING(&_5$$3, "");
 		} else {
-			ZEPHIR_CALL_CE_STATIC(&_5$$3, phalcon_helper_json_ce, "encode", &_9, 15, &values);
+			ZEPHIR_CALL_CE_STATIC(&_5$$3, phalcon_helper_json_ce, "encode", &_9, 16, &values);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(&_10$$3);
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_create_array(&_1$$3, 2, 0);
 		zephir_array_update_string(&_1$$3, SL("method"), &method, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 194, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 196, &__$true);
 		zephir_check_call_status();
 		zephir_array_update_string(&_1$$3, SL("start"), &_2$$3, PH_COPY | PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &_1$$3);

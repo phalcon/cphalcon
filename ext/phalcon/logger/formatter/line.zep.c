@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 
 
 /**
@@ -28,9 +28,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Logger\Formatter\Line
+ * Class Line
  *
- * Formats messages using an one-line string
+ * @property string $format
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 {
@@ -86,7 +86,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
 }
 
 /**
- * Phalcon\Logger\Formatter\Line construct
+ * Line constructor.
+ *
+ * @param string $format
+ * @param string $dateFormat
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 {
@@ -130,23 +133,25 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 
 /**
  * Applies a format to a message before sent it to the internal log
+ *
+ * @param Item $item
+ *
+ * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 {
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, context, format, interpolate, time, _0, _1, _2, _3;
+	zval *item, item_sub, message, _0, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
-	ZVAL_UNDEF(&context);
-	ZVAL_UNDEF(&format);
-	ZVAL_UNDEF(&interpolate);
-	ZVAL_UNDEF(&time);
+	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -159,30 +164,23 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zephir_fetch_params(1, 1, 0, &item);
 
 
-	ZEPHIR_CALL_METHOD(&context, item, "getcontext", NULL, 0);
-	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("format"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&format, &_0);
-	ZEPHIR_CALL_METHOD(&time, item, "gettime", NULL, 0);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_create_array(&_1, 3, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatteddate", NULL, 0, item);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&interpolate);
-	object_init_ex(&interpolate, phalcon_support_helper_str_interpolate_ce);
-	if (zephir_has_constructor(&interpolate)) {
-		ZEPHIR_CALL_METHOD(NULL, &interpolate, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("dateFormat"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &time, "format", NULL, 0, &_0);
-	zephir_check_call_status();
-	zephir_array_update_string(&context, SL("date"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_1, SL("%date%"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&_2, item, "getlevelname", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&context, SL("level"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_3, item, "getmessage", NULL, 0);
+	zephir_array_update_string(&_1, SL("%level%"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_METHOD(&_2, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&context, SL("message"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 452, &format, &context);
+	zephir_array_update_string(&_1, SL("%message%"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 5, &_0, &_1);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_2, item, "getcontext", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
