@@ -13,12 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\LoggerFactory;
 
-use Phalcon\Logger;
 use Phalcon\Logger\AdapterFactory;
+use Phalcon\Logger\Exception as LoggerException;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
 use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
+/**
+ * Class LoadCest
+ *
+ * @package Phalcon\Tests\Unit\Logger\LoggerFactory
+ */
 class LoadCest
 {
     use FactoryTrait;
@@ -31,50 +37,81 @@ class LoadCest
     /**
      * Tests Phalcon\Logger\LoggerFactory :: load()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-20
+     * @since  2020-09-09
      */
     public function loggerLoggerFactoryLoad(UnitTester $I)
     {
         $I->wantToTest('Logger\LoggerFactory - load()');
 
         $options = $this->config->logger;
+        $factory = new LoggerFactory(new AdapterFactory());
 
-        $this->runTests($I, $options);
+        $object = $factory->load($options);
+
+        $I->assertInstanceOf(Logger::class, $object);
+        $I->assertCount(2, $object->getAdapters());
     }
 
     /**
      * Tests Phalcon\Logger\LoggerFactory :: load() - array
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-20
+     * @since  2020-09-09
      */
     public function loggerLoggerFactoryLoadArray(UnitTester $I)
     {
         $I->wantToTest('Logger\LoggerFactory - load() - array');
 
         $options = $this->arrayConfig['logger'];
+        $factory = new LoggerFactory(new AdapterFactory());
 
-        $this->runTests($I, $options);
-    }
-
-    private function runTests(UnitTester $I, $options)
-    {
-        $factory = new LoggerFactory(
-            new AdapterFactory()
-        );
-
-        /** @var Logger $object */
         $object = $factory->load($options);
 
-        $I->assertInstanceOf(
-            Logger::class,
-            $object
+        $I->assertInstanceOf(Logger::class, $object);
+        $I->assertCount(2, $object->getAdapters());
+    }
+
+    /**
+     * Tests Phalcon\Translate\Factory :: load() - exceptions
+     *
+     * @param UnitTester $I
+     *
+     * @throws LoggerException
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function translateFactoryLoadExceptions(UnitTester $I)
+    {
+        $I->wantToTest('Translate\Factory - load() - exceptions');
+
+        $options = $this->arrayConfig['logger'];
+        $factory = new LoggerFactory(new AdapterFactory());
+
+        $I->expectThrowable(
+            new LoggerException(
+                'Config must be array or Phalcon\Config\Config object'
+            ),
+            function () use ($factory) {
+                $factory->load(1234);
+            }
         );
 
-        $I->assertEquals(
-            [],
-            $object->getAdapters()
+        $I->expectThrowable(
+            new LoggerException(
+                "You must provide 'name' option in factory config parameter."
+            ),
+            function () use ($factory, $options) {
+                $newOptions = $options;
+                unset($newOptions['name']);
+
+                $factory->load($newOptions);
+            }
         );
     }
 }

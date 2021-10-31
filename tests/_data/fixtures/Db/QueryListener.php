@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Fixtures\Db;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 
 /**
  * Class QueryListener

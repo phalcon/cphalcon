@@ -13,36 +13,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use DateTimeImmutable;
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
-use Phalcon\Tests\Fixtures\Traits\LoggerTrait;
+use Phalcon\Logger\Logger;
 use Psr\Log\LoggerInterface;
 use UnitTester;
 
 class ConstructCest
 {
-    use LoggerTrait;
-
     /**
      * Tests Phalcon\Logger :: __construct() - implement PSR
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerConstructImplementPsr(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - implement PSR');
 
         $logger = new Logger('my-logger');
-
         $I->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
     /**
      * Tests Phalcon\Logger :: __construct() - constants
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerConstructConstants(UnitTester $I)
     {
@@ -61,6 +63,11 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - file with json formatter
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
@@ -69,7 +76,6 @@ class ConstructCest
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
-        $time       = new DateTimeImmutable("now");
 
         $adapter->setFormatter(new Json());
 
@@ -80,6 +86,7 @@ class ConstructCest
             ]
         );
 
+        $time = time();
 
         $logger->debug('This is a message');
         $logger->log(Logger::ERROR, 'This is an error');
@@ -92,9 +99,9 @@ class ConstructCest
             '{"level":"DEBUG","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
             '{"level":"ERROR","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
             '{"level":"ERROR","message":"This is another error","timestamp":"%s"}',
-            $time->format('c'),
-            $time->format('c'),
-            $time->format('c')
+            date('c', $time),
+            date('c', $time),
+            date('c', $time)
         );
 
         $I->seeInThisFile($expected);
@@ -105,14 +112,21 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - read only mode exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerConstructStreamReadOnlyModeException(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - read only mode exception');
 
-        $fileName   = $I->getNewFileName('log', 'log');
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = logsDir();
-        $file       = $outputPath . $fileName;
+
+        $file = $outputPath . $fileName;
 
         $I->expectThrowable(
             new Exception('Adapter cannot be opened in read mode'),
@@ -129,6 +143,11 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - no adapter exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerConstructNoAdapterException(UnitTester $I)
     {

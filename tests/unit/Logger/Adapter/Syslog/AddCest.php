@@ -16,72 +16,69 @@ declare(strict_types=1);
  *       tests in this namespace
  */
 
-namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog {
-    function syslog($level, $message)
+namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog;
+
+use DateTimeImmutable;
+use DateTimeZone;
+use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
+use UnitTester;
+
+use function date_default_timezone_get;
+
+class AddCest
+{
+    /**
+     * Tests Phalcon\Logger\Adapter\Syslog :: add()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function loggerAdapterSyslogAdd(UnitTester $I)
     {
-    }
+        $I->wantToTest('Logger\Adapter\Syslog - add()');
 
-    function closelog()
-    {
-        return true;
-    }
+        $streamName = $I->getNewFileName('log', 'log');
+        $timezone   = date_default_timezone_get();
+        $datetime   = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $adapter    = new Syslog($streamName);
 
-    use DateTimeImmutable;
-    use Phalcon\Logger;
-    use Phalcon\Logger\Adapter\Syslog;
-    use Phalcon\Logger\Item;
-    use UnitTester;
+        $adapter->begin();
 
-    class AddCest
-    {
-        /**
-         * Tests Phalcon\Logger\Adapter\Syslog :: add()
-         *
-         * @author Phalcon Team <team@phalcon.io>
-         * @since  2018-11-13
-         */
-        public function loggerAdapterSyslogAdd(UnitTester $I)
-        {
-            $I->wantToTest('Logger\Adapter\Syslog - add()');
+        $item1 = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
-            $streamName = $I->getNewFileName('log', 'log');
+        $item2 = new Item(
+            'Message 2',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
-            $adapter = new Syslog($streamName);
+        $item3 = new Item(
+            'Message 3',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
-            $adapter->begin();
+        $adapter
+            ->add($item1)
+            ->add($item2)
+            ->add($item3)
+        ;
 
-            $item1 = new Item(
-                'Message 1',
-                'debug',
-                Logger::DEBUG,
-                new DateTimeImmutable('now')
-            );
+        $adapter->commit();
 
-            $item2 = new Item(
-                'Message 2',
-                'debug',
-                Logger::DEBUG,
-                new DateTimeImmutable('now')
-            );
-
-            $item3 = new Item(
-                'Message 3',
-                'debug',
-                Logger::DEBUG,
-                new DateTimeImmutable('now')
-            );
-
-            $adapter
-                ->add($item1)
-                ->add($item2)
-                ->add($item3)
-            ;
-
-            $adapter->commit();
-
-            $I->assertTrue(
-                $adapter->close()
-            );
-        }
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

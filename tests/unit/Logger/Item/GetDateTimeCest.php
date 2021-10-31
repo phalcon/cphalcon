@@ -21,33 +21,33 @@ use UnitTester;
 
 use function date_default_timezone_get;
 
-class GetContextCest
+class GetDateTimeCest
 {
     /**
-     * Tests Phalcon\Logger\Item :: getContext()
+     * Tests Phalcon\Logger\Item :: getTime()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function loggerItemGetContext(UnitTester $I)
+    public function loggerItemGetTime(UnitTester $I)
     {
-        $I->wantToTest('Logger\Item - getContext()');
+        $I->wantToTest('Logger\Item - getTime()');
 
         $timezone = date_default_timezone_get();
         $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $context  = ['context'];
         $item     = new Item(
             'log message',
             'debug',
             Logger::DEBUG,
-            $datetime,
-            $context
+            $datetime
         );
 
-        $expected = $context;
-        $actual   = $item->getContext();
+        $expected = $datetime;
+        $actual   = $item->getDateTime();
+        $I->assertEquals($expected, $actual);
+        $actual = $item->getDateTime();
         $I->assertEquals($expected, $actual);
     }
 }
