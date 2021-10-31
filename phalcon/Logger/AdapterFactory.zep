@@ -12,6 +12,7 @@ namespace Phalcon\Logger;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Exception;
 
 /**
  * Factory used to create adapters used for Logging
@@ -36,7 +37,7 @@ class AdapterFactory extends AbstractFactory
      * @param array  $options
      *
      * @return AdapterInterface
-     * @throws SupportException
+     * @throws Exception
      */
     public function newInstance(
         string! name,
