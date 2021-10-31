@@ -82,7 +82,7 @@ fi
 alias zephir='./zephir '
 alias zf='./zephir fullclean'
 alias zg='./zephir generate'
-alias zs='./zephir generate'
+alias zs='./zephir stubs'
 alias cpl='zf && zg && cd ext/ && ./install && ..'
 alias codecept='php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept '
 alias phpcs='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcs '
