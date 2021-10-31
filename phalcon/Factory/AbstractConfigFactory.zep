@@ -29,9 +29,17 @@ abstract class AbstractConfigFactory
             );
         }
 
-        if unlikely !isset config["adapter"] {
+        return config;
+    }
+
+    /**
+     * Checks if the config has "adapter"
+     */
+    protected function checkConfigElement(array config, string element) -> array
+    {
+        if unlikely !isset config[element] {
             throw this->getException(
-                "You must provide 'adapter' option in factory config parameter."
+                "You must provide '" . element . "' option in factory config parameter."
             );
         }
 
