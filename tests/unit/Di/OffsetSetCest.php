@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Encryption\Crypt;
 use Phalcon\Di;
 use Phalcon\Escaper;
 use UnitTester;

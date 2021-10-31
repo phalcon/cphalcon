@@ -25,7 +25,7 @@ use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager;
-use Phalcon\Security;
+use Phalcon\Encryption\Security;
 use Phalcon\Support\HelperFactory;
 
 class ConstructCest
