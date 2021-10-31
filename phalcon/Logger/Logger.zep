@@ -8,47 +8,32 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Logger;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Psr\Log\LoggerInterface;
+use Exception;
 use Phalcon\Logger\Adapter\AdapterInterface;
-use Phalcon\Logger\Item;
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Exception as LoggerException;
+use Psr\Log\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 
 /**
- * Phalcon\Logger
+ * Phalcon Logger.
  *
- * This component offers logging capabilities for your application. The
- * component accepts multiple adapters, working also as a multiple logger.
- * Phalcon\Logger implements PSR-3.
+ * A PSR compatible logger, with various adapters and formatters. A formatter
+ * interface is available as well as an adapter one. Adapters can be created
+ * easily using the built in AdapterFactory. A LoggerFactory is also available
+ * that allows developers to create new instances of the Logger or load them
+ * from config files (see Phalcon\Config\Config object).
  *
- *```php
- * use Phalcon\Logger;
- * use Phalcon\Logger\Adapter\Stream;
+ * @package Phalcon\Logger
  *
- * $adapter1 = new Stream('/logs/first-log.log');
- * $adapter2 = new Stream('/remote/second-log.log');
- * $adapter3 = new Stream('/manager/third-log.log');
- *
- * $logger = new Logger(
- *         'messages',
- *         [
- *             'local'   => $adapter1,
- *             'remote'  => $adapter2,
- *             'manager' => $adapter3,
- *         ]
- *     );
- *
- * // Log to all adapters
- * $logger->error('Something went wrong');
- *
- * // Log to specific adapters
- * $logger
- *         ->excludeAdapters(['manager'])
- *         ->info('This does not go to the "manager" logger);
- *```
+ * @property AdapterInterface[] $adapters
+ * @property array              $excluded
+ * @property int                $logLevel
+ * @property string             $name
+ * @property string             $timezone
  */
 class Logger implements LoggerInterface
 {
@@ -67,12 +52,12 @@ class Logger implements LoggerInterface
      *
      * @var AdapterInterface[]
      */
-    protected adapters = [];
+    protected adapters = [] { get };
 
     /**
      * The excluded adapters for this log process
      *
-     * @var AdapterInterface[]
+     * @var array
      */
     protected excluded = [];
 
@@ -86,19 +71,21 @@ class Logger implements LoggerInterface
     /**
      * @var string
      */
-    protected name = "";
+    protected name = "" { get };
 
     /**
-     * @var DateTimeZone|null
+     * @var DateTimeZone
      */
     protected timezone = null;
 
     /**
      * Constructor.
      *
-     * @param string            name     The name of the logger
-     * @param array             adapters The collection of adapters to be used for logging (default [])
-     * @param DateTimeZone|null timezone The timezone
+     * @param string            $name     The name of the logger
+     * @param array             $adapters The collection of adapters to be used
+     *                                    for logging (default [])
+     * @param DateTimeZone|null $timezone Timezone. If omitted,
+     *                                    date_Default_timezone_get() is used
      */
     public function __construct(
         string! name,
@@ -125,8 +112,10 @@ class Logger implements LoggerInterface
     /**
      * Add an adapter to the stack. For processing we use FIFO
      *
-     * @param string           name    The name of the adapter
-     * @param AdapterInterface adapter The adapter to add to the stack
+     * @param string           $name    The name of the adapter
+     * @param AdapterInterface $adapter The adapter to add to the stack
+     *
+     * @return Logger
      */
     public function addAdapter(string name, <AdapterInterface> adapter) -> <Logger>
     {
@@ -141,7 +130,10 @@ class Logger implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function alert(message, array context = []) -> void
     {
@@ -153,7 +145,10 @@ class Logger implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function critical(message, array context = []) -> void
     {
@@ -163,9 +158,12 @@ class Logger implements LoggerInterface
     /**
      * Detailed debug information.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
-    public function debug(message, array context = []) -> void
+    public function debug(var message, array context = []) -> void
     {
         this->addMessage(self::DEBUG, (string) message, context);
     }
@@ -174,7 +172,10 @@ class Logger implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function error(message, array context = []) -> void
     {
@@ -184,7 +185,10 @@ class Logger implements LoggerInterface
     /**
      * System is unusable.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function emergency(message, array context = []) -> void
     {
@@ -193,11 +197,20 @@ class Logger implements LoggerInterface
 
     /**
      * Exclude certain adapters.
+     *
+     * @param array $adapters
+     *
+     * @return Logger
      */
     public function excludeAdapters(array adapters = []) -> <Logger>
     {
-        var name, registered;
+        var adapter, registered;
 
+        /**
+         * Loop through what has been passed. Check these names with
+         * the registered adapters. If they match, add them to the
+         * this->excluded array
+         */
         let registered = this->adapters;
 
         /**
@@ -205,9 +218,9 @@ class Logger implements LoggerInterface
          * the registered adapters. If they match, add them to the
          * this->excluded array
          */
-        for name in adapters {
-            if isset registered[name] {
-                let this->excluded[name] = true;
+        for adapter in adapters {
+            if (isset(registered[adapter])) {
+                let this->excluded[adapter] = true;
             }
         }
 
@@ -217,9 +230,10 @@ class Logger implements LoggerInterface
     /**
      * Returns an adapter from the stack
      *
-     * @param string name The name of the adapter
+     * @param string $name The name of the adapter
      *
-     * @throws Exception
+     * @return AdapterInterface
+     * @throws LoggerException
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
@@ -228,28 +242,10 @@ class Logger implements LoggerInterface
         let adapters = this->adapters;
 
         if !fetch adapter, adapters[name] {
-            throw new Exception("Adapter does not exist for this logger");
+            throw new LoggerException("Adapter does not exist for this logger");
         }
 
         return adapter;
-    }
-
-    /**
-     * Returns the adapter stack array
-     *
-     * @return AdapterInterface[]
-     */
-    public function getAdapters() -> array
-    {
-        return this->adapters;
-    }
-
-    /**
-     * Returns the name of the logger
-     */
-    public function getName() -> string
-    {
-        return this->name;
     }
 
     /**
@@ -257,7 +253,10 @@ class Logger implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function info(message, array context = []) -> void
     {
@@ -267,8 +266,11 @@ class Logger implements LoggerInterface
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  level
-     * @param string message
+     * @param mixed $level
+     * @param mixed $message
+     * @param array $context
+     *
+     * @throws LoggerException
      */
     public function log(level, message, array context = []) -> void
     {
@@ -282,7 +284,10 @@ class Logger implements LoggerInterface
     /**
      * Normal but significant events.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function notice(message, array context = []) -> void
     {
@@ -292,9 +297,10 @@ class Logger implements LoggerInterface
     /**
      * Removes an adapter from the stack
      *
-     * @param string name The name of the adapter
+     * @param string $name The name of the adapter
      *
-     * @throws Logger\Exception
+     * @return Logger
+     * @throws LoggerException
      */
     public function removeAdapter(string name) -> <Logger>
     {
@@ -303,7 +309,7 @@ class Logger implements LoggerInterface
         let adapters = this->adapters;
 
         if true !== isset(adapters[name]) {
-            throw new Exception("Adapter does not exist for this logger");
+            throw new LoggerException("Adapter does not exist for this logger");
         }
 
         unset adapters[name];
@@ -316,7 +322,9 @@ class Logger implements LoggerInterface
     /**
      * Sets the adapters stack overriding what is already there
      *
-     * @param array adapters An array of adapters
+     * @param array $adapters An array of adapters
+     *
+     * @return Logger
      */
     public function setAdapters(array! adapters) -> <Logger>
     {
@@ -326,7 +334,11 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Sets the log level above which we can log
+     * Sets the adapters stack overriding what is already there
+     *
+     * @param int $level
+     *
+     * @return Logger
      */
     public function setLogLevel(int level) -> <Logger>
     {
@@ -348,7 +360,10 @@ class Logger implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
-     * @param string message
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
      */
     public function warning(message, array context = []) -> void
     {
@@ -358,25 +373,31 @@ class Logger implements LoggerInterface
     /**
      * Adds a message to each handler for processing
      *
-     * @param int    level
-     * @param string message
+     * @param int    $level
+     * @param string $message
+     * @param array  $context
      *
-     * @throws Logger\Exception
+     * @return bool
+     * @throws Exception
+     * @throws LoggerException
      */
-    protected function addMessage(int level, string message, array context = []) -> bool
-    {
-        var adapter, key, excluded, levelName, levels, item, registered;
+    protected function addMessage(
+        int level,
+        string message,
+        array context = []
+    ) -> bool {
+        var adapter, adapters, excluded, item, levelName, levels, registered;
 
         if this->logLevel >= level {
             let registered = this->adapters,
                 excluded   = this->excluded,
                 levels     = this->getLevels();
 
-            if count(registered) === 0 {
-                throw new Exception("No adapters specified");
+            if (true === empty(registered)) {
+                throw new LoggerException("No adapters specified");
             }
 
-            if !fetch levelName, levels[level] {
+            if unlikely !fetch levelName, levels[level] {
                 let levelName = levels[self::CUSTOM];
             }
 
@@ -391,13 +412,12 @@ class Logger implements LoggerInterface
             /**
              * Log only if the key does not exist in the excluded ones
              */
-            for key, adapter in registered {
-                if !isset excluded[key] {
-                    if unlikely adapter->inTransaction() {
-                        adapter->add(item);
-                    } else {
-                        adapter->process(item);
-                    }
+            let adapters = array_diff_key(registered, excluded);
+            for adapter in adapters {
+                if (true === adapter->inTransaction()) {
+                    adapter->add(item);
+                } else {
+                    adapter->process(item);
                 }
             }
 
@@ -412,6 +432,8 @@ class Logger implements LoggerInterface
 
     /**
      * Returns an array of log levels with integer to string conversion
+     *
+     * @return string[]
      */
     protected function getLevels() -> array
     {
@@ -431,9 +453,12 @@ class Logger implements LoggerInterface
     /**
      * Converts the level from string/word to an integer
      *
-     * @param string|int level
+     * @param mixed $level
+     *
+     * @return int
+     * @throws InvalidArgumentException
      */
-    private function getLevelNumber(level) -> int
+    private function getLevelNumber(var level) -> int
     {
         var levelName, levels;
 

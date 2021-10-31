@@ -11,45 +11,21 @@
 namespace Phalcon\Logger\Adapter;
 
 use LogicException;
-use Phalcon\Helper\Arr;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter;
-use Phalcon\Logger\Exception;
-use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
+
 
 /**
- * Phalcon\Logger\Adapter\Syslog
+ * Class Syslog
  *
- * Sends logs to the system logger
- *
- * ```php
- * use Phalcon\Logger;
- * use Phalcon\Logger\Adapter\Syslog;
- *
- * // LOG_USER is the only valid log type under Windows operating systems
- * $logger = new Syslog(
- *     "ident",
- *     [
- *         "option"   => LOG_CONS | LOG_NDELAY | LOG_PID,
- *         "facility" => LOG_USER,
- *     ]
- * );
- *
- * $logger->log("This is a message");
- * $logger->log(Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
- *```
+ * @property string $defaultFormatter
+ * @property int    $facility
+ * @property string $name
+ * @property bool   $opened
+ * @property int    $option
  */
 class Syslog extends AbstractAdapter
 {
-    /**
-     * Name of the default formatter class
-     *
-     * @var string
-     */
-    protected defaultFormatter = "Line";
-
     /**
      * @var int
      */
@@ -71,17 +47,27 @@ class Syslog extends AbstractAdapter
     protected option = 0;
 
     /**
-     * Phalcon\Logger\Adapter\Syslog constructor
-     * @param array options = [
-     *     'option' => null,
-     *     'facility' => null
-     * ]
+     * Syslog constructor.
+     *
+     * @param string $name
+     * @param array  $options
      */
     public function __construct(string! name, array options = [])
     {
+        var facility, option;
+
+        if !fetch facility, options["facility"] {
+            let facility = LOG_USER;
+        }
+
+        if !fetch option, options["option"] {
+            let option = LOG_ODELAY;
+        }
+
         let this->name     = name,
-            this->facility = Arr::get(options, "facility", LOG_USER),
-            this->option   = Arr::get(options, "option", LOG_ODELAY);
+            this->option   = option,
+            this->facility = facility;
+
     }
 
     /**
@@ -98,24 +84,24 @@ class Syslog extends AbstractAdapter
 
     /**
      * Processes the message i.e. writes it to the syslog
+     *
+     * @param Item $item
+     *
+     * @throws LogicException
      */
     public function process(<Item> item) -> void
     {
-        var name, facility, level, message, option, result;
+        var level, message, result;
 
-        let message   = this->getFormattedItem(item),
-            name      = this->name,
-            facility  = this->facility,
-            option    = this->option;
-
-        let result = openlog(name, option, facility);
+        let message = this->getFormattedItem(item),
+            result  = this->openlog(this->name, this->option, this->facility);
 
         if (!result) {
             throw new LogicException(
                 sprintf(
                     "Cannot open syslog for name [%s] and facility [%s]",
-                    name,
-                    facility
+                    this->name,
+                    (string) this->facility
                 )
             );
         }
@@ -127,7 +113,27 @@ class Syslog extends AbstractAdapter
     }
 
     /**
+     * Open connection to system logger
+     *
+     * @link https://php.net/manual/en/function.openlog.php
+     *
+     * @param string $ident
+     * @param int    $option
+     * @param int    $facility
+     *
+     * @return bool
+     */
+    protected function openlog(string ident, int option, int facility) -> bool
+    {
+        return openlog(ident, option, facility);
+    }
+
+    /**
      * Translates a Logger level to a Syslog level
+     *
+     * @param int $level
+     *
+     * @return int
      */
     private function logLevelToSyslog(int level) -> int
     {
