@@ -67,7 +67,9 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
-     * @return array
+     * Returns the available adapters
+     *
+     * @return string[]
      */
     protected function getServices() -> array
     {
