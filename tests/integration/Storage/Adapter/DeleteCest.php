@@ -81,7 +81,6 @@ class DeleteCest
         $key    = uniqid();
         $actual = $adapter->delete($key);
         $I->assertFalse($actual);
-
     }
 
     /**

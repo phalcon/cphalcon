@@ -14,19 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Cache\Adapter;
 
 use Codeception\Example;
-use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
-use Phalcon\Cache\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
-
-use Phalcon\Support\Exception;
-
-use Phalcon\Support\Exception as HelperException;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
