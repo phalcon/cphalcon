@@ -95,7 +95,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var array
      */
-    protected sqlVariables { get };
+    protected sqlVariables = [];
 
     /**
      * Current transaction level
@@ -770,6 +770,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function getSQLStatement() -> string
     {
         return this->sqlStatement;
+    }
+
+    /**
+     * Active SQL variables in the object
+     */
+    public function getSQLVariables() -> array
+    {
+        return this->sqlVariables;
     }
 
     /**
