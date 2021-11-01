@@ -246,9 +246,9 @@ class Stream extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param string                 $key
+     * @param mixed                  $value
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      */

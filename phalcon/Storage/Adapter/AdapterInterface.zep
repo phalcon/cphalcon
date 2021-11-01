@@ -75,9 +75,9 @@ interface AdapterInterface
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param string                 $key
+     * @param mixed                  $value
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      */
