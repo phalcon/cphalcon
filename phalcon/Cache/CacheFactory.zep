@@ -71,8 +71,9 @@ class CacheFactory extends AbstractConfigFactory
     {
         var name, options;
 
-        let config  = this->checkConfig(config),
-            name    = config["adapter"];
+        let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
+            name   = config["adapter"];
 
         if !fetch options, config["options"] {
             let options = [];

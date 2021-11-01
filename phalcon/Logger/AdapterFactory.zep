@@ -12,11 +12,17 @@ namespace Phalcon\Logger;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Exception;
 
+/**
+ * Factory used to create adapters used for Logging
+ */
 class AdapterFactory extends AbstractFactory
 {
     /**
      * AdapterFactory constructor.
+     *
+     * @param array $services
      */
     public function __construct(array! services = [])
     {
@@ -25,6 +31,13 @@ class AdapterFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param string $name
+     * @param string $fileName
+     * @param array  $options
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
     public function newInstance(
         string! name,

@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Text, endsWith)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 302, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 304, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Text, startsWith)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 301, &text, &start, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 303, &text, &start, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

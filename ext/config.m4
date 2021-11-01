@@ -16,17 +16,17 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/abstractvalidator.zep.c
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
+	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
-	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractfactory.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/forms/element/abstractelement.zep.c
+	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/support/collection.zep.c
-	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
 	phalcon/dispatcher/dispatcherinterface.zep.c
 	phalcon/encryption/crypt/padding/padinterface.zep.c
@@ -420,7 +420,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/kernel.zep.c
 	phalcon/loader.zep.c
 	phalcon/loader/exception.zep.c
-	phalcon/logger.zep.c
 	phalcon/logger/adapter/noop.zep.c
 	phalcon/logger/adapter/stream.zep.c
 	phalcon/logger/adapter/syslog.zep.c
@@ -429,6 +428,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/formatter/json.zep.c
 	phalcon/logger/formatter/line.zep.c
 	phalcon/logger/item.zep.c
+	phalcon/logger/logger.zep.c
 	phalcon/logger/loggerfactory.zep.c
 	phalcon/messages/exception.zep.c
 	phalcon/messages/message.zep.c

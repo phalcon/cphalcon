@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 
@@ -43,15 +44,13 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, _1$$3, _2$$4, _3$$4, _4$$5, _5$$5;
+	zval *config = NULL, config_sub, _1$$3, _2$$4, _3$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_5$$5);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -83,17 +82,51 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_INIT_VAR(&_5$$5);
-		ZVAL_STRING(&_5$$5, "You must provide 'adapter' option in factory config parameter.");
-		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "getexception", NULL, 0, &_5$$5);
+	RETVAL_ZVAL(config, 1, 0);
+	RETURN_MM();
+}
+
+/**
+ * Checks if the config has "adapter"
+ */
+PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval element, _1$$3;
+	zval *config_param = NULL, *element_param = NULL, _0$$3;
+	zval config;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&element);
+	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ARRAY(config)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &config_param, &element_param);
+	zephir_get_arrval(&config, config_param);
+	zephir_get_strval(&element, element_param);
+
+
+	if (UNEXPECTED(!(zephir_array_isset(&config, &element)))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_CONCAT_SVS(&_1$$3, "You must provide '", &element, "' option in factory config parameter.");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Factory/AbstractConfigFactory.zep", 35);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Factory/AbstractConfigFactory.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETVAL_ZVAL(config, 1, 0);
-	RETURN_MM();
+	RETURN_CTOR(&config);
 }
 
 /**

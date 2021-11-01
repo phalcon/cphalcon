@@ -10,11 +10,9 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger\Adapter;
+use LogicException;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;
-use UnexpectedValueException;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -22,14 +20,19 @@ use UnexpectedValueException;
  * Adapter to store logs in plain text files
  *
  *```php
- * $logger = new \Phalcon\Logger\Adapter\Stream("app/logs/test.log");
+ * $logger = new \Phalcon\Logger\Adapter\Stream('app/logs/test.log');
  *
- * $logger->log("This is a message");
- * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
+ * $logger->log('This is a message');
+ * $logger->log(\Phalcon\Logger::ERROR, 'This is an error');
+ * $logger->error('This is another error');
  *
  * $logger->close();
  *```
+ *
+ * @property resource|null $handler
+ * @property string        $mode
+ * @property string        $name
+ * @property array         $options
  */
 class Stream extends AbstractAdapter
 {
@@ -41,7 +44,7 @@ class Stream extends AbstractAdapter
     protected handler = null;
 
     /**
-     * The file open mode. Defaults to "ab"
+     * The file open mode. Defaults to 'ab'
      *
      * @var string
      */
@@ -62,13 +65,14 @@ class Stream extends AbstractAdapter
     protected options;
 
     /**
-     * Constructor. Accepts the name and some options
+     * Stream constructor.
      *
-     * @param array options = [
-     *     'mode' => 'ab'
-     * ]
+     * @param string $name
+     * @param array  $options
+     *
+     * @throws Exception
      */
-    public function __construct(string! name, array options = [])
+    public function __construct(string name, array options = [])
     {
         var mode;
 
@@ -107,6 +111,8 @@ class Stream extends AbstractAdapter
 
     /**
      * Processes the message i.e. writes it to the file
+     *
+     * @param Item $item
      */
     public function process(<Item> item) -> void
     {
@@ -118,7 +124,7 @@ class Stream extends AbstractAdapter
             if !is_resource(this->handler) {
                 let this->handler = null;
 
-                throw new UnexpectedValueException(
+                throw new LogicException(
                     sprintf(
                         "The file '%s' cannot be opened with mode '%s'",
                         this->name,

@@ -13,38 +13,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\LoggerFactory;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\AdapterFactory;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
 use Psr\Log\LoggerInterface;
 use UnitTester;
 
+use function logsDir;
+
+/**
+ * Class NewInstanceCest
+ *
+ * @package Phalcon\Tests\Unit\Logger\LoggerFactory
+ */
 class NewInstanceCest
 {
     /**
      * Tests Phalcon\Logger\LoggerFactory :: newInstance()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-03
+     * @since  2020-09-09
      */
     public function loggerLoggerFactoryNewInstance(UnitTester $I)
     {
         $I->wantToTest('Logger\LoggerFactory - newInstance()');
 
-        $factory = new LoggerFactory(
-            new AdapterFactory()
+        $logPath  = logsDir();
+        $fileName = $I->getNewFileName('log', 'log');
+        $adapter  = new Stream($logPath . $fileName);
+        $factory  = new LoggerFactory(new AdapterFactory());
+        $logger   = $factory->newInstance(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
         );
 
-        $logger = $factory->newInstance('my-logger');
-
-        $I->assertInstanceOf(
-            Logger::class,
-            $logger
-        );
-
-        $I->assertInstanceOf(
-            LoggerInterface::class,
-            $logger
-        );
+        $I->assertInstanceOf(LoggerInterface::class, $logger);
+        $I->assertInstanceOf(Logger::class, $logger);
     }
 }

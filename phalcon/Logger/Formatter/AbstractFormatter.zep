@@ -10,17 +10,32 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use DateTimeImmutable;
-use DateTimeZone;
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Support\Helper\Str\AbstractStr;
 
-abstract class AbstractFormatter implements FormatterInterface
+/**
+ * Class AbstractFormatter
+ *
+ * @property string $dateFormat
+ */
+abstract class AbstractFormatter extends AbstractStr implements FormatterInterface
 {
     /**
      * Default date format
      *
      * @var string
      */
-    protected dateFormat { get, set };
+    protected dateFormat = "c" { get, set };
+
+    /**
+     * Returns the date formatted for the logger.
+     *
+     * @param Item $item
+     *
+     * @return string
+     */
+    protected function getFormattedDate(<Item> item) -> string
+    {
+        return item->getDateTime()->format(this->dateFormat);
+    }
 }

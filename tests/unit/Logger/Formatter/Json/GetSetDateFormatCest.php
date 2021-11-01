@@ -19,25 +19,45 @@ use UnitTester;
 class GetSetDateFormatCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Json :: getDateFormat()/setDateFormat()
+     * Tests Phalcon\Logger\Formatter\Json :: setDateFormat()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function loggerFormatterJsonGetDateFormat(UnitTester $I)
+    public function loggerFormatterJsonGetSetDateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - getDateFormat()/setDateFormat()');
 
+        $newFormat = 'YmdHis';
+
+        /**
+         * Default
+         */
         $formatter = new Json();
 
         $expected = 'c';
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
 
-        $format    = 'YmdHis';
-        $formatter->setDateFormat($format);
+        /**
+         * Set in constructor
+         */
+        $formatter = new Json($newFormat);
 
-        $actual = $formatter->getDateFormat();
-        $I->assertEquals($format, $actual);
+        $expected = $newFormat;
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Set in setDateFormat
+         */
+        $formatter = new Json();
+        $formatter->setDateFormat($newFormat);
+
+        $expected = $newFormat;
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
     }
 }

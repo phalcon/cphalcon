@@ -29,6 +29,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Factory used to create adapters used for Logging
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger, AdapterFactory, phalcon, logger_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_logger_adapterfactory_method_entry, 0);
@@ -38,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param array $services
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 {
@@ -74,6 +79,13 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param string $name
+ * @param string $fileName
+ * @param array  $options
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 {

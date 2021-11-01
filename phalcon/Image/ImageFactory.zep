@@ -41,13 +41,9 @@ class ImageFactory extends AbstractFactory
     {
         var height, file, name, width;
 
-        let config = this->checkConfig(config);
-
-        if unlikely !isset config["file"] {
-            throw new Exception(
-                "You must provide 'file' option in factory config parameter."
-            );
-        }
+        let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
+            config = this->checkConfigElement(config, "file");
 
         let name = config["adapter"];
 

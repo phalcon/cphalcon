@@ -25,18 +25,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Logger\Adapter\Noop
+ * Class Noop
  *
- * Adapter to store logs in plain text files
- *
- *```php
- * $logger = new \Phalcon\Logger\Adapter\Noop();
- *
- * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
- *
- * $logger->close();
- *```
+ * @package Phalcon\Logger\Adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Noop)
 {
@@ -59,6 +50,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Noop, close)
 
 /**
  * Processes the message i.e. writes it to the file
+ *
+ * @param Item $item
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Noop, process)
 {

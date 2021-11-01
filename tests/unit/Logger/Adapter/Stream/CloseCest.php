@@ -14,26 +14,40 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
+
+use function date_default_timezone_get;
 
 class CloseCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: close()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerAdapterStreamClose(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - close()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
-        $time       = new DateTimeImmutable('now');
+        $timezone   = date_default_timezone_get();
+        $datetime   = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $adapter    = new Stream($outputPath . $fileName);
 
-        $item = new Item('Message 1', 'debug', Logger::DEBUG, $time);
+        $item = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
         $adapter->process($item);
 
         $actual = $adapter->close();
