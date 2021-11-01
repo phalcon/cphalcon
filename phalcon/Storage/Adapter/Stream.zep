@@ -254,22 +254,41 @@ class Stream extends AbstractAdapter
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var directory;
+        array payload;
+
+        if (typeof ttl === "integer" && ttl < 1) {
+            return this->delete(key);
+        }
+
+        let payload   = [
+            "created" : time(),
+            "ttl"     : this->getTtl(ttl),
+            "content" : this->getSerializedData(value)
+        ];
+
+        return this->storePayload(payload, key);
+    }
+
+    /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string! key, var value) -> bool
+    {
         array payload;
 
         let payload   = [
-                "created" : time(),
-                "ttl"     : this->getTtl(ttl),
-                "content" : this->getSerializedData(value)
-            ],
-            payload   = serialize(payload),
-            directory = this->getDir(key);
+            "created" : time(),
+            "ttl"     : "forever",
+            "content" : this->getSerializedData(value)
+        ];
 
-        if !is_dir(directory) {
-            mkdir(directory, 0777, true);
-        }
-
-        return false !== file_put_contents(directory . key, payload, LOCK_EX);
+        return this->storePayload(payload, key);
     }
 
     /**
@@ -400,7 +419,34 @@ class Stream extends AbstractAdapter
         let created = this->getArrVal(payload, "created", time()),
             ttl     = this->getArrVal(payload, "ttl", 3600);
 
+        if ("forever" === ttl) {
+            return false;
+        }
+
         return (created + ttl) < time();
+    }
+
+
+    /**
+     * Stores an array payload on the file system
+     *
+     * @param array  $payload
+     * @param string $key
+     *
+     * @return bool
+     */
+    private function storePayload(array payload, string key) -> bool
+    {
+        var directory, payload;
+
+        let payload   = serialize(payload),
+            directory = this->getDir(key);
+
+        if !is_dir(directory) {
+            mkdir(directory, 0777, true);
+        }
+
+        return false !== file_put_contents(directory . key, payload, LOCK_EX);
     }
 
     /**
