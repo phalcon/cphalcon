@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Storage\Adapter;
+namespace Phalcon\Tests\Integration\Cache\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;
 use Memcached as NativeMemcached;
-use Phalcon\Storage\Adapter\Apcu;
-use Phalcon\Storage\Adapter\Libmemcached;
-use Phalcon\Storage\Adapter\Memory;
-use Phalcon\Storage\Adapter\Redis;
-use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use Redis as NativeRedis;
 
@@ -28,22 +28,24 @@ use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
 use function sprintf;
+use function uniqid;
+use function usleep;
 
-class GetAdapterCest
+class GetSetForeverCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\* :: getAdapter()
+     * Tests Phalcon\Cache\Adapter\* :: get()/setForever()
      *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetAdapter(IntegrationTester $I, Example $example)
+    public function storageAdapterGetSetForever(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
-                'Storage\Adapter\%s - getAdapter()',
+                'Cache\Adapter\%s - get()/setForever()',
                 $example['className']
             )
         );
@@ -59,14 +61,20 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new $class($serializer, $options);
 
-        $expected = $example['expected'];
-        $actual   = $adapter->getAdapter();
+        $key = uniqid();
 
-        if (null === $expected) {
-            $I->assertNull($actual);
-        } else {
-            $I->assertInstanceOf($expected, $actual);
-        }
+        $result = $adapter->setForever($key, "test");
+        $I->assertTrue($result);
+
+        sleep(2);
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
+
+        /**
+         * Delete it
+         */
+        $result = $adapter->delete($key);
+        $I->assertTrue($result);
     }
 
     /**

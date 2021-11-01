@@ -15,35 +15,33 @@ namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;
-use Memcached as NativeMemcached;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use Redis as NativeRedis;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
-use function sprintf;
+use function uniqid;
 
-class GetAdapterCest
+class IncrementCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\* :: getAdapter()
+     * Tests Phalcon\Storage\Adapter\* :: increment()
      *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetAdapter(IntegrationTester $I, Example $example)
+    public function storageAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
-                'Storage\Adapter\%s - getAdapter()',
+                'Storage\Adapter\%s - increment()',
                 $example['className']
             )
         );
@@ -59,14 +57,31 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new $class($serializer, $options);
 
-        $expected = $example['expected'];
-        $actual   = $adapter->getAdapter();
+        $key    = uniqid();
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
 
-        if (null === $expected) {
-            $I->assertNull($actual);
-        } else {
-            $I->assertInstanceOf($expected, $actual);
-        }
+        $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * unknown key
+         */
+        $key      = uniqid();
+        $expected = $example['unknown'];
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -79,41 +94,38 @@ class GetAdapterCest
                 'className' => 'Apcu',
                 'class'     => Apcu::class,
                 'options'   => [],
-                'expected'  => null,
                 'extension' => 'apcu',
+                'unknown'   => 1,
             ],
             [
                 'className' => 'Libmemcached',
                 'class'     => Libmemcached::class,
                 'options'   => getOptionsLibmemcached(),
-                'expected'  => NativeMemcached::class,
                 'extension' => 'memcached',
+                'unknown'   => false,
             ],
             [
                 'className' => 'Memory',
-                'label'     => 'default',
                 'class'     => Memory::class,
                 'options'   => [],
-                'expected'  => null,
                 'extension' => '',
+                'unknown'   => false,
             ],
-            [
-                'className' => 'Redis',
-                'label'     => 'default',
-                'class'     => Redis::class,
-                'options'   => getOptionsRedis(),
-                'expected'  => NativeRedis::class,
-                'extension' => 'redis',
-            ],
+//            [
+//                'className' => 'Redis',
+//                'class'     => Redis::class,
+//                'options'   => getOptionsRedis(),
+//                'extension' => 'redis',
+//                'unknown'   => 1,
+//            ],
             [
                 'className' => 'Stream',
-                'label'     => 'default',
                 'class'     => Stream::class,
                 'options'   => [
                     'storageDir' => outputDir(),
                 ],
-                'expected'  => null,
                 'extension' => '',
+                'unknown'   => false,
             ],
         ];
     }

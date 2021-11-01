@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;

@@ -14,17 +14,22 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
+
+use Phalcon\Support\Exception as HelperException;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 use function uniqid;
 
 class HasCest
@@ -40,7 +45,10 @@ class HasCest
     public function storageAdapterHas(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - has()'
+            sprintf(
+                'Storage\Adapter\%s - has()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];

@@ -14,13 +14,19 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
+
+use Phalcon\Support\Exception;
+
+use Phalcon\Support\Exception as HelperException;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -40,7 +46,10 @@ class ClearCest
     public function storageAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - getPrefix()'
+            sprintf(
+                'Storage\Adapter\%s - getPrefix()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];

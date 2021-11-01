@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Redis;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\Exception as CacheException;
+use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\Fixtures\Traits\RedisTrait;
@@ -39,7 +39,7 @@ class GetSetCest
      * @param Example           $example
      *
      * @throws HelperException
-     * @throws CacheException
+     * @throws StorageException
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -66,7 +66,7 @@ class GetSetCest
      * @param IntegrationTester $I
      *
      * @throws HelperException
-     * @throws CacheException
+     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -108,7 +108,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - wrong index');
 
         $I->expectThrowable(
-            new CacheException('Redis server selected database failed'),
+            new StorageException('Redis server selected database failed'),
             function () {
                 $serializer = new SerializerFactory();
                 $adapter    = new Redis(
@@ -139,7 +139,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - failed auth');
 
         $I->expectThrowable(
-            new CacheException('Failed to authenticate with the Redis server'),
+            new StorageException('Failed to authenticate with the Redis server'),
             function () {
                 $serializer = new SerializerFactory();
                 $adapter    = new Redis(
@@ -163,7 +163,7 @@ class GetSetCest
      * @param IntegrationTester $I
      *
      * @throws HelperException
-     * @throws CacheException
+     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
