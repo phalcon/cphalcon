@@ -17,58 +17,59 @@ use DateTimeImmutable;
  *
  * Represents each item in a logging transaction
  *
+ * @property array             $context
+ * @property string            $message
+ * @property int               $level
+ * @property string            $levelName
+ * @property DateTimeImmutable $datetime
  */
 class Item
 {
     /**
-     * Log Context
-     *
-     * @var mixed
+     * @var array
      */
-    protected context { get };
+    protected context = [] { get };
 
     /**
-     * Log message
-     *
      * @var string
      */
     protected message { get };
 
     /**
-     * Log type
-     *
-     * @var integer
+     * @var int
      */
     protected level { get };
 
     /**
-     * Log message
-     *
      * @var string
      */
     protected levelName { get };
 
     /**
-     * Log timestamp
-     *
      * @var DateTimeImmutable
      */
-    protected time { get };
+    protected dateTime { get };
 
     /**
-     * Phalcon\Logger\Item constructor
+     * Item constructor.
+     *
+     * @param string            $message
+     * @param string            $levelName
+     * @param int               $level
+     * @param DateTimeImmutable $datetime
+     * @param array             $context
      */
     public function __construct(
         string message,
         string levelName,
         int level,
-        <DateTimeImmutable> time,
+        <DateTimeImmutable> dateTime,
         array context = []
     ) {
         let this->message   = message,
             this->levelName = levelName,
             this->level     = level,
-            this->time      = time,
+            this->dateTime  = dateTime,
             this->context   = context;
     }
 }

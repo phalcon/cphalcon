@@ -11,62 +11,87 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Logger\Formatter\Json;
+namespace Phalcon\Testss\Unit\Logger\Formatter\Json;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
+use Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-use function sprintf;
+use function date_default_timezone_get;
 
 class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Json :: format()
      *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
      */
     public function loggerFormatterJsonFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - format()');
 
         $formatter = new Json();
-        $time      = new DateTimeImmutable("now");
-        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $timezone = date_default_timezone_get();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $item     = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
         $expected = sprintf(
             '{"level":"debug","message":"log message","timestamp":"%s"}',
-            $time->format('c')
+            $datetime->format('c')
         );
 
-        $actual = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Json :: format() -custom
      *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
      */
     public function loggerFormatterJsonFormatCustom(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - format() - custom');
 
         $formatter = new Json('YmdHis');
-        $time      = new DateTimeImmutable("now");
-        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $timezone = date_default_timezone_get();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $item     = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
         $expected = sprintf(
             '{"level":"debug","message":"log message","timestamp":"%s"}',
-            $time->format('YmdHis')
+            $datetime->format('YmdHis')
         );
 
-        $actual = $formatter->format($item);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 }

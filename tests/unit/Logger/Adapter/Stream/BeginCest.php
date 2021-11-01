@@ -14,13 +14,17 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Exception;
 use UnitTester;
 
 class BeginCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: begin()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerAdapterStreamBegin(UnitTester $I)
     {

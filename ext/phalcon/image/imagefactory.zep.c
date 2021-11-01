@@ -88,9 +88,9 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
 PHP_METHOD(Phalcon_Image_ImageFactory, load)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, height, file, name, width, _0, _2, _3;
+	zval *config = NULL, config_sub, height, file, name, width, _0, _1, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&width);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -117,26 +117,32 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
-	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("file"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "You must provide 'file' option in factory config parameter.", "phalcon/Image/ImageFactory.zep", 49);
-		return;
-	}
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "adapter");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(config, &_0);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "file");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 52);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 48);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "file");
-	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "file");
+	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_2, 81, config, &_1);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_STRING(&_2, "height");
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "height");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_2, 81, config, &_1, &_3);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_STRING(&_2, "width");
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "width");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 81, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_2, 81, config, &_1, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();

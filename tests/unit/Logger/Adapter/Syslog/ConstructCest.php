@@ -24,7 +24,11 @@ class ConstructCest
      *
      * @dataProvider getExamples
      *
-     * @since        2019-10-14
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function loggerAdapterSyslogConstructOptionsCast(UnitTester $I, Example $example)
     {
@@ -41,6 +45,9 @@ class ConstructCest
         );
     }
 
+    /**
+     * @return array[]
+     */
     private function getExamples(): array
     {
         return [

@@ -14,27 +14,36 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Item;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
+
+use function date_default_timezone_get;
 
 class GetLevelNameCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getLevelName()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerItemGetLevelName(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getLevelName()');
 
-        $time = new DateTimeImmutable("now");
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+        $timezone = date_default_timezone_get();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $item     = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
-        $expected = 'debug';
-        $actual   = $item->getLevelName();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals('debug', $item->getLevelName());
     }
 }

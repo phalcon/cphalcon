@@ -22,7 +22,11 @@ class RollbackCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: rollback()
      *
+     * @param UnitTester $I
+     *
      * @throws Exception
+     * @since  2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function loggerAdapterStreamRollback(UnitTester $I)
     {

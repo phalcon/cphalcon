@@ -21,23 +21,42 @@ class GetSetFormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getFormat()/setFormat()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerFormatterLineGetSetFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - getFormat()/setFormat()');
 
-        $formatter = new Line();
-        $expected  = '[%date%][%level%] %message%';
-        $actual    = $formatter->getFormat();
+        $newFormat = '%message%-[%date%]-[%level%]';
 
+        /**
+         * Default
+         */
+        $formatter = new Line();
+
+        $expected = '[%date%][%level%] %message%';
+        $actual   = $formatter->getFormat();
         $I->assertEquals($expected, $actual);
 
-        $format = '%message%-[%date%]-[%level%]';
-        $formatter->setFormat($format);
+        /**
+         * Set with constructor
+         */
+        $formatter = new Line($newFormat);
 
-        $expected = $format;
+        $expected = $newFormat;
+        $actual   = $formatter->getFormat();
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Set with setFormat()
+         */
+        $formatter = new Line($newFormat);
+        $formatter->setFormat($newFormat);
+
+        $expected = $newFormat;
         $actual   = $formatter->getFormat();
         $I->assertEquals($expected, $actual);
     }

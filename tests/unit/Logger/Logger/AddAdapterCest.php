@@ -13,14 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 class AddAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: addAdapter()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerAddAdapter(UnitTester $I)
     {

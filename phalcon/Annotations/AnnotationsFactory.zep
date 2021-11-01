@@ -44,6 +44,7 @@ class AnnotationsFactory extends AbstractFactory
         var name, options;
 
         let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
             name   = config["adapter"];
 
         unset config["adapter"];

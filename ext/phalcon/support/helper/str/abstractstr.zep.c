@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toLower)
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text, &_0, &encoding);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text, &_0, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toUpper)
 
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text, &_0, &encoding);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text, &_0, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 }

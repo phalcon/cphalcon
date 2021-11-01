@@ -10,14 +10,13 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use DateTime;
+use Exception;
 use Phalcon\Logger\Item;
-use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
- * Phalcon\Logger\Formatter\Line
+ * Class Line
  *
- * Formats messages using an one-line string
+ * @property string $format
  */
 class Line extends AbstractFormatter
 {
@@ -29,7 +28,10 @@ class Line extends AbstractFormatter
     protected format { get, set };
 
     /**
-     * Phalcon\Logger\Formatter\Line construct
+     * Line constructor.
+     *
+     * @param string $format
+     * @param string $dateFormat
      */
     public function __construct(
         string format = "[%date%][%level%] %message%",
@@ -41,20 +43,25 @@ class Line extends AbstractFormatter
 
     /**
      * Applies a format to a message before sent it to the internal log
+     *
+     * @param Item $item
+     *
+     * @return string
+     * @throws Exception
      */
     public function format(<Item> item) -> string
     {
-        var context, format, interpolate, time;
+        var message;
 
-        let context     = item->getContext(),
-            format      = this->format,
-            time        = item->getTime(),
-            interpolate = new Interpolate();
+        let message = strtr(
+            this->format,
+            [
+                "%date%"    : this->getFormattedDate(item),
+                "%level%"   : item->getLevelName(),
+                "%message%" : item->getMessage()
+            ]
+        );
 
-        let context["date"]    = time->format(this->dateFormat),
-            context["level"]   = item->getLevelName(),
-            context["message"] = item->getMessage();
-
-        return interpolate->__invoke(format, context);
+        return this->toInterpolate(message, item->getContext());
     }
 }

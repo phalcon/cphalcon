@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_First, __invoke)
 	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 286, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 288, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
 	RETURN_MM();

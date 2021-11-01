@@ -22,8 +22,10 @@ class CommitCest
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: commit()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerAdapterNoopCommit(UnitTester $I)
     {
@@ -47,8 +49,10 @@ class CommitCest
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: commit() - no transaction
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerAdapterNoopCommitNoTransaction(UnitTester $I)
     {
