@@ -238,6 +238,47 @@ class Validation extends Injectable implements ValidationInterface
         return this->validators;
     }
 
+    private function getValueByEntity(entity, string field) -> var | null
+    {
+        string method;
+
+        let method = "get" . camelize(field);
+
+        if method_exists(entity, method) {
+            return entity->{method}();
+        } elseif method_exists(entity, "readAttribute") {
+            return entity->readAttribute(field);
+        } elseif isset entity->{field} {
+            return entity->{field};
+        } else {
+            return null;
+        }
+    }
+
+    private function getValueByData(data, string field) -> var | null
+    {
+        var value, values;
+
+        // Check if there is a calculated value
+        let values = this->values;
+
+        if fetch value, values[field] {
+            return value;
+        }
+
+        if typeof data == "array" {
+            if isset data[field] {
+                return data[field];
+            }
+        } elseif typeof data == "object" {
+            if isset data->{field} {
+                return data->{field};
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Gets the a value to validate in the array/object data source
      *
@@ -245,50 +286,26 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function getValue(string field) -> var | null
     {
-        var entity, method, value, data, values, filters, fieldFilters,
-            container, filterService, camelizedField;
+        var entity, method, value, data, filters, fieldFilters,
+            container, filterService;
+        bool isRawFetched;
 
+        let isRawFetched = false;
         let entity = this->entity;
+        let data = this->data;
 
         //  If the entity is an object use it to retrieve the values
         if typeof entity == "object" {
-            let camelizedField = camelize(field);
-            let method = "get" . camelizedField;
-
-            if method_exists(entity, method) {
-                let value = entity->{method}();
-            } elseif method_exists(entity, "readAttribute") {
-                let value = entity->readAttribute(field);
-            } elseif isset entity->{field} {
-                let value = entity->{field};
-            } else {
-                let value = null;
+            let value = this->getValueByEntity(entity, field);
+            if value === null {
+                let isRawFetched = true;
+                let value = this->getValueByData(data, field);
             }
         } else {
-            let data = this->data;
-
             if unlikely (typeof data != "array" && typeof data != "object") {
                 throw new Exception("There is no data to validate");
             }
-
-            // Check if there is a calculated value
-            let values = this->values;
-
-            if fetch value, values[field] {
-                return value;
-            }
-
-            let value = null;
-
-            if typeof data == "array" {
-                if isset data[field] {
-                    let value = data[field];
-                }
-            } elseif typeof data == "object" {
-                if isset data->{field} {
-                    let value = data->{field};
-                }
-            }
+            let value = this->getValueByData(data, field);
         }
 
         if value === null {
@@ -324,8 +341,8 @@ class Validation extends Injectable implements ValidationInterface
                 /**
                  * Set filtered value in entity
                  */
-                if typeof entity == "object" {
-                    let method = "set" . camelizedField;
+                if typeof entity == "object" && isRawFetched == false {
+                    let method = "set" . camelize(field);
 
                     if method_exists(entity, method) {
                         entity->{method}(value);
