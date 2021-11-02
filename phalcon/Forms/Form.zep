@@ -79,6 +79,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     protected validation = null { set, get };
 
     /**
+     * @var array
+     */
+    protected whitelist = [];
+
+    /**
      * Phalcon\Forms\Form constructor
      */
     public function __construct(var entity = null, array userOptions = [])
@@ -179,6 +184,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if unlikely empty this->elements {
             throw new Exception("There are no elements in the form");
+        }
+
+        if whitelist === null && !empty this->whitelist {
+            let whitelist = this->whitelist;
         }
 
         let filter = null;
@@ -371,6 +380,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function getEntity()
     {
         return this->entity;
+    }
+
+    /**
+     * Returns whitelist array
+     *
+     * @return array
+     */
+    public function getWhitelist() -> array
+    {
+        return this->whitelist;
     }
 
     /**
@@ -598,7 +617,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param array data
      * @param object entity
      */
-    public function isValid(var data = null, var entity = null) -> bool
+    public function isValid(var data = null, var entity = null, var whitelist = null) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
             elementMessage;
@@ -606,6 +625,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if empty this->elements {
             return true;
+        }
+
+        if whitelist === null && !empty this->whitelist {
+            let whitelist = this->whitelist;
         }
 
         /**
@@ -622,11 +645,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let entity = this->entity;
         }
 
-        if typeof entity == "object" {
-            this->bind(data, entity);
-        } else {
-            this->bind(data);
-        }
+        this->bind(data, entity, whitelist);
 
         /**
          * Check if there is a method 'beforeValidation'
@@ -813,6 +832,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
+        return this;
+    }
+
+    /**
+     * Sets the default whitelist
+     *
+     * @param object entity
+     */
+    public function setWhitelist(array whitelist) -> <Form>
+    {
+        let this->whitelist = whitelist;
 
         return this;
     }
