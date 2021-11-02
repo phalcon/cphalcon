@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Html\Helper\Script;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Script;
 use UnitTester;
 

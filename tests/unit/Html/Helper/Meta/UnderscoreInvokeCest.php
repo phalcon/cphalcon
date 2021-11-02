@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Meta;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Factory\Exception;
 use Phalcon\Html\Helper\Meta;
 use Phalcon\Html\TagFactory;

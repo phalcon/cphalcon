@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Title;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Title;
 use Phalcon\Html\TagFactory;
 use UnitTester;

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 use Phalcon\Di\FactoryDefault\Cli as Di;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 
 class SetSharedCest
 {

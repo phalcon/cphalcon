@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Encryption\Crypt;
 use Phalcon\Di;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class GetSetDefaultCest

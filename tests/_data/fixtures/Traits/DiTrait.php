@@ -26,7 +26,7 @@ use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
 use Phalcon\Http\Request;

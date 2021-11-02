@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Escaper;
+namespace Phalcon\Html\Escaper;
 
 /**
- * Exceptions thrown in Phalcon\Escaper will use this class
+ * Exceptions thrown in Phalcon\Html\Escaper will use this class
  */
 class Exception extends \Phalcon\Exception
 {

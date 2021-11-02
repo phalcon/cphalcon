@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class EscapeJsCest
@@ -47,10 +47,7 @@ class EscapeJsCest
             . 'var h \x3d document.createElement(\x27li\x27);'
             . 'l.appendChild(h);'
             . '}}';
-
-        $I->assertEquals(
-            $expected,
-            $escaper->escapeJs($source)
-        );
+        $actual   = $escaper->js($source);
+        $I->assertEquals($expected, $actual);
     }
 }

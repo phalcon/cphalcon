@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class SetDoubleEncodeCest
@@ -32,16 +32,14 @@ class SetDoubleEncodeCest
 
         $source = '<h1>&amp;</h1>';
 
-        $I->assertEquals(
-            '&lt;h1&gt;&amp;amp;&lt;/h1&gt;',
-            $escaper->escapeHtml($source)
-        );
+        $expected = '&lt;h1&gt;&amp;amp;&lt;/h1&gt;';
+        $actual   = $escaper->html($source);
+        $I->assertEquals($expected, $actual);
 
         $escaper->setDoubleEncode(false);
 
-        $I->assertEquals(
-            '&lt;h1&gt;&amp;&lt;/h1&gt;',
-            $escaper->escapeHtml($source)
-        );
+        $expected = '&lt;h1&gt;&amp;&lt;/h1&gt;';
+        $actual   = $escaper->html($source);
+        $I->assertEquals($expected, $actual);
     }
 }

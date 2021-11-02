@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
-class EscapeCssCest
+class CssCest
 {
     /**
      * Tests Phalcon\Escaper :: escapeCss()
@@ -30,15 +30,12 @@ class EscapeCssCest
 
         $escaper = new Escaper();
 
-        $source = ".émotion { background: url('http://phalcon.io/a.php?c=d&e=f'); }";
-
+        $source   = ".émotion { background: url('http://phalcon.io/a.php?c=d&e=f'); }";
         $expected = '\2e \e9 motion\20 \7b \20 background\3a \20 url\28 '
             . '\27 http\3a \2f \2f phalcon\2e io\2f a\2e php'
             . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
 
-        $I->assertEquals(
-            $expected,
-            $escaper->escapeCss($source)
-        );
+        $actual   = $escaper->css($source);
+        $I->assertEquals($expected, $actual);
     }
 }

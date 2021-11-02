@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Base;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Factory\Exception as ExceptionAlias;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Base;

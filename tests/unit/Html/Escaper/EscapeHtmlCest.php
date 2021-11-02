@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class EscapeHtmlCest
@@ -28,12 +28,10 @@ class EscapeHtmlCest
     {
         $I->wantToTest('Escaper - escapeHtml()');
 
-        $escaper = new Escaper();
-
-        $I->assertEquals(
-            '&lt;h1&gt;&lt;/h1&gt;',
-            $escaper->escapeHtml('<h1></h1>')
-        );
+        $escaper  = new Escaper();
+        $expected = '&lt;h1&gt;&lt;/h1&gt;';
+        $actual   = $escaper->html('<h1></h1>');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -48,9 +46,9 @@ class EscapeHtmlCest
 
         $escaper = new Escaper();
 
-        $I->assertEquals(
-            '',
-            $escaper->escapeHtml(null)
-        );
+        $escaper  = new Escaper();
+        $expected = '';
+        $actual   = $escaper->html(null);
+        $I->assertEquals($expected, $actual);
     }
 }

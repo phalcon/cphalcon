@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class GetSetEncodingCest
@@ -32,9 +32,8 @@ class GetSetEncodingCest
 
         $escaper->setEncoding('UTF-8');
 
-        $I->assertEquals(
-            'UTF-8',
-            $escaper->getEncoding()
-        );
+        $expected = 'UTF-8';
+        $actual   = $escaper->getEncoding();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class SetHtmlQuoteTypeCest
@@ -32,9 +32,8 @@ class SetHtmlQuoteTypeCest
 
         $escaper->setHtmlQuoteType(ENT_HTML401);
 
-        $I->assertEquals(
-            'That&#039;s right',
-            $escaper->escapeHtmlAttr("That's right")
-        );
+        $expected = 'That&#039;s right';
+        $actual   = $escaper->attributes("That's right");
+        $I->assertEquals($expected, $actual);
     }
 }
