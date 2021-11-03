@@ -37,10 +37,13 @@ class ClearCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function cacheAdapterClear(IntegrationTester $I, Example $example)
+    public function storageAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - getPrefix()'
+            sprintf(
+                'Cache\Adapter\%s - getPrefix()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];

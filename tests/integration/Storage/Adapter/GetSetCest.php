@@ -28,22 +28,23 @@ use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
 use function sprintf;
+use function uniqid;
 
-class GetAdapterCest
+class GetSetCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\* :: getAdapter()
+     * Tests Phalcon\Storage\Adapter\* :: get()/set()
      *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetAdapter(IntegrationTester $I, Example $example)
+    public function storageAdapterGetSetWithZeroTtl(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
-                'Storage\Adapter\%s - getAdapter()',
+                'Storage\Adapter\%s - get()/set()',
                 $example['className']
             )
         );
@@ -59,14 +60,22 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new $class($serializer, $options);
 
-        $expected = $example['expected'];
-        $actual   = $adapter->getAdapter();
+        $key = uniqid();
 
-        if (null === $expected) {
-            $I->assertNull($actual);
-        } else {
-            $I->assertInstanceOf($expected, $actual);
-        }
+        $result = $adapter->set($key, "test");
+        $I->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
+
+        /**
+         * This will issue delete
+         */
+        $result = $adapter->set($key, "test", 0);
+        $I->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $I->assertFalse($result);
     }
 
     /**

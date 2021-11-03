@@ -26,7 +26,7 @@ class GetSetCest
     use ApcuTrait;
 
     /**
-     * Tests Phalcon\Cache\Adapter\Apcu :: get()
+     * Tests Phalcon\Cache\Adapter\Apcu :: get()/set()
      *
      * @dataProvider getExamples
      *
@@ -55,6 +55,9 @@ class GetSetCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

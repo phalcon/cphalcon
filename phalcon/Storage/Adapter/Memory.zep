@@ -169,23 +169,40 @@ class Memory extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param string                 $key
+     * @param mixed                  $value
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      * @throws BaseException
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var content, lifetime, prefixedKey;
+        var content, prefixedKey;
+
+        if (typeof ttl === "integer" && ttl < 1) {
+            return this->delete(key);
+        }
 
         let content     = this->getSerializedData(value),
-            lifetime    = this->getTtl(ttl),
             prefixedKey = this->getPrefixedKey(key);
 
         let this->data[prefixedKey] = content;
 
         return true;
+    }
+
+    /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string! key, var value) -> bool
+    {
+        return this->set(key, value);
     }
 }

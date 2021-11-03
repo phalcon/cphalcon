@@ -19,17 +19,6 @@
 - Changes to `Phalcon\Crypt`
   - Moved `Phalcon\Crypt\Exception` to `Phalcon\Crypt\Exception\Exception`
   - Moved `Phalcon\Crypt\Mismatch` to `Phalcon\Crypt\Exception\Mismatch`
-  - Added `Phalcon\Crypt\Padding\PadInteface` and padding adapters
-      - `Phalcon\Crypt\Padding\Ansi`
-      - `Phalcon\Crypt\Padding\Iso10126`
-      - `Phalcon\Crypt\Padding\IsoIek`
-      - `Phalcon\Crypt\Padding\Noop`
-      - `Phalcon\Crypt\Padding\PadInterface`
-      - `Phalcon\Crypt\Padding\Pkcs7`
-      - `Phalcon\Crypt\Padding\Space`
-      - `Phalcon\Crypt\Padding\Zero`
-  - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
-  - Added more tests increasing coverage
   - Changed the ccm/gcm modes to store the `authTag` with the encryption string and process it with the decryption string [#15717](https://github.com/phalcon/cphalcon/issues/15717)
 - Created new namespace `Phalcon\Encryption`
   - Moved `Phalcon\Crypt` to `Phalcon\Encryption\Crypt`
@@ -86,6 +75,19 @@
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
 - Added `Phalcon\Events\AbstractEventsAware` class to handle the Events Manager when necessary [#15691](https://github.com/phalcon/cphalcon/issues/15691)
 - Added `Phalcon\Acl\Adapter\AdapterInterface::getInheritedRoles()` and `Phalcon\Acl\Adapter\Memory::getInheritedRoles()` that returns the inherited roles based on a passed role name (or all if no parameter supplied) [#15154](https://github.com/phalcon/cphalcon/issues/15154)
+- Changes to `Phalcon\Crypt`
+    - Added `Phalcon\Crypt\Padding\PadInteface` and padding adapters
+        - `Phalcon\Crypt\Padding\Ansi`
+        - `Phalcon\Crypt\Padding\Iso10126`
+        - `Phalcon\Crypt\Padding\IsoIek`
+        - `Phalcon\Crypt\Padding\Noop`
+        - `Phalcon\Crypt\Padding\PadInterface`
+        - `Phalcon\Crypt\Padding\Pkcs7`
+        - `Phalcon\Crypt\Padding\Space`
+        - `Phalcon\Crypt\Padding\Zero`
+    - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
+    - Added more tests increasing coverage [#15717](https://github.com/phalcon/cphalcon/issues/15717)
+- Added `Phalcon\Cache\Adapter\*::setForever()` and `Phalcon\Storage\Adapter\*::setForever()` to allow storing a key forever [#15485](https://github.com/phalcon/cphalcon/issues/15485)
 
 ## Fixed
 - Fixed `Query::getExpression()` return type [#15553](https://github.com/phalcon/cphalcon/issues/15553)
@@ -97,6 +99,7 @@
 - Fixed globals (Zephir change) to correctly display string values for global settings in `phpinfo()` [#15269](https://github.com/phalcon/cphalcon/issues/15269)
 - Fixed `Phalcon\Storage\Adapter\Redis::getAdapter()` and `Phalcon\Cache\Adapter\Redis::getAdapter()` to accept the connection timeout in the constructor `options` [#15744](https://github.com/phalcon/cphalcon/issues/15744) 
 - Fixed `Phalcon\Db\Adapter\AbstractAdapter::getSQLVariables()` to return an empty array when initialized [#15637](https://github.com/phalcon/cphalcon/issues/15637)
+- Fixed `Phalcon\Cache\Adapter\*` and `Phalcon\Storage\Adapter\*` to delete a key when `set()` is called with a zero or negative TTL [#15485](https://github.com/phalcon/cphalcon/issues/15485)
 
 # [5.0.0alpha6](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha6) (2021-09-16)
 

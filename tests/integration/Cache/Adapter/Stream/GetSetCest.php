@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
-use Phalcon\Storage\Exception as CacheException;
+use Phalcon\Cache\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
 use stdClass;

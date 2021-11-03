@@ -25,6 +25,7 @@ use Phalcon\Storage\SerializerFactory;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 use function uniqid;
 
 class DeleteCest
@@ -37,10 +38,13 @@ class DeleteCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function cacheAdapterDelete(IntegrationTester $I, Example $example)
+    public function storageAdapterDelete(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - delete()'
+            sprintf(
+                'Cache\Adapter\%s - delete()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];
@@ -68,6 +72,13 @@ class DeleteCest
         /**
          * Call clear twice to ensure it returns false
          */
+        $actual = $adapter->delete($key);
+        $I->assertFalse($actual);
+
+        /**
+         * Delete unknown
+         */
+        $key    = uniqid();
         $actual = $adapter->delete($key);
         $I->assertFalse($actual);
     }

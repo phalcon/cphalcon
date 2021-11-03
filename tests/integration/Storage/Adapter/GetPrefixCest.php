@@ -25,6 +25,7 @@ use Phalcon\Storage\SerializerFactory;
 use function array_merge;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 
 class GetPrefixCest
 {
@@ -39,7 +40,11 @@ class GetPrefixCest
     public function storageAdapterGetSetPrefix(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - getPrefix() - ' . $example['label']
+            sprintf(
+                'Storage\Adapter\%s - getPrefix() - %s',
+                $example['className'],
+                $example['label']
+            )
         );
 
         $extension = $example['extension'];

@@ -169,9 +169,9 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param string                 $key
+     * @param mixed                  $value
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      * @throws Exception
@@ -180,10 +180,35 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
+        if (typeof ttl === "integer" && ttl < 1) {
+            return this->delete(key);
+        }
+
         let result = apcu_store(
             this->getPrefixedKey(key),
             this->getSerializedData(value),
             this->getTtl(ttl)
+        );
+
+        return typeof result === "bool" ? result : false;
+    }
+
+    /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string! key, var value) -> bool
+    {
+        var result;
+
+        let result = apcu_store(
+            this->getPrefixedKey(key),
+            this->getSerializedData(value)
         );
 
         return typeof result === "bool" ? result : false;

@@ -27,6 +27,7 @@ use Redis as NativeRedis;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 
 class GetAdapterCest
 {
@@ -38,10 +39,13 @@ class GetAdapterCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function cacheAdapterGetAdapter(IntegrationTester $I, Example $example)
+    public function storageAdapterGetAdapter(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - getAdapter()'
+            sprintf(
+                'Cache\Adapter\%s - getAdapter()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];

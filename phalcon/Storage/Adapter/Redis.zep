@@ -186,22 +186,49 @@ class Redis extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param string                 $key
+     * @param mixed                  $value
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      * @throws BaseException
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        return this->getAdapter()
-                   ->set(
-                       key,
-                       this->getSerializedData(value),
-                       this->getTtl(ttl)
-                   )
+        var result;
+
+        if (typeof ttl === "integer" && ttl < 1) {
+            return this->delete(key);
+        }
+
+        let result = this->getAdapter()
+                         ->set(
+                             key,
+                             this->getSerializedData(value),
+                             this->getTtl(ttl)
+                         )
         ;
+
+        return typeof result === "bool" ? result : false;
+    }
+
+    /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string! key, var value) -> bool
+    {
+        var result;
+
+        let result = this->getAdapter()
+                         ->set(key, this->getSerializedData(value));
+
+        return typeof result === "bool" ? result : false;
     }
 
     /**

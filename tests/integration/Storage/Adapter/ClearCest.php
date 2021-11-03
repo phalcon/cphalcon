@@ -40,7 +40,10 @@ class ClearCest
     public function storageAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - getPrefix()'
+            sprintf(
+                'Storage\Adapter\%s - getPrefix()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];

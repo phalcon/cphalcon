@@ -25,6 +25,7 @@ use Phalcon\Storage\SerializerFactory;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 use function uniqid;
 
 class HasCest
@@ -40,7 +41,10 @@ class HasCest
     public function storageAdapterHas(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - has()'
+            sprintf(
+                'Storage\Adapter\%s - has()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];
