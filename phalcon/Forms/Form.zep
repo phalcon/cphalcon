@@ -41,6 +41,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var array
      */
+    protected filteredData = [];
+
+    /**
+     * @var array
+     */
     protected elements = [];
 
     /**
@@ -168,7 +173,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      */
     public function bind(array! data, var entity, var whitelist = null) -> <Form>
     {
-        var filter, key, value, element, filters, container, filteredValue, assignData;
+        var filter, key, value, element, filters, container, filteredValue;
+        array assignData, filteredData;
         string method;
 
         if unlikely empty this->elements {
@@ -177,6 +183,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         let filter = null;
         let assignData = [];
+        let filteredData = [];
 
         for key, value in data {
             /**
@@ -213,6 +220,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 let filteredValue = value;
             }
 
+            if entity === null {
+                let filteredData[key] = filteredValue;
+            }
+
             let assignData[key] = value;
 
             /**
@@ -232,6 +243,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         let this->data = assignData;
+        let this->filteredData = filteredData;
 
         return this;
     }
@@ -448,6 +460,27 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Gets a value from the internal filtered data or calls getValue(name)
+     */
+    public function getFilteredValue(string! name) -> var | null
+    {
+        var filteredData;
+
+        let filteredData = this->filteredData;
+
+        if typeof filteredData == "array" {
+            /**
+             * Check if the data is in the data array
+             */
+            if fetch value, filteredData[name] {
+                return value;
+            }
+        }
+
+        return this->getValue(name);
+    }
+
+    /**
      * Gets a value from the internal related entity or from the default value
      */
     public function getValue(string! name) -> var | null
@@ -586,13 +619,14 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * If the user doesn't pass an entity we use the one in this_ptr->entity
          */
+        if typeof entity != "object" && typeof this->entity == "object" {
+            let entity = this->entity;
+        }
+
         if typeof entity == "object" {
             this->bind(data, entity);
         } else {
-            if typeof this->entity == "object" {
-                this->bind(data, this->entity);
-                let entity = this->entity;
-            }
+            this->bind(data);
         }
 
         /**

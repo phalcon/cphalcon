@@ -88,6 +88,7 @@
     - Added `Phalcon\Crypt\PadFactory` to easily create padding adapters
     - Added more tests increasing coverage [#15717](https://github.com/phalcon/cphalcon/issues/15717)
 - Added `Phalcon\Cache\Adapter\*::setForever()` and `Phalcon\Storage\Adapter\*::setForever()` to allow storing a key forever [#15485](https://github.com/phalcon/cphalcon/issues/15485)
+- Added `Phalcon\Forms\Form::getFilteredValue()` to get filtered value without providing entity [#15438](https://github.com/phalcon/cphalcon/issues/15438)
 
 ## Fixed
 - Fixed `Query::getExpression()` return type [#15553](https://github.com/phalcon/cphalcon/issues/15553)
