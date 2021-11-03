@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class NormalizeEncodingCest
@@ -32,9 +32,8 @@ class NormalizeEncodingCest
 
         $escaper = new Escaper();
 
-        $I->assertEquals(
-            mb_convert_encoding('Hello', 'UTF-32', 'UTF-8'),
-            $escaper->normalizeEncoding('Hello')
-        );
+        $expected = mb_convert_encoding('Hello', 'UTF-32', 'UTF-8');
+        $actual   = $escaper->normalizeEncoding('Hello');
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -37,7 +37,7 @@ class FactoryDefault extends \Phalcon\Di
             "crypt":              new Service("Phalcon\\Encryption\\Crypt", true),
             "cookies":            new Service("Phalcon\\Http\\Response\\Cookies", true),
             "dispatcher":         new Service("Phalcon\\Mvc\\Dispatcher", true),
-            "escaper":            new Service("Phalcon\\Escaper", true),
+            "escaper":            new Service("Phalcon\\Html\\Escaper", true),
             "eventsManager":      new Service("Phalcon\\Events\\Manager", true),
             "flash":              new Service("Phalcon\\Flash\\Direct", true),
             "flashSession":       new Service("Phalcon\\Flash\\Session", true),

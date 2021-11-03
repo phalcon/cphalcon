@@ -20,7 +20,7 @@ namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
 use DateTime;
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
 use Phalcon\Mvc\View;

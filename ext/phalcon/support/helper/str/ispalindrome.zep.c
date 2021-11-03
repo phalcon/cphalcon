@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsPalindrome, __invoke)
 	zephir_get_strval(&text, text_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strrev", NULL, 312, &text);
+	ZEPHIR_CALL_FUNCTION(&_0, "strrev", NULL, 306, &text);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_0, &text));
 }

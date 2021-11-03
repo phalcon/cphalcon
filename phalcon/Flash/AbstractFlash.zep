@@ -13,7 +13,7 @@ namespace Phalcon\Flash;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 use Phalcon\Support\Helper\Str\Interpolate;
 

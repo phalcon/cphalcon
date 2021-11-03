@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../php_ext.h"
-#include "../../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -23,11 +23,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Exceptions thrown in Phalcon\Escaper will use this class
+ * Exceptions thrown in Phalcon\Html\Escaper will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Escaper_Exception)
+ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, phalcon, escaper_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Escaper, Exception, phalcon, html_escaper_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

@@ -18,7 +18,7 @@ use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
 use Phalcon\Assets\Manager as ManagerAssets;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as ManagerEvents;
 use Phalcon\Filter\Filter;
 use Phalcon\Flash\Direct;

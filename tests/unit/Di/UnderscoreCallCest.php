@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Di;
 use Phalcon\Di\Exception;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class UnderscoreCallCest

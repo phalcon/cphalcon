@@ -17,7 +17,7 @@ use CliTester;
 use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Di\Service;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 
 class GetServiceCest
 {

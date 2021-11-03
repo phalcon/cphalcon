@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Flash\Session;
 
 use Phalcon\Flash\Exception;
 use Phalcon\Flash\Session;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 

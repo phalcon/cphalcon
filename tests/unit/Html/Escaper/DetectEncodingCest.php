@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class DetectEncodingCest
@@ -31,14 +31,10 @@ class DetectEncodingCest
     {
         $I->wantToTest('Escaper - detectEncoding()');
 
-        $escaper = new Escaper();
-
-        $I->assertEquals(
-            $example['expected'],
-            $escaper->detectEncoding(
-                $example['source']
-            )
-        );
+        $escaper  = new Escaper();
+        $expected = $example['expected'];
+        $actual   = $escaper->detectEncoding($example['source']);
+        $I->assertEquals($expected, $actual);
     }
 
     private function escaperDetectEncodingProvider(): array

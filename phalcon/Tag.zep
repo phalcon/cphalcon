@@ -11,7 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Helper\Str;

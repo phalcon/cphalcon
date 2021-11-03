@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html\Helper\Input;
 
-use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
 
 /**

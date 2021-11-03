@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault;
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\Service;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class SetServiceCest

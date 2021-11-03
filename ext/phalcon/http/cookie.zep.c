@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete)
 	ZEPHIR_CALL_CE_STATIC(&_13, phalcon_helper_arr_ce, "get", &_8, 81, &options, &_9, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_13, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 317, &name, &__$null, &options);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 319, &name, &__$null, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -917,7 +917,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 	ZEPHIR_CALL_CE_STATIC(&_22, phalcon_helper_arr_ce, "get", &_18, 81, &options, &_3, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_22, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 317, &name, &encryptValue, &options);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 319, &name, &encryptValue, &options);
 	zephir_check_call_status();
 	RETURN_THIS();
 }

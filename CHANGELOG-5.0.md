@@ -70,6 +70,17 @@
 - Changed `Phalcon\Factory\AdapterFactory` to define the factory exception in `getExceptionClass()` instead of a property. [#15728](https://github.com/phalcon/cphalcon/issues/15728)
 - Renamed `Phalcon\Db\Adapter\AbstractAdapter::getSqlVariables()` to `Phalcon\Db\Adapter\AbstractAdapter::getSQLVariables()` to align with the rest of the `getSQL*` methods [#15637](https://github.com/phalcon/cphalcon/issues/15637)
 - Moved `Phalcon\Logger` to `Phalcon\Logger\Logger` [#15727](https://github.com/phalcon/cphalcon/issues/15727)
+- Changes to `Phalcon\Escaper`
+  - Moved `Phalcon\Escaper` to `Phalcon\Html\Escaper`
+  - Moved `Phalcon\Escaper\EscaperInterface` to `Phalcon\Html\Escaper\EscaperInterface`
+  - Moved `Phalcon\Escaper\Exception` to `Phalcon\Html\Escaper\Exception`
+  - Deprecated methods (to be removed at a future version)
+    - `escapeCss()` becomes `css()`
+    - `escapeJs()`, becomes `js()`
+    - `escapeHtml()` becomes `html()`
+    - `escapeHtmlAttr()` becomes `attributes()`
+    - `escapeUrl()` becomes `url()`
+    - `setHtmlQuoteType()` becomes `setFlags()` [#15757](https://github.com/phalcon/cphalcon/issues/15757)
 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)

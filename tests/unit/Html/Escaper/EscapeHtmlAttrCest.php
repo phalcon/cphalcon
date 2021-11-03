@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Escaper;
+namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 use const ENT_HTML401;
@@ -42,12 +42,9 @@ class EscapeHtmlAttrCest
             $example['htmlQuoteType']
         );
 
-        $I->assertEquals(
-            $example['expected'],
-            $escaper->escapeHtmlAttr(
-                $example['text']
-            )
-        );
+        $expected = $example['expected'];
+        $actual   = $escaper->attributes($example['text']);
+        $I->assertEquals($expected, $actual);
     }
 
     private function escaperEscapeHtmlAttrProvider(): array
@@ -75,29 +72,6 @@ class EscapeHtmlAttrCest
                 'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
-            ],
-            [
-                'htmlQuoteType' => ENT_HTML401,
-                'expected'      => '',
-                'text'          => null,
-            ],
-
-            [
-                'htmlQuoteType' => ENT_XML1,
-                'expected'      => '',
-                'text'          => null,
-            ],
-
-            [
-                'htmlQuoteType' => ENT_XHTML,
-                'expected'      => '',
-                'text'          => null,
-            ],
-
-            [
-                'htmlQuoteType' => ENT_HTML5,
-                'expected'      => '',
-                'text'          => null,
             ],
         ];
     }

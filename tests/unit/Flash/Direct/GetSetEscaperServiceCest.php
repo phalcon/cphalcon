@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Flash\Direct;
 use Phalcon\Di;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Exception;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 use function spl_object_hash;

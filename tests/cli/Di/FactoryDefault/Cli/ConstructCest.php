@@ -19,7 +19,7 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Model\Manager as ModelsManager;

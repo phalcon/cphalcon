@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Input;
 
 use Codeception\Example;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Radio;
 use UnitTester;
