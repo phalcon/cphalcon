@@ -127,24 +127,24 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", NULL, 306, &text, &leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", NULL, 300, &text, &leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "substr_count", NULL, 306, &text, &rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_1, "substr_count", NULL, 300, &text, &rightDelimiter);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_0, &_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVS(&_3$$3, "Syntax error in string '", &text, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 307, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 301, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/Helper/Str/Dynamic.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", NULL, 297, &leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", NULL, 291, &leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", NULL, 297, &rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", NULL, 291, &rightDelimiter);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SVSVVSVS(&_4, "/", &ldS, "([^", &ldS, &rdS, "]+)", &rdS, "/");
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				zephir_check_call_status();
 				zephir_array_fetch(&word, &words, &_10$$6, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 62);
 				zephir_array_fetch_long(&_12$$6, &match, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 63);
-				ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", NULL, 297, &_12$$6, &separator);
+				ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", NULL, 291, &_12$$6, &separator);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_13$$6);
 				ZEPHIR_CONCAT_SVS(&_13$$6, "/", &sub, "/");
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 					zephir_check_call_status();
 					zephir_array_fetch(&word, &words, &_19$$8, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 62);
 					zephir_array_fetch_long(&_20$$8, &match, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 63);
-					ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", NULL, 297, &_20$$8, &separator);
+					ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", NULL, 291, &_20$$8, &separator);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_21$$8);
 					ZEPHIR_CONCAT_SVS(&_21$$8, "/", &sub, "/");

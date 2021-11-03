@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(escaper, phalcon_escaper_escaperinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(escaper, phalcon_html_escaper_escaperinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(session, phalcon_session_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaperService, phalcon_escaper_escaperinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaperService, phalcon_html_escaper_escaperinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

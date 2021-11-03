@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	zephir_get_strval(&end, end_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 308, &text, &start);
+	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 302, &text, &start);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 		ZEPHIR_CPY_WRT(&_0, &result);
 	}
 	ZEPHIR_CPY_WRT(&result, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strstr", NULL, 308, &result, &end, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strstr", NULL, 302, &result, &end, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&result, &_1);
 	ZEPHIR_INIT_NVAR(&_0);

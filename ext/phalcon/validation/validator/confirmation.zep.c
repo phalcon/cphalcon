@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare)
 		zephir_check_call_status();
 		zephir_get_strval(&b, &_5$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 425, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 427, &a, &b);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_6, 0));
 }

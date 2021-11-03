@@ -1082,7 +1082,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels)
 		_1 = zephir_fast_count_int(&models) == 1;
 	}
 	if (_1) {
-		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "first", &_2, 300, &models);
+		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "first", &_2, 294, &models);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -2507,7 +2507,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 276, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 270, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -2518,7 +2518,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("limit"), &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_2$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 276, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 270, &_2$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("offset"), &_3$$4);
 	}

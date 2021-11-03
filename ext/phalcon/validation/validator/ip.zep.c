@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate)
 	zephir_bitwise_or_function(&_11, &_10, &allowReserved);
 	zephir_array_update_string(&options, SL("flags"), &_11, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_1, 275);
-	ZEPHIR_CALL_FUNCTION(&_12, "filter_var", NULL, 275, &value, &_1, &options);
+	ZEPHIR_CALL_FUNCTION(&_12, "filter_var", NULL, 269, &value, &_1, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_12))) {
 		ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "messagefactory", NULL, 0, validation, field);
