@@ -464,7 +464,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      */
     public function getFilteredValue(string! name) -> var | null
     {
-        var filteredData;
+        var filteredData, value;
 
         let filteredData = this->filteredData;
 
