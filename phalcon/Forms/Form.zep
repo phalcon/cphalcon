@@ -221,9 +221,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
 
             let assignData[key] = value;
-            if entity === null {
-                let filteredData[key] = filteredValue;
-            } else {
+            let filteredData[key] = filteredValue;
+
+            if entity !== null {
                 /**
                  * Use the setter if any available
                  */
