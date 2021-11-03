@@ -170,6 +170,7 @@ class AssignCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
+     * @issue  https://github.com/phalcon/cphalcon/issues/15739
      *
      * @group  mysql
      * @group  pgsql

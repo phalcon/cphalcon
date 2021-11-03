@@ -240,6 +240,7 @@ class FindFirstCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-11-22
+     * @issue  https://github.com/phalcon/cphalcon/issues/15356
      *
      * @group  mysql
      * @group  pgsql
