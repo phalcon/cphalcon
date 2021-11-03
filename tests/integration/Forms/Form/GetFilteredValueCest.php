@@ -32,17 +32,12 @@ class GetFilteredValueCest
     {
         $I->wantToTest('Forms\Form - getFilteredValue()');
 
-        $data = [
-            'firstName' => ' test ',
-            'lastName' => ' test   123 33 ',
-        ];
+        $data = ['firstName' => ' test '];
 
         $form = $this->getForm($data, null);
 
         $I->assertEquals($data['firstName'], $form->getValue("firstName"));
-        $I->assertEquals($data['lastName'], $form->getValue("lastName"));
-        $I->assertEquals("test", $form->getFilteredValue("firstName"));
-        $I->assertEquals("test 123 33", $form->getFilteredValue("lastName"));
+        $I->assertEquals("TEST", $form->getFilteredValue("firstName"));
     }
 
     public function testGetFilteredValueWithEntity(IntegrationTester $I)
@@ -50,39 +45,26 @@ class GetFilteredValueCest
         $I->wantToTest('Forms\Form - getFilteredValue()');
 
         $entity = new \stdClass();
-        $data = [
-            'firstName' => ' test ',
-            'lastName' => ' test   123 33 ',
-        ];
+        $data = ['firstName' => ' test '];
 
         $form = $this->getForm($data, $entity);
 
         $I->assertEquals($data['firstName'], $form->getValue("firstName"));
-        $I->assertEquals($data['lastName'], $form->getValue("lastName"));
-        $I->assertEquals("test", $form->getFilteredValue("firstName"));
-        $I->assertEquals("test 123 33", $form->getFilteredValue("lastName"));
+        $I->assertEquals("TEST", $form->getFilteredValue("firstName"));
     }
 
     private function getForm(array $data, $entity = null): Form
     {
         $form = new Form();
         $firstNameTag = new Text('firstName');
-        $lastNameTag = new Text('lastName');
         $form->add(
             $firstNameTag->setFilters([
                 'upper',
                 'regex' => ["/^\s+|\s+$|\s+(?=\s)/", ''],
             ])->setLabel('Firstname')
         );
-        $form->add(
-            $lastNameTag->setFilters([
-                'upper',
-                'regex' => ["/^\s+|\s+$|\s+(?=\s)/", ''],
-            ])->setLabel('Lastname')
-        );
 
-        $whiteList = [];
-        $form->bind($data, $entity, $whiteList);
+        $form->isValid($data, $entity);
 
         return $form;
     }
