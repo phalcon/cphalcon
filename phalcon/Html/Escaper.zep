@@ -50,7 +50,7 @@ class Escaper implements EscaperInterface
     /**
      * Escapes a HTML attribute string
      *
-     * @param string|null $input
+     * @param string $input
      *
      * @return string
      */
@@ -164,7 +164,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtml(string input = null) -> string
     {
-        return this->html(input);
+        return this->html((string) input);
     }
 
     /**
@@ -177,7 +177,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtmlAttr(string input = null) -> string
     {
-        return this->attributes(input);
+        return this->attributes((string) input);
     }
 
     /**
@@ -306,12 +306,11 @@ class Escaper implements EscaperInterface
      *```
      *
      * @param int $flags
+     * @deprecated
      */
-    public function setHtmlQuoteType(int quoteType) -> <EscaperInterface>
+    public function setHtmlQuoteType(int flags) -> <EscaperInterface>
     {
-        let this->flags = quoteType;
-
-        return this;
+        return this->setFlags(flags);
     }
 
     /**

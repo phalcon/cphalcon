@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
-class SetHtmlQuoteTypeCest
+class SetFlagsCest
 {
     /**
      * Tests Phalcon\Escaper :: setHtmlQuoteType()
@@ -30,7 +30,7 @@ class SetHtmlQuoteTypeCest
 
         $escaper = new Escaper();
 
-        $escaper->setHtmlQuoteType(ENT_HTML401);
+        $escaper->setFlags(ENT_HTML401);
 
         $expected = 'That&#039;s right';
         $actual   = $escaper->attributes("That's right");
