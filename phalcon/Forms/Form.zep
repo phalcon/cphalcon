@@ -171,7 +171,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity, var whitelist = null) -> <Form>
+    public function bind(array! data, var entity = null, var whitelist = null) -> <Form>
     {
         var filter, key, value, element, filters, container, filteredValue;
         array assignData, filteredData;
@@ -220,26 +220,25 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 let filteredValue = value;
             }
 
+            let assignData[key] = value;
             if entity === null {
                 let filteredData[key] = filteredValue;
+            } else {
+                /**
+                 * Use the setter if any available
+                 */
+                let method = "set" . camelize(key);
+                if method_exists(entity, method) {
+                    entity->{method}(filteredValue);
+
+                    continue;
+                }
+
+                /**
+                 * Use the public property if it doesn't have a setter
+                 */
+                let entity->{key} = filteredValue;
             }
-
-            let assignData[key] = value;
-
-            /**
-             * Use the setter if any available
-             */
-            let method = "set" . camelize(key);
-            if method_exists(entity, method) {
-                entity->{method}(filteredValue);
-
-                continue;
-            }
-
-            /**
-             * Use the public property if it doesn't have a setter
-             */
-            let entity->{key} = filteredValue;
         }
 
         let this->data = assignData;
