@@ -246,13 +246,17 @@ class Validation extends Injectable implements ValidationInterface
 
         if method_exists(entity, method) {
             return entity->{method}();
-        } elseif method_exists(entity, "readAttribute") {
-            return entity->readAttribute(field);
-        } elseif isset entity->{field} {
-            return entity->{field};
-        } else {
-            return null;
         }
+
+        if method_exists(entity, "readAttribute") {
+            return entity->readAttribute(field);
+        }
+
+        if isset entity->{field} {
+            return entity->{field};
+        }
+
+        return null;
     }
 
     private function getValueByData(data, string field) -> var | null
@@ -270,7 +274,9 @@ class Validation extends Injectable implements ValidationInterface
             if isset data[field] {
                 return data[field];
             }
-        } elseif typeof data == "object" {
+        }
+
+        if typeof data == "object" {
             if isset data->{field} {
                 return data->{field};
             }
