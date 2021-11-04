@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
@@ -162,5 +163,39 @@ class AssignCest
 
         $I->assertArrayHasKey('inv_id', $invoice->toArray());
         $I->assertEmpty($invoice->toArray()['inv_id']);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: assign() - with transaction
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-29
+     * @issue  https://github.com/phalcon/cphalcon/issues/15739
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelAssignWithTransaction(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - assign() - with transaction');
+
+        $title   = uniqid('inv-');
+        $manager     = new Manager();
+        $transaction = $manager->get();
+        $invoice     = new Invoices();
+        $invoice->setTransaction($transaction);
+        $invoice->assign(
+            [
+                'inv_id'    => 1,
+                'inv_title' => $title,
+            ]
+        );
+
+        $result = $invoice->create();
+        $I->assertTrue($result);
+
+        $result = $invoice->delete();
+        $I->assertTrue($result);
     }
 }
