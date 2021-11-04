@@ -68,7 +68,7 @@ class Mysql extends PdoAdapter
     {
         /**
          * Returning numbers as numbers and not strings. If the user already
-         * set this option in the descriptor["options"], we do not have to set`
+         * set this option in the descriptor["options"], we do not have to set
          * anything
          */
         if (!isset(descriptor["options"][\PDO::ATTR_EMULATE_PREPARES])) {
