@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollectionCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: getIterator()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: getIterator()
      *
      * @param UnitTester $I
      *
@@ -28,7 +28,7 @@ class GetIteratorCest
      */
     public function supportCollectionGetIterator(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - getIterator()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - getIterator()');
 
         $data = [
             'one'   => 'two',
@@ -36,7 +36,7 @@ class GetIteratorCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         foreach ($collection as $key => $value) {
             $expected = $data[$key];

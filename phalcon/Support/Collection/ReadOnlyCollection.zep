@@ -13,9 +13,9 @@ namespace Phalcon\Support\Collection;
 use Phalcon\Support\Collection;
 
 /**
- * Phalcon\Support\Collection\ReadOnly is a read only Collection object
+ * A read only Collection object
  */
-class ReadOnly extends Collection
+class ReadOnlyCollection extends Collection
 {
     /**
      * Delete the element from the collection

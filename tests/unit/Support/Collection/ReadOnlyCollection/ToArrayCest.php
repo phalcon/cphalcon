@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
-class SerializeCest
+class ToArrayCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: serialize()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: toArray()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function supportCollectionSerialize(UnitTester $I)
+    public function supportCollectionToArray(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - serialize()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - toArray()');
 
         $data = [
             'one'   => 'two',
@@ -36,10 +36,10 @@ class SerializeCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
-        $expected = serialize($data);
-        $actual   = $collection->serialize();
+        $expected = $data;
+        $actual   = $collection->toArray();
         $I->assertEquals($expected, $actual);
     }
 }

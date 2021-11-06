@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollectionCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
-class InitCest
+class CountCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: init()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: count()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function supportCollectionInit(UnitTester $I)
+    public function supportCollectionCount(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - init()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - count()');
 
         $data = [
             'one'   => 'two',
@@ -36,16 +36,14 @@ class InitCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly();
+        $collection = new ReadOnlyCollection($data);
 
-        $expected = 0;
-        $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
-
-        $collection->init($data);
-
-        $expected = $data;
+        $expected = 3;
         $actual   = $collection->toArray();
+        $I->assertCount($expected, $actual);
+
+        $expected = 3;
+        $actual   = $collection->count();
         $I->assertEquals($expected, $actual);
     }
 }

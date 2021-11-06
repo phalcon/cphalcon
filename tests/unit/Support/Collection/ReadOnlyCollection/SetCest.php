@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
 use Phalcon\Support\Collection\Exception;
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class SetCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: set()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: set()
      *
      * @param UnitTester $I
      *
@@ -29,12 +29,12 @@ class SetCest
      */
     public function supportCollectionSet(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - set()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - set()');
 
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection = new ReadOnly();
+                $collection = new ReadOnlyCollection();
                 $collection->set('three', 123);
             }
         );
@@ -42,7 +42,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection        = new ReadOnly();
+                $collection        = new ReadOnlyCollection();
                 $collection->three = 'Phalcon';
             }
         );
@@ -50,7 +50,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection = new ReadOnly();
+                $collection = new ReadOnlyCollection();
                 $collection->offsetSet('three', 123);
             }
         );
@@ -58,7 +58,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection          = new ReadOnly();
+                $collection          = new ReadOnlyCollection();
                 $collection['three'] = true;
             }
         );

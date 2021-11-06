@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class ToJsonCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: toJson()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: toJson()
      *
      * @param UnitTester $I
      *
@@ -28,7 +28,7 @@ class ToJsonCest
      */
     public function supportCollectionToJson(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - toJson()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - toJson()');
 
         $data = [
             'one'   => 'two',
@@ -36,7 +36,7 @@ class ToJsonCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $expected = json_encode($data);
         $actual   = $collection->toJson();

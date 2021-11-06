@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class GetKeysCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: get()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: get()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function supportCollectionReadOnlyGetKeys(UnitTester $I)
+    public function supportCollectionReadOnlyCollectionGetKeys(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - getKeys()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - getKeys()');
 
         $keys = [
             'one',
@@ -42,7 +42,7 @@ class GetKeysCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $expected = $keys;
         $actual   = $collection->getKeys();
@@ -54,7 +54,7 @@ class GetKeysCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
         $expected   = $keys;
         $actual     = $collection->getKeys();
         $I->assertEquals($expected, $actual);

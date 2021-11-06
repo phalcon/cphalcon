@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use Phalcon\Tests\Fixtures\JsonFixture;
 use UnitTester;
 
 class JsonSerializeCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: jsonSerialize()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: jsonSerialize()
      *
      * @param UnitTester $I
      *
@@ -29,7 +29,7 @@ class JsonSerializeCest
      */
     public function supportCollectionJsonSerialize(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - jsonSerialize()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - jsonSerialize()');
 
         $data = [
             'one'   => 'two',
@@ -37,7 +37,7 @@ class JsonSerializeCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $expected = $data;
         $actual   = $collection->jsonSerialize();
@@ -59,7 +59,7 @@ class JsonSerializeCest
             ],
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $actual = $collection->jsonSerialize();
         $I->assertEquals($expected, $actual);
