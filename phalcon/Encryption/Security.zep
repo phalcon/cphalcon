@@ -456,7 +456,7 @@ class Security extends AbstractInjectionAware
                 break;
         }
 
-        if legacy {
+        if unlikely legacy {
             let salt = prefix . this->getSaltBytes(bytes) . "$";
 
             return crypt(password, salt);
@@ -523,7 +523,7 @@ class Security extends AbstractInjectionAware
      *
      * @param int $workFactor
      *
-     * @return $this
+     * @return Security
      */
     public function setWorkFactor(int workFactor) -> <Security>
     {
