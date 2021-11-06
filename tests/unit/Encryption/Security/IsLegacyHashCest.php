@@ -38,7 +38,10 @@ class IsLegacyHashCest
         $oldHash  = '$2a$10$JnD9Za73U2dIIjd.Uvn1IuNVQhXNQpHIu13WzlL70q.WhfKT9Yuc2';
         $security = new Security();
 
-        $I->assertTrue($security->isLegacyHash($oldHash));
-        $I->assertFalse($security->isLegacyHash('Phalcon'));
+        $actual = $security->isLegacyHash($oldHash);
+        $I->assertTrue($actual);
+
+        $actual = $security->isLegacyHash('Phalcon');
+        $I->assertFalse($actual);
     }
 }

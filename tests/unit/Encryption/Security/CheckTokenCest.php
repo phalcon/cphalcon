@@ -49,20 +49,100 @@ class CheckTokenCest
     public function securityCheckToken(UnitTester $I)
     {
         $I->wantToTest('Security - checkToken()');
-        $I->skipTest('TODO: Enable when Request is done');
-        $store = $_POST ?? [];
+
+        $tokenSessionId      = '$PHALCON/CSRF/KEY$';
+        $tokenValueSessionId = '$PHALCON/CSRF$';
+        /** @var Manager $session */
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        /**
+         * Just in case
+         */
+        if (true === $session->has($tokenSessionId)) {
+            $session->remove($tokenSessionId);
+        }
+        if (true === $session->has($tokenValueSessionId)) {
+            $session->remove($tokenValueSessionId);
+        }
+
+        $security = new Security();
+
+        /**
+         * No session - checkToken returns empty
+         */
+        $actual = $security->checkToken();
+        $I->assertFalse($actual);
+
+        $actual = $security->getTokenKey();
+        $I->assertNull($actual);
+
+        /**
+         * Enable the Session
+         */
+        $security->setDI($this->container);
+
+        // Random token and token key check
+        $token = $security->getToken();
+
+        $actual = $session->has($tokenValueSessionId);
+        $I->assertTrue($actual);
+
+        $expected = $token;
+        $actual   = $session->get($tokenValueSessionId);
+        $I->assertEquals($expected, $actual);
+
+        $session->destroy();
+    }
+
+    /**
+     * Tests Phalcon\Security :: checkToken() and destroyToken() with Request
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function securityCheckTokenWithRequest(UnitTester $I)
+    {
+        $I->wantToTest('Security - checkToken() - with Request');
+        $I->skipTest("Enable when Request is ready");
 
         /** @var Manager $session */
         $session = $this->container->getShared('session');
-
         $session->start();
 
         $security = new Security();
+
+        /**
+         * No session - checkToken returns empty
+         */
+        $actual = $security->checkToken();
+        $I->assertFalse($actual);
+
+        $actual = $security->getTokenKey();
+        $I->assertNull($actual);
+
+        $actual = $security->getToken();
+        $I->assertNull($actual);
+
+        /**
+         * Enable the Session
+         */
         $security->setDI($this->container);
 
         // Random token and token key check
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
+
+        $actual = $session->has('$PHALCON/CSRF/KEY$');
+        $I->assertTrue($actual);
+
+        $session->destroy();
+
+        /**
+         * @todo When Request is done, enable the below
+         */
 
         $_POST = [
             $tokenKey => $token,
