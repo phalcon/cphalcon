@@ -73,13 +73,17 @@ class CheckHashCest
     private function getExamples(): array
     {
         return [
-            ['CRYPT_DEFAULT', Security::CRYPT_DEFAULT],
-            ['CRYPT_BLOWFISH', Security::CRYPT_BLOWFISH],
-            ['CRYPT_BLOWFISH_A', Security::CRYPT_BLOWFISH_A],
-            ['CRYPT_BLOWFISH_X', Security::CRYPT_BLOWFISH_X],
-            ['CRYPT_BLOWFISH_Y', Security::CRYPT_BLOWFISH_Y],
-            ['CRYPT_SHA256', Security::CRYPT_SHA256],
-            ['CRYPT_SHA512', Security::CRYPT_SHA512],
+            ["CRYPT_ARGON2I", Security::CRYPT_ARGON2I],
+            ["CRYPT_ARGON2ID", Security::CRYPT_ARGON2ID],
+            ["CRYPT_BCRYPT", Security::CRYPT_BCRYPT],
+            ["CRYPT_DEFAULT", Security::CRYPT_DEFAULT],
+            ["CRYPT_BLOWFISH", Security::CRYPT_BLOWFISH],
+            ["CRYPT_BLOWFISH_A", Security::CRYPT_BLOWFISH_A],
+            ["CRYPT_BLOWFISH_X", Security::CRYPT_BLOWFISH_X],
+            ["CRYPT_BLOWFISH_Y", Security::CRYPT_BLOWFISH_Y],
+            ["CRYPT_MD5", Security::CRYPT_MD5],
+            ["CRYPT_SHA256", Security::CRYPT_SHA256],
+            ["CRYPT_SHA512", Security::CRYPT_SHA512],
         ];
     }
 }

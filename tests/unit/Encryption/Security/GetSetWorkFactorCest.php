@@ -32,11 +32,14 @@ class GetSetWorkFactorCest
 
         $security = new Security();
 
-        $I->assertEquals(10, $security->getWorkFactor());
+        $expected = 10;
+        $actual   = $security->getWorkFactor();
+        $I->assertEquals($expected, $actual);
 
         $expected = 31;
         $security->setWorkFactor($expected);
 
-        $I->assertEquals($expected, $security->getWorkFactor());
+        $actual = $security->getWorkFactor();
+        $I->assertEquals($expected, $actual);
     }
 }
