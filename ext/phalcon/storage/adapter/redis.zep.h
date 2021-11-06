@@ -13,6 +13,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, has);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, increment);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, set);
+PHP_METHOD(Phalcon_Storage_Adapter_Redis, setForever);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkIndex);
@@ -66,6 +67,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_se
 	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_setforever, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkauth, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
@@ -98,6 +104,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_redis_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Redis, has, arginfo_phalcon_storage_adapter_redis_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, increment, arginfo_phalcon_storage_adapter_redis_increment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, set, arginfo_phalcon_storage_adapter_redis_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Redis, setForever, arginfo_phalcon_storage_adapter_redis_setforever, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkAuth, arginfo_phalcon_storage_adapter_redis_checkauth, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkConnect, arginfo_phalcon_storage_adapter_redis_checkconnect, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkIndex, arginfo_phalcon_storage_adapter_redis_checkindex, ZEND_ACC_PRIVATE)

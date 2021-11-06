@@ -21,6 +21,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages);
 PHP_METHOD(Phalcon_Forms_Form, getMessagesFor);
 PHP_METHOD(Phalcon_Forms_Form, getUserOption);
 PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
+PHP_METHOD(Phalcon_Forms_Form, getFilteredValue);
 PHP_METHOD(Phalcon_Forms_Form, getValue);
 PHP_METHOD(Phalcon_Forms_Form, has);
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
@@ -61,7 +62,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_add, 0, 1, Pha
 	ZEND_ARG_TYPE_INFO(0, type, _IS_BOOL, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_bind, 0, 2, Phalcon\\Forms\\Form, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_bind, 0, 1, Phalcon\\Forms\\Form, 0)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, entity)
 	ZEND_ARG_INFO(0, whitelist)
@@ -110,6 +111,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getuseroption, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getuseroptions, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getfilteredvalue, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
@@ -218,6 +223,7 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 	PHP_ME(Phalcon_Forms_Form, getMessagesFor, arginfo_phalcon_forms_form_getmessagesfor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOption, arginfo_phalcon_forms_form_getuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOptions, arginfo_phalcon_forms_form_getuseroptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getFilteredValue, arginfo_phalcon_forms_form_getfilteredvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, hasMessagesFor, arginfo_phalcon_forms_form_hasmessagesfor, ZEND_ACC_PUBLIC)

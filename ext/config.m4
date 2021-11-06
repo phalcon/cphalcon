@@ -505,7 +505,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/serializer/php.zep.c
 	phalcon/storage/serializerfactory.zep.c
 	phalcon/support/collection/exception.zep.c
-	phalcon/support/collection/readonly.zep.c
+	phalcon/support/collection/readonlycollection.zep.c
 	phalcon/support/debug.zep.c
 	phalcon/support/debug/dump.zep.c
 	phalcon/support/debug/exception.zep.c

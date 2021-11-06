@@ -541,7 +541,7 @@ zend_class_entry *phalcon_storage_serializer_none_ce;
 zend_class_entry *phalcon_storage_serializer_php_ce;
 zend_class_entry *phalcon_storage_serializerfactory_ce;
 zend_class_entry *phalcon_support_collection_exception_ce;
-zend_class_entry *phalcon_support_collection_readonly_ce;
+zend_class_entry *phalcon_support_collection_readonlycollection_ce;
 zend_class_entry *phalcon_support_debug_ce;
 zend_class_entry *phalcon_support_debug_dump_ce;
 zend_class_entry *phalcon_support_debug_exception_ce;
@@ -1180,7 +1180,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_None);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_Php);
 	ZEPHIR_INIT(Phalcon_Support_Collection_Exception);
-	ZEPHIR_INIT(Phalcon_Support_Collection_ReadOnly);
+	ZEPHIR_INIT(Phalcon_Support_Collection_ReadOnlyCollection);
 	ZEPHIR_INIT(Phalcon_Support_Debug);
 	ZEPHIR_INIT(Phalcon_Support_Debug_Dump);
 	ZEPHIR_INIT(Phalcon_Support_Debug_Exception);

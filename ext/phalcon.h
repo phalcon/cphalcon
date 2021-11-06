@@ -500,7 +500,7 @@
 #include "phalcon/storage/serializer/php.zep.h"
 #include "phalcon/storage/serializerfactory.zep.h"
 #include "phalcon/support/collection/exception.zep.h"
-#include "phalcon/support/collection/readonly.zep.h"
+#include "phalcon/support/collection/readonlycollection.zep.h"
 #include "phalcon/support/debug.zep.h"
 #include "phalcon/support/debug/dump.zep.h"
 #include "phalcon/support/debug/exception.zep.h"
