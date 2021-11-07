@@ -213,6 +213,9 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * Checks if field can be empty.
      *
+     * @param mixed field
+     * @param mixed value
+     *
      * @return bool
      */
     protected function allowEmpty(var field, var value) -> bool
@@ -221,7 +224,7 @@ abstract class AbstractValidator implements ValidatorInterface
 
         let allowEmpty = this->getOption("allowEmpty", false);
 
-        if typeof allowEmpty == "array" {
+        if typeof allowEmpty === "array" {
             let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
         }
 
