@@ -238,7 +238,13 @@ class Validation extends Injectable implements ValidationInterface
         return this->validators;
     }
 
-    private function getValueByEntity(entity, string field) -> var | null
+    /**
+     * Gets the a value to validate in the object entity source
+     *
+     * @param mixed $entity
+     * @param string $field
+     */
+    private function getValueByEntity(var entity, string field) -> var | null
     {
         string method;
 
@@ -259,7 +265,13 @@ class Validation extends Injectable implements ValidationInterface
         return null;
     }
 
-    private function getValueByData(data, string field) -> var | null
+    /**
+     * Gets the a value to validate in the array/object data source
+     *
+     * @param mixed $data
+     * @param string $field
+     */
+    private function getValueByData(var data, string field) -> var | null
     {
         var value, values;
 
@@ -270,13 +282,13 @@ class Validation extends Injectable implements ValidationInterface
             return value;
         }
 
-        if typeof data == "array" {
+        if typeof data === "array" {
             if isset data[field] {
                 return data[field];
             }
         }
 
-        if typeof data == "object" {
+        if typeof data === "object" {
             if isset data->{field} {
                 return data->{field};
             }
@@ -347,7 +359,7 @@ class Validation extends Injectable implements ValidationInterface
                 /**
                  * Set filtered value in entity
                  */
-                if typeof entity == "object" && isRawFetched == false {
+                if typeof entity == "object" && isRawFetched === false {
                     let method = "set" . camelize(field);
 
                     if method_exists(entity, method) {

@@ -76,12 +76,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var ValidationInterface|null
      */
-    protected validation = null { set, get };
+    protected validation = null { get };
 
     /**
      * @var array
      */
-    protected whitelist = [];
+    protected whitelist = [] { get };
 
     /**
      * Phalcon\Forms\Form constructor
@@ -383,16 +383,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
-     * Returns whitelist array
-     *
-     * @return array
-     */
-    public function getWhitelist() -> array
-    {
-        return this->whitelist;
-    }
-
-    /**
      * Returns a label for an element
      */
     public function getLabel(string! name) -> string
@@ -616,8 +606,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array data
      * @param object entity
+     * @param array whitelist
      */
-    public function isValid(var data = null, var entity = null, var whitelist = null) -> bool
+    public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
             elementMessage;
@@ -627,7 +618,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             return true;
         }
 
-        if whitelist === null && !empty this->whitelist {
+        if empty whitelist {
             let whitelist = this->whitelist;
         }
 
@@ -837,9 +828,21 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Sets the default validation
+     *
+     * @param ValidationInterface validation
+     */
+    public function setValidation(<ValidationInterface> validation) -> <Form>
+    {
+        let this->validation = validation;
+
+        return this;
+    }
+
+    /**
      * Sets the default whitelist
      *
-     * @param object entity
+     * @param array whitelist
      */
     public function setWhitelist(array whitelist) -> <Form>
     {
