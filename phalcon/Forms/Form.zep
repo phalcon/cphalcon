@@ -76,7 +76,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var ValidationInterface|null
      */
-    protected validation = null { set, get };
+    protected validation = null { get };
+
+    /**
+     * @var array
+     */
+    protected whitelist = [] { get };
 
     /**
      * Phalcon\Forms\Form constructor
@@ -171,7 +176,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity = null, var whitelist = null) -> <Form>
+    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
         var filter, key, value, element, filters, container, filteredValue;
         array assignData, filteredData;
@@ -179,6 +184,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if unlikely empty this->elements {
             throw new Exception("There are no elements in the form");
+        }
+
+        if empty whitelist {
+            let whitelist = this->whitelist;
         }
 
         let filter = null;
@@ -196,8 +205,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
-
-            if typeof whitelist === "array" && !in_array(key, whitelist) {
+            if !empty whitelist && !in_array(key, whitelist) {
                 continue;
             }
 
@@ -597,8 +605,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array data
      * @param object entity
+     * @param array whitelist
      */
-    public function isValid(var data = null, var entity = null) -> bool
+    public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
             elementMessage;
@@ -606,6 +615,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if empty this->elements {
             return true;
+        }
+
+        if empty whitelist {
+            let whitelist = this->whitelist;
         }
 
         /**
@@ -622,11 +635,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let entity = this->entity;
         }
 
-        if typeof entity == "object" {
-            this->bind(data, entity);
-        } else {
-            this->bind(data);
-        }
+        this->bind(data, entity, whitelist);
 
         /**
          * Check if there is a method 'beforeValidation'
@@ -813,6 +822,30 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
+        return this;
+    }
+
+    /**
+     * Sets the default validation
+     *
+     * @param ValidationInterface validation
+     */
+    public function setValidation(<ValidationInterface> validation) -> <Form>
+    {
+        let this->validation = validation;
+
+        return this;
+    }
+
+    /**
+     * Sets the default whitelist
+     *
+     * @param array whitelist
+     */
+    public function setWhitelist(array whitelist) -> <Form>
+    {
+        let this->whitelist = whitelist;
 
         return this;
     }

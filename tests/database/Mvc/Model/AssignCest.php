@@ -173,7 +173,6 @@ class AssignCest
      * @issue  https://github.com/phalcon/cphalcon/issues/15739
      *
      * @group  mysql
-     * @group  pgsql
      * @group  sqlite
      */
     public function mvcModelAssignWithTransaction(DatabaseTester $I)

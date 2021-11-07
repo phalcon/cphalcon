@@ -34,8 +34,9 @@ class AllowEmptyCest
         $validation = new Validation();
         $validator = new Alpha(['allowEmpty' => false]);
         $validation->add('name', $validator);
+        $messages = $validation->validate($data);
 
-        $I->assertInstanceOf(Messages::class, $validation->validate($data));
+        $I->assertCount(0, $messages);
     }
 
     public function validationAllowEmptyTrue(IntegrationTester $I)
@@ -46,7 +47,8 @@ class AllowEmptyCest
         $validation = new Validation();
         $validator = new Alpha(['allowEmpty' => true]);
         $validation->add('name', $validator);
+        $messages = $validation->validate($data);
 
-        $I->assertTrue($validation->validate($data));
+        $I->assertCount(0, $messages);
     }
 }

@@ -48,6 +48,7 @@ class ValidateCest
                         return empty($data['admin']);
                     },
                     'message'    => 'You cant provide both admin and user.',
+                    'allowEmpty' => true,
                 ]
             )
         );
