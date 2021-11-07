@@ -61,7 +61,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(0, $messages->count());
+        $I->assertCount(0, $messages);
 
 
         $messages = $validation->validate(
@@ -71,7 +71,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(0, $messages->count());
+        $I->assertCount(0, $messages);
 
 
         $messages = $validation->validate(
@@ -81,7 +81,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(1, $messages->count());
+        $I->assertCount(1, $messages);
 
 
         $expected = new Messages(

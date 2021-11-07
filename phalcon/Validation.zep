@@ -585,15 +585,18 @@ class Validation extends Injectable implements ValidationInterface
      */
     protected function preChecking(var field, <ValidatorInterface> validator) -> bool
     {
-        var singleField, allowEmpty, emptyValue, value, result;
+        var singleField, allowEmpty, emptyValue, value;
+        array results = [];
 
         if typeof field == "array" {
             for singleField in field {
-                let result = this->preChecking(singleField, validator);
+                let results[] = this->preChecking(singleField, validator);
 
-                if result {
-                    return result;
+                if in_array(false, results) {
+                    return false;
                 }
+
+                return true;
             }
         } else {
             let allowEmpty = validator->getOption("allowEmpty", false);
