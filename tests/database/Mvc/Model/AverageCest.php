@@ -59,7 +59,6 @@ class AverageCest
      * @since  2020-01-30
      *
      * @group  mysql
-     * @group  pgsql
      */
     public function mvcModelAverage(DatabaseTester $I)
     {
