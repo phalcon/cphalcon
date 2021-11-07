@@ -176,7 +176,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity = null, var whitelist = null) -> <Form>
+    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
         var filter, key, value, element, filters, container, filteredValue;
         array assignData, filteredData;
@@ -186,7 +186,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             throw new Exception("There are no elements in the form");
         }
 
-        if whitelist === null && !empty this->whitelist {
+        if empty whitelist {
             let whitelist = this->whitelist;
         }
 
@@ -206,7 +206,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
              * Check if the item is in the whitelist
              */
 
-            if typeof whitelist === "array" && !in_array(key, whitelist) {
+            if !in_array(key, whitelist) {
                 continue;
             }
 
