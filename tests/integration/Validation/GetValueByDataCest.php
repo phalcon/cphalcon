@@ -28,7 +28,7 @@ class GetValueByDataCest
      * Tests Phalcon\Validation :: getValueByData()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
+     * @since  2021-11-07
      */
     public function validationGetValueByDataArray(IntegrationTester $I)
     {
