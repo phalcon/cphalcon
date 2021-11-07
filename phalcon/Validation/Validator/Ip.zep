@@ -93,35 +93,26 @@ class Ip extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, version, allowPrivate, allowReserved, allowEmpty, options;
+        var value, version, allowPrivate, allowReserved, options;
 
-        let value = validation->getValue(field),
-            version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
+        let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
+        let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
         if typeof version == "array" {
             let version = version[field];
         }
 
         let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
-
         if typeof allowPrivate == "array" {
             let allowPrivate = allowPrivate[field];
         }
 
         let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
-
         if typeof allowReserved == "array" {
             let allowReserved = allowReserved[field];
-        }
-
-        let allowEmpty = this->getOption("allowEmpty", false);
-
-        if typeof allowEmpty == "array" {
-            let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
-        }
-
-        if allowEmpty && empty value {
-            return true;
         }
 
         let options = [

@@ -72,6 +72,9 @@ class Digit extends AbstractValidator
     public function validate(<Validation> validation, var field) -> bool
     {
         var value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if is_int(value) || ctype_digit(value) {
             return true;

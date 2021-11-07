@@ -89,6 +89,9 @@ class Max extends AbstractValidator
         var value, length, maximum, replacePairs, included, result;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         // Check if mbstring is available to calculate the correct length
         if function_exists("mb_strlen") {

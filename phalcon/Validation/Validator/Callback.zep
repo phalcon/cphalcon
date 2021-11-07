@@ -95,6 +95,9 @@ class Callback extends AbstractValidator
             }
 
             let returnedValue = call_user_func(callback, data);
+            if this->allowEmpty(field, returnedValue) {
+                return true;
+            }
 
             if typeof returnedValue == "boolean" {
                 if !returnedValue {

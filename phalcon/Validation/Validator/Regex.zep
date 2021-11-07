@@ -84,6 +84,9 @@ class Regex extends AbstractValidator
         // Check if the value match using preg_match in the PHP userland
         let matches = null;
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         let pattern = this->getOption("pattern");
 
