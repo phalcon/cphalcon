@@ -195,8 +195,6 @@ class ToArrayCest
      * @issue https://github.com/phalcon/cphalcon/issues/15361
      *
      * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
     public function mvcModelToArrayFindCastOnHydrateForceCasting(DatabaseTester $I)
     {
