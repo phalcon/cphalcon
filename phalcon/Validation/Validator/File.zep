@@ -44,6 +44,9 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  *             "messageType"          => "Allowed file types are :types",
  *             "maxResolution"        => "800x600",
  *             "messageMaxResolution" => "Max resolution of :field is :resolution",
+ *             "messageFileEmpty"     => "File is empty",
+ *             "messageIniSize"       => "Ini size is not valid",
+ *             "messageValid"         => "File is not valid",
  *         ]
  *     )
  * );
@@ -113,12 +116,31 @@ class File extends AbstractValidatorComposite
      *     'messageMinResolution' => '',
      *     'equalResolution' => '1000x1000',
      *     'messageEqualResolution' => '',
-     *     'allowEmpty' => false
+     *     'allowEmpty' => false,
+     *     'messageFileEmpty' => '',
+     *     'messageIniSize' => '',
+     *     'messageValid' => ''
      * ]
      */
     public function __construct(array! options = [])
     {
-        var included = null, key, message = null, validator, value;
+        var included = null, key, message = null, validator, value,
+            messageFileEmpty = null, messageIniSize = null, messageValid = null;
+
+        if isset options["messageFileEmpty"] {
+            let messageFileEmpty  = Arr::get(options, "messageFileEmpty");
+            unset options["messageFileEmpty"];
+        }
+
+        if isset options["messageIniSize"] {
+            let messageIniSize  = Arr::get(options, "messageIniSize");
+            unset options["messageIniSize"];
+        }
+
+        if isset options["messageValid"] {
+            let messageValid  = Arr::get(options, "messageValid");
+            unset options["messageValid"];
+        }
 
         // create individual validators
         for key, value in options {
@@ -238,6 +260,18 @@ class File extends AbstractValidatorComposite
                 unset options["messageEqualResolution"];
             } else {
                 continue;
+            }
+
+            if messageFileEmpty !== null {
+                validator->setMessageFileEmpty(messageFileEmpty);
+            }
+
+            if messageIniSize !== null {
+                validator->setMessageIniSize(messageIniSize);
+            }
+
+            if messageValid !== null {
+                validator->setMessageValid(messageValid);
             }
 
             let this->validators[] = validator;
