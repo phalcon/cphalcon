@@ -496,8 +496,7 @@ class Route implements RouteInterface
                     let realClassName = controllerName;
                 }
 
-                // Always pass the controller to lowercase
-                let routePaths["controller"] = uncamelize(realClassName);
+                let routePaths["controller"] = realClassName;
             }
 
             // Process action name
