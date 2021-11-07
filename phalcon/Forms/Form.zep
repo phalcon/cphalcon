@@ -205,8 +205,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
-
-            if !in_array(key, whitelist) {
+            if !empty whitelist && !in_array(key, whitelist) {
                 continue;
             }
 
