@@ -244,7 +244,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param mixed $entity
      * @param string $field
      */
-    private function getValueByEntity(var entity, string field) -> var | null
+    public function getValueByEntity(var entity, string field) -> var | null
     {
         string method;
 
@@ -271,7 +271,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param mixed $data
      * @param string $field
      */
-    private function getValueByData(var data, string field) -> var | null
+    public function getValueByData(var data, string field) -> var | null
     {
         var value, values;
 
