@@ -90,6 +90,10 @@ class Between extends AbstractValidator
             minimum = this->getOption("minimum"),
             maximum = this->getOption("maximum");
 
+        if this->allowEmpty(field, value) {
+            return true;
+        }
+
         if typeof minimum == "array" {
             let minimum = minimum[field];
         }

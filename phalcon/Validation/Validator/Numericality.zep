@@ -80,6 +80,10 @@ class Numericality extends AbstractValidator
             value   = str_replace(" ", "", value),
             pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
+        if this->allowEmpty(field, value) {
+            return true;
+        }
+
         if !preg_match(pattern, value) {
             validation->appendMessage(
                 this->messageFactory(validation, field)

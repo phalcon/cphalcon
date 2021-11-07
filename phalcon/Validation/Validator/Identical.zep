@@ -82,6 +82,9 @@ class Identical extends AbstractValidator
         bool valid;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if this->hasOption("accepted") {
             let accepted = this->getOption("accepted");

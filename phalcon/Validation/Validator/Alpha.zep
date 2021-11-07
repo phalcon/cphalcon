@@ -74,6 +74,9 @@ class Alpha extends AbstractValidator
         var value;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if preg_match("/[^[:alpha:]]/imu", value) {
             validation->appendMessage(

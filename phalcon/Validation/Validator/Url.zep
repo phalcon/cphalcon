@@ -75,6 +75,9 @@ class Url extends AbstractValidator
         var options, result, value;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if fetch options, this->options["options"] {
             let result = filter_var(value, FILTER_VALIDATE_URL, options);
