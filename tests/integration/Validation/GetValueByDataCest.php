@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Tests\Models\EntityWithPublic;
 use Phalcon\Validation;
 
 /**
@@ -47,9 +48,7 @@ class GetValueByDataCest
     {
         $I->wantToTest('Validation - getValueByData()');
 
-        $data = new class() {
-            public $name = GetValueByDataCest::NAME;
-        };
+        $data = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
         $value = $validation->getValueByData($data, 'name');

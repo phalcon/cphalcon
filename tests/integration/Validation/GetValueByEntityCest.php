@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Tests\Models\EntityWithGetter;
+use Phalcon\Tests\Models\EntityWithHook;
+use Phalcon\Tests\Models\EntityWithPublic;
 use Phalcon\Validation;
 
 /**
@@ -29,55 +32,39 @@ class GetValueByEntityCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetValueByEntityPublic(IntegrationTester $I)
+    public function validationGetValueByEntityPublic(IntegrationTester $I): void
     {
-        $I->wantToTest('Validation - getValueByEntity()');
+        $I->wantToTest('Validation - getValueByEntity() - public property');
 
-        $user = new class() {
-            public $name = GetValueByEntityCest::NAME;
-        };
+        $entity = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($user, 'name');
+        $value = $validation->getValueByEntity($entity, 'name');
 
-        $I->assertSame($user->name, $value);
+        $I->assertSame($entity->name, $value);
     }
 
-    public function validationGetValueByEntityGetter(IntegrationTester $I)
+    public function validationGetValueByEntityGetter(IntegrationTester $I): void
     {
-        $I->wantToTest('Validation - getValueByEntity()');
+        $I->wantToTest('Validation - getValueByEntity() - getter');
 
-        $user = new class() {
-            private $name = GetValueByEntityCest::NAME;
-
-            public function getName()
-            {
-                return $this->name;
-            }
-        };
+        $entity = new EntityWithGetter(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($user, 'name');
+        $value = $validation->getValueByEntity($entity, 'name');
 
-        $I->assertSame($user->getName(), $value);
+        $I->assertSame($entity->getName(), $value);
     }
 
-    public function validationGetValueByEntityReadAttribute(IntegrationTester $I)
+    public function validationGetValueByEntityReadAttribute(IntegrationTester $I): void
     {
-        $I->wantToTest('Validation - getValueByEntity()');
+        $I->wantToTest('Validation - getValueByEntity() - readAttribute');
 
-        $user = new class() {
-            private $name = GetValueByEntityCest::NAME;
-
-            public function readAttribute(string $field)
-            {
-                return $this->{$field};
-            }
-        };
+        $entity = new EntityWithHook(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($user, 'name');
+        $value = $validation->getValueByEntity($entity, 'name');
 
-        $I->assertSame($user->readAttribute('name'), $value);
+        $I->assertSame($entity->readAttribute('name'), $value);
     }
 }
