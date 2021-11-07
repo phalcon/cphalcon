@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class GetValuesCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: get()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: get()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function supportCollectionReadOnlyGetValues(UnitTester $I)
+    public function supportCollectionReadOnlyCollectionGetValues(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - getValues()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - getValues()');
 
         $data = [
             'one'   => 'two',
@@ -36,7 +36,7 @@ class GetValuesCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $expected = [
             'two',

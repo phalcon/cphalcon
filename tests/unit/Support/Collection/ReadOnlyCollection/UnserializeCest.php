@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
-class ClearCest
+class UnserializeCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: clear()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: serialize()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function supportCollectionClear(UnitTester $I)
+    public function supportCollectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - clear()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - serialize()');
 
         $data = [
             'one'   => 'two',
@@ -36,16 +36,13 @@ class ClearCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $serialized = serialize($data);
+        $collection = new ReadOnlyCollection();
+
+        $collection->unserialize($serialized);
 
         $expected = $data;
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
-
-        $collection->clear();
-
-        $expected = 0;
-        $actual   = $collection->count();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollectionCollection;
 
 use Codeception\Example;
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use stdClass;
 use UnitTester;
 
 class GetCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: get()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: get()
      *
      * @param UnitTester $I
      *
@@ -30,7 +30,7 @@ class GetCest
      */
     public function supportCollectionGet(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - get()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - get()');
 
         $data = [
             'one'   => 'two',
@@ -38,7 +38,7 @@ class GetCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
         $expected   = 'four';
 
         $actual = $collection->get('three');
@@ -47,7 +47,7 @@ class GetCest
         $actual = $collection->get('THREE');
         $I->assertEquals($expected, $actual);
 
-        $actual = $collection->get('unknown', 'four');
+        $actual = $collection->get(uniqid(), 'four');
         $I->assertEquals($expected, $actual);
 
         $actual = $collection['three'];
@@ -70,9 +70,9 @@ class GetCest
      */
     public function helperArrGetCast(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - get() - cast ' . $example[0]);
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - get() - cast ' . $example[0]);
 
-        $collection = new ReadOnly(
+        $collection = new ReadOnlyCollection(
             [
                 'value' => $example[1],
             ]

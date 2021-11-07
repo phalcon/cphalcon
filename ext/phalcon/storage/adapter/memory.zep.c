@@ -431,18 +431,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, increment)
 /**
  * Stores data in the adapter
  *
- * @param string                $key
- * @param mixed                 $value
- * @param DateInterval|int|null $ttl
+ * @param string                 $key
+ * @param mixed                  $value
+ * @param \DateInterval|int|null $ttl
  *
  * @return bool
  * @throws BaseException
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, set)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$null, content, lifetime, prefixedKey;
+	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$null, content, prefixedKey;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -451,7 +452,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set)
 	ZVAL_UNDEF(&ttl_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&content);
-	ZVAL_UNDEF(&lifetime);
 	ZVAL_UNDEF(&prefixedKey);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -481,14 +481,67 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set)
 	}
 
 
+	_0 = Z_TYPE_P(ttl) == IS_LONG;
+	if (_0) {
+		_0 = ZEPHIR_LT_LONG(ttl, 1);
+	}
+	if (_0) {
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "delete", NULL, 0, &key);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
 	ZEPHIR_CALL_METHOD(&content, this_ptr, "getserializeddata", NULL, 0, value);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&lifetime, this_ptr, "getttl", NULL, 0, ttl);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("data"), &prefixedKey, &content);
 	RETURN_MM_BOOL(1);
+}
+
+/**
+ * Stores data in the adapter forever. The key needs to manually deleted
+ * from the adapter.
+ *
+ * @param string $key
+ * @param mixed  $value
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Storage_Adapter_Memory, setForever)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *key_param = NULL, *value, value_sub;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key_param, &value);
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(&key, key_param);
+	} else {
+		ZEPHIR_INIT_VAR(&key);
+	}
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "set", NULL, 0, &key, value);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_entry *class_type)

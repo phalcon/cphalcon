@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 364, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 371, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 		ZEPHIR_CALL_FUNCTION(&pointer, "fopen", NULL, 90, &name, &_2$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_3$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 153, &pointer, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 151, &pointer, &_3$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_4$$3)) {
 			ZEPHIR_INIT_NVAR(&data);
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	ZVAL_LONG(&_2, 2);
-	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 149, &name, data, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 154, &name, data, &_2);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
 }

@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnly;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
 use Phalcon\Support\Collection\Exception;
-use Phalcon\Support\Collection\ReadOnly;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 use UnitTester;
 
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnly :: remove()
+     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: remove()
      *
      * @param UnitTester $I
      *
@@ -29,14 +29,14 @@ class RemoveCest
      */
     public function supportCollectionRemove(UnitTester $I)
     {
-        $I->wantToTest('Support\Collection\ReadOnly - remove()');
+        $I->wantToTest('Support\Collection\ReadOnlyCollection - remove()');
 
         $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new ReadOnly($data);
+        $collection = new ReadOnlyCollection($data);
 
         $I->expectThrowable(
             new Exception('The object is read only'),

@@ -13,6 +13,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getKeys);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, has);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, increment);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set);
+PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setForever);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setOptions);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSasl);
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer);
@@ -66,6 +67,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_libmemca
 	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_libmemcached_setforever, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_libmemcached_setoptions, 0, 2, Phalcon\\Storage\\Adapter\\Libmemcached, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Memcached, 0)
 	ZEND_ARG_ARRAY_INFO(0, client, 0)
@@ -102,6 +108,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_libmemcached_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, has, arginfo_phalcon_storage_adapter_libmemcached_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, increment, arginfo_phalcon_storage_adapter_libmemcached_increment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, set, arginfo_phalcon_storage_adapter_libmemcached_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, setForever, arginfo_phalcon_storage_adapter_libmemcached_setforever, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, setOptions, arginfo_phalcon_storage_adapter_libmemcached_setoptions, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, setSasl, arginfo_phalcon_storage_adapter_libmemcached_setsasl, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, setSerializer, arginfo_phalcon_storage_adapter_libmemcached_setserializer, ZEND_ACC_PRIVATE)
