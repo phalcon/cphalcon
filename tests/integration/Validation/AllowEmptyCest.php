@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
 
@@ -34,7 +35,7 @@ class AllowEmptyCest
         $validator = new Alpha(['allowEmpty' => false]);
         $validation->add('name', $validator);
 
-        $I->assertFalse($validation->validate($data));
+        $I->assertInstanceOf(Messages::class, $validation->validate($data));
     }
 
     public function validationAllowEmptyTrue(IntegrationTester $I)

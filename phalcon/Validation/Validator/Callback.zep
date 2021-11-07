@@ -69,8 +69,7 @@ class Callback extends AbstractValidator
      * @param array options = [
      *     'message' => '',
      *     'template' => '',
-     *     'callback' => null,
-     *     'allowEmpty' => false
+     *     'callback' => null
      * ]
      */
     public function __construct(array! options = [])
@@ -95,9 +94,6 @@ class Callback extends AbstractValidator
             }
 
             let returnedValue = call_user_func(callback, data);
-            if this->allowEmpty(field, returnedValue) {
-                return true;
-            }
 
             if typeof returnedValue == "boolean" {
                 if !returnedValue {

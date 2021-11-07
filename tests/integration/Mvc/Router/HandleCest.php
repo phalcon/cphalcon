@@ -236,7 +236,7 @@ class HandleCest
         );
 
         $I->assertEquals(
-            'about',
+            'About',
             $router->getControllerName()
         );
 
@@ -299,7 +299,7 @@ class HandleCest
         );
 
         $I->assertEquals(
-            'about',
+            'About',
             $router->getControllerName()
         );
 
