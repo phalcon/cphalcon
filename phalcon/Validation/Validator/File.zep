@@ -118,7 +118,23 @@ class File extends AbstractValidatorComposite
      */
     public function __construct(array! options = [])
     {
-        var included = null, key, message = null, validator, value;
+        var included = null, key, message = null, validator, value,
+            messageFileEmpty = null, messageIniSize = null, messageValid = null;
+
+        if isset options["messageFileEmpty"] {
+            let messageFileEmpty  = Arr::get(options, "messageFileEmpty");
+            unset options["messageFileEmpty"];
+        }
+
+        if isset options["messageIniSize"] {
+            let messageIniSize  = Arr::get(options, "messageIniSize");
+            unset options["messageIniSize"];
+        }
+
+        if isset options["messageValid"] {
+            let messageValid  = Arr::get(options, "messageValid");
+            unset options["messageValid"];
+        }
 
         // create individual validators
         for key, value in options {
@@ -238,6 +254,18 @@ class File extends AbstractValidatorComposite
                 unset options["messageEqualResolution"];
             } else {
                 continue;
+            }
+
+            if messageFileEmpty !== null {
+                validator->setMessageFileEmpty(messageFileEmpty);
+            }
+
+            if messageIniSize !== null {
+                validator->setMessageIniSize(messageIniSize);
+            }
+
+            if messageValid !== null {
+                validator->setMessageValid(messageValid);
             }
 
             let this->validators[] = validator;
