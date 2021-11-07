@@ -195,6 +195,9 @@ class AssignCest
         $result = $invoice->create();
         $I->assertTrue($result);
 
+        $result = $transaction->commit();
+        $I->assertTrue($result);
+
         $result = $invoice->delete();
         $I->assertTrue($result);
     }
