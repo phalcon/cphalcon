@@ -48,6 +48,7 @@ class ValidateCest
                         return empty($data['admin']);
                     },
                     'message'    => 'You cant provide both admin and user.',
+                    'allowEmpty' => true,
                 ]
             )
         );
@@ -60,7 +61,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(0, $messages);
+        $I->assertCount(0, $messages->count());
 
 
         $messages = $validation->validate(
@@ -70,7 +71,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(0, $messages);
+        $I->assertCount(0, $messages->count());
 
 
         $messages = $validation->validate(
@@ -80,7 +81,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertCount(1, $messages);
+        $I->assertCount(1, $messages->count());
 
 
         $expected = new Messages(
