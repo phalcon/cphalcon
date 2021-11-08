@@ -28,6 +28,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setSubject);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setClaim);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, encodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, encode);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, signer, Phalcon\\Encryption\\Security\\JWT\\Signer\\SignerInterface, 0)
@@ -118,6 +120,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_b
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_encodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_encode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, depth, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, __construct, arginfo_phalcon_encryption_security_jwt_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, init, arginfo_phalcon_encryption_security_jwt_builder_init, ZEND_ACC_PUBLIC)
@@ -148,5 +160,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, setSubject, arginfo_phalcon_encryption_security_jwt_builder_setsubject, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, setPassphrase, arginfo_phalcon_encryption_security_jwt_builder_setpassphrase, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, setClaim, arginfo_phalcon_encryption_security_jwt_builder_setclaim, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, encodeUrl, arginfo_phalcon_encryption_security_jwt_builder_encodeurl, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, encode, arginfo_phalcon_encryption_security_jwt_builder_encode, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

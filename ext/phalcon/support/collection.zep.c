@@ -22,6 +22,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_array.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -911,13 +912,12 @@ PHP_METHOD(Phalcon_Support_Collection, toArray)
 PHP_METHOD(Phalcon_Support_Collection, toJson)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, _1, _2;
+	zval *options_param = NULL, _0, _1;
 	zend_long options, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -936,10 +936,10 @@ PHP_METHOD(Phalcon_Support_Collection, toJson)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZVAL_LONG(&_2, options);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 16, &_1, &_2);
+	ZVAL_LONG(&_1, options);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "encode", NULL, 16, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1021,6 +1021,71 @@ PHP_METHOD(Phalcon_Support_Collection, setData)
 	zephir_update_property_array(this_ptr, SL("data"), &element, value);
 	zephir_update_property_array(this_ptr, SL("lowerKeys"), &key, &element);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo This will be removed when traits are introduced
+ */
+PHP_METHOD(Phalcon_Support_Collection, encode)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long options, depth, ZEPHIR_LAST_CALL_STATUS;
+	zval *data, data_sub, *options_param = NULL, *depth_param = NULL, encoded, _0, _1, _2, _3$$3, _4$$3, _5$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&encoded);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(options)
+		Z_PARAM_LONG(depth)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &data, &options_param, &depth_param);
+	if (!options_param) {
+		options = 0;
+	} else {
+		options = zephir_get_intval(options_param);
+	}
+	if (!depth_param) {
+		depth = 512;
+	} else {
+		depth = zephir_get_intval(depth_param);
+	}
+
+
+	ZVAL_LONG(&_0, options);
+	ZVAL_LONG(&_1, depth);
+	ZEPHIR_INIT_VAR(&encoded);
+	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
+	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 18);
+	zephir_check_call_status();
+	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0))) {
+		ZEPHIR_INIT_VAR(&_3$$3);
+		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 19);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 20, &_5$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Collection.zep", 365);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&encoded);
 }
 
 zend_object *zephir_init_properties_Phalcon_Support_Collection(zend_class_entry *class_type)

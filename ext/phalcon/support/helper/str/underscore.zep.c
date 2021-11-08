@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Underscore, __invoke)
 	ZVAL_STRING(&_1, "#\\s+#");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 50, &_1, &_2, &_0);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 52, &_1, &_2, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	if (Z_TYPE_P(&result) == IS_NULL) {

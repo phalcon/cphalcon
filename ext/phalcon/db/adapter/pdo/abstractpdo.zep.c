@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams)
 		ZEPHIR_INIT_NVAR(&placeMatch);
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "?");
-		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 50, &bindPattern, &_9$$3, &sql);
+		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 52, &bindPattern, &_9$$3, &sql);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&boundSql, &sql);
@@ -929,7 +929,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 							do {
 								if (ZEPHIR_IS_LONG(&type, 1)) {
 									ZVAL_LONG(&_6$$12, 10);
-									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 51, &value, &_6$$12);
+									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 53, &value, &_6$$12);
 									zephir_check_call_status();
 									break;
 								}
@@ -1110,7 +1110,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 								do {
 									if (ZEPHIR_IS_LONG(&type, 1)) {
 										ZVAL_LONG(&_26$$43, 10);
-										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 51, &value, &_26$$43);
+										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 53, &value, &_26$$43);
 										zephir_check_call_status();
 										break;
 									}
@@ -1582,7 +1582,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query)
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdo_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 52, this_ptr, &statement, &sqlStatement, &bindParams, &bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 54, this_ptr, &statement, &sqlStatement, &bindParams, &bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1825,7 +1825,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepareRealSql)
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 		ZVAL_LONG(&_16$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 50, &keys, &values, &statement, &_16$$3);
+		ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 52, &keys, &values, &statement, &_16$$3);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("realSqlStatement"), &result);

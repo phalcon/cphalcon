@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents)
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, length);
-	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 79, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 81, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
 	_3 = -1 == length;

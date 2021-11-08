@@ -13,6 +13,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setActive);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start);
+PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, encode);
 zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler___construct, 0, 0, 0)
@@ -58,6 +59,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler_encode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, depth, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler_zephir_init_properties_phalcon_datamapper_pdo_profiler_profiler, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -72,5 +79,6 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_profiler_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat, arginfo_phalcon_datamapper_pdo_profiler_profiler_setlogformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel, arginfo_phalcon_datamapper_pdo_profiler_profiler_setloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_Profiler, start, arginfo_phalcon_datamapper_pdo_profiler_profiler_start, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_Profiler, encode, arginfo_phalcon_datamapper_pdo_profiler_profiler_encode, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

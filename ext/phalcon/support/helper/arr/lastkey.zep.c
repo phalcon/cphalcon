@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_LastKey, __invoke)
 
 	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_key_last", NULL, 49, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_key_last", NULL, 51, &filtered);
 	zephir_check_call_status();
 	RETURN_MM();
 }

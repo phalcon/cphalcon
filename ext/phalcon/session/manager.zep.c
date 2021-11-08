@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 387);
+	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 391);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);

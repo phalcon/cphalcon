@@ -1821,7 +1821,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (zephir_is_numeric(&number)) {
 			zephir_concat_self_str(&phql, SL(" LIMIT :APL0:"));
 			ZVAL_LONG(&_82$$86, 10);
-			ZEPHIR_CALL_FUNCTION(&_83$$86, "intval", NULL, 51, &number, &_82$$86);
+			ZEPHIR_CALL_FUNCTION(&_83$$86, "intval", NULL, 53, &number, &_82$$86);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_84$$86);
 			ZVAL_STRING(&_84$$86, "APL0");
@@ -1838,7 +1838,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 			if (_87$$86) {
 				zephir_concat_self_str(&phql, SL(" OFFSET :APL1:"));
 				ZVAL_LONG(&_88$$87, 10);
-				ZEPHIR_CALL_FUNCTION(&_89$$87, "intval", NULL, 51, &offset, &_88$$87);
+				ZEPHIR_CALL_FUNCTION(&_89$$87, "intval", NULL, 53, &offset, &_88$$87);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_90$$87);
 				ZVAL_STRING(&_90$$87, "APL1");
@@ -2508,7 +2508,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 278, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 283, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -2519,7 +2519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("limit"), &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_2$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 278, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 283, &_2$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("offset"), &_3$$4);
 	}
@@ -3364,7 +3364,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 137, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
@@ -3486,7 +3486,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 137, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
@@ -3647,7 +3647,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 137, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
@@ -3769,7 +3769,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 137, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
