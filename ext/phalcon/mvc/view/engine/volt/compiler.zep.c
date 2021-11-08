@@ -4060,7 +4060,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 		_21 = ZEPHIR_IS_STRING(&name, "lowercase");
 	}
 	if (_21) {
-		ZEPHIR_CONCAT_SVS(return_value, "Phalcon\\Text::lower(", &arguments, ")");
+		ZEPHIR_CONCAT_SVS(return_value, "strtolower(", &arguments, ")");
 		RETURN_MM();
 	}
 	_22 = ZEPHIR_IS_STRING(&name, "upper");
@@ -4068,7 +4068,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 		_22 = ZEPHIR_IS_STRING(&name, "uppercase");
 	}
 	if (_22) {
-		ZEPHIR_CONCAT_SVS(return_value, "Phalcon\\Text::upper(", &arguments, ")");
+		ZEPHIR_CONCAT_SVS(return_value, "strtoupper(", &arguments, ")");
 		RETURN_MM();
 	}
 	if (ZEPHIR_IS_STRING(&name, "capitalize")) {

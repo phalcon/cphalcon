@@ -120,14 +120,15 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, valid, _0$$3;
+	zval *validation, validation_sub, *field, field_sub, value, valid, _0, _1$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&valid);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -143,12 +144,17 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate)
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_BOOL(1);
+	}
 	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 0, &value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&valid))) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_0$$3);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_1$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -205,7 +211,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm)
 	ZEPHIR_CPY_WRT(&digits, &_1);
 	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 0, &digits);
 	zephir_check_call_status();
-	zephir_is_iterable(&_3, 0, "phalcon/Validation/Validator/CreditCard.zep", 106);
+	zephir_is_iterable(&_3, 0, "phalcon/Validation/Validator/CreditCard.zep", 109);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_3), _6, _7, _4)
 		{

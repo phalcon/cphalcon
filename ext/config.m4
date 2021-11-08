@@ -338,8 +338,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/helper/exception.zep.c
 	phalcon/helper/fs.zep.c
 	phalcon/helper/json.zep.c
-	phalcon/helper/number.zep.c
-	phalcon/helper/str.zep.c
 	phalcon/html/attributes.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/escaper.zep.c
@@ -571,7 +569,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/tag.zep.c
 	phalcon/tag/exception.zep.c
 	phalcon/tag/select.zep.c
-	phalcon/text.zep.c
 	phalcon/translate/adapter/csv.zep.c
 	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c

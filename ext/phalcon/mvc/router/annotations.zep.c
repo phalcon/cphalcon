@@ -1136,12 +1136,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix)
  *
  * ```php
  * // Array as callback
- * $annotationRouter->setActionPreformatCallback([Text::class, 'uncamelize']);
+ * $annotationRouter->setActionPreformatCallback(
+ *      [
+ *          new Uncamelize(),
+ *          '__invoke'
+ *      ]
+ *  );
  *
  * // Function as callback
- * $annotationRouter->setActionPreformatCallback(function(action){
- *     return action;
- * });
+ * $annotationRouter->setActionPreformatCallback(
+ *     function ($action) {
+ *         return $action;
+ *     }
+ * );
  *
  * // String as callback
  * $annotationRouter->setActionPreformatCallback('strtolower');
@@ -1186,7 +1193,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback)
 		zephir_create_closure_ex(&_0$$4, NULL, phalcon_9__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("actionPreformatCallback"), &_0$$4);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Mvc/Router/Annotations.zep", 455);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Mvc/Router/Annotations.zep", 462);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

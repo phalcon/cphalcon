@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 433);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 421);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CREATE_SYMBOL_TABLE();
 	
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 433);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 421);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&viewParams, &_1);
@@ -767,7 +767,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zval *viewsDir_param = NULL, _0;
 	zval viewsDir;
 	zval *this_ptr = getThis();
@@ -795,7 +794,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir)
 	}
 
 
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_str_ce, "dirseparator", &_1, 0, &viewsDir);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdirseparator", NULL, 0, &viewsDir);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("viewsDir"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -1203,6 +1202,48 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo Remove this when we get traits
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getDirSeparator)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *directory_param = NULL, _0, _1;
+	zval directory;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&directory);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(directory)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &directory_param);
+	if (UNEXPECTED(Z_TYPE_P(directory_param) != IS_STRING && Z_TYPE_P(directory_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'directory' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(directory_param) == IS_STRING)) {
+		zephir_get_strval(&directory, directory_param);
+	} else {
+		ZEPHIR_INIT_VAR(&directory);
+	}
+
+
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "/");
+	zephir_fast_trim(&_0, &directory, &_1, ZEPHIR_TRIM_RIGHT);
+	ZEPHIR_CONCAT_VS(return_value, &_0, "/");
+	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *class_type)

@@ -576,6 +576,64 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel)
 }
 
 /**
+ * Checks if field can be empty.
+ *
+ * @param mixed field
+ * @param mixed value
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Validation_AbstractValidator, allowEmpty)
+{
+	zend_bool _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *field, field_sub, *value, value_sub, allowEmpty, _0, _1, _2$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&allowEmpty);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &field, &value);
+
+
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "allowEmpty");
+	ZVAL_BOOL(&_1, 0);
+	ZEPHIR_CALL_METHOD(&allowEmpty, this_ptr, "getoption", NULL, 0, &_0, &_1);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		if (zephir_array_isset(&allowEmpty, field)) {
+			ZEPHIR_OBS_NVAR(&_2$$3);
+			zephir_array_fetch(&_2$$3, &allowEmpty, field, PH_NOISY, "phalcon/Validation/AbstractValidator.zep", 228);
+		} else {
+			ZEPHIR_INIT_NVAR(&_2$$3);
+			ZVAL_BOOL(&_2$$3, 0);
+		}
+		ZEPHIR_CPY_WRT(&allowEmpty, &_2$$3);
+	}
+	_3 = zephir_is_true(&allowEmpty);
+	if (_3) {
+		_3 = ZEPHIR_IS_EMPTY(value);
+	}
+	RETURN_MM_BOOL(_3);
+}
+
+/**
  * Create a default message by factory
  *
  * @return Message
@@ -627,7 +685,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory)
 	} else if (Z_TYPE_P(field) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&singleField, field);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The field can not be printed", "phalcon/Validation/AbstractValidator.zep", 229);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The field can not be printed", "phalcon/Validation/AbstractValidator.zep", 250);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_0);

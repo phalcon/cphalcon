@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 456);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 444);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
 		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 137, &_7$$3, &_4$$3, &_6$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 455, &_8$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 443, &_8$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 106);
 		ZEPHIR_MM_RESTORE();
@@ -222,9 +222,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	}
 	ZEPHIR_CALL_METHOD(&_9, item, "getlevel", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 457, &_9);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 445, &_9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 458, &level, &message);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 446, &level, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 
 	ZVAL_LONG(&_0, option);
 	ZVAL_LONG(&_1, facility);
-	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 459, &ident, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 447, &ident, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

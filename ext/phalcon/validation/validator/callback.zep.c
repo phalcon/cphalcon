@@ -86,8 +86,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Callback)
  * @param array options = [
  *     'message' => '',
  *     'template' => '',
- *     'callback' => null,
- *     'allowEmpty' => false
+ *     'callback' => null
  * ]
  */
 PHP_METHOD(Phalcon_Validation_Validator_Callback, __construct)
@@ -186,7 +185,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "phalcon/Validation/Validator/Callback.zep", 115);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "phalcon/Validation/Validator/Callback.zep", 114);
 		return;
 	}
 	RETURN_MM_BOOL(1);

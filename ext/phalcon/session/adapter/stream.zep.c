@@ -22,6 +22,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/file.h"
 #include "kernel/time.h"
+#include "kernel/string.h"
 
 
 /**
@@ -75,7 +76,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_0 = NULL;
 	zval options, *options_param = NULL, path, _1, _3, _6, _2$$3, _4$$4, _5$$4;
 	zval *this_ptr = getThis();
 
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 371, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 357, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -130,7 +131,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 0, &path);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getdirseparator", NULL, 0, &path);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
@@ -404,3 +405,44 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
 }
 
+/**
+ * @todo Remove this when we get traits
+ */
+PHP_METHOD(Phalcon_Session_Adapter_Stream, getDirSeparator)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *directory_param = NULL, _0, _1;
+	zval directory;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&directory);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(directory)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &directory_param);
+	if (UNEXPECTED(Z_TYPE_P(directory_param) != IS_STRING && Z_TYPE_P(directory_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'directory' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(directory_param) == IS_STRING)) {
+		zephir_get_strval(&directory, directory_param);
+	} else {
+		ZEPHIR_INIT_VAR(&directory);
+	}
+
+
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "/");
+	zephir_fast_trim(&_0, &directory, &_1, ZEPHIR_TRIM_RIGHT);
+	ZEPHIR_CONCAT_VS(return_value, &_0, "/");
+	RETURN_MM();
+}

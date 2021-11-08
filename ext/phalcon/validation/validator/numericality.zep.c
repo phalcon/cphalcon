@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate)
 	zval pattern, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, _1, _2, _3, _4, _5$$3;
+	zval *validation, validation_sub, *field, field_sub, value, _1, _2, _3, _4, _5, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -132,7 +132,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&pattern);
 	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
@@ -161,13 +162,18 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate)
 	ZEPHIR_CPY_WRT(&value, &_1);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZVAL_STRING(&pattern, "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/");
-	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_4)) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_preg_match(&_1, &pattern, &value, &_4, 0, 0 , 0 );
+	zephir_preg_match(&_1, &pattern, &value, &_5, 0, 0 , 0 );
 	if (!(zephir_is_true(&_1))) {
-		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

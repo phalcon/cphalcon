@@ -127,16 +127,16 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", NULL, 307, &text, &leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", NULL, 0, &text, &leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "substr_count", NULL, 307, &text, &rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_1, "substr_count", NULL, 0, &text, &rightDelimiter);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_0, &_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVS(&_3$$3, "Syntax error in string '", &text, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 308, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/Helper/Str/Dynamic.zep", 43);
 		ZEPHIR_MM_RESTORE();
