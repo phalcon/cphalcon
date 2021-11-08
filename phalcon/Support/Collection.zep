@@ -14,9 +14,9 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
 use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Json;
 use Serializable;
 use Traversable;
 

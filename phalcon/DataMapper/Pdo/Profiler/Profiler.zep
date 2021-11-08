@@ -15,8 +15,8 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\DataMapper\Pdo\Exception\Exception;
-use Phalcon\Helper\Json;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 

@@ -11,8 +11,6 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 use InvalidArgumentException;
-use Phalcon\Helper\Base64;
-use Phalcon\Helper\Json;
 
 /**
  * Class Parser
@@ -166,5 +164,25 @@ class Parser
         }
 
         return decoded;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function decodeUrl(string! input) -> string
+    {
+        var data, remainder;
+
+        let remainder = strlen(input) % 4;
+        if remainder {
+            let input .= str_repeat("=", 4 - remainder);
+        }
+
+        let data = base64_decode(strtr(input, "-_", "+/"));
+        if (false === data) {
+            let data = "";
+        }
+
+        return data;
     }
 }

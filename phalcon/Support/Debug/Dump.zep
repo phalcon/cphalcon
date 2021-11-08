@@ -10,8 +10,8 @@
 
 namespace Phalcon\Support\Debug;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di;
-use Phalcon\Helper\Json;
 use Reflection;
 use ReflectionClass;
 use ReflectionProperty;

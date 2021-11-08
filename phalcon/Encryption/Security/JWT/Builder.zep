@@ -10,9 +10,9 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Json;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
@@ -430,26 +430,6 @@ class Builder
     private function encodeUrl(string! input) -> string
     {
         return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function decodeUrl(string! input) -> string
-    {
-        var data, remainder;
-
-        let remainder = strlen(input) % 4;
-        if remainder {
-            let input .= str_repeat("=", 4 - remainder);
-        }
-
-        let data = base64_decode(strtr(input, "-_", "+/"));
-        if (false === data) {
-            let data = "";
-        }
-
-        return data;
     }
 
     /**

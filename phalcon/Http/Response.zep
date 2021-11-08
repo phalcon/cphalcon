@@ -12,10 +12,9 @@ namespace Phalcon\Http;
 
 use DateTime;
 use DateTimeZone;
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Helper\Fs;
-use Phalcon\Helper\Json;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;

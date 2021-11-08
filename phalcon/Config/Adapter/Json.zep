@@ -10,8 +10,8 @@
 
 namespace Phalcon\Config\Adapter;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Config\Config;
-use Phalcon\Helper\Json as JsonHelper;
 
 /**
  * Reads JSON files and converts them to Phalcon\Config\Config objects.
@@ -41,10 +41,33 @@ class Json extends Config
     public function __construct(string! filePath)
     {
         parent::__construct(
-            JsonHelper::decode(
+            this->decode(
                 file_get_contents(filePath),
                 true
             )
         );
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function decode(
+        string! data,
+        bool associative = false,
+        int depth = 512,
+        int options = 0
+    ) -> var
+    {
+        var decoded;
+
+        let decoded = json_decode(data, associative, depth, options);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_decode error: " . json_last_error_msg()
+            );
+        }
+
+        return decoded;
     }
 }
