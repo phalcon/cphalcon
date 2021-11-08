@@ -257,7 +257,7 @@ final class UploadedFile implements UploadedFileInterface
      */
     private function checkError(int error) -> void
     {
-        if unlikely true !== Number::between(error, 0, 8) {
+        if unlikely true !== this->isBetween(error, 0, 8) {
             throw new InvalidArgumentException(
                 "Invalid error. Must be one of the UPLOAD_ERR_* constants"
             );
@@ -341,5 +341,13 @@ final class UploadedFile implements UploadedFileInterface
         }
 
         fclose(handle);
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function isBetween(int value, int from, int to) -> bool
+    {
+        return value >= from && value <= to;
     }
 }
