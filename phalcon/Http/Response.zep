@@ -667,9 +667,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         this->setContentType("application/json");
 
-        this->setContent(
-            Json::encode(content, jsonOptions, depth)
-        );
+        this->setContent(this->encode(content, jsonOptions, depth));
 
         return this;
     }
@@ -907,5 +905,27 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
 
         return filename;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

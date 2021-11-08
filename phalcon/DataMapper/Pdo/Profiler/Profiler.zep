@@ -91,7 +91,7 @@ class Profiler implements ProfilerInterface
                 this->context["duration"]  = finish - this->context["start"],
                 this->context["finish"]    = finish,
                 this->context["statement"] = statement,
-                this->context["values"]    = empty(values) ? "" : Json::encode(values);
+                this->context["values"]    = empty(values) ? "" : this->encode(values);
 
             this->logger->log(this->logLevel, this->logFormat, this->context);
 
@@ -194,5 +194,27 @@ class Profiler implements ProfilerInterface
                 "start"  : hrtime(true)
             ];
         }
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

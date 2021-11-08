@@ -316,7 +316,7 @@ class Collection implements
      */
     public function toJson(int options = 79) -> string
     {
-        return Json::encode(this->toArray(), options);
+        return this->encode(this->toArray(), options);
     }
 
     /**
@@ -344,5 +344,27 @@ class Collection implements
 
         let this->data[element]  = value,
             this->lowerKeys[key] = element;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

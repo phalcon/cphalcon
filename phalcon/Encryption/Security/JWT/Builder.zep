@@ -197,9 +197,9 @@ class Builder
             );
         }
 
-        let encodedClaims    = this->encodeUrl(Json::encode(this->getClaims())),
+        let encodedClaims    = this->encodeUrl(this->encode(this->getClaims())),
             claims           = new Item(this->getClaims(), encodedClaims),
-            encodedHeaders   = this->encodeUrl(Json::encode(this->getHeaders())),
+            encodedHeaders   = this->encodeUrl(this->encode(this->getHeaders())),
             headers          = new Item(this->getHeaders(), encodedHeaders),
             signatureHash    = this->signer->sign(
                 encodedHeaders . "." . encodedClaims,
@@ -450,5 +450,27 @@ class Builder
         }
 
         return data;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }
