@@ -310,7 +310,7 @@ final class UploadedFile implements UploadedFileInterface
             8 : "A PHP extension stopped the file upload."
         ];
 
-        if likely (true === isset(errors[error]) {
+        if likely (true === isset(errors[error])) {
             return errors[error];
         }
 

@@ -12,7 +12,6 @@ namespace Phalcon\Encryption\Security\JWT;
 
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Base64;
 use Phalcon\Helper\Json;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
@@ -198,15 +197,15 @@ class Builder
             );
         }
 
-        let encodedClaims    = Base64::encodeUrl(Json::encode(this->getClaims())),
+        let encodedClaims    = this->encodeUrl(Json::encode(this->getClaims())),
             claims           = new Item(this->getClaims(), encodedClaims),
-            encodedHeaders   = Base64::encodeUrl(Json::encode(this->getHeaders())),
+            encodedHeaders   = this->encodeUrl(Json::encode(this->getHeaders())),
             headers          = new Item(this->getHeaders(), encodedHeaders),
             signatureHash    = this->signer->sign(
                 encodedHeaders . "." . encodedClaims,
                 this->passphrase
             ),
-            encodedSignature = Base64::encodeUrl(signatureHash),
+            encodedSignature = this->encodeUrl(signatureHash),
             signature        = new Signature(signatureHash, encodedSignature);
 
         return new Token(headers, claims, signature);
@@ -423,5 +422,33 @@ class Builder
         this->claims->set(name, value);
 
         return this;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encodeUrl(string! input) -> string
+    {
+        return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function decodeUrl(string! input) -> string
+    {
+        var data, remainder;
+
+        let remainder = strlen(input) % 4;
+        if remainder {
+            let input .= str_repeat("=", 4 - remainder);
+        }
+
+        let data = base64_decode(strtr(input, "-_", "+/"));
+        if (false === data) {
+            let data = "";
+        }
+
+        return data;
     }
 }

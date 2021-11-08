@@ -53,7 +53,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = Json::decode(Base64::decodeUrl(claims), true);
+        let decoded = Json::decode(this->decodeUrl(claims), true);
 
         if typeof decoded !== "array" {
             throw new InvalidArgumentException(
@@ -82,7 +82,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = Json::decode(Base64::decodeUrl(headers), true);
+        let decoded = Json::decode(this->decodeUrl(headers), true);
 
         if typeof decoded !== "array" {
             throw new InvalidArgumentException(
@@ -117,7 +117,7 @@ class Parser
             let decoded   = "",
                 signature = "";
         } else {
-            let decoded = Base64::decodeUrl(signature);
+            let decoded = this->decodeUrl(signature);
         }
 
         return new Signature(decoded, signature);

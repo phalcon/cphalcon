@@ -13,6 +13,7 @@ namespace Phalcon\Support;
 use ErrorException;
 use ReflectionClass;
 use ReflectionFunction;
+use Phalcon\Tag;
 
 /**
  * Provides debug capabilities to Phalcon applications

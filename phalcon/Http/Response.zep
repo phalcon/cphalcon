@@ -580,7 +580,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         var basePathEncoding = "ASCII";
 
         if typeof attachmentName != "string" {
-            let basePath = Fs::basename(filePath);
+            let basePath = this->getBasename(filePath);
         } else {
             let basePath = attachmentName;
         }
@@ -888,5 +888,24 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         headers->setRaw(header);
 
         return this;
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getBasename(string! uri, var suffix = null) -> string
+    {
+	var filename, matches;
+        let uri = rtrim(uri, DIRECTORY_SEPARATOR);
+        let filename = preg_match(
+		"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
+		uri,
+		matches
+        ) ? matches[0] : "";
+        if suffix {
+		let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
+        }
+
+        return filename;
     }
 }
