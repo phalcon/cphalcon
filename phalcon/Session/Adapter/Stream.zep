@@ -10,7 +10,6 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Helper\Str;
 use Phalcon\Session\Exception;
 
 /**

@@ -11,8 +11,6 @@
 namespace Phalcon\Support;
 
 use ErrorException;
-use Phalcon\Helper\Arr;
-use Phalcon\Tag;
 use ReflectionClass;
 use ReflectionFunction;
 
@@ -335,7 +333,7 @@ class Debug
             let html .= "<div id='error-tabs-2'>"
                       . "<table cellspacing='0' align='center' class='superglobal-detail'>"
                       . "<tr><th>Key</th><th>Value</th></tr>";
-            let blacklist = Arr::get(this->blacklist, "request", []);
+            let blacklist = this->getArrVal(this->blacklist, "request", []);
 
              for keyRequest, value in _REQUEST {
                 if true !== isset(blacklist[strtolower(keyRequest)]) {
@@ -355,7 +353,7 @@ class Debug
             let html .= "<div id='error-tabs-3'>"
                       . "<table cellspacing='0' align='center' class='superglobal-detail'>"
                       . "<tr><th>Key</th><th>Value</th></tr>";
-            let blacklist = Arr::get(this->blacklist, "server", []);
+            let blacklist = this->getArrVal(this->blacklist, "server", []);
 
              for keyServer, value in _SERVER {
                 if true !== isset(blacklist[strtolower(keyServer)]) {
@@ -419,7 +417,7 @@ class Debug
     {
         var area, result, subArray, value;
 
-        let area     = Arr::get(blacklist, "request", []),
+        let area     = this->getArrVal(blacklist, "request", []),
             subArray = [],
             result   = [];
 
@@ -429,7 +427,7 @@ class Debug
         }
 
         let result["request"] = subArray,
-            area              = Arr::get(blacklist, "server", []),
+            area              = this->getArrVal(blacklist, "server", []),
             subArray          = [];
 
         for value in area {
@@ -859,5 +857,22 @@ class Debug
         let html .= "</td></tr>";
 
         return html;
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

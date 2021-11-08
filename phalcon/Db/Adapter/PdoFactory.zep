@@ -11,7 +11,7 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 class PdoFactory extends AbstractFactory
 {
@@ -51,7 +51,7 @@ class PdoFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = Arr::get(config, "options", []);
+        let options = (new Get())->__invoke(config, "options", []);
 
         return this->newInstance(name, options);
     }

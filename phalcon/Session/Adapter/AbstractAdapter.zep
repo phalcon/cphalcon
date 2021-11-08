@@ -74,4 +74,21 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     {
         return this->adapter->set(id, data);
     }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    protected function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
+    }
 }

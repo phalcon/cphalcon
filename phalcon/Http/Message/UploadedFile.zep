@@ -14,9 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Number;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -313,7 +310,11 @@ final class UploadedFile implements UploadedFileInterface
             8 : "A PHP extension stopped the file upload."
         ];
 
-        return Arr::get(errors, error, "Unknown upload error");
+        if likely (true === isset(errors[error]) {
+            return errors[error];
+        }
+
+        return "Unknown upload error";
     }
 
     /**

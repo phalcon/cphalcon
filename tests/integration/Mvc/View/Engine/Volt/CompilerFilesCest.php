@@ -196,8 +196,7 @@ class CompilerFilesCest
             . PHP_EOL
             . PHP_EOL
             . '</body>' . PHP_EOL
-            . '</html>' . PHP_EOL
-        ;
+            . '</html>' . PHP_EOL;
 
         /**
          * Set up the view and Volt and compile

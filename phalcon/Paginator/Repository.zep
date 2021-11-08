@@ -11,7 +11,6 @@
 namespace Phalcon\Paginator;
 
 use JsonSerializable;
-use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Paginator\Repository
@@ -160,11 +159,13 @@ class Repository implements RepositoryInterface, JsonSerializable
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {
-        return Arr::get(
-            this->properties,
-            property,
-            defaultValue
-        );
+        var value;
+
+        if !fetch value, this->properties[property] {
+            let value = defaultValue;
+        }
+
+        return value;
     }
 
     /**

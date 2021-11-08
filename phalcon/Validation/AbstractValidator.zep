@@ -10,7 +10,7 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Whitelist;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 
@@ -43,9 +43,10 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function __construct(array! options = [])
     {
-        var template;
+        var template, whitelist;
 
-        let template = current(Arr::whiteList(options, ["template", "message", 0]));
+        let whitelist = new Whitelist(),
+            template  = current(whitelist->__invoke(options, ["template", "message", 0]));
 
         if typeof template == "array" {
             this->setTemplates(template);

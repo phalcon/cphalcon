@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
 use function dataDir;

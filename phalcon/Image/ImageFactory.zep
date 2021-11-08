@@ -11,7 +11,6 @@
 namespace Phalcon\Image;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 use Phalcon\Image\Adapter\AdapterInterface;
 
 /**
@@ -49,9 +48,9 @@ class ImageFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let file   = Arr::get(config, "file"),
-            height = Arr::get(config, "height", null),
-            width  = Arr::get(config, "width", null);
+        let file   = this->getArrVal(config, "file"),
+            height = this->getArrVal(config, "height", null),
+            width  = this->getArrVal(config, "width", null);
 
         return this->newInstance(name, file, width, height);
     }
@@ -99,5 +98,22 @@ class ImageFactory extends AbstractFactory
             "gd"      : "Phalcon\\Image\\Adapter\\Gd",
             "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
         ];
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

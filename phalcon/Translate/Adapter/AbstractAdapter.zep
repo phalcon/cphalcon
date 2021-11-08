@@ -10,7 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
@@ -44,7 +44,12 @@ abstract class AbstractAdapter implements AdapterInterface
         <InterpolatorFactory> interpolator,
         array options = []
     ) {
-        let this->defaultInterpolator = Arr::get(options, "defaultInterpolator", "associativeArray"),
+        var value;
+
+        if !fetch value, options["defaultInterpolator"] {
+            let value = "associativeArray";
+        }
+        let this->defaultInterpolator = value,
             this->interpolatorFactory = interpolator;
     }
 

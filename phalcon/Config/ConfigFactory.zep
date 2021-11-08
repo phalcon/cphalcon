@@ -13,7 +13,6 @@ namespace Phalcon\Config;
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 
 /**
  * Loads Config Adapter class using 'adapter' option, if no extension is

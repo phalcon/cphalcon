@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\Model\Resultset\Simple;
 
 use IntegrationTester;
-use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Robots;

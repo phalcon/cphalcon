@@ -15,7 +15,6 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Encryption\Crypt\CryptInterface;
 use Phalcon\Encryption\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
-use Phalcon\Helper\Arr;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
@@ -152,11 +151,11 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let this->value         = null,
             options             = this->options,
-            options["expires"]  = Arr::get(options, "expires", time() - 691200),
-            options["domain"]   = Arr::get(options, "domain", domain),
-            options["path"]     = Arr::get(options, "path", path),
-            options["secure"]   = Arr::get(options, "secure", secure),
-            options["httponly"] = Arr::get(options, "httponly", httpOnly);
+            options["expires"]  = this->getArrVal(options, "expires", time() - 691200),
+            options["domain"]   = this->getArrVal(options, "domain", domain),
+            options["path"]     = this->getArrVal(options, "path", path),
+            options["secure"]   = this->getArrVal(options, "secure", secure),
+            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
 
         setcookie(name, null, options);
     }
@@ -500,11 +499,11 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * Sets the cookie using the standard 'setcookie' function
          */
-        let options["expires"]  = Arr::get(options, "expires", expire),
-            options["domain"]   = Arr::get(options, "domain", domain),
-            options["path"]     = Arr::get(options, "path", path),
-            options["secure"]   = Arr::get(options, "secure", secure),
-            options["httponly"] = Arr::get(options, "httponly", httpOnly);
+        let options["expires"]  = this->getArrVal(options, "expires", expire),
+            options["domain"]   = this->getArrVal(options, "domain", domain),
+            options["path"]     = this->getArrVal(options, "path", path),
+            options["secure"]   = this->getArrVal(options, "secure", secure),
+            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
 
         setcookie(name, encryptValue, options);
 
@@ -655,5 +654,22 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                 )
             );
         }
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

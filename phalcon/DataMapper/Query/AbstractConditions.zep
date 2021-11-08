@@ -15,8 +15,6 @@
 
 namespace Phalcon\DataMapper\Query;
 
-use Phalcon\Helper\Arr;
-
 /**
  * Class AbstractConditions
  */
@@ -330,7 +328,7 @@ abstract class AbstractConditions extends AbstractQuery
             let this->store[store][] = "";
         }
 
-        let key = Arr::lastKey(this->store[store]);
+        let key = array_key_last(this->store[store]);
 
         let this->store[store][key] = this->store[store][key] . condition;
     }

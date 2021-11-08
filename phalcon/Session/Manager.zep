@@ -15,7 +15,7 @@ use RuntimeException;
 use SessionHandlerInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Phalcon\Session\Manager
@@ -121,7 +121,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         }
 
         let uniqueKey = this->getUniqueKey(key),
-            value     = Arr::get(_SESSION, uniqueKey, defaultValue);
+            value     = this->getArrVal(_SESSION, uniqueKey, defaultValue);
 
         if remove {
             unset(_SESSION[uniqueKey]);
@@ -295,7 +295,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function setOptions(array options) -> void
     {
-        let this->uniqueId = Arr::get(options, "uniqueId", ""),
+        let this->uniqueId = this->getArrVal(options, "uniqueId", ""),
             this->options  = options;
     }
 
@@ -382,5 +382,22 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         } else {
             return key;
         }
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

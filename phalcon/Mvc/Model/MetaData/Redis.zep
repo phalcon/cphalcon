@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Cache\AdapterFactory;
 
@@ -44,8 +43,8 @@ class Redis extends MetaData
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["prefix"]   = Arr::get(options, "prefix", "ph-mm-reds-"),
-            options["lifetime"] = Arr::get(options, "lifetime", 172800),
+        let options["prefix"]   = this->getArrVal(options, "prefix", "ph-mm-reds-"),
+            options["lifetime"] = this->getArrVal(options, "lifetime", 172800),
             this->adapter       = factory->newInstance("redis", options);
     }
 
