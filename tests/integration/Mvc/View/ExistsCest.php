@@ -37,7 +37,7 @@ class ExistsCest
         $view = new View();
 
         $view->setViewsDir(
-            Str::dirSeparator(dataDir('fixtures/views'))
+            $I->getDirSeparator(dataDir('fixtures/views'))
         );
 
         $view->setDI($container);

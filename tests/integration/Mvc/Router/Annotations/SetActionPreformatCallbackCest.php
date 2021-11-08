@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Integration\Mvc\Router\Annotations;
 
 use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Support\Helper\Str\Uncamelize;
 use Phalcon\Text;
 
 /**
@@ -32,8 +33,9 @@ class SetActionPreformatCallbackCest
     {
         $I->wantToTest('Mvc\Router\Annotations - setDefaultAction()');
 
-        $router   = new Annotations(false);
-        $callback = [Text::class, 'uncamelize'];
+        $router     = new Annotations(false);
+        $uncamelize = new Uncamelize();
+        $callback   = [$uncamelize, '__invoke'];
         $router->setActionPreformatCallback($callback);
         $attachedCallback = $router->getActionPreformatCallback();
 
