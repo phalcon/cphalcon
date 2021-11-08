@@ -14,11 +14,10 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
-use Phalcon\Helper\Str;
-use Phalcon\Helper\Exception as HelperException;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
+use Phalcon\Support\Helper\Str\Friendly;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.
@@ -303,8 +302,8 @@ class Tag
         var ex;
 
         try {
-            return Str::friendly(text, separator, lowercase, replace);
-        } catch HelperException, ex {
+            return (new Friendly())->__invoke(text, separator, lowercase, replace);
+        } catch \Exception, ex {
             throw new Exception(ex->getMessage());
         }
     }

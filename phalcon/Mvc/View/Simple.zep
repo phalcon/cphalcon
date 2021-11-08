@@ -412,7 +412,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     public function setViewsDir(string! viewsDir) -> void
     {
-        let this->viewsDir = Str::dirSeparator(viewsDir);
+        let this->viewsDir = this->getDirSeparator(viewsDir);
     }
 
     /**
@@ -586,5 +586,13 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
         if typeof eventsManager == "object" {
             eventsManager->fire("view:afterRender", this);
         }
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getDirSeparator(string! directory) -> string
+    {
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }
