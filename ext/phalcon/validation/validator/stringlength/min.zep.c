@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Min, validate)
 		RETURN_MM_BOOL(1);
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 232, &value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 233, &value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&length);

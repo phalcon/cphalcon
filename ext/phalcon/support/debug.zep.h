@@ -24,6 +24,7 @@ PHP_METHOD(Phalcon_Support_Debug, escapeString);
 PHP_METHOD(Phalcon_Support_Debug, getArrayDump);
 PHP_METHOD(Phalcon_Support_Debug, getVarDump);
 PHP_METHOD(Phalcon_Support_Debug, showTraceItem);
+PHP_METHOD(Phalcon_Support_Debug, getArrVal);
 zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_clearvars, 0, 0, Phalcon\\Support\\Debug, 0)
@@ -112,6 +113,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_showtracei
 	ZEND_ARG_ARRAY_INFO(0, trace, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_getarrval, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_zephir_init_properties_phalcon_support_debug, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -137,5 +144,6 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_method_entry) {
 	PHP_ME(Phalcon_Support_Debug, getArrayDump, arginfo_phalcon_support_debug_getarraydump, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug, getVarDump, arginfo_phalcon_support_debug_getvardump, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug, showTraceItem, arginfo_phalcon_support_debug_showtraceitem, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Support_Debug, getArrVal, arginfo_phalcon_support_debug_getarrval, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

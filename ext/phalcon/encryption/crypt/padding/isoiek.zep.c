@@ -71,10 +71,10 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, pad)
 
 
 	ZVAL_LONG(&_0, 0x80);
-	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 238, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 239, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&_2, "chr", NULL, 238, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "chr", NULL, 239, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, (paddingSize - 1));
 	ZEPHIR_CALL_FUNCTION(&_3, "str_repeat", NULL, 1, &_2, &_0);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 
 
 	paddingSize = 0;
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 232, &input);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 233, &input);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 112, &input);
 	zephir_check_call_status();
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 		if (_0) {
 			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 48);
 			ZVAL_LONG(&_2, 0);
-			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 238, &_2);
+			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 239, &_2);
 			zephir_check_call_status();
 			_0 = ZEPHIR_IS_IDENTICAL(&_1, &_3);
 		}
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	}
 	zephir_array_fetch_long(&_6, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 55);
 	ZVAL_LONG(&_2, 0x80);
-	ZEPHIR_CALL_FUNCTION(&_7, "chr", &_4, 238, &_2);
+	ZEPHIR_CALL_FUNCTION(&_7, "chr", &_4, 239, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EQUAL(&_6, &_7)) {
 		paddingSize++;

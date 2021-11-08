@@ -114,14 +114,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, unserialize)
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_INIT_NVAR(&_3$$3);
-		zephir_create_closure_ex(&_3$$3, NULL, phalcon_12__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_3$$3, NULL, phalcon_10__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_4$$3, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_3$$3, &_4$$3);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZEPHIR_INIT_NVAR(&_5$$4);
-		zephir_create_closure_ex(&_5$$4, NULL, phalcon_13__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_5$$4, NULL, phalcon_11__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_6$$4, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_5$$4, &_6$$4);
 		zephir_check_call_status();

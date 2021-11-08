@@ -14,6 +14,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName);
 PHP_METHOD(Phalcon_Http_Request_File, getType);
 PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
+PHP_METHOD(Phalcon_Http_Request_File, getArrVal);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_geterror, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
@@ -51,6 +52,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_moveto
 	ZEND_ARG_TYPE_INFO(0, destination, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file_getarrval, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
 	PHP_ME(Phalcon_Http_Request_File, getError, arginfo_phalcon_http_request_file_geterror, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getExtension, arginfo_phalcon_http_request_file_getextension, ZEND_ACC_PUBLIC)
@@ -63,5 +70,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
 	PHP_ME(Phalcon_Http_Request_File, getType, arginfo_phalcon_http_request_file_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, isUploadedFile, arginfo_phalcon_http_request_file_isuploadedfile, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getArrVal, arginfo_phalcon_http_request_file_getarrval, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

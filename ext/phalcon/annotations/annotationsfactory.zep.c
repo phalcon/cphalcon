@@ -90,9 +90,8 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct)
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, name, options, _0, _1, _3;
+	zval *config = NULL, config_sub, name, options, _0, _1, _2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
@@ -100,6 +99,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -126,10 +126,17 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 48);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
-	array_init(&_1);
+	object_init_ex(&_1, phalcon_support_helper_arr_get_ce);
+	if (zephir_has_constructor(&_1)) {
+		ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 81, config, &_3, &_1);
+	ZEPHIR_CALL_METHOD(&options, &_1, "__invoke", NULL, 168, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();

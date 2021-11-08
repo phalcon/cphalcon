@@ -156,13 +156,13 @@ PHP_METHOD(Phalcon_Validation, __construct)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_19__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_17__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 18, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_20__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_2, NULL, phalcon_18__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 18, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("combinedFieldsValidators"), &_3);
@@ -686,7 +686,7 @@ PHP_METHOD(Phalcon_Validation, getValue)
 				zephir_camelize(&_10$$13, &field, NULL  );
 				ZEPHIR_INIT_VAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &_10$$13);
-				ZEPHIR_CALL_FUNCTION(&_11$$13, "property_exists", NULL, 462, &entity, &field);
+				ZEPHIR_CALL_FUNCTION(&_11$$13, "property_exists", NULL, 458, &entity, &field);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Validation, rules)
 			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 282, field, &validator);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 283, field, &validator);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);

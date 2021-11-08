@@ -333,7 +333,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/exception.zep.c
 	phalcon/forms/form.zep.c
 	phalcon/forms/manager.zep.c
-	phalcon/helper/arr.zep.c
 	phalcon/helper/base64.zep.c
 	phalcon/helper/exception.zep.c
 	phalcon/helper/fs.zep.c
@@ -510,6 +509,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/exception.zep.c
 	phalcon/support/helper/arr/blacklist.zep.c
 	phalcon/support/helper/arr/chunk.zep.c
+	phalcon/support/helper/arr/filter.zep.c
 	phalcon/support/helper/arr/first.zep.c
 	phalcon/support/helper/arr/firstkey.zep.c
 	phalcon/support/helper/arr/flatten.zep.c
@@ -630,9 +630,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/15__closure.zep.c
 	phalcon/16__closure.zep.c
 	phalcon/17__closure.zep.c
-	phalcon/18__closure.zep.c
-	phalcon/19__closure.zep.c
-	phalcon/20__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/18__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 278, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 279, &input);
 	zephir_check_call_status();
 	zephir_fast_strtoupper(return_value, &_2);
 	RETURN_MM();

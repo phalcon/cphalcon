@@ -27,12 +27,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Returns the first element of the collection. If a callable is passed, the
- * element returned is the first that validates true
+ * Filters a collection using array_filter and using the callable (if defined)
  */
-ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_First)
+ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Filter)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper\\Arr, First, phalcon, support_helper_arr_first, phalcon_support_helper_arr_abstractarr_ce, phalcon_support_helper_arr_first_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper\\Arr, Filter, phalcon, support_helper_arr_filter, phalcon_support_helper_arr_abstractarr_ce, phalcon_support_helper_arr_filter_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -43,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_First)
  *
  * @return mixed
  */
-PHP_METHOD(Phalcon_Support_Helper_Arr_First, __invoke)
+PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -82,4 +81,3 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_First, __invoke)
 	zephir_check_call_status();
 	RETURN_MM();
 }
-

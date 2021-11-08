@@ -328,7 +328,6 @@
 #include "phalcon/forms/exception.zep.h"
 #include "phalcon/forms/form.zep.h"
 #include "phalcon/forms/manager.zep.h"
-#include "phalcon/helper/arr.zep.h"
 #include "phalcon/helper/base64.zep.h"
 #include "phalcon/helper/exception.zep.h"
 #include "phalcon/helper/fs.zep.h"
@@ -505,6 +504,7 @@
 #include "phalcon/support/exception.zep.h"
 #include "phalcon/support/helper/arr/blacklist.zep.h"
 #include "phalcon/support/helper/arr/chunk.zep.h"
+#include "phalcon/support/helper/arr/filter.zep.h"
 #include "phalcon/support/helper/arr/first.zep.h"
 #include "phalcon/support/helper/arr/firstkey.zep.h"
 #include "phalcon/support/helper/arr/flatten.zep.h"
@@ -626,7 +626,5 @@
 #include "phalcon/16__closure.zep.h"
 #include "phalcon/17__closure.zep.h"
 #include "phalcon/18__closure.zep.h"
-#include "phalcon/19__closure.zep.h"
-#include "phalcon/20__closure.zep.h"
 
 #endif
