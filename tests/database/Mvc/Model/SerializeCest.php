@@ -71,8 +71,11 @@ class SerializeCest
 
         $I->assertNotFalse($result);
 
+        $invoice->setDirtyState(0);
+
         $serialized = serialize($invoice);
 
+        /** @var Invoices $newObject */
         $newObject = unserialize($serialized);
 
         $I->assertEquals(2, $newObject->inv_cst_id);
@@ -80,5 +83,6 @@ class SerializeCest
         $I->assertEquals($title, $newObject->inv_title);
         $I->assertEquals(100.12, $newObject->inv_total);
         $I->assertEquals($date, $newObject->inv_created_at);
+        $I->assertEquals(0, $newObject->getDirtyState());
     }
 }
