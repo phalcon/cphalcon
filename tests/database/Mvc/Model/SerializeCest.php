@@ -67,11 +67,11 @@ class SerializeCest
 
         $invoice = new Invoices();
         $invoice->assign($data);
+
         $result = $invoice->save();
-
         $I->assertNotFalse($result);
-        $serialized = serialize($invoice);
 
+        $serialized = serialize($invoice);
         $newObject = unserialize($serialized);
 
         $I->assertEquals(2, $newObject->inv_cst_id);

@@ -2647,7 +2647,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         return serialize(
             [
-                "properties": attributes,
+                "attributes":  attributes,
                 "snapshot":    snapshot,
                 "dirtyState":  dirtyState
             ]
@@ -2706,7 +2706,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * Fetch serialized props
              */
-            if fetch properties, attributes["properties"] {
+            if fetch properties, attributes["attributes"] {
                 /**
                  * Update the objects properties
                  */

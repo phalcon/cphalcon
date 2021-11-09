@@ -52,7 +52,6 @@ class UnserializeCest
 
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
-
         $data = [
             'inv_id'          => null,
             'inv_cst_id'      => 5,
@@ -69,13 +68,11 @@ class UnserializeCest
         $I->assertNotFalse($result);
 
         $serialized = serialize($data);
-
-        $newModel = new Invoices();
-        $newModel->unserialize($serialized);
+        $newObject = unserialize($serialized);
 
         $I->assertEquals(
             $data,
-            $newModel->toArray()
+            $newObject->toArray()
         );
     }
 }
