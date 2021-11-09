@@ -67,7 +67,7 @@ class UnserializeCest
         $result = $invoice->save();
         $I->assertNotFalse($result);
 
-        $serialized = serialize($data);
+        $serialized = serialize($invoice);
         $newObject = unserialize($serialized);
 
         $I->assertEquals(
