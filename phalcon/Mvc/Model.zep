@@ -3900,6 +3900,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         );
                                     }
 
+                                    /**
+                                     * Get actual values before comparison
+                                     */
+                                    if snapshotValue instanceof RawValue {
+                                        let snapshotValue = snapshotValue->getValue();
+                                    }
+                                    if value instanceof RawValue {
+                                        let value = value->getValue();
+                                    }
+
                                     switch dataType {
 
                                         case Column::TYPE_BOOLEAN:
