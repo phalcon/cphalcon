@@ -79,9 +79,41 @@ class SerializeCest
         $I->assertEquals($title, $newObject->inv_title);
         $I->assertEquals(100.12, $newObject->inv_total);
         $I->assertEquals($date, $newObject->inv_created_at);
+    }
 
+    /**
+     * Tests Phalcon\Mvc\Model :: serialize() - with dirtyState
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-09
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelSerializeWithDirtyState(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - serialize() - with dirtyState');
+
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $data  = [
+            'inv_cst_id'      => 2,
+            'inv_status_flag' => 3,
+            'inv_title'       => $title,
+            'inv_total'       => 100.12,
+            'inv_created_at'  => $date,
+        ];
+
+        $invoice = new Invoices();
+        $invoice->assign($data);
         $invoice->setDirtyState(0);
+
+        $result = $invoice->save();
+        $I->assertNotFalse($result);
+
         $serialized = serialize($invoice);
+
         /** @var Invoices $newObject */
         $newObject = unserialize($serialized);
         $I->assertEquals(0, $newObject->getDirtyState());
