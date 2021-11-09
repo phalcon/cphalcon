@@ -3903,10 +3903,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                     /**
                                      * Get actual values before comparison
                                      */
-                                    if snapshotValue instanceof RawValue {
+                                    if is_object(snapshotValue) && snapshotValue instanceof RawValue {
                                         let snapshotValue = snapshotValue->getValue();
                                     }
-                                    if value instanceof RawValue {
+                                    if is_object(value) && value instanceof RawValue {
                                         let value = value->getValue();
                                     }
 
