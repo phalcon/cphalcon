@@ -12,11 +12,15 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Close;
 
 use Phalcon\Html\Escaper;
-use Phalcon\Factory\Exception;
 use Phalcon\Html\Helper\Close;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Close
+ */
 class UnderscoreInvokeCest
 {
     /**
@@ -24,9 +28,8 @@ class UnderscoreInvokeCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
-     * @since  2020-01-05
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperCloseUnderscoreInvoke(UnitTester $I)
     {

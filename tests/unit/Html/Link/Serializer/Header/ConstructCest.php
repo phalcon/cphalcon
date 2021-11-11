@@ -17,12 +17,20 @@ use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Html\Link\Serializer\SerializerInterface;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\Serializer\Header
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Html\Link\Serializer\Header :: __construct()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkSerializerHeaderConstruct(UnitTester $I)
     {

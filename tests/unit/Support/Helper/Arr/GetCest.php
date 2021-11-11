@@ -90,7 +90,7 @@ class GetCest
         ];
 
         $expected = 'Error';
-        $actual   = $object($collection, 'unknown', 'Error');
+        $actual   = $object($collection, uniqid(), 'Error');
         $I->assertEquals($expected, $actual);
     }
 

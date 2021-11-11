@@ -16,12 +16,20 @@ namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\EvolvableLink;
 use UnitTester;
 
+/**
+ * Class WithoutRelCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLink
+ */
 class WithoutRelCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: withoutRel()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkWithoutRel(UnitTester $I)
     {
@@ -34,8 +42,7 @@ class WithoutRelCest
 
         $newInstance = $link
             ->withRel('citation')
-            ->withRel('canonical')
-        ;
+            ->withRel('canonical');
 
         $I->assertNotSame($link, $newInstance);
 

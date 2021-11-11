@@ -16,12 +16,20 @@ namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\EvolvableLink;
 use UnitTester;
 
+/**
+ * Class WithAttributeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLink
+ */
 class WithAttributeCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: withAttribute()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkWithAttribute(UnitTester $I)
     {

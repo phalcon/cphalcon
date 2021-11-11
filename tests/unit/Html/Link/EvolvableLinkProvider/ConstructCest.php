@@ -17,12 +17,20 @@ use Phalcon\Html\Link\EvolvableLinkProvider;
 use Psr\Link\EvolvableLinkProviderInterface;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLinkProvider
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: __construct()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkConstruct(UnitTester $I)
     {

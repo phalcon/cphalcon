@@ -13,24 +13,50 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 
 use Codeception\Example;
 use Phalcon\Html\Escaper;
-use Phalcon\Factory\Exception as ExceptionAlias;
+use Phalcon\Html\Exception;
+use Phalcon\Html\Helper\Input\Color;
+use Phalcon\Html\Helper\Input\Date;
+use Phalcon\Html\Helper\Input\DateTime;
+use Phalcon\Html\Helper\Input\DateTimeLocal;
+use Phalcon\Html\Helper\Input\Email;
+use Phalcon\Html\Helper\Input\File;
+use Phalcon\Html\Helper\Input\Hidden;
+use Phalcon\Html\Helper\Input\Image;
 use Phalcon\Html\Helper\Input\Input;
+use Phalcon\Html\Helper\Input\Month;
+use Phalcon\Html\Helper\Input\Numeric;
+use Phalcon\Html\Helper\Input\Password;
+use Phalcon\Html\Helper\Input\Range;
+use Phalcon\Html\Helper\Input\Search;
+use Phalcon\Html\Helper\Input\Submit;
+use Phalcon\Html\Helper\Input\Tel;
+use Phalcon\Html\Helper\Input\Text;
 use Phalcon\Html\Helper\Input\Textarea;
+use Phalcon\Html\Helper\Input\Time;
+use Phalcon\Html\Helper\Input\Url;
+use Phalcon\Html\Helper\Input\Week;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Input
+ */
 class UnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Input :: __invoke()
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @throws ExceptionAlias
+     * @throws Exception
      *
-     * @dataProvider getExamples
-     * @since        2020-01-07
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperInputUnderscoreInvoke(UnitTester $I, Example $example)
     {
@@ -69,7 +95,8 @@ class UnderscoreInvokeCest
      *
      * @param UnitTester $I
      *
-     * @since  2020-01-07
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperInputUnderscoreInvokeInput(UnitTester $I)
     {
@@ -92,8 +119,8 @@ class UnderscoreInvokeCest
      *
      * @param UnitTester $I
      *
-     * @throws ExceptionAlias
-     * @since  2020-01-07
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperInputUnderscoreInvokeTextarea(UnitTester $I)
     {
@@ -184,82 +211,25 @@ class UnderscoreInvokeCest
     private function getClasses(): array
     {
         return [
-            'color'          => [
-                'inputColor',
-                'Phalcon\\Html\\Helper\\Input\\Color',
-            ],
-            'date'           => [
-                'inputDate',
-                'Phalcon\\Html\\Helper\\Input\\Date',
-            ],
-            'datetime'       => [
-                'inputDateTime',
-                'Phalcon\\Html\\Helper\\Input\\DateTime',
-            ],
-            'datetime-local' => [
-                'inputDateTimeLocal',
-                'Phalcon\\Html\\Helper\\Input\\DateTimeLocal',
-            ],
-            'email'          => [
-                'inputEmail',
-                'Phalcon\\Html\\Helper\\Input\\Email',
-            ],
-            'file'           => [
-                'inputFile',
-                'Phalcon\\Html\\Helper\\Input\\File',
-            ],
-            'hidden'         => [
-                'inputHidden',
-                'Phalcon\\Html\\Helper\\Input\\Hidden',
-            ],
-            'image'          => [
-                'inputImage',
-                'Phalcon\\Html\\Helper\\Input\\Image',
-            ],
-            'month'          => [
-                'inputMonth',
-                'Phalcon\\Html\\Helper\\Input\\Month',
-            ],
-            'numeric'        => [
-                'inputNumeric',
-                'Phalcon\\Html\\Helper\\Input\\Numeric',
-            ],
-            'password'       => [
-                'inputPassword',
-                'Phalcon\\Html\\Helper\\Input\\Password',
-            ],
-            'range'          => [
-                'inputRange',
-                'Phalcon\\Html\\Helper\\Input\\Range',
-            ],
-            'search'         => [
-                'inputSearch',
-                'Phalcon\\Html\\Helper\\Input\\Search',
-            ],
-            'submit'         => [
-                'inputSubmit',
-                'Phalcon\\Html\\Helper\\Input\\Submit',
-            ],
-            'tel'            => [
-                'inputTel',
-                'Phalcon\\Html\\Helper\\Input\\Tel',
-            ],
-            'text'           => [
-                'inputText',
-                'Phalcon\\Html\\Helper\\Input\\Text',
-            ],
-            'time'           => [
-                'inputTime',
-                'Phalcon\\Html\\Helper\\Input\\Time',
-            ],
-            'url'            => [
-                'inputUrl',
-                'Phalcon\\Html\\Helper\\Input\\Url',
-            ],
-            'week'           => [
-                'inputWeek',
-                'Phalcon\\Html\\Helper\\Input\\Week',
-            ],
+            'color'          => ['inputColor', Color::class],
+            'date'           => ['inputDate', Date::class],
+            'datetime'       => ['inputDateTime', DateTime::class],
+            'datetime-local' => ['inputDateTimeLocal', DateTimeLocal::class],
+            'email'          => ['inputEmail', Email::class],
+            'file'           => ['inputFile', File::class],
+            'hidden'         => ['inputHidden', Hidden::class],
+            'image'          => ['inputImage', Image::class],
+            'month'          => ['inputMonth', Month::class],
+            'numeric'        => ['inputNumeric', Numeric::class],
+            'password'       => ['inputPassword', Password::class],
+            'range'          => ['inputRange', Range::class],
+            'search'         => ['inputSearch', Search::class],
+            'submit'         => ['inputSubmit', Submit::class],
+            'tel'            => ['inputTel', Tel::class],
+            'text'           => ['inputText', Text::class],
+            'time'           => ['inputTime', Time::class],
+            'url'            => ['inputUrl', Url::class],
+            'week'           => ['inputWeek', Week::class],
         ];
     }
 }

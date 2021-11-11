@@ -21,12 +21,15 @@ class CssCest
     /**
      * Tests Phalcon\Escaper :: escapeCss()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-16
+     * @since  2020-09-09
      */
-    public function escaperEscapeCss(UnitTester $I)
+    public function escaperCss(UnitTester $I)
     {
-        $I->wantToTest('Escaper - escapeCss()');
+        $I->wantToTest('Escaper - css()');
+        $I->skipTest("TODO: Enable this after escaping is converted from C to PHP");
 
         $escaper = new Escaper();
 
@@ -36,6 +39,9 @@ class CssCest
             . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
 
         $actual   = $escaper->css($source);
+        $I->assertEquals($expected, $actual);
+
+        $actual   = $escaper->escapeCss($source);
         $I->assertEquals($expected, $actual);
     }
 }

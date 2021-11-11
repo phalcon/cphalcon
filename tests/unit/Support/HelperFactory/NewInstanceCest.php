@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
 use Codeception\Example;
+use Phalcon\Support\Exception;
 use Phalcon\Support\Helper\Arr\Blacklist;
 use Phalcon\Support\Helper\Arr\Chunk;
 use Phalcon\Support\Helper\Arr\First;
@@ -87,6 +88,28 @@ class NewInstanceCest
         $expected = $example[1];
         $actual   = $factory->newInstance($example[0]);
         $I->assertInstanceOf($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Support :: newInstance()
+     *
+     * @param UnitTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    public function supportHelperFactoryNewInstanceException(UnitTester $I)
+    {
+        $I->wantToTest('Support\HelperFactory - newInstance() - exception');
+
+        $name = uniqid('service-');
+        $I->expectThrowable(
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
+                $factory = new HelperFactory();
+                $factory->newInstance($name);
+            }
+        );
     }
 
     /**

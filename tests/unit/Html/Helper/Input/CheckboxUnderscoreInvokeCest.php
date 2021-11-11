@@ -17,16 +17,23 @@ use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Radio;
 use UnitTester;
 
+/**
+ * Class CheckboxUnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Input
+ */
 class CheckboxUnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Input\Checkbox :: __invoke()
      *
+     * @dataProvider getExamplesCheckbox
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @dataProvider getExamplesCheckbox
-     * @since        2020-01-07
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperInputCheckboxUnderscoreInvoke(UnitTester $I, Example $example)
     {
@@ -50,11 +57,13 @@ class CheckboxUnderscoreInvokeCest
     /**
      * Tests Phalcon\Html\Helper\Input\Checkbox :: __invoke()
      *
+     * @dataProvider getExamplesRadio
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @dataProvider getExamplesRadio
-     * @since        2020-01-07
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperInputRadioUnderscoreInvoke(UnitTester $I, Example $example)
     {

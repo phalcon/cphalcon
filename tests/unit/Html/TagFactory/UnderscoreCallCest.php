@@ -11,36 +11,32 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Html\Escaper;
+namespace Phalcon\Tests\Unit\Html\TagFactory;
 
 use Phalcon\Html\Escaper;
+use Phalcon\Html\Helper\Anchor;
+use Phalcon\Html\Helper\Base;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class GetSetEncodingCest
- *
- * @package Phalcon\Tests\Unit\Html\Escaper
- */
-class GetSetEncodingCest
+class UnderscoreCallCest
 {
     /**
-     * Tests Phalcon\Escaper :: getEncoding() / setEncoding()
+     * Tests Phalcon\Helper\TagFactory :: __call()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function escaperGetSetEncoding(UnitTester $I)
+    public function filterTagFactoryUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Escaper - getEncoding() / setEncoding()');
-
+        $I->wantToTest('Helper\TagFactory - __call()');
         $escaper = new Escaper();
+        $factory = new TagFactory($escaper);
 
-        $escaper->setEncoding('UTF-8');
-
-        $expected = 'UTF-8';
-        $actual   = $escaper->getEncoding();
+        $expected = '<body>';
+        $actual = $factory->body();
         $I->assertEquals($expected, $actual);
     }
 }

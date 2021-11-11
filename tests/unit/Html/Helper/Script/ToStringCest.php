@@ -15,12 +15,20 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Script;
 use UnitTester;
 
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Script
+ */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Html\Helper\Script :: __toString() - empty
      *
-     * @since  2020-01-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperScriptToStringEmpty(UnitTester $I)
     {

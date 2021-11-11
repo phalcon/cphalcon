@@ -22,31 +22,41 @@ use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
 
-class EscapeHtmlAttrCest
+class AttributesCest
 {
     /**
      * Tests Phalcon\Escaper :: escapeHtmlAttr()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2014-09-16
-     *
      * @dataProvider escaperEscapeHtmlAttrProvider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
-    public function escaperEscapeHtmlAttr(UnitTester $I, Example $example)
+    public function escaperAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Escaper - escapeHtmlAttr()');
+        $I->wantToTest('Escaper - attributes()');
 
         $escaper = new Escaper();
 
-        $escaper->setHtmlQuoteType(
-            $example['htmlQuoteType']
-        );
+        $text = $example['text'];
+        $flags = $example['htmlQuoteType'];
+
+        $escaper->setHtmlQuoteType($flags);
 
         $expected = $example['expected'];
-        $actual   = $escaper->attributes($example['text']);
+        $actual   = $escaper->attributes($text);
+        $I->assertEquals($expected, $actual);
+
+        $actual   = $escaper->escapeHtmlAttr($text);
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     private function escaperEscapeHtmlAttrProvider(): array
     {
         return [

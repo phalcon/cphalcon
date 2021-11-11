@@ -16,17 +16,24 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
-class SetFlagsCest
+/**
+ * Class GetSetFlagsCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Escaper
+ */
+class GetSetFlagsCest
 {
     /**
-     * Tests Phalcon\Escaper :: setHtmlQuoteType()
+     * Tests Phalcon\Escaper :: getFlags() / setFlags()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function escaperSetHtmlQuoteType(UnitTester $I)
+    public function escaperGetSetFlags(UnitTester $I)
     {
-        $I->wantToTest('Escaper - setHtmlQuoteType()');
+        $I->wantToTest('Escaper - getFlags() / setFlags()');
 
         $escaper = new Escaper();
 

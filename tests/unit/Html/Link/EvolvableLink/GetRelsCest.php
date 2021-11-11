@@ -16,12 +16,20 @@ namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\EvolvableLink;
 use UnitTester;
 
+/**
+ * Class GetRelsCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLink
+ */
 class GetRelsCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: getRels()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkGetRels(UnitTester $I)
     {
