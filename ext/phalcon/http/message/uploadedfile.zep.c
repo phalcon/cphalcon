@@ -256,10 +256,10 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct)
 
 
 	ZVAL_LONG(&_0, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 346, stream, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstream", NULL, 347, stream, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, error);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 347, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkerror", NULL, 348, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, size);
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_http_message_exception_invalidargumentexception_ce);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "geterrordescription", NULL, 348, &_3$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "geterrordescription", NULL, 349, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 20, &_2$$3);
 		zephir_check_call_status();
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo)
 		ZEPHIR_INIT_VAR(&_2$$4);
 		object_init_ex(&_2$$4, phalcon_http_message_exception_invalidargumentexception_ce);
 		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("error"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "geterrordescription", NULL, 348, &_4$$4);
+		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "geterrordescription", NULL, 349, &_4$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 20, &_3$$4);
 		zephir_check_call_status();
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo)
 	}
 	_6 = _5;
 	if (_6) {
-		ZEPHIR_CALL_FUNCTION(&_7, "dirname", NULL, 349, targetPath);
+		ZEPHIR_CALL_FUNCTION(&_7, "dirname", NULL, 350, targetPath);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_8, "is_dir", NULL, 154, &_7);
 		zephir_check_call_status();
@@ -437,9 +437,9 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo)
 	}
 	_9 = _6;
 	if (_9) {
-		ZEPHIR_CALL_FUNCTION(&_10, "dirname", NULL, 349, targetPath);
+		ZEPHIR_CALL_FUNCTION(&_10, "dirname", NULL, 350, targetPath);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_11, "is_writable", NULL, 350, &_10);
+		ZEPHIR_CALL_FUNCTION(&_11, "is_writable", NULL, 351, &_10);
 		zephir_check_call_status();
 		_9 = zephir_is_true(&_11);
 	}
@@ -466,11 +466,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo)
 		_16 = zephir_start_with_str(&sapi, SL("phpdbg"));
 	}
 	if (UNEXPECTED(_16)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "storefile", NULL, 351, targetPath);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "storefile", NULL, 352, targetPath);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property(&_17$$7, this_ptr, ZEND_STRL("fileName"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_18$$7, "move_uploaded_file", NULL, 352, &_17$$7, targetPath);
+		ZEPHIR_CALL_FUNCTION(&_18$$7, "move_uploaded_file", NULL, 353, &_17$$7, targetPath);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(&_18$$7)) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "The file cannot be moved to the target folder", "phalcon/Http/Message/UploadedFile.zep", 243);
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError)
 	ZVAL_LONG(&_1, error);
 	ZVAL_LONG(&_2, 0);
 	ZVAL_LONG(&_3, 8);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 353, &_1, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 354, &_1, &_2, &_3);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid error. Must be one of the UPLOAD_ERR_* constants", "phalcon/Http/Message/UploadedFile.zep", 260);
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, storeFile)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Cannot write to file.", "phalcon/Http/Message/UploadedFile.zep", 331);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&stream, this_ptr, "getstream", NULL, 354);
+	ZEPHIR_CALL_METHOD(&stream, this_ptr, "getstream", NULL, 355);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &stream, "rewind", NULL, 0);
 	zephir_check_call_status();

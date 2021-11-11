@@ -46,14 +46,13 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *collection_param = NULL, *method = NULL, method_sub, __$null, filtered;
+	zval *collection_param = NULL, *method = NULL, method_sub, __$null;
 	zval collection;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&filtered);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -73,11 +72,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &collection, method);
-	zephir_check_call_status();
-	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 0, &filtered);
-	ZEPHIR_UNREF(&filtered);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

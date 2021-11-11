@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 439, &macro, &arguments);
+	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 440, &macro, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -195,12 +195,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding)
 		_1 = ZEPHIR_IS_STRING_IDENTICAL(&from, "utf8");
 	}
 	if (_1) {
-		ZEPHIR_RETURN_CALL_FUNCTION("utf8_decode", NULL, 284, &text);
+		ZEPHIR_RETURN_CALL_FUNCTION("utf8_decode", NULL, 285, &text);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_convert_encoding")) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 299, &text, &from, &to);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 300, &text, &from, &to);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
