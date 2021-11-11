@@ -1,42 +1,33 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
- *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Html\Helper;
 
 /**
- * Class Link
+ * Creates <link> tags
  */
-class Link extends AbstractSeries
+class Link extends Style
 {
     /**
      * Add an element to the list
      *
-     * @param string $rel
      * @param string $href
+     * @param array  $attributes
      *
      * @return Link
      */
-    public function add(string rel, string href) -> <Link>
+    public function add(string href, array attributes = []) -> <Link>
     {
-        var attributes;
-
-        let attributes = [
-            "rel"  : rel,
-            "href" : href
-        ];
-
         let this->store[] = [
             "renderTag",
             [
                 this->getTag(),
-                attributes,
+                this->getAttributes(href, attributes),
                 "/"
             ],
             this->indent()
@@ -51,5 +42,26 @@ class Link extends AbstractSeries
     protected function getTag() -> string
     {
         return "link";
+    }
+
+    /**
+     * Returns the necessary attributes
+     *
+     * @param string $href
+     * @param array  $attributes
+     *
+     * @return array
+     */
+    protected function getAttributes(string href, array attributes) -> array
+    {
+        array required;
+
+        let required = [
+            "href" : href
+        ];
+
+        unset(attributes["href"]);
+
+        return array_merge(required, attributes);
     }
 }

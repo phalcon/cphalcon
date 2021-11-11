@@ -87,7 +87,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
     {
         var newInstance;
 
-        let newInstance            = clone this;
+        let newInstance = clone this;
 
         newInstance->rels->set(rel, true);
 

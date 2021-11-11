@@ -23,10 +23,6 @@ class Filter extends AbstractArr
      */
     public function __invoke(array collection, var method = null) -> var
     {
-        var filtered;
-
-        let filtered = this->toFilter(collection, method);
-
-        return reset(filtered);
+        return this->toFilter(collection, method);
     }
 }
