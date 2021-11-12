@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages)
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/Messages/Messages.zep", 69);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be iterable", "phalcon/Messages/Messages.zep", 69);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&currentMessages);

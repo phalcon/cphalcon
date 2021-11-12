@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_support_debug_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug);
 
+PHP_METHOD(Phalcon_Support_Debug, __construct);
 PHP_METHOD(Phalcon_Support_Debug, clearVars);
 PHP_METHOD(Phalcon_Support_Debug, debugVar);
 PHP_METHOD(Phalcon_Support_Debug, getCssSources);
@@ -26,6 +27,10 @@ PHP_METHOD(Phalcon_Support_Debug, getVarDump);
 PHP_METHOD(Phalcon_Support_Debug, showTraceItem);
 PHP_METHOD(Phalcon_Support_Debug, getArrVal);
 zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, tagFactory, Phalcon\\Html\\TagFactory, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_clearvars, 0, 0, Phalcon\\Support\\Debug, 0)
 ZEND_END_ARG_INFO()
@@ -123,6 +128,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_zephir_init_properties_phal
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_debug_method_entry) {
+	PHP_ME(Phalcon_Support_Debug, __construct, arginfo_phalcon_support_debug___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Support_Debug, clearVars, arginfo_phalcon_support_debug_clearvars, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, debugVar, arginfo_phalcon_support_debug_debugvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, getCssSources, arginfo_phalcon_support_debug_getcsssources, ZEND_ACC_PUBLIC)

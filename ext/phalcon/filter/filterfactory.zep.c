@@ -79,10 +79,10 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
 	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
 	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
-	add_assoc_stringl_ex(return_value, SL("boolval"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
+	add_assoc_stringl_ex(return_value, SL("bool"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
 	add_assoc_stringl_ex(return_value, SL("email"), SL("Phalcon\\Filter\\Sanitize\\Email"));
-	add_assoc_stringl_ex(return_value, SL("floatval"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
-	add_assoc_stringl_ex(return_value, SL("intval"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
+	add_assoc_stringl_ex(return_value, SL("float"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
+	add_assoc_stringl_ex(return_value, SL("int"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
 	add_assoc_stringl_ex(return_value, SL("lower"), SL("Phalcon\\Filter\\Sanitize\\Lower"));
 	add_assoc_stringl_ex(return_value, SL("lowerfirst"), SL("Phalcon\\Filter\\Sanitize\\LowerFirst"));
 	add_assoc_stringl_ex(return_value, SL("regex"), SL("Phalcon\\Filter\\Sanitize\\Regex"));

@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __construct)
 /**
  * Produce a <doctype> tag
  *
- * @param string $flag
+ * @param int    $flag
  * @param string $delimiter
  */
 PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)

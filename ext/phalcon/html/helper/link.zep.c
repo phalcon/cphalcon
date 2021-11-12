@@ -40,8 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
  *
  * @param string $href
  * @param array  $attributes
- *
- * @return Link
  */
 PHP_METHOD(Phalcon_Html_Helper_Link, add)
 {
