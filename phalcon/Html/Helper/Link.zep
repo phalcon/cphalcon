@@ -18,10 +18,8 @@ class Link extends Style
      *
      * @param string $href
      * @param array  $attributes
-     *
-     * @return Link
      */
-    public function add(string href, array attributes = []) -> <Link>
+    public function add(string href, array attributes = [])
     {
         let this->store[] = [
             "renderTag",
