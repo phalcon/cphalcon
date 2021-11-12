@@ -125,25 +125,25 @@ class RequestCest extends HttpBase
 
             $I->assertEquals(
                 1,
-                $request->$function('id', 'intval', 100)
+                $request->$function('id', 'int', 100)
             );
 
             $I->assertEquals(
                 1,
-                $request->$function('num', 'intval', 100)
+                $request->$function('num', 'int', 100)
             );
 
             $I->assertEmpty(
-                $request->$function('age', 'intval', 100)
+                $request->$function('age', 'int', 100)
             );
 
             $I->assertEmpty(
-                $request->$function('phone', 'intval', 100)
+                $request->$function('phone', 'int', 100)
             );
 
             $I->assertEquals(
                 100,
-                $request->$function('phone', 'intval', 100, true)
+                $request->$function('phone', 'int', 100, true)
             );
         }
     }
