@@ -22,10 +22,12 @@ class NextCest
     /**
      * Tests Phalcon\Messages\Messages :: next()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesNext(UnitTester $I)
+    public function messagesMessagesNext(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - next()');
 

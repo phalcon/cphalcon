@@ -22,10 +22,12 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Messages\Messages :: offsetUnset()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2017-02-12
+     * @since  2020-09-09
      */
-    public function messagesMessagesOffsetUnset(UnitTester $I)
+    public function messagesMessagesOffsetUnset(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - offsetUnset()');
 
@@ -55,10 +57,6 @@ class OffsetUnsetCest
         $I->assertCount(2, $messages);
 
         $messages->offsetUnset(0);
-
-        $I->assertNull(
-            $messages->offsetUnset(1)
-        );
 
         /**
          * Unset discards the offset so we need to get 0 again

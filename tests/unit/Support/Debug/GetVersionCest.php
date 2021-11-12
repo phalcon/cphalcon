@@ -13,15 +13,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use Phalcon\Support\Version;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+/**
+ * Class GetVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug
+ */
 class GetVersionCest
 {
     use DiTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->setNewFactoryDefault();
@@ -30,14 +40,16 @@ class GetVersionCest
     /**
      * Tests Phalcon\Debug :: getVersion()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugGetVersion(UnitTester $I)
     {
         $I->wantToTest('Debug - getVersion()');
 
-        $debug   = new Debug();
+        $debug   = new Debug(new TagFactory(new Escaper()));
         $version = new Version();
 
         $target  = '"_new"';
@@ -47,7 +59,7 @@ class GetVersionCest
         $version = $version->get();
 
         $I->assertEquals(
-            "<div class='version'>Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>",
+            "<div class=\"version\">Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>",
             $debug->getVersion()
         );
     }

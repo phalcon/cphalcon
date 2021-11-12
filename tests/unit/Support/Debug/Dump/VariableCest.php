@@ -16,57 +16,59 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
+/**
+ * Class VariableCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug\Dump
+ */
 class VariableCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: variable()
+     * Tests Phalcon\Support\Debug\Dump :: variable()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpVariable(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable()');
 
         $test = 'value';
-
         $dump = new Dump();
 
         $expected = trim(
             file_get_contents(
-                dataDir('fixtures/Dump/variable_output.txt')
+                dataDir('fixtures/Support/Dump/variable_output.txt')
             )
         );
-
-        $I->assertEquals(
-            $expected,
-            $dump->variable($test)
-        );
+        $actual   = $dump->variable($test);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Debug\Dump :: variable() - name
+     * Tests Phalcon\Support\Debug\Dump :: variable() - name
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function supportDebugDumpVariableName(UnitTester $I)
+    public function debugDumpVariableName(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable() - name');
 
         $test = 'value';
-
         $dump = new Dump();
 
         $expected = trim(
             file_get_contents(
-                dataDir('fixtures/Dump/variable_name_output.txt')
+                dataDir('fixtures/Support/Dump/variable_name_output.txt')
             )
         );
 
-        $I->assertEquals(
-            $expected,
-            $dump->variable($test, 'super')
-        );
+        $actual = $dump->variable($test, 'super');
+        $I->assertEquals($expected, $actual);
     }
 }

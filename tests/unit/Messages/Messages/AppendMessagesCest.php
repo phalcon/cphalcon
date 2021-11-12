@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Messages\Messages;
 
+use Phalcon\Messages\Exception;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use TypeError;
 use UnitTester;
 
 class AppendMessagesCest
@@ -23,10 +23,13 @@ class AppendMessagesCest
     /**
      * Tests Phalcon\Messages\Messages :: appendMessages() - array
      *
+     * @param UnitTester $I
+     *
+     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesAppendMessagesArray(UnitTester $I)
+    public function messagesMessagesAppendMessagesArray(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - appendMessages()');
 
@@ -68,42 +71,52 @@ class AppendMessagesCest
         $messages->appendMessages($newMessages);
 
         $I->assertCount(3, $messages);
+
+        /**
+         * Array of messages
+         */
+        $arrayMessages = [
+            new Message(
+                'This is a message #10',
+                'MyField10',
+                'MyType10',
+                1010
+            ),
+            new Message(
+                'This is a message #11',
+                'MyField11',
+                'MyType11',
+                1111
+            ),
+            new Message(
+                'This is a message #12',
+                'MyField12',
+                'MyType12',
+                1212
+            ),
+        ];
+
+        $messages->appendMessages($arrayMessages);
+        $I->assertCount(6, $messages);
     }
 
     /**
-     * Tests Phalcon\Messages\Messages :: __construct() - exception
+     * Tests Phalcon\Messages\Messages :: appendMessages() - exception
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesConstructException(UnitTester $I)
+    public function messagesMessagesAppendMessagesException(UnitTester $I): void
     {
-        $I->wantToTest('Messages\Messages - appendMessages() - exception');
+        $I->wantToTest('Messages\Messages - appendMessage() - exception');
 
-        /**
-         * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
-         * is why `expectThrowable` is not used here
-         */
-        $actual = '';
-
-        try {
-            (new Messages())->appendMessage(true);
-        } catch (TypeError $ex) {
-            $actual = $ex->getMessage();
-        }
-
-        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-            $I->assertEquals(
-                'Phalcon\Messages\Messages::appendMessage(): Argument #1 ($message) must be of type' .
-                ' Phalcon\Messages\MessageInterface, bool given',
-                $actual
-            );
-        } else {
-            $I->assertEquals(
-                'Argument 1 passed to Phalcon\Messages\Messages::appendMessage()' .
-                ' must implement interface Phalcon\Messages\MessageInterface, bool',
-                substr($actual, 0, 128)
-            );
-        }
+        $I->expectThrowable(
+            new Exception('The messages must be iterable'),
+            function () {
+                (new Messages())->appendMessages(true);
+            }
+        );
     }
 }

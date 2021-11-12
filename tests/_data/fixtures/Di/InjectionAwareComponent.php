@@ -11,8 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Fixtures\Listener;
+namespace Phalcon\Tests\Fixtures\Di;
 
-class SecondListener
+use Phalcon\Di\AbstractInjectionAware;
+
+/**
+ * Class InjectionAwareComponent
+ *
+ * @package Phalcon\Tests\Fixtures\Di
+ */
+class InjectionAwareComponent extends AbstractInjectionAware
 {
 }

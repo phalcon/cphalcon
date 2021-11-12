@@ -13,26 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Events;
 
-use Phalcon\Events\Manager;
+use Phalcon\Events\AbstractEventsAware;
 
-class ComponentY
+class ComponentTwo extends AbstractEventsAware
 {
-    /**
-     * @var Manager
-     */
-    protected $eventsManager;
-
-    public function setEventsManager(Manager $eventsManager)
-    {
-        $this->eventsManager = $eventsManager;
-    }
-
-    public function getEventsManager(): Manager
-    {
-        return $this->eventsManager;
-    }
-
-    public function leAction()
+    public function doAction()
     {
         $this->eventsManager->fire('another:beforeAction', $this);
         $this->eventsManager->fire('another:afterAction', $this);

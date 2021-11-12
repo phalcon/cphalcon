@@ -54,6 +54,11 @@ class UnderscoreInvokeCest
         $expected = $example[0];
         $actual   = $locator('/myurl', 'click<>me', $example[1], $example[2]);
         $I->assertEquals($expected, $actual);
+
+        $factory  = new TagFactory($escaper);
+        $expected = $example[0];
+        $actual   = $factory->a('/myurl', 'click<>me', $example[1], $example[2]);
+        $I->assertEquals($expected, $actual);
     }
 
     /**

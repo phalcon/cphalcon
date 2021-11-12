@@ -17,15 +17,22 @@ use Phalcon\Support\Debug\Dump;
 use ReflectionException;
 use UnitTester;
 
+/**
+ * Class SetStylesCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug\Dump
+ */
 class SetStylesCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: setStyles()
+     * Tests Phalcon\Support\Debug\Dump :: setStyles()
+     *
+     * @param UnitTester $I
      *
      * @throws ReflectionException
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpSetStyles(UnitTester $I)
     {
@@ -36,11 +43,9 @@ class SetStylesCest
             true
         );
 
-        $I->assertEquals(
-            'color:blue',
-            $I->callProtectedMethod($dump, 'getStyle', 'int')
-        );
-
+        $expected = 'color:blue';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
 
         $dump->setStyles(
             [
@@ -48,19 +53,20 @@ class SetStylesCest
             ]
         );
 
-        $I->assertEquals(
-            'color:indigo',
-            $I->callProtectedMethod($dump, 'getStyle', 'int')
-        );
+        $expected = 'color:indigo';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Debug\Dump :: getStyle()
+     * Tests Phalcon\Support\Debug\Dump :: getStyle()
+     *
+     * @param UnitTester $I
      *
      * @throws ReflectionException
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpGetStyle(UnitTester $I)
     {
@@ -71,14 +77,12 @@ class SetStylesCest
             true
         );
 
-        $I->assertEquals(
-            'color:gray',
-            $I->callProtectedMethod($dump, 'getStyle', 'unknown')
-        );
+        $expected = 'color:gray';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'unknown');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'color:blue',
-            $I->callProtectedMethod($dump, 'getStyle', 'int')
-        );
+        $expected = 'color:blue';
+        $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
+        $I->assertEquals($expected, $actual);
     }
 }

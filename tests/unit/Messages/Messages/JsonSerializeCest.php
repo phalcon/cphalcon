@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Messages\Messages;
 use JsonSerializable;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use Phalcon\Tests\Fixtures\Messages\MessageFixture;
 use UnitTester;
 
 class JsonSerializeCest
@@ -23,10 +24,12 @@ class JsonSerializeCest
     /**
      * Tests Phalcon\Messages\Messages :: jsonSerialize()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesJsonSerialize(UnitTester $I)
+    public function messagesMessagesJsonSerialize(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - jsonSerialize()');
 
@@ -53,15 +56,46 @@ class JsonSerializeCest
             ]
         );
 
-        $I->assertInstanceOf(
-            JsonSerializable::class,
-            $messages
-        );
+        $I->assertInstanceOf(JsonSerializable::class, $messages);
 
         $data = $messages->jsonSerialize();
-
-        $I->assertTrue(is_array($data));
+        $I->assertIsArray($data);
 
         $I->assertCount(2, $data);
+    }
+
+    /**
+     * Tests Phalcon\Messages\Messages :: jsonSerialize() - no jsonSerialize
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function messagesMessagesJsonSerializeNoJsonSerialize(UnitTester $I): void
+    {
+        $I->wantToTest('Messages\Messages - jsonSerialize() - no jsonSerialize');
+
+        $fixture = new MessageFixture(
+            'This is a message #1',
+            'MyField1',
+            'MyType1',
+            111,
+            [
+                'My1' => 'Metadata1',
+            ]
+        );
+
+        $messages = new Messages(
+            [
+                $fixture
+            ]
+        );
+
+        $I->assertInstanceOf(JsonSerializable::class, $messages);
+
+        $actual   = $messages->jsonSerialize();
+        $expected = [$fixture];
+        $I->assertEquals($expected, $actual);
     }
 }

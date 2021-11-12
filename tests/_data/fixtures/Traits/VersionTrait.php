@@ -28,28 +28,17 @@ trait VersionTrait
      * @return string
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     protected function numberToSpecial(string $number): string
     {
-        $special = '';
+        $map = [
+            '1' => 'alpha',
+            '2' => 'beta',
+            '3' => 'RC',
+        ];
 
-        switch ($number) {
-            case '1':
-                $special = 'alpha';
-
-                break;
-            case '2':
-                $special = 'beta';
-
-                break;
-            case '3':
-                $special = 'RC';
-
-                break;
-        }
-
-        return $special;
+        return $map[$number] ?? '';
     }
 
     /**
@@ -60,29 +49,16 @@ trait VersionTrait
      * @return string
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     protected function specialToNumber(string $input): string
     {
-        switch ($input) {
-            case 'alpha':
-                $special = '1';
+        $map = [
+            'alpha' => '1',
+            'beta'  => '2',
+            'RC'    => '3',
+        ];
 
-                break;
-            case 'beta':
-                $special = '2';
-
-                break;
-            case 'RC':
-                $special = '3';
-
-                break;
-            default:
-                $special = '4';
-
-                break;
-        }
-
-        return $special;
+        return $map[$input] ?? '4';
     }
 }

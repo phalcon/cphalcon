@@ -17,13 +17,20 @@ use Phalcon\Support\Debug\Dump;
 use stdClass;
 use UnitTester;
 
+/**
+ * Class AllCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug\Dump
+ */
 class AllCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: all()
+     * Tests Phalcon\Support\Debug\Dump :: all()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpAll(UnitTester $I)
     {
@@ -41,10 +48,13 @@ class AllCest
 
         $expected = trim(
             file_get_contents(
-                dataDir('fixtures/Dump/variables_output.txt')
+                dataDir('fixtures/Support/Dump/variables_output.txt')
             )
         );
 
-        $I->assertEquals($expected, $dump->all($test1, $test2, $test3));
+        $I->assertEquals(
+            $expected,
+            $dump->all($test1, $test2, $test3)
+        );
     }
 }

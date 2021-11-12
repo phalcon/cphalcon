@@ -21,8 +21,10 @@ class IsCollectingCest
     /**
      * Tests Phalcon\Events\Manager :: isCollecting()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function eventsManagerIsCollecting(UnitTester $I)
     {
@@ -30,20 +32,15 @@ class IsCollectingCest
 
         $manager = new Manager();
 
-        $I->assertFalse(
-            $manager->isCollecting()
-        );
+        $actual = $manager->isCollecting();
+        $I->assertFalse($actual);
 
         $manager->collectResponses(true);
-
-        $I->assertTrue(
-            $manager->isCollecting()
-        );
+        $actual = $manager->isCollecting();
+        $I->assertTrue($actual);
 
         $manager->collectResponses(false);
-
-        $I->assertFalse(
-            $manager->isCollecting()
-        );
+        $actual = $manager->isCollecting();
+        $I->assertFalse($actual);
     }
 }

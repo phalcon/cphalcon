@@ -16,13 +16,20 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
+/**
+ * Class ToJsonCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug\Dump
+ */
 class ToJsonCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: toJson()
+     * Tests Phalcon\Support\Debug\Dump :: toJson()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpToJson(UnitTester $I)
     {
