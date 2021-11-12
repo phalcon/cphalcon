@@ -52,8 +52,7 @@ class UnserializeCest
 
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
-
-        $data = [
+        $data  = [
             'inv_id'          => null,
             'inv_cst_id'      => 5,
             'inv_status_flag' => 2,

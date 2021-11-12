@@ -2635,28 +2635,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Use the standard serialize function to serialize the array data
          */
-        var attributes, snapshot, manager;
+        var attributes, manager, dirtyState, snapshot = null;
 
         let attributes = this->toArray(),
+            dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
-        if manager->isKeepingSnapshots(this) {
+        if manager->isKeepingSnapshots(this) && this->snapshot != null && attributes != this->snapshot {
             let snapshot = this->snapshot;
-
-            /**
-             * If attributes is not the same as snapshot then save snapshot too
-             */
-            if snapshot != null && attributes != snapshot {
-                return serialize(
-                    [
-                        "_attributes": attributes,
-                        "snapshot":    snapshot
-                    ]
-                );
-            }
         }
 
-        return serialize(attributes);
+        return serialize(
+            [
+                "attributes":  attributes,
+                "snapshot":    snapshot,
+                "dirtyState":  dirtyState
+            ]
+        );
     }
 
     /**
@@ -2664,11 +2659,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function unserialize(var data)
     {
-        var attributes, container, manager, key, value, snapshot;
+        var attributes, container, manager, key, value, snapshot, properties, dirtyState;
 
         let attributes = unserialize(data);
 
         if typeof attributes == "array" {
+            if !isset attributes["attributes"] {
+                let attributes = [
+                    "attributes": attributes
+                ];
+            }
+
             /**
              * Obtain the default DI
              */
@@ -2708,20 +2709,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             manager->initialize(this);
 
-            if manager->isKeepingSnapshots(this) {
-                if fetch snapshot, attributes["snapshot"] {
-                    let this->snapshot = snapshot;
-                    let attributes = attributes["_attributes"];
-                } else {
-                    let this->snapshot = attributes;
+            /**
+             * Fetch serialized props
+             */
+            if fetch properties, attributes["attributes"] {
+                /**
+                 * Update the objects properties
+                 */
+                for key, value in properties {
+                    let this->{key} = value;
                 }
+            } else {
+                let properties = [];
             }
 
             /**
-             * Update the objects attributes
+             * Fetch serialized dirtyState
              */
-            for key, value in attributes {
-                let this->{key} = value;
+            if fetch dirtyState, attributes["dirtyState"] {
+                let this->dirtyState = dirtyState;
+            }
+
+            /**
+             * Fetch serialized snapshot when option is active
+             */
+            if manager->isKeepingSnapshots(this) {
+                if fetch snapshot, attributes["snapshot"] {
+                    let this->snapshot = snapshot;
+                } else {
+                    let this->snapshot = properties;
+                }
             }
         }
     }
