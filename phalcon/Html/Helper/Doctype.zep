@@ -44,7 +44,7 @@ class Doctype
     /**
      * Produce a <doctype> tag
      *
-     * @param string $flag
+     * @param int    $flag
      * @param string $delimiter
      */
     public function __invoke(
