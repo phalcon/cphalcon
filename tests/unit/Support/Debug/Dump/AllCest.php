@@ -17,6 +17,10 @@ use Phalcon\Support\Debug\Dump;
 use stdClass;
 use UnitTester;
 
+use function str_replace;
+
+use const PHP_EOL;
+
 /**
  * Class AllCest
  *
@@ -52,9 +56,7 @@ class AllCest
             )
         );
 
-        $I->assertEquals(
-            $expected,
-            $dump->all($test1, $test2, $test3)
-        );
+        $actual   = $dump->all($test1, $test2, $test3);
+        $I->assertEquals($expected, $actual);
     }
 }
