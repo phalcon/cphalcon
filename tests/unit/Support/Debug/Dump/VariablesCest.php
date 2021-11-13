@@ -50,6 +50,10 @@ class VariablesCest
                 dataDir('fixtures/Support/Dump/variables_output.txt')
             )
         );
+        /**
+         * This is to ensure that Windows builds do not throw an error
+         */
+        $expected = str_replace("\n", PHP_EOL, $expected);
         $actual   = $dump->variables($test1, $test2, $test3);
         $I->assertEquals($expected, $actual);
     }

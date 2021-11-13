@@ -16,6 +16,10 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
+use function str_replace;
+
+use const PHP_EOL;
+
 /**
  * Class VariableCest
  *
@@ -67,7 +71,10 @@ class VariableCest
                 dataDir('fixtures/Support/Dump/variable_name_output.txt')
             )
         );
-
+        /**
+         * This is to ensure that Windows builds do not throw an error
+         */
+        $expected = str_replace("\n", PHP_EOL, $expected);
         $actual = $dump->variable($test, 'super');
         $I->assertEquals($expected, $actual);
     }
