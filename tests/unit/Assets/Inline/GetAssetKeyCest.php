@@ -36,7 +36,7 @@ class GetAssetKeyCest
             $example['content']
         );
 
-        $expected = md5(
+        $expected = sha1(
             $example['type'] . ':' . $example['content']
         );
 

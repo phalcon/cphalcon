@@ -10,17 +10,28 @@
 
 namespace Phalcon\Assets;
 
+use ArrayIterator;
 use Countable;
-use Iterator;
-use Phalcon\Assets\Asset\Css as AssetCss;
-use Phalcon\Assets\Asset\Js as AssetJs;
-use Phalcon\Assets\Inline\Js as InlineJs;
-use Phalcon\Assets\Inline\Css as InlineCss;
+use IteratorAggregate;
 
 /**
- * Represents a collection of assets
+ * Collection of asset objects
+ *
+ * @property array  $assets
+ * @property array  $attributes
+ * @property bool   $autoVersion
+ * @property array  $codes
+ * @property array  $filters
+ * @property bool   $join
+ * @property bool   $isLocal
+ * @property string $prefix
+ * @property string $sourcePath
+ * @property bool   $targetIsLocal
+ * @property string $targetPath
+ * @property string $targetUri
+ * @property string $version
  */
-class Collection implements Countable, Iterator
+class Collection implements Countable, IteratorAggregate
 {
     /**
      * @var array
@@ -32,11 +43,12 @@ class Collection implements Countable, Iterator
      */
     protected attributes = [] { get };
 
-	/**
-	 * Should version be determined from file modification time
-	 * @var bool
-	 */
-	protected autoVersion = false { set };
+    /**
+     * Should version be determined from file modification time
+     *
+     * @var bool
+     */
+    protected autoVersion = false;
 
     /**
      * @var array
@@ -49,11 +61,6 @@ class Collection implements Countable, Iterator
     protected filters = [] { get };
 
     /**
-     * @var array
-     */
-    protected includedAssets;
-
-    /**
      * @var bool
      */
     protected join = true { get };
@@ -61,54 +68,42 @@ class Collection implements Countable, Iterator
     /**
      * @var bool
      */
-    protected local = true { get };
+    protected isLocal = true;
 
     /**
      * @var string
      */
-    protected prefix { get };
-
-    /**
-     * @var int
-     */
-    protected position = 0 { get };
+    protected prefix = "" { get };
 
     /**
      * @var string
      */
-    protected sourcePath { get };
+    protected sourcePath = "" { get };
 
     /**
      * @var bool
      */
-    protected targetLocal = true { get };
+    protected targetIsLocal = true { get };
 
     /**
      * @var string
      */
-    protected targetPath { get };
+    protected targetPath = "" { get };
 
     /**
      * @var string
      */
-    protected targetUri { get };
-
-	/**
-	 * Version of resource
-	 * @var string
-	 */
-	protected version { get, set };
+    protected targetUri = "" { get };
 
     /**
-     * Phalcon\Assets\Collection constructor
+     * @var string
      */
-    public function __construct()
-    {
-        let this->includedAssets = [];
-    }
+    protected version = "" { get };
 
     /**
-     * Adds a asset to the collection
+     * Adds an asset to the collection
+     *
+     * @param AssetInterface $asset
      */
     public function add(<AssetInterface> asset) -> <Collection>
     {
@@ -119,39 +114,37 @@ class Collection implements Countable, Iterator
 
     /**
      * Adds a CSS asset to the collection
+     *
+     * @param string                $path
+     * @param bool|null             $isLocal
+     * @param bool                  $filter
+     * @param array<string, string> $attributes
+     * @param string|null           $version
+     * @param bool                  $autoVersion
      */
     public function addCss(
-        string! path,
-        var local = null,
+        string path,
+        var isLocal = null,
         bool filter = true,
-        var attributes = null,
+        array attributes = [],
         string version = null,
         bool autoVersion = false
-	) -> <Collection>
-	{
-        var collectionLocal, collectionAttributes;
-
-        if typeof local == "boolean" {
-            let collectionLocal = local;
-        } else {
-            let collectionLocal = this->local;
-        }
-
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->attributes;
-        }
-
-        this->add(
-            new AssetCss(path, collectionLocal, filter, collectionAttributes, version, autoVersion)
+    ) -> <Collection> {
+        return this->processAdd(
+            "Css",
+            path,
+            isLocal,
+            filter,
+            attributes,
+            version,
+            autoVersion
         );
-
-        return this;
     }
 
     /**
      * Adds a filter to the collection
+     *
+     * @param FilterInterface $filter
      */
     public function addFilter(<FilterInterface> filter) -> <Collection>
     {
@@ -162,6 +155,8 @@ class Collection implements Countable, Iterator
 
     /**
      * Adds an inline code to the collection
+     *
+     * @param Inline $code
      */
     public function addInline(<$Inline> code) -> <Collection>
     {
@@ -172,81 +167,71 @@ class Collection implements Countable, Iterator
 
     /**
      * Adds an inline CSS to the collection
+     *
+     * @param string $content
+     * @param bool   $filter
+     * @param array  $attributes
      */
-    public function addInlineCss(string content, bool filter = true, attributes = null) -> <Collection>
-    {
-        var collectionAttributes;
-
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->attributes;
-        }
-
-        let this->codes[] = new InlineCss(
-            content,
-            filter,
-            collectionAttributes
-        );
-
-        return this;
+    public function addInlineCss(
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) -> <Collection> {
+        return this->processAddInline("Css", content, filter, attributes);
     }
 
     /**
      * Adds an inline JavaScript to the collection
+     *
+     * @param string $content
+     * @param bool   $filter
+     * @param array  $attributes
      */
-    public function addInlineJs(string content, bool filter = true, attributes = null) -> <Collection>
-    {
-        var collectionAttributes;
-
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->attributes;
-        }
-
-        let this->codes[] = new InlineJs(content, filter, collectionAttributes);
-
-        return this;
+    public function addInlineJs(
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) -> <Collection> {
+        return this->processAddInline("Js", content, filter, attributes);
     }
 
     /**
      * Adds a JavaScript asset to the collection
      *
-     * @param array attributes
+     * @param string      $path
+     * @param bool|null   $isLocal
+     * @param bool        $filter
+     * @param array       $attributes
+     * @param string|null $version
+     * @param bool        $autoVersion
+     *
+     * @return $this
      */
     public function addJs(
-        string! path,
-        var local = null,
+        string path,
+        var isLocal = null,
         bool filter = true,
-        var attributes = null,
+        array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Collection>
-    {
-        var collectionLocal, collectionAttributes;
-
-        if typeof local == "boolean" {
-            let collectionLocal = local;
-        } else {
-            let collectionLocal = this->local;
-        }
-
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->attributes;
-        }
-
-        this->add(
-            new AssetJs(path, collectionLocal, filter, collectionAttributes, version, autoVersion)
+    ) -> <Collection> {
+        return this->processAdd(
+            "Js",
+            path,
+            isLocal,
+            filter,
+            attributes,
+            version,
+            autoVersion
         );
-
-        return this;
     }
 
     /**
-     * Returns the number of elements in the form
+     * Return the count of the assets
+     *
+     * @return int
+     *
+     * @link https://php.net/manual/en/countable.count.php
      */
     public function count() -> int
     {
@@ -254,33 +239,37 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Returns the current asset in the iterator
+     * Returns the generator of the class
+     *
+     * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
      */
-    public function current() -> <Asset>
+    public function getIterator()
     {
-        return this->assets[this->position];
+        return new ArrayIterator(this->assets);
     }
 
     /**
      * Returns the complete location where the joined/filtered collection must
      * be written
+     *
+     * @param string $basePath
+     *
+     * @return string
      */
     public function getRealTargetPath(string! basePath) -> string
     {
-        var targetPath, completePath;
-
-        let targetPath = this->targetPath;
+        var completePath;
 
         /**
          * A base path for assets can be set in the assets manager
          */
-        let completePath = basePath . targetPath;
+        let completePath = basePath . this->targetPath;
 
         /**
          * Get the real template path, the target path can optionally don't
          * exist
          */
-        if file_exists(completePath) {
+        if (true === file_exists(completePath)) {
             return realPath(completePath);
         }
 
@@ -301,64 +290,66 @@ class Collection implements Countable, Iterator
      * $collection->add($asset);
      * $collection->has($asset); // true
      * ```
+     *
+     * @param AssetInterface $asset
+     *
+     * @return bool
      */
     public function has(<AssetInterface> asset) -> bool
     {
-        var key, assets;
+        var key, storedAsset;
 
-        let key = asset->getAssetKey(),
-            assets = this->includedAssets;
+        let key = asset->getAssetKey();
+        for storedAsset in this->assets {
+            if (key === storedAsset->getAssetKey()) {
+                return true;
+            }
+        }
 
-        return in_array(key, assets);
+        return false;
     }
 
     /**
      * Checks if collection is using auto version
+     *
+     * @return bool
      */
-	public function isAutoVersion() -> bool
-	{
-	    return this->autoVersion;
-	}
+    public function isAutoVersion() -> bool
+    {
+        return this->autoVersion;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocal() -> bool
+    {
+        return this->isLocal;
+    }
 
     /**
      * Sets if all filtered assets in the collection must be joined in a single
      * result file
+     *
+     * @param bool $flag
+     *
+     * @return Collection
      */
-    public function join(bool join) -> <Collection>
+    public function join(bool flag) -> <Collection>
     {
-        let this->join = join;
+        let this->join = flag;
 
         return this;
     }
 
     /**
-     * Returns the current position/key in the iterator
-     */
-    public function key() -> int
-    {
-        return this->position;
-    }
-
-    /**
-     * Moves the internal iteration pointer to the next position
-     */
-    public function next() -> void
-    {
-        let this->position++;
-    }
-
-    /**
-     * Rewinds the internal iterator
-     */
-    public function rewind() -> void
-    {
-        let this->position = 0;
-    }
-
-    /**
      * Sets extra HTML attributes
+     *
+     * @param array $attributes
+     *
+     * @return $this
      */
-    public function setAttributes(array! attributes) -> <Collection>
+    public function setAttributes(array attributes) -> <Collection>
     {
         let this->attributes = attributes;
 
@@ -366,9 +357,25 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Sets an array of filters in the collection
+     * @param bool $flag
+     *
+     * @return Collection
      */
-    public function setFilters(array! filters) -> <Collection>
+    public function setAutoVersion(bool flag) -> <Collection>
+    {
+        let this->autoVersion = flag;
+
+        return this;
+    }
+
+    /**
+     * Sets an array of filters in the collection
+     *
+     * @param array $filters
+     *
+     * @return $this
+     */
+    public function setFilters(array filters) -> <Collection>
     {
         let this->filters = filters;
 
@@ -377,18 +384,26 @@ class Collection implements Countable, Iterator
 
     /**
      * Sets if the collection uses local assets by default
+     *
+     * @param bool $flag
+     *
+     * @return $this
      */
-    public function setLocal(bool! local) -> <Collection>
+    public function setIsLocal(bool flag) -> <Collection>
     {
-        let this->local = local;
+        let this->isLocal = flag;
 
         return this;
     }
 
     /**
      * Sets a common prefix for all the assets
+     *
+     * @param string $prefix
+     *
+     * @return $this
      */
-    public function setPrefix(string! prefix) -> <Collection>
+    public function setPrefix(string prefix) -> <Collection>
     {
         let this->prefix = prefix;
 
@@ -396,19 +411,27 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Sets the target local
+     * Sets if the target local or not
+     *
+     * @param bool $flag
+     *
+     * @return $this
      */
-    public function setTargetLocal(bool! targetLocal) -> <Collection>
+    public function setTargetIsLocal(bool flag) -> <Collection>
     {
-        let this->targetLocal = targetLocal;
+        let this->targetIsLocal = flag;
 
         return this;
     }
 
     /**
      * Sets the target path of the file for the filtered/join output
+     *
+     * @param string $targetPath
+     *
+     * @return $this
      */
-    public function setTargetPath(string! targetPath) -> <Collection>
+    public function setTargetPath(string targetPath) -> <Collection>
     {
         let this->targetPath = targetPath;
 
@@ -417,8 +440,12 @@ class Collection implements Countable, Iterator
 
     /**
      * Sets a target uri for the generated HTML
+     *
+     * @param string $targetUri
+     *
+     * @return Collection
      */
-    public function setTargetUri(string! targetUri) -> <Collection>
+    public function setTargetUri(string targetUri) -> <Collection>
     {
         let this->targetUri = targetUri;
 
@@ -427,8 +454,10 @@ class Collection implements Countable, Iterator
 
     /**
      * Sets a base source path for all the assets in this collection
+     *
+     * @param string $sourcePath
      */
-    public function setSourcePath(string! sourcePath) -> <Collection>
+    public function setSourcePath(string sourcePath) -> <Collection>
     {
         let this->sourcePath = sourcePath;
 
@@ -436,30 +465,102 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Check if the current element in the iterator is valid
+     * Sets the version
+     *
+     * @param string $version
      */
-    public function valid() -> bool
+    public function setVersion(string version) -> <Collection>
     {
-        return isset this->assets[this->position];
+        let this->version = version;
+
+        return this;
     }
 
     /**
-     * Adds a asset or inline-code to the collection
+     * Adds an asset or inline-code to the collection
+     *
+     * @param AssetInterface $asset
+     *
+     * @return bool
      */
     final protected function addAsset(<AssetInterface> asset) -> bool
     {
-        if this->has(asset) {
+        if (true === this->has(asset)) {
             return false;
         }
 
-        if asset instanceof Asset {
-            let this->assets[] = asset;
-        } else {
-            let this->codes[] = asset;
+        if (asset instanceof Asset) {
+            let this->assets[asset->getAssetKey()] = asset;
+
+            return true;
         }
 
-        let this->includedAssets[] = asset->getAssetKey();
+        let this->codes[] = asset;
 
         return true;
+    }
+
+    /**
+     * Adds an inline asset
+     */
+    private function processAdd(
+        string className,
+        string path,
+        var isLocal = null,
+        bool filter = true,
+        array attributes = [],
+        string version = null,
+        bool autoVersion = false
+    ) -> <Collection> {
+        var attrs, flag, name;
+
+        let name  = "Phalcon\\Assets\\Asset\\" . className,
+            flag  = this->isLocal,
+            attrs = this->processAttributes(attributes);
+
+        /**
+         * Check if the isLocal is null. If not assign it to flag
+         */
+        if isLocal !== null {
+            let flag = (bool) isLocal;
+        }
+
+        this->add(new {name}(path, flag, filter, attrs, version, autoVersion));
+
+        return this;
+    }
+
+    /**
+     * Adds an inline asset
+     */
+    private function processAddInline(
+        string className,
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) -> <Collection> {
+        var asset, attrs, name;
+
+        let name  = "Phalcon\\Assets\\Inline\\" . className,
+            attrs = this->processAttributes(attributes),
+            asset = new {name}(
+                content,
+                filter,
+                attrs
+            );
+
+        let this->codes[asset->getAssetKey()] = asset;
+
+        return this;
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return array
+     */
+    private function processAttributes(array attributes) -> array
+    {
+        return (true !== empty(attributes)) ? attributes : this->attributes;
     }
 }

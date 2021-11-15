@@ -11,23 +11,36 @@
 namespace Phalcon\Assets;
 
 /**
- * Represents an asset asset
+ * Represents an asset
  *
  *```php
- * $asset = new \Phalcon\Assets\Asset("js", "javascripts/jquery.js");
+ * $asset = new \Phalcon\Assets\Asset("js", "js/jquery.js");
  *```
+ *
+ * @property array       $attributes
+ * @property bool        $isAutoVersion
+ * @property bool        $filter
+ * @property bool        $isLocal
+ * @property string      $path
+ * @property string      $sourcePath
+ * @property string      $targetPath
+ * @property string      $targetUri
+ * @property string      $type
+ * @property string|null $version
+ *
  */
 class Asset implements AssetInterface
 {
     /**
-     * @var array | null
+     * @var array
      */
-    protected attributes { get };
+    protected attributes;
 
     /**
      * @var bool
      */
-	protected autoVersion = false { set };
+    protected isAutoVersion = false;
+
     /**
      * @var bool
      */
@@ -36,7 +49,7 @@ class Asset implements AssetInterface
     /**
      * @var bool
      */
-    protected local { get };
+    protected isLocal;
 
     /**
      * @var string
@@ -63,32 +76,40 @@ class Asset implements AssetInterface
      */
     protected type { get };
 
-	/**
-	 * Version of resource
-	 * @var string
-	 */
-	protected version { get, set };
+    /**
+     * Version of resource
+     *
+     * @var string|null
+     */
+    protected version { get };
 
     /**
-     * Phalcon\Assets\Asset constructor
+     * Asset constructor.
+     *
+     * @param string      $type
+     * @param string      $path
+     * @param bool        $isLocal
+     * @param bool        $filter
+     * @param array       $attributes
+     * @param string|null $version
+     * @param bool        $isAutoVersion
      */
     public function __construct(
         string type,
         string path,
-        bool local = true,
+        bool isLocal = true,
         bool filter = true,
         array attributes = [],
         string version = null,
-        bool autoVersion = false
-    )
-    {
-        let this->type        = type,
-            this->path        = path,
-            this->local       = local,
-            this->filter      = filter,
-            this->attributes  = attributes,
-            this->version     = version,
-            this->autoVersion = autoVersion;
+        bool isAutoVersion = false
+    ) {
+        let this->type          = type,
+            this->path          = path,
+            this->isLocal       = isLocal,
+            this->filter        = filter,
+            this->attributes    = attributes,
+            this->version       = version,
+            this->isAutoVersion = isAutoVersion;
     }
 
     /**
@@ -100,40 +121,45 @@ class Asset implements AssetInterface
 
         let key = this->getType() . ":" . this->getPath();
 
-        return md5(key);
+        return sha1(key);
+    }
+
+    /**
+     * Gets extra HTML attributes.
+     *
+     * @return array
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
     }
 
     /**
      * Returns the content of the asset as an string
      * Optionally a base path where the asset is located can be set
+     *
+     * @param string|null $basePath
+     *
+     * @return string
+     * @throws Exception
      */
     public function getContent(string basePath = null) -> string
     {
-        var sourcePath, completePath, content;
-
-        let sourcePath = this->sourcePath;
-
-        if empty sourcePath {
-            let sourcePath = this->path;
-        }
+        var completePath, content;
 
         /**
          * A base path for assets can be set in the assets manager
          */
-        let completePath = basePath . sourcePath;
+        let completePath = basePath . this->checkPath("sourcePath");
 
         /**
          * Local assets are loaded from the local disk
          */
-        if this->local {
-            /**
-             * Check first if the file is readable
-             */
-            if unlikely !file_exists(completePath) {
-                throw new Exception(
-                    "Asset's content for '" . completePath . "' cannot be read"
-                );
-            }
+        if (
+            true === this->isLocal &&
+            true !== file_exists(completePath)
+        ) {
+            this->throwException(completePath);
         }
 
         /**
@@ -142,10 +168,8 @@ class Asset implements AssetInterface
          */
         let content = file_get_contents(completePath);
 
-        if unlikely content === false {
-            throw new Exception(
-                "Asset's content for '" . completePath . "' cannot be read"
-            );
+        if (false === content) {
+            this->throwException(completePath);
         }
 
         return content;
@@ -153,97 +177,112 @@ class Asset implements AssetInterface
 
     /**
      * Returns the complete location where the asset is located
+     *
+     * @param string|null $basePath
+     *
+     * @return string
      */
     public function getRealSourcePath(string basePath = null) -> string
     {
-        var sourcePath;
+        var source;
 
-        let sourcePath = this->sourcePath;
-
-        if empty sourcePath {
-            let sourcePath = this->path;
-        }
-
-        if this->local {
+        let source = this->checkPath("sourcePath");
+        if (this->isLocal) {
             /**
-             * Get the real template path
+             * Get the real template path. If `realpath` fails it will return
+             * `false`. Casting it to a string will return an empty string
              */
-            return realpath(basePath . sourcePath);
+            let source = (string) realpath(basePath . source);
         }
 
-        return sourcePath;
+        return source;
     }
 
     /**
      * Returns the complete location where the asset must be written
+     *
+     * @param string|null $basePath
+     *
+     * @return string
      */
     public function getRealTargetPath(string basePath = null) -> string
     {
-        var targetPath, completePath;
+        var completePath, target;
 
-        let targetPath = this->targetPath;
-
-        if empty targetPath {
-            let targetPath = this->path;
-        }
-
-        if this->local {
+        let target = this->checkPath("targetPath");
+        if (this->isLocal) {
             /**
              * A base path for assets can be set in the assets manager
              */
-            let completePath = basePath . targetPath;
+            let completePath = basePath . target;
 
             /**
              * Get the real template path, the target path can optionally don't
              * exist
              */
-            if file_exists(completePath) {
-                return realpath(completePath);
+            if (true === file_exists(completePath)) {
+                let completePath = realpath(completePath);
+
+                if (false === completePath) {
+                    let completePath = "";
+                }
             }
 
             return completePath;
         }
 
-        return targetPath;
+        return target;
     }
 
     /**
      * Returns the real target uri for the generated HTML
+     *
+     * @return string
      */
     public function getRealTargetUri() -> string
     {
-        var modificationTime, targetUri, version;
+        var modTime, target, ver;
 
-        let targetUri = this->targetUri;
-
-        if empty targetUri {
-            let targetUri = this->path;
+        let target = this->checkPath("targetUri"),
+            ver    = this->version;
+        if (this->isAutoVersion && this->isLocal) {
+            let modTime = filemtime(this->getRealSourcePath()),
+                ver     = ver ? ver . "." . modTime : modTime;
         }
 
-        let version = this->version;
-
-        if this->autoVersion && this->local {
-            let modificationTime = filemtime(this->getRealSourcePath()),
-                version          = version ? version . "." . modificationTime : modificationTime;
+        if (true !== empty(ver)) {
+            let target = target . "?ver=" . ver;
         }
 
-        if version {
-            let targetUri = targetUri . "?ver=" . version;
-        }
-
-        return targetUri;
+        return target;
     }
 
     /**
-     * Checks if resource is using auto version
+     * Checks if the asset is using auto version
+     *
+     * @return bool
      */
-	public function isAutoVersion() -> bool
-	{
-		return this->autoVersion;
-	}
+    public function isAutoVersion() -> bool
+    {
+        return $this->isAutoVersion;
+    }
+
+    /**
+     * Checks if the asset is local or not
+     *
+     * @return bool
+     */
+    public function isLocal() -> bool
+    {
+        return this->isLocal;
+    }
 
     /**
      * Sets extra HTML attributes
+     *
+     * @param array<string, string> $attributes
+     *
+     * @return AssetInterface
      */
     public function setAttributes(array attributes) -> <AssetInterface>
     {
@@ -253,7 +292,23 @@ class Asset implements AssetInterface
     }
 
     /**
+     * @param bool $flag
+     *
+     * @return AssetInterface
+     */
+    public function setAutoVersion(bool flag) -> <AssetInterface>
+    {
+        let this->isAutoVersion = flag;
+
+        return this;
+    }
+
+    /**
      * Sets if the asset must be filtered or not
+     *
+     * @param bool $filter
+     *
+     * @return AssetInterface
      */
     public function setFilter(bool filter) -> <AssetInterface>
     {
@@ -264,16 +319,24 @@ class Asset implements AssetInterface
 
     /**
      * Sets if the asset is local or external
+     *
+     * @param bool $flag
+     *
+     * @return AssetInterface
      */
-    public function setLocal(bool local) -> <AssetInterface>
+    public function setLocal(bool flag) -> <AssetInterface>
     {
-        let this->local = local;
+        let this->isLocal = flag;
 
         return this;
     }
 
     /**
      * Sets the asset's source path
+     *
+     * @param string $sourcePath
+     *
+     * @return AssetInterface
      */
     public function setSourcePath(string sourcePath) -> <AssetInterface>
     {
@@ -284,6 +347,10 @@ class Asset implements AssetInterface
 
     /**
      * Sets the asset's target path
+     *
+     * @param string $targetPath
+     *
+     * @return AssetInterface
      */
     public function setTargetPath(string targetPath) -> <AssetInterface>
     {
@@ -294,6 +361,10 @@ class Asset implements AssetInterface
 
     /**
      * Sets a target uri for the generated HTML
+     *
+     * @param string $targetUri
+     *
+     * @return AssetInterface
      */
     public function setTargetUri(string targetUri) -> <AssetInterface>
     {
@@ -304,6 +375,10 @@ class Asset implements AssetInterface
 
     /**
      * Sets the asset's type
+     *
+     * @param string $type
+     *
+     * @return AssetInterface
      */
     public function setType(string type) -> <AssetInterface>
     {
@@ -314,11 +389,55 @@ class Asset implements AssetInterface
 
     /**
      * Sets the asset's path
+     *
+     * @param string $path
+     *
+     * @return AssetInterface
      */
     public function setPath(string path) -> <AssetInterface>
     {
         let this->path = path;
 
         return this;
+    }
+
+    /**
+     * Sets the asset's version
+     *
+     * @param string $version
+     *
+     * @return AssetInterface
+     */
+    public function setVersion(string version) -> <AssetInterface>
+    {
+        let this->version = version;
+
+        return this;
+    }
+
+    /**
+     * @param string $property
+     *
+     * @return string
+     */
+    private function checkPath(string property) -> string
+    {
+        if (true === empty(this->{property})) {
+            return this->path;
+        }
+
+        return this->{property};
+    }
+
+    /**
+     * @param string $completePath
+     *
+     * @throws Exception
+     */
+    private function throwException(string completePath) -> void
+    {
+        throw new Exception(
+            "Asset's content for '" . completePath . "' cannot be read"
+        );
     }
 }

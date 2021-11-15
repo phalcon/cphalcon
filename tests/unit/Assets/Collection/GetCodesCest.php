@@ -17,33 +17,32 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+/**
+ * Class GetCodesCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetCodesCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getCodes()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetCodes(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getCodes()');
 
         $collection = new Collection();
-
-        $inline = new Css(".test{color: #8fc6bc}");
-
-        $collection->addInline(
-            $inline
-        );
+        $inline     = new Css(".test{color: #8fc6bc}");
+        $collection->addInline($inline);
 
         $codes = $collection->getCodes();
 
         $I->assertCount(1, $collection->getCodes());
-
-        $I->assertEquals(
-            end($codes),
-            $inline
-        );
+        $I->assertEquals(end($codes), $inline);
     }
 }

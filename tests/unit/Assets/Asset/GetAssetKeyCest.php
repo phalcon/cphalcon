@@ -17,35 +17,38 @@ use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class GetAssetKeyCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetAssetKeyCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getAssetKey()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetGetAssetKey(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - getAssetKey()');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $asset = new Asset($example['type'], $example['path']);
 
-        $assetKey = md5(
-            $example['type'] . ':' . $example['path']
-        );
-
-        $I->assertEquals(
-            $assetKey,
-            $asset->getAssetKey()
-        );
+        $assetKey = sha1($example['type'] . ':' . $example['path']);
+        $actual   = $asset->getAssetKey();
+        $I->assertEquals($assetKey, $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     protected function provider(): array
     {
         return [

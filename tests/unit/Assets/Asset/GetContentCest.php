@@ -14,41 +14,46 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Codeception\Example;
+use Codeception\Stub;
 use Phalcon\Assets\Asset;
+use Phalcon\Assets\Exception;
 use UnitTester;
 
+use function dataDir;
+
+/**
+ * Class GetContentCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetGetContent(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - getContent()');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $asset = new Asset($example['type'], $example['path']);
 
-        $I->openFile(
-            dataDir(
-                $example['path']
-            )
-        );
+        $I->openFile(dataDir($example['path']));
 
-        $I->seeFileContentsEqual(
-            $asset->getContent(
-                dataDir()
-            )
-        );
+        $actual = $asset->getContent(dataDir());
+        $I->seeFileContentsEqual($actual);
     }
 
+    /**
+     * @return string[][]
+     */
     protected function provider(): array
     {
         return [

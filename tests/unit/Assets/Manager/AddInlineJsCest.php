@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -50,14 +52,14 @@ class AddInlineJsCest
     {
         $I->wantToTest('Assets\Manager - addInlineJs()');
 
-        $manager = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
         $jsFile = dataDir('assets/assets/signup.js');
         $js     = file_get_contents($jsFile);
 
         $manager->addInlineJs($js);
 
-        $expected = "<script type=\"text/javascript\">{$js}</script>" . PHP_EOL;
+        $expected = "<script type=\"application/javascript\">{$js}</script>" . PHP_EOL;
 
         ob_start();
         $manager->outputInlineJs();

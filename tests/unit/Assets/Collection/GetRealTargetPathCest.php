@@ -13,33 +13,65 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Assets\Collection;
 
+use Codeception\Stub;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
 use function dataDir;
 
+/**
+ * Class GetRealTargetPathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetRealTargetPathCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getRealTargetPath()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetRealTargetPath(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getRealTargetPath()');
 
-        $collection = new Collection();
-
-        $targetPath = '/assets';
-
-        $basePath = dataDir('assets');
-
+        $collection        = new Collection();
+        $targetPath        = '/assets';
+        $basePath          = dataDir('assets');
         $constructRealPath = realpath($basePath . $targetPath);
 
         $collection->setTargetPath($targetPath);
+        $realBasePath = $collection->getRealTargetPath($basePath);
 
+        $I->assertEquals($constructRealPath, $realBasePath);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Collection :: getRealTargetPath() - file does not exist
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function assetsCollectionGetRealTargetPathFileDoesNotExist(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Collection - getRealTargetPath() - file does not exist');
+
+        $collection = Stub::make(
+            Collection::class,
+            [
+                'phpFileExists' => false,
+            ]
+        );
+        $targetPath        = '/assets';
+        $basePath          = dataDir('assets');
+        $constructRealPath = realpath($basePath . $targetPath);
+
+        $collection->setTargetPath($targetPath);
         $realBasePath = $collection->getRealTargetPath($basePath);
 
         $I->assertEquals($constructRealPath, $realBasePath);

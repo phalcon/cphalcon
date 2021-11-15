@@ -17,79 +17,81 @@ use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class GetRealTargetUriCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetRealTargetUriCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetUri() - local
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @dataProvider provider
      *
-     * @dataProvider localProvider
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
-    public function assetsAssetGetAssetKeyLocal(UnitTester $I, Example $example)
+    public function assetsAssetGetRealTargetUri(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - local');
+        $I->wantToTest('Assets\Asset - getRealTargetUri()');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $type      = $example['type'];
+        $path      = $example['path'];
+        $local     = $example['local'];
+        $expected  = $example['expected'];
+        $targetUri = $example['targetUri'];
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetUri()
-        );
+        $asset = new Asset($type, $path, $local);
+        $asset->setTargetUri($targetUri);
+
+        $actual = $asset->getRealTargetUri();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetUri() - remote
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
-     * @dataProvider remoteProvider
+     * @return string[][]
      */
-    public function assetsAssetGetAssetKeyRemote(UnitTester $I, Example $example)
-    {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - remote');
-
-        $asset = new Asset(
-            $example['type'],
-            $example['path'],
-            false
-        );
-
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetUri()
-        );
-    }
-
-    protected function localProvider(): array
+    protected function provider(): array
     {
         return [
             [
-                'type' => 'css',
-                'path' => 'css/docs.css',
+                'type'      => 'css',
+                'path'      => 'css/docs.css',
+                'local'     => true,
+                'targetUri' => '',
+                'expected'  => 'css/docs.css',
             ],
             [
-                'type' => 'js',
-                'path' => 'js/jquery.js',
-            ],
-        ];
-    }
-
-    protected function remoteProvider(): array
-    {
-        return [
-            [
-                'type' => 'css',
-                'path' => 'https://phalcon.ld/css/docs.css',
+                'type'      => 'js',
+                'path'      => 'js/jquery.js',
+                'local'     => true,
+                'targetUri' => '',
+                'expected'  => 'js/jquery.js',
             ],
             [
-                'type' => 'js',
-                'path' => 'https://phalcon.ld/js/jquery.js',
+                'type'      => 'css',
+                'path'      => 'https://phalcon.ld/css/docs.css',
+                'local'     => false,
+                'targetUri' => '',
+                'expected'  => 'https://phalcon.ld/css/docs.css',
+            ],
+            [
+                'type'      => 'js',
+                'path'      => 'https://phalcon.ld/js/jquery.js',
+                'local'     => false,
+                'targetUri' => '',
+                'expected'  => 'https://phalcon.ld/js/jquery.js',
+            ],
+            [
+                'type'      => 'css',
+                'path'      => 'css/assets.css',
+                'local'     => true,
+                'targetUri' => 'css/docs.css',
+                'expected'  => 'css/docs.css',
             ],
         ];
     }

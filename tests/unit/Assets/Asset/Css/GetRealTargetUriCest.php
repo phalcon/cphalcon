@@ -17,31 +17,38 @@ use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+/**
+ * Class GetRealTargetUriCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Css
+ */
 class GetRealTargetUriCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetCssGetAssetKey(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset\Css - getRealTargetUri()');
 
-        $asset = new Css(
-            $example['path'],
-            $example['local']
-        );
+        $asset = new Css($example['path'], $example['local']);
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetUri()
-        );
+        $expected = $example['path'];
+        $actual   = $asset->getRealTargetUri();
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     protected function provider(): array
     {
         return [

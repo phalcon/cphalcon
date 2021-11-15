@@ -16,31 +16,30 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
+/**
+ * Class GetAssetKeyCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Js
+ */
 class GetAssetKeyCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Js :: getAssetKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetJsGetAssetKey(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset\Js - getAssetKey()');
 
-        $path = 'js/jquery.js';
+        $path     = 'js/jquery.js';
+        $asset    = new Js($path);
+        $expected = sha1('js:' . $path);
+        $actual   = $asset->getAssetKey();
 
-        $asset = new Js(
-            $path
-        );
-
-        $assetKey = md5(
-            'js:' . $path
-        );
-
-        $I->assertEquals(
-            $assetKey,
-            $asset->getAssetKey()
-        );
+        $I->assertEquals($expected, $actual);
     }
 }

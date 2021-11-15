@@ -10,18 +10,23 @@
 
 namespace Phalcon\Assets;
 
-use Phalcon\Tag;
-use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Asset\Css as AssetCss;
+use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Html\Helper\Element;
+use Phalcon\Html\Helper\Link;
+use Phalcon\Html\Helper\Script;
+use Phalcon\Html\TagFactory;
 
 /**
- * Phalcon\Assets\Manager
- *
  * Manages collections of CSS/JavaScript assets
+ *
+ * @property array      $collections
+ * @property bool       $implicitOutput
+ * @property array      $options
+ * @property TagFactory $tagFactory
  */
 class Manager extends AbstractInjectionAware
 {
@@ -31,43 +36,43 @@ class Manager extends AbstractInjectionAware
     protected collections = [];
 
     /**
-     * Options configure
-     *
-     * @var array
-     */
-    protected options = [];
-
-    /**
      * @var bool
      */
     protected implicitOutput = true;
 
     /**
-     * Phalcon\Assets\Manager constructor
+     * @var array
      */
-    public function __construct(array options = [])
+    protected options = [];
+
+    /**
+     * @var TagFactory
+     */
+    protected tagFactory;
+
+    /**
+     * Manager constructor.
+     *
+     * @param TagFactory $tagFactory
+     * @param array      $options
+     */
+    public function __construct(<TagFactory> tagFactory, array options = [])
     {
-        let this->options = options;
+        let this->tagFactory = tagFactory,
+            this->options    = options;
     }
 
     /**
      * Adds a raw asset to the manager
      *
-     *```php
-     * $assets->addAsset(
-     *     new Phalcon\Assets\Asset("css", "css/style.css")
-     * );
-     *```
+     * @param Asset $asset
      */
     public function addAsset(<Asset> asset) -> <Manager>
     {
         /**
          * Adds the asset by its type
          */
-        this->addAssetByType(
-            asset->getType(),
-            asset
-        );
+        this->addAssetByType(asset->getType(), asset);
 
         return this;
     }
@@ -75,41 +80,33 @@ class Manager extends AbstractInjectionAware
     /**
      * Adds a asset by its type
      *
-     *```php
-     * $assets->addAssetByType(
-     *     "css",
-     *     new \Phalcon\Assets\Asset\Css("css/style.css")
-     * );
-     *```
+     * @param string $type
+     * @param Asset  $asset
      */
     public function addAssetByType(string! type, <Asset> asset) -> <Manager>
     {
         var collection;
 
-        if !fetch collection, this->collections[type] {
-            let collection              = new Collection(),
-                this->collections[type] = collection;
-        }
+        let collection = this->checkAndCreateCollection(type);
 
-        /**
-         * Add the asset to the collection
-         */
         collection->add(asset);
 
         return this;
     }
 
     /**
-    * Adds a CSS asset to the 'css' collection
-    *
-    *```php
-    * $assets->addCss("css/bootstrap.css");
-    * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
-    *```
-    */
+     * Adds a CSS asset to the 'css' collection
+     *
+     * @param string      $path
+     * @param bool        $local
+     * @param bool        $filter
+     * @param array       $attributes
+     * @param string|null $version
+     * @param bool        $autoVersion
+     */
     public function addCss(
         string! path,
-        var local = true,
+        bool local = true,
         bool filter = true,
         array attributes = [],
         string version = null,
@@ -126,6 +123,8 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Adds a raw inline code to the manager
+     *
+     * @param Inline $code
      */
     public function addInlineCode(<$Inline> code) -> <Manager>
     {
@@ -139,19 +138,16 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Adds an inline code by its type
+     *
+     * @param string $type
+     * @param Inline $code
      */
     public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
     {
         var collection;
 
-        if !fetch collection, this->collections[type] {
-            let collection = new Collection();
-            let this->collections[type] = collection;
-        }
+        let collection = this->checkAndCreateCollection(type);
 
-        /**
-         * Add the inline code to the collection
-         */
         collection->addInline(code);
 
         return this;
@@ -159,9 +155,16 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Adds an inline CSS to the 'css' collection
+     *
+     * @param string $content
+     * @param bool   $filter
+     * @param array  $attributes
      */
-    public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
-    {
+    public function addInlineCss(
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) -> <Manager> {
         this->addInlineCodeByType(
             "css",
             new InlineCss(content, filter, attributes)
@@ -172,9 +175,16 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Adds an inline JavaScript to the 'js' collection
+     *
+     * @param string $content
+     * @param bool   $filter
+     * @param array  $attributes
      */
-    public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
-    {
+    public function addInlineJs(
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) -> <Manager> {
         this->addInlineCodeByType(
             "js",
             new InlineJs(content, filter, attributes)
@@ -190,10 +200,17 @@ class Manager extends AbstractInjectionAware
      * $assets->addJs("scripts/jquery.js");
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *```
+     *
+     * @param string      $path
+     * @param bool        $local
+     * @param bool        $filter
+     * @param array       $attributes
+     * @param string|null $version
+     * @param bool        $autoVersion
      */
     public function addJs(
         string! path,
-        var local = true,
+        bool local = true,
         bool filter = true,
         array attributes = [],
         string version = null,
@@ -210,21 +227,19 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Creates/Returns a collection of assets
+     *
+     * @param string $name
      */
     public function collection(string name) -> <Collection>
     {
-        var collection;
-
-        if !fetch collection, this->collections[name] {
-            let collection = new Collection();
-            let this->collections[name] = collection;
-        }
-
-        return collection;
+        return this->checkAndCreateCollection(name);
     }
 
     /**
      * Creates/Returns a collection of assets by type
+     *
+     * @param array  $assets
+     * @param string $type
      */
     public function collectionAssetsByType(array assets, string type) -> array
     {
@@ -232,7 +247,10 @@ class Manager extends AbstractInjectionAware
         array filtered = [];
 
         for asset in assets {
-            if asset->getType() == type {
+            if (
+                asset instanceof AssetInterface &&
+                type === asset->getType()
+            ) {
                 let filtered[] = asset;
             }
         }
@@ -244,15 +262,18 @@ class Manager extends AbstractInjectionAware
      * Returns true or false if collection exists.
      *
      * ```php
-     * if ($assets->exists("jsHeader")) {
+     * if ($manager->exists("jsHeader")) {
      *     // \Phalcon\Assets\Collection
-     *     $collection = $assets->get("jsHeader");
+     *     $collection = $manager->get("jsHeader");
      * }
      * ```
+     *
+     * @param string $name
+     * @deprecated
      */
-    public function exists(string! id) -> bool
+    public function exists(string! name) -> bool
     {
-        return isset this->collections[id];
+        return this->has(name);
     }
 
     /**
@@ -261,20 +282,25 @@ class Manager extends AbstractInjectionAware
      * ```php
      * $scripts = $assets->get("js");
      * ```
+     *
+     * @param string $name
+     *
+     * @return Collection
+     * @throws Exception
      */
-    public function get(string! id) -> <Collection>
+    public function get(string! name) -> <Collection>
     {
-        var collection;
-
-        if unlikely !fetch collection, this->collections[id] {
+        if unlikely true !== isset(this->collections[name]) {
             throw new Exception("The collection does not exist in the manager");
         }
 
-        return collection;
+        return this->collections[name];
     }
 
     /**
      * Returns existing collections in the manager
+     *
+     * @return Collection[]
      */
     public function getCollections() -> <Collection[]>
     {
@@ -283,38 +309,22 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Returns the CSS collection of assets
+     *
+     * @return Collection
      */
     public function getCss() -> <Collection>
     {
-        var collection;
-
-        /**
-         * Check if the collection does not exist and create an implicit
-         * collection
-         */
-        if !fetch collection, this->collections["css"] {
-            return new Collection();
-        }
-
-        return collection;
+        return this->checkAndCreateCollection("css");
     }
 
     /**
      * Returns the CSS collection of assets
+     *
+     * @return Collection
      */
     public function getJs() -> <Collection>
     {
-        var collection;
-
-        /**
-         * Check if the collection does not exist and create an implicit
-         * collection
-         */
-        if !fetch collection, this->collections["js"] {
-            return new Collection();
-        }
-
-        return collection;
+        return this->checkAndCreateCollection("js");
     }
 
     /**
@@ -326,24 +336,51 @@ class Manager extends AbstractInjectionAware
     }
 
     /**
+     * Returns true or false if collection exists.
+     *
+     * ```php
+     * if ($manager->has("jsHeader")) {
+     *     // \Phalcon\Assets\Collection
+     *     $collection = $manager->get("jsHeader");
+     * }
+     * ```
+     *
+     * @param string $name
+     */
+    public function has(string! name) -> bool
+    {
+        return isset this->collections[name];
+    }
+
+    /**
      * Traverses a collection calling the callback to generate its HTML
      *
-     * @param Collection callback
-     * @param string type
+     * @param Collection $collection
+     * @param string     $type
+     *
+     * @return string|null
+     * @throws Exception
      */
-    public function output(<Collection> collection, callback, type) -> string | null
+    public function output(<Collection> collection, string type) -> string | null
     {
         string output;
-        var asset, assets, attributes, autoVersion, collectionSourcePath,
+        bool filterNeeded;
+        var asset, assets, callback, callbackMethod, collectionSourcePath,
             collectionTargetPath, completeSourcePath, completeTargetPath,
             content, filter, filters, filteredContent, filteredJoinedContent,
-            filterNeeded, html, join, local, modificationTime, mustFilter,
-            options, parameters, path, prefixedPath, sourceBasePath = null,
-            sourcePath,  targetBasePath = null, targetPath, targetUri, typeCss,
-            useImplicitOutput, version;
+            html, join, mustFilter, options, prefixedPath, sourceBasePath,
+            sourcePath, targetBasePath, targetPath, typeCss;
 
-        let useImplicitOutput = this->implicitOutput,
-            output            = "";
+        let completeSourcePath    = "",
+            completeTargetPath    = "",
+            filteredContent       = "",
+            filteredJoinedContent = "",
+            join                  = false,
+            output                = "",
+            options               = this->options;
+
+        let callbackMethod = ("css" === type) ? "cssLink" : "jsLink",
+            callback       = [this, callbackMethod];
 
         /**
          * Get the assets as an array
@@ -362,52 +399,44 @@ class Manager extends AbstractInjectionAware
         /**
          * Prepare options if the collection must be filtered
          */
-        if count(filters) {
-            let options = this->options;
-
+        if (true !== empty(filters)) {
             /**
-             * Check for global options in the assets manager
+             * Check for global options in the asset manager. The source and
+             * target base path are global locations where all assets are read
+             * and written respectively
              */
-            if typeof options == "array" {
-                /**
-                 * The source base path is a global location where all assets
-                 * are located
-                 */
-                fetch sourceBasePath, options["sourceBasePath"];
+            if !fetch sourceBasePath, options["sourceBasePath"] {
+                let sourceBasePath = "";
+            }
 
-                /**
-                 * The target base path is a global location where all assets
-                 * are written
-                 */
-                fetch targetBasePath, options["targetBasePath"];
+            if !fetch targetBasePath, options["targetBasePath"] {
+                let targetBasePath = "";
             }
 
             /**
              * Check if the collection have its own source base path
              */
-            let collectionSourcePath = collection->getSourcePath();
+            let collectionSourcePath = collection->getSourcePath(),
+                completeSourcePath   = sourceBasePath;
 
             /**
              * Concatenate the global base source path with the collection one
              */
-            if collectionSourcePath {
-                let completeSourcePath = sourceBasePath . collectionSourcePath;
-            } else {
-                let completeSourcePath = sourceBasePath;
+            if (true !== empty(collectionSourcePath)) {
+                let completeSourcePath .= collectionSourcePath;
             }
 
             /**
              * Check if the collection have its own target base path
              */
-            let collectionTargetPath = collection->getTargetPath();
+            let collectionTargetPath = collection->getTargetPath(),
+                completeTargetPath   = targetBasePath;
 
             /**
              * Concatenate the global base source path with the collection one
              */
-            if collectionTargetPath {
-                let completeTargetPath = targetBasePath . collectionTargetPath;
-            } else {
-                let completeTargetPath = targetBasePath;
+            if (true !== empty(collectionTargetPath)) {
+                let completeTargetPath .= collectionTargetPath;
             }
 
             /**
@@ -423,69 +452,51 @@ class Manager extends AbstractInjectionAware
             /**
              * Check for valid target paths if the collection must be joined
              */
-            if join {
+            if !join {
                 /**
-                * We need a valid final target path
-                */
-                if unlikely !completeTargetPath {
+                 * We need a valid final target path
+                 */
+                if (true === empty(completeTargetPath)) {
                     throw new Exception(
                         "Path '" . completeTargetPath . "' is not a valid target path (1)"
                     );
                 }
 
-                if unlikely is_dir(completeTargetPath) {
+                if (true === is_dir(completeTargetPath)) {
                     throw new Exception(
-                        "Path '" . completeTargetPath . "' is not a valid target path (2), is dir."
+                        "Path '" . completeTargetPath . "' is not a valid target path (2), it is a directory."
                     );
                 }
             }
         }
 
-        /**
-         * walk in assets
-         */
+        /** @var Asset $asset */
         for asset in assets {
-            let filterNeeded = false,
-                type         = asset->getType();
-
-            /**
-             * Is the asset local?
-             */
-            let local = asset->getLocal();
+            let filterNeeded = false;
 
             /**
              * If the collection must not be joined we must print a HTML for
              * each one
              */
-            if count(filters) {
-                if local {
+            if (true !== empty(filters)) {
+                let sourcePath = asset->getPath();
+                if (true === asset->isLocal()) {
+                    let filterNeeded = true;
                     /**
                      * Get the complete path
                      */
-                    let sourcePath = asset->getRealSourcePath(
-                        completeSourcePath
-                    );
+                    let sourcePath = asset->getRealSourcePath(completeSourcePath);
 
                     /**
                      * We need a valid source path
                      */
-                    if unlikely !sourcePath {
+                    if (true === empty(sourcePath)) {
                         let sourcePath = asset->getPath();
 
                         throw new Exception(
                             "Asset '" . sourcePath . "' does not have a valid source path"
                         );
                     }
-                } else {
-                    /**
-                     * Get the complete source path
-                     */
-                    let sourcePath = asset->getPath();
-
-                    /**
-                     * assets paths are always filtered
-                     */
-                    let filterNeeded = true;
                 }
 
                 /**
@@ -497,24 +508,24 @@ class Manager extends AbstractInjectionAware
                 /**
                  * We need a valid final target path
                  */
-                if unlikely !targetPath {
+                if (true === empty(targetPath)) {
                     throw new Exception(
                         "Asset '" . sourcePath . "' does not have a valid target path"
                     );
                 }
 
-                if local {
+                if (true === asset->isLocal()) {
                     /**
                      * Make sure the target path is not the same source path
                      */
-                    if unlikely targetPath == sourcePath {
+                    if (targetPath === sourcePath) {
                         throw new Exception(
                             "Asset '" . targetPath . "' have the same source and target paths"
                         );
                     }
 
-                    if file_exists(targetPath) {
-                        if compare_mtime(targetPath, sourcePath) {
+                    if (true === file_exists(targetPath)) {
+                        if (filemtime(targetPath) !== filemtime(sourcePath)) {
                             let filterNeeded = true;
                         }
                     } else {
@@ -523,50 +534,28 @@ class Manager extends AbstractInjectionAware
                 }
             } else {
                 /**
-                 * If there are not filters, just print/buffer the HTML
+                 * If there are no filters, just print/buffer the HTML
                  */
-                let path         = asset->getRealTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, path);
-
-                if null === asset->getVersion() && asset->isAutoVersion() {
-					let version     = collection->getVersion(),
-					    autoVersion = collection->isAutoVersion();
-
-				    if autoVersion && local {
-				        let modificationTime = filemtime(asset->getRealSourcePath()),
-				            version          = version ? version . "." . modificationTime : modificationTime;
-				    }
-
-					if version {
-						let prefixedPath = prefixedPath . "?ver=" . version;
-					}
-				}
+                let prefixedPath = this->calculatePrefixedPath(
+                    collection,
+                    asset->getRealTargetUri(),
+                    asset->getRealSourcePath()
+                );
 
                 /**
-                 * Gets extra HTML attributes in the asset
+                 * Generate the HTML
                  */
-                let attributes = asset->getAttributes();
-
-                /**
-                 * Prepare the parameters for the callback
-                 */
-                if typeof attributes == "array" {
-                    let attributes[0] = prefixedPath;
-                    let parameters = [attributes];
-                } else {
-                    let parameters = [prefixedPath];
-                }
-                let parameters[] = local;
-
-                /**
-                 * Call the callback to generate the HTML
-                 */
-                let html = call_user_func_array(callback, parameters);
+                let html = this->doCallback(
+                    callback,
+                    asset->getAttributes(),
+                    prefixedPath,
+                    asset->isLocal()
+                );
 
                 /**
                  * Implicit output prints the content directly
                  */
-                if useImplicitOutput == true {
+                if (true === this->implicitOutput) {
                     echo html;
                 } else {
                     let output .= html;
@@ -575,7 +564,7 @@ class Manager extends AbstractInjectionAware
                 continue;
             }
 
-            if filterNeeded == true {
+            if (filterNeeded) {
                 /**
                  * Gets the asset's content
                  */
@@ -585,16 +574,15 @@ class Manager extends AbstractInjectionAware
                  * Check if the asset must be filtered
                  */
                 let mustFilter = asset->getFilter();
-
                 /**
                  * Only filter the asset if it's marked as 'filterable'
                  */
-                if mustFilter == true {
+                if (mustFilter) {
                     for filter in filters {
                         /**
                          * Filters must be valid objects
                          */
-                        if unlikely typeof filter != "object" {
+                        if (true !== is_object(filter)) {
                             throw new Exception("Filter is invalid");
                         }
 
@@ -609,25 +597,24 @@ class Manager extends AbstractInjectionAware
                     /**
                      * Update the joined filtered content
                      */
-                    if join == true {
-                        if type == typeCss {
-                            let filteredJoinedContent .= filteredContent;
-                        } else {
-                            let filteredJoinedContent .= filteredContent . ";";
+                    if (join) {
+                        let filteredJoinedContent .= filteredContent;
+                        if (asset->getType() !== typeCss) {
+                            let filteredJoinedContent .= ";";
                         }
                     }
                 } else {
                     /**
                      * Update the joined filtered content
                      */
-                    if join == true {
+                    if (join) {
                         let filteredJoinedContent .= content;
                     } else {
                         let filteredContent = content;
                     }
                 }
 
-                if !join {
+                if (!join) {
                     /**
                      * Write the file using file-put-contents. This respects the
                      * openbase-dir also writes to streams
@@ -636,57 +623,30 @@ class Manager extends AbstractInjectionAware
                 }
             }
 
-            if !join {
+            if (!join) {
                 /**
                  * Generate the HTML using the original path in the asset
                  */
-                let path         = asset->getRealTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, path);
-
-                if null === asset->getVersion() && asset->isAutoVersion() {
-					let version     = collection->getVersion(),
-					    autoVersion = collection->isAutoVersion();
-
-				    if autoVersion && local {
-				        let modificationTime = filemtime(asset->getRealSourcePath()),
-				            version          = version ? version . "." . modificationTime : modificationTime;
-				    }
-
-					if version {
-						let prefixedPath = prefixedPath . "?ver=" . version;
-					}
-				}
+                let prefixedPath = this->calculatePrefixedPath(
+                    collection,
+                    asset->getRealTargetUri(),
+                    asset->getRealSourcePath()
+                );
 
                 /**
-                 * Gets extra HTML attributes in the asset
+                 * Generate the HTML
                  */
-                let attributes = asset->getAttributes();
+                let html = this->doCallback(
+                    callback,
+                    collection->getAttributes(),
+                    prefixedPath,
+                    true
+                );
 
                 /**
-                 * Filtered assets are always local
+                 * Implicit output prints the content directly
                  */
-                let local = true;
-
-                /**
-                 * Prepare the parameters for the callback
-                 */
-                if typeof attributes == "array" {
-                    let attributes[0] = prefixedPath;
-                    let parameters = [attributes];
-                } else {
-                    let parameters = [prefixedPath];
-                }
-                let parameters[] = local;
-
-                /**
-                * Call the callback to generate the HTML
-                */
-                let html = call_user_func_array(callback, parameters);
-
-                /**
-                * Implicit output prints the content directly
-                */
-                if useImplicitOutput == true {
+                if (true === this->implicitOutput) {
                     echo html;
                 } else {
                     let output .= html;
@@ -694,65 +654,37 @@ class Manager extends AbstractInjectionAware
             }
         }
 
-        if count(filters) {
-            if join == true {
-                /**
-                 * Write the file using file_put_contents. This respects the
-                 * openbase-dir also writes to streams
-                 */
-                file_put_contents(completeTargetPath, filteredJoinedContent);
+        if (true !== empty(filters) && join)
+        {
+            /**
+             * Write the file using file_put_contents. This respects the
+             * openbase-dir also writes to streams
+             */
+            file_put_contents(completeTargetPath, filteredJoinedContent);
 
-                /**
-                 * Generate the HTML using the original path in the asset
-                 */
-                let targetUri    = collection->getTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, targetUri),
-                    version      = collection->getVersion(),
-                    autoVersion  = collection->isAutoVersion();
+            let prefixedPath = this->calculatePrefixedPath(
+                collection,
+                collection->getTargetUri(),
+                completeTargetPath
+            );
 
-                if autoVersion && local {
-                    let modificationTime = filemtime(completeTargetPath),
-                        version          = version ? version . "." . modificationTime : modificationTime;
-                }
+            /**
+             * Generate the HTML
+             */
+            let html = this->doCallback(
+                callback,
+                collection->getAttributes(),
+                prefixedPath,
+                collection->getTargetIsLocal()
+            );
 
-                if version {
-                    let prefixedPath = prefixedPath . "?ver=" . version;
-                }
-
-                /**
-                 * Gets extra HTML attributes in the collection
-                 */
-                let attributes = collection->getAttributes();
-
-                /**
-                 *  Gets local
-                 */
-                let local = collection->getTargetLocal();
-
-                /**
-                 * Prepare the parameters for the callback
-                 */
-                if typeof attributes == "array" {
-                    let attributes[0] = prefixedPath,
-                        parameters = [attributes];
-                } else {
-                    let parameters = [prefixedPath];
-                }
-                let parameters[] = local;
-
-                /**
-                 * Call the callback to generate the HTML
-                 */
-                let html = call_user_func_array(callback, parameters);
-
-                /**
-                 * Implicit output prints the content directly
-                 */
-                if useImplicitOutput == true {
-                    echo html;
-                } else {
-                    let output .= html;
-                }
+            /**
+             * Implicit output prints the content directly
+             */
+            if (true === this->implicitOutput) {
+                echo html;
+            } else {
+                let output .= html;
             }
         }
 
@@ -761,33 +693,33 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Prints the HTML for CSS assets
+     *
+     * @param string|null $name
+     *
+     * @return string|null
+     * @throws Exception
      */
-    public function outputCss(string collectionName = null) -> string
+    public function outputCss(string name = null) -> string
     {
-        array callback;
-        var collection, container, tag;
+        var collection;
 
-        if !collectionName {
-            let collection = this->getCss();
-        } else {
-            let collection = this->get(collectionName);
+        let collection = this->getCss();
+
+        if (true !== empty(name)) {
+            let collection = this->get(name);
         }
 
-        let callback  = ["Phalcon\\Tag", "stylesheetLink"],
-            container = this->container;
-
-        if typeof container == "object" && container->has("tag") {
-            let tag      = container->getShared("tag"),
-                callback = [tag, "stylesheetLink"];
-        }
-
-        return this->output(collection, callback, "css");
+        return this->output(collection, "css");
     }
 
     /**
      * Traverses a collection and generate its HTML
      *
-     * @param string type
+     * @param Collection $collection
+     * @param string     $type
+     *
+     * @return string
+     * @throws Exception
      */
     public function outputInline(<Collection> collection, type) -> string
     {
@@ -799,19 +731,21 @@ class Manager extends AbstractInjectionAware
             joinedContent = "",
             codes         = collection->getCodes(),
             filters       = collection->getFilters(),
-            join          = collection->getJoin() ;
+            join          = collection->getJoin();
 
-        if count(codes) {
+        if (true !== empty(codes)) {
+            /** @var Inline $code */
             for code in codes {
                 let attributes = code->getAttributes(),
-                    content = code->getContent();
+                    content    = code->getContent();
 
+                /** @var FilterInterface $filter */
                 for filter in filters {
                     /**
                      * Filters must be valid objects
                      */
-                    if unlikely typeof filter != "object" {
-                        throw new Exception("Filter is invalid");
+                    if (typeof filter !== "object") {
+                        throw new Exception("The filter is not valid");
                     }
 
                     /**
@@ -821,25 +755,31 @@ class Manager extends AbstractInjectionAware
                     let content = filter->filter(content);
                 }
 
-                if join {
+                if (true === join) {
                     let joinedContent .= content;
                 } else {
-                    let html .= Tag::tagHtml(type, attributes, false, true)
-                              . content
-                              . Tag::tagHtmlClose(type, true);
+                    let html .= this->tagFactory->element(
+                        type,
+                        content,
+                        attributes,
+                        true
+                    ) . PHP_EOL;
                 }
             }
 
-            if join {
-                let html .= Tag::tagHtml(type, attributes, false, true)
-                          . joinedContent
-                          . Tag::tagHtmlClose(type, true);
+            if (true === join) {
+                let html .= this->tagFactory->element(
+                    type,
+                    joinedContent,
+                    attributes,
+                    true
+                ) . PHP_EOL;
             }
 
             /**
              * Implicit output prints the content directly
              */
-            if this->implicitOutput == true {
+            if (true === this->implicitOutput) {
                 echo html;
             } else {
                 let output .= html;
@@ -851,15 +791,18 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Prints the HTML for inline CSS
+     *
+     * @param string|null $name
+     *
+     * @return string
      */
-    public function outputInlineCss(string collectionName = null) -> string
+    public function outputInlineCss(string name = null) -> string
     {
         var collection;
 
-        if !collectionName {
-            let collection = this->getCss();
-        } else {
-            let collection = this->get(collectionName);
+        let collection = this->getCss();
+        if (true !== empty(name)) {
+            let collection = this->get(name);
         }
 
         return this->outputInline(collection, "style");
@@ -867,15 +810,18 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Prints the HTML for inline JS
+     *
+     * @param string|null $name
+     *
+     * @return string
      */
-    public function outputInlineJs(string collectionName = null) -> string
+    public function outputInlineJs(string name = null) -> string
     {
         var collection;
 
-        if !collectionName {
-            let collection = this->getJs();
-        } else {
-            let collection = this->get(collectionName);
+        let collection = this->getJs();
+        if (true !== empty(name)) {
+            let collection = this->get(name);
         }
 
         return this->outputInline(collection, "script");
@@ -883,27 +829,22 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Prints the HTML for JS assets
+     *
+     * @param string|null $name
+     *
+     * @return string|null
+     * @throws Exception
      */
-    public function outputJs(string collectionName = null) -> string
+    public function outputJs(string name = null) -> string
     {
-        array callback;
-        var collection, container, tag;
+        var collection;
 
-        if !collectionName {
-            let collection = this->getJs();
-        } else {
-            let collection = this->get(collectionName);
+        let collection = this->getJs();
+        if (true !== empty(name)) {
+            let collection = this->get(name);
         }
 
-        let callback = ["Phalcon\\Tag", "javascriptInclude"];
-
-        let container = this->container;
-        if typeof container == "object" && container->has("tag") {
-            let tag      = container->getShared("tag"),
-                callback = [tag, "javascriptInclude"];
-        }
-
-        return this->output(collection, callback, "js");
+        return this->output(collection, "js");
     }
 
     /**
@@ -912,18 +853,23 @@ class Manager extends AbstractInjectionAware
      *```php
      * $assets->set("js", $collection);
      *```
+     *
+     * @param string     $name
+     * @param Collection $collection
      */
-    public function set(string! id, <Collection> collection) -> <Manager>
+    public function set(string! name, <Collection> collection) -> <Manager>
     {
-        let this->collections[id] = collection;
+        let this->collections[name] = collection;
 
         return this;
     }
 
     /**
      * Sets the manager options
+     *
+     * @param array $options
      */
-    public function setOptions(array! options) -> <Manager>
+    public function setOptions(array options) -> <Manager>
     {
         let this->options = options;
 
@@ -932,6 +878,8 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Sets if the HTML generated must be directly printed or returned
+     *
+     * @param bool $implicitOutput
      */
     public function useImplicitOutput(bool implicitOutput) -> <Manager>
     {
@@ -941,18 +889,184 @@ class Manager extends AbstractInjectionAware
     }
 
     /**
-     * Returns the prefixed path
+     * Calculates the prefixed path including the version
+     *
+     * @param Collection $collection
+     * @param string     $path
+     * @param string     $filePath
+     *
+     * @return string
      */
-    private function getPrefixedPath(<Collection> collection, string path) -> string
-    {
-        var prefix;
+    private function calculatePrefixedPath(
+        <Collection> collection,
+        string path,
+        string filePath
+    ) -> string {
+        var modificationTime, prefixedPath, version;
 
-        let prefix = collection->getPrefix();
+        let prefixedPath = collection->getPrefix() . path,
+            version      = collection->getVersion();
 
-        if !prefix {
-            return path;
+        if (
+            true === collection->isAutoVersion() &&
+            true === collection->isLocal()
+        ) {
+            let modificationTime = filemtime(filePath),
+                version          = version ? version . "." . modificationTime : modificationTime;
         }
 
-        return prefix . path;
+        if (version) {
+            let prefixedPath = prefixedPath . "?ver=" . version;
+        }
+
+        return prefixedPath;
+    }
+
+    /**
+     * @param string $type
+     */
+    private function checkAndCreateCollection(string type) -> <Collection>
+    {
+        if (true !== isset(this->collections[type])) {
+            let this->collections[type] = new Collection();
+        }
+
+        return this->collections[type];
+    }
+
+    /**
+     * Builds a LINK[rel="stylesheet"] tag
+     *
+     * @param mixed $parameters
+     * @param bool  $local
+     *
+     * @return string
+     * @throws Exception
+     */
+    private function cssLink(parameters = [], bool local = true) -> string
+    {
+        return this->processParameters(
+            parameters,
+            local,
+            "link",
+            "text/css",
+            "href"
+        );
+    }
+
+    /**
+     * @param mixed  $callback
+     * @param array  $attributes
+     * @param string $prefixedPath
+     * @param bool   $local
+     *
+     * @return string
+     */
+    private function doCallback(
+        var callback,
+        array attributes,
+        string prefixedPath,
+        bool local
+    ) -> string {
+        array parameters;
+
+        /**
+         * Prepare the parameters for the callback
+         */
+        if (true !== empty(attributes)) {
+            let attributes[0] = prefixedPath,
+                parameters    = [attributes];
+        } else {
+            let parameters = [prefixedPath];
+        }
+        let parameters[] = local;
+
+        /**
+         * Call the callback to generate the HTML
+         */
+        return call_user_func_array(callback, parameters);
+    }
+
+    /**
+     * @param mixed $parameters
+     * @param bool  $local
+     *
+     * @return string
+     * @throws Exception
+     */
+    private function jsLink(parameters = [], bool local = true) -> string
+    {
+        return this->processParameters(
+            parameters,
+            local,
+            "script",
+            "application/javascript",
+            "src"
+        );
+    }
+    /**
+     * Processes common parameters for js/css link generation
+     */
+    private function processParameters(
+        var parameters,
+        bool local,
+        string helperClass,
+        string type,
+        string name
+    ) -> string {
+        var helper, params, tag;
+
+        let params = parameters;
+
+        if (typeof params !== "array") {
+            let params = [parameters, local];
+        }
+
+        if (true === isset(params[1])) {
+            let local = (bool) params[1];
+            unset(params[1]);
+        } else {
+            if (true === isset(params["local"])) {
+                let local = (bool) params["local"];
+
+                unset(params["local"]);
+            }
+        }
+
+        if (true !== isset(params["type"])) {
+            let params["type"] = type;
+        }
+
+        /**
+         * Only for css
+         */
+        if ("link" === helperClass) {
+            let params["rel"] = "stylesheet";
+        }
+
+        if (true !== isset(params[name])) {
+            let params[name] = "";
+            if (true === isset(params[0])) {
+                let params[name] = params[0];
+                unset(params[0]);
+            }
+        }
+
+        let tag = params[name];
+        unset(params[name]);
+
+        /**
+         * URLs are generated through the "url" service
+         */
+        if local {
+            let tag = "/" . ltrim(tag, "/");
+        }
+
+        let helper = this->tagFactory->newInstance(helperClass);
+
+        helper->__invoke(""); // no indentation
+        helper->add(tag, params);
+
+        return (string) helper;
     }
 }

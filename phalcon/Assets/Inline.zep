@@ -59,7 +59,7 @@ class $Inline implements AssetInterface
 
         let key = this->getType() . ":" . this->getContent();
 
-        return md5(key);
+        return sha1(key);
     }
 
     /**

@@ -18,22 +18,27 @@ use UnitTester;
 
 use function dataDir;
 
+/**
+ * Class GetSetSourcePathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetSetSourcePathCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getSourcePath() / setSourcePath()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetSetSourcePath(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getSourcePath() / setSourcePath()');
 
         $collection = new Collection();
-
         $sourcePath = dataDir('assets');
-
         $collection->setSourcePath($sourcePath);
 
         $I->assertEquals($sourcePath, $collection->getSourcePath());

@@ -16,44 +16,46 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+/**
+ * Class GetRealSourcePathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Css
+ */
 class GetRealSourcePathCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css local
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssGetRealSourcePathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - css local');
 
-        $asset = new Css('css/docs.css');
-
-        $I->assertEquals('', $asset->getRealSourcePath());
+        $asset  = new Css('css/docs.css');
+        $actual = $asset->getRealSourcePath();
+        $I->assertEmpty($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - remote
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssGetRealSourcePathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - css remote');
 
-        $path = 'https://phalcon.ld/css/docs.css';
-
+        $path  = 'https://phalcon.ld/css/docs.css';
         $asset = new Css($path, false);
 
-        $I->assertEquals(
-            $path,
-            $asset->getRealSourcePath()
-        );
+        $actual = $asset->getRealSourcePath();
+        $I->assertEquals($path, $actual);
     }
 }

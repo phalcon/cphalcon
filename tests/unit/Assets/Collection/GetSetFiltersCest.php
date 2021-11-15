@@ -17,27 +17,29 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Filters\None;
 use UnitTester;
 
+/**
+ * Class GetSetFiltersCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetSetFiltersCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getFilters() / setFilters()
+     * Tests Phalcon\Assets\Collection :: getFilters()/setFilters()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetSetFilters(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getFilters() / setFilters()');
+        $I->wantToTest('Assets\Collection - getFilters()/setFilters()');
 
         $collection = new Collection();
-
-        $filters = [
-            new None(),
-            new None(),
-        ];
+        $filters    = [new None(), new None(),];
 
         $collection->setFilters($filters);
-
         $I->assertEquals($filters, $collection->getFilters());
     }
 }

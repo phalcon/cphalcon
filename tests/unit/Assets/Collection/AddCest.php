@@ -17,33 +17,33 @@ use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class AddCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class AddCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsCollectionAdd(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - add()');
 
         $collection = new Collection();
+        $collection->add(new Asset('js', 'js/jquery.js'));
+        $collection->add(new Asset('js', 'js/jquery-ui.js'));
 
-        $collection->add(
-            new Asset('js', 'js/jquery.js')
-        );
-
-        $collection->add(
-            new Asset('js', 'js/jquery-ui.js')
-        );
-
+        $expected = 'js';
         foreach ($collection as $asset) {
-            $I->assertEquals(
-                'js',
-                $asset->getType()
-            );
+            $actual = $asset->getType();
+            $I->assertEquals($expected, $actual);
         }
 
         $I->assertCount(2, $collection);
@@ -54,8 +54,10 @@ class AddCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2017-06-02
+     * @since  2020-09-09
      */
     public function assetsCollectionAddDuplicate(UnitTester $I)
     {
@@ -63,19 +65,11 @@ class AddCest
 
         $collection = new Collection();
 
-        for ($i = 0; $i < 10; $i++) {
-            $collection->add(
-                new Asset('js', 'js/jquery.js')
-            );
-
-            $collection->add(
-                new Asset('js', 'js/jquery-ui.js')
-            );
+        for ($counter = 0; $counter < 10; $counter++) {
+            $collection->add(new Asset('js', 'js/jquery.js'));
+            $collection->add(new Asset('js', 'js/jquery-ui.js'));
         }
 
-        $I->assertCount(
-            2,
-            $collection->getAssets()
-        );
+        $I->assertCount(2, $collection->getAssets());
     }
 }

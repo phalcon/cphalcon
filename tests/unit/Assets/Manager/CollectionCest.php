@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Countable;
-use Iterator;
+use IteratorAggregate;
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class CollectionCest
@@ -31,25 +33,25 @@ class CollectionCest
     {
         $I->wantToTest('Assets\Manager - collection()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $collection = $assets->collection('hangout1');
+        $collection = $manager->collection('hangout1');
         $I->assertInstanceOf(Collection::class, $collection);
         $I->assertInstanceOf(Countable::class, $collection);
-        $I->assertInstanceOf(Iterator::class, $collection);
+        $I->assertInstanceOf(IteratorAggregate::class, $collection);
 
-        $collection = $assets->collection('hangout2');
+        $collection = $manager->collection('hangout2');
         $I->assertInstanceOf(Collection::class, $collection);
         $I->assertInstanceOf(Countable::class, $collection);
-        $I->assertInstanceOf(Iterator::class, $collection);
+        $I->assertInstanceOf(IteratorAggregate::class, $collection);
 
-        $collections = $assets->getCollections();
+        $collections = $manager->getCollections();
 
         $I->assertCount(2, $collections);
         foreach ($collections as $collection) {
             $I->assertInstanceOf(Collection::class, $collection);
             $I->assertInstanceOf(Countable::class, $collection);
-            $I->assertInstanceOf(Iterator::class, $collection);
+            $I->assertInstanceOf(IteratorAggregate::class, $collection);
         }
     }
 }
