@@ -125,7 +125,7 @@ class JavascriptIncludeCest extends TagSetup
         );
 
         $I->assertEquals(
-            '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL,
+            '<script type="application/javascript" src="/js/phalcon.js"></script>' . PHP_EOL,
             Tag::javascriptInclude($url)
         );
     }
