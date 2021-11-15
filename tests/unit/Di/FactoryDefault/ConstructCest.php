@@ -67,7 +67,7 @@ class ConstructCest
      */
     public function diFactoryDefaultConstructServices(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Di\FactoryDefault - __construct() - Check services');
+        $I->wantToTest('Di\FactoryDefault - __construct() - ' . $example['service']);
 
         $container = new FactoryDefault();
 
