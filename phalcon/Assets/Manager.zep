@@ -696,7 +696,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param string|null $name
      *
-     * @return string|null
+     * @return string
      * @throws Exception
      */
     public function outputCss(string name = null) -> string
@@ -832,7 +832,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param string|null $name
      *
-     * @return string|null
+     * @return string
      * @throws Exception
      */
     public function outputJs(string name = null) -> string

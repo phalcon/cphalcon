@@ -88,8 +88,10 @@ class UnderscoreInvokeCest
                         ["ie" => "active"],
                     ],
                 ],
-                'result'    => "    <script type=\"application/javascript\" src=\"/js/custom.js\"></script>" . PHP_EOL
-                    . "    <script type=\"application/javascript\" src=\"/js/print.js\" ie=\"active\"></script>" . PHP_EOL,
+                'result'    => "    <script type=\"application/javascript\" "
+                    . "src=\"/js/custom.js\"></script>" . PHP_EOL
+                    . "    <script type=\"application/javascript\" "
+                    . "src=\"/js/print.js\" ie=\"active\"></script>" . PHP_EOL,
             ],
             [
                 'message'   => 'with indent and delimiter',
@@ -105,8 +107,10 @@ class UnderscoreInvokeCest
                         ["ie" => "active"],
                     ],
                 ],
-                'result'    => "--<script type=\"application/javascript\" src=\"/js/custom.js\"></script>+"
-                    . "--<script type=\"application/javascript\" src=\"/js/print.js\" ie=\"active\"></script>+",
+                'result'    => "--<script type=\"application/javascript\" "
+                    . "src=\"/js/custom.js\"></script>+"
+                    . "--<script type=\"application/javascript\" "
+                    . "src=\"/js/print.js\" ie=\"active\"></script>+",
             ],
         ];
     }

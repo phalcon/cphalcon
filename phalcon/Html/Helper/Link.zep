@@ -16,16 +16,16 @@ class Link extends Style
     /**
      * Add an element to the list
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      */
-    public function add(string href, array attributes = [])
+    public function add(string url, array attributes = [])
     {
         let this->store[] = [
             "renderTag",
             [
                 this->getTag(),
-                this->getAttributes(href, attributes),
+                this->getAttributes(url, attributes),
                 "/"
             ],
             this->indent()
@@ -45,17 +45,17 @@ class Link extends Style
     /**
      * Returns the necessary attributes
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      *
      * @return array
      */
-    protected function getAttributes(string href, array attributes) -> array
+    protected function getAttributes(string url, array attributes) -> array
     {
         array required;
 
         let required = [
-            "href" : href
+            "href" : url
         ];
 
         unset(attributes["href"]);

@@ -21,20 +21,20 @@ class Style extends AbstractSeries
     /**
      * Add an element to the list
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      *
      * @return $this
      * @throws Exception
      */
-    public function add(string href, array attributes = [])
+    public function add(string url, array attributes = [])
     {
         let this->store[] = [
             "renderFullElement",
             [
                 this->getTag(),
                 "",
-                this->getAttributes(href, attributes)
+                this->getAttributes(url, attributes)
             ],
             this->indent()
         ];
@@ -53,18 +53,18 @@ class Style extends AbstractSeries
     /**
      * Returns the necessary attributes
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      *
      * @return array
      */
-    protected function getAttributes(string href, array attributes) -> array
+    protected function getAttributes(string url, array attributes) -> array
     {
         array required;
 
         let required = [
             "rel"   : "stylesheet",
-            "href"  : href,
+            "href"  : url,
             "type"  : "text/css",
             "media" : "screen"
         ];

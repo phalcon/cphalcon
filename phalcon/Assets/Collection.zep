@@ -115,12 +115,12 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a CSS asset to the collection
      *
-     * @param string                $path
-     * @param bool|null             $isLocal
-     * @param bool                  $filter
-     * @param array<string, string> $attributes
-     * @param string|null           $version
-     * @param bool                  $autoVersion
+     * @param string      $path
+     * @param bool|null   $isLocal
+     * @param bool        $filter
+     * @param array       $attributes
+     * @param string|null $version
+     * @param bool        $autoVersion
      */
     public function addCss(
         string path,
@@ -204,8 +204,6 @@ class Collection implements Countable, IteratorAggregate
      * @param array       $attributes
      * @param string|null $version
      * @param bool        $autoVersion
-     *
-     * @return $this
      */
     public function addJs(
         string path,
@@ -346,8 +344,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets extra HTML attributes
      *
      * @param array $attributes
-     *
-     * @return $this
      */
     public function setAttributes(array attributes) -> <Collection>
     {
@@ -358,8 +354,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * @param bool $flag
-     *
-     * @return Collection
      */
     public function setAutoVersion(bool flag) -> <Collection>
     {
@@ -372,8 +366,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets an array of filters in the collection
      *
      * @param array $filters
-     *
-     * @return $this
      */
     public function setFilters(array filters) -> <Collection>
     {
@@ -386,8 +378,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets if the collection uses local assets by default
      *
      * @param bool $flag
-     *
-     * @return $this
      */
     public function setIsLocal(bool flag) -> <Collection>
     {
@@ -400,8 +390,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets a common prefix for all the assets
      *
      * @param string $prefix
-     *
-     * @return $this
      */
     public function setPrefix(string prefix) -> <Collection>
     {
@@ -414,8 +402,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets if the target local or not
      *
      * @param bool $flag
-     *
-     * @return $this
      */
     public function setTargetIsLocal(bool flag) -> <Collection>
     {
@@ -428,8 +414,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets the target path of the file for the filtered/join output
      *
      * @param string $targetPath
-     *
-     * @return $this
      */
     public function setTargetPath(string targetPath) -> <Collection>
     {
@@ -442,8 +426,6 @@ class Collection implements Countable, IteratorAggregate
      * Sets a target uri for the generated HTML
      *
      * @param string $targetUri
-     *
-     * @return Collection
      */
     public function setTargetUri(string targetUri) -> <Collection>
     {

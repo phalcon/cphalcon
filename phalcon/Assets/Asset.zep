@@ -280,7 +280,7 @@ class Asset implements AssetInterface
     /**
      * Sets extra HTML attributes
      *
-     * @param array<string, string> $attributes
+     * @param array $attributes
      *
      * @return AssetInterface
      */
