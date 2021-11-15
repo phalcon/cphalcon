@@ -40,21 +40,14 @@ abstract class AbstractList extends AbstractHelper
      * @return AbstractList
      */
     public function __invoke(
-        string indent = null,
+        string indent = "    ",
         string delimiter = null,
         array attributes = []
     ) -> <AbstractList> {
-        let this->attributes = attributes;
-
-        if unlikely !empty delimiter {
-            let this->delimiter = delimiter;
-        }
-
-        if unlikely !empty indent {
-            let this->indent = indent;
-        }
-
-        let this->store = [];
+        let this->attributes = attributes,
+            this->delimiter  = empty(delimiter) ? PHP_EOL : delimiter,
+	    this->indent     = indent,
+            this->store      = [];
 
         return this;
     }

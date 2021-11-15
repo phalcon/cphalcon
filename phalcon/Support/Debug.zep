@@ -128,15 +128,15 @@ class Debug
 
         let uri = this->uri;
 
-        let sources  = "<script type=\"text/javascript\" src=\""
+        let sources  = "<script type=\"application/javascript\" src=\""
                      . uri . "assets/jquery/dist/jquery.min.js\"></script>"
-                     . "<script type=\"text/javascript\" src=\""
+                     . "<script type=\"application/javascript\" src=\""
                      . uri . "assets/jquery-ui/jquery-ui.min.js\"></script>"
-                     . "<script type=\"text/javascript\" src=\""
+                     . "<script type=\"application/javascript\" src=\""
                      . uri . "assets/jquery.scrollTo/jquery.scrollTo.min.js\"></script>"
-                     . "<script type=\"text/javascript\" src=\""
+                     . "<script type=\"application/javascript\" src=\""
                      . uri . "prettify/prettify.js\"></script>"
-                     . "<script type=\"text/javascript\" src=\""
+                     . "<script type=\"application/javascript\" src=\""
                      . uri . "pretty.js\"></script>";
 
         return sources;

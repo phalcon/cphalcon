@@ -15,7 +15,6 @@ namespace Phalcon\Html\Helper;
  */
 class Ol extends AbstractList
 {
-
     /**
      * Add an element to the list
      *
