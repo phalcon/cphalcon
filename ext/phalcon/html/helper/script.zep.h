@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Script, getTag);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_script_getattributes, 0, 2, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, href, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 

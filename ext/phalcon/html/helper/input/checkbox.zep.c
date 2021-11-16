@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __toString)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 120);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 125);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 121);
+	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 126);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_checkbox_ce, getThis(), "__tostring", &_0, 0);
 	zephir_check_call_status();

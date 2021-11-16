@@ -30,12 +30,10 @@
  * file that was distributed with this source code.
  */
 /**
- * Class AbstractHelper
- *
- * @property string  $delimiter
- * @property Escaper $escaper
- * @property string  $indent
- * @property int     $indentLevel
+ * @property string           $delimiter
+ * @property EscaperInterface $escaper
+ * @property string           $indent
+ * @property int              $indentLevel
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper)
 {
@@ -283,21 +281,21 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&elements, 0, "phalcon/Html/Helper/AbstractHelper.zep", 142);
+	zephir_is_iterable(&elements, 0, "phalcon/Html/Helper/AbstractHelper.zep", 140);
 	if (Z_TYPE_P(&elements) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&elements), _0)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			zephir_array_fetch_long(&_2$$3, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+			zephir_array_fetch_long(&_2$$3, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_INIT_NVAR(&_4$$3);
 			zephir_create_array(&_4$$3, 2, 0);
 			zephir_array_fast_append(&_4$$3, this_ptr);
 			ZEPHIR_OBS_NVAR(&_5$$3);
-			zephir_array_fetch_long(&_5$$3, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+			zephir_array_fetch_long(&_5$$3, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 			zephir_array_fast_append(&_4$$3, &_5$$3);
-			zephir_array_fetch_long(&_6$$3, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+			zephir_array_fetch_long(&_6$$3, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(&_3$$3, &_4$$3, &_6$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_7$$3);
@@ -315,15 +313,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 			}
 			ZEPHIR_CALL_METHOD(&item, &elements, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_fetch_long(&_8$$4, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+				zephir_array_fetch_long(&_8$$4, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_INIT_NVAR(&_10$$4);
 				zephir_create_array(&_10$$4, 2, 0);
 				zephir_array_fast_append(&_10$$4, this_ptr);
 				ZEPHIR_OBS_NVAR(&_11$$4);
-				zephir_array_fetch_long(&_11$$4, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+				zephir_array_fetch_long(&_11$$4, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 				zephir_array_fast_append(&_10$$4, &_11$$4);
-				zephir_array_fetch_long(&_12$$4, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 138);
+				zephir_array_fetch_long(&_12$$4, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 136);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(&_9$$4, &_10$$4, &_12$$4);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_13$$4);
@@ -381,7 +379,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes)
 
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 163);
+	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 161);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _2, _3, _0)
 		{
@@ -623,7 +621,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 
 	ZEPHIR_INIT_VAR(&escapedAttrs);
 	ZVAL_STRING(&escapedAttrs, "");
-	if (zephir_fast_count_int(&attributes) > 0) {
+	if (1 != ZEPHIR_IS_EMPTY(&attributes)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		array_init(&_0$$3);
 		ZEPHIR_CALL_METHOD(&attrs, this_ptr, "orderattributes", NULL, 0, &_0$$3, &attributes);

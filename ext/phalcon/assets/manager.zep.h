@@ -20,6 +20,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCollections);
 PHP_METHOD(Phalcon_Assets_Manager, getCss);
 PHP_METHOD(Phalcon_Assets_Manager, getJs);
 PHP_METHOD(Phalcon_Assets_Manager, getOptions);
+PHP_METHOD(Phalcon_Assets_Manager, has);
 PHP_METHOD(Phalcon_Assets_Manager, output);
 PHP_METHOD(Phalcon_Assets_Manager, outputCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputInline);
@@ -29,10 +30,16 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 PHP_METHOD(Phalcon_Assets_Manager, set);
 PHP_METHOD(Phalcon_Assets_Manager, setOptions);
 PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
-PHP_METHOD(Phalcon_Assets_Manager, getPrefixedPath);
+PHP_METHOD(Phalcon_Assets_Manager, calculatePrefixedPath);
+PHP_METHOD(Phalcon_Assets_Manager, checkAndCreateCollection);
+PHP_METHOD(Phalcon_Assets_Manager, cssLink);
+PHP_METHOD(Phalcon_Assets_Manager, doCallback);
+PHP_METHOD(Phalcon_Assets_Manager, jsLink);
+PHP_METHOD(Phalcon_Assets_Manager, processParameters);
 zend_object *zephir_init_properties_Phalcon_Assets_Manager(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, tagFactory, Phalcon\\Html\\TagFactory, 0)
 #if PHP_VERSION_ID >= 80000
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 #else
@@ -51,7 +58,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_addcss, 0, 1, Phalcon\\Assets\\Manager, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
 #if PHP_VERSION_ID >= 80000
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
@@ -73,19 +80,27 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_addinlinecss, 0, 1, Phalcon\\Assets\\Manager, 0)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
-	ZEND_ARG_INFO(0, filter)
-	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+#else
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_addinlinejs, 0, 1, Phalcon\\Assets\\Manager, 0)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
-	ZEND_ARG_INFO(0, filter)
-	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+#else
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_addjs, 0, 1, Phalcon\\Assets\\Manager, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
 #if PHP_VERSION_ID >= 80000
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
@@ -106,11 +121,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_collectio
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_exists, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_get, 0, 1, Phalcon\\Assets\\Collection, 0)
-	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getcollections, 0, 0, IS_ARRAY, 0)
@@ -125,14 +140,17 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getoptions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_output, 0, 3, IS_STRING, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_has, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_output, 0, 2, IS_STRING, 1)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Assets\\Collection, 0)
-	ZEND_ARG_INFO(0, callback)
-	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputcss, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, collectionName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputinline, 0, 2, IS_STRING, 0)
@@ -141,19 +159,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputinl
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputinlinecss, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, collectionName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputinlinejs, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, collectionName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_outputjs, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, collectionName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_set, 0, 2, Phalcon\\Assets\\Manager, 0)
-	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Assets\\Collection, 0)
 ZEND_END_ARG_INFO()
 
@@ -165,9 +183,39 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_useimplici
 	ZEND_ARG_TYPE_INFO(0, implicitOutput, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getprefixedpath, 0, 2, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_calculateprefixedpath, 0, 3, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Assets\\Collection, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, filePath, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_checkandcreatecollection, 0, 1, Phalcon\\Assets\\Collection, 0)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_csslink, 0, 0, IS_STRING, 0)
+	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_docallback, 0, 4, IS_STRING, 0)
+	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+	ZEND_ARG_TYPE_INFO(0, prefixedPath, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_jslink, 0, 0, IS_STRING, 0)
+	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_processparameters, 0, 5, IS_STRING, 0)
+	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, helperClass, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_zephir_init_properties_phalcon_assets_manager, 0, 0, 0)
@@ -191,6 +239,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, getCss, arginfo_phalcon_assets_manager_getcss, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getJs, arginfo_phalcon_assets_manager_getjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getOptions, arginfo_phalcon_assets_manager_getoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, has, arginfo_phalcon_assets_manager_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, output, arginfo_phalcon_assets_manager_output, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputCss, arginfo_phalcon_assets_manager_outputcss, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputInline, arginfo_phalcon_assets_manager_outputinline, ZEND_ACC_PUBLIC)
@@ -200,6 +249,11 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, set, arginfo_phalcon_assets_manager_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, setOptions, arginfo_phalcon_assets_manager_setoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, useImplicitOutput, arginfo_phalcon_assets_manager_useimplicitoutput, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Assets_Manager, getPrefixedPath, arginfo_phalcon_assets_manager_getprefixedpath, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, calculatePrefixedPath, arginfo_phalcon_assets_manager_calculateprefixedpath, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, checkAndCreateCollection, arginfo_phalcon_assets_manager_checkandcreatecollection, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, cssLink, arginfo_phalcon_assets_manager_csslink, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, doCallback, arginfo_phalcon_assets_manager_docallback, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, jsLink, arginfo_phalcon_assets_manager_jslink, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Manager, processParameters, arginfo_phalcon_assets_manager_processparameters, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

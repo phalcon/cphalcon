@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_file_get_contents(&_2, &filePath);
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "decode", NULL, 194, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "decode", NULL, 202, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();

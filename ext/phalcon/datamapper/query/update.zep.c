@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Update.zep", 101);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 210);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 218);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "WHERE");

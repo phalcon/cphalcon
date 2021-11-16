@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Support_Debug, getJsSources)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("uri"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&uri, &_0);
 	ZEPHIR_INIT_VAR(&sources);
-	ZEPHIR_CONCAT_SVSSVSSVSSVSSVS(&sources, "<script type=\"text/javascript\" src=\"", &uri, "assets/jquery/dist/jquery.min.js\"></script>", "<script type=\"text/javascript\" src=\"", &uri, "assets/jquery-ui/jquery-ui.min.js\"></script>", "<script type=\"text/javascript\" src=\"", &uri, "assets/jquery.scrollTo/jquery.scrollTo.min.js\"></script>", "<script type=\"text/javascript\" src=\"", &uri, "prettify/prettify.js\"></script>", "<script type=\"text/javascript\" src=\"", &uri, "pretty.js\"></script>");
+	ZEPHIR_CONCAT_SVSSVSSVSSVSSVS(&sources, "<script type=\"application/javascript\" src=\"", &uri, "assets/jquery/dist/jquery.min.js\"></script>", "<script type=\"application/javascript\" src=\"", &uri, "assets/jquery-ui/jquery-ui.min.js\"></script>", "<script type=\"application/javascript\" src=\"", &uri, "assets/jquery.scrollTo/jquery.scrollTo.min.js\"></script>", "<script type=\"application/javascript\" src=\"", &uri, "prettify/prettify.js\"></script>", "<script type=\"application/javascript\" src=\"", &uri, "pretty.js\"></script>");
 	RETURN_CCTOR(&sources);
 }
 
@@ -1566,7 +1566,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 171, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 176, &className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
@@ -1599,7 +1599,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		if ((zephir_function_exists(&functionName) == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 165, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 170, &functionName);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
