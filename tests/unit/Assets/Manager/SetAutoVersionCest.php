@@ -46,6 +46,10 @@ class SetAutoVersionCest
     {
         $I->wantToTest('Assets\Manager - addJs() - automatic versioning');
 
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
         $manager->addJs(

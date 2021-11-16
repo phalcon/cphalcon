@@ -203,6 +203,10 @@ class OutputJsCest
     {
         $I->wantToTest('Asset/Manager - outputJs() - join and filter');
 
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $manager = new Manager(new TagFactory(new Escaper()));
         $jsFile  = dataDir('assets/assets/jquery.js');
 
@@ -249,8 +253,10 @@ class OutputJsCest
 
         $expectedJS = sprintf(
             "%s" . PHP_EOL . "%s" . PHP_EOL,
-            '<script type="application/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
-            '<script type="application/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
+            '<script type="application/javascript" '
+                . 'src="http:://cdn.example.com/js/script1.js"></script>',
+            '<script type="application/javascript" '
+                . 'src="http:://cdn.example.com/js/script2.js"></script>'
         );
 
         $I->assertEquals($expectedJS, $manager->outputJs('header'));
@@ -296,7 +302,8 @@ class OutputJsCest
         ;
 
         $I->assertEquals(
-            '<script type="application/javascript" src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
+            '<script type="application/javascript" '
+                . 'src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
             $manager->outputJs('js')
         );
 

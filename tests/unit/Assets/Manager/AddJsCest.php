@@ -70,6 +70,10 @@ class AddJsCest
     {
         $I->wantToTest('Assets\Manager - addJs() - versioning');
 
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $container = $this->getDI();
 
         $manager = new Manager(new TagFactory(new Escaper()));
@@ -102,9 +106,12 @@ class AddJsCest
         $pathData = dataDir('assets/');
         $expected = sprintf(
             "%s" . PHP_EOL . "%s" . PHP_EOL . "%s" . PHP_EOL,
-            "<script type=\"application/javascript\" src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
-            "<script type=\"application/javascript\" src=\"{$pathData}assets/assets-version-2.js?ver=2.0.0\"></script>",
-            "<script type=\"application/javascript\" src=\"{$pathData}assets/assets-version-3.js\"></script>"
+            "<script type=\"application/javascript\" "
+                . "src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
+            "<script type=\"application/javascript\" "
+                . "src=\"{$pathData}assets/assets-version-2.js?ver=2.0.0\"></script>",
+            "<script type=\"application/javascript\" "
+                . "src=\"{$pathData}assets/assets-version-3.js\"></script>"
         );
 
         $I->assertEquals($expected, $manager->outputJs());

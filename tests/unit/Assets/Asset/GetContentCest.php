@@ -20,6 +20,9 @@ use Phalcon\Assets\Exception;
 use UnitTester;
 
 use function dataDir;
+use function file_get_contents;
+
+use const PHP_EOL;
 
 /**
  * Class GetContentCest
@@ -45,11 +48,12 @@ class GetContentCest
 
         $asset = new Asset($example['type'], $example['path']);
 
-        $I->openFile(dataDir($example['path']));
-
-        $actual = $asset->getContent(dataDir());
-        $I->seeFileContentsEqual($actual);
+        $expected = file_get_contents(dataDir($example['path']));
+        $expected = str_replace("\r\n", PHP_EOL, $expected);
+        $actual   = $asset->getContent(dataDir());
+        $I->assertEquals($expected, $actual);
     }
+
 
     /**
      * @return string[][]

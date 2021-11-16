@@ -17,10 +17,6 @@ use Phalcon\Support\Debug\Dump;
 use stdClass;
 use UnitTester;
 
-use function str_replace;
-
-use const PHP_EOL;
-
 /**
  * Class AllCest
  *
@@ -38,11 +34,11 @@ class AllCest
      */
     public function supportDebugDumpAll(UnitTester $I)
     {
+        $I->wantToTest('Debug\Dump - all()');
+
         if (PHP_OS_FAMILY === 'Windows') {
             $I->markTestSkipped('Need to fix Windows new lines...');
         }
-
-        $I->wantToTest('Debug\Dump - all()');
 
         $test1 = 'string';
         $test2 = ['key' => 'value'];
@@ -56,7 +52,7 @@ class AllCest
             )
         );
 
-        $actual   = $dump->all($test1, $test2, $test3);
+        $actual = $dump->all($test1, $test2, $test3);
         $I->assertEquals($expected, $actual);
     }
 }

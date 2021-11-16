@@ -37,11 +37,11 @@ class VariablesCest
      */
     public function supportDebugDumpVariables(UnitTester $I)
     {
+        $I->wantToTest('Debug\Dump - variables()');
+
         if (PHP_OS_FAMILY === 'Windows') {
             $I->markTestSkipped('Need to fix Windows new lines...');
         }
-
-        $I->wantToTest('Debug\Dump - variables()');
 
         $test1 = 'string';
         $test2 = ['key' => 'value'];

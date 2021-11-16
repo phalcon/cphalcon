@@ -22,6 +22,7 @@ use Phalcon\Tests\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+use function cacheDir;
 use function outputDir;
 
 class OutputCssCest
@@ -103,10 +104,10 @@ class OutputCssCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-09-15
      */
-    public function assetsManagerOutputCssFilterChainCustomFilter(UnitTester $I)
+    public function assetsManagerOutputCssFilterChainCustomFilterWithCssmin(UnitTester $I)
     {
         $I->wantToTest(
-            'Assets\Manager - outputCss() - filter chain custom filter'
+            'Assets\Manager - outputCss() - filter chain custom filter with cssmin'
         );
 
         $fileName = $I->getNewFileName('assets_', 'css');
@@ -128,10 +129,11 @@ class OutputCssCest
 
         $manager->outputCss('css');
 
-        $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
         $I->openFile($fileName);
 
-        $I->seeFileContentsEqual($expected);
+        $I->seeFileContentsEqual(
+            'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}'
+        );
 
         $I->safeDeleteFile($fileName);
     }

@@ -16,6 +16,10 @@ namespace Phalcon\Tests\Unit\Support\Helper\Str;
 use Phalcon\Support\Helper\Str\DirSeparator;
 use UnitTester;
 
+use const DIRECTORY_SEPARATOR;
+use const PHP_OS;
+use const PHP_OS_FAMILY;
+
 /**
  * Class DirSeparatorCest
  *
@@ -33,6 +37,10 @@ class DirSeparatorCest
      */
     public function supportHelperStrFolderSeparator(UnitTester $I)
     {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $I->wantToTest('Support\Helper\Str - dirSeparator()');
 
         $object = new DirSeparator();
@@ -56,11 +64,15 @@ class DirSeparatorCest
      */
     public function supportHelperStrFolderSeparatorEmptyString(UnitTester $I)
     {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $I->wantToTest('Support\Helper\Str - dirSeparator() - empty string');
         $fileName = '';
         $object   = new DirSeparator();
 
-        $expected = '/';
+        $expected = "/";
         $actual   = $object($fileName);
         $I->assertEquals($expected, $actual);
     }

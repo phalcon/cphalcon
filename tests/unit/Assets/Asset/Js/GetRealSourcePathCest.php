@@ -37,6 +37,10 @@ class GetRealSourcePathCest
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - local');
 
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $file  = dataDir('assets/assets/jquery.js');
         $asset = new Js($file);
 

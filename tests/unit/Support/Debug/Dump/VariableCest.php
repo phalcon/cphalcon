@@ -16,10 +16,6 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
-use function str_replace;
-
-use const PHP_EOL;
-
 /**
  * Class VariableCest
  *
@@ -71,6 +67,7 @@ class VariableCest
                 dataDir('fixtures/Support/Dump/variable_name_output.txt')
             )
         );
+
         $actual = $dump->variable($test, 'super');
         $I->assertEquals($expected, $actual);
     }
