@@ -11,37 +11,37 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Flash\Direct;
+namespace Phalcon\Tests\Unit\Flash\Direct;
 
 use Phalcon\Di;
 use Phalcon\Flash\Direct;
 use UnitTester;
 
+/**
+ * Class GetSetDICest
+ *
+ * @package Phalcon\Tests\Unit\Flash\Direct
+ */
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Flash\Direct :: getDI() / setDI()
+     * Tests Phalcon\Flash\Direct :: getDI()/setDI()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2019-12-07
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function flashDirectGetSetDI(UnitTester $I)
     {
-        $I->wantToTest('Flash\Direct - getDI() / setDI()');
+        $I->wantToTest('Flash\Direct - getDI()/setDI()');
 
         $container = new Di();
+        $flash     = new Direct();
+        $flash->setDI($container);
 
-        $oFlashDirect = new Direct();
-
-        $oFlashDirect->setDI($container);
-
-        $I->assertSame(
-            $container,
-            $oFlashDirect->getDI()
-        );
-
-        $class  = Di::class;
-        $actual = $oFlashDirect->getDI();
-        $I->assertInstanceOf($class, $actual);
+        $actual = $flash->getDI();
+        $I->assertSame($container, $actual);
+        $I->assertInstanceOf(Di::class, $actual);
     }
 }

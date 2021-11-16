@@ -18,11 +18,7 @@ jobs:
 
     name: Build Dockerfile PHP ${{ matrix.php-versions }}
     steps:
-
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v2
 
       - name: Build Dockerfile
         run: docker build docker/${{ matrix.php-versions }}

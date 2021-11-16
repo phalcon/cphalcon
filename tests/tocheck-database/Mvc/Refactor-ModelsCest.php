@@ -1,20 +1,20 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Db\RawValue;
 use Phalcon\Messages\Message as ModelMessage;
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Childs;
-use Phalcon\Test\Models\I1534;
-use Phalcon\Test\Models\Parts2;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Personas;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Robotters;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Childs;
+use Phalcon\Tests\Models\I1534;
+use Phalcon\Tests\Models\Parts2;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Personas;
+use Phalcon\Tests\Models\Personers;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\Robotters;
 use function is_object;
 
 class ModelsCest
@@ -235,7 +235,7 @@ class ModelsCest
         $I->assertTrue(is_object($people));
 
         $I->assertInstanceOf(
-            \Phalcon\Test\Models\People::class,
+            \Phalcon\Tests\Models\People::class,
             $people
         );
 

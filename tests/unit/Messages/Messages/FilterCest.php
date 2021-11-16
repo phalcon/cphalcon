@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Messages\Messages;
+namespace Phalcon\Tests\Unit\Messages\Messages;
 
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
@@ -22,10 +22,12 @@ class FilterCest
     /**
      * Tests Phalcon\Messages\Messages :: filter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesFilter(UnitTester $I)
+    public function messagesMessagesFilter(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - filter()');
 
@@ -65,14 +67,13 @@ class FilterCest
 
         $actual = $messages->filter('Password');
 
-        $I->assertTrue(is_array($actual));
+        $I->assertIsArray($actual);
 
         $I->assertCount(2, $actual);
 
         /** @var Message $message1 */
-        $message1 = $actual[0];
         /** @var Message $message2 */
-        $message2 = $actual[1];
+        [$message1, $message2] = $actual;
 
         $I->assertEquals('Password: no number present', $message1->getMessage());
         $I->assertEquals('Password', $message1->getField());

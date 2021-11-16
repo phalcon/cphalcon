@@ -23,6 +23,7 @@ use function substr;
 use function uniqid;
 use function unlink;
 
+use const DIRECTORY_SEPARATOR;
 use const GLOB_MARK;
 
 // here you can define custom actions
@@ -87,6 +88,14 @@ class Unit extends Module
         if (is_dir($directory)) {
             rmdir($directory);
         }
+    }
+
+    /**
+     * Returns a directory string with the trailing directory separator
+     */
+    public function getDirSeparator(string $directory): string
+    {
+        return rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
     /**

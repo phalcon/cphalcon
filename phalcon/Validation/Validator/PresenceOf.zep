@@ -72,6 +72,9 @@ class PresenceOf extends AbstractValidator
     public function validate(<Validation> validation, var field) -> bool
     {
         var value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if value === null || value === "" {
             validation->appendMessage(

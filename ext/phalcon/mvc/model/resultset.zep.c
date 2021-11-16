@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "ext/spl/spl_iterators.h"
+#include "ext/json/php_json.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
@@ -134,7 +135,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_serializable);
-	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
 
@@ -146,10 +147,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 {
-	zend_bool _4;
+	zend_bool _5;
+	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, prefetchRecords = 0;
-	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _5$$8;
+	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _6$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&result_sub);
@@ -161,7 +163,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_5$$8);
+	ZVAL_UNDEF(&_6$$8);
+	ZVAL_UNDEF(&_4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -205,20 +208,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_3$$5);
 		RETURN_MM_NULL();
 	}
-	prefetchRecords = ZEPHIR_GLOBAL(orm).resultset_prefetch_records;
-	_4 = prefetchRecords > 0;
-	if (_4) {
-		_4 = ZEPHIR_LE_LONG(&rowCount, prefetchRecords);
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_INIT_NVAR(&_4);
+	ZVAL_STRING(&_4, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
+	prefetchRecords = zephir_get_intval_ex(&_4);
+	_5 = prefetchRecords > 0;
+	if (_5) {
+		_5 = ZEPHIR_LE_LONG(&rowCount, prefetchRecords);
 	}
-	if (_4) {
+	if (_5) {
 		ZEPHIR_CALL_METHOD(&rows, result, "fetchall", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&rows) == IS_ARRAY) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &rows);
 		} else {
-			ZEPHIR_INIT_VAR(&_5$$8);
-			array_init(&_5$$8);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_5$$8);
+			ZEPHIR_INIT_VAR(&_6$$8);
+			array_init(&_6$$8);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_6$$8);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -279,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 	ZVAL_NULL(&connection);
 	result = 1;
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 111);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 117);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -378,7 +384,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 111);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 117);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -465,7 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst)
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 112, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 118, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -506,7 +512,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast)
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_0, (zephir_get_numberval(&count) - 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 112, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 118, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -593,7 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 111);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 117);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -661,7 +667,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, (zephir_get_numberval(&_0) + 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 112, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 118, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -695,7 +701,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/Mvc/Model/Resultset.zep", 487);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 112, index);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 118, index);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -796,7 +802,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind)
 	ZEPHIR_MM_GROW();
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 112, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 118, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -1003,7 +1009,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 	ZEPHIR_INIT_VAR(&connection);
 	ZVAL_NULL(&connection);
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 111);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 117);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);

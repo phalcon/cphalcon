@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
+namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class LoadFromYamlCest
@@ -34,8 +34,8 @@ class LoadFromYamlCest
         // load php
         $di->loadFromYaml(dataDir('fixtures/Di/services.yml'));
 
-        // there are 3 new + 10 from Default
-        $I->assertCount(13, $di->getServices());
+        // there are 3 new + 11 from Default
+        $I->assertCount(14, $di->getServices());
 
         // check some services
         $actual = $di->get('config');

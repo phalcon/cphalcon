@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use DateTime;
 use IntegrationTester;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Events\Event;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Dynamic\Personas;
-use Phalcon\Test\Models\Dynamic\Personers;
-use Phalcon\Test\Models\Dynamic\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Dynamic\Personas;
+use Phalcon\Tests\Models\Dynamic\Personers;
+use Phalcon\Tests\Models\Dynamic\Robots;
 
 class DynamicOperationsCest
 {

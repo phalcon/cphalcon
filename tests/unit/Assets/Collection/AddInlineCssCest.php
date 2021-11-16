@@ -11,39 +11,36 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Collection;
+namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+/**
+ * Class AddInlineCssCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class AddInlineCssCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: addInlineCss()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionAddInlineCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addInlineCss()');
 
         $collection = new Collection();
-
-        $inline = new Css(".awesome{color: #8fc6bc}");
-
-        $collection->addInline(
-            $inline
-        );
+        $collection->addInlineCss(".awesome{color: #8fc6bc}");
 
         $codes = $collection->getCodes();
 
         $I->assertCount(1, $collection->getCodes());
-
-        $I->assertEquals(
-            end($codes),
-            $inline
-        );
     }
 }

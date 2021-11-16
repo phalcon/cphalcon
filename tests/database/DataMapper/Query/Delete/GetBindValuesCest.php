@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Delete;
+namespace Phalcon\Tests\Database\DataMapper\Query\Delete;
 
 use DatabaseTester;
 use PDO;

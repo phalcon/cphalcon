@@ -1,0 +1,31 @@
+name: 'Pack Phalcon Extension'
+description: 'Create ZIP archive with Phalcon Framework Extension for corresponding OS and PHP version.'
+
+inputs:
+  target-name:
+    description: 'Archive name without extension for target release assets.'
+    required: true
+  ext-path:
+    description: 'Full path to Phalcon Extension.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Prepare Build Artifacts
+      shell: pwsh
+      run: |
+        $Destination = "./build-artifacts"
+        if (-not (Test-Path -Path $Destination -PathType Container)) {
+          New-Item $Destination -ItemType Directory | Out-Null
+        }
+        Copy-Item -Path "${{ inputs.ext-path }}" -Destination $Destination
+        Copy-Item -Path "./3rdparty/licenses/*.txt" -Destination $Destination
+        Set-Location $Destination
+        & 7z a "${{ inputs.target-name }}.zip" *
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.target-name }}.zip
+        path: ./build-artifacts/phalcon*.zip

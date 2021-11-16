@@ -18,7 +18,7 @@
     +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Test\Integration\Forms;
+namespace Phalcon\Tests\Integration\Forms;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Radio;
@@ -27,9 +27,9 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Forms\ContactFormPublicProperties;
-use Phalcon\Test\Fixtures\Forms\ContactFormSettersGetters;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Forms\ContactFormPublicProperties;
+use Phalcon\Tests\Fixtures\Forms\ContactFormSettersGetters;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 
 class FormsCest

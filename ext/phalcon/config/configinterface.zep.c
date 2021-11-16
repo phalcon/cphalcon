@@ -29,11 +29,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Config, ConfigInterface, phalcon, config_configinterface, phalcon_config_configinterface_method_entry);
 
-	zend_class_implements(phalcon_config_configinterface_ce, 1, phalcon_collection_collectioninterface_ce);
+	zend_class_implements(phalcon_config_configinterface_ce, 1, phalcon_support_collection_collectioninterface_ce);
 	return SUCCESS;
 }
 
+/**
+ * @return string
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, getPathDelimiter);
+/**
+ * @param array|ConfigInterface $toMerge
+ *
+ * @return ConfigInterface
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, merge);
+/**
+ * @param string      $path
+ * @param mixed|null  $defaultValue
+ * @param string|null $delimiter
+ *
+ * @return mixed
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, path);
+/**
+ * @param string|null $delimiter
+ *
+ * @return ConfigInterface
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, setPathDelimiter);

@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Ini;
+namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ToArrayCest
@@ -38,12 +38,12 @@ class ToArrayCest
         $this->config['database']['num6'] = true;
         $this->config['database']['num7'] = null;
         $this->config['database']['num8'] = 123;
-        $this->config['database']['num9'] = (float) 123.45;
-        $config                           = $this->getConfig('Ini');
+        $this->config['database']['num9'] = 123.45;
 
-        $I->assertEquals(
-            $this->config,
-            $config->toArray()
-        );
+        $config = $this->getConfig('Ini');
+
+        $expected = $this->config;
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

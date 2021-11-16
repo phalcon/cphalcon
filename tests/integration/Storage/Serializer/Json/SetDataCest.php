@@ -11,18 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\Json;
+namespace Phalcon\Tests\Integration\Storage\Serializer\Json;
 
-use Phalcon\Storage\Serializer\Json;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\Json;
 
 class SetDataCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Json :: getData()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-30
+     * @since  2020-09-09
      */
     public function storageSerializerJsonSetData(IntegrationTester $I)
     {

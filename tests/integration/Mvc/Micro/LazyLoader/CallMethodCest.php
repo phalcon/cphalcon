@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro\LazyLoader;
+namespace Phalcon\Tests\Integration\Mvc\Micro\LazyLoader;
 
 use IntegrationTester;
 

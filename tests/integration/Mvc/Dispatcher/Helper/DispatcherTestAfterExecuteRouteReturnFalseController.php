@@ -1,11 +1,11 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Helper;
 
 use Phalcon\Mvc\Controller;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestBeforeExecuteRouteReturnFalseController
+ * \Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestBeforeExecuteRouteReturnFalseController
  * Dispatcher Controller for testing different dispatch scenarios
  *
  * @copyright (c) 2011-2017 Phalcon Team

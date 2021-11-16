@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
+namespace Phalcon\Tests\Fixtures\Mvc\View\Engine;
 
 use Mustache_Engine;
 use Phalcon\Di\DiInterface;

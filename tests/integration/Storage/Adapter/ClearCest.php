@@ -11,18 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter;
+namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
-use function array_merge;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
@@ -35,25 +34,28 @@ class ClearCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Storage\Adapter\'' . $example['className'] . ' - getPrefix()'
+            sprintf(
+                'Storage\Adapter\%s - getPrefix()',
+                $example['className']
+            )
         );
 
-        $extension  = $example['extension'];
-        $class      = $example['class'];
-        $options    = $example['options'];
+        $extension = $example['extension'];
+        $class     = $example['class'];
+        $options   = $example['options'];
 
         if (!empty($extension)) {
             $I->checkExtensionIsLoaded($extension);
         }
 
         $serializer = new SerializerFactory();
-        $adapter = new $class($serializer, $options);
+        $adapter    = new $class($serializer, $options);
 
         $key1 = uniqid();
         $key2 = uniqid();

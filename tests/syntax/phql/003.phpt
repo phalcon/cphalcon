@@ -10,7 +10,7 @@ var_dump(Lang::parsePHQL(<<<PHQL
 SELECT
   AVG(inv_total) AS average
 FROM
-  [Phalcon\Test\Models\Invoices]
+  [Phalcon\Tests\Models\Invoices]
 PHQL
 ));
 ?>
@@ -54,7 +54,7 @@ array(3) {
         ["type"]=>
         int(355)
         ["name"]=>
-        string(28) "Phalcon\Test\Models\Invoices"
+        string(28) "Phalcon\Tests\Models\Invoices"
       }
     }
   }

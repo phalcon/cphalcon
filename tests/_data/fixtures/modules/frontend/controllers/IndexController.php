@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Modules\Frontend\Controllers;
+namespace Phalcon\Tests\Modules\Frontend\Controllers;
 
 use Phalcon\Mvc\Controller;
 

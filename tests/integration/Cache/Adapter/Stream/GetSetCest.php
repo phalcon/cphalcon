@@ -11,16 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 
-use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
-use Phalcon\Storage\Exception;
+use Phalcon\Cache\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Support\Exception as HelperException;
+use stdClass;
 
 use function file_put_contents;
+use function is_dir;
+use function mkdir;
 use function outputDir;
 use function sleep;
 
@@ -29,21 +31,29 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: set()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterStreamSet(IntegrationTester $I)
+    public function storageAdapterStreamSet(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - set()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
 
         $data   = 'Phalcon Framework';
-        $result = $adapter->set('test-key', $data);
-        $I->assertTrue($result);
+        $actual = $adapter->set('test-key', $data);
+        $I->assertTrue($actual);
 
         $target = outputDir() . 'ph-strm/te/st/-k/';
         $I->amInPath($target);
@@ -57,26 +67,44 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: get()
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterStreamGet(IntegrationTester $I)
+    public function storageAdapterStreamGet(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - get()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
 
         $target = outputDir() . 'ph-strm/te/st/-k/';
         $data   = 'Phalcon Framework';
-        $result = $adapter->set('test-key', $data);
-        $I->assertTrue($result);
+        $actual = $adapter->set('test-key', $data);
+        $I->assertTrue($actual);
 
         $expected = 'Phalcon Framework';
         $actual   = $adapter->get('test-key');
         $I->assertNotNull($actual);
+        $I->assertEquals($expected, $actual);
+
+        $expected        = new stdClass();
+        $expected->one   = 'two';
+        $expected->three = 'four';
+
+        $actual = $adapter->set('test-key', $expected);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->get('test-key');
         $I->assertEquals($expected, $actual);
 
         $I->safeDeleteFile($target . 'test-key');
@@ -85,37 +113,52 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: get() - errors
      *
-     * @throws Exception
-     * @since  2019-04-24
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws CacheException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function cacheAdapterStreamGetErrors(IntegrationTester $I)
+    public function storageAdapterStreamGetErrors(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - get() - errors');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
 
         $target = outputDir() . 'ph-strm/te/st/-k/';
+        if (true !== is_dir($target)) {
+            mkdir($target, 0777, true);
+        }
 
         // Unknown key
         $expected = 'test';
-        $actual   = $adapter->get('unknown', 'test');
+        $actual   = $adapter->get(uniqid(), 'test');
         $I->assertEquals($expected, $actual);
 
-        // Invalid JSON object
-        $result = file_put_contents($target . 'test-key', '{');
-        $I->assertNotFalse($result);
+        // Invalid stored object
+        $actual = file_put_contents(
+            $target . 'test-key',
+            '{'
+        );
+        $I->assertNotFalse($actual);
 
         $expected = 'test';
         $actual   = $adapter->get('test-key', 'test');
         $I->assertEquals($expected, $actual);
 
         // Expiry
-        $data   = 'Phalcon Framework';
-        $result = $adapter->set('test-key', $data, 1);
-        $I->assertTrue($result);
+        $data = 'Phalcon Framework';
+
+        $actual = $adapter->set('test-key', $data, 1);
+        $I->assertTrue($actual);
 
         sleep(2);
 
@@ -124,37 +167,5 @@ class GetSetCest
         $I->assertEquals($expected, $actual);
 
         $I->safeDeleteFile($target . 'test-key');
-    }
-
-    /**
-     * Tests Phalcon\Cache\Adapter\Stream :: get()
-     *
-     * @dataProvider getExamples
-     *
-     * @throws Exception
-     * @since        2021-03-28
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     */
-    public function cacheAdapterStreamGetSet(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest('Cache\Adapter\Stream - get()/set() - ' . $example[0]);
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
-
-        $key = 'cache-data';
-
-        $result = $adapter->set($key, $example[1]);
-        $I->assertTrue($result);
-
-        $expected = $example[1];
-        $actual   = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
-    }
-
-    private function getExamples(): array
-    {
-        return CacheFixtureData::getExamples();
     }
 }

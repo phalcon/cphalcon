@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Reader;

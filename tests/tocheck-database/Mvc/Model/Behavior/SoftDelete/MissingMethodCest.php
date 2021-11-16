@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Behavior\SoftDelete;
+namespace Phalcon\Tests\Integration\Mvc\Model\Behavior\SoftDelete;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Users;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Users;
 
 class MissingMethodCest
 {

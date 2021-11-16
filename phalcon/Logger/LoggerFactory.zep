@@ -10,23 +10,23 @@
 
 namespace Phalcon\Logger;
 
-use Phalcon\Config;
+use DateTimeZone;
 use Phalcon\Config\ConfigInterface;
-use Phalcon\Helper\Arr;
-use Phalcon\Logger;
+use Phalcon\Factory\AbstractConfigFactory;
 
 /**
- * Phalcon\Logger\LoggerFactory
- *
- * Logger factory
+ * Factory creating logger objects
  */
-class LoggerFactory
+class LoggerFactory extends AbstractConfigFactory
 {
     /**
      * @var AdapterFactory
      */
     private adapterFactory;
 
+    /**
+     * @param AdapterFactory $factory
+     */
     public function __construct(<AdapterFactory> factory)
     {
         let this->adapterFactory = factory;
@@ -35,14 +35,14 @@ class LoggerFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
-     *     'name' => 'messages',
+     * @param array|ConfigInterface $config = [
+     *     'name'     => 'messages',
      *     'adapters' => [
      *         'adapter' => 'stream',
-     *         'name' => 'file.log',
+     *         'name'    => 'file.log',
      *         'options' => [
-     *             'mode' => 'ab',
-     *             'option' => null,
+     *             'mode'     => 'ab',
+     *             'option'   => null,
      *             'facility' => null
      *         ]
      *     ]
@@ -51,34 +51,23 @@ class LoggerFactory
     public function load(var config) -> <Logger>
     {
         var adapter, adapterClass, adapterFileName, adapterOptions,
-            adapters, name, options;
+            adapters, name, timezone, options;
         array data;
 
-        if typeof config == "object" && config instanceof ConfigInterface {
-            let config = config->toArray();
-        }
+        let data     = [],
+            config   = this->checkConfig(config),
+            config   = this->checkConfigElement(config, "name"),
+            name     = config["name"],
+            timezone = this->getArrVal(config, "timezone"),
+            options  = this->getArrVal(config, "options", []),
+            adapters = this->getArrVal(options, "adapters", []);
 
-        if unlikely typeof config !== "array" {
-            throw new Exception(
-                "Config must be array or Phalcon\\Config object"
-            );
-        }
 
-        if unlikely !isset config["name"] {
-            throw new Exception(
-                "You must provide 'name' option in factory config parameter."
-            );
-        }
-
-        let name     = config["name"],
-            options  = Arr::get(config, "options", []),
-            adapters = Arr::get(config, "adapters", []),
-            data     = [];
 
         for adapter in adapters {
-            let adapterClass    = Arr::get(adapter, "adapter"),
-                adapterFileName = Arr::get(adapter, "name"),
-                adapterOptions  = Arr::get(adapter, "options", []);
+            let adapterClass    = this->getArrVal(adapter, "adapter"),
+                adapterFileName = this->getArrVal(adapter, "name"),
+                adapterOptions  = this->getArrVal(adapter, "options", []);
 
             let data[] = this->adapterFactory->newInstance(
                 adapterClass,
@@ -87,19 +76,48 @@ class LoggerFactory
             );
         }
 
-        return this->newInstance(name, data);
+        return this->newInstance(name, data, timezone);
     }
 
     /**
      * Returns a Logger object
      *
-     * @param string $name
-     * @param array  $adapters
+     * @param string            $name
+     * @param array             $adapters
+     * @param DateTimeZone|null $timezone
      *
      * @return Logger
      */
-    public function newInstance(string! name, array! adapters = []) -> <Logger>
+    public function newInstance(
+        string name,
+        array adapters = [],
+        <DateTimeZone> timezone = null
+    ) -> <Logger> {
+        return new Logger(name, adapters, timezone);
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    protected function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
     {
-        return new Logger(name, adapters);
+        return "Phalcon\\Logger\\Exception";
     }
 }

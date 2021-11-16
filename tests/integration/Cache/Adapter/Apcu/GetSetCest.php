@@ -11,28 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Apcu;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Apcu;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
-use Phalcon\Test\Fixtures\Traits\ApcuTrait;
+use Phalcon\Support\Exception;
+use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
+use stdClass;
 
 class GetSetCest
 {
     use ApcuTrait;
 
     /**
-     * Tests Phalcon\Cache\Adapter\Apcu :: get()
+     * Tests Phalcon\Cache\Adapter\Apcu :: get()/set()
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws Exception
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-31
+     * @since        2020-09-09
      */
-    public function cacheAdapterApcuGetSet(IntegrationTester $I, Example $example)
+    public function storageAdapterApcuGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Apcu - get()/set() - ' . $example[0]);
 
@@ -41,18 +47,40 @@ class GetSetCest
 
         $key = uniqid();
 
-        $I->assertTrue(
-            $adapter->set($key, $example[1])
-        );
+        $result = $adapter->set($key, $example[1]);
+        $I->assertTrue($result);
 
-        $I->assertEquals(
-            $example[1],
-            $adapter->get($key)
-        );
+        $expected = $example[1];
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
-        return CacheFixtureData::getExamples();
+        return [
+            [
+                'string',
+                'random string',
+            ],
+            [
+                'integer',
+                123456,
+            ],
+            [
+                'float',
+                123.456,
+            ],
+            [
+                'boolean',
+                true,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
+        ];
     }
 }

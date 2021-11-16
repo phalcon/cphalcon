@@ -10,10 +10,10 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 
 /**
- * Reads php files and converts them to Phalcon\Config objects.
+ * Reads php files and converts them to Phalcon\Config\Config objects.
  *
  * Given the next configuration file:
  *

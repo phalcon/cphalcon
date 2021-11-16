@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Validation;
+namespace Phalcon\Tests\Models\Validation;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Tests\Models\RobotsParts;
 use Phalcon\Validation\Validator\StringLength;
 
 /**

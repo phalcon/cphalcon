@@ -11,16 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Logger;
+namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 class SetAdaptersCest
 {
     /**
      * Tests Phalcon\Logger :: setAdapters()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerSetAdapters(UnitTester $I)
     {
@@ -58,6 +63,11 @@ class SetAdaptersCest
 
     /**
      * Tests Phalcon\Logger :: setAdapters() - constructor
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerSetAdaptersConstructor(UnitTester $I)
     {

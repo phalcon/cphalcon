@@ -11,42 +11,49 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset\Js;
+namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 
 use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Js
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Js :: __construct() - local
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetJsConstructLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset\Js - __construct() - local');
 
-        $asset = new Js(
-            $example['path'],
-            $example['local']
-        );
+        $asset = new Js($example['path'], $example['local']);
 
-        $I->assertEquals(
-            $example['local'],
-            $asset->getLocal()
-        );
+        $expected = $example['local'];
+        $actual   = $asset->isLocal();
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Js :: __construct() - filter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetJsConstructFilter(UnitTester $I)
     {
@@ -54,16 +61,17 @@ class ConstructCest
 
         $asset = new Js('js/jquery.js');
 
-        $I->assertTrue(
-            $asset->getFilter()
-        );
+        $actual = $asset->getFilter();
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Js :: __construct() - filter set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetJsConstructFilterSet(UnitTester $I)
     {
@@ -71,16 +79,17 @@ class ConstructCest
 
         $asset = new Js('js/jquery.js', true, false);
 
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        $actual = $asset->getFilter();
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Js :: __construct() - attributes
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetJsConstructAttributes(UnitTester $I)
     {
@@ -88,17 +97,18 @@ class ConstructCest
 
         $asset = new Js('js/jquery.js');
 
-        $I->assertEquals(
-            [],
-            $asset->getAttributes()
-        );
+        $expected = [];
+        $actual   = $asset->getAttributes();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Js :: __construct() - attributes set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetJsConstructAttributesSet(UnitTester $I)
     {
@@ -115,12 +125,14 @@ class ConstructCest
             $attributes
         );
 
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
+        $expected = $attributes;
+        $actual   = $asset->getAttributes();
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     protected function provider(): array
     {
         return [

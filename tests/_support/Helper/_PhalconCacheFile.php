@@ -13,7 +13,7 @@ use Phalcon\Cache\Frontend\Igbinary;
 use Phalcon\Cache\FrontendInterface;
 
 /**
- * Phalcon\Test\Module\Cache\Backend\File
+ * Phalcon\Tests\Module\Cache\Backend\File
  *
  * Module for testing backend cache adapters
  *

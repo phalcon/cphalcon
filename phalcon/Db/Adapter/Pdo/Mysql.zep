@@ -50,6 +50,38 @@ class Mysql extends PdoAdapter
     protected type = "mysql";
 
     /**
+     * Constructor for Phalcon\Db\Adapter\Pdo
+     *
+     * @param array descriptor = [
+     *     'host' => 'localhost',
+     *     'port' => '3306',
+     *     'dbname' => 'blog',
+     *     'username' => 'sigma'
+     *     'password' => 'secret'
+     *     'dialectClass' => null,
+     *     'options' => [],
+     *     'dsn' => null,
+     *     'charset' => 'utf8mb4'
+     * ]
+     */
+    public function __construct(array! descriptor)
+    {
+        /**
+         * Returning numbers as numbers and not strings. If the user already
+         * set this option in the descriptor["options"], we do not have to set
+         * anything
+         */
+        if (!isset(descriptor["options"][\PDO::ATTR_EMULATE_PREPARES])) {
+            let descriptor["options"][\PDO::ATTR_EMULATE_PREPARES]  = false;
+        }
+        if (!isset(descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES])) {
+            let descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES]  = false;
+        }
+
+        parent::__construct(descriptor);
+    }
+
+    /**
      * Adds a foreign key to a table
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
@@ -139,7 +171,7 @@ class Mysql extends PdoAdapter
                 case starts_with(columnType, "bigint", true):
                     let definition["type"] = Column::TYPE_BIGINTEGER,
                         definition["isNumeric"] = true,
-                        definition["bindType"] = Column::BIND_PARAM_INT;
+                        definition["bindType"] = Column::BIND_PARAM_STR;
 
                     break;
 

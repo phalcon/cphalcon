@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
+namespace Phalcon\Tests\Integration\Validation\Validator\StringLength;
 
 use Phalcon\Validation\Validator\StringLength;
 use IntegrationTester;

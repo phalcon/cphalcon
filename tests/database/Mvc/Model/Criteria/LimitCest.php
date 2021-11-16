@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Criteria;
+namespace Phalcon\Tests\Database\Mvc\Model\Criteria;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 class LimitCest
 {
@@ -61,8 +61,8 @@ class LimitCest
 
         $I->assertInstanceOf(Builder::class, $builder);
 
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices]';
+        $expected = 'SELECT [Phalcon\Tests\Models\Invoices].* '
+            . 'FROM [Phalcon\Tests\Models\Invoices]';
 
         $I->assertEquals($expected, $builder->getPhql());
         $I->assertEquals(null, $criteria->getLimit());
@@ -94,8 +94,8 @@ class LimitCest
 
         $I->assertInstanceOf(Builder::class, $builder);
 
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
+        $expected = 'SELECT [Phalcon\Tests\Models\Invoices].* '
+            . 'FROM [Phalcon\Tests\Models\Invoices] '
             . 'LIMIT :APL0:';
 
         $I->assertEquals($expected, $builder->getPhql());
@@ -128,8 +128,8 @@ class LimitCest
 
         $I->assertInstanceOf(Builder::class, $builder);
 
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
+        $expected = 'SELECT [Phalcon\Tests\Models\Invoices].* '
+            . 'FROM [Phalcon\Tests\Models\Invoices] '
             . 'LIMIT :APL0: OFFSET :APL1:';
 
         $I->assertEquals($expected, $builder->getPhql());

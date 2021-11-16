@@ -11,7 +11,8 @@
 namespace Phalcon\Html\Helper;
 
 /**
- * Class AbstractSeries
+ * @property array $attributes
+ * @property array $store
  */
 abstract class AbstractSeries extends AbstractHelper
 {
@@ -32,19 +33,12 @@ abstract class AbstractSeries extends AbstractHelper
      * @return AbstractSeries
      */
     public function __invoke(
-        string indent = null,
+        string indent = "    ",
         string delimiter = null
     ) -> <AbstractSeries> {
-
-        if unlikely !empty delimiter {
-            let this->delimiter = delimiter;
-        }
-
-        if unlikely !empty indent {
-            let this->indent = indent;
-        }
-
-        let this->store = [];
+        let this->delimiter = empty(delimiter) ? PHP_EOL : delimiter,
+            this->indent    = indent,
+            this->store     = [];
 
         return this;
     }

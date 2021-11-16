@@ -11,12 +11,10 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 class PdoFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Db\\Exception";
-
     /**
      * Constructor
      */
@@ -28,7 +26,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'mysql',
      *     'options' => [
      *         'host' => 'localhost',
@@ -48,11 +46,12 @@ class PdoFactory extends AbstractFactory
         var name, options;
 
         let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
             name   = config["adapter"];
 
         unset config["adapter"];
 
-        let options = Arr::get(config, "options", []);
+        let options = (new Get())->__invoke(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -75,9 +74,19 @@ class PdoFactory extends AbstractFactory
     }
 
     /**
-     * Returns the available adapters
+     * @return string
      */
-    protected function getAdapters() -> array
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Db\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "mysql"      : "Phalcon\\Db\\Adapter\\Pdo\\Mysql",

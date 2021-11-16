@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
+namespace Phalcon\Tests\Integration\Db\Dialect\Sqlite;
 
 use Codeception\Example;
 use IntegrationTester;

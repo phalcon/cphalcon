@@ -79,7 +79,7 @@ class DispatcherTestDefaultNoNamespaceController extends Controller
 
         $dispatcher->forward(
             [
-                'namespace'  => 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                'namespace'  => 'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
                 'controller' => 'dispatcher-test-default',
                 'action'     => 'index',
             ]

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\UploadedFileFactory;
+namespace Phalcon\Tests\Unit\Http\Message\UploadedFileFactory;
 
 use Phalcon\Http\Message\UploadedFileFactory;
 use Psr\Http\Message\UploadedFileFactoryInterface;

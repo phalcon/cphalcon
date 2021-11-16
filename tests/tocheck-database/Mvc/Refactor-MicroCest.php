@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Fixtures\Micro\MyMiddleware;
-use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
-use Phalcon\Test\Fixtures\Micro\RestHandler;
+use Phalcon\Tests\Fixtures\Micro\MyMiddleware;
+use Phalcon\Tests\Fixtures\Micro\MyMiddlewareStop;
+use Phalcon\Tests\Fixtures\Micro\RestHandler;
 
 /**
- * Phalcon\Test\Integration\Mvc\MicroTest
+ * Phalcon\Tests\Integration\Mvc\MicroTest
  *
  * Tests the Phalcon\Mvc\Micro component
  */

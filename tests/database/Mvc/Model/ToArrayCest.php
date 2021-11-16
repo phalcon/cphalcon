@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesMap;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesMap;
 
 use function uniqid;
 
@@ -39,9 +39,12 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model :: toArray()
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-03
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelToArray(DatabaseTester $I)
     {
@@ -87,9 +90,12 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model :: toArray() - column map
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-03
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelToArrayColumnMap(DatabaseTester $I)
     {
@@ -135,10 +141,13 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model :: toArray() - find first columns
      *
-     * @issue 1701
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-03
      *
-     * @group mysql
-     * @group sqlite
+     * @issue https://github.com/phalcon/cphalcon/issues/1701
+     *
+     * @group  mysql
+     * @group  sqlite
      */
     public function mvcModelToArrayFindFirstColumns(DatabaseTester $I)
     {
@@ -175,5 +184,79 @@ class ToArrayCest
         ];
         $actual   = $invoice->toArray();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: toArray() - find - castOnHydrate/forceCasting
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-03
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/15361
+     *
+     * @group  mysql
+     */
+    public function mvcModelToArrayFindCastOnHydrateForceCasting(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray() - find - castOnHydrate/forceCasting');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $title      = uniqid('inv-');
+        $date       = date('Y-m-d H:i:s');
+
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 0, $title, 111.26, $date);
+        $migration->insert(5, 2, 1, $title, 222.19, $date);
+
+        Invoices::setup(
+            [
+                'forceCasting'  => true,
+                'castOnHydrate' => true,
+            ]
+        );
+
+        $invoices = Invoices::findFirst();
+
+        $expected = [
+            'inv_id'          => 4,
+            'inv_cst_id'      => 1,
+            'inv_status_flag' => 0,
+            'inv_title'       => $title,
+            'inv_total'       => 111.26,
+            'inv_created_at'  => $date,
+        ];
+        $actual   = $invoices->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $invoices = Invoices::find();
+
+        $expected = [
+            [
+                'inv_id'          => 4,
+                'inv_cst_id'      => 1,
+                'inv_status_flag' => 0,
+                'inv_title'       => $title,
+                'inv_total'       => 111.26,
+                'inv_created_at'  => $date,
+            ],
+            [
+                'inv_id'          => 5,
+                'inv_cst_id'      => 2,
+                'inv_status_flag' => 1,
+                'inv_title'       => $title,
+                'inv_total'       => 222.19,
+                'inv_created_at'  => $date,
+            ]
+        ];
+        $actual   = $invoices->toArray();
+        $I->assertSame($expected, $actual);
+
+        Invoices::setup(
+            [
+                'forceCasting'  => false,
+                'castOnHydrate' => false,
+            ]
+        );
     }
 }

@@ -11,19 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Interpolator\AssociativeArray;
+namespace Phalcon\Tests\Unit\Translate\Interpolator\AssociativeArray;
 
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use UnitTester;
 
+/**
+ * Class ReplacePlaceholdersCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Interpolator\AssociativeArray
+ */
 class ReplacePlaceholdersCest
 {
     /**
      * Tests Phalcon\Translate\Interpolator\AssociativeArray ::
      * replacePlaceholders()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateInterpolatorAssociativearrayReplacePlaceholders(UnitTester $I)
     {

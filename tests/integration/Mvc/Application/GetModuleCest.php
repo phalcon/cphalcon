@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Application;
+namespace Phalcon\Tests\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Application\Exception;
 use Phalcon\Mvc\Application;
-use Phalcon\Test\Modules\Frontend\Module;
+use Phalcon\Tests\Modules\Frontend\Module;
 
 class GetModuleCest
 {
@@ -41,7 +41,7 @@ class GetModuleCest
                 'path'      => dataDir('fixtures/modules/frontend/Module.php'),
             ],
             'backend'  => [
-                'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                'className' => \Phalcon\Tests\Modules\Backend\Module::class,
                 'path'      => dataDir('fixtures/modules/backend/Module.php'),
             ],
         ];
@@ -76,7 +76,7 @@ class GetModuleCest
 
         $I->expectThrowable(
             new Exception(
-                "Module 'foo' isn't registered in the application container"
+                "Module 'foo' is not registered in the application container"
             ),
             function () use ($application) {
                 $application->getModule('foo');

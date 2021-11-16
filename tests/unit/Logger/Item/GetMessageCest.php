@@ -11,24 +11,38 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Item;
+namespace Phalcon\Tests\Unit\Logger\Item;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
+
+use function date_default_timezone_get;
 
 class GetMessageCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getMessage()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerItemGetMessage(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getMessage()');
-        $time = new DateTimeImmutable("now");
 
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+        $timezone = date_default_timezone_get();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $item     = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
         $expected = 'log message';
         $actual   = $item->getMessage();

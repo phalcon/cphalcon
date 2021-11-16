@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Ini;
+namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
+use Codeception\Stub;
 use Phalcon\Config\Adapter\Ini;
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Config\Exception;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 use function dataDir;
@@ -42,11 +44,11 @@ class ConstructCest
         $this->config['database']['num7'] = null;
         $this->config['database']['num8'] = 123;
         $this->config['database']['num9'] = (float) 123.45;
-        $config                           = $this->getConfig('Ini');
+
+        $config = $this->getConfig('Ini');
 
         $this->compareConfig($I, $this->config, $config);
     }
-
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: __construct() - constants
@@ -83,9 +85,36 @@ class ConstructCest
 
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
+        $actual = $config->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Ini :: __construct() - exceptions
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-10-26
+     */
+    public function configAdapterIniConstructExceptions(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Ini - construct - exceptions');
+
+        $mock = Stub::make(
+            Ini::class,
+            [
+                'phpParseIniFile' => false,
+            ]
+        );
+
+        $filePath = dataDir('assets/config/config-with-constants.ini');
+
+        $I->expectThrowable(
+            new Exception(
+                'Configuration file ' . basename($filePath) . ' cannot be loaded'
+            ),
+            function () use ($mock, $filePath) {
+                $mock->__construct($filePath);
+            }
         );
     }
 }

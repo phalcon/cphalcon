@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\Reader;
+namespace Phalcon\Tests\Unit\Annotations\Reader;
 
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;

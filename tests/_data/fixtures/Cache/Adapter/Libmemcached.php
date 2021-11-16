@@ -11,13 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Cache\Adapter;
+namespace Phalcon\Tests\Fixtures\Cache\Adapter;
 
+use DateInterval;
 use Phalcon\Cache\Adapter\Libmemcached as CacheLibmemcached;
 use Phalcon\Storage\Exception;
 
 /**
- * Phalcon\Test\Fixtures\Cache\Adapter
+ * Phalcon\Tests\Fixtures\Cache\Adapter
  *
  * Libmemcached adapter fixture
  */
@@ -29,7 +30,7 @@ class Libmemcached extends CacheLibmemcached
     }
 
     /**
-     * @param \DateInterval|int|null $ttl
+     * @param DateInterval|int|null $ttl
      *
      * @return int
      * @throws Exception

@@ -11,13 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class GetSetDefaultDomainCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class GetSetDefaultDomainCest
 {
     use TranslateGettextTrait;
@@ -26,8 +31,10 @@ class GetSetDefaultDomainCest
      * Tests Phalcon\Translate\Adapter\Gettext ::
      * getDefaultDomain()/setDefaultDomain()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterGettextGetSetDefaultDomain(UnitTester $I)
     {
@@ -36,16 +43,10 @@ class GetSetDefaultDomainCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals(
-            'messages',
-            $translator->getDefaultDomain()
-        );
+        $I->assertEquals('messages', $translator->getDefaultDomain());
 
         $translator->setDefaultDomain('options');
 
-        $I->assertEquals(
-            'options',
-            $translator->getDefaultDomain()
-        );
+        $I->assertEquals('options', $translator->getDefaultDomain());
     }
 }

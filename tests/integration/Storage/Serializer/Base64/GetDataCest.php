@@ -11,18 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\Base64;
+namespace Phalcon\Tests\Integration\Storage\Serializer\Base64;
 
-use Phalcon\Storage\Serializer\Base64;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\Base64;
 
 class GetDataCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Base64 :: getData()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-30
+     * @since  2020-09-09
      */
     public function storageSerializerBase64GetData(IntegrationTester $I)
     {

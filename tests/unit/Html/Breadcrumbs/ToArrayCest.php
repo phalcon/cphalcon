@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Breadcrumbs;
+namespace Phalcon\Tests\Unit\Html\Breadcrumbs;
 
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
+/**
+ * Class ToArrayCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Breadcrumbs
+ */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: toArray()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function htmlBreadcrumbsToArray(UnitTester $I)
     {

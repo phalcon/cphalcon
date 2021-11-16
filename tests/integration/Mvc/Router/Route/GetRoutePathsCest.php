@@ -11,9 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Route;
+namespace Phalcon\Tests\Integration\Mvc\Router\Route;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Route;
 
 /**
  * Class GetRoutePathsCest
@@ -29,6 +30,11 @@ class GetRoutePathsCest
     public function mvcRouterRouteGetRoutePaths(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Route - getRoutePaths()');
-        $I->skipTest('Need implementation');
+
+        $arrayDefinition = ["controller" => 'FooBar', "action" => 'baz'];
+        $stringDefinition = "FooBar::baz";
+
+        $I->assertEquals($arrayDefinition, Route::getRoutePaths($arrayDefinition));
+        $I->assertEquals($arrayDefinition, Route::getRoutePaths($stringDefinition));
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 use PDOException;

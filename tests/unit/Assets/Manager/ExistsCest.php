@@ -11,9 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class ExistsCest
@@ -28,14 +30,12 @@ class ExistsCest
     {
         $I->wantToTest('Assets\Manager - exists()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $assets->addCss('/css/style1.css');
-        $assets->addCss('/css/style2.css');
+        $manager->addCss('/css/style1.css');
+        $manager->addCss('/css/style2.css');
 
-        $I->assertTrue(
-            $assets->exists('css')
-        );
+        $I->assertTrue($manager->exists('css'));
     }
 
     /**
@@ -48,10 +48,8 @@ class ExistsCest
     {
         $I->wantToTest('Assets\Manager - exists() - empty');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $I->assertFalse(
-            $assets->exists('some-non-existent-collection')
-        );
+        $I->assertFalse($manager->exists('some-non-existent-collection'));
     }
 }

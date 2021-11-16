@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Form;
+namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
@@ -58,8 +58,8 @@ class BindCest
         ];
 
         $entity = new \stdClass();
-        $white_list = ['nameFirst', 'nameLast'];
-        $form->bind($data, $entity, $white_list);
+        $whiteList = ['nameFirst', 'nameLast'];
+        $form->bind($data, $entity, $whiteList);
 
         $I->assertEquals("nameFirst", $form->getValue("nameFirst"));
         $I->assertEquals("nameLast", $form->getValue("nameLast"));

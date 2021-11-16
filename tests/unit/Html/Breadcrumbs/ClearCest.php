@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Breadcrumbs;
+namespace Phalcon\Tests\Unit\Html\Breadcrumbs;
 
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
+/**
+ * Class ClearCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Breadcrumbs
+ */
 class ClearCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: clear()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function htmlBreadcrumbsClear(UnitTester $I)
     {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Behavior\SoftDelete;
+namespace Phalcon\Tests\Integration\Mvc\Model\Behavior\SoftDelete;
 
 use IntegrationTester;
 

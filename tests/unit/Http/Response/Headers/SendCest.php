@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Response\Headers;
+namespace Phalcon\Tests\Unit\Http\Response\Headers;
 
 use Phalcon\Http\Response\Headers;
 use UnitTester;

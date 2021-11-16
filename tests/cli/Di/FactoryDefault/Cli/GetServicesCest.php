@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
+namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 use Phalcon\Di\FactoryDefault\Cli as Di;
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 
 class GetServicesCest
 {
@@ -31,7 +31,7 @@ class GetServicesCest
 
         $di = new Di();
 
-        $numberOfFactoryServices = 10;
+        $numberOfFactoryServices = 11;
 
         $I->assertCount($numberOfFactoryServices, $di->getServices());
 

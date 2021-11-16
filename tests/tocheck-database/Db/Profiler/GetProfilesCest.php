@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Profiler;
+namespace Phalcon\Tests\Integration\Db\Profiler;
 
 use IntegrationTester;
 

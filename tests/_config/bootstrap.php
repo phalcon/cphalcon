@@ -1,14 +1,14 @@
 <?php
 
 use Codeception\Lib\Connector\Phalcon\MemorySession as CodeceptionMemorySession;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Test\Fixtures\MemorySession as PhalconMemorySession;
+use Phalcon\Tests\Fixtures\MemorySession as PhalconMemorySession;
 use Phalcon\Url;
 
 $container = new FactoryDefault();

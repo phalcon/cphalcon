@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Request;
+namespace Phalcon\Tests\Unit\Http\Message\Request;
 
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Request;
@@ -90,7 +90,7 @@ class ConstructCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Headers needs to be either an array or instance of Phalcon\Collection'
+                'Headers needs to be either an array or instance of Phalcon\Support\Collection'
             ),
             function () {
                 $request = new Request(

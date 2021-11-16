@@ -10,7 +10,7 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Whitelist;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 
@@ -43,9 +43,10 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function __construct(array! options = [])
     {
-        var template;
+        var template, whitelist;
 
-        let template = current(Arr::whiteList(options, ["template", "message", 0]));
+        let whitelist = new Whitelist(),
+            template  = current(whitelist->__invoke(options, ["template", "message", 0]));
 
         if typeof template == "array" {
             this->setTemplates(template);
@@ -208,6 +209,27 @@ abstract class AbstractValidator implements ValidatorInterface
         }
 
         return label;
+    }
+
+    /**
+     * Checks if field can be empty.
+     *
+     * @param mixed field
+     * @param mixed value
+     *
+     * @return bool
+     */
+    protected function allowEmpty(var field, var value) -> bool
+    {
+        var allowEmpty;
+
+        let allowEmpty = this->getOption("allowEmpty", false);
+
+        if typeof allowEmpty === "array" {
+            let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
+        }
+
+        return allowEmpty && empty value;
     }
 
     /**

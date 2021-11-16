@@ -11,14 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\CacheFactory;
+namespace Phalcon\Tests\Integration\Cache\CacheFactory;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
+use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
-use IntegrationTester;
+
+use function uniqid;
 
 class NewInstanceCest
 {
@@ -26,7 +29,7 @@ class NewInstanceCest
      * Tests Phalcon\Cache\CacheFactory :: newInstance()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-03
+     * @since  2020-09-09
      */
     public function cacheCacheFactoryNewInstance(IntegrationTester $I)
     {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Resultsets;
+namespace Phalcon\Tests\Resultsets;
 
 use Phalcon\Mvc\Model\Resultset\Simple;
 

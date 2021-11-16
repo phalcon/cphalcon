@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Filter\Sanitize;
+namespace Phalcon\Tests\Fixtures\Filter\Sanitize;
 
 /**
  * Class IPv4

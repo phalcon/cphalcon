@@ -10,21 +10,30 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
-
+/**
+ * Class None
+ *
+ * @package Phalcon\Storage\Serializer
+ */
 class None extends AbstractSerializer
 {
-	/**
-	 * Serializes data
-	 */
+    /**
+     * Serializes data
+     *
+     * @return string
+     */
 	public function serialize() -> string
 	{
 		return this->data;
 	}
 
-	/**
-	 * Unserializes data
-	 */
+    /**
+     * Unserializes data
+     *
+     * @param string $data
+     *
+     * @retrun void
+     */
 	public function unserialize(var data) -> void
 	{
 		let this->data = data;

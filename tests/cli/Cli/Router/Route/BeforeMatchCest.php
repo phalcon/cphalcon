@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Router\Route;
+namespace Phalcon\Tests\Cli\Cli\Router\Route;
 
 use CliTester;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class BeforeMatchCest
 {

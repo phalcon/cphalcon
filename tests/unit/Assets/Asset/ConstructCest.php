@@ -11,88 +11,90 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset;
+namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - local
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - __construct() - local');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
-
-        $I->assertTrue(
-            $asset->getLocal()
-        );
+        $asset  = new Asset($example['type'], $example['path']);
+        $actual = $asset->isLocal();
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - remote
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructRemote(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - __construct() - remote');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path'],
-            false
-        );
-
-        $I->assertFalse(
-            $asset->getLocal()
-        );
+        $asset  = new Asset($example['type'], $example['path'], false);
+        $actual = $asset->isLocal();
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructFilter(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - __construct() - filter');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $asset = new Asset($example['type'], $example['path']);
 
-        $I->assertTrue(
-            $asset->getFilter()
-        );
+        $actual = $asset->getFilter();
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter set
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructFilterSet(UnitTester $I, Example $example)
     {
@@ -105,41 +107,42 @@ class ConstructCest
             false
         );
 
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        $actual = $asset->getFilter();
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructAttributes(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - __construct() - attributes');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $asset = new Asset($example['type'], $example['path']);
 
-        $I->assertEquals(
-            [],
-            $asset->getAttributes()
-        );
+        $expected = [];
+        $actual   = $asset->getAttributes();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes set
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetConstructAttributesSet(UnitTester $I, Example $example)
     {
@@ -157,12 +160,13 @@ class ConstructCest
             $attributes
         );
 
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
+        $actual = $asset->getAttributes();
+        $I->assertEquals($attributes, $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     protected function provider(): array
     {
         return [

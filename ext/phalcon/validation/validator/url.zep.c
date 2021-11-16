@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 
 /**
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, options, result, value, _0, _1$$3, _2$$4, _3$$5;
+	zval *validation, validation_sub, *field, field_sub, options, result, value, _0, _1, _2$$4, _3$$5, _4$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -131,9 +131,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_4$$6);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -149,21 +150,26 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate)
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_BOOL(1);
+	}
 	ZEPHIR_OBS_VAR(&options);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&options, &_0, SL("options"), 0)) {
-		ZVAL_LONG(&_1$$3, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 237, &value, &_1$$3, &options);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_string_fetch(&options, &_1, SL("options"), 0)) {
+		ZVAL_LONG(&_2$$4, 273);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 290, &value, &_2$$4, &options);
 		zephir_check_call_status();
 	} else {
-		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 237, &value, &_2$$4);
+		ZVAL_LONG(&_3$$5, 273);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 290, &value, &_3$$5);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {
-		ZEPHIR_CALL_METHOD(&_3$$5, this_ptr, "messagefactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$5);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Url;
+namespace Phalcon\Tests\Url;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RouterTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RouterTrait;
 
 class UrlCest
 {

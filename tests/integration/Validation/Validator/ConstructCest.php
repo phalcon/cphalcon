@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator;
+namespace Phalcon\Tests\Integration\Validation\Validator;
 
 use IntegrationTester;
 use Phalcon\Validation\Validator\PresenceOf;

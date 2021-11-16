@@ -1,0 +1,29 @@
+name: 'Phalcon PHP extension build action'
+description: 'Build Phalcon Framework for macOS according to various PHP versions.'
+
+inputs:
+  pecl:
+    description: 'PECL package path'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure macOS Environment
+      shell: bash
+      run: |
+        sudo xcode-select -s /Applications/Xcode_12.app
+        xcodebuild -version
+
+    - name: 'Build Phalcon for macOS'
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+        echo "::group::Install Phalcon with PECL"
+        sudo pecl -v install ${{ inputs.pecl }}
+        echo "::endgroup::"
+
+    - name: Check Extension
+      shell: bash
+      run: php --ri phalcon

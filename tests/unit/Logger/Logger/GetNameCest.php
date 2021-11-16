@@ -11,15 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Logger;
+namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 class GetNameCest
 {
     /**
      * Tests Phalcon\Logger :: getName()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerGetName(UnitTester $I)
     {

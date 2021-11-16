@@ -17,6 +17,8 @@ use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
+use function dataDir;
+use function file_get_contents;
 use function serialize;
 
 class SerializeUnserializeCest
@@ -38,6 +40,14 @@ class SerializeUnserializeCest
                 $adapter = new Noop();
 
                 $object = serialize($adapter);
+            }
+        );
+
+        $I->expectThrowable(
+            new \Exception("This object cannot be unserialized"),
+            function () {
+                $serialized = file_get_contents(dataDir('assets/logger/logger.serialized'));
+                $object     = unserialize($serialized);
             }
         );
     }

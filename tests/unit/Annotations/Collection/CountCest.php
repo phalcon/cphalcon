@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\Collection;
+namespace Phalcon\Tests\Unit\Annotations\Collection;
 
 use Phalcon\Annotations\Collection;
 use UnitTester;

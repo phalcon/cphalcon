@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag\Select;
+namespace Phalcon\Tests\Unit\Tag\Select;
 
 use Phalcon\Tag\Select;
-use Phalcon\Test\Fixtures\Helpers\TagSetup;
+use Phalcon\Tests\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
 class SelectFieldCest extends TagSetup

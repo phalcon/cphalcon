@@ -11,12 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class HasCest
 {
@@ -43,7 +42,7 @@ class HasCest
             'five'  => 'six',
         ];
 
-        $collection = new Bag('BagTest');
+        $collection = new Bag('BagTest', $this->container);
         $collection->init($data);
 
         $actual = $collection->has('three');

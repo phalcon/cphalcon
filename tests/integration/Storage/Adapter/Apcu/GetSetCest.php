@@ -11,26 +11,32 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Apcu;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
 use Codeception\Example;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\ApcuTrait;
+use Phalcon\Support\Exception;
+use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
 use stdClass;
-use IntegrationTester;
 
 class GetSetCest
 {
     use ApcuTrait;
 
     /**
-     * Tests Phalcon\Storage\Adapter\Apcu :: get()
+     * Tests Phalcon\Storage\Adapter\Apcu :: get()/set()
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws Exception
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-31
+     * @since        2020-09-09
      */
     public function storageAdapterApcuGetSet(IntegrationTester $I, Example $example)
     {
@@ -49,6 +55,9 @@ class GetSetCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

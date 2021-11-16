@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Manager;
+namespace Phalcon\Tests\Integration\Session\Manager;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Session\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class ExistsDestroyCest
 {

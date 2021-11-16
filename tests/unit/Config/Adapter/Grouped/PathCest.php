@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
+namespace Phalcon\Tests\Unit\Config\Adapter\Grouped;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
@@ -32,16 +32,14 @@ class PathCest
 
         $config = $this->getConfig('Grouped');
 
-        $I->assertCount(
-            2,
-            $config->path('test')
-        );
+        $expected = 2;
+        $actual   = $config->path('test');
+        $I->assertCount($expected, $actual);
 
 
-        $I->assertEquals(
-            'something-else',
-            $config->path('test.property2')
-        );
+        $expected = 'something-else';
+        $actual   = $config->path('test.property2');
+        $I->assertEquals($expected, $actual);
     }
 
     /**

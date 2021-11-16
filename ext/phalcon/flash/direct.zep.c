@@ -27,8 +27,9 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * This is an implementation of the Phalcon\Flash\FlashInterface that
- * immediately outputs any message passed to it.
+ * Class Direct
+ *
+ * @package Phalcon\Flash
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct)
 {
@@ -40,7 +41,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct)
 /**
  * Outputs a message
  *
- * @return null|string|void
+ * @param string $type
+ * @param mixed  $message
+ *
+ * @return string|null
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Flash_Direct, message)
 {
@@ -105,7 +110,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 40);
+	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 45);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{

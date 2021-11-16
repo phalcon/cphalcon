@@ -10,22 +10,32 @@
 
 namespace Phalcon\Filter;
 
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
+/**
+ * Class FilterFactory
+ *
+ * @package Phalcon\Filter
+ */
 class FilterFactory
 {
     /**
      * Returns a Locator object with all the helpers defined in anonymous
      * functions
+     *
+     * @return FilterInterface
      */
     public function newInstance() -> <FilterInterface>
     {
-        return new Filter(
-            this->getAdapters()
-        );
+        return new Filter(this->getServices());
     }
 
-    protected function getAdapters() -> array
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             Filter::FILTER_ABSINT     : "Phalcon\\Filter\\Sanitize\\AbsInt",

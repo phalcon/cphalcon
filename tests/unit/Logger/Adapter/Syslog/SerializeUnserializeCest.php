@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
-use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Exception;
 use UnitTester;
@@ -37,7 +36,7 @@ class SerializeUnserializeCest
             new Exception("This object cannot be serialized"),
             function () use ($I) {
                 $streamName = $I->getNewFileName('log', 'log');
-                $adapter = new Syslog($streamName);
+                $adapter    = new Syslog($streamName);
 
                 $object = serialize($adapter);
             }

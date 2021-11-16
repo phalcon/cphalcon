@@ -11,16 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class IsRoleCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class IsRoleCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -34,13 +41,14 @@ class IsRoleCest
 
         $acl->addRole($aclRole);
 
-        $I->assertTrue(
-            $acl->isRole('Administrators')
-        );
+        $actual = $acl->isRole('Administrators');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole() - unknown
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -54,8 +62,7 @@ class IsRoleCest
 
         $acl->addRole($aclRole);
 
-        $I->assertFalse(
-            $acl->isRole('unknown')
-        );
+        $actual = $acl->isRole('unknown');
+        $I->assertFalse($actual);
     }
 }

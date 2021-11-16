@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
+namespace Phalcon\Tests\Unit\Config\Adapter\Yaml;
 
+use Codeception\Stub;
 use Phalcon\Config\Adapter\Yaml;
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Config\Exception;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 use function dataDir;
@@ -32,7 +34,7 @@ class ConstructCest
      * Tests Phalcon\Config\Adapter\Yaml :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlConstruct(UnitTester $I)
     {
@@ -45,7 +47,7 @@ class ConstructCest
      * Tests Phalcon\Config\Adapter\Yaml :: __construct() - callbacks
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlConstructCallbacks(UnitTester $I)
     {
@@ -63,14 +65,57 @@ class ConstructCest
             ]
         );
 
-        $I->assertEquals(
-            PATH_DATA . '/app/controllers/',
-            $config->application->controllersDir
+        $expected = PATH_DATA . '/app/controllers/';
+        $actual   = $config->application->controllersDir;
+        $I->assertEquals($expected, $actual);
+
+        $expected = '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223';
+        $actual   = $config->database->password;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - exceptions
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-21
+     */
+    public function configAdapterYamlConstructExceptions(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Yaml - construct - exceptions');
+
+        $filePath = dataDir('assets/config/callbacks.yml');
+
+        $I->expectThrowable(
+            new Exception(
+                'Yaml extension is not loaded'
+            ),
+            function () use ($filePath) {
+                $mock = Stub::make(
+                    Yaml::class,
+                    [
+                        'phpExtensionLoaded' => false,
+                    ]
+                );
+
+                $mock->__construct($filePath);
+            }
         );
 
-        $I->assertEquals(
-            '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223',
-            $config->database->password
+        $I->expectThrowable(
+            new Exception(
+                'Configuration file ' . basename($filePath) . ' can\'t be loaded'
+            ),
+            function () use ($filePath) {
+                $mock = Stub::make(
+                    Yaml::class,
+                    [
+                        'phpYamlParseFile' => false,
+                    ]
+                );
+
+                $mock->__construct($filePath);
+            }
         );
     }
 }

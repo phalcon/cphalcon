@@ -10,8 +10,6 @@
 
 namespace Phalcon\Http\Request;
 
-use Phalcon\Helper\Arr;
-
 /**
  * Phalcon\Http\Request\File
  *
@@ -92,10 +90,10 @@ class File implements FileInterface
             }
         }
 
-        let this->tmp   = Arr::get(file, "tmp_name"),
-            this->size  = Arr::get(file, "size"),
-            this->type  = Arr::get(file, "type"),
-            this->error = Arr::get(file, "error");
+        let this->tmp   = this->getArrVal(file, "tmp_name"),
+            this->size  = this->getArrVal(file, "size"),
+            this->type  = this->getArrVal(file, "type"),
+            this->error = this->getArrVal(file, "error");
 
         if key {
             let this->key = key;
@@ -173,5 +171,22 @@ class File implements FileInterface
     public function moveTo(string! destination) -> bool
     {
         return move_uploaded_file(this->tmp, destination);
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

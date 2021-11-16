@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\TranslateFactory;
+namespace Phalcon\Tests\Unit\Translate\TranslateFactory;
 
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;

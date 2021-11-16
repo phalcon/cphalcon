@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Attributes;
+namespace Phalcon\Tests\Unit\Html\Attributes;
 
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 use Phalcon\Html\Attributes;
 use UnitTester;
 

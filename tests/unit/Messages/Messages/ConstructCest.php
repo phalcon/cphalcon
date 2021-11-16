@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Messages\Messages;
+namespace Phalcon\Tests\Unit\Messages\Messages;
 
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
@@ -22,10 +22,12 @@ class ConstructCest
     /**
      * Tests Phalcon\Messages\Messages :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesConstruct(UnitTester $I)
+    public function messagesMessagesConstruct(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - __construct()');
 

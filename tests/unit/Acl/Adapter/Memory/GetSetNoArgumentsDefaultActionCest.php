@@ -11,17 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Enum;
 use UnitTester;
 
+/**
+ * Class GetSetNoArgumentsDefaultActionCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class GetSetNoArgumentsDefaultActionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,20 +40,18 @@ class GetSetNoArgumentsDefaultActionCest
         );
 
         $acl = new Memory();
+        $acl->setNoArgumentsDefaultAction(Enum::ALLOW);
 
-        $acl->setNoArgumentsDefaultAction(
-            Enum::ALLOW
-        );
-
-        $I->assertEquals(
-            Enum::ALLOW,
-            $acl->getNoArgumentsDefaultAction()
-        );
+        $expected = Enum::ALLOW;
+        $actual   = $acl->getNoArgumentsDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -59,9 +64,8 @@ class GetSetNoArgumentsDefaultActionCest
 
         $acl = new Memory();
 
-        $I->assertEquals(
-            Enum::DENY,
-            $acl->getNoArgumentsDefaultAction()
-        );
+        $expected = Enum::DENY;
+        $actual   = $acl->getNoArgumentsDefaultAction();
+        $I->assertEquals($expected, $actual);
     }
 }

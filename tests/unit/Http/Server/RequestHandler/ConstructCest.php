@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Server\RequestHandler;
+namespace Phalcon\Tests\Unit\Http\Server\RequestHandler;
 
-use Phalcon\Test\Fixtures\Http\Server\RequestHandlerFixture;
+use Phalcon\Tests\Fixtures\Http\Server\RequestHandlerFixture;
 use Psr\Http\Server\RequestHandlerInterface;
 use UnitTester;
 

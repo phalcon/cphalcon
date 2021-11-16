@@ -11,14 +11,19 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class OffsetSetCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class OffsetSetCest
 {
     use TranslateGettextTrait;
@@ -26,8 +31,10 @@ class OffsetSetCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: offsetSet()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterGettextOffsetSet(UnitTester $I)
     {
@@ -38,11 +45,7 @@ class OffsetSetCest
             function () {
                 $language = $this->getGettextConfig();
 
-                $translator = new Gettext(
-                    new InterpolatorFactory(),
-                    $language
-                );
-
+                $translator = new Gettext(new InterpolatorFactory(), $language);
                 $translator->offsetSet('team', 'Team');
             }
         );

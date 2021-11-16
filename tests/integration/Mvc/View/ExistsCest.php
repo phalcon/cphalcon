@@ -11,11 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View;
+namespace Phalcon\Tests\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
 use function dataDir;
@@ -37,7 +36,7 @@ class ExistsCest
         $view = new View();
 
         $view->setViewsDir(
-            Str::dirSeparator(dataDir('fixtures/views'))
+            $I->getDirSeparator(dataDir('fixtures/views'))
         );
 
         $view->setDI($container);

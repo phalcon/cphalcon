@@ -11,41 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
-use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Translate\InterpolatorFactory;
-use UnitTester;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextHelperTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 
+/**
+ * Class QueryCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class QueryCest
 {
     use TranslateGettextTrait;
+    use TranslateGettextHelperTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return string
      */
-    public function translateAdapterGettextQuery(UnitTester $I)
+    protected function func(): string
     {
-        $I->wantToTest('Translate\Adapter\Gettext - query()');
-
-        $params     = $this->getGettextConfig();
-        $translator = new Gettext(
-            new InterpolatorFactory(),
-            $params
-        );
-
-        $I->assertEquals('Hello', $translator->query('hi'));
-
-        $I->assertEquals('Hello Jeremy', $translator->query('hello-key', ['name' => 'Jeremy']));
-
-        $aParamQuery = ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team'];
-
-        $sTranslateResult = $translator->query('song-key', $aParamQuery);
-
-        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $sTranslateResult);
+        return 'query';
     }
 }

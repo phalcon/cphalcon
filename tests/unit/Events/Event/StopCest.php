@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Event;
+namespace Phalcon\Tests\Unit\Events\Event;
 
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;

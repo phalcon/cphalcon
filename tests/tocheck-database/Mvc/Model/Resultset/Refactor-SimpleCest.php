@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
+namespace Phalcon\Tests\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Robots;
 
 class SimpleCest
 {

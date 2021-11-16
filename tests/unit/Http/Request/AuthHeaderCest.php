@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Request;
+namespace Phalcon\Tests\Unit\Http\Request;
 
 use Codeception\Example;
-use Phalcon\Test\Fixtures\Listener\CustomAuthorizationListener;
-use Phalcon\Test\Fixtures\Listener\NegotiateAuthorizationListener;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Fixtures\Listener\CustomAuthorizationListener;
+use Phalcon\Tests\Fixtures\Listener\NegotiateAuthorizationListener;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 class AuthHeaderCest extends HttpBase

@@ -11,56 +11,51 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Flash\Session;
+namespace Phalcon\Tests\Unit\Flash\Session;
 
 use Phalcon\Flash\Session;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+use function ob_end_clean;
+use function ob_get_contents;
+use function ob_start;
+use function uniqid;
+
+use const PHP_EOL;
+
+/**
+ * Class OutputCest
+ *
+ * @package Phalcon\Tests\Unit\Flash\Session
+ */
 class OutputCest
 {
     use DiTrait;
 
-    /**
-     * @var array
-     */
-    protected $classes = [
-        'success' => 'successMessage',
-        'notice'  => 'noticeMessage',
-        'warning' => 'warningMessage',
-        'error'   => 'errorMessage',
-    ];
-
     public function _before(UnitTester $I)
     {
-        $this->newDi();
-        $this->setDiService('escaper');
+        $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: output()
+     * Tests Phalcon\Flash\Session :: output() - empty session
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function flashSessionOutput(UnitTester $I)
     {
-        $I->wantToTest('Flash\Session - output()');
-        $I->skipTest('Need implementation');
-    }
+        $I->wantToTest('Flash\Session - output() - empty session');
 
-    /**
-     * Tests Phalcon\Flash\Session :: output() in case the session is empty
-     *
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-29
-     */
-    public function emptyFlashSessionOutput(UnitTester $I)
-    {
-        $I->wantToTest('Flash\Session - output() when session is empty');
+        $session = $this->container->getShared('session');
+        $session->start();
 
-        $flash = $this->getFlash();
+        $flash = new Session();
+        $flash->setDI($this->container);
 
         $flash->clear();
 
@@ -70,18 +65,48 @@ class OutputCest
         ob_end_clean();
 
         $I->assertEmpty($result);
+
+        $session->destroy();
     }
 
     /**
-     * Return flash instance
+     * Tests Phalcon\Flash\Session :: output() - types
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    protected function getFlash()
+    public function flashSessionOutputTypes(UnitTester $I)
     {
-        $container = $this->getDi();
-        $flash     = new Session();
-        $flash->setDI($container);
-        $flash->setCssClasses($this->classes);
+        $I->wantToTest('Flash\Session - output() - types');
 
-        return $flash;
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $flash = new Session();
+        $flash->setDI($this->container);
+
+        $message1 = uniqid('m-');
+        $message2 = uniqid('m-');
+        $flash->success($message1);
+        $flash->error($message2);
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+        $expected = '<div class="successMessage">' . $message1 . '</div>' . PHP_EOL
+            . '<div class="errorMessage">' . $message2 . '</div>' . PHP_EOL;
+        $I->assertEquals($expected, $actual);
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+        $expected = '';
+        $I->assertEquals($expected, $actual);
+
+        $session->destroy();
     }
 }

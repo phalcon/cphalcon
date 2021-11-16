@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
@@ -20,6 +20,11 @@ class GetNameCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: getName()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerAdapterStreamGetName(UnitTester $I)
     {

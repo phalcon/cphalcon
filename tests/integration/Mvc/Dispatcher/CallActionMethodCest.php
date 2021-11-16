@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
 class CallActionMethodCest extends BaseDispatcher
 {

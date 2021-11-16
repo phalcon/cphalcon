@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Test\Fixtures\Migrations\CustomersDefaultsMigration;
-use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Migrations\SourcesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\CustomersDefaults;
-use Phalcon\Test\Models\CustomersKeepSnapshots;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesKeepSnapshots;
-use Phalcon\Test\Models\InvoicesSchema;
-use Phalcon\Test\Models\InvoicesValidationFails;
-use Phalcon\Test\Models\Sources;
-use Phalcon\Test\Models\Customers;
+use Phalcon\Tests\Fixtures\Migrations\CustomersDefaultsMigration;
+use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\SourcesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\CustomersDefaults;
+use Phalcon\Tests\Models\CustomersKeepSnapshots;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesKeepSnapshots;
+use Phalcon\Tests\Models\InvoicesSchema;
+use Phalcon\Tests\Models\InvoicesValidationFails;
+use Phalcon\Tests\Models\Sources;
+use Phalcon\Tests\Models\Customers;
 
 use function uniqid;
 

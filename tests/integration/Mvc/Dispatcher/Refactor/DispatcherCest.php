@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Refactor;
 
 use Phalcon\Mvc\Dispatcher\Exception;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
 use DispatcherTestDefaultNoNamespaceController;
 use IntegrationTester;
 
 /**
  * Class DispatcherCest
  *
- * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @package Phalcon\Tests\Integration\Mvc\Dispatcher
  * @todo: refactor
  */
 class DispatcherCest extends BaseDispatcher
@@ -45,7 +45,7 @@ class DispatcherCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -115,7 +115,7 @@ class DispatcherCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -163,7 +163,7 @@ class DispatcherCest extends BaseDispatcher
         );
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getPreviousNamespaceName()
         );
 
@@ -223,7 +223,7 @@ class DispatcherCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -271,7 +271,7 @@ class DispatcherCest extends BaseDispatcher
         );
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getPreviousNamespaceName()
         );
 
@@ -326,7 +326,7 @@ class DispatcherCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -380,7 +380,7 @@ class DispatcherCest extends BaseDispatcher
         $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -437,7 +437,7 @@ class DispatcherCest extends BaseDispatcher
         $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -635,7 +635,7 @@ class DispatcherCest extends BaseDispatcher
         $handler = $dispatcher->dispatch();
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -734,7 +734,7 @@ class DispatcherCest extends BaseDispatcher
                 $beforeExceptionHandled = true;
 
                 $I->assertEquals(
-                    'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                    'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
                     $dispatcher->getNamespaceName()
                 );
 
@@ -774,7 +774,7 @@ class DispatcherCest extends BaseDispatcher
         $I->assertTrue($beforeExceptionHandled);
 
         $I->assertEquals(
-            'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+            'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
             $dispatcher->getNamespaceName()
         );
 
@@ -822,7 +822,7 @@ class DispatcherCest extends BaseDispatcher
                 $beforeExceptionHandled = true;
 
                 $I->assertEquals(
-                    'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                    'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
                     $dispatcher->getNamespaceName()
                 );
 
@@ -875,7 +875,7 @@ class DispatcherCest extends BaseDispatcher
             // The string properties get updated
 
             $I->assertEquals(
-                'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                'Phalcon\Tests\Integration\Mvc\Dispatcher\Helper',
                 $dispatcher->getNamespaceName()
             );
 

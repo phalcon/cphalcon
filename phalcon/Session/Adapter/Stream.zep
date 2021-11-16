@@ -10,7 +10,6 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Helper\Str;
 use Phalcon\Session\Exception;
 
 /**
@@ -68,7 +67,7 @@ class Stream extends Noop
             throw new Exception("The session save path [" . path . "] is not writable");
         }
 
-        let this->path = Str::dirSeparator(path);
+        let this->path = this->getDirSeparator(path);
     }
 
     public function destroy(var id) -> bool
@@ -146,5 +145,13 @@ class Stream extends Noop
         let name = this->path . this->getPrefixedName(id);
 
         return false !== file_put_contents(name, data, LOCK_EX);
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getDirSeparator(string! directory) -> string
+    {
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

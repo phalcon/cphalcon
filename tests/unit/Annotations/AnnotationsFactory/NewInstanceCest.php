@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Annotations\AnnotationsFactory;
+namespace Phalcon\Tests\Unit\Annotations\AnnotationsFactory;
 
 use Codeception\Example;
 use Phalcon\Annotations\Adapter\Apcu;

@@ -11,11 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
+use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 use function getOptionsMysql;
 
@@ -51,6 +52,10 @@ class ConnectCest
 
         $options = getOptionsMysql();
         $options['persistent'] = true;
+        $options['options']    = [
+            PDO::ATTR_EMULATE_PREPARES  => false,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+        ];
 
         $connection = (new PdoFactory())->newInstance('mysql', $options);
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Session;
+namespace Phalcon\Tests\Fixtures\Session;
 
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;

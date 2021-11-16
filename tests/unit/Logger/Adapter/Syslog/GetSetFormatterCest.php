@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog;
 
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\FormatterInterface;
@@ -24,7 +24,7 @@ class GetSetFormatterCest
      * Tests Phalcon\Logger\Adapter\Syslog :: getFormatter()/setFormatter()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerAdapterSyslogGetSetFormatter(UnitTester $I)
     {

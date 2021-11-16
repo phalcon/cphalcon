@@ -10,11 +10,12 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
+use Phalcon\Support\Traits\PhpFileTrait;
 
 /**
- * Reads ini files and converts them to Phalcon\Config objects.
+ * Reads ini files and converts them to Phalcon\Config\Config objects.
  *
  * Given the next configuration file:
  *
@@ -59,18 +60,18 @@ class Ini extends Config
 {
     /**
      * Ini constructor.
+     *
+     * @param string $filePath
+     * @param int    $mode
+     *
+     * @throws Exception
      */
-    public function __construct(string! filePath, var mode = null)
+    public function __construct(string filePath, int mode = 1)
     {
         var directives, iniConfig, lastValue, path, section, sections;
         array config;
 
-        // Default to INI_SCANNER_RAW if not specified
-        if likely null === mode {
-            let mode = INI_SCANNER_RAW;
-        }
-
-        let iniConfig = parse_ini_file(filePath, true, mode);
+        let iniConfig = this->phpParseIniFile(filePath, true, mode);
 
         if unlikely iniConfig === false {
             throw new Exception(
@@ -97,9 +98,11 @@ class Ini extends Config
                         sections
                     );
                 }
-            } else {
-                let config[section] = this->cast(directives);
+
+                continue;
             }
+
+            let config[section] = this->cast(directives);
         }
 
         parent::__construct(config);
@@ -108,43 +111,65 @@ class Ini extends Config
     /**
      * We have to cast values manually because parse_ini_file() has a poor
      * implementation.
+     *
+     * @param mixed $ini
+     *
+     * @return array|float|int|mixed|string|null
      */
     protected function cast(var ini) -> bool | null | double | int | string
     {
-        var key, lowerIni, value;
+        var lowerIni;
+        array castMap;
 
         if typeof ini === "array" {
-            for key, value in ini {
-                let ini[key] = this->cast(value);
-            }
-
-            return ini;
+            return this->castArray(ini);
         }
 
-        // Decode true
         let ini      = (string) ini,
             lowerIni = strtolower(ini);
 
-        switch (lowerIni) {
-            case "true":
-            case "yes":
-            case "on":
-                return true;
-            case "false":
-            case "no":
-            case "off":
-                return false;
-            case "null":
-                return null;
+        // Decode null/boolean
+        if "null" === lowerIni {
+            return null;
+        }
+
+        // Decode boolean
+        let castMap = [
+            "on"    : true,
+            "true"  : true,
+            "yes"   : true,
+            "off"   : false,
+            "no"    : false,
+            "false" : false
+        ];
+
+        if true === isset(castMap[lowerIni]) {
+            return castMap[lowerIni];
         }
 
         // Decode float/int
         if typeof ini === "string" && is_numeric(ini) {
             if preg_match("/[.]+/", ini) {
                 return (double) ini;
-            } else {
-                return (int) ini;
             }
+
+            return (int) ini;
+        }
+
+        return ini;
+    }
+
+    /**
+     * @param array $ini
+     *
+     * @return array
+     */
+    protected function castArray(array ini) -> array
+    {
+        var key, value;
+
+        for key, value in ini {
+            let ini[key] = this->cast(value);
         }
 
         return ini;
@@ -152,25 +177,42 @@ class Ini extends Config
 
     /**
      * Build multidimensional array from string
+     *
+     * @param string $path
+     * @param mixed  $value
+     *
+     * @return array
      */
-    protected function parseIniString(string! path, var value) -> array
+    protected function parseIniString(string path, var value) -> array
     {
-        var key, position;
+        var castValue, key, position, result;
 
-        let value    = this->cast(value),
-            position = strpos(path, ".");
+        let castValue = this->cast(value),
+            position  = strpos(path, ".");
 
         if false === position {
             return [
-                path : value
+                path : castValue
             ];
         }
 
-        let key  = substr(path, 0, position),
-            path = substr(path, position + 1);
+        let key    = substr(path, 0, position),
+            path   = substr(path, position + 1),
+            result = this->parseIniString(path, castValue);
 
         return [
-            key : this->parseIniString(path, value)
+            key : result
         ];
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpParseIniFile(
+        string filename,
+        bool processSections = false,
+        int scannerMode = 1
+    ) {
+        return parse_ini_file(filename, processSections, scannerMode);
     }
 }

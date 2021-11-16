@@ -33,12 +33,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, InterpolatorFactory, phalcon, translate_interpolatorfactory, phalcon_factory_abstractfactory_ce, phalcon_translate_interpolatorfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_translate_interpolatorfactory_ce, SL("exception"), "Phalcon\\Translate\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * AdapterFactory constructor.
+ * InterpolatorFactor constructor.
+ *
+ * @param array $services
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 {
@@ -75,6 +76,11 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param string $name
+ *
+ * @return InterpolatorInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 {
@@ -114,7 +120,24 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getAdapters)
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Translate\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
+PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

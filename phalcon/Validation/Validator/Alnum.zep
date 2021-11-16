@@ -73,6 +73,9 @@ class Alnum extends AbstractValidator
         var value;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         if !ctype_alnum(value) {
             validation->appendMessage(

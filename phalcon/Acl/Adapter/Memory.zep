@@ -15,9 +15,8 @@ use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Acl\RoleAware;
-use Phalcon\Acl\ComponentAware;
+use Phalcon\Acl\RoleAwareInterface;
+use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
 use ReflectionFunction;
 
@@ -164,13 +163,6 @@ class Memory extends AbstractAdapter
     protected roleInherits;
 
     /**
-     * Roles Names
-     *
-     * @var mixed
-     */
-    protected rolesNames;
-
-    /**
      * Phalcon\Acl\Adapter\Memory constructor
      */
     public function __construct()
@@ -226,7 +218,7 @@ class Memory extends AbstractAdapter
         let componentName = componentObject->getName();
 
         if !isset this->componentsNames[componentName] {
-            let this->components[] = componentObject;
+            let this->components[componentName]      = componentObject;
             let this->componentsNames[componentName] = true;
         }
 
@@ -242,14 +234,10 @@ class Memory extends AbstractAdapter
         string accessKey;
         bool exists;
 
-        if unlikely !isset this->componentsNames[componentName] {
-            throw new Exception(
-                "Component '" . componentName . "' does not exist in ACL"
-            );
-        }
+        this->checkExists(this->componentsNames, componentName, "Component");
 
         if unlikely (typeof accessList != "array" && typeof accessList != "string") {
-            throw new Exception("Invalid value for accessList");
+            throw new Exception("Invalid value for the accessList");
         }
 
         let exists = true;
@@ -283,17 +271,11 @@ class Memory extends AbstractAdapter
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
-        var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
+        var roleInheritName, roleToInherit, checkRoleToInherit,
             roleToInheritList, usedRoleToInherit;
         array checkRoleToInherits, usedRoleToInherits;
 
-        let rolesNames = this->rolesNames;
-
-        if unlikely !isset rolesNames[roleName] {
-            throw new Exception(
-                "Role '" . roleName . "' does not exist in the role list"
-            );
-        }
+        this->checkExists(this->roles, roleName, "Role", "role list");
 
         if !isset this->roleInherits[roleName] {
             let this->roleInherits[roleName] = [];
@@ -328,7 +310,7 @@ class Memory extends AbstractAdapter
             /**
              * Check if the role to inherit is valid
              */
-            if unlikely !isset rolesNames[roleInheritName] {
+            if unlikely !isset this->roles[roleInheritName] {
                 throw new Exception(
                     "Role '" . roleInheritName .
                     "' (to inherit) does not exist in the role list"
@@ -413,12 +395,11 @@ class Memory extends AbstractAdapter
 
         let roleName = roleObject->getName();
 
-        if isset this->rolesNames[roleName] {
+        if isset this->roles[roleName] {
             return false;
         }
 
-        let this->roles[]              = roleObject,
-            this->rolesNames[roleName] = true;
+        let this->roles[roleName] = roleObject;
 
         if null !== accessInherits {
             return this->addInherit(roleName, accessInherits);
@@ -445,26 +426,21 @@ class Memory extends AbstractAdapter
      */
     public function allow(string roleName, string componentName, var access, var func = null) -> void
     {
-        var innerRoleName;
+        var role, rolesArray;
 
-        if roleName != "*" {
+        let rolesArray = [roleName];
+        if ("*" === roleName) {
+            let rolesArray = array_keys(this->roles);
+        }
+
+        for role in rolesArray {
             this->allowOrDeny(
-                roleName,
+                role,
                 componentName,
                 access,
                 Enum::ALLOW,
                 func
             );
-        } else {
-            for innerRoleName, _ in this->rolesNames {
-                this->allowOrDeny(
-                    innerRoleName,
-                    componentName,
-                    access,
-                    Enum::ALLOW,
-                    func
-                );
-            }
         }
     }
 
@@ -487,20 +463,21 @@ class Memory extends AbstractAdapter
      */
     public function deny(string roleName, string componentName, var access, var func = null) -> void
     {
-        var innerRoleName;
+        var role, rolesArray;
 
-        if "*" !== roleName {
-            this->allowOrDeny(roleName, componentName, access, Enum::DENY, func);
-        } else {
-            for innerRoleName, _ in this->rolesNames {
-                this->allowOrDeny(
-                    innerRoleName,
-                    componentName,
-                    access,
-                    Enum::DENY,
-                    func
-                );
-            }
+        let rolesArray = [roleName];
+        if ("*" === roleName) {
+            let rolesArray = array_keys(this->roles);
+        }
+
+        for role in rolesArray {
+            this->allowOrDeny(
+                role,
+                componentName,
+                access,
+                Enum::DENY,
+                func
+            );
         }
     }
 
@@ -531,6 +508,34 @@ class Memory extends AbstractAdapter
      }
 
     /**
+     * Return an array with every component registered in the list
+     */
+    public function getComponents() -> <ComponentInterface[]>
+    {
+        return this->components;
+    }
+
+    /**
+     * Returns the inherited roles for a passed role name. If no role name
+     * has been specified it will return the whole array. If the role has not
+     * been found it returns an empty array
+     */
+    public function getInheritedRoles(string roleName = "") -> array
+    {
+        var result;
+
+        if "" === roleName {
+            return this->roleInherits;
+        }
+
+        if !fetch result, this->roleInherits[roleName] {
+            return [];
+        }
+
+        return result;
+    }
+
+    /**
      * Returns the default ACL access level for no arguments provided in
      * `isAllowed` action if a `func` (callable) exists for `accessKey`
      */
@@ -548,14 +553,6 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Return an array with every component registered in the list
-     */
-    public function getComponents() -> <ComponentInterface[]>
-    {
-        return this->components;
-    }
-
-    /**
      * Check whether a role is allowed to access an action from a component
      *
      * ```php
@@ -569,16 +566,16 @@ class Memory extends AbstractAdapter
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
         var accessKey, accessList, componentObject = null, haveAccess = null,
-            eventsManager, funcAccess = null, funcList, numberOfRequiredParameters,
+            funcAccess = null, funcList, numberOfRequiredParameters,
             reflectionFunction, reflectionParameters, parameterNumber,
             parameterToCheck, parametersForFunction, reflectionClass,
-            reflectionParameter, rolesNames, roleObject = null,
+            reflectionParameter, roleObject = null,
             userParametersSizeShouldBe;
 
         bool hasComponent = false, hasRole = false;
 
         if typeof roleName == "object" {
-            if roleName instanceof RoleAware {
+            if roleName instanceof RoleAwareInterface {
                 let roleObject = roleName,
                     roleName   = roleObject->getRoleName();
             } elseif roleName instanceof RoleInterface {
@@ -586,13 +583,13 @@ class Memory extends AbstractAdapter
             } else {
                 throw new Exception(
                     "Object passed as roleName must implement " .
-                    "Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface"
+                    "Phalcon\\Acl\\RoleAwareInterface or Phalcon\\Acl\\RoleInterface"
                 );
             }
         }
 
         if typeof componentName == "object" {
-            if componentName instanceof ComponentAware {
+            if componentName instanceof ComponentAwareInterface {
                 let componentObject = componentName,
                     componentName   = componentObject->getComponentName();
             } elseif componentName instanceof ComponentInterface {
@@ -600,7 +597,7 @@ class Memory extends AbstractAdapter
             } else {
                 throw new Exception(
                     "Object passed as componentName must implement " .
-                    "Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface"
+                    "Phalcon\\Acl\\ComponentAwareInterface or Phalcon\\Acl\\ComponentInterface"
                 );
             }
         }
@@ -612,23 +609,18 @@ class Memory extends AbstractAdapter
             this->activeKey       = null,
             this->activeFunction  = null,
             accessList            = this->access,
-            eventsManager         = <EventsManager> this->eventsManager,
             funcList              = this->func;
 
         let this->activeFunctionCustomArgumentsCount = 0;
 
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("acl:beforeCheckAccess", this) === false {
-                return false;
-            }
+        if (false === this->fireManagerEvent("acl:beforeCheckAccess", this)) {
+            return false;
         }
 
         /**
          * Check if the role exists
          */
-        let rolesNames = this->rolesNames;
-
-        if !isset rolesNames[roleName] {
+        if !isset this->roles[roleName] {
             return (this->defaultAccess == Enum::ALLOW);
         }
 
@@ -637,7 +629,7 @@ class Memory extends AbstractAdapter
          */
         let accessKey = this->canAccess(roleName, componentName, access);
 
-        if accessKey != false && isset accessList[accessKey] {
+        if null !== accessKey && isset accessList[accessKey] {
             let haveAccess = accessList[accessKey];
 
             fetch funcAccess, funcList[accessKey];
@@ -648,9 +640,7 @@ class Memory extends AbstractAdapter
          */
         let this->accessGranted = haveAccess;
 
-        if typeof eventsManager == "object" {
-            eventsManager->fire("acl:afterCheckAccess", this);
-        }
+        this->fireManagerEvent("acl:afterCheckAccess", this);
 
         let this->activeKey      = accessKey,
             this->activeFunction = funcAccess;
@@ -795,7 +785,7 @@ class Memory extends AbstractAdapter
      */
     public function isRole(string roleName) -> bool
     {
-        return isset this->rolesNames[roleName];
+        return isset this->roles[roleName];
     }
 
     /**
@@ -823,17 +813,8 @@ class Memory extends AbstractAdapter
     {
         var accessList, accessName, accessKey;
 
-        if unlikely !isset this->rolesNames[roleName] {
-            throw new Exception(
-                "Role '" . roleName . "' does not exist in the ACL"
-            );
-        }
-
-        if unlikely !isset this->componentsNames[componentName] {
-            throw new Exception(
-                "Component '" . componentName . "' does not exist in the ACL"
-            );
-        }
+        this->checkExists(this->roles, roleName, "Role");
+        this->checkExists(this->componentsNames, componentName, "Component");
 
         let accessList = this->accessList;
 
@@ -981,5 +962,27 @@ class Memory extends AbstractAdapter
         }
 
         return false;
+    }
+
+    /**
+     * @param array  $collection
+     * @param string $element
+     * @param string $elementName
+     * @param string $suffix
+     *
+     * @throws Exception
+     */
+    private function checkExists(
+        array collection,
+        string element,
+        string elementName,
+        string suffix = "ACL"
+    ) -> void {
+        if (true !== isset(collection[element])) {
+            throw new Exception(
+                elementName . " '" . element .
+                "' does not exist in the " . suffix
+            );
+        }
     }
 }

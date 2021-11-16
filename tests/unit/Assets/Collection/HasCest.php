@@ -11,37 +11,38 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Collection;
+namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class HasCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class HasCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: has()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsCollectionHas(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - has()');
 
         $collection = new Collection();
-
-        $asset1 = new Asset('js', 'js/jquery.js');
-        $asset2 = new Asset('js', 'js/jquery-ui.js');
+        $asset1     = new Asset('js', 'js/jquery.js');
+        $asset2     = new Asset('js', 'js/jquery-ui.js');
 
         $collection->add($asset1);
 
-        $I->assertTrue(
-            $collection->has($asset1)
-        );
-
-        $I->assertFalse(
-            $collection->has($asset2)
-        );
+        $I->assertTrue($collection->has($asset1));
+        $I->assertFalse($collection->has($asset2));
     }
 }

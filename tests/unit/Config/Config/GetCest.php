@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetCest
@@ -21,7 +21,7 @@ class GetCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: __get()
+     * Tests Phalcon\Config\Config :: __get()
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-06-17
@@ -30,14 +30,14 @@ class GetCest
     {
         $I->wantToTest('Config - get()');
         $config = $this->getConfig();
-        $I->assertEquals(
-            $config->database->adapter,
-            $this->config['database']['adapter']
-        );
+
+        $expected = $config->database->adapter;
+        $actual   = $this->config['database']['adapter'];
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Config :: __get()
+     * Tests Phalcon\Config\Config :: __get()
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-06-17
@@ -46,9 +46,10 @@ class GetCest
     {
         $I->wantToTest('Config - get()');
         $config = $this->getConfig();
-        $I->assertEquals(
-            $config->get('database')->get('adapter'),
-            $this->config['database']['adapter']
-        );
+
+        $expected = $this->config['database']['adapter'];
+        $actual   = $config->get('database')
+                           ->get('adapter');
+        $I->assertEquals($expected, $actual);
     }
 }

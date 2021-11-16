@@ -11,26 +11,35 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Acl;
+namespace Phalcon\Tests\Fixtures\Acl;
 
-use Phalcon\Acl\ComponentAware;
+use Phalcon\Acl\ComponentAwareInterface;
 
 /**
  * Class TestComponentAware
+ *
+ * @property int    $user
+ * @property string $resourceName
  */
-class TestComponentAware implements ComponentAware
+class TestComponentAware implements ComponentAwareInterface
 {
     /**
      * @var int
      */
-    protected $user;
+    protected int $user;
 
     /**
      * @var string
      */
-    protected $resourceName;
+    protected string $resourceName;
 
-    public function __construct($user, string $resourceName)
+    /**
+     * TestComponentAware constructor.
+     *
+     * @param string $user
+     * @param string $resourceName
+     */
+    public function __construct(int $user, string $resourceName)
     {
         $this->user         = $user;
         $this->resourceName = $resourceName;
@@ -39,7 +48,7 @@ class TestComponentAware implements ComponentAware
     /**
      * @return int
      */
-    public function getUser()
+    public function getUser(): int
     {
         return $this->user;
     }

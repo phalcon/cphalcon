@@ -10,13 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+/**
+ * Interpolates context values into the message placeholders. By default, the
+ * right and left tokens are `%`
+ *
+ * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
+ */
 class Interpolate
 {
     /**
-     * Interpolates context values into the message placeholders
-     *
-     * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
-     *
      * @param string $message
      * @param array  $context
      */

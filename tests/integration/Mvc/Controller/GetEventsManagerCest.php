@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Controller;
+namespace Phalcon\Tests\Integration\Mvc\Controller;
 
 use IntegrationTester;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Test\Controllers\ViewRequestController;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Controllers\ViewRequestController;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetEventsManagerCest

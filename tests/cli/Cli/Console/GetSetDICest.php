@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Console as CliConsole;

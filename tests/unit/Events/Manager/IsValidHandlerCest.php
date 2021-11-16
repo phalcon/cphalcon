@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Manager;
+namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Codeception\Example;
 use Phalcon\Events\Manager;
 use UnitTester;
 
@@ -21,40 +22,61 @@ class IsValidHandlerCest
     /**
      * Tests Phalcon\Events\Manager :: isValidHandler()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
-    public function eventsManagerIsValidHandler(UnitTester $I)
+    public function eventsManagerIsValidHandler(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Events\Manager - isValidHandler()');
+        $I->wantToTest('Events\Manager - isValidHandler() - ' . $example[0]);
 
-        $manager = new Manager();
+        $manager  = new Manager();
+        $handler  = $example[2];
+        $expected = $example[1];
+        $actual   = $manager->isValidHandler($handler);
+        $I->assertEquals($expected, $actual);
+    }
 
-        $stringHandler = 'handler';
-        $I->assertFalse(
-            $manager->isValidHandler($stringHandler)
-        );
-
-        $integerHandler = 666;
-        $I->assertFalse(
-            $manager->isValidHandler($integerHandler)
-        );
-
-        $objectHandler = new Manager();
-        $I->assertTrue(
-            $manager->isValidHandler($objectHandler)
-        );
-
-        $callableHandler = [$objectHandler, 'hasListeners'];
-        $I->assertTrue(
-            $manager->isValidHandler($callableHandler)
-        );
-
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        $objectHandler  = new Manager();
         $closureHandler = function () {
             return true;
         };
-        $I->assertTrue(
-            $manager->isValidHandler($closureHandler)
-        );
+
+        return [
+            [
+                'string',
+                false,
+                'handler'
+            ],
+            [
+                'integer',
+                false,
+                134,
+            ],
+            [
+                'object',
+                true,
+                $objectHandler,
+            ],
+            [
+                'callable - method',
+                true,
+                [$objectHandler, 'hasListeners']
+            ],
+            [
+                'closure',
+                true,
+                $closureHandler
+            ],
+        ];
     }
 }

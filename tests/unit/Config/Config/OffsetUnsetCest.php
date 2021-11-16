@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetUnsetCest
@@ -21,7 +21,7 @@ class OffsetUnsetCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: offsetUnset()
+     * Tests Phalcon\Config\Config :: offsetUnset()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
@@ -29,6 +29,7 @@ class OffsetUnsetCest
     public function configOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Config - offsetUnset()');
+
         $this->checkOffsetUnset($I);
     }
 }

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Cache;
+namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +27,7 @@ class DeleteMultipleCest
      * Tests Phalcon\Cache :: deleteMultiple()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheDeleteMultiple(IntegrationTester $I)
     {
@@ -94,7 +94,7 @@ class DeleteMultipleCest
      * Tests Phalcon\Cache :: deleteMultiple() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheDeleteMultipleException(IntegrationTester $I)
     {

@@ -11,22 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\AdapterFactory;
+namespace Phalcon\Tests\Integration\Storage\AdapterFactory;
 
 use Codeception\Example;
-use Phalcon\Storage\Exception;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\AdapterFactory;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
+use function uniqid;
 
 class NewInstanceCest
 {
@@ -35,10 +36,13 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
      * @throws Exception
-     * @since        2019-05-04
      *
      * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageAdapterFactoryNewInstance(IntegrationTester $I, Example $example)
     {
@@ -56,22 +60,24 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
      *
-     * @throws Exception
-     * @since  2019-05-04
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 
+        $name = uniqid();
         $I->expectThrowable(
-            new Exception('Service unknown is not registered'),
-            function () {
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
                 $serializer = new SerializerFactory();
                 $adapter    = new AdapterFactory($serializer);
 
-                $service = $adapter->newInstance('unknown');
+                $service = $adapter->newInstance($name);
             }
         );
     }

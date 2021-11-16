@@ -66,8 +66,7 @@ class Confirmation extends AbstractValidator
      *     'template' => '',
      *     'with' => '',
      *     'labelWith' => '',
-     *     'ignoreCase' => false,
-     *     'allowEmpty' => false
+     *     'ignoreCase' => false
      * ]
      */
     public function __construct(array! options = [])
@@ -133,6 +132,6 @@ class Confirmation extends AbstractValidator
             let b = mb_strtolower(b, "utf-8");
         }
 
-        return strcmp($a, $b) === 0;
+        return strcmp(a, b) === 0;
     }
 }

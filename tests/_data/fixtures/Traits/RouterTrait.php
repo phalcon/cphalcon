@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits;
+namespace Phalcon\Tests\Fixtures\Traits;
 
 use Phalcon\Di;
 use Phalcon\Http\Request;
@@ -101,7 +101,7 @@ trait RouterTrait
 
     /**
      * get router and set params for
-     * Phalcon\Test\Unit\Mvc\RouterTest::testUsingRouteConverters() test
+     * Phalcon\Tests\Unit\Mvc\RouterTest::testUsingRouteConverters() test
      */
     protected function getRouterAndSetData(): Router
     {

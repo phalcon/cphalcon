@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 
 /**
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, _0, _1, _2, _3, _4$$3;
+	zval *validation, validation_sub, *field, field_sub, value, _0, _1, _2, _3, _4, _5$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -131,7 +131,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5$$4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -147,17 +148,22 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate)
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_BOOL(1);
+	}
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "/[^[:alpha:]]/imu");
 	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "/[^[:alpha:]]/imu");
 	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "/[^[:alpha:]]/imu");
-	zephir_preg_match(&_2, &_3, &value, &_0, 0, 0 , 0 );
-	if (zephir_is_true(&_2)) {
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "/[^[:alpha:]]/imu");
+	zephir_preg_match(&_3, &_4, &value, &_1, 0, 0 , 0 );
+	if (zephir_is_true(&_3)) {
+		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

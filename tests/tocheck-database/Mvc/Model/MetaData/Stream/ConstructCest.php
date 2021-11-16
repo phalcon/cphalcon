@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Stream;
+namespace Phalcon\Tests\Integration\Mvc\Model\MetaData\Stream;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Stream;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 use function cacheDir;
 use function dataDir;

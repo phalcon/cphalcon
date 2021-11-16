@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Php;
+namespace Phalcon\Tests\Unit\Config\Adapter\Php;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class ToArrayCest
@@ -24,11 +24,12 @@ class ToArrayCest
      * Tests Phalcon\Config\Adapter\Php :: toArray()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterPhpToArray(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - toArray()');
+
         $this->checkToArray($I, 'Php');
     }
 }

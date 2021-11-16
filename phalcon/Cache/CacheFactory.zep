@@ -11,17 +11,18 @@
 namespace Phalcon\Cache;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
-use Phalcon\Cache;
-use Psr\SimpleCache\CacheInterface;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\Exception;
-use Phalcon\Config;
 use Phalcon\Config\ConfigInterface;
-use Phalcon\Helper\Arr;
+use Phalcon\Factory\AbstractConfigFactory;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Creates a new Cache class
+ *
+ * @property AdapterFactory $adapterFactory;
  */
-class CacheFactory
+class CacheFactory extends AbstractConfigFactory
 {
     /**
      * @var AdapterFactory
@@ -39,7 +40,7 @@ class CacheFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array $config = [
      *     'adapter' => 'apcu',
      *     'options' => [
      *         'servers' => [
@@ -47,7 +48,6 @@ class CacheFactory
      *                 'host' => 'localhost',
      *                 'port' => 11211,
      *                 'weight' => 1,
-     *
      *             ]
      *         ],
      *         'host' => '127.0.0.1',
@@ -63,29 +63,21 @@ class CacheFactory
      *         'storageDir' => ''
      *     ]
      * ]
+     *
+     * @return CacheInterface
+     * @throws Exception
      */
-    public function load(var config) -> var
+    public function load(var config) -> <CacheInterface>
     {
         var name, options;
 
-        if typeof config == "object" && config instanceof ConfigInterface {
-            let config = config->toArray();
-        }
+        let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
+            name   = config["adapter"];
 
-        if unlikely typeof config !== "array" {
-            throw new Exception(
-                "Config must be array or Phalcon\\Config object"
-            );
+        if !fetch options, config["options"] {
+            let options = [];
         }
-
-        if unlikely !isset config["adapter"] {
-            throw new Exception(
-                "You must provide 'adapter' option in factory config parameter."
-            );
-        }
-
-        let name    = config["adapter"],
-            options = Arr::get(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -93,27 +85,30 @@ class CacheFactory
     /**
      * Constructs a new Cache instance.
      *
-     * @param array options = [
-     *     'servers' => [
-     *         [
-     *             'host' => 'localhost',
-     *             'port' => 11211,
-     *             'weight' => 1,
-
-     *         ]
-     *     ],
-     *     'host' => '127.0.0.1',
-     *     'port' => 6379,
-     *     'index' => 0,
-     *     'persistent' => false,
-     *     'auth' => '',
-     *     'socket' => '',
-     *     'defaultSerializer' => 'Php',
-     *     'lifetime' => 3600,
-     *     'serializer' => null,
-     *     'prefix' => 'phalcon',
-     *     'storageDir' => ''
+     * @param string $name
+     * @param array  $options = [
+     *      'servers'           => [
+     *          [
+     *              'host' => 'localhost',
+     *              'port' => 11211,
+     *              'weight' => 1,
+     *          ]
+     *      ],
+     *      'host'              => '127.0.0.1',
+     *      'port'              => 6379,
+     *      'index'             => 0,
+     *      'persistent'        => false,
+     *      'auth'              => '',
+     *      'socket'            => '',
+     *      'defaultSerializer' => 'Php',
+     *      'lifetime'          => 3600,
+     *      'serializer'        => null,
+     *      'prefix'            => 'phalcon',
+     *      'storageDir'        => '',
      * ]
+     *
+     * @return CacheInterface
+     * @throws Exception
      */
     public function newInstance(string! name, array! options = []) -> <CacheInterface>
     {
@@ -122,5 +117,13 @@ class CacheFactory
         let adapter = this->adapterFactory->newInstance(name, options);
 
         return new Cache(adapter);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\Cache\Exception\Exception";
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Dispatcher;
+namespace Phalcon\Tests\Unit\Dispatcher;
 
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Dispatcher;

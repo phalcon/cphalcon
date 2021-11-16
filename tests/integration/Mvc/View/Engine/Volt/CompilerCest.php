@@ -15,14 +15,14 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
+namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
 
 use DateTime;
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Escaper;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
+use Phalcon\Html\Escaper;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
@@ -31,7 +31,7 @@ use Phalcon\Url;
 use stdClass;
 
 /**
- * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerCest
+ * Phalcon\Tests\Integration\Mvc\View\Engine\Volt\CompilerCest
  *
  * Test Compiler template engine
  */

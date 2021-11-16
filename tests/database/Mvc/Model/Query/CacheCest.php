@@ -11,18 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Query;
+namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
 use Codeception\Example;
 use DatabaseTester;
-use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Mvc\Model;
+use Phalcon\Cache\Cache;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 use function cacheDir;
 
@@ -141,7 +139,9 @@ class CacheCest
         /**
          * Delete the temporary record
          */
-        Invoices::findFirst("inv_status_flag = " . Invoices::STATUS_PAID)->delete();
+        Invoices::findFirst("inv_status_flag = " . Invoices::STATUS_PAID)
+                ->delete()
+        ;
 
         /**
          * Query again with cache - This should be 1

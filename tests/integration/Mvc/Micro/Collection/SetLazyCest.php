@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
+namespace Phalcon\Tests\Integration\Mvc\Micro\Collection;
 
 use Codeception\Example;
 use IntegrationTester;

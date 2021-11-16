@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
+namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Test\Fixtures\Listener\ViewCompileListener;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Listener\ViewCompileListener;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class RenderCest
 {

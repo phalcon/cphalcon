@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Cookie;
+namespace Phalcon\Tests\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Cookies;
-use Phalcon\Test\Fixtures\Traits\CookieTrait;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Tests\Fixtures\Traits\CookieTrait;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
 use function explode;

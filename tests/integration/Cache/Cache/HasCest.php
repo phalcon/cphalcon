@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Cache;
+namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +27,7 @@ class HasCest
      * Tests Phalcon\Cache :: has()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheHas(IntegrationTester $I)
     {
@@ -38,25 +38,19 @@ class HasCest
         $instance   = $factory->newInstance('apcu');
 
         $adapter = new Cache($instance);
+        $key     = uniqid();
 
-        $key = uniqid();
-
-        $I->assertFalse(
-            $adapter->has($key)
-        );
+        $I->assertFalse($adapter->has($key));
 
         $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $I->assertTrue($adapter->has($key));
     }
 
     /**
      * Tests Phalcon\Cache :: has() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheHasException(IntegrationTester $I)
     {

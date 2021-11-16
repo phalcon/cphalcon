@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Query\Builder;
+namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RecordsTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RecordsTrait;
+use Phalcon\Tests\Models\Invoices;
 
 class OrderByCest
 {
@@ -69,7 +69,7 @@ class OrderByCest
         ;
 
         $expected = 'SELECT inv_id, inv_title '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
+            . 'FROM [Phalcon\Tests\Models\Invoices] '
             . 'ORDER BY inv_title';
         $actual   = $phql;
         $I->assertEquals($expected, $actual);
@@ -80,7 +80,7 @@ class OrderByCest
         ;
 
         $expected = 'SELECT inv_id, inv_title '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
+            . 'FROM [Phalcon\Tests\Models\Invoices] '
             . 'ORDER BY inv_title DESC';
         $actual   = $phql;
         $I->assertEquals($expected, $actual);

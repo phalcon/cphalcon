@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Dynamic;
+namespace Phalcon\Tests\Models\Dynamic;
 
 use Phalcon\Mvc\Model as PhalconModel;
-use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Tests\Models\RobotsParts;
 
 /**
  * @property int    $id

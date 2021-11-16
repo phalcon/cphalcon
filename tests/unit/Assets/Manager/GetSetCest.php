@@ -11,13 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Countable;
-use Iterator;
+use IteratorAggregate;
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class GetSetCest
@@ -32,15 +34,14 @@ class GetSetCest
     {
         $I->wantToTest('Assets\Manager - get()/set()');
 
-        $assets = new Manager();
-
+        $manager    = new Manager(new TagFactory(new Escaper()));
         $collection = new Collection();
 
-        $assets->set('hangout', $collection);
-        $actual = $assets->get('hangout');
+        $manager->set('hangout', $collection);
+        $actual = $manager->get('hangout');
         $I->assertInstanceOf(Collection::class, $actual);
         $I->assertInstanceOf(Countable::class, $actual);
-        $I->assertInstanceOf(Iterator::class, $actual);
+        $I->assertInstanceOf(IteratorAggregate::class, $actual);
     }
 
     /**
@@ -56,9 +57,8 @@ class GetSetCest
         $I->expectThrowable(
             new Exception('The collection does not exist in the manager'),
             function () {
-                $assets = new Manager();
-
-                $assets->get('some-non-existent-collection');
+                $manager = new Manager(new TagFactory(new Escaper()));
+                $manager->get('some-non-existent-collection');
             }
         );
     }

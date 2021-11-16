@@ -11,85 +11,103 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset;
+namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Codeception\Example;
+use Codeception\Stub;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+use function dataDir;
+
+/**
+ * Class GetRealTargetPathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetRealTargetPathCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @dataProvider provider
      *
-     * @dataProvider localProvider
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
-    public function assetsAssetGetAssetKeyLocal(UnitTester $I, Example $example)
+    public function assetsAssetGetRealTargetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetPath() - css local');
+        $I->wantToTest('Assets\Asset - getRealTargetPath()');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
+        $asset = new Asset($example['type'], $example['path'], $example['local']);
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetPath()
-        );
+        $expected = $example['path'];
+        $actual   = $asset->getRealTargetPath();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css remote
+     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local 404
+     *
+     * @param UnitTester $I
      *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
-     * @dataProvider remoteProvider
+     * @since        2020-09-09
      */
-    public function assetsAssetGetAssetKeyRemote(UnitTester $I, Example $example)
+    public function assetsAssetGetRealTargetPath404(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetPath() - css remote');
+        $I->wantToTest('Assets\Asset - getRealTargetPath() - css local 404');
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path'],
-            false
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
+        $file = 'assets/assets/1198.css';
+        /** @var Asset $asset */
+        $asset = Stub::construct(
+            Asset::class,
+            [
+                'css',
+                $file,
+            ],
+            [
+                'phpFileExists' => true,
+            ]
         );
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetPath()
-        );
+        $expected = dataDir($file);
+        $actual   = $asset->getRealTargetPath(dataDir());
+        $I->assertEquals($expected, $actual);
     }
 
-    protected function localProvider(): array
+    /**
+     * @return string[][]
+     */
+    protected function provider(): array
     {
         return [
             [
-                'type' => 'css',
-                'path' => 'css/docs.css',
+                'type'  => 'css',
+                'path'  => 'css/docs.css',
+                'local' => true,
             ],
             [
-                'type' => 'js',
-                'path' => 'js/jquery.js',
-            ],
-        ];
-    }
-
-    protected function remoteProvider(): array
-    {
-        return [
-            [
-                'type' => 'css',
-                'path' => 'https://phalcon.ld/css/docs.css',
+                'type'  => 'js',
+                'path'  => 'js/jquery.js',
+                'local' => true,
             ],
             [
-                'type' => 'js',
-                'path' => 'https://phalcon.ld/js/jquery.js',
+                'type'  => 'css',
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+            [
+                'type'  => 'js',
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
             ],
         ];
     }

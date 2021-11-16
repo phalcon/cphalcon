@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Refactor;
 
 use Exception;
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
 /**
  * Class DispatcherBeforeExecuteRouteMethodCest
  *
- * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @package Phalcon\Tests\Integration\Mvc\Dispatcher
  * @todo: refactor
  */
 class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher

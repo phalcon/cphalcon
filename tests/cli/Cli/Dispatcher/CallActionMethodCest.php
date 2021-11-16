@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
-use Phalcon\Test\Fixtures\Tasks\MainTask;
+use Phalcon\Tests\Fixtures\Tasks\MainTask;
 
 class CallActionMethodCest
 {

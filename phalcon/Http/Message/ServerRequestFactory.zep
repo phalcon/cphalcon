@@ -14,9 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection;
-use Phalcon\Collection\CollectionInterface;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -556,7 +555,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface, RequestMeth
             }
         }
 
-        return $collection;
+        return collection;
     }
 
     /**

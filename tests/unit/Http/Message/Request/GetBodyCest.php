@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Request;
+namespace Phalcon\Tests\Unit\Http\Message\Request;
 
 use Phalcon\Http\Message\Request;
 use Phalcon\Http\Message\Stream;
@@ -37,9 +37,7 @@ class GetBodyCest
 
         $I->openFile($fileName);
 
-        $I->seeFileContentsEqual(
-            $request->getBody()
-        );
+        $I->assertStringEqualsFile($fileName, $request->getBody());
     }
 
     /**

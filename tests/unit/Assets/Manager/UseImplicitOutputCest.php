@@ -11,9 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 use function sprintf;
@@ -32,13 +34,14 @@ class UseImplicitOutputCest
     {
         $I->wantToTest('Assets\Manager - useImplicitOutput()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
+        $manager->collection('footer')
+                ->addCss('/css/style1.css')
+        ;
 
-        $assets->collection('footer')->addCss('css/style1.css');
+        $footer = $manager->collection('footer');
 
-        $footer = $assets->collection('footer');
-
-        $footer->addCss('css/style2.css');
+        $footer->addCss('/css/style2.css');
 
         $expected = sprintf(
             "%s" . PHP_EOL . "%s" . PHP_EOL,
@@ -46,12 +49,9 @@ class UseImplicitOutputCest
             '<link rel="stylesheet" type="text/css" href="/css/style2.css" />'
         );
 
-        $assets->useImplicitOutput(false);
+        $manager->useImplicitOutput(false);
 
-        $I->assertEquals(
-            $expected,
-            $assets->outputCss('footer')
-        );
+        $I->assertEquals($expected, $manager->outputCss('footer'));
     }
 
     /**
@@ -64,27 +64,23 @@ class UseImplicitOutputCest
     {
         $I->wantToTest('Assets\Manager - useImplicitOutput() - remote');
 
-        $assets = new Manager();
-
-        $assets
+        $manager = new Manager(new TagFactory(new Escaper()));
+        $manager
             ->collection('header')
             ->setPrefix('http:://cdn.example.com/')
-            ->setLocal(false)
+            ->setIsLocal(false)
             ->addJs('js/script1.js')
             ->addJs('js/script2.js')
         ;
 
-        $assets->useImplicitOutput(false);
+        $manager->useImplicitOutput(false);
 
         $expected = sprintf(
             "%s" . PHP_EOL . "%s" . PHP_EOL,
-            '<script src="http:://cdn.example.com/js/script1.js"></script>',
-            '<script src="http:://cdn.example.com/js/script2.js"></script>'
+            '<script type="application/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
+            '<script type="application/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
         );
 
-        $I->assertEquals(
-            $expected,
-            $assets->outputJs('header')
-        );
+        $I->assertEquals($expected, $manager->outputJs('header'));
     }
 }

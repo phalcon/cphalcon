@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Paginator;
+namespace Phalcon\Tests\Fixtures\Paginator;
 
 use Phalcon\Paginator\Repository;
 

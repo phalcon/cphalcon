@@ -39,7 +39,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_AbsInt)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param mixed $input The text to sanitize
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_AbsInt, __invoke)
 {
@@ -64,10 +66,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_AbsInt, __invoke)
 
 
 	ZVAL_LONG(&_0, 519);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 237, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 290, input, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, zephir_get_intval(&_1));
-	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 238, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 291, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

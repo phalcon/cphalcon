@@ -11,24 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Messages\Message;
+namespace Phalcon\Tests\Unit\Messages\Message;
 
-use InvalidArgumentException;
 use Phalcon\Messages\Message;
-use TypeError;
 use UnitTester;
-
-use function substr;
 
 class ConstructCest
 {
     /**
      * Tests Phalcon\Messages\Message :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessageConstruct(UnitTester $I)
+    public function messagesMessageConstruct(UnitTester $I): void
     {
         $I->wantToTest('Messages\Message - __construct()');
 
@@ -63,10 +61,12 @@ class ConstructCest
     /**
      * Tests Phalcon\Messages\Message :: __construct() - chain
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessageConstructChain(UnitTester $I)
+    public function messagesMessageConstructChain(UnitTester $I): void
     {
         $I->wantToTest('Messages\Message - __construct() - chain');
 
@@ -97,41 +97,5 @@ class ConstructCest
             111,
             $message->getCode()
         );
-    }
-
-    /**
-     * Tests Phalcon\Messages\Message :: __construct() - exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function messagesMessageConstructException(UnitTester $I)
-    {
-        $I->wantToTest('Messages\Message - __construct() - exception');
-
-        /**
-         * Sometimes Travis reports 'boolean' vs 'bool' and the test fails. This
-         * is why `expectThrowable` is not used here
-         */
-        $actual = '';
-
-        try {
-            (new Message(true));
-            // 7.4 - TypeError, 8.0 - InvalidArgumentException
-        } catch (TypeError | InvalidArgumentException $ex) {
-            $actual = $ex->getMessage();
-        }
-
-        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-            $I->assertEquals(
-                'Phalcon\Messages\Message::__construct(): Argument #1 ($message) must be of type string, bool given',
-                $actual
-            );
-        } else {
-            $I->assertEquals(
-                'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
-                substr($actual, 0, 93)
-            );
-        }
     }
 }

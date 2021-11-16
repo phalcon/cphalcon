@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Tests\Integration\Db\Column;
 
 use Codeception\Example;
 use IntegrationTester;

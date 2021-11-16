@@ -11,12 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class ToJsonCest
 {
@@ -43,19 +42,16 @@ class ToJsonCest
             'three' => 'four',
             'five'  => 'six',
         ];
-
-        $collection = new Bag('BagTest');
+        $collection = new Bag('BagTest', $this->container);
 
         $collection->init($data);
 
-        $I->assertEquals(
-            json_encode($data),
-            $collection->toJson()
-        );
+        $expected = json_encode($data);
+        $actual   = $collection->toJson();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            json_encode($data, JSON_PRETTY_PRINT),
-            $collection->toJson(JSON_PRETTY_PRINT)
-        );
+        $expected = json_encode($data, JSON_PRETTY_PRINT);
+        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
+        $I->assertEquals($expected, $actual);
     }
 }

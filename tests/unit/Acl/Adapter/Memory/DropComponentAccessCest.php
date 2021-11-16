@@ -11,16 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Enum;
 use UnitTester;
 
+/**
+ * Class DropComponentAccessCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class DropComponentAccessCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: dropComponentAccess()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -30,11 +37,7 @@ class DropComponentAccessCest
         $I->wantToTest('Acl\Adapter\Memory - dropComponentAccess()');
 
         $acl = new Memory();
-
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests');
         $acl->addComponent(
             'Post',
@@ -75,17 +78,15 @@ class DropComponentAccessCest
             ]
         );
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'update')
-        );
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'News', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'update');
+        $I->assertTrue($actual);
+
+        $actual = $acl->isAllowed('Guests', 'News', 'index');
+        $I->assertTrue($actual);
 
         $acl->dropComponentAccess('Post', 'index');
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'index');
+        $I->assertTrue($actual);
 
         $acl->dropComponentAccess(
             'News',
@@ -94,11 +95,10 @@ class DropComponentAccessCest
                 'create',
             ]
         );
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'News', 'index')
-        );
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'News', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'News', 'index');
+        $I->assertTrue($actual);
+
+        $actual = $acl->isAllowed('Guests', 'News', 'create');
+        $I->assertTrue($actual);
     }
 }

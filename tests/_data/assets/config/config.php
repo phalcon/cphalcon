@@ -18,6 +18,7 @@ return [
         'parent' => [
             'property'  => 1,
             'property2' => 'yeah',
+            'emptyProperty' => '',
         ],
     ],
     'issue-12725' => [

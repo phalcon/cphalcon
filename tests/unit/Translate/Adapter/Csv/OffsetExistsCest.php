@@ -11,13 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class OffsetExistsCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
+ */
 class OffsetExistsCest
 {
     use TranslateCsvTrait;
@@ -25,22 +30,18 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: offsetExists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterCsvOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - offsetExists()');
 
-        $language = $this->getCsvConfig()['en'];
+        $language   = $this->getCsvConfig()['en'];
+        $translator = new Csv(new InterpolatorFactory(), $language);
 
-        $translator = new Csv(
-            new InterpolatorFactory(),
-            $language
-        );
-
-        $I->assertTrue(
-            $translator->offsetExists('hi')
-        );
+        $I->assertTrue($translator->offsetExists('hi'));
     }
 }

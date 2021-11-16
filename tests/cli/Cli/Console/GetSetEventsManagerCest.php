@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Console;
+namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Console as CliConsole;

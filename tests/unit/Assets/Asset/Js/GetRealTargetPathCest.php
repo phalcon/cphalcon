@@ -11,36 +11,44 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset\Js;
+namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 
 use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
+/**
+ * Class GetRealTargetPathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Js
+ */
 class GetRealTargetPathCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Js :: getRealTargetPath()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetJsGetAssetKey(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset\Js - getRealTargetPath()');
 
-        $asset = new Js(
-            $example['path']
-        );
+        $asset = new Js($example['path']);
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealTargetPath()
-        );
+        $expected = $example['path'];
+        $actual   = $asset->getRealTargetPath();
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     protected function provider(): array
     {
         return [

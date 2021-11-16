@@ -11,13 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
+namespace Phalcon\Tests\Integration\Mvc\Model\Resultset\Simple;
 
 use IntegrationTester;
-use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 use function cacheModelsDir;
 

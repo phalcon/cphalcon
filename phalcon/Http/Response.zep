@@ -12,10 +12,9 @@ namespace Phalcon\Http;
 
 use DateTime;
 use DateTimeZone;
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Helper\Fs;
-use Phalcon\Helper\Json;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
@@ -580,7 +579,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         var basePathEncoding = "ASCII";
 
         if typeof attachmentName != "string" {
-            let basePath = Fs::basename(filePath);
+            let basePath = this->getBasename(filePath);
         } else {
             let basePath = attachmentName;
         }
@@ -667,9 +666,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         this->setContentType("application/json");
 
-        this->setContent(
-            Json::encode(content, jsonOptions, depth)
-        );
+        this->setContent(this->encode(content, jsonOptions, depth));
 
         return this;
     }
@@ -888,5 +885,46 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         headers->setRaw(header);
 
         return this;
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getBasename(string! uri, var suffix = null) -> string
+    {
+	var filename, matches;
+        let uri = rtrim(uri, DIRECTORY_SEPARATOR);
+        let filename = preg_match(
+		"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
+		uri,
+		matches
+        ) ? matches[0] : "";
+        if suffix {
+		let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
+        }
+
+        return filename;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

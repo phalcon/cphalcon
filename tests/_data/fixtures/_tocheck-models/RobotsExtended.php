@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Tests\Models;
 
 use Phalcon\Mvc\ModelInterface;
 

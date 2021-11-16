@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\BodyParts;
+namespace Phalcon\Tests\Models\BodyParts;
 
 use Phalcon\Mvc\Model;
 

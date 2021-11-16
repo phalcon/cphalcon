@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View\Simple;
+namespace Phalcon\Tests\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
-use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Mvc\View\Engine\Mustache;
+use Phalcon\Tests\Fixtures\Mvc\View\Engine\Twig;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetRegisteredEnginesCest
 {

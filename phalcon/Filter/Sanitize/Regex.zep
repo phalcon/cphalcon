@@ -18,7 +18,11 @@ namespace Phalcon\Filter\Sanitize;
 class Regex
 {
     /**
-     * @var mixed input The text to sanitize
+     * @param mixed $input
+     * @param mixed $pattern
+     * @param mixed $replace
+     *
+     * @return string|string[]|null
      */
     public function __invoke(var input, var pattern, var replace)
     {

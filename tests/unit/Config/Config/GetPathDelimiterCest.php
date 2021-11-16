@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetPathDelimiterCest
@@ -21,14 +21,15 @@ class GetPathDelimiterCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: getPathDelimiter()
+     * Tests Phalcon\Config\Config :: getPathDelimiter()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-19
+     * @since  2021-10-21
      */
     public function configGetPathDelimiter(UnitTester $I)
     {
         $I->wantToTest('Config - getPathDelimiter()');
+
         $this->checkGetPathDelimiter($I);
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
@@ -24,10 +24,17 @@ use function file_get_contents;
 use function serialize;
 use function unserialize;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct() - constants
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -43,6 +50,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -52,14 +61,13 @@ class ConstructCest
 
         $acl = new Memory();
 
-        $I->assertInstanceOf(
-            Memory::class,
-            $acl
-        );
+        $I->assertInstanceOf(Memory::class, $acl);
     }
 
     /**
      * Tests serializing the ACL
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -79,49 +87,31 @@ class ConstructCest
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        $I->writeToFile(
-            cacheDir($filename),
-            serialize($acl)
-        );
+        $I->writeToFile(cacheDir($filename), serialize($acl));
 
-        $acl = null;
-
-        $contents = file_get_contents(
-            cacheDir($filename)
-        );
-
-        $I->safeDeleteFile(
-            cacheDir($filename)
-        );
+        $acl      = null;
+        $contents = file_get_contents(cacheDir($filename));
+        $I->safeDeleteFile(cacheDir($filename));
 
         $acl = unserialize($contents);
 
-        $I->assertInstanceOf(
-            Memory::class,
-            $acl
-        );
-
-        $I->assertTrue(
-            $acl->isRole('Administrators')
-        );
-
-        $I->assertTrue(
-            $acl->isComponent('Customers')
-        );
-
-        $I->assertTrue(
-            $acl->isAllowed('Administrators', 'Customers', 'search')
-        );
-
-        $I->assertFalse(
-            $acl->isAllowed('Administrators', 'Customers', 'destroy')
-        );
+        $I->assertInstanceOf(Memory::class, $acl);
+        $actual = $acl->isRole('Administrators');
+        $I->assertTrue($actual);
+        $actual = $acl->isComponent('Customers');
+        $I->assertTrue($actual);
+        $actual = $acl->isAllowed('Administrators', 'Customers', 'search');
+        $I->assertTrue($actual);
+        $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests negation of inherited Roles
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
+     *
+     * @param UnitTester $I
      *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2014-10-04
@@ -140,23 +130,22 @@ class ConstructCest
         $acl->deny('Guests', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Guests', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'help');
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests function in Acl Allow Method
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/12004
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-07-22
@@ -185,27 +174,25 @@ class ConstructCest
         $acl->allow($roleGuest->getName(), 'payment', 'facebook');
         $acl->allow($roleUser->getName(), 'payment', '*');
 
-        $I->assertTrue(
-            $acl->isAllowed($roleUser->getName(), 'payment', 'notSet')
-        );
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', 'notSet');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleUser->getName(), 'payment', '*')
-        );
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', '*');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet')
-        );
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed($roleAdmin->getName(), 'payment', '*')
-        );
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', '*');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests acl with adding new rule for Role after adding wildcard rule
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
@@ -214,10 +201,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             [
@@ -231,23 +215,22 @@ class ConstructCest
         $acl->allow('*', 'Post', 'index');
         $acl->allow('Guests', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'create');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'update');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests adding wildcard rule second time
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
+     *
+     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
@@ -256,10 +239,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->addRole(
-            new Role('Guests')
-        );
-
+        $acl->addRole(new Role('Guests'));
         $acl->addComponent(
             new Component('Post'),
             [
@@ -273,21 +253,20 @@ class ConstructCest
         $acl->allow('*', 'Post', 'index');
         $acl->allow('*', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'create')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'create');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'index')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guests', 'Post', 'update');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests negation of multiple inherited Roles
+     *
+     * @param UnitTester $I
      *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
@@ -296,10 +275,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests');
         $acl->addRole('Guests2');
 
@@ -323,21 +299,20 @@ class ConstructCest
         $acl->deny('Guests2', 'Login', ['help']);
         $acl->deny('Members', 'Login', ['index']);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'help');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'help');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests negation of multilayer inherited Roles
+     *
+     * @param UnitTester $I
      *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
@@ -346,10 +321,7 @@ class ConstructCest
     {
         $acl = new Memory();
 
-        $acl->setDefaultAction(
-            Enum::DENY
-        );
-
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Guests1');
         $acl->addRole('Guests12', 'Guests1');
         $acl->addRole('Guests2');
@@ -365,20 +337,16 @@ class ConstructCest
         $acl->deny('Guests2', 'Logout', '*');
         $acl->allow('Guests22', 'Logout', ['index']);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Login', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'help');
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $acl->isAllowed('Members', 'Logout', 'help')
-        );
+        $actual = $acl->isAllowed('Members', 'Logout', 'help');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $acl->isAllowed('Members', 'Login', 'index')
-        );
+        $actual = $acl->isAllowed('Members', 'Login', 'index');
+        $I->assertTrue($actual);
     }
 }

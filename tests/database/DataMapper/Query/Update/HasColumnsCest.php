@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Update;
+namespace Phalcon\Tests\Database\DataMapper\Query\Update;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Query\QueryFactory;

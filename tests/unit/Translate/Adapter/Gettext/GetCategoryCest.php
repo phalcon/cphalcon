@@ -11,15 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 use const LC_MESSAGES;
 
+/**
+ * Class GetCategoryCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class GetCategoryCest
 {
     use TranslateGettextTrait;
@@ -27,8 +32,10 @@ class GetCategoryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getCategory()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterGettextGetCategory(UnitTester $I)
     {
@@ -37,9 +44,7 @@ class GetCategoryCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals(
-            LC_MESSAGES,
-            $translator->getCategory()
-        );
+        $actual = $translator->getCategory();
+        $I->assertEquals(LC_MESSAGES, $actual);
     }
 }

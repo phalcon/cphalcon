@@ -11,11 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
+namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateNativeArrayHelper;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayHelperTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayTrait;
 
-class TCest extends TranslateNativeArrayHelper
+/**
+ * Class TCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
+ */
+class TCest
 {
-    protected $function = 't';
+    use TranslateNativeArrayTrait;
+    use TranslateNativeArrayHelperTrait;
+
+    /**
+     * @return string
+     */
+    protected function func(): string
+    {
+        return 't';
+    }
 }

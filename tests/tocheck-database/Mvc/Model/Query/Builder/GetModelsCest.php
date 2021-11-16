@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\Stock;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\RobotsParts;
+use Phalcon\Tests\Models\Stock;
 
 class GetModelsCest
 {
@@ -70,7 +70,7 @@ class GetModelsCest
             ->from(['Stock' => Stock::class])
         ;
 
-        $expected = \Phalcon\Test\Models\Stock::class;
+        $expected = \Phalcon\Tests\Models\Stock::class;
         $actual   = $builder->getModels();
         $I->assertEquals($expected, $actual);
     }
@@ -94,8 +94,8 @@ class GetModelsCest
         ;
 
         $expected = [
-            'Robots'      => \Phalcon\Test\Models\Robots::class,
-            'RobotsParts' => \Phalcon\Test\Models\RobotsParts::class,
+            'Robots'      => \Phalcon\Tests\Models\Robots::class,
+            'RobotsParts' => \Phalcon\Tests\Models\RobotsParts::class,
         ];
         $actual   = $builder->getModels();
         $I->assertEquals($expected, $actual);

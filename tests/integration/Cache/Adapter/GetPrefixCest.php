@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter;
+namespace Phalcon\Tests\Integration\Cache\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;
@@ -25,6 +25,7 @@ use Phalcon\Storage\SerializerFactory;
 use function array_merge;
 use function getOptionsRedis;
 use function outputDir;
+use function sprintf;
 
 class GetPrefixCest
 {
@@ -36,10 +37,14 @@ class GetPrefixCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function cacheAdapterGetSetPrefix(IntegrationTester $I, Example $example)
+    public function storageAdapterGetSetPrefix(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - getPrefix() - ' . $example['label']
+            sprintf(
+                'Cache\Adapter\%s - getPrefix() - %s',
+                $example['className'],
+                $example['label']
+            )
         );
 
         $extension = $example['extension'];

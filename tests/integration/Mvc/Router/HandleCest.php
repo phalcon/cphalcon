@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+namespace Phalcon\Tests\Integration\Mvc\Router;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
@@ -236,7 +236,7 @@ class HandleCest
         );
 
         $I->assertEquals(
-            'about',
+            'About',
             $router->getControllerName()
         );
 
@@ -299,7 +299,7 @@ class HandleCest
         );
 
         $I->assertEquals(
-            'about',
+            'About',
             $router->getControllerName()
         );
 

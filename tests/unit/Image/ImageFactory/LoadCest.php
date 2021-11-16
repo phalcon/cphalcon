@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Image\ImageFactory;
+namespace Phalcon\Tests\Unit\Image\ImageFactory;
 
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\ImageFactory;
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
 class LoadCest

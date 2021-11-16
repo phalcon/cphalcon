@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Url;
+namespace Phalcon\Tests\Integration\Url;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RouterTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RouterTrait;
 
 /**
  * Class SetBaseUriCest

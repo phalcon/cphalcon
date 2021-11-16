@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Stream\Temp;
+namespace Phalcon\Tests\Unit\Http\Message\Stream\Temp;
 
 use Phalcon\Http\Message\Stream\Temp;
 use Psr\Http\Message\StreamInterface;

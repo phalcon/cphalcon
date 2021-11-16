@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Manager;
+namespace Phalcon\Tests\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
 
 class SetModelPrefixCest
 {

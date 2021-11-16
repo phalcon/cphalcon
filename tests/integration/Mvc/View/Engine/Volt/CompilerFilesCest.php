@@ -15,7 +15,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
+namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
 use Phalcon\Mvc\View;
@@ -27,7 +27,7 @@ use function sprintf;
 use const PHP_EOL;
 
 /**
- * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
+ * Phalcon\Tests\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
  *
  * Test working Compiler with files
  */
@@ -196,8 +196,7 @@ class CompilerFilesCest
             . PHP_EOL
             . PHP_EOL
             . '</body>' . PHP_EOL
-            . '</html>' . PHP_EOL
-        ;
+            . '</html>' . PHP_EOL;
 
         /**
          * Set up the view and Volt and compile

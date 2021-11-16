@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Helpers;
+namespace Phalcon\Tests\Fixtures\Helpers;
 
 use UnitTester;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Phalcon\Test\Integration\Db\Dialect\Helper;
+namespace Phalcon\Tests\Integration\Db\Dialect\Helper;
 
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Tests\Fixtures\Traits\DialectTrait;
 
 class MysqlHelper
 {

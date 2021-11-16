@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Noop;
 
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Formatter\FormatterInterface;
@@ -23,8 +23,10 @@ class GetSetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: getFormatter()/setFormatter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function loggerAdapterNoopGetSetFormatter(UnitTester $I)
     {

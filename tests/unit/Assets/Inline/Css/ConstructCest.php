@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Inline\Css;
+namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Inline\Css
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Inline\Css :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssConstruct(UnitTester $I)
     {
@@ -30,51 +37,52 @@ class ConstructCest
 
         $asset = new Css('p {color: #000099}');
 
-        $I->assertEquals(
-            'css',
-            $asset->getType()
-        );
+        $expected = 'css';
+        $actual   = $asset->getType();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Inline\Css :: __construct() - filter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssConstructFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline\Css - __construct() - filter');
 
-        $asset = new Css('p {color: #000099}');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
+        $asset  = new Css('p {color: #000099}');
+        $actual = $asset->getFilter();
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Inline\Css :: __construct() - filter set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssConstructFilterSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline\Css - __construct() - filter set');
 
-        $asset = new Css('p {color: #000099}', false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        $asset  = new Css('p {color: #000099}', false);
+        $actual = $asset->getFilter();
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Inline\Css :: __construct() - attributes
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssConstructAttributes(UnitTester $I)
     {
@@ -85,18 +93,17 @@ class ConstructCest
         $expected = [
             'type' => 'text/css',
         ];
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAttributes()
-        );
+        $actual   = $asset->getAttributes();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Inline\Css :: __construct() - attributes set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssConstructAttributesSet(UnitTester $I)
     {
@@ -106,15 +113,12 @@ class ConstructCest
             'data' => 'phalcon',
         ];
 
-        $asset = new Css(
+        $asset  = new Css(
             'p {color: #000099}',
             true,
             $attributes
         );
-
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
+        $actual = $asset->getAttributes();
+        $I->assertEquals($attributes, $actual);
     }
 }

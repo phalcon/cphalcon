@@ -1,9 +1,9 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class ModelsQueryExecuteCest
 {
@@ -72,87 +72,87 @@ class ModelsQueryExecuteCest
         $manager = $this->container->getShared('modelsManager');
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots'
+            'SELECT * FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots ORDER BY 1'
+            'SELECT * FROM Phalcon\Tests\Models\Robots ORDER BY 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertEquals(1, $robots[0]->id);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots ORDER BY id'
+            'SELECT * FROM Phalcon\Tests\Models\Robots ORDER BY id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertEquals(1, $robots[0]->id);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots ORDER BY Phalcon\Test\Models\Robots.id'
+            'SELECT * FROM Phalcon\Tests\Models\Robots ORDER BY Phalcon\Tests\Models\Robots.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertEquals(1, $robots[0]->id);
 
         $robots = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.* FROM Phalcon\Test\Models\Robots'
+            'SELECT Phalcon\Tests\Models\Robots.* FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertCount(3, $robots);
 
         $robots = $manager->executeQuery(
-            'SELECT r.* FROM Phalcon\Test\Models\Robots r'
+            'SELECT r.* FROM Phalcon\Tests\Models\Robots r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertCount(3, $robots);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots r'
+            'SELECT * FROM Phalcon\Tests\Models\Robots r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertCount(3, $robots);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots AS r'
+            'SELECT * FROM Phalcon\Tests\Models\Robots AS r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertCount(3, $robots);
 
         $robots = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robots AS r'
+            'SELECT * FROM Phalcon\Tests\Models\Robots AS r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $robots[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $robots[0]);
         $I->assertCount(3, $robots);
 
         $result = $manager->executeQuery(
-            'SELECT id, name FROM Phalcon\Test\Models\Robots'
+            'SELECT id, name FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.name FROM Phalcon\Test\Models\Robots'
+            'SELECT Phalcon\Tests\Models\Robots.name FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT LENGTH(name) AS the_length FROM Phalcon\Test\Models\Robots'
+            'SELECT LENGTH(name) AS the_length FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -161,8 +161,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(8, $result[0]->the_length);
 
         $result = $manager->executeQuery(
-            'SELECT LENGTH(Phalcon\Test\Models\Robots.name) AS the_length ' .
-            'FROM Phalcon\Test\Models\Robots'
+            'SELECT LENGTH(Phalcon\Tests\Models\Robots.name) AS the_length ' .
+            'FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -171,8 +171,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(8, $result[0]->the_length);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots WHERE id = 1'
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots WHERE id = 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -181,8 +181,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots WHERE id = ?0',
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots WHERE id = ?0',
             [0 => 1]
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
@@ -192,8 +192,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots WHERE id = :id:',
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots WHERE id = :id:',
             ['id' => 1]
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
@@ -203,8 +203,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots WHERE id = "1"'
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots WHERE id = "1"'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -213,15 +213,15 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT r.year FROM Phalcon\Test\Models\Robots r WHERE TRIM(name) != "Robotina"'
+            'SELECT r.year FROM Phalcon\Tests\Models\Robots r WHERE TRIM(name) != "Robotina"'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots ORDER BY id'
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots ORDER BY id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -230,8 +230,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots ORDER BY id LIMIT 2'
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots ORDER BY id LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -240,8 +240,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.id+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robots ORDER BY id DESC LIMIT 2'
+            'SELECT Phalcon\Tests\Models\Robots.id+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robots ORDER BY id DESC LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -250,7 +250,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals(4, $result[0]->nextId);
 
         $result = $manager->executeQuery(
-            'SELECT r.name FROM Phalcon\Test\Models\Robots r ORDER BY r.name DESC LIMIT 2'
+            'SELECT r.name FROM Phalcon\Tests\Models\Robots r ORDER BY r.name DESC LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -259,7 +259,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->name, 'Terminator');
 
         $result = $manager->executeQuery(
-            'SELECT name le_name FROM Phalcon\Test\Models\Robots ORDER BY name ASC LIMIT 4'
+            'SELECT name le_name FROM Phalcon\Tests\Models\Robots ORDER BY name ASC LIMIT 4'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -268,7 +268,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals('Astro Boy', $result[0]->le_name);
 
         $result = $manager->executeQuery(
-            'SELECT r.name le_name FROM Phalcon\Test\Models\Robots r ORDER BY r.name ASC LIMIT 4'
+            'SELECT r.name le_name FROM Phalcon\Tests\Models\Robots r ORDER BY r.name ASC LIMIT 4'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -277,7 +277,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals('Astro Boy', $result[0]->le_name);
 
         $result = $manager->executeQuery(
-            'SELECT r.name le_name FROM Phalcon\Test\Models\Robots r ORDER BY r.name ASC LIMIT 1,2'
+            'SELECT r.name le_name FROM Phalcon\Tests\Models\Robots r ORDER BY r.name ASC LIMIT 1,2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -287,7 +287,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.name le_name ' .
-            'FROM Phalcon\Test\Models\Robots r ORDER BY r.name ASC LIMIT 2 OFFSET 1'
+            'FROM Phalcon\Tests\Models\Robots r ORDER BY r.name ASC LIMIT 2 OFFSET 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -297,7 +297,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.type, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robots r GROUP BY 1 ORDER BY r.type ASC'
+            'FROM Phalcon\Tests\Models\Robots r GROUP BY 1 ORDER BY r.type ASC'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -306,7 +306,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.type, SUM(r.year-1000) age ' .
-            'FROM Phalcon\Test\Models\Robots r GROUP BY 1 ORDER BY 2 DESC'
+            'FROM Phalcon\Tests\Models\Robots r GROUP BY 1 ORDER BY 2 DESC'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -315,7 +315,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.type, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robots r GROUP BY 1 HAVING COUNT(*) = 2'
+            'FROM Phalcon\Tests\Models\Robots r GROUP BY 1 HAVING COUNT(*) = 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -324,7 +324,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.type, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robots r GROUP BY 1 HAVING COUNT(*) < 2'
+            'FROM Phalcon\Tests\Models\Robots r GROUP BY 1 HAVING COUNT(*) < 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -332,7 +332,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals(1, $result[0]->number);
 
         $result = $manager->executeQuery(
-            'SELECT r.id, r.* FROM Phalcon\Test\Models\Robots r'
+            'SELECT r.id, r.* FROM Phalcon\Tests\Models\Robots r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         /**
@@ -344,13 +344,13 @@ class ModelsQueryExecuteCest
         $I->assertEquals(1, $result[0]->id);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.*, Phalcon\Test\Models\RobotsParts.* ' .
-            'FROM Phalcon\Test\Models\Robots JOIN Phalcon\Test\Models\RobotsParts ' .
-            'ORDER BY Phalcon\Test\Models\Robots.id, Phalcon\Test\Models\RobotsParts.id'
+            'SELECT Phalcon\Tests\Models\Robots.*, Phalcon\Tests\Models\RobotsParts.* ' .
+            'FROM Phalcon\Tests\Models\Robots JOIN Phalcon\Tests\Models\RobotsParts ' .
+            'ORDER BY Phalcon\Tests\Models\Robots.id, Phalcon\Tests\Models\RobotsParts.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertTrue(is_object($result[0]->robots));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->robots);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $result[0]->robots);
         $I->assertTrue(is_object($result[0]->robotsParts));
         $I->assertInstanceOf(\RobotsParts::class, $result[0]->robotsParts);
         $I->assertCount(3, $result);
@@ -360,14 +360,14 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[1]->robotsParts->id);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robots.*, Phalcon\Test\Models\RobotsParts.* ' .
-            'FROM Phalcon\Test\Models\Robots JOIN Phalcon\Test\Models\RobotsParts ' .
-            'ON Phalcon\Test\Models\Robots.id = Phalcon\Test\Models\RobotsParts.robots_id ' .
-            'ORDER BY Phalcon\Test\Models\Robots.id, Phalcon\Test\Models\RobotsParts.id'
+            'SELECT Phalcon\Tests\Models\Robots.*, Phalcon\Tests\Models\RobotsParts.* ' .
+            'FROM Phalcon\Tests\Models\Robots JOIN Phalcon\Tests\Models\RobotsParts ' .
+            'ON Phalcon\Tests\Models\Robots.id = Phalcon\Tests\Models\RobotsParts.robots_id ' .
+            'ORDER BY Phalcon\Tests\Models\Robots.id, Phalcon\Tests\Models\RobotsParts.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertTrue(is_object($result[0]->robots));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->robots);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $result[0]->robots);
         $I->assertTrue(is_object($result[0]->robotsParts));
         $I->assertInstanceOf('RobotsParts', $result[0]->robotsParts);
         $I->assertCount(3, $result);
@@ -378,14 +378,14 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.*, p.* ' .
-            'FROM Phalcon\Test\Models\Robots r ' .
-            'JOIN Phalcon\Test\Models\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id'
+            'FROM Phalcon\Tests\Models\Robots r ' .
+            'JOIN Phalcon\Tests\Models\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertTrue(is_object($result[0]->r));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->r);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots::class, $result[0]->r);
         $I->assertTrue(is_object($result[0]->p));
-        $I->assertInstanceOf(\Phalcon\Test\Models\RobotsParts::class, $result[0]->p);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\RobotsParts::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals($result[0]->r->id, 1);
         $I->assertEquals($result[0]->p->id, 1);
@@ -397,21 +397,21 @@ class ModelsQueryExecuteCest
          * @todo - check this
          */
 //        $result = $manager->executeQuery(
-//            'SELECT Phalcon\Test\Models\Some\Robots.*, Phalcon\Test\Models\Some\RobotsParts.* ' .
-//            'FROM Phalcon\Test\Models\Some\Robots JOIN Phalcon\Test\Models\Some\RobotsParts ' .
-//            'ON Phalcon\Test\Models\Some\Robots.id = Phalcon\Test\Models\Some\RobotsParts.robots_id ' .
-//            'ORDER BY Phalcon\Test\Models\Some\Robots.id, Phalcon\Test\Models\Some\RobotsParts.id'
+//            'SELECT Phalcon\Tests\Models\Some\Robots.*, Phalcon\Tests\Models\Some\RobotsParts.* ' .
+//            'FROM Phalcon\Tests\Models\Some\Robots JOIN Phalcon\Tests\Models\Some\RobotsParts ' .
+//            'ON Phalcon\Tests\Models\Some\Robots.id = Phalcon\Tests\Models\Some\RobotsParts.robots_id ' .
+//            'ORDER BY Phalcon\Tests\Models\Some\Robots.id, Phalcon\Tests\Models\Some\RobotsParts.id'
 //        );
 //        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-//        $I->assertInternalType('object', $result[0]->{\Phalcon\Test\Models\Some\Robots::class});
+//        $I->assertInternalType('object', $result[0]->{\Phalcon\Tests\Models\Some\Robots::class});
 //        $I->assertInstanceOf(
-//          \Phalcon\Test\Models\Robots::class,
-//          $result[0]->{\Phalcon\Test\Models\Some\Robots::class}
+//          \Phalcon\Tests\Models\Robots::class,
+//          $result[0]->{\Phalcon\Tests\Models\Some\Robots::class}
 //        );
-//        $I->assertInternalType('object', $result[0]->{\Phalcon\Test\Models\Some\RobotsParts::class});
+//        $I->assertInternalType('object', $result[0]->{\Phalcon\Tests\Models\Some\RobotsParts::class});
 //        $I->assertInstanceOf(
-//          \Phalcon\Test\Models\RobotsParts::class,
-//           $result[0]->{\Phalcon\Test\Models\Some\RobotsParts::class}
+//          \Phalcon\Tests\Models\RobotsParts::class,
+//           $result[0]->{\Phalcon\Tests\Models\Some\RobotsParts::class}
 //        );
 //        $I->assertCount(3, $result);
 //        $I->assertEquals($result[0]->{'some\Robots'}->id, 1);
@@ -422,15 +422,15 @@ class ModelsQueryExecuteCest
         /** Joins with namespaces and aliases */
         $result = $manager->executeQuery(
             'SELECT r.*, p.* ' .
-            'FROM Phalcon\Test\Models\Some\Robots r ' .
-            'JOIN Phalcon\Test\Models\Some\RobotsParts p ON r.id = p.robots_id ' .
+            'FROM Phalcon\Tests\Models\Some\Robots r ' .
+            'JOIN Phalcon\Tests\Models\Some\RobotsParts p ON r.id = p.robots_id ' .
             'ORDER BY r.id, p.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertTrue(is_object($result[0]->r));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Some\Robots::class, $result[0]->r);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Some\Robots::class, $result[0]->r);
         $I->assertTrue(is_object($result[0]->p));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Some\RobotsParts::class, $result[0]->p);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Some\RobotsParts::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals(1, $result[0]->r->id);
         $I->assertEquals(1, $result[0]->p->id);
@@ -438,28 +438,28 @@ class ModelsQueryExecuteCest
         $I->assertEquals(2, $result[1]->p->id);
 
         $result = $manager->executeQuery(
-            'SELECT id, name FROM Phalcon\Test\Models\Some\Robots'
+            'SELECT id, name FROM Phalcon\Tests\Models\Some\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT id, name FROM Phalcon\Test\Models\Some\Robots ORDER BY name DESC LIMIT 2'
+            'SELECT id, name FROM Phalcon\Tests\Models\Some\Robots ORDER BY name DESC LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT ALL estado FROM Phalcon\Test\Models\Personas LIMIT 2'
+            'SELECT ALL estado FROM Phalcon\Tests\Models\Personas LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT DISTINCT estado FROM Phalcon\Test\Models\Personas'
+            'SELECT DISTINCT estado FROM Phalcon\Tests\Models\Personas'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         /**
@@ -469,7 +469,7 @@ class ModelsQueryExecuteCest
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT count(DISTINCT estado) FROM Phalcon\Test\Models\Personas'
+            'SELECT count(DISTINCT estado) FROM Phalcon\Tests\Models\Personas'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertCount(1, $result);
@@ -480,19 +480,19 @@ class ModelsQueryExecuteCest
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT CASE 1 WHEN 1 THEN 2 END FROM Phalcon\Test\Models\Robots'
+            'SELECT CASE 1 WHEN 1 THEN 2 END FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertEquals(2, $result[0]->{'0'});
 
         $result = $manager->executeQuery(
-            'SELECT CASE 2 WHEN 1 THEN 2 WHEN 2 THEN 3 END FROM Phalcon\Test\Models\Robots'
+            'SELECT CASE 2 WHEN 1 THEN 2 WHEN 2 THEN 3 END FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertEquals(3, $result[0]->{'0'});
 
         $result = $manager->executeQuery(
-            'SELECT CASE 2 WHEN 1 THEN 2 ELSE 3 END FROM Phalcon\Test\Models\Robots'
+            'SELECT CASE 2 WHEN 1 THEN 2 ELSE 3 END FROM Phalcon\Tests\Models\Robots'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertEquals(3, $result[0]->{'0'});
@@ -514,81 +514,81 @@ class ModelsQueryExecuteCest
         $manager = $this->container->getShared('modelsManager');
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
         $I->assertCount(3, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters ORDER BY 1'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters ORDER BY 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
         $I->assertCount(3, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertEquals($robotters[0]->code, 1);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters ORDER BY code'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters ORDER BY code'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
         $I->assertCount(3, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertEquals($robotters[0]->code, 1);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters ORDER BY Phalcon\Test\Models\Robotters.code'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters ORDER BY Phalcon\Tests\Models\Robotters.code'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
         $I->assertCount(3, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertEquals($robotters[0]->code, 1);
 
         $robotters = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.* FROM Phalcon\Test\Models\Robotters'
+            'SELECT Phalcon\Tests\Models\Robotters.* FROM Phalcon\Tests\Models\Robotters'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertCount(3, $robotters);
 
         $robotters = $manager->executeQuery(
-            'SELECT r.* FROM Phalcon\Test\Models\Robotters r'
+            'SELECT r.* FROM Phalcon\Tests\Models\Robotters r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertCount(3, $robotters);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters r'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertCount(3, $robotters);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters AS r'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters AS r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertCount(3, $robotters);
 
         $robotters = $manager->executeQuery(
-            'SELECT * FROM Phalcon\Test\Models\Robotters AS r'
+            'SELECT * FROM Phalcon\Tests\Models\Robotters AS r'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robotters);
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $robotters[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $robotters[0]);
         $I->assertCount(3, $robotters);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.theName FROM Phalcon\Test\Models\Robotters'
+            'SELECT Phalcon\Tests\Models\Robotters.theName FROM Phalcon\Tests\Models\Robotters'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT LENGTH(Phalcon\Test\Models\Robotters.theName) AS the_length ' .
-            'FROM Phalcon\Test\Models\Robotters'
+            'SELECT LENGTH(Phalcon\Tests\Models\Robotters.theName) AS the_length ' .
+            'FROM Phalcon\Tests\Models\Robotters'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -597,8 +597,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->the_length, 8);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters WHERE code = 1'
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters WHERE code = 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -607,8 +607,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 2);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters WHERE code = ?0',
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters WHERE code = ?0',
             [
                 0 => 1,
             ]
@@ -620,8 +620,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 2);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters WHERE code = :code:',
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters WHERE code = :code:',
             [
                 'code' => 1,
             ]
@@ -633,8 +633,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 2);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters WHERE code = "1"'
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters WHERE code = "1"'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -644,15 +644,15 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theYear ' .
-            'FROM Phalcon\Test\Models\Robotters r WHERE TRIM(theName) != "Robotina"'
+            'FROM Phalcon\Tests\Models\Robotters r WHERE TRIM(theName) != "Robotina"'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters ORDER BY code'
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters ORDER BY code'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -661,8 +661,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 2);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters ORDER BY code LIMIT 2'
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters ORDER BY code LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -671,8 +671,8 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 2);
 
         $result = $manager->executeQuery(
-            'SELECT Phalcon\Test\Models\Robotters.code+1 AS nextId ' .
-            'FROM Phalcon\Test\Models\Robotters ORDER BY code DESC LIMIT 2'
+            'SELECT Phalcon\Tests\Models\Robotters.code+1 AS nextId ' .
+            'FROM Phalcon\Tests\Models\Robotters ORDER BY code DESC LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
@@ -681,7 +681,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals($result[0]->nextId, 4);
 
         $result = $manager->executeQuery(
-            'SELECT r.theName FROM Phalcon\Test\Models\Robotters r ORDER BY r.theName DESC LIMIT 2'
+            'SELECT r.theName FROM Phalcon\Tests\Models\Robotters r ORDER BY r.theName DESC LIMIT 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -691,7 +691,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theName le_theName ' .
-            'FROM Phalcon\Test\Models\Robotters r ORDER BY r.theName ASC LIMIT 4'
+            'FROM Phalcon\Tests\Models\Robotters r ORDER BY r.theName ASC LIMIT 4'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(3, $result);
@@ -701,7 +701,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theName le_theName ' .
-            'FROM Phalcon\Test\Models\Robotters r ORDER BY r.theName ASC LIMIT 1,2'
+            'FROM Phalcon\Tests\Models\Robotters r ORDER BY r.theName ASC LIMIT 1,2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -711,7 +711,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theName le_theName ' .
-            'FROM Phalcon\Test\Models\Robotters r ORDER BY r.theName ASC LIMIT 2 OFFSET 1'
+            'FROM Phalcon\Tests\Models\Robotters r ORDER BY r.theName ASC LIMIT 2 OFFSET 1'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -721,7 +721,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theType, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robotters r GROUP BY 1 ORDER BY r.theType ASC'
+            'FROM Phalcon\Tests\Models\Robotters r GROUP BY 1 ORDER BY r.theType ASC'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -730,7 +730,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theType, SUM(r.theYear-1000) age ' .
-            'FROM Phalcon\Test\Models\Robotters r GROUP BY 1 ORDER BY 2 DESC'
+            'FROM Phalcon\Tests\Models\Robotters r GROUP BY 1 ORDER BY 2 DESC'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(2, $result);
@@ -739,7 +739,7 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theType, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robotters r GROUP BY 1 HAVING COUNT(*) = 2'
+            'FROM Phalcon\Tests\Models\Robotters r GROUP BY 1 HAVING COUNT(*) = 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertCount(1, $result);
@@ -748,14 +748,14 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.theType, COUNT(*) number ' .
-            'FROM Phalcon\Test\Models\Robotters r GROUP BY 1 HAVING COUNT(*) < 2'
+            'FROM Phalcon\Tests\Models\Robotters r GROUP BY 1 HAVING COUNT(*) < 2'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Row::class, $result[0]);
         $I->assertCount(1, $result);
         $I->assertEquals($result[0]->number, 1);
 
-        $result = $manager->executeQuery('SELECT r.code, r.* FROM Phalcon\Test\Models\Robotters r');
+        $result = $manager->executeQuery('SELECT r.code, r.* FROM Phalcon\Tests\Models\Robotters r');
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         /**
          * @todo Check this
@@ -769,16 +769,16 @@ class ModelsQueryExecuteCest
 //        $I->assertEquals($result[0]->code, 1);
 //
 //        $result = $manager->executeQuery(
-//            'SELECT Phalcon\Test\Models\Robotters.*, Phalcon\Test\Models\RobottersDeles.* ' .
-//            'FROM Phalcon\Test\Models\Robotters ' .
-//            'JOIN Phalcon\Test\Models\RobottersDeles ' .
-//            'ORDER BY Phalcon\Test\Models\Robotters.code, Phalcon\Test\Models\RobottersDeles.code'
+//            'SELECT Phalcon\Tests\Models\Robotters.*, Phalcon\Tests\Models\RobottersDeles.* ' .
+//            'FROM Phalcon\Tests\Models\Robotters ' .
+//            'JOIN Phalcon\Tests\Models\RobottersDeles ' .
+//            'ORDER BY Phalcon\Tests\Models\Robotters.code, Phalcon\Tests\Models\RobottersDeles.code'
 //        );
 //        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
 //        $I->assertInternalType('object', $result[0]->robotters);
-//        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $result[0]->robotters);
+//        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $result[0]->robotters);
 //        $I->assertInternalType('object', $result[0]->robottersDeles);
-//        $I->assertInstanceOf(\Phalcon\Test\Models\RobottersDeles::class, $result[0]->robottersDeles);
+//        $I->assertInstanceOf(\Phalcon\Tests\Models\RobottersDeles::class, $result[0]->robottersDeles);
 //        $I->assertCount(3, $result);
 //        $I->assertEquals($result[0]->robotters->code, 1);
 //        $I->assertEquals($result[0]->robottersDeles->code, 1);
@@ -786,15 +786,15 @@ class ModelsQueryExecuteCest
 //        $I->assertEquals($result[1]->robottersDeles->code, 2);
 //
 //        $result = $manager->executeQuery(
-//            'SELECT Phalcon\Test\Models\Robotters.*, Phalcon\Test\Models\RobottersDeles.* ' .
-//            'FROM Phalcon\Test\Models\Robotters ' .
-//            'JOIN Phalcon\Test\Models\RobottersDeles ' .
-//            'ON Phalcon\Test\Models\Robotters.code = Phalcon\Test\Models\RobottersDeles.robottersCode ' .
-//            'ORDER BY Phalcon\Test\Models\Robotters.code, Phalcon\Test\Models\RobottersDeles.code'
+//            'SELECT Phalcon\Tests\Models\Robotters.*, Phalcon\Tests\Models\RobottersDeles.* ' .
+//            'FROM Phalcon\Tests\Models\Robotters ' .
+//            'JOIN Phalcon\Tests\Models\RobottersDeles ' .
+//            'ON Phalcon\Tests\Models\Robotters.code = Phalcon\Tests\Models\RobottersDeles.robottersCode ' .
+//            'ORDER BY Phalcon\Tests\Models\Robotters.code, Phalcon\Tests\Models\RobottersDeles.code'
 //        );
 //        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
 //        $I->assertInternalType('object', $result[0]->robotters);
-//        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $result[0]->robotters);
+//        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $result[0]->robotters);
 //        $I->assertInternalType('object', $result[0]->robottersDeles);
 //        $I->assertInstanceOf('RobottersDeles', $result[0]->robottersDeles);
 //        $I->assertCount(3, $result);
@@ -805,16 +805,16 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.*, p.* ' .
-            'FROM Phalcon\Test\Models\Robotters r ' .
-            'JOIN Phalcon\Test\Models\RobottersDeles p ' .
+            'FROM Phalcon\Tests\Models\Robotters r ' .
+            'JOIN Phalcon\Tests\Models\RobottersDeles p ' .
             'ON r.code = p.robottersCode ' .
             'ORDER BY r.code, p.code'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
         $I->assertTrue(is_object($result[0]->r));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $result[0]->r);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robotters::class, $result[0]->r);
         $I->assertTrue(is_object($result[0]->p));
-        $I->assertInstanceOf(\Phalcon\Test\Models\RobottersDeles::class, $result[0]->p);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\RobottersDeles::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals($result[0]->r->code, 1);
         $I->assertEquals($result[0]->p->code, 1);
@@ -823,37 +823,37 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery(
             'SELECT r.* ' .
-            'FROM Phalcon\Test\Models\RobotsParts rp ' .
-            'LEFT JOIN Phalcon\Test\Models\Robots2 r ON rp.robots_id=r.id'
+            'FROM Phalcon\Tests\Models\RobotsParts rp ' .
+            'LEFT JOIN Phalcon\Tests\Models\Robots2 r ON rp.robots_id=r.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
         $I->assertTrue(is_object($result[0]));
-        $I->assertInstanceOf(\Phalcon\Test\Models\Robots2::class, $result[0]);
+        $I->assertInstanceOf(\Phalcon\Tests\Models\Robots2::class, $result[0]);
         $I->assertNotNull($result[0]->getName());
 
         $result = $manager->executeQuery(
             'SELECT r.* ' .
-            'FROM Phalcon\Test\Models\Robots r ' .
+            'FROM Phalcon\Tests\Models\Robots r ' .
             'WHERE r.id NOT IN (SELECT p.id ' .
-            'FROM Phalcon\Test\Models\Parts p WHERE r.id < p.id)'
+            'FROM Phalcon\Tests\Models\Parts p WHERE r.id < p.id)'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
 
         $result = $manager->executeQuery(
             'SELECT * ' .
-            'FROM Phalcon\Test\Models\Robots r ' .
-            'JOIN Phalcon\Test\Models\RobotsParts rp ' .
+            'FROM Phalcon\Tests\Models\Robots r ' .
+            'JOIN Phalcon\Tests\Models\RobotsParts rp ' .
             'WHERE rp.id IN (SELECT p.id ' .
-            'FROM Phalcon\Test\Models\Parts p WHERE rp.parts_id = p.id)'
+            'FROM Phalcon\Tests\Models\Parts p WHERE rp.parts_id = p.id)'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
 
         $result = $manager->executeQuery(
             'SELECT * ' .
-            'FROM Phalcon\Test\Models\Robots r ' .
-            'JOIN Phalcon\Test\Models\RobotsParts rp ' .
+            'FROM Phalcon\Tests\Models\Robots r ' .
+            'JOIN Phalcon\Tests\Models\RobotsParts rp ' .
             'WHERE r.id IN (SELECT p.id ' .
-            'FROM Phalcon\Test\Models\Parts p)'
+            'FROM Phalcon\Tests\Models\Parts p)'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
     }
@@ -865,7 +865,7 @@ class ModelsQueryExecuteCest
         $this->container->getShared('db')->delete('subscriptores');
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores ' .
             'VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
@@ -877,7 +877,7 @@ class ModelsQueryExecuteCest
         $I->assertEquals([], $messages[0]->getMetaData());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores ' .
             'VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
@@ -889,25 +889,25 @@ class ModelsQueryExecuteCest
         $I->assertEquals([], $messages[0]->getMetaData());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores ' .
             'VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores ' .
             'VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")'
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores (email, created_at, status) ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores (email, created_at, status) ' .
             'VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")'
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Subscriptores (email, created_at, status) ' .
+            'INSERT INTO Phalcon\Tests\Models\Subscriptores (email, created_at, status) ' .
             'VALUES (:email:, :created_at:, :status:)',
             [
                 'email'      => 'yeahyeah@hotmail.com',
@@ -933,7 +933,7 @@ class ModelsQueryExecuteCest
          * This test must fail because the email is not allowed as a model business rule
          */
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes ' .
             'VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
@@ -949,7 +949,7 @@ class ModelsQueryExecuteCest
          * This test must fail because the email is invalid
          */
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes ' .
             'VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
@@ -964,7 +964,7 @@ class ModelsQueryExecuteCest
          * This test must pass
          */
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes ' .
             'VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertTrue($status->success());
@@ -973,7 +973,7 @@ class ModelsQueryExecuteCest
          * This test must pass
          */
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes ' .
             'VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")'
         );
         $I->assertTrue($status->success());
@@ -982,13 +982,13 @@ class ModelsQueryExecuteCest
          * This test must pass
          */
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes (courrierElectronique, creeA, statut) ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes (courrierElectronique, creeA, statut) ' .
             'VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")'
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'INSERT INTO Phalcon\Test\Models\Abonnes (courrierElectronique, creeA, statut) ' .
+            'INSERT INTO Phalcon\Tests\Models\Abonnes (courrierElectronique, creeA, statut) ' .
             'VALUES (:courrierElectronique:, :creeA:, :statut:)',
             [
                 'courrierElectronique' => 'yeahyeah@hotmail.com',
@@ -1014,13 +1014,13 @@ class ModelsQueryExecuteCest
         ;
 
         $status = $manager->executeQuery(
-            "UPDATE Phalcon\Test\Models\People SET direccion = 'COL' ' .
+            "UPDATE Phalcon\Tests\Models\People SET direccion = 'COL' ' .
             'WHERE ciudad_id IS NULL LIMIT 25"
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'UPDATE Phalcon\Test\Models\People SET direccion = :direccion: ' .
+            'UPDATE Phalcon\Tests\Models\People SET direccion = :direccion: ' .
             'WHERE ciudad_id IS NULL LIMIT 25',
             [
                 'direccion' => 'MXN',
@@ -1029,7 +1029,7 @@ class ModelsQueryExecuteCest
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'UPDATE Phalcon\Test\Models\Subscriptores SET status = :status: WHERE email = :email:',
+            'UPDATE Phalcon\Tests\Models\Subscriptores SET status = :status: WHERE email = :email:',
             [
                 'status' => 'I',
                 'email'  => 'le-marina@hotmail.com',
@@ -1061,13 +1061,13 @@ class ModelsQueryExecuteCest
         ;
 
         $status = $manager->executeQuery(
-            "UPDATE Phalcon\Test\Models\Personers SET adresse = 'COL' ' .
+            "UPDATE Phalcon\Tests\Models\Personers SET adresse = 'COL' ' .
             'WHERE fodebyId IS NULL LIMIT 25"
         );
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'UPDATE Phalcon\Test\Models\Personers SET adresse = :adresse: ' .
+            'UPDATE Phalcon\Tests\Models\Personers SET adresse = :adresse: ' .
             'WHERE fodebyId IS NULL LIMIT 25',
             [
                 'adresse' => 'MXN',
@@ -1076,7 +1076,7 @@ class ModelsQueryExecuteCest
         $I->assertTrue($status->success());
 
         $status = $manager->executeQuery(
-            'UPDATE Phalcon\Test\Models\Abonnes SET statut = :statut: ' .
+            'UPDATE Phalcon\Tests\Models\Abonnes SET statut = :statut: ' .
             'WHERE courrierElectronique = :courrierElectronique:',
             [
                 'statut'               => 'I',
@@ -1091,7 +1091,7 @@ class ModelsQueryExecuteCest
         $manager = $this->container->getShared('modelsManager');
 
         $status = $manager->executeQuery(
-            'DELETE FROM Phalcon\Test\Models\Subscriptores ' .
+            'DELETE FROM Phalcon\Tests\Models\Subscriptores ' .
             'WHERE email = "marina@hotmail.com"'
         );
 
@@ -1101,7 +1101,7 @@ class ModelsQueryExecuteCest
 
 
         $status = $manager->executeQuery(
-            'DELETE FROM Phalcon\Test\Models\Subscriptores ' .
+            'DELETE FROM Phalcon\Tests\Models\Subscriptores ' .
             'WHERE status = :status: AND email <> :email:',
             [
                 'status' => 'P',
@@ -1132,7 +1132,7 @@ class ModelsQueryExecuteCest
         $manager = $this->container->getShared('modelsManager');
 
         $status = $manager->executeQuery(
-            'DELETE FROM Phalcon\Test\Models\Abonnes ' .
+            'DELETE FROM Phalcon\Tests\Models\Abonnes ' .
             'WHERE courrierElectronique = "marina@hotmail.com"'
         );
 
@@ -1142,7 +1142,7 @@ class ModelsQueryExecuteCest
 
 
         $status = $manager->executeQuery(
-            'DELETE FROM Phalcon\Test\Models\Abonnes ' .
+            'DELETE FROM Phalcon\Tests\Models\Abonnes ' .
             'WHERE statut = :statut: AND courrierElectronique <> :courrierElectronique:',
             [
                 'statut'               => 'P',

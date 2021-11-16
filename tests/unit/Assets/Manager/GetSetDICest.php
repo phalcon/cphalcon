@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
 use Phalcon\Di;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class GetSetDICest
@@ -31,13 +33,9 @@ class GetSetDICest
 
         $container = new Di();
 
-        $manager = new Manager();
-
+        $manager = new Manager(new TagFactory(new Escaper()));
         $manager->setDI($container);
 
-        $I->assertSame(
-            $container,
-            $manager->getDI()
-        );
+        $I->assertSame($container, $manager->getDI());
     }
 }

@@ -11,15 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Component;
+namespace Phalcon\Tests\Unit\Acl\Component;
 
 use Phalcon\Acl\Component;
 use UnitTester;
 
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Component
+ */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Acl\Component :: __toString()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -30,14 +37,7 @@ class ToStringCest
 
         $component = new Component('Customers');
 
-        $I->assertEquals(
-            'Customers',
-            $component->__toString()
-        );
-
-        $I->assertEquals(
-            'Customers',
-            (string) $component
-        );
+        $I->assertEquals('Customers', $component->__toString());
+        $I->assertEquals('Customers', (string) $component);
     }
 }

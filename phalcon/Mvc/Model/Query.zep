@@ -15,7 +15,6 @@ use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
-use Phalcon\Helper\Arr;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
@@ -288,9 +287,15 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * By default use use 3600 seconds (1 hour) as cache lifetime
              */
-            let lifetime     = Arr::get(cacheOptions, "lifetime", 3600),
-                cacheService = Arr::get(cacheOptions, "service", "modelsCache"),
-                cache        = this->container->getShared(cacheService);
+            if !fetch lifetime, cacheOptions["lifetime"] {
+                let lifetime = 3600;
+            }
+
+            if !fetch cacheService, cacheOptions["service"] {
+                let cacheService = "modelsCache";
+            }
+
+            let cache = this->container->getShared(cacheService);
 
             if unlikely !(cache instanceof CacheInterface) {
                 throw new Exception("Cache service must be an object implementing Psr\SimpleCache\CacheInterface");
@@ -1542,9 +1547,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Resolves an expression from its intermediate code into a string
+     * Resolves an expression from its intermediate code into an array
      */
-    final protected function getExpression(array expr, bool quoting = true) -> string
+    final protected function getExpression(array expr, bool quoting = true) -> array
     {
         var exprType, exprLeft, exprRight, left = null, right = null,
             listItems, exprListItem, exprReturn, value, escapedValue,

@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Models\Relations;
+namespace Phalcon\Tests\Models\Relations;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Row;
 
 /**
- * Phalcon\Test\Models\Relations\RobotsParts
+ * Phalcon\Tests\Models\Relations\RobotsParts
  *
  * @method static RobotsParts findFirst($parameters = null)
  * @method Row getRobots($parameters = null)

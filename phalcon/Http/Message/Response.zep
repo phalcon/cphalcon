@@ -14,7 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Number;
 use Phalcon\Http\Message\AbstractMessage;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -255,10 +254,18 @@ final class Response extends AbstractMessage implements ResponseInterface, Respo
      */
     private function checkCodeValue(int code) -> void
     {
-        if (true !== Number::between(code, 100, 599)) {
+        if (true !== this->isBetween(code, 100, 599)) {
             throw new InvalidArgumentException(
                 "Invalid status code '" . code . "', (allowed values 100-599)"
             );
         }
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function isBetween(int value, int from, int to) -> bool
+    {
+        return value >= from && value <= to;
     }
 }

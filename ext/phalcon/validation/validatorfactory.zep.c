@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation, ValidatorFactory, phalcon, validation_validatorfactory, phalcon_factory_abstractfactory_ce, phalcon_validation_validatorfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validatorfactory_ce, SL("exception"), "Phalcon\\Validation\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -114,7 +113,24 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Validation_ValidatorFactory, getAdapters)
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Validation_ValidatorFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Validation\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
+PHP_METHOD(Phalcon_Validation_ValidatorFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

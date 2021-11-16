@@ -11,19 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Memory;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Memory;
 
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
+use Phalcon\Support\Exception as HelperException;
 
 class GetKeysCest
 {
     /**
      * Tests Phalcon\Storage\Adapter\Memory :: getKeys()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-13
+     * @since  2020-09-09
      */
     public function storageAdapterMemoryGetKeys(IntegrationTester $I)
     {
@@ -39,10 +44,14 @@ class GetKeysCest
         $adapter->set('one-1', 'test');
         $adapter->set('one-2', 'test');
 
-        $I->assertTrue($adapter->has('key-1'));
-        $I->assertTrue($adapter->has('key-2'));
-        $I->assertTrue($adapter->has('one-1'));
-        $I->assertTrue($adapter->has('one-2'));
+        $actual = $adapter->has('key-1');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('key-2');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('one-1');
+        $I->assertTrue($actual);
+        $actual = $adapter->has('one-2');
+        $I->assertTrue($actual);
 
         $expected = [
             'ph-memo-key-1',

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 use function date;
 use function serialize;
@@ -67,12 +67,11 @@ class SerializeCest
 
         $invoice = new Invoices();
         $invoice->assign($data);
-        $result = $invoice->save();
 
+        $result = $invoice->save();
         $I->assertNotFalse($result);
 
         $serialized = serialize($invoice);
-
         $newObject = unserialize($serialized);
 
         $I->assertEquals(2, $newObject->inv_cst_id);
@@ -80,5 +79,43 @@ class SerializeCest
         $I->assertEquals($title, $newObject->inv_title);
         $I->assertEquals(100.12, $newObject->inv_total);
         $I->assertEquals($date, $newObject->inv_created_at);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: serialize() - with dirtyState
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-11-09
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelSerializeWithDirtyState(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - serialize() - with dirtyState');
+
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $data  = [
+            'inv_cst_id'      => 2,
+            'inv_status_flag' => 3,
+            'inv_title'       => $title,
+            'inv_total'       => 100.12,
+            'inv_created_at'  => $date,
+        ];
+
+        $invoice = new Invoices();
+        $invoice->assign($data);
+        $invoice->setDirtyState(0);
+
+        $result = $invoice->save();
+        $I->assertNotFalse($result);
+
+        $serialized = serialize($invoice);
+
+        /** @var Invoices $newObject */
+        $newObject = unserialize($serialized);
+        $I->assertEquals(0, $newObject->getDirtyState());
     }
 }

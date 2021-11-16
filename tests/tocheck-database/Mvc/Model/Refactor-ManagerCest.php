@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Row;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Relations\RobotsParts;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Relations\RobotsParts;
 
 class ManagerCest
 {

@@ -6,7 +6,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_HelperFactory);
 PHP_METHOD(Phalcon_Support_HelperFactory, __construct);
 PHP_METHOD(Phalcon_Support_HelperFactory, __call);
 PHP_METHOD(Phalcon_Support_HelperFactory, newInstance);
-PHP_METHOD(Phalcon_Support_HelperFactory, getAdapters);
+PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass);
+PHP_METHOD(Phalcon_Support_HelperFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_helperfactory___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 80000
@@ -25,13 +26,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_helperfactory_newinstance, 0, 0, 
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helperfactory_getadapters, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helperfactory_getexceptionclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helperfactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_helperfactory_method_entry) {
 	PHP_ME(Phalcon_Support_HelperFactory, __construct, arginfo_phalcon_support_helperfactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Support_HelperFactory, __call, arginfo_phalcon_support_helperfactory___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_HelperFactory, newInstance, arginfo_phalcon_support_helperfactory_newinstance, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_HelperFactory, getAdapters, arginfo_phalcon_support_helperfactory_getadapters, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Support_HelperFactory, getExceptionClass, arginfo_phalcon_support_helperfactory_getexceptionclass, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Support_HelperFactory, getServices, arginfo_phalcon_support_helperfactory_getservices, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

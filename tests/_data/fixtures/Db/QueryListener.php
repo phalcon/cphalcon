@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Db;
+namespace Phalcon\Tests\Fixtures\Db;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 
 /**
  * Class QueryListener
  *
- * @package Phalcon\Test\Fixtures\Db
+ * @package Phalcon\Tests\Fixtures\Db
  *
  * @property Logger $logger
  */

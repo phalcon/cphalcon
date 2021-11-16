@@ -10,11 +10,11 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
- * Reads YAML files and converts them to Phalcon\Config objects.
+ * Reads YAML files and converts them to Phalcon\Config\Config objects.
  *
  * Given the following configuration file:
  *
@@ -60,14 +60,14 @@ class Yaml extends Config
         var yamlConfig;
         int ndocs = 0;
 
-        if unlikely !extension_loaded("yaml") {
-            throw new Exception("Yaml extension not loaded");
+        if unlikely !this->phpExtensionLoaded("yaml") {
+            throw new Exception("Yaml extension is not loaded");
         }
 
         if empty(callbacks) {
-            let yamlConfig = yaml_parse_file(filePath);
+            let yamlConfig = this->phpYamlParseFile(filePath);
         } else {
-            let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
+            let yamlConfig = this->phpYamlParseFile(filePath, 0, ndocs, callbacks);
         }
 
         if unlikely yamlConfig === false {
@@ -77,5 +77,22 @@ class Yaml extends Config
         }
 
         parent::__construct(yamlConfig);
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpYamlParseFile(
+        filename,
+        pos = 0,
+        ndocs = null,
+        callbacks = []
+    ) {
+        return yaml_parse_file(filename, pos, ndocs, callbacks);
+    }
+
+    protected function phpExtensionLoaded(string name) -> bool
+    {
+        return extension_loaded(name);
     }
 }

@@ -11,13 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class ArrayAccessCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
+ */
 class ArrayAccessCest
 {
     use TranslateCsvTrait;
@@ -25,8 +30,10 @@ class ArrayAccessCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: array access
      *
-     * @author Nikos Dimopoulos <nikos@phalcon.io>
-     * @since  2014-09-12
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function translateAdapterCsvWithArrayAccess(UnitTester $I)
     {
@@ -34,21 +41,12 @@ class ArrayAccessCest
 
         $language = $this->getCsvConfig()['ru'];
 
-        $translator = new Csv(
-            new InterpolatorFactory(),
-            $language
-        );
+        $translator = new Csv(new InterpolatorFactory(), $language);
 
-        $I->assertTrue(
-            isset(
-                $translator['Hello!']
-            )
-        );
+        $actual = isset($translator['Hello!']);
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            isset(
-                $translator['Hi there!']
-            )
-        );
+        $actual = isset($translator['Hi there!']);
+        $I->assertFalse($actual);
     }
 }

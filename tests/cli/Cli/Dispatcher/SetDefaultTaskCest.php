@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
@@ -30,7 +30,7 @@ class SetDefaultTaskCest
         $I->wantToTest('Cli\Dispatcher - setDefaultTask()');
 
         $dispatcher = new Dispatcher();
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setDI(
             new DiFactoryDefault()
         );

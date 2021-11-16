@@ -11,17 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\Link;
+namespace Phalcon\Tests\Unit\Html\Link\Link;
 
 use Phalcon\Html\Link\Link;
 use UnitTester;
 
+/**
+ * Class GetHrefCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\Link
+ */
 class GetHrefCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: getHref()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkGetHref(UnitTester $I)
     {

@@ -11,19 +11,19 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Refactor;
+namespace Phalcon\Tests\Integration\Mvc\Router\Refactor;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 /**
  * Class GroupCest
  *
- * @package Phalcon\Test\Integration\Mvc\Router
+ * @package Phalcon\Tests\Integration\Mvc\Router
  * @todo: refactor
  */
 class GroupCest

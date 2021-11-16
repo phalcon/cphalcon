@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Db;
+namespace Phalcon\Tests\Fixtures\Db;
 
 use Phalcon\Db\Profiler as PhalconProfiler;
 

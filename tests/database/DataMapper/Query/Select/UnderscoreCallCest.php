@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Select;
+namespace Phalcon\Tests\Database\DataMapper\Query\Select;
 
 use BadMethodCallException;
 use DatabaseTester;
 use PDOStatement;
 use Phalcon\DataMapper\Query\QueryFactory;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 
 class UnderscoreCallCest
 {

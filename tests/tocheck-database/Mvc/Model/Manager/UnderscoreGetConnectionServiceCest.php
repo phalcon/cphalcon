@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\Manager;
+namespace Phalcon\Tests\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
 

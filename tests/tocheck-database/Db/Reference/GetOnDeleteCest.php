@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Reference;
+namespace Phalcon\Tests\Integration\Db\Reference;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Tests\Fixtures\Traits\DialectTrait;
 
 class GetOnDeleteCest
 {

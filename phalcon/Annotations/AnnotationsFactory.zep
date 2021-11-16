@@ -12,15 +12,13 @@ namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Factory to create annotations components
  */
 class AnnotationsFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Annotations\\Exception";
-
     /**
      * AdapterFactory constructor.
      */
@@ -30,7 +28,7 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'apcu',
      *     'options' => [
      *         'prefix' => 'phalcon',
@@ -46,11 +44,12 @@ class AnnotationsFactory extends AbstractFactory
         var name, options;
 
         let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
             name   = config["adapter"];
 
         unset config["adapter"];
 
-        let options = Arr::get(config, "options", []);
+        let options = (new Get())->__invoke(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -79,9 +78,19 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
-     * The available adapters
+     * @return string
      */
-    protected function getAdapters() -> array
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Annotations\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "apcu"   : "Phalcon\\Annotations\\Adapter\\Apcu",

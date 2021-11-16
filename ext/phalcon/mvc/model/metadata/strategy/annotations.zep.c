@@ -509,7 +509,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 					ZVAL_LONG(&_11$$9, 14);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_11$$9, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(&_12$$9);
-					ZVAL_LONG(&_12$$9, 1);
+					ZVAL_LONG(&_12$$9, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_12$$9, PH_COPY | PH_SEPARATE);
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
 					break;
@@ -858,7 +858,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 						ZVAL_LONG(&_75$$47, 14);
 						zephir_array_update_zval(&fieldTypes, &columnName, &_75$$47, PH_COPY | PH_SEPARATE);
 						ZEPHIR_INIT_NVAR(&_76$$47);
-						ZVAL_LONG(&_76$$47, 1);
+						ZVAL_LONG(&_76$$47, 2);
 						zephir_array_update_zval(&fieldBindTypes, &columnName, &_76$$47, PH_COPY | PH_SEPARATE);
 						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
 						break;

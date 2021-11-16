@@ -11,9 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class AddCssCest
@@ -28,18 +30,15 @@ class AddCssCest
     {
         $I->wantToTest('Assets\Manager - addCss()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $assets->addCss('/css/style1.css');
-        $assets->addCss('/css/style2.css');
+        $manager->addCss('/css/style1.css');
+        $manager->addCss('/css/style2.css');
 
-        $collection = $assets->get('css');
+        $collection = $manager->get('css');
 
         foreach ($collection as $resource) {
-            $I->assertEquals(
-                'css',
-                $resource->getType()
-            );
+            $I->assertEquals('css', $resource->getType());
         }
 
         $I->assertCount(2, $collection);
@@ -57,40 +56,26 @@ class AddCssCest
     {
         $I->wantToTest('Assets\Manager - addCss() - duplicate');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
         for ($i = 0; $i < 10; $i++) {
-            $assets
+            $manager
                 ->addCss('css/style.css')
                 ->addJs('script.js')
             ;
         }
 
-        $I->assertCount(
-            1,
-            $assets->getCss()
-        );
-
-        $I->assertCount(
-            1,
-            $assets->getJs()
-        );
+        $I->assertCount(1, $manager->getCss());
+        $I->assertCount(1, $manager->getJs());
 
         for ($i = 0; $i < 2; $i++) {
-            $assets
+            $manager
                 ->addCss('style_' . $i . '.css')
                 ->addJs('script_' . $i . '.js')
             ;
         }
 
-        $I->assertCount(
-            3,
-            $assets->getCss()
-        );
-
-        $I->assertCount(
-            3,
-            $assets->getJs()
-        );
+        $I->assertCount(3, $manager->getCss());
+        $I->assertCount(3, $manager->getJs());
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use Codeception\Example;
 use DatabaseTester;
@@ -19,13 +19,13 @@ use PDO;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesExtended;
-use Phalcon\Test\Models\InvoicesMap;
-use Phalcon\Test\Models\ModelWithStringPrimary;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\StringPrimaryMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
+use Phalcon\Tests\Models\InvoicesExtended;
+use Phalcon\Tests\Models\InvoicesMap;
+use Phalcon\Tests\Models\ModelWithStringPrimary;
 
 use function uniqid;
 
@@ -68,27 +68,23 @@ class FindFirstCest
 
         $invoice = Invoices::findFirst();
 
-        $I->assertInstanceOf(
-            Invoices::class,
-            $invoice
-        );
+        $class = Invoices::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals(
-            4,
-            $invoice->inv_id
-        );
+        $expected = 4;
+        $actual   = $invoice->inv_id;
+        $I->assertEquals($expected, $actual);
 
         $invoice = Invoices::findFirst(null);
 
-        $I->assertInstanceOf(
-            Invoices::class,
-            $invoice
-        );
+        $class = Invoices::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals(
-            4,
-            $invoice->inv_id
-        );
+        $expected = 4;
+        $actual   = $invoice->inv_id;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -113,37 +109,31 @@ class FindFirstCest
 
         $invoice = InvoicesMap::findFirst();
 
-        $I->assertInstanceOf(
-            InvoicesMap::class,
-            $invoice
-        );
+        $class  = InvoicesMap::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $invoice);
 
-        $I->assertEquals(
-            4,
-            $invoice->id
-        );
+        $expected = 4;
+        $actual   = $invoice->id;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $title,
-            $invoice->title
-        );
+        $expected = $title;
+        $actual   = $invoice->title;
+        $I->assertEquals($expected, $actual);
 
         $invoice = InvoicesMap::findFirst(null);
 
-        $I->assertInstanceOf(
-            InvoicesMap::class,
-            $invoice
-        );
+        $class  = InvoicesMap::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals(
-            4,
-            $invoice->id
-        );
+        $expected = 4;
+        $actual   = $invoice->id;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $title,
-            $invoice->title
-        );
+        $expected = $title;
+        $actual   = $invoice->title;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -160,13 +150,13 @@ class FindFirstCest
     {
         $I->wantToTest('Mvc\Model - findFirst() - not found');
 
-        $robot = Invoices::findFirst(
+        $invoice = Invoices::findFirst(
             [
                 'conditions' => 'inv_id < 0',
             ]
         );
 
-        $I->assertNull($robot);
+        $I->assertNull($invoice);
     }
 
     /**
@@ -183,9 +173,8 @@ class FindFirstCest
     {
         $I->wantToTest('Mvc\Model - findFirstBy() - not found');
 
-        $I->assertNull(
-            Invoices::findFirstByInvTitle('unknown')
-        );
+        $actual = Invoices::findFirstByInvTitle('unknown');
+        $I->assertNull($actual);
     }
 
     /**
@@ -210,12 +199,13 @@ class FindFirstCest
 
         $invoice = InvoicesExtended::findFirst(4);
 
-        $I->assertInstanceOf(
-            InvoicesExtended::class,
-            $invoice
-        );
+        $class = InvoicesExtended::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals(4, $invoice->inv_id);
+        $expected = 4;
+        $actual   = $invoice->inv_id;
+        $I->assertEquals($expected, $actual);
 
         $invoice = InvoicesExtended::findFirst(0);
         $I->assertNull($invoice);
@@ -250,6 +240,7 @@ class FindFirstCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-11-22
+     * @issue  https://github.com/phalcon/cphalcon/issues/15356
      *
      * @group  mysql
      * @group  pgsql
@@ -266,24 +257,23 @@ class FindFirstCest
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4);
 
-        $invoice = Invoices::findFirst([
-            'columns' => 'inv_id',
-        ]);
-
-        $I->assertInstanceOf(
-            Row::class,
-            $invoice
+        $invoice = Invoices::findFirst(
+            [
+                'columns' => 'inv_id',
+            ]
         );
 
-        $I->assertEquals(
-            4,
-            $invoice->inv_id
-        );
+        $class = Row::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals(
-            ['inv_id' => 4],
-            $invoice->toArray()
-        );
+        $expected = 4;
+        $actual   = $invoice->inv_id;
+        $I->assertEquals($expected, $actual);
+
+        $expected = ['inv_id' => 4];
+        $actual   = $invoice->toArray();
+        $I->assertEquals($expected, $actual);
     }
 
     /**

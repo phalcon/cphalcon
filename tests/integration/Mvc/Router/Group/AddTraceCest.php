@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Group;
+namespace Phalcon\Tests\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
 use Phalcon\Mvc\Router\Group;
-use Phalcon\Test\Fixtures\Traits\RouterTrait;
+use Phalcon\Tests\Fixtures\Traits\RouterTrait;
 
 class AddTraceCest
 {

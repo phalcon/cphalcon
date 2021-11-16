@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Task;
+namespace Phalcon\Tests\Cli\Cli\Task;
 
 use CliTester;
 use Phalcon\Cli\Task;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Registry;
-use Phalcon\Test\Fixtures\Tasks\EchoTask;
-use Phalcon\Test\Fixtures\Tasks\MainTask;
-use Phalcon\Test\Fixtures\Tasks\OnConstructTask;
+use Phalcon\Tests\Fixtures\Tasks\EchoTask;
+use Phalcon\Tests\Fixtures\Tasks\MainTask;
+use Phalcon\Tests\Fixtures\Tasks\OnConstructTask;
 
 class ConstructCest
 {

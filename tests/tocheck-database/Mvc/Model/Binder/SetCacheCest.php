@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Binder;
+namespace Phalcon\Tests\Integration\Mvc\Model\Binder;
 
 use IntegrationTester;
 

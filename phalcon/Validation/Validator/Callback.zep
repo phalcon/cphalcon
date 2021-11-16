@@ -69,8 +69,7 @@ class Callback extends AbstractValidator
      * @param array options = [
      *     'message' => '',
      *     'template' => '',
-     *     'callback' => null,
-     *     'allowEmpty' => false
+     *     'callback' => null
      * ]
      */
     public function __construct(array! options = [])

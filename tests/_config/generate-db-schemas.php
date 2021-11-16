@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
+use Phalcon\Tests\Fixtures\Migrations\AbstractMigration;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
@@ -28,7 +28,7 @@ $drivers = [
 ];
 
 $migrations     = getMigrations($root);
-$migrationClass = 'Phalcon\Test\Fixtures\Migrations\%s';
+$migrationClass = 'Phalcon\Tests\Fixtures\Migrations\%s';
 
 foreach ($drivers as $driver) {
     $schema = $root . '/tests/_data/assets/schemas/' . $driver . '.sql';

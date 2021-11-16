@@ -116,13 +116,13 @@ PHP_METHOD(Phalcon_Html_Link_Link, __construct)
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22);
+	object_init_ex(&_0, phalcon_support_collection_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 24);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rels"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	object_init_ex(&_1, phalcon_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22, &attributes);
+	object_init_ex(&_1, phalcon_support_collection_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 24, &attributes);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_1);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("href"), &href);
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, hrefIsTemplated)
 	if (_2) {
 		ZEPHIR_INIT_VAR(&_3);
 		ZVAL_STRING(&_3, "}");
-		ZEPHIR_CALL_FUNCTION(&_4, "strrpos", NULL, 116, &href, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "strrpos", NULL, 124, &href, &_3);
 		zephir_check_call_status();
 		_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_4);
 	}

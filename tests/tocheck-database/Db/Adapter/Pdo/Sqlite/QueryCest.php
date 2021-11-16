@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
 use Phalcon\Db\Enum;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use function is_array;
 
 class QueryCest

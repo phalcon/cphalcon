@@ -30,7 +30,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl\\Adapter, AbstractAdapter, phalcon, acl_adapter_abstractadapter, phalcon_acl_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, AbstractAdapter, phalcon, acl_adapter_abstractadapter, phalcon_events_abstracteventsaware_ce, phalcon_acl_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * Active access which the list is checking if some role can access it
@@ -63,12 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * Events manager
-	 *
-	 * @var ManagerInterface|null
-	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce, 1, phalcon_acl_adapter_adapterinterface_ce);
 	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
@@ -127,18 +121,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 }
 
 /**
- * Returns the internal event manager
- */
-PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getEventsManager)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "eventsManager");
-}
-
-/**
  * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
@@ -163,28 +145,5 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultAccess);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
-}
-
-/**
- * Sets the events manager
- */
-PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager)
-{
-	zval *eventsManager, eventsManager_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&eventsManager_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 }
 

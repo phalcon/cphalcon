@@ -11,17 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\EvolvableLink;
+namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 
 use Phalcon\Html\Link\EvolvableLink;
 use UnitTester;
 
+/**
+ * Class IsTemplatedCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLink
+ */
 class IsTemplatedCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: isTemplated()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkIsTemplated(UnitTester $I)
     {

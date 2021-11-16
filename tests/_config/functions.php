@@ -23,23 +23,23 @@ if (!function_exists('loadAutoloader')) {
     function loadAutoloader(string $root)
     {
         Autoload::addNamespace(
-            'Phalcon\Test\Controllers',
+            'Phalcon\Tests\Controllers',
             $root . 'fixtures/controllers'
         );
         Autoload::addNamespace(
-            'Phalcon\Test\Models',
+            'Phalcon\Tests\Models',
             $root . 'fixtures/models'
         );
         Autoload::addNamespace(
-            'Phalcon\Test\Resultsets',
+            'Phalcon\Tests\Resultsets',
             $root . 'fixtures/resultsets'
         );
         Autoload::addNamespace(
-            'Phalcon\Test\Modules\Frontend\Controllers',
+            'Phalcon\Tests\Modules\Frontend\Controllers',
             $root . 'fixtures/modules/frontend/controllers/'
         );
         Autoload::addNamespace(
-            'Phalcon\Test\Modules\Backend\Controllers',
+            'Phalcon\Tests\Modules\Backend\Controllers',
             $root . 'fixtures/modules/backend/controllers/'
         );
     }

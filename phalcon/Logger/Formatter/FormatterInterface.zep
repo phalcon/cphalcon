@@ -21,7 +21,10 @@ interface FormatterInterface
 {
     /**
      * Applies a format to an item
+     *
+     * @param Item $item
+     *
+     * @return string
      */
     public function format(<Item> item) -> string | array;
 }
-

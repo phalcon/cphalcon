@@ -11,18 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\EvolvableLinkProvider;
+namespace Phalcon\Tests\Unit\Html\Link\EvolvableLinkProvider;
 
 use Phalcon\Html\Link\EvolvableLinkProvider;
 use Phalcon\Html\Link\Link;
 use UnitTester;
 
+/**
+ * Class GetLinksByRelCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLinkProvider
+ */
 class GetLinksByRelCest
 {
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: getLinksByRel()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkProviderGetLinksByRel(UnitTester $I)
     {

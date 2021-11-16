@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
@@ -21,7 +21,7 @@ class PathCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: path()
+     * Tests Phalcon\Config\Config :: path()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
@@ -34,7 +34,7 @@ class PathCest
     }
 
     /**
-     * Tests Phalcon\Config :: path() - default
+     * Tests Phalcon\Config\Config :: path() - default
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19

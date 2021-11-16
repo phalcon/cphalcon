@@ -11,24 +11,40 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Item;
+namespace Phalcon\Tests\Unit\Logger\Item;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
+
+use function date_default_timezone_get;
 
 class GetContextCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getContext()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerItemGetContext(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getContext()');
-        $time    = new DateTimeImmutable("now");
-        $context = ['context'];
-        $item    = new Item('log message', 'debug', Logger::DEBUG, $time, $context);
+
+        $timezone = date_default_timezone_get();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $context  = ['context'];
+        $item     = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $datetime,
+            $context
+        );
 
         $expected = $context;
         $actual   = $item->getContext();

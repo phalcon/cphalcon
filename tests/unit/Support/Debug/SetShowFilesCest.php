@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug;
+namespace Phalcon\Tests\Unit\Support\Debug;
 
 use UnitTester;
 
@@ -21,7 +21,7 @@ class SetShowFilesCest
      * Tests Phalcon\Debug :: setShowFiles()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugSetShowFiles(UnitTester $I)
     {

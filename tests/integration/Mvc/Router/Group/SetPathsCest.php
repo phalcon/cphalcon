@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router\Group;
+namespace Phalcon\Tests\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
 

@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Pdo\Connection;
+namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Connection;
-use Phalcon\Test\Fixtures\DataMapper\Pdo\ConnectionFixture;
+use Phalcon\Tests\Fixtures\DataMapper\Pdo\ConnectionFixture;
 
 class UnderscoreCallCest
 {

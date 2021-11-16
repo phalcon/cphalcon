@@ -31,12 +31,13 @@
  */
 /**
  * Factory to create Cache adapters
+ *
+ * @property SerializerFactory $serializerFactory
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache, AdapterFactory, phalcon, cache_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_cache_adapterfactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_cache_adapterfactory_ce, SL("exception"), "Phalcon\\Cache\\Exception\\Exception", ZEND_ACC_PROTECTED);
 	/**
 	 * @var SerializerFactory
 	 */
@@ -46,6 +47,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param SerializerFactory $factory
+ * @param array             $services
  */
 PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
 {
@@ -86,26 +90,30 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param array options = [
+ * @param string $name
+ * @param array  $options = [
  *     'servers' => [
  *         [
- *             'host' => 'localhost',
- *             'port' => 11211,
+ *             'host'   => 'localhost',
+ *             'port'   => 11211,
  *             'weight' => 1,
  *         ]
  *     ],
- *     'host' => '127.0.0.1',
- *     'port' => 6379,
- *     'index' => 0,
- *     'persistent' => false,
- *     'auth' => '',
- *     'socket' => '',
+ *     'host'              => '127.0.0.1',
+ *     'port'              => 6379,
+ *     'index'             => 0,
+ *     'persistent'        => false,
+ *     'auth'              => '',
+ *     'socket'            => '',
  *     'defaultSerializer' => 'Php',
- *     'lifetime' => 3600,
- *     'serializer' => null,
- *     'prefix' => 'phalcon',
- *     'storageDir' => ''
+ *     'lifetime'          => 3600,
+ *     'serializer'        => null,
+ *     'prefix'            => 'phalcon',
+ *     'storageDir'        => ''
  * ]
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance)
 {
@@ -164,9 +172,23 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance)
 }
 
 /**
- * Returns the available adapters
+ * @return string
  */
-PHP_METHOD(Phalcon_Cache_AdapterFactory, getAdapters)
+PHP_METHOD(Phalcon_Cache_AdapterFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Cache\\Exception\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
+PHP_METHOD(Phalcon_Cache_AdapterFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

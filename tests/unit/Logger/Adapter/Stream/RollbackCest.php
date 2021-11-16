@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
@@ -22,7 +22,11 @@ class RollbackCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: rollback()
      *
+     * @param UnitTester $I
+     *
      * @throws Exception
+     * @since  2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function loggerAdapterStreamRollback(UnitTester $I)
     {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Version;
+namespace Phalcon\Tests\Unit\Support\Version;
 
 use Phalcon\Support\Version;
 use UnitTester;
@@ -22,7 +22,7 @@ class ConstantsCest
      * Tests Phalcon\Support\Version :: Constants
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportVersionConstants(UnitTester $I)
     {

@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Cache;
+namespace Phalcon\Tests\Integration\Cache\Cache;
 
-use Phalcon\Cache;
+use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use IntegrationTester;
 
 use function uniqid;
 
@@ -27,7 +27,7 @@ class GetSetCest
      * Tests Phalcon\Cache :: get()/set()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheSetGet(IntegrationTester $I)
     {
@@ -45,45 +45,23 @@ class GetSetCest
 
 
         $adapter->set($key1, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
-
+        $I->assertTrue($adapter->has($key1));
 
         $adapter->set($key2, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $I->assertTrue($adapter->has($key2));
 
         $adapter->set($key3, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key3)
-        );
-
-        $I->assertEquals(
-            'test',
-            $adapter->get($key1)
-        );
-
-        $I->assertEquals(
-            'test',
-            $adapter->get($key2)
-        );
-
-        $I->assertEquals(
-            'test',
-            $adapter->get($key3)
-        );
+        $I->assertTrue($adapter->has($key3));
+        $I->assertEquals('test', $adapter->get($key1));
+        $I->assertEquals('test', $adapter->get($key2));
+        $I->assertEquals('test', $adapter->get($key3));
     }
 
     /**
      * Tests Phalcon\Cache :: get() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-01
+     * @since  2020-09-09
      */
     public function cacheCacheGetSetException(IntegrationTester $I)
     {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Formatter\Line;
+namespace Phalcon\Tests\Unit\Logger\Formatter\Line;
 
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
@@ -19,34 +19,45 @@ use UnitTester;
 class GetSetDateFormatCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: getDateFormat()
+     * Tests Phalcon\Logger\Formatter\Line :: setDateFormat()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function loggerFormatterLineGetDateFormat(UnitTester $I)
+    public function loggerFormatterLineGetSetDateFormat(UnitTester $I)
     {
-        $I->wantToTest('Logger\Formatter\Line - getDateFormat()');
+        $I->wantToTest('Logger\Formatter\Line - getDateFormat()/setDateFormat()');
+
+        $format    = '[%date%][%level%] %message%';
+        $newFormat = 'YmdHis';
+
+        /**
+         * Default
+         */
         $formatter = new Line();
 
         $expected = 'c';
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
 
-        $format = 'YmdHis';
-        $formatter->setDateFormat($format);
+        /**
+         * Set in constructor
+         */
+        $formatter = new Line($format, $newFormat);
 
-        $expected = $format;
+        $expected = $newFormat;
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
-    }
 
-    /**
-     * Tests Phalcon\Logger\Formatter\Line :: getDateFormat() - custom
-     */
-    public function loggerFormatterLineGetDateFormatCustom(UnitTester $I)
-    {
-        $I->wantToTest('Logger\Formatter\Line - getDateFormat() - custom');
-        $formatter = new Line('', 'Ymd-His');
+        /**
+         * Set in setDateFormat
+         */
+        $formatter = new Line();
+        $formatter->setDateFormat($newFormat);
 
-        $expected = 'Ymd-His';
+        $expected = $newFormat;
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
     }

@@ -10,9 +10,7 @@
 
 namespace Phalcon\Image;
 
-use Phalcon\Config;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 use Phalcon\Image\Adapter\AdapterInterface;
 
 /**
@@ -20,8 +18,6 @@ use Phalcon\Image\Adapter\AdapterInterface;
  */
 class ImageFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Image\\Exception";
-
     /**
      * TagFactory constructor.
      */
@@ -33,7 +29,7 @@ class ImageFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'gd',
      *     'file' => 'image.jpg',
      *     'height' => null,
@@ -44,21 +40,17 @@ class ImageFactory extends AbstractFactory
     {
         var height, file, name, width;
 
-        let config = this->checkConfig(config);
-
-        if unlikely !isset config["file"] {
-            throw new Exception(
-                "You must provide 'file' option in factory config parameter."
-            );
-        }
+        let config = this->checkConfig(config),
+            config = this->checkConfigElement(config, "adapter"),
+            config = this->checkConfigElement(config, "file");
 
         let name = config["adapter"];
 
         unset config["adapter"];
 
-        let file   = Arr::get(config, "file"),
-            height = Arr::get(config, "height", null),
-            width  = Arr::get(config, "width", null);
+        let file   = this->getArrVal(config, "file"),
+            height = this->getArrVal(config, "height", null),
+            width  = this->getArrVal(config, "width", null);
 
         return this->newInstance(name, file, width, height);
     }
@@ -87,11 +79,41 @@ class ImageFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Image\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "gd"      : "Phalcon\\Image\\Adapter\\Gd",
             "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
         ];
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

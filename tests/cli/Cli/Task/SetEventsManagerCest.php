@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Task;
+namespace Phalcon\Tests\Cli\Cli\Task;
 
 use CliTester;
 use Phalcon\Cli\Task;

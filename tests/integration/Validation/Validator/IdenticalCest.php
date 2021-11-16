@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation\Validator;
+namespace Phalcon\Tests\Integration\Validation\Validator;
 
 use IntegrationTester;
 use Phalcon\Messages\Message;

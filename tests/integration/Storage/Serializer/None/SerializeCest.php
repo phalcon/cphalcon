@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\None;
+namespace Phalcon\Tests\Integration\Storage\Serializer\None;
 
 use Codeception\Example;
-use Phalcon\Storage\Serializer\None;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\None;
 
 class SerializeCest
 {
@@ -24,8 +24,11 @@ class SerializeCest
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-30
+     * @since        2020-09-09
      */
     public function storageSerializerNoneSerialize(IntegrationTester $I, Example $example)
     {

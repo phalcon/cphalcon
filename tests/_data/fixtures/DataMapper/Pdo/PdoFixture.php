@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\DataMapper\Pdo;
+namespace Phalcon\Tests\Fixtures\DataMapper\Pdo;
 
 class PdoFixture
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Manager as ModelManager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\GossipRobots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\GossipRobots;
 
 class ModelsEventsCest
 {

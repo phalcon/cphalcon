@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Pdo\Profiler\MemoryLogger;
+namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\MemoryLogger;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\MemoryLogger;

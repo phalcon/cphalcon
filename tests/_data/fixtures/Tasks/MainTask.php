@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Tasks;
+namespace Phalcon\Tests\Fixtures\Tasks;
 
 class MainTask extends \Phalcon\Cli\Task
 {

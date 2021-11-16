@@ -12,12 +12,9 @@ namespace Phalcon\Paginator;
 
 use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 
 class PaginatorFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Annotations\\Exception";
-
     /**
      * AdapterFactory constructor.
      */
@@ -61,8 +58,12 @@ class PaginatorFactory extends AbstractFactory
         var name, options;
 
         let config  = this->checkConfig(config),
-            name    = config["adapter"],
-            options = Arr::get(config, "options", []);
+            config  = this->checkConfigElement(config, "adapter"),
+            name    = config["adapter"];
+
+        if !fetch options, config["options"] {
+            let options = [];
+        }
 
         return this->newInstance(name, options);
     }
@@ -84,7 +85,20 @@ class PaginatorFactory extends AbstractFactory
         );
     }
 
-    protected function getAdapters() -> array
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Paginator\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "model"        : "Phalcon\\Paginator\\Adapter\\Model",

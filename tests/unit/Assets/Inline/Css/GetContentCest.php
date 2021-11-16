@@ -11,30 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Inline\Css;
+namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+/**
+ * Class GetContentCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Inline\Css
+ */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Assets\Inline\Css :: getContent()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline\Css - getContent()');
 
         $content = 'p {color: #000099}';
+        $asset   = new Css($content);
 
-        $asset = new Css($content);
-
-        $I->assertEquals(
-            $content,
-            $asset->getContent()
-        );
+        $actual = $asset->getContent();
+        $I->assertEquals($content, $actual);
     }
 }

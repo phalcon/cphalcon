@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db;
+namespace Phalcon\Tests\Integration\Db;
 
 use Codeception\Example;
 use IntegrationTester;
 use PDO;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DbCest
 {

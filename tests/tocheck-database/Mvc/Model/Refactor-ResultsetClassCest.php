@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Statistics\AgeStats;
-use Phalcon\Test\Models\Statistics\CityStats;
-use Phalcon\Test\Models\Statistics\CountryStats;
-use Phalcon\Test\Models\Statistics\GenderStats;
-use Phalcon\Test\Resultsets\Stats;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Statistics\AgeStats;
+use Phalcon\Tests\Models\Statistics\CityStats;
+use Phalcon\Tests\Models\Statistics\CountryStats;
+use Phalcon\Tests\Models\Statistics\GenderStats;
+use Phalcon\Tests\Resultsets\Stats;
 
 class ResultsetClassCest
 {
@@ -74,7 +74,7 @@ class ResultsetClassCest
     {
         $I->expectThrowable(
             new Exception(
-                'Resultset class "Phalcon\Test\Models\Statistics\AgeStats" must ' .
+                'Resultset class "Phalcon\Tests\Models\Statistics\AgeStats" must ' .
                 'be an implementation of Phalcon\Mvc\Model\ResultsetInterface'
             ),
             function () {

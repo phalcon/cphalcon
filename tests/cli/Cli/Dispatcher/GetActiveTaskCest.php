@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
@@ -35,10 +35,10 @@ class GetActiveTaskCest
         $dispatcher->setDI(
             new DiFactoryDefault()
         );
-        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setTaskName("main");
         $dispatcher->dispatch();
 
-        $I->assertInstanceOf('\Phalcon\Test\Fixtures\Tasks\MainTask', $dispatcher->getActiveTask());
+        $I->assertInstanceOf('\Phalcon\Tests\Fixtures\Tasks\MainTask', $dispatcher->getActiveTask());
     }
 }

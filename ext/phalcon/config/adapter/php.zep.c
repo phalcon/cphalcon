@@ -30,7 +30,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Reads php files and converts them to Phalcon\Config objects.
+ * Reads php files and converts them to Phalcon\Config\Config objects.
  *
  * Given the next configuration file:
  *
@@ -66,7 +66,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, phalcon, config_adapter_php, phalcon_config_ce, phalcon_config_adapter_php_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, phalcon, config_adapter_php, phalcon_config_config_ce, phalcon_config_adapter_php_method_entry, 0);
 
 	return SUCCESS;
 }

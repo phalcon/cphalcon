@@ -9,18 +9,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Style;
+namespace Phalcon\Tests\Unit\Html\Helper\Style;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Style;
 use UnitTester;
 
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Style
+ */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Html\Helper\Style :: __toString() - empty
      *
-     * @since  2020-01-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperStyleToStringEmpty(UnitTester $I)
     {

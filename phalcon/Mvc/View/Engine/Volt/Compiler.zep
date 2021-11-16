@@ -2630,7 +2630,7 @@ class Compiler implements InjectionAwareInterface
          * "mb_strtolower" if the mbstring extension is loaded
          */
         if name == "lower" || name == "lowercase" {
-            return "Phalcon\\Text::lower(" . arguments . ")";
+            return "strtolower(" . arguments . ")";
         }
 
         /**
@@ -2638,7 +2638,7 @@ class Compiler implements InjectionAwareInterface
          * "mb_strtoupper" if the mbstring extension is loaded
          */
         if name == "upper" || name == "uppercase" {
-            return "Phalcon\\Text::upper(" . arguments . ")";
+            return "strtoupper(" . arguments . ")";
         }
 
         /**

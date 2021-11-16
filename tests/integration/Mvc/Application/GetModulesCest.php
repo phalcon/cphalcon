@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Application;
+namespace Phalcon\Tests\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Mvc\Application;
-use Phalcon\Test\Modules\Frontend\Module;
+use Phalcon\Tests\Modules\Frontend\Module;
 
 class GetModulesCest
 {
@@ -61,7 +61,7 @@ class GetModulesCest
                 'path'      => dataDir('fixtures/modules/frontend/Module.php'),
             ],
             'backend'  => [
-                'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                'className' => \Phalcon\Tests\Modules\Backend\Module::class,
                 'path'      => dataDir('fixtures/modules/backend/Module.php'),
             ],
         ];

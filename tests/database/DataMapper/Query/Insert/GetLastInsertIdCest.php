@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Insert;
+namespace Phalcon\Tests\Database\DataMapper\Query\Insert;
 
 use Codeception\Stub;
 use DatabaseTester;
 use Phalcon\DataMapper\Query\QueryFactory;
-use Phalcon\Test\Fixtures\Migrations\Invoices;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 
 use function uniqid;
 

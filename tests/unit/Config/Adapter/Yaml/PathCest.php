@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
+namespace Phalcon\Tests\Unit\Config\Adapter\Yaml;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class PathCest
@@ -29,7 +29,7 @@ class PathCest
      * Tests Phalcon\Config\Adapter\Yaml :: path()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlPath(UnitTester $I)
     {
@@ -42,7 +42,7 @@ class PathCest
      * Tests Phalcon\Config\Adapter\Yaml :: path() - default
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2021-10-21
      */
     public function configAdapterYamlPathDefault(UnitTester $I)
     {

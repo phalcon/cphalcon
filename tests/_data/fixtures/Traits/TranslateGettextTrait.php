@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Traits;
+namespace Phalcon\Tests\Fixtures\Traits;
 
 use UnitTester;
 use function dataDir;
@@ -21,15 +21,18 @@ trait TranslateGettextTrait
     /**
      * Executed before each test
      */
-    public function _before(UnitTester $I, $scenario)
+    public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('gettext');
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $scenario->skip('Locale en_US.utf8 not enabled');
+            $I->skipTest('Locale en_US.utf8 not enabled');
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getGettextConfig(): array
     {
         return [

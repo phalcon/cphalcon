@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\InclusionIn;
+namespace Phalcon\Tests\Integration\Validation\Validator\InclusionIn;
 
 use IntegrationTester;
 

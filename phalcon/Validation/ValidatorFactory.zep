@@ -11,12 +11,9 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 
 class ValidatorFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Validation\\Exception";
-
     /**
      * TagFactory constructor.
      */
@@ -37,7 +34,20 @@ class ValidatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
-    protected function getAdapters() -> array
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Validation\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "alnum"        : "Phalcon\\Validation\\Validator\\Alnum",

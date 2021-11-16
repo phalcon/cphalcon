@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query;
 
 use IntegrationTester;
 use PDO;
@@ -17,10 +17,10 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Parts;
-use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Parts;
+use Phalcon\Tests\Models\RobotsParts;
+use Phalcon\Tests\Models\Snapshot\Robots;
 
 use function outputDir;
 

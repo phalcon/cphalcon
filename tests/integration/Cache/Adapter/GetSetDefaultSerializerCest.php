@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter;
+namespace Phalcon\Tests\Integration\Cache\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;
@@ -37,10 +37,13 @@ class GetSetDefaultSerializerCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function cacheAdapterGetSetDefaultSerializer(IntegrationTester $I, Example $example)
+    public function storageAdapterGetSetDefaultSerializer(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
-            'Cache\Adapter\'' . $example['className'] . ' - getDefaultSerializer()/setDefaultSerializer()'
+            sprintf(
+                'Cache\Adapter\%s - getDefaultSerializer()/setDefaultSerializer()',
+                $example['className']
+            )
         );
 
         $extension = $example['extension'];
@@ -54,10 +57,14 @@ class GetSetDefaultSerializerCest
         $serializer = new SerializerFactory();
         $adapter    = new $class($serializer, $options);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $expected = 'php';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+        $expected = 'base64';
+        $actual   = $adapter->getDefaultSerializer();
+        $I->assertEquals($expected, $actual);
     }
 
     /**

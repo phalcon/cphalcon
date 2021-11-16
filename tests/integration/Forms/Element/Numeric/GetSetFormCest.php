@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Numeric;
+namespace Phalcon\Tests\Integration\Forms\Element\Numeric;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Numeric;

@@ -82,6 +82,9 @@ class InclusionIn extends AbstractValidator
         var value, domain, replacePairs, strict, fieldDomain;
 
         let value = validation->getValue(field);
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
         /**
          * A domain is an array with a list of valid values

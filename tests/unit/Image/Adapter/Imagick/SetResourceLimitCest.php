@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
+namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use UnitTester;
 

@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+namespace Phalcon\Tests\Integration\Mvc\Router;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Router;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
 {

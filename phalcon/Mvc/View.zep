@@ -14,8 +14,6 @@ use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
@@ -950,7 +948,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         if typeof viewsDir == "string" {
-            let this->viewsDirs = Str::dirSeparator(viewsDir);
+            let this->viewsDirs = this->getDirSeparator(viewsDir);
         } else {
             let newViewsDir = [];
 
@@ -961,7 +959,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                     );
                 }
 
-                let newViewsDir[position] = Str::dirSeparator(directory);
+                let newViewsDir[position] = this->getDirSeparator(directory);
             }
 
             let this->viewsDirs = newViewsDir;
@@ -1381,5 +1379,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         return true;
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getDirSeparator(string! directory) -> string
+    {
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

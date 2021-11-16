@@ -11,25 +11,32 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
+namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
 use ArrayAccess;
-use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
+ */
 class ConstructCest
 {
-    use TranslateArrayTrait;
+    use TranslateNativeArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativeArrayConstruct(UnitTester $I)
     {
@@ -58,8 +65,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterNativeArrayContentParamExist(UnitTester $I)
     {
@@ -68,9 +77,32 @@ class ConstructCest
         $I->expectThrowable(
             new Exception('Translation content was not provided'),
             function () {
+                new NativeArray(new InterpolatorFactory(), []);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
+     * content not array
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function translateAdapterNativeArrayContentNotArray(UnitTester $I)
+    {
+        $I->wantToTest('Translate\Adapter\NativeArray - constructor with content not array throws exception');
+
+        $I->expectThrowable(
+            new Exception('Translation data must be an array'),
+            function () {
                 new NativeArray(
                     new InterpolatorFactory(),
-                    []
+                    [
+                        'content' => 1234,
+                    ]
                 );
             }
         );

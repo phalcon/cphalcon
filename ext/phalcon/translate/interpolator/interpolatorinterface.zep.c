@@ -34,5 +34,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_InterpolatorInterface)
 
 /**
  * Replaces placeholders by the values passed
+ *
+ * @param string $translation
+ * @param array  $placeholders
+ *
+ * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Interpolator_InterpolatorInterface, replacePlaceholders);

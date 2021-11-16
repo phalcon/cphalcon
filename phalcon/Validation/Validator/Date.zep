@@ -81,8 +81,11 @@ class Date extends AbstractValidator
         var value, format;
 
         let value = validation->getValue(field);
-        let format = this->getOption("format");
+        if this->allowEmpty(field, value) {
+            return true;
+        }
 
+        let format = this->getOption("format");
         if typeof format == "array" {
             let format = format[field];
         }

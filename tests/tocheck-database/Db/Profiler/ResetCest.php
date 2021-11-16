@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Profiler;
+namespace Phalcon\Tests\Integration\Db\Profiler;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Events\Manager;
-use Phalcon\Test\Fixtures\Db\ProfilerListener;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Db\ProfilerListener;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use function is_double;
 
 class ResetCest

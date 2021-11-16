@@ -1,12 +1,12 @@
 <?php
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Users;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Users;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
@@ -17,7 +17,7 @@ use Phalcon\Validation\Validator\Url;
 use stdClass;
 
 /**
- * Phalcon\Test\Integration\ValidationCest
+ * Phalcon\Tests\Integration\ValidationCest
  * Tests the \Phalcon\Validation component
  *
  * @copyright (c) 2011-2017 Phalcon Team

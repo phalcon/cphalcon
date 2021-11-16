@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Pdo\Connection\Decorated;
+namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection\Decorated;
 
 use DatabaseTester;
 use PDO;

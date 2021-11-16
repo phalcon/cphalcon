@@ -41,6 +41,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var array
      */
+    protected filteredData = [];
+
+    /**
+     * @var array
+     */
     protected elements = [];
 
     /**
@@ -71,7 +76,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var ValidationInterface|null
      */
-    protected validation = null { set, get };
+    protected validation = null { get };
+
+    /**
+     * @var array
+     */
+    protected whitelist = [] { get };
 
     /**
      * Phalcon\Forms\Form constructor
@@ -166,17 +176,23 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity, var whitelist = null) -> <Form>
+    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
-        var filter, key, value, element, filters, container, filteredValue, assignData;
+        var filter, key, value, element, filters, container, filteredValue;
+        array assignData, filteredData;
         string method;
 
         if unlikely empty this->elements {
             throw new Exception("There are no elements in the form");
         }
 
+        if empty whitelist {
+            let whitelist = this->whitelist;
+        }
+
         let filter = null;
         let assignData = [];
+        let filteredData = [];
 
         for key, value in data {
             /**
@@ -189,8 +205,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
-
-            if typeof whitelist === "array" && !in_array(key, whitelist) {
+            if !empty whitelist && !in_array(key, whitelist) {
                 continue;
             }
 
@@ -214,24 +229,28 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
 
             let assignData[key] = value;
+            let filteredData[key] = filteredValue;
 
-            /**
-             * Use the setter if any available
-             */
-            let method = "set" . camelize(key);
-            if method_exists(entity, method) {
-                entity->{method}(filteredValue);
+            if entity !== null {
+                /**
+                 * Use the setter if any available
+                 */
+                let method = "set" . camelize(key);
+                if method_exists(entity, method) {
+                    entity->{method}(filteredValue);
 
-                continue;
+                    continue;
+                }
+
+                /**
+                 * Use the public property if it doesn't have a setter
+                 */
+                let entity->{key} = filteredValue;
             }
-
-            /**
-             * Use the public property if it doesn't have a setter
-             */
-            let entity->{key} = filteredValue;
         }
 
         let this->data = assignData;
+        let this->filteredData = filteredData;
 
         return this;
     }
@@ -448,6 +467,27 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Gets a value from the internal filtered data or calls getValue(name)
+     */
+    public function getFilteredValue(string! name) -> var | null
+    {
+        var filteredData, value;
+
+        let filteredData = this->filteredData;
+
+        if typeof filteredData == "array" {
+            /**
+             * Check if the data is in the data array
+             */
+            if fetch value, filteredData[name] {
+                return value;
+            }
+        }
+
+        return this->getValue(name);
+    }
+
+    /**
      * Gets a value from the internal related entity or from the default value
      */
     public function getValue(string! name) -> var | null
@@ -565,8 +605,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array data
      * @param object entity
+     * @param array whitelist
      */
-    public function isValid(var data = null, var entity = null) -> bool
+    public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
             elementMessage;
@@ -574,6 +615,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if empty this->elements {
             return true;
+        }
+
+        if empty whitelist {
+            let whitelist = this->whitelist;
         }
 
         /**
@@ -586,14 +631,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * If the user doesn't pass an entity we use the one in this_ptr->entity
          */
-        if typeof entity == "object" {
-            this->bind(data, entity);
-        } else {
-            if typeof this->entity == "object" {
-                this->bind(data, this->entity);
-                let entity = this->entity;
-            }
+        if typeof entity != "object" && typeof this->entity == "object" {
+            let entity = this->entity;
         }
+
+        this->bind(data, entity, whitelist);
 
         /**
          * Check if there is a method 'beforeValidation'
@@ -780,6 +822,30 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
+        return this;
+    }
+
+    /**
+     * Sets the default validation
+     *
+     * @param ValidationInterface validation
+     */
+    public function setValidation(<ValidationInterface> validation) -> <Form>
+    {
+        let this->validation = validation;
+
+        return this;
+    }
+
+    /**
+     * Sets the default whitelist
+     *
+     * @param array whitelist
+     */
+    public function setWhitelist(array whitelist) -> <Form>
+    {
+        let this->whitelist = whitelist;
 
         return this;
     }

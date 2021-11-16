@@ -42,7 +42,7 @@
  *
  * ```php
  * use Phalcon\Di;
- * use Phalcon\Crypt;
+ * use Phalcon\Encryption\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *
  * $di = new Di();
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 361);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 399);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {

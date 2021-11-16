@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/json/php_json.h"
 #include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
@@ -49,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Repository)
 	phalcon_paginator_repository_ce->create_object = zephir_init_properties_Phalcon_Paginator_Repository;
 
 	zend_class_implements(phalcon_paginator_repository_ce, 1, phalcon_paginator_repositoryinterface_ce);
-	zend_class_implements(phalcon_paginator_repository_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_paginator_repository_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
 
@@ -381,16 +382,15 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties)
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *property_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, _1;
+	zval *property_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
 	zval property;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&property);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -410,10 +410,12 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 	}
 
 
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 16, &_1, &property, defaultValue);
-	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_OBS_VAR(&value);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_fetch(&value, &_0, &property, 0))) {
+		ZEPHIR_CPY_WRT(&value, defaultValue);
+	}
+	RETURN_CCTOR(&value);
 }
 
 /**
@@ -446,7 +448,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_array_isset(&aliases, &property)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 180);
+		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 181);
 		RETURN_CTOR(&_0$$3);
 	}
 	RETURN_CTOR(&property);

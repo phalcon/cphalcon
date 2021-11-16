@@ -44,7 +44,7 @@ class Event implements EventInterface
     /**
      * Event source
      *
-     * @var object
+     * @var object|null
      */
     protected source { get };
 
@@ -67,9 +67,9 @@ class Event implements EventInterface
      *
      * @param object source
      */
-    public function __construct(string! type, object source, var data = null, bool cancelable = true)
+    public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
     {
-        if unlikely typeof source != "object" {
+        if unlikely null !== source && typeof source != "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );

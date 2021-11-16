@@ -11,20 +11,27 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug;
+namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug;
 use UnitTester;
 
 use function sprintf;
 
+/**
+ * Class GetJsSourcesCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug
+ */
 class GetJsSourcesCest
 {
     /**
      * Tests Phalcon\Debug :: getJsSources()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugGetJsSources(UnitTester $I)
     {
@@ -33,14 +40,14 @@ class GetJsSourcesCest
         $uri   = 'https://assets.phalcon.io/debug/5.0.x/';
 
         $expected = sprintf(
-            '<script type=\'text/javascript\' ' .
-            'src=\'%1$sassets/jquery/dist/jquery.min.js\'></script>' .
-            '<script type=\'text/javascript\' ' .
-            'src=\'%1$sassets/jquery-ui/jquery-ui.min.js\'></script>' .
-            '<script type=\'text/javascript\' ' .
-            'src=\'%1$sassets/jquery.scrollTo/jquery.scrollTo.min.js\'></script>' .
-            '<script type=\'text/javascript\' src=\'%1$sprettify/prettify.js\'></script>' .
-            '<script type=\'text/javascript\' src=\'%1$spretty.js\'></script>',
+            '<script type="application/javascript" ' .
+            'src="%1$sassets/jquery/dist/jquery.min.js"></script>' .
+            '<script type="application/javascript" ' .
+            'src="%1$sassets/jquery-ui/jquery-ui.min.js"></script>' .
+            '<script type="application/javascript" ' .
+            'src="%1$sassets/jquery.scrollTo/jquery.scrollTo.min.js"></script>' .
+            '<script type="application/javascript" src="%1$sprettify/prettify.js"></script>' .
+            '<script type="application/javascript" src="%1$spretty.js"></script>',
             $uri
         );
 

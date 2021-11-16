@@ -1,8 +1,8 @@
 unit-test:
-  className: \Phalcon\Test\Module\UnitTest
+  className: \Phalcon\Tests\Module\UnitTest
 
 config:
-  className: \Phalcon\Config
+  className: \Phalcon\Config\Config
   shared: true
 
 component:

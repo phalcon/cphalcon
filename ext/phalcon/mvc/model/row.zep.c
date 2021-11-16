@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/json/php_json.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
@@ -42,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row)
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_model_resultinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_mvc_model_row_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_mvc_model_row_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
 
@@ -262,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 438, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 477, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }

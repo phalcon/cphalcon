@@ -41,7 +41,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst)
 }
 
 /**
- * @var string input The text to sanitize
+ * @param string $input The text to sanitize
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke)
 {
@@ -73,7 +75,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke)
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 96, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 101, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

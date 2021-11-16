@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
+namespace Phalcon\Tests\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Postgresql;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Tests\Fixtures\Traits\DialectTrait;
 
 class ModifyColumnCest
 {

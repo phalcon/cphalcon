@@ -11,16 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
+namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use UnitTester;
 
+/**
+ * Class IsComponentCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Adapter\Memory
+ */
 class IsComponentCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isComponent()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -34,13 +41,14 @@ class IsComponentCest
 
         $acl->addComponent($aclComponent, 'search');
 
-        $I->assertTrue(
-            $acl->isComponent('Customers')
-        );
+        $actual = $acl->isComponent('Customers');
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isComponent() - unknown
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -54,8 +62,7 @@ class IsComponentCest
 
         $acl->addComponent($aclComponent, 'search');
 
-        $I->assertFalse(
-            $acl->isComponent('unknown')
-        );
+        $actual = $acl->isComponent('unknown');
+        $I->assertFalse($actual);
     }
 }

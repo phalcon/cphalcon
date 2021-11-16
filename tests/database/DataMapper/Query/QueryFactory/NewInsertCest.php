@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\QueryFactory;
+namespace Phalcon\Tests\Database\DataMapper\Query\QueryFactory;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Query\Insert;

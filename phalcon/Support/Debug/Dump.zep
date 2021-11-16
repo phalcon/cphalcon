@@ -10,8 +10,8 @@
 
 namespace Phalcon\Support\Debug;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di;
-use Phalcon\Helper\Json;
 use Reflection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -128,7 +128,7 @@ class Dump
      */
     public function toJson(var variable) -> string
     {
-        return Json::encode(
+        return this->encode(
             variable,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
@@ -144,7 +144,7 @@ class Dump
     public function variable(var variable, string name = null) -> string
     {
         return strtr(
-            "<pre style=':style'>:output</pre>",
+            "<pre style=\":style\">:output</pre>",
             [
                 ":style":  this->getStyle("pre"),
                 ":output": this->output(variable, name)
@@ -211,7 +211,7 @@ class Dump
 
         if typeof variable == "array" {
             let output .= strtr(
-                "<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n",
+                "<b style=\":style\">Array</b> (<span style=\":style\">:count</span>) (\n",
                 [
                     ":style": this->getStyle("arr"),
                     ":count": count(variable)
@@ -219,7 +219,7 @@ class Dump
             );
 
             for key, value in variable {
-                let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
+                let output .= str_repeat(space, tab) . strtr("[<span style=\":style\">:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
 
                 if tab == 1 && name != "" && !is_int(key) && name == key {
                     continue;
@@ -233,7 +233,7 @@ class Dump
 
         if typeof variable == "object" {
             let output .= strtr(
-                "<b style=':style'>Object</b> :class",
+                "<b style=\":style\">Object</b> :class",
                 [
                     ":style": this->getStyle("obj"),
                     ":class": get_class(variable)
@@ -242,7 +242,7 @@ class Dump
 
             if get_parent_class(variable) {
                 let output .= strtr(
-                    " <b style=':style'>extends</b> :parent",
+                    " <b style=\":style\">extends</b> :parent",
                     [
                         ":style": this->getStyle("obj"),
                         ":parent": get_parent_class(variable)
@@ -257,7 +257,7 @@ class Dump
             } elseif !this->detailed || variable instanceof stdClass {
                 // Debug only public properties
                 for key, value in get_object_vars(variable) {
-                    let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
+                    let output .= str_repeat(space, tab) . strtr("-><span style=\":style\">:key</span> (<span style=\":style\">:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
                     let output .= this->output(value, "", tab + 1) . "\n";
                 }
             } else {
@@ -283,13 +283,13 @@ class Dump
                         )
                     );
 
-                    let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
+                    let output .= str_repeat(space, tab) . strtr("-><span style=\":style\">:key</span> (<span style=\":style\">:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
                     let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
                 }
             }
 
             let attr = get_class_methods(variable);
-            let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
+            let output .= str_repeat(space, tab) . strtr(":class <b style=\":style\">methods</b>: (<span style=\":style\">:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
 
             if in_array(get_class(variable), this->methods) {
                 let output .= str_repeat(space, tab) . "[already listed]\n";
@@ -298,9 +298,9 @@ class Dump
                     let this->methods[] = get_class(variable);
 
                     if value == "__construct" {
-                        let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
+                        let output .= str_repeat(space, tab + 1) . strtr("-><span style=\":style\">:method</span>(); [<b style=\":style\">constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
                     } else {
-                        let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
+                        let output .= str_repeat(space, tab + 1) . strtr("-><span style=\":style\">:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
                     }
                 }
 
@@ -311,29 +311,51 @@ class Dump
         }
 
         if is_int(variable) {
-            return output . strtr("<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
+            return output . strtr("<b style=\":style\">Integer</b> (<span style=\":style\">:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
         }
 
         if is_float(variable) {
-            return output . strtr("<b style=':style'>Float</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("float"), ":var": variable]);
+            return output . strtr("<b style=\":style\">Float</b> (<span style=\":style\">:var</span>)", [":style": this->getStyle("float"), ":var": variable]);
         }
 
         if is_numeric(variable) {
-            return output . strtr("<b style=':style'>Numeric string</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("num"), ":length": strlen(variable), ":var": variable]);
+            return output . strtr("<b style=\":style\">Numeric string</b> (<span style=\":style\">:length</span>) \"<span style=\":style\">:var</span>\"", [":style": this->getStyle("num"), ":length": strlen(variable), ":var": variable]);
         }
 
         if is_string(variable) {
-            return output . strtr("<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("str"), ":length": strlen(variable), ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))]);
+            return output . strtr("<b style=\":style\">String</b> (<span style=\":style\">:length</span>) \"<span style=\":style\">:var</span>\"", [":style": this->getStyle("str"), ":length": strlen(variable), ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))]);
         }
 
         if is_bool(variable) {
-            return output . strtr("<b style=':style'>Boolean</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("bool"), ":var": (variable ? "TRUE" : "FALSE")]);
+            return output . strtr("<b style=\":style\">Boolean</b> (<span style=\":style\">:var</span>)", [":style": this->getStyle("bool"), ":var": (variable ? "TRUE" : "FALSE")]);
         }
 
         if is_null(variable) {
-            return output . strtr("<b style=':style'>NULL</b>", [":style": this->getStyle("null")]);
+            return output . strtr("<b style=\":style\">NULL</b>", [":style": this->getStyle("null")]);
         }
 
-        return output . strtr("(<span style=':style'>:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
+        return output . strtr("(<span style=\":style\">:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

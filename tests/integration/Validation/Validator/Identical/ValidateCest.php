@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Identical;
+namespace Phalcon\Tests\Integration\Validation\Validator\Identical;
 
 use IntegrationTester;
 

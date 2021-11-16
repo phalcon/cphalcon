@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Forms\Element;
+namespace Phalcon\Tests\Integration\Forms\Element;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class TextCest
 {

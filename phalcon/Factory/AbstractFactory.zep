@@ -10,15 +10,10 @@
 
 namespace Phalcon\Factory;
 
-use Phalcon\Config;
 use Phalcon\Config\ConfigInterface;
 
-abstract class AbstractFactory
+abstract class AbstractFactory extends AbstractConfigFactory
 {
-    /**
-     * @var string
-     */
-    protected exception = "Phalcon\\Exception";
     /**
      * @var array
      */
@@ -30,33 +25,11 @@ abstract class AbstractFactory
     protected services = [];
 
     /**
-     * Checks the config if it is a valid object
-     */
-    protected function checkConfig(var config) -> array
-    {
-        if typeof config == "object" && config instanceof ConfigInterface {
-            let config = config->toArray();
-        }
-
-        if unlikely typeof config !== "array" {
-            throw this->getException(
-                "Config must be array or Phalcon\\Config object"
-            );
-        }
-
-        if unlikely !isset config["adapter"] {
-            throw this->getException(
-                "You must provide 'adapter' option in factory config parameter."
-            );
-        }
-
-        return config;
-    }
-
-    /**
      * Returns the adapters for the factory
+     *
+     * @return string[]
      */
-    abstract protected function getAdapters() -> array;
+    abstract protected function getServices() -> array;
 
     /**
      * Checks if a service exists and throws an exception
@@ -77,24 +50,12 @@ abstract class AbstractFactory
     {
         var adapters, name, service;
 
-        let adapters = this->getAdapters(),
+        let adapters = this->getServices(),
             adapters = array_merge(adapters, services);
 
         for name, service in adapters {
             let this->mapper[name] = service;
             unset(this->services[name]);
         }
-    }
-
-    /**
-     * Returns the exception object for the child class
-     */
-    protected function getException(string message) -> <\Exception>
-    {
-        var exception;
-
-        let exception = this->exception;
-
-        return new {exception}(message);
     }
 }

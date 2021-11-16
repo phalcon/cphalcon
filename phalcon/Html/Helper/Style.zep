@@ -17,24 +17,28 @@ use Phalcon\Html\Exception;
  */
 class Style extends AbstractSeries
 {
+    /**
+     * @var bool
+     */
+    private isStyle = false;
 
     /**
      * Add an element to the list
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      *
      * @return $this
      * @throws Exception
      */
-    public function add(string href, array attributes = [])
+    public function add(string url, array attributes = [])
     {
         let this->store[] = [
-            "renderFullElement",
+            "renderTag",
             [
                 this->getTag(),
-                "",
-                this->getAttributes(href, attributes)
+                this->getAttributes(url, attributes),
+                "/"
             ],
             this->indent()
         ];
@@ -43,34 +47,50 @@ class Style extends AbstractSeries
     }
 
     /**
-     * @return string
+     * Sets if this is a style or link tag
+     *
+     * @param bool $flag
      */
-    protected function getTag() -> string
+    public function setStyle(bool flag) -> <Style>
     {
-        return "style";
+        let this->isStyle = flag;
+
+        return this;
     }
 
     /**
      * Returns the necessary attributes
      *
-     * @param string $href
+     * @param string $url
      * @param array  $attributes
      *
      * @return array
      */
-    protected function getAttributes(string href, array attributes) -> array
+    protected function getAttributes(string url, array attributes) -> array
     {
         array required;
 
         let required = [
             "rel"   : "stylesheet",
-            "href"  : href,
+            "href"  : url,
             "type"  : "text/css",
             "media" : "screen"
         ];
 
+        if (true === this->isStyle) {
+            unset(required["rel"]);
+        }
+
         unset attributes["href"];
 
         return array_merge(required, attributes);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTag() -> string
+    {
+        return true === this->isStyle ? "style" : "link";
     }
 }

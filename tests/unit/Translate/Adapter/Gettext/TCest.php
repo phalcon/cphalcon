@@ -11,11 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateGettextHelper;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextHelperTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 
-class TCest extends TranslateGettextHelper
+/**
+ * Class TCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
+class TCest
 {
-    protected $function = 't';
+    use TranslateGettextTrait;
+    use TranslateGettextHelperTrait;
+
+    /**
+     * @return string
+     */
+    protected function func(): string
+    {
+        return 't';
+    }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Mvc\View;
+namespace Phalcon\Tests\Fixtures\Mvc\View;
 
 class IteratorObject implements \Iterator, \Countable
 {

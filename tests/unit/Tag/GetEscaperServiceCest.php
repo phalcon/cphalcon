@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
-use Phalcon\Escaper;
-use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Helpers\TagSetup;
+use Phalcon\Tests\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
 class GetEscaperServiceCest extends TagSetup

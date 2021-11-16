@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+namespace Phalcon\Tests\Integration\Mvc\Dispatcher;
 
 use Foo\IndexController;
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
 class GetControllerClassCest extends BaseDispatcher
 {

@@ -29,11 +29,17 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Class TranslateFactory
+ *
+ * @package Phalcon\Translate
+ *
+ * @property InterpolatorFactory $interpolator
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, TranslateFactory, phalcon, translate_translatefactory, phalcon_factory_abstractfactory_ce, phalcon_translate_translatefactory_method_entry, 0);
 
-	zend_declare_property_string(phalcon_translate_translatefactory_ce, SL("exception"), "Phalcon\\Translate\\Exception", ZEND_ACC_PROTECTED);
 	/**
 	 * @var InterpolatorFactory
 	 */
@@ -43,6 +49,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param InterpolatorFactory $interpolator
+ * @param array               $services
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 {
@@ -83,34 +92,35 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|\Phalcon\Config = [
+ * @param array|ConfigInterface $config = [
  *     'adapter' => 'ini,
  *     'options' => [
- *         'content' => '',
- *         'delimiter' => ';',
- *         'enclosure' => '"',
- *         'locale' => '',
+ *         'content'       => '',
+ *         'delimiter'     => ';',
+ *         'enclosure'     => '"',
+ *         'locale'        => '',
  *         'defaultDomain' => '',
- *         'directory' => '',
- *         'category' => ''
- *         'triggerError' => false
+ *         'directory'     => '',
+ *         'category'      => ''
+ *         'triggerError'  => false
  *     ]
  * ]
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, name, options, _0, _2, _3;
+	zval *config = NULL, config_sub, name, options, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -127,14 +137,18 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
-	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 59);
-	ZEPHIR_INIT_VAR(&_2);
-	array_init(&_2);
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 16, config, &_3, &_2);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "adapter");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
 	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(config, &_0);
+	ZEPHIR_OBS_VAR(&name);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 72);
+	ZEPHIR_OBS_VAR(&options);
+	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
+		ZEPHIR_INIT_NVAR(&options);
+		array_init(&options);
+	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -142,6 +156,12 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param string $name
+ * @param array  $options
+ *
+ * @return AdapterInterface
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 {
@@ -199,7 +219,24 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Translate_TranslateFactory, getAdapters)
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_STRING("Phalcon\\Translate\\Exception");
+}
+
+/**
+ * Returns the available adapters
+ *
+ * @return string[]
+ */
+PHP_METHOD(Phalcon_Translate_TranslateFactory, getServices)
 {
 	zval *this_ptr = getThis();
 

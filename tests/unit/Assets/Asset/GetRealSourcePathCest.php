@@ -11,64 +11,68 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset;
+namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class GetRealSourcePathCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetRealSourcePathCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css/js local
      *
+     * @dataProvider localProvider
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
-     * @dataProvider localProvider
+     * @since        2020-09-09
      */
     public function assetsAssetGetRealSourcePathLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest("Assets\Asset - getRealSourcePath() - {$example['type']} local");
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path']
-        );
-
-        $I->assertEquals('', $asset->getRealSourcePath());
+        $asset  = new Asset($example['type'], $example['path']);
+        $actual = $asset->getRealSourcePath();
+        $I->assertEmpty($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css/js remote
      *
+     * @dataProvider remoteProvider
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
-     * @dataProvider remoteProvider
+     * @since        2020-09-09
      */
     public function assetsAssetGetRealSourcePathRemote(UnitTester $I, Example $example)
     {
         $I->wantToTest("Assets\Asset - getRealSourcePath() - {$example['type']} remote");
 
-        $asset = new Asset(
-            $example['type'],
-            $example['path'],
-            false
-        );
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
 
-        $I->assertEquals(
-            $example['path'],
-            $asset->getRealSourcePath()
-        );
+        $asset = new Asset($example['type'], $example['path'], false);
+
+        $expected = $example['path'];
+        $actual   = $asset->getRealSourcePath();
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return string[][]
+     */
     protected function localProvider(): array
     {
         return [
@@ -83,6 +87,9 @@ class GetRealSourcePathCest
         ];
     }
 
+    /**
+     * @return string[][]
+     */
     protected function remoteProvider(): array
     {
         return [

@@ -11,15 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Redis;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Redis;
 
 use Codeception\Example;
-use Phalcon\Storage\Adapter\Redis;
-use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use stdClass;
 use IntegrationTester;
+use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as HelperException;
+use Phalcon\Tests\Fixtures\Traits\RedisTrait;
+use stdClass;
 
 use function array_merge;
 use function getOptionsRedis;
@@ -34,51 +35,48 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
-     * @throws Exception
-     * @since        2019-03-31
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws HelperException
+     * @throws StorageException
      *
      * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function storageAdapterRedisGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - ' . $example[0]);
 
         $serializer = new SerializerFactory();
+        $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $adapter = new Redis(
-            $serializer,
-            getOptionsRedis()
-        );
-
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, $example[1])
-        );
+        $key    = uniqid();
+        $actual = $adapter->set($key, $example[1]);
+        $I->assertTrue($actual);
 
         $expected = $example[1];
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - persistent
      *
-     * @throws Exception
-     * @author Phalcon Team <team@phalcon.io>
+     * @param IntegrationTester $I
      *
-     * @since  2019-03-31
+     * @throws HelperException
+     * @throws StorageException
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterRedisGetSetPersistent(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - persistent');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Redis(
+        $adapter    = new Redis(
             $serializer,
             array_merge(
                 getOptionsRedis(),
@@ -88,36 +86,32 @@ class GetSetCest
             )
         );
 
-        $key = uniqid();
-
-        $I->assertTrue(
-            $adapter->set($key, 'test')
-        );
+        $key    = uniqid();
+        $actual = $adapter->set($key, 'test');
+        $I->assertTrue($actual);
 
         $expected = 'test';
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - wrong index
      *
-     * @since  2019-03-31
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterRedisGetSetWrongIndex(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - wrong index');
 
         $I->expectThrowable(
-            new Exception('Redis server selected database failed'),
+            new StorageException('Redis server selected database failed'),
             function () {
                 $serializer = new SerializerFactory();
-
-                $adapter = new Redis(
+                $adapter    = new Redis(
                     $serializer,
                     array_merge(
                         getOptionsRedis(),
@@ -135,19 +129,20 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
      *
-     * @since  2019-03-31
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterRedisGetSetFailedAuth(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - failed auth');
 
         $I->expectThrowable(
-            new Exception('Failed to authenticate with the Redis server'),
+            new StorageException('Failed to authenticate with the Redis server'),
             function () {
                 $serializer = new SerializerFactory();
-
-                $adapter = new Redis(
+                $adapter    = new Redis(
                     $serializer,
                     array_merge(
                         getOptionsRedis(),
@@ -165,18 +160,20 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get()/set() - custom serializer
      *
-     * @throws Exception
-     * @since  2019-04-29
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function storageAdapterRedisGetSetCustomSerializer(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - custom serializer');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Redis(
+        $adapter    = new Redis(
             $serializer,
             array_merge(
                 getOptionsRedis(),
@@ -186,17 +183,15 @@ class GetSetCest
             )
         );
 
-        $key    = 'cache-data';
+        $key    = uniqid();
         $source = 'Phalcon Framework';
 
-        $I->assertTrue(
-            $adapter->set($key, $source)
-        );
+        $actual = $adapter->set($key, $source);
+        $I->assertTrue($actual);
 
-        $I->assertEquals(
-            $source,
-            $adapter->get($key)
-        );
+        $expected = $source;
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     private function getExamples(): array

@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Session\Exception;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class ConstructCest
 {
@@ -25,7 +25,6 @@ class ConstructCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
     }
 
     /**
@@ -38,11 +37,41 @@ class ConstructCest
     {
         $I->wantToTest('Session\Bag - __construct()');
 
-        $collection = new Bag('BagTest');
+        $this->setDiService('sessionStream');
+        $collection = new Bag('BagTest', $this->container);
 
-        $I->assertInstanceOf(
-            Bag::class,
-            $collection
+        $class = Bag::class;
+        $I->assertInstanceOf($class, $collection);
+    }
+
+    /**
+     * Tests Phalcon\Session\Bag :: __construct() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-02
+     */
+    public function sessionBagConstructException(IntegrationTester $I)
+    {
+        $I->wantToTest('Session\Bag - __construct() - exception');
+
+        $I->expectThrowable(
+            new Exception(
+                "A dependency injection container is required to access the 'session' service"
+            ),
+            function () {
+                $collection = new Bag('BagTest');
+            }
+        );
+
+        $container = $this->container;
+
+        $I->expectThrowable(
+            new Exception(
+                "A dependency injection container is required to access the 'session' service"
+            ),
+            function () use ($container) {
+                $collection = new Bag('BagTest', $container);
+            }
         );
     }
 }

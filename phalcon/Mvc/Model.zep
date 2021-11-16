@@ -20,7 +20,6 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
@@ -876,7 +875,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if value != "" && value !== null {
                 switch attribute[1] {
-                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_INTEGER:
                     case Column::TYPE_MEDIUMINTEGER:
                     case Column::TYPE_SMALLINTEGER:
@@ -1011,7 +1009,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return Arr::toObject(hydrateArray);
+            return (object) hydrateArray;
         }
 
         return hydrateArray;
@@ -1955,23 +1953,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * If there are any arguments, Manager with handle the caching of the records
          */
         if arguments === null {
+//            /**
+//             * If the related records are already in cache and the relation is reusable,
+//             * we return the cached records.
+//             */
+//            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+//                let result = this->related[lowerAlias];
+//            } else {
+//                /**
+//                 * Call the 'getRelationRecords' in the models manager.
+//                 */
+//                let result = manager->getRelationRecords(relation, this, arguments);
+//
+//                /**
+//                 * We store relationship objects in the related cache if there were no arguments.
+//                 */
+//                let this->related[lowerAlias] = result;
+//            }
             /**
-             * If the related records are already in cache and the relation is reusable,
-             * we return the cached records.
+             * We do not need conditionals here. The models manager stores
+             * reusable related records so we utilize that and remove complexity
+             * from here. There is a very small decrease in performance since
+             * the models manager needs to calculate the unique key from
+             * the passed arguments and then check its internal cache
              */
-            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
-                let result = this->related[lowerAlias];
-            } else {
-                /**
-                 * Call the 'getRelationRecords' in the models manager.
-                 */
-                let result = manager->getRelationRecords(relation, this, arguments);
+            let result = manager->getRelationRecords(relation, this, arguments);
 
-                /**
-                 * We store relationship objects in the related cache if there were no arguments.
-                 */
-                let this->related[lowerAlias] = result;
-            }
+            /**
+             * We store relationship objects in the related cache if there were no arguments.
+             */
+            let this->related[lowerAlias] = result;
         } else {
             /**
              * Individually queried related records are handled by Manager.
@@ -2623,28 +2634,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Use the standard serialize function to serialize the array data
          */
-        var attributes, snapshot, manager;
+        var attributes, manager, dirtyState, snapshot = null;
 
         let attributes = this->toArray(),
+            dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
-        if manager->isKeepingSnapshots(this) {
+        if manager->isKeepingSnapshots(this) && this->snapshot != null && attributes != this->snapshot {
             let snapshot = this->snapshot;
-
-            /**
-             * If attributes is not the same as snapshot then save snapshot too
-             */
-            if snapshot != null && attributes != snapshot {
-                return serialize(
-                    [
-                        "_attributes": attributes,
-                        "snapshot":    snapshot
-                    ]
-                );
-            }
         }
 
-        return serialize(attributes);
+        return serialize(
+            [
+                "attributes":  attributes,
+                "snapshot":    snapshot,
+                "dirtyState":  dirtyState
+            ]
+        );
     }
 
     /**
@@ -2652,11 +2658,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function unserialize(var data)
     {
-        var attributes, container, manager, key, value, snapshot;
+        var attributes, container, manager, key, value, snapshot, properties, dirtyState;
 
         let attributes = unserialize(data);
 
         if typeof attributes == "array" {
+            if !isset attributes["attributes"] {
+                let attributes = [
+                    "attributes": attributes
+                ];
+            }
+
             /**
              * Obtain the default DI
              */
@@ -2696,20 +2708,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             manager->initialize(this);
 
-            if manager->isKeepingSnapshots(this) {
-                if fetch snapshot, attributes["snapshot"] {
-                    let this->snapshot = snapshot;
-                    let attributes = attributes["_attributes"];
-                } else {
-                    let this->snapshot = attributes;
+            /**
+             * Fetch serialized props
+             */
+            if fetch properties, attributes["attributes"] {
+                /**
+                 * Update the objects properties
+                 */
+                for key, value in properties {
+                    let this->{key} = value;
                 }
+            } else {
+                let properties = [];
             }
 
             /**
-             * Update the objects attributes
+             * Fetch serialized dirtyState
              */
-            for key, value in attributes {
-                let this->{key} = value;
+            if fetch dirtyState, attributes["dirtyState"] {
+                let this->dirtyState = dirtyState;
+            }
+
+            /**
+             * Fetch serialized snapshot when option is active
+             */
+            if manager->isKeepingSnapshots(this) {
+                if fetch snapshot, attributes["snapshot"] {
+                    let this->snapshot = snapshot;
+                } else {
+                    let this->snapshot = properties;
+                }
             }
         }
     }
@@ -3886,6 +3914,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         throw new Exception(
                                            "Column '" . field . "' have not defined a data type"
                                         );
+                                    }
+
+                                    /**
+                                     * Get actual values before comparison
+                                     */
+                                    if is_object(snapshotValue) && snapshotValue instanceof RawValue {
+                                        let snapshotValue = snapshotValue->getValue();
+                                    }
+                                    if is_object(value) && value instanceof RawValue {
+                                        let value = value->getValue();
                                     }
 
                                     switch dataType {
@@ -5219,7 +5257,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * shared prepare query logic for find and findFirst method
      */
-    private static function getPreparedQuery(var params, var limit = null) -> <Query>
+    private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
     {
         var builder, bindParams, bindTypes, transaction, cache, manager, query,
             container;

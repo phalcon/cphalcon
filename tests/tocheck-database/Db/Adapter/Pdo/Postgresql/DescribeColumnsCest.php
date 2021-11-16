@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo\Postgresql;
 
 use IntegrationTester;
 use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\Db\PostgresqlTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DescribeColumnsCest
 {

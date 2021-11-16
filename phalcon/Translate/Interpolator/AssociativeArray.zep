@@ -12,10 +12,20 @@ namespace Phalcon\Translate\Interpolator;
 
 use Phalcon\Support\Helper\Str\Interpolate;
 
+/**
+ * Class AssociativeArray
+ *
+ * @package Phalcon\Translate\Interpolator
+ */
 class AssociativeArray implements InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
+     *
+     * @param string $translation
+     * @param array  $placeholders
+     *
+     * @return string
      */
     public function replacePlaceholders(
         string! translation,

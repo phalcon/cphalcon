@@ -11,13 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
+namespace Phalcon\Tests\Integration\Cache\Adapter\Memory;
 
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
+use Phalcon\Support\Exception as HelperException;
+use stdClass;
 
 class GetSetCest
 {
@@ -26,10 +27,15 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws HelperException
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-03-31
+     * @since        2020-09-09
      */
-    public function cacheAdapterMemoryGetSet(IntegrationTester $I, Example $example)
+    public function storageAdapterMemoryGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Memory - get()/set() - ' . $example[0]);
 
@@ -38,18 +44,37 @@ class GetSetCest
 
         $key = uniqid();
 
-        $I->assertTrue(
-            $adapter->set($key, $example[1])
-        );
+        $result = $adapter->set($key, $example[1]);
+        $I->assertTrue($result);
 
-        $I->assertEquals(
-            $example[1],
-            $adapter->get($key)
-        );
+        $expected = $example[1];
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 
     private function getExamples(): array
     {
-        return CacheFixtureData::getExamples();
+        return [
+            [
+                'string',
+                'random string',
+            ],
+            [
+                'integer',
+                123456,
+            ],
+            [
+                'float',
+                123.456,
+            ],
+            [
+                'boolean',
+                true,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
+        ];
     }
 }

@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\ServerRequestFactory;
+namespace Phalcon\Tests\Unit\Http\Message\ServerRequestFactory;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequestFactory;
 use Phalcon\Http\Message\UploadedFile;
-use Phalcon\Test\Fixtures\Http\Message\ServerRequestFactoryFixture;
+use Phalcon\Tests\Fixtures\Http\Message\ServerRequestFactoryFixture;
 use Psr\Http\Message\ServerRequestInterface;
 use UnitTester;
 
 /**
  * Class LoadCest
  *
- * @package Phalcon\Test\Unit\Http\Message\ServerRequestFactory
+ * @package Phalcon\Tests\Unit\Http\Message\ServerRequestFactory
  *
  * @property array $storeCookie
  * @property array $storeFiles

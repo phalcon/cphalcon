@@ -11,15 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Acl\Role;
+namespace Phalcon\Tests\Unit\Acl\Role;
 
 use Phalcon\Acl\Role;
 use UnitTester;
 
+/**
+ * Class GetNameCest
+ *
+ * @package Phalcon\Tests\Unit\Acl\Role
+ */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Acl\Role :: getName()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -30,9 +37,6 @@ class GetNameCest
 
         $role = new Role('Administrators');
 
-        $I->assertEquals(
-            'Administrators',
-            $role->getName()
-        );
+        $I->assertEquals('Administrators', $role->getName());
     }
 }

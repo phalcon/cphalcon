@@ -12,17 +12,27 @@ namespace Phalcon\Storage\Serializer;
 
 class Igbinary extends AbstractSerializer
 {
-	/**
-	 * Serializes data
-	 */
-	public function serialize() -> string
-	{
-		return igbinary_serialize(this->data);
-	}
+    /**
+     * Serializes data
+     *
+     * @return string
+     */
+    public function serialize()
+    {
+        if (true !== this->isSerializable(this->data)) {
+            return this->data;
+        }
 
-	/**
-	 * Unserializes data
-	 */
+        return igbinary_serialize(this->data);
+    }
+
+    /**
+     * Unserializes data
+     *
+     * @param string $data
+     *
+     * @return void
+     */
 	public function unserialize(var data) -> void
 	{
 	    var version;

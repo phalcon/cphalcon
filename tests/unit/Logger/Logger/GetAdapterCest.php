@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Logger;
+namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 use function logsDir;
@@ -24,6 +24,11 @@ class GetAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: getAdapter()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerGetAdapter(UnitTester $I)
     {
@@ -50,6 +55,11 @@ class GetAdapterCest
 
     /**
      * Tests Phalcon\Logger :: getAdapter() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerGetAdapterUnknown(UnitTester $I)
     {
@@ -66,6 +76,11 @@ class GetAdapterCest
 
     /**
      * Tests Phalcon\Logger :: getAdapter() - for transaction
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerGetAdapterForTransaction(UnitTester $I)
     {
@@ -87,13 +102,17 @@ class GetAdapterCest
 
         $logger->info('Logging');
 
-        $logger->getAdapter('two')->begin();
+        $logger->getAdapter('two')
+               ->begin()
+        ;
 
         $I->assertFalse(
-            $logger->getAdapter('one')->inTransaction()
+            $logger->getAdapter('one')
+                   ->inTransaction()
         );
         $I->assertTrue(
-            $logger->getAdapter('two')->inTransaction()
+            $logger->getAdapter('two')
+                   ->inTransaction()
         );
 
         $logger->info('Thanks');
@@ -119,7 +138,9 @@ class GetAdapterCest
         $I->dontSeeInThisFile('with');
         $I->dontSeeInThisFile('Phalcon');
 
-        $logger->getAdapter('two')->commit();
+        $logger->getAdapter('two')
+               ->commit()
+        ;
 
         $I->amInPath($outputPath);
         $I->openFile($fileName2);

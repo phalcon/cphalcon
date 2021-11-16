@@ -11,17 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Logger;
+namespace Phalcon\Tests\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 class RemoveAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: removeAdapter()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerRemoveAdapter(UnitTester $I)
     {
@@ -56,6 +61,11 @@ class RemoveAdapterCest
 
     /**
      * Tests Phalcon\Logger :: removeAdapter() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerRemoveAdapterUnknown(UnitTester $I)
     {

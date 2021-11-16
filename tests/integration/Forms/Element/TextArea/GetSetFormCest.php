@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\TextArea;
+namespace Phalcon\Tests\Integration\Forms\Element\TextArea;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\TextArea;

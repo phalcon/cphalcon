@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Email;
+namespace Phalcon\Tests\Integration\Validation\Validator\Email;
 
 use IntegrationTester;
 

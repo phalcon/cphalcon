@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Select;
+namespace Phalcon\Tests\Database\DataMapper\Query\Select;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Query\Bind;

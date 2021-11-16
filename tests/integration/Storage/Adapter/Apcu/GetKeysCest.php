@@ -11,12 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Adapter\Apcu;
+namespace Phalcon\Tests\Integration\Storage\Adapter\Apcu;
 
+use Codeception\Stub;
+use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use IntegrationTester;
+use Phalcon\Support\Exception;
+use Phalcon\Tests\Fixtures\Traits\ApcuTrait;
 
 class GetKeysCest
 {
@@ -25,8 +27,12 @@ class GetKeysCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: getKeys()
      *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-13
+     * @since  2020-09-09
      */
     public function storageAdapterApcuGetKeys(IntegrationTester $I)
     {

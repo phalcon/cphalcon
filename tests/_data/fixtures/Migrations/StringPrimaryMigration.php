@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\Migrations;
+namespace Phalcon\Tests\Fixtures\Migrations;
 
 /**
  * Class StringPrimaryMigration

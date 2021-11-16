@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\Response;
+namespace Phalcon\Tests\Unit\Http\Message\Response;
 
 use Phalcon\Http\Message\Response;
 use Phalcon\Http\Message\Stream;
@@ -27,6 +27,10 @@ class WithBodyCest
      */
     public function httpMessageResponseWithBody(UnitTester $I)
     {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
+
         $I->wantToTest('Http\Message\Response - withBody()');
         $fileName = dataDir('/assets/stream/mit.txt');
         $stream   = new Stream($fileName, 'rb');

@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+/**
+ * Class GetAssetKeyCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Css
+ */
 class GetAssetKeyCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Css :: getAssetKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssGetAssetKey(UnitTester $I)
     {
@@ -30,17 +37,10 @@ class GetAssetKeyCest
 
         $path = 'css/docs.css';
 
-        $asset = new Css(
-            $path
-        );
+        $asset    = new Css($path);
+        $assetKey = sha1('css:' . $path);
+        $actual   = $asset->getAssetKey();
 
-        $assetKey = md5(
-            'css:' . $path
-        );
-
-        $I->assertEquals(
-            $assetKey,
-            $asset->getAssetKey()
-        );
+        $I->assertEquals($assetKey, $actual);
     }
 }

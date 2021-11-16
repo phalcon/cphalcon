@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Event;
+namespace Phalcon\Tests\Unit\Events\Event;
 
 use Phalcon\Events\Event;
 use UnitTester;
@@ -21,22 +21,23 @@ class GetSourceCest
     /**
      * Tests Phalcon\Events\Event :: getSource()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-20
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-06
+     * @issue  https://github.com/phalcon/cphalcon/issues/15133
      */
     public function eventsEventGetSource(UnitTester $I)
     {
         $I->wantToTest('Events\Event - getSource()');
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this,
-            []
-        );
+        $event = new Event('some-type:beforeSome', $this);
 
-        $I->assertSame(
-            $this,
-            $event->getSource()
-        );
+        $expected = $this;
+        $actual   = $event->getSource();
+        $I->assertSame($expected, $actual);
+
+        $event = new Event('some-type:beforeSome');
+
+        $actual = $event->getSource();
+        $I->assertNull($actual);
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Inline;
+namespace Phalcon\Tests\Unit\Assets\Inline;
 
 use Codeception\Example;
 use Phalcon\Assets\Inline;
@@ -36,7 +36,7 @@ class GetAssetKeyCest
             $example['content']
         );
 
-        $expected = md5(
+        $expected = sha1(
             $example['type'] . ':' . $example['content']
         );
 

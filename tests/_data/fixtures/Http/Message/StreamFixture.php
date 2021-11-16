@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Fixtures\Http\Message;
+namespace Phalcon\Tests\Fixtures\Http\Message;
 
 use Phalcon\Http\Message\Stream;
 

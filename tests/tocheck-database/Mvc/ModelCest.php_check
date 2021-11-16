@@ -1,14 +1,14 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Tests\Integration\Mvc;
 
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Tests\Models\Snapshot\Robots;
 use IntegrationTester;
 
 /**
- * \Phalcon\Test\Integration\Mvc\ModelCest
+ * \Phalcon\Tests\Integration\Mvc\ModelCest
  * Tests the Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -16,7 +16,7 @@ use IntegrationTester;
  * @author    Andres Gutierrez <andres@phalcon.io>
  * @author    Phalcon Team <team@phalcon.io>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Integration\Mvc
+ * @package   Phalcon\Tests\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt

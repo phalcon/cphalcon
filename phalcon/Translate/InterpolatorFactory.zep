@@ -15,10 +15,10 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 class InterpolatorFactory extends AbstractFactory
 {
-    protected exception = "Phalcon\\Translate\\Exception";
-
     /**
-     * AdapterFactory constructor.
+     * InterpolatorFactor constructor.
+     *
+     * @param array $services
      */
     public function __construct(array! services = [])
     {
@@ -27,6 +27,11 @@ class InterpolatorFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param string $name
+     *
+     * @return InterpolatorInterface
+     * @throws Exception
      */
     public function newInstance(string! name) -> <InterpolatorInterface>
     {
@@ -37,7 +42,20 @@ class InterpolatorFactory extends AbstractFactory
         return create_instance(definition);
     }
 
-    protected function getAdapters() -> array
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return "Phalcon\\Translate\\Exception";
+    }
+
+    /**
+     * Returns the available adapters
+     *
+     * @return string[]
+     */
+    protected function getServices() -> array
     {
         return [
             "associativeArray" : "Phalcon\\Translate\\Interpolator\\AssociativeArray",

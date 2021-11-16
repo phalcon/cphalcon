@@ -11,13 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class SetDomainCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class SetDomainCest
 {
     use TranslateGettextTrait;
@@ -25,29 +30,26 @@ class SetDomainCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: setDomain()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function translateAdapterGettextSetDomain(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - setDomain()');
 
         $params     = $this->getGettextConfig();
-        $translator = new Gettext(
-            new InterpolatorFactory(),
-            $params
-        );
+        $translator = new Gettext(new InterpolatorFactory(), $params);
 
         $I->assertEquals('Hello', $translator->_('hi'));
 
         //Check with a domain which doesn't exist
         $translator->setDomain('no_exist');
-
         $I->assertEquals('hi', $translator->_('hi'));
 
         //Put the good one
         $translator->setDomain('messages');
-
         $I->assertEquals('Hello', $translator->_('hi'));
     }
 }

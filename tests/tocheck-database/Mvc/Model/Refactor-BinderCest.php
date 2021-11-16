@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Tests\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
@@ -12,15 +12,15 @@ use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
-use Phalcon\Test\Models\People;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Tests\Models\People;
+use Phalcon\Tests\Models\Robots;
 use Test10Controller;
 use Test11Controller;
 use Test9Controller;
 use TypeError;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Model\BindingCest
+ * \Phalcon\Tests\Integration\Mvc\Model\BindingCest
  * Tests the Phalcon\Mvc\Application component
  *
  * @copyright (c) 2011-2016 Phalcon Team
@@ -208,12 +208,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -252,7 +252,7 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -290,12 +290,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -351,7 +351,7 @@ class BinderCest
             $returnedValue = $dispatcher->getReturnedValue();
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -391,7 +391,7 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -445,12 +445,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -487,9 +487,9 @@ class BinderCest
 
         $I->expectThrowable(
             new TypeError(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::' .
-                'Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance ' .
-                'of Phalcon\Test\Models\People, string given'
+                'Argument 1 passed to Phalcon\Tests\Integration\Mvc\Model\BinderCest::' .
+                'Phalcon\Tests\Integration\Mvc\Model\{closure}() must be an instance ' .
+                'of Phalcon\Tests\Models\People, string given'
             ),
             function () use ($micro) {
                 $micro->handle(
@@ -506,7 +506,7 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -548,7 +548,7 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -590,12 +590,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -637,7 +637,7 @@ class BinderCest
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -679,12 +679,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -741,7 +741,7 @@ class BinderCest
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -782,7 +782,7 @@ class BinderCest
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -825,12 +825,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -873,7 +873,7 @@ class BinderCest
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -916,12 +916,12 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue[0]
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\Robots::class,
+                \Phalcon\Tests\Models\Robots::class,
                 $returnedValue[1]
             );
 
@@ -979,7 +979,7 @@ class BinderCest
             $returnedValue = $micro->handle('/' . $this->people->cedula);
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 
@@ -1017,7 +1017,7 @@ class BinderCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Test\Models\People::class,
+            \Phalcon\Tests\Models\People::class,
             $returnedValue
         );
 
@@ -1055,7 +1055,7 @@ class BinderCest
             );
 
             $I->assertInstanceOf(
-                \Phalcon\Test\Models\People::class,
+                \Phalcon\Tests\Models\People::class,
                 $returnedValue
             );
 

@@ -10,16 +10,14 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Exception;
 
 /**
- * Class AbstractHelper
- *
- * @property string  $delimiter
- * @property Escaper $escaper
- * @property string  $indent
- * @property int     $indentLevel
+ * @property string           $delimiter
+ * @property EscaperInterface $escaper
+ * @property string           $indent
+ * @property int              $indentLevel
  */
 abstract class AbstractHelper
 {
@@ -220,7 +218,7 @@ abstract class AbstractHelper
         var attrs, close, escapedAttrs;
 
         let escapedAttrs = "";
-        if count(attributes) > 0 {
+        if (true !== empty(attributes)) {
             let attrs        = this->orderAttributes([], attributes),
                 escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
         }

@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug\Dump;
+namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 
 use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
+/**
+ * Class GetSetDetailedCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug\Dump
+ */
 class GetSetDetailedCest
 {
     /**
-     * Tests Phalcon\Debug\Dump :: getDetailed()/setDetailed()
+     * Tests Phalcon\Support\Debug\Dump :: getDetailed()/setDetailed()
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugDumpGetSetDetailed(UnitTester $I)
     {

@@ -38,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param mixed $input The text to sanitize
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 {
@@ -62,7 +64,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 
 
 	ZVAL_LONG(&_0, 513);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 237, input, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 290, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

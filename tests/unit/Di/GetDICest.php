@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Di;
+namespace Phalcon\Tests\Unit\Di;
 
-use InjectableComponent;
 use Phalcon\Di;
+use Phalcon\Tests\Fixtures\Di\InjectableComponent;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;

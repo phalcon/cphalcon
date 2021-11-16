@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Criteria;
+namespace Phalcon\Tests\Database\Mvc\Model\Criteria;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 /**
  * Class GetConditionsCest
@@ -55,8 +55,8 @@ class GetConditionsCest
 
         $I->assertInstanceOf(Builder::class, $builder);
 
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
+        $expected = 'SELECT [Phalcon\Tests\Models\Invoices].* '
+            . 'FROM [Phalcon\Tests\Models\Invoices] '
             . 'WHERE inv_cst_id = 1';
         $actual   = $builder->getPhql();
         $I->assertEquals($expected, $actual);

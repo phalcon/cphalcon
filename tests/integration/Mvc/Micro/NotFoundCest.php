@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Tests\Integration\Mvc\Micro;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Fixtures\Micro\RestHandler;
+use Phalcon\Tests\Fixtures\Micro\RestHandler;
 
 /**
  * Class NotFoundCest

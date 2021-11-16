@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Behavior\Timestampable;
+namespace Phalcon\Tests\Integration\Mvc\Model\Behavior\Timestampable;
 
 use IntegrationTester;
 

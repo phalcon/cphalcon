@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
+namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use IntegrationTester;
 use Phalcon\Di;

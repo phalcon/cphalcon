@@ -11,13 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\ConfigFactory;
+namespace Phalcon\Tests\Unit\Config\ConfigFactory;
 
+use Codeception\Example;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
+use Phalcon\Config\Exception;
 use UnitTester;
 
 use function dataDir;
@@ -27,42 +29,84 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Logger\LoggerFactory :: newInstance()
      *
-     * @param UnitTester $I
+     * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-03
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2021-10-18
      */
-    public function configFactoryNewInstance(UnitTester $I)
+    public function configFactoryNewInstance(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Config\ConfigFactory - newInstance()');
+        $I->wantToTest(
+            'Config\ConfigFactory - newInstance() ' . $example['label']
+        );
 
         $factory = new ConfigFactory();
         $config  = $factory->newInstance(
-            'ini',
-            dataDir('assets/config/config.ini')
+            $example['service'],
+            $example['options']
         );
 
-        $I->assertInstanceOf(Ini::class, $config);
+        $expected = $example['expected'];
+        $I->assertInstanceOf($expected, $config);
+    }
 
-        $config = $factory->newInstance(
-            'json',
-            dataDir('assets/config/config.json')
+    /**
+     * Tests Phalcon\Config\ConfigFactory :: newInstance() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
+     */
+    public function configFactoryNewInstanceException(UnitTester $I)
+    {
+        $I->wantToTest('Config\ConfigFactory - newInstance() - exception');
+
+        $I->expectThrowable(
+            new Exception("Service unknown is not registered"),
+            function () {
+                $factory = new ConfigFactory();
+                $adapter = $factory->newInstance(
+                    "unknown",
+                    "config.php"
+                );
+            }
         );
+    }
 
-        $I->assertInstanceOf(Json::class, $config);
-
-        $config = $factory->newInstance(
-            'php',
-            dataDir('assets/config/config.php')
-        );
-
-        $I->assertInstanceOf(Php::class, $config);
-
-        $config = $factory->newInstance(
-            'yaml',
-            dataDir('assets/config/config.yml')
-        );
-
-        $I->assertInstanceOf(Yaml::class, $config);
+    /**
+     * @return array<array-key, array<string, string>>
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'label'    => 'ini',
+                'service'  => 'ini',
+                'options'  => dataDir('assets/config/config.ini'),
+                'expected' => Ini::class,
+            ],
+            [
+                'label'    => 'json',
+                'service'  => 'json',
+                'options'  => dataDir('assets/config/config.json'),
+                'expected' => Json::class,
+            ],
+            [
+                'label'    => 'php',
+                'service'  => 'php',
+                'options'  => dataDir('assets/config/config.php'),
+                'expected' => Php::class,
+            ],
+            [
+                'label'    => 'yaml',
+                'service'  => 'yaml',
+                'options'  => dataDir('assets/config/config.yml'),
+                'expected' => Yaml::class,
+            ],
+        ];
     }
 }

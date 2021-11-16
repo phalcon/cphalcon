@@ -9,29 +9,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Element;
+namespace Phalcon\Tests\Unit\Html\Helper\Element;
 
 use Codeception\Example;
-use Phalcon\Escaper;
-use Phalcon\Factory\Exception as ExceptionAlias;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Element;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Element
+ */
 class UnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Element :: __invoke()
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @throws Exception
-     * @throws ExceptionAlias
-     * @dataProvider getExamples
-     * @since        2020-01-05
      *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperElementUnderscoreInvoke(UnitTester $I, Example $example)
     {

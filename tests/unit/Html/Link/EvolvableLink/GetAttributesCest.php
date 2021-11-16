@@ -11,17 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\EvolvableLink;
+namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 
 use Phalcon\Html\Link\EvolvableLink;
 use UnitTester;
 
+/**
+ * Class GetAttributesCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\EvolvableLink
+ */
 class GetAttributesCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: getAttributes()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkEvolvableLinkGetAttributes(UnitTester $I)
     {

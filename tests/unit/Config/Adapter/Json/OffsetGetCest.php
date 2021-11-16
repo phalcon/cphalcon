@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Adapter\Json;
+namespace Phalcon\Tests\Unit\Config\Adapter\Json;
 
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetGetCest
@@ -34,6 +34,7 @@ class OffsetGetCest
     public function configAdapterJsonOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - offsetGet()');
+
         $this->checkOffsetGet($I, 'Json');
     }
 }

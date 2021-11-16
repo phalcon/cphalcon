@@ -11,19 +11,27 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\LinkProvider;
+namespace Phalcon\Tests\Unit\Html\Link\LinkProvider;
 
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\LinkProvider;
 use Psr\Link\LinkProviderInterface;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\LinkProvider
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Html\Link\LinkProvider :: __construct()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkProviderConstruct(UnitTester $I)
     {

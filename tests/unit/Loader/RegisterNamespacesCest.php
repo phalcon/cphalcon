@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Tests\Unit\Loader;
 
 use Example\Namespaces\Adapter\Another;
 use Example\Namespaces\Adapter\Mongo;
@@ -19,7 +19,7 @@ use Example\Namespaces\Adapter\Redis;
 use Example\Namespaces\Engines\Gasoline;
 use Example\Namespaces\Example\Example;
 use Phalcon\Loader;
-use Phalcon\Test\Fixtures\Traits\LoaderTrait;
+use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
 use function dataDir;

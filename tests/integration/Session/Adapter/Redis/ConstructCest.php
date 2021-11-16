@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Adapter\Redis;
+namespace Phalcon\Tests\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use SessionHandlerInterface;
 
 class ConstructCest

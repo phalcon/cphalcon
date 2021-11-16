@@ -11,48 +11,44 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Collection;
+namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class GetAssetsCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetAssetsCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getAssets()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetAssets(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getAssets()');
 
         $collection = new Collection();
+        $asset1     = new Asset('js', 'js/jquery.js');
+        $key1       = $asset1->getAssetKey();
+        $collection->add($asset1);
 
-        $asset = new Asset('js', 'js/jquery.js');
+        $asset2 = new Asset('js', 'js/jquery-ui.js');
+        $key2   = $asset2->getAssetKey();
+        $collection->add($asset2);
 
-        $collection->add(
-            $asset
-        );
+        $assets = $collection->getAssets();
 
-        $asset1 = new Asset('js', 'js/jquery-ui.js');
-
-        $collection->add(
-            $asset1
-        );
-
-        $asserts = $collection->getAssets();
-
-        $I->assertEquals(
-            2,
-            count($asserts)
-        );
-
-        $I->assertEquals(
-            [$asset, $asset1],
-            $asserts
-        );
+        $I->assertCount(2, $assets);
+        $expected = [$key1 => $asset1, $key2 => $asset2];
+        $I->assertEquals($expected, $assets);
     }
 }

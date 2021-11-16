@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Paginator\Repository;
+namespace Phalcon\Tests\Integration\Paginator\Repository;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\NativeArray;

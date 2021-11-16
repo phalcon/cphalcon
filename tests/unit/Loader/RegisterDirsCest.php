@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Tests\Unit\Loader;
 
 use Integer;
 use Phalcon\Loader;
-use Phalcon\Test\Fixtures\Traits\LoaderTrait;
+use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use Sqlite;
 use UnitTester;
 

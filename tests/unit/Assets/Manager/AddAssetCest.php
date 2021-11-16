@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class AddAssetCest
@@ -29,16 +31,10 @@ class AddAssetCest
     {
         $I->wantToTest('Assets\Manager - addAsset()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $assets->addAsset(
-            new Css('/css/style1.css')
-        );
-
-        $I->assertCount(
-            1,
-            $assets->get('css')
-        );
+        $manager->addAsset(new Css('/css/style1.css'));
+        $I->assertCount(1, $manager->get('css'));
     }
 
     /**
@@ -51,17 +47,11 @@ class AddAssetCest
     {
         $I->wantToTest('Assets\Manager - addAsset() - addCss()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $assets->addCss('/css/style2.css');
+        $manager->addCss('/css/style2.css');
+        $manager->addAsset(new Css('/css/style1.css'));
 
-        $assets->addAsset(
-            new Css('/css/style1.css')
-        );
-
-        $I->assertCount(
-            2,
-            $assets->get('css')
-        );
+        $I->assertCount(2, $manager->get('css'));
     }
 }

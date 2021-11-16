@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
-use Phalcon\Test\Fixtures\Migrations\DialectMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Migrations\ComplexDefaultMigration;
+use Phalcon\Tests\Fixtures\Migrations\DialectMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class DescribeColumnsCest
 {
@@ -207,7 +207,7 @@ class DescribeColumnsCest
             // field_bigint             bigint        unsigned                      null,
             5  => [
                 0 => 'field_bit_default',
-                1 => Column::BIND_PARAM_INT,
+                1 => Column::BIND_PARAM_STR,
                 2 => false,
                 3 => false,
                 4 => false,
@@ -219,7 +219,7 @@ class DescribeColumnsCest
             // field_bigint_default     bigint        default 1                     null,
             6  => [
                 0 => 'field_bigint',
-                1 => Column::BIND_PARAM_INT,
+                1 => Column::BIND_PARAM_STR,
                 2 => true,
                 3 => false,
                 4 => false,

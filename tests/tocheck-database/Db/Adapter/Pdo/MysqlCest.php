@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
+namespace Phalcon\Tests\Integration\Db\Adapter\Pdo;
 
 use Codeception\Example;
 use IntegrationTester;
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Test\Integration\Db\Dialect\Helper\MysqlHelper;
+use Phalcon\Tests\Integration\Db\Dialect\Helper\MysqlHelper;
 
 class MysqlCest extends MysqlHelper
 {

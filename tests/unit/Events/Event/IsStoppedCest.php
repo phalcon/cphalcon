@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Event;
+namespace Phalcon\Tests\Unit\Events\Event;
 
 use Phalcon\Events\Event;
 use UnitTester;
@@ -28,19 +28,15 @@ class IsStoppedCest
     {
         $I->wantToTest('Events\Event - isStopped()');
 
-        $event = new Event(
-            'some-type:beforeSome',
-            $this
-        );
+        $type  = 'some-type:beforeSome';
+        $event = new Event($type, $this);
 
-        $I->assertFalse(
-            $event->isStopped()
-        );
+        $actual = $event->isStopped();
+        $I->assertFalse($actual);
 
         $event->stop();
 
-        $I->assertTrue(
-            $event->isStopped()
-        );
+        $actual = $event->isStopped();
+        $I->assertTrue($actual);
     }
 }

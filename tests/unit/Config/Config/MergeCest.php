@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Config\Config;
+namespace Phalcon\Tests\Unit\Config\Config;
 
-use Phalcon\Config;
-use Phalcon\Test\Fixtures\Traits\ConfigTrait;
+use Codeception\Example;
+use Phalcon\Config\Config;
+use Phalcon\Config\Exception;
+use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class MergeCest
@@ -22,7 +24,7 @@ class MergeCest
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: merge()
+     * Tests Phalcon\Config\Config :: merge()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-15
@@ -33,508 +35,381 @@ class MergeCest
 
         $config = $this->getConfig();
 
-        $I->assertEquals(
-            $this->getMergedByConfig(),
-            $config
-        );
+        $expected = $this->getMergedByConfig();
+        $actual   = $config;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Config :: merge()
+     * Tests Phalcon\Config\Config :: merge()
+     *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @link         https://github.com/phalcon/cphalcon/issues/13351
+     * @link         https://github.com/phalcon/cphalcon/issues/13201
+     * @link         https://github.com/phalcon/cphalcon/issues/13768
+     * @link         https://github.com/phalcon/cphalcon/issues/12779
+     * @link         https://github.com/phalcon/phalcon/issues/196
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2121-10-21
+     */
+    public function configMergeConfigCases(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Config - merge() - ' . $example['label']);
+
+        $source = new Config($example['source']);
+        $target = new Config($example['target']);
+
+        /**
+         * As Config object
+         */
+        $expected = $example['expected'];
+        $actual   = $source->merge($target)
+                           ->toArray();
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * As array
+         */
+        $expected = $example['expected'];
+        $target   = $example['target'];
+        $actual   = $source->merge($target)
+                           ->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config :: merge() - exceptions
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-02-15
+     * @since  2020-10-26
      */
-    public function configMergeArr(UnitTester $I)
+    public function configMergeExceptions(UnitTester $I)
     {
-        $I->wantToTest('Config - merge() - array');
+        $I->wantToTest('Phalcon\Config :: merge() - exceptions');
 
-        $config = $this->getConfig();
+        $config = new Config(
+            [
+                'my' => 'config'
+            ]
+        );
 
-        $I->assertEquals(
-            $this->getMergedByArray(),
-            $config
+        $I->expectThrowable(
+            new Exception(
+                'Invalid data type for merge.'
+            ),
+            function () use ($config) {
+                $config->merge('invalid-config');
+            }
         );
     }
 
     /**
-     * Tests merging config objects
-     *
-     * @author kjdev
-     * @since  2015-02-18
+     * @return array<array-key, array<string, mixed>>
      */
-    public function testConfigMergeArray(UnitTester $I)
+    private function getExamples(): array
     {
-        $config = new Config(
+        return [
             [
-                'keys' => [
-                    '0' => 'scott',
-                    '1' => 'cheetah',
-                ],
-            ]
-        );
-
-        $b = new Config(
-            [
-                'keys' => ['peter'],
-            ]
-        );
-
-        $expected = new Config(
-            [
-                'keys' => [
-                    '0' => 'scott',
-                    '1' => 'cheetah',
-                    '2' => 'peter',
-                ],
-            ]
-        );
-
-        $actual = $config->merge(
-            new Config(
-                [
-                    'keys' => ['peter'],
-                ]
-            )
-        );
-
-
-        $I->assertEquals($expected->toArray(), $actual->toArray());
-
-        $config = new Config(
-            [
-                'keys' => ['peter'],
-            ]
-        );
-
-        $expected = new Config(
-            [
-                'keys' => [
-                    '0' => 'peter',
-                    '1' => 'scott',
-                    '2' => 'cheetah',
-                ],
-            ]
-        );
-
-        $actual = $config->merge(
-            new Config(
-                [
-                    'keys' => [
-                        'scott',
-                        'cheetah',
-                    ],
-                ]
-            )
-        );
-
-        $I->assertEquals($expected->toArray(), $actual->toArray());
-    }
-
-    /**
-     * Tests merging complex config objects
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2012-12-16
-     */
-    public function testConfigMergeComplexObjects(UnitTester $I)
-    {
-        $config1 = new Config(
-            [
-                'controllersDir' => '../x/y/z',
-                'modelsDir'      => '../x/y/z',
-                'database'       => [
-                    'adapter'      => 'Mysql',
-                    'host'         => 'localhost',
-                    'username'     => 'scott',
-                    'password'     => 'cheetah',
-                    'name'         => 'test_db',
-                    'charset'      => [
-                        'primary' => 'utf8',
-                    ],
-                    'alternatives' => [
-                        'primary' => 'latin1',
-                        'second'  => 'latin1',
+                'label'    => 'associative array string key',
+                'source'   => [
+                    'a' => 'aaa',
+                    'b' => [
+                        'bar' => 'rrr',
+                        'baz' => 'zzz',
                     ],
                 ],
-            ]
-        );
-
-        $config2 = new Config(
-            [
-                'modelsDir' => '../x/y/z',
-                'database'  => [
-                    'adapter'      => 'Postgresql',
-                    'host'         => 'localhost',
-                    'username'     => 'peter',
-                    'options'      => [
-                        'case'     => 'lower',
-                        'encoding' => 'SET NAMES utf8',
-                    ],
-                    'alternatives' => [
-                        'primary' => 'swedish',
-                        'third'   => 'american',
+                'target'   => [
+                    'c' => 'ccc',
+                    'b' => [
+                        'baz' => 'xxx',
                     ],
                 ],
-            ]
-        );
-
-        $config1->merge($config2);
-
-        $expected = new Config(
-            [
-                'controllersDir' => '../x/y/z',
-                'modelsDir'      => '../x/y/z',
-                'database'       => [
-                    'adapter'      => 'Postgresql',
-                    'host'         => 'localhost',
-                    'username'     => 'peter',
-                    'password'     => 'cheetah',
-                    'name'         => 'test_db',
-                    'charset'      => [
-                        'primary' => 'utf8',
+                'expected' => [
+                    'a' => 'aaa',
+                    'b' => [
+                        'bar' => 'rrr',
+                        'baz' => 'xxx',
                     ],
-                    'alternatives' => [
-                        'primary' => 'swedish',
-                        'second'  => 'latin1',
-                        'third'   => 'american',
-                    ],
-                    'options'      => [
-                        'case'     => 'lower',
-                        'encoding' => 'SET NAMES utf8',
-                    ],
-                ],
-            ]
-        );
-
-        $I->assertEquals($expected->toArray(), $config1->toArray());
-    }
-
-    /**
-     * Tests issue 12779
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/12779
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-06-19
-     */
-    public function testIssue12779(UnitTester $I)
-    {
-        $config = new Config(
-            [
-                'a' => [
-                    [
-                        1,
-                    ],
-                ],
-            ]
-        );
-
-        $config->merge(
-            new Config(
-                [
-                    'a' => [
-                        [
-                            2,
-                        ],
-                    ],
-                ]
-            )
-        );
-
-
-        $expected = [
-            'a' => [
-                [
-                    1,
-                    2,
+                    'c' => 'ccc',
                 ],
             ],
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-    }
-
-    /**
-     * Tests issue 13351
-     *
-     * @link   https://github.com/phalcon/cphalcon/issues/13351
-     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
-     * @since  2018-04-27
-     */
-    public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
-    {
-        $config = new Config(
             [
-                1 => 'Apple',
-            ]
-        );
-
-        $config2 = new Config(
+                'label'    => 'numeric string key with strings',
+                'source'   => [
+                    '1' => 'aaa',
+                    '2' => [
+                        '11' => 'rrr',
+                        '12' => 'zzz',
+                    ],
+                ],
+                'target'   => [
+                    '3' => 'ccc',
+                    '2' => [
+                        '12' => 'xxx',
+                    ],
+                ],
+                'expected' => [
+                    '1' => 'aaa',
+                    '2' => [
+                        '11' => 'rrr',
+                        '12' => 'xxx',
+                    ],
+                    '3' => 'ccc',
+                ],
+            ],
             [
-                2 => 'Banana',
-            ]
-        );
-
-        $config->merge($config2);
-
-
-        $expected = [
-            1 => 'Apple',
-            2 => 'Banana',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-
-
-        $config = new Config(
+                'label'    => 'numeric string key with numbers',
+                'source'   => [
+                    '0.4' => 0.4,
+                ],
+                'target'   => [
+                    '1.1'                => 1,
+                    '1.2'                => 1.2,
+                    '2.8610229492188E-6' => 3,
+                ],
+                'expected' => [
+                    '0.4'                => 0.4,
+                    '1.1'                => 1,
+                    '1.2'                => 1.2,
+                    '2.8610229492188E-6' => 3,
+                ],
+            ],
             [
-                0 => 'Apple',
-            ]
-        );
-
-        $config2 = new Config(
+                'label'    => 'non zero based numeric key',
+                'source'   => [
+                    1 => 'Apple',
+                ],
+                'target'   => [
+                    2 => 'Banana',
+                ],
+                'expected' => [
+                    1 => 'Apple',
+                    2 => 'Banana',
+                ],
+            ],
             [
-                1 => 'Banana',
-            ]
-        );
-
-        $config->merge($config2);
-
-
-        $expected = [
-            0 => 'Apple',
-            1 => 'Banana',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-
-
-        $config = new Config(
+                'label'    => 'zero based numeric key',
+                'source'   => [
+                    0 => 'Apple',
+                ],
+                'target'   => [
+                    2 => 'Banana',
+                ],
+                'expected' => [
+                    0 => 'Apple',
+                    2 => 'Banana',
+                ],
+            ],
             [
-                1   => 'Apple',
-                'p' => 'Pineapple',
-            ]
-        );
-
-        $config2 = new Config(
-            [
-                2 => 'Banana',
-            ]
-        );
-
-        $config->merge($config2);
-
-
-        $expected = [
-            1   => 'Apple',
-            'p' => 'Pineapple',
-            2   => 'Banana',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-
-
-        $config = new Config(
-            [
-                'One' => [
+                'label'    => 'non zero based mixed key',
+                'source'   => [
                     1   => 'Apple',
                     'p' => 'Pineapple',
                 ],
-                'Two' => [
-                    1 => 'Apple',
-                ],
-            ]
-        );
-
-        $config2 = new Config(
-            [
-                'One' => [
+                'target'   => [
                     2 => 'Banana',
                 ],
-                'Two' => [
-                    2 => 'Banana',
+                'expected' => [
+                    1   => 'Apple',
+                    'p' => 'Pineapple',
+                    2   => 'Banana',
                 ],
-            ]
-        );
-
-        $config->merge($config2);
-
-
-        $expected = [
-            'One' => [
-                1   => 'Apple',
-                'p' => 'Pineapple',
-                2   => 'Banana',
             ],
-            'Two' => [
-                1 => 'Apple',
-                2 => 'Banana',
+            [
+                'label'    => 'string keys mixed sub array keys',
+                'source'   => [
+                    'One' => [
+                        1   => 'Apple',
+                        'p' => 'Pineapple',
+                    ],
+                    'Two' => [
+                        1 => 'Apple',
+                    ],
+                ],
+                'target'   => [
+                    'One' => [
+                        2 => 'Banana',
+                    ],
+                    'Two' => [
+                        2 => 'Banana',
+                    ],
+                ],
+                'expected' => [
+                    'One' => [
+                        1   => 'Apple',
+                        'p' => 'Pineapple',
+                        2   => 'Banana',
+                    ],
+                    'Two' => [
+                        1 => 'Apple',
+                        2 => 'Banana',
+                    ],
+                ],
+            ],
+            [
+                'label'    => 'complex objects merge',
+                'source'   => [
+                    'controllersDir' => '../x/y/z',
+                    'modelsDir'      => '../x/y/z',
+                    'database'       => [
+                        'adapter'      => 'Mysql',
+                        'host'         => 'localhost',
+                        'username'     => 'scott',
+                        'password'     => 'cheetah',
+                        'name'         => 'test_db',
+                        'charset'      => [
+                            'primary' => 'utf8',
+                        ],
+                        'alternatives' => [
+                            'primary' => 'latin1',
+                            'second'  => 'latin1',
+                        ],
+                    ],
+                ],
+                'target'   => [
+                    'modelsDir' => '../x/y/z',
+                    'database'  => [
+                        'adapter'      => 'Postgresql',
+                        'host'         => 'localhost',
+                        'username'     => 'peter',
+                        'options'      => [
+                            'case'     => 'lower',
+                            'encoding' => 'SET NAMES utf8',
+                        ],
+                        'alternatives' => [
+                            'primary' => 'swedish',
+                            'third'   => 'american',
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'controllersDir' => '../x/y/z',
+                    'modelsDir'      => '../x/y/z',
+                    'database'       => [
+                        'adapter'      => 'Postgresql',
+                        'host'         => 'localhost',
+                        'username'     => 'peter',
+                        'password'     => 'cheetah',
+                        'name'         => 'test_db',
+                        'charset'      => [
+                            'primary' => 'utf8',
+                        ],
+                        'alternatives' => [
+                            'primary' => 'swedish',
+                            'second'  => 'latin1',
+                            'third'   => 'american',
+                        ],
+                        'options'      => [
+                            'case'     => 'lower',
+                            'encoding' => 'SET NAMES utf8',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'label'    => 'numeric string keys merge arrays',
+                'source'   => [
+                    'keys' => [
+                        '0' => 'scott',
+                        '1' => 'cheetah',
+                    ],
+                ],
+                'target'   => [
+                    'keys' => ['peter'],
+                ],
+                'expected' => [
+                    'keys' => [
+                        '0' => 'peter',
+                        '1' => 'cheetah',
+                    ],
+                ],
+            ],
+            [
+                'label'    => 'numeric int keys merge arrays',
+                'source'   => [
+                    'keys' => [
+                        'peter',
+                    ],
+                ],
+                'target'   => [
+                    'keys' => [
+                        'cheetah',
+                        'scott',
+                    ],
+                ],
+                'expected' => [
+                    'keys' => [
+                        '0' => 'cheetah',
+                        '1' => 'scott',
+                    ],
+                ],
+            ],
+            [
+                'label'    => 'string key, sub array empty, number key',
+                'source'   => [
+                    'test'     => 123,
+                    'empty'    => [],
+                    'nonEmpty' => [
+                        5 => 'test'
+                    ]
+                ],
+                'target'   => [
+                    'empty' => [
+                        3 => 'toEmpty'
+                    ],
+                ],
+                'expected' => [
+                    'test'     => 123,
+                    'empty'    => [
+                        3 => 'toEmpty'
+                    ],
+                    'nonEmpty' => [
+                        5 => 'test'
+                    ]
+                ],
+            ],
+            [
+                'label'    => 'string key, sub array not empty, number key',
+                'source'   => [
+                    'test'     => 123,
+                    'empty'    => [],
+                    'nonEmpty' => [
+                        5 => 'test'
+                    ]
+                ],
+                'target'   => [
+                    'nonEmpty' => [
+                        3 => 'toNonEmpty'
+                    ],
+                ],
+                'expected' => [
+                    'test'     => 123,
+                    'empty'    => [],
+                    'nonEmpty' => [
+                        5 => 'test',
+                        3 => 'toNonEmpty'
+                    ]
+                ],
             ],
         ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
     }
 
     /**
      * Merges the reference config object into an empty config object.
+     *
+     * @return Config
+     * @throws Exception
      */
     private function getMergedByConfig(): Config
     {
         $config = new Config();
-
-        $config->merge(
-            $this->getConfig()
-        );
+        $config->merge($this->getConfig());
 
         return $config;
-    }
-
-    /**
-     * Merges the reference config array data into an empty config object.
-     */
-    private function getMergedByArray(): Config
-    {
-        $config = new Config();
-
-        $config->merge(
-            require dataDir('assets/config/config.php')
-        );
-
-        return $config;
-    }
-
-    /**
-     * Tests Phalcon\Config :: merge()
-     *
-     * @author Cameron Hall <me@chall.id.au>
-     * @link   https://github.com/phalcon/cphalcon/issues/13201
-     * @since  2019-06-19
-     */
-    public function testNumericKeyMerge(UnitTester $I)
-    {
-        $params1 = [
-            '1' => 'aaa',
-            '2' => [
-                '11' => 'rrr',
-                '12' => 'zzz',
-            ],
-        ];
-
-        $config = new Config($params1);
-
-        $params2 = [
-            '3' => 'ccc',
-            '2' => [
-                '12' => 'xxx',
-            ],
-        ];
-
-        $config->merge(
-            new Config($params2)
-        );
-
-        $expected = [
-            '1' => 'aaa',
-            '2' => [
-                '11' => 'rrr',
-                '12' => 'zzz',
-                '13' => 'xxx',
-            ],
-            '3' => 'ccc',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-
-
-        $config = new Config(
-            [
-                '0.4' => 0.4,
-            ]
-        );
-
-        $config->merge(
-            new Config(
-                [
-                    '1.1'                => 1,
-                    '1.2'                => 1.2,
-                    '2.8610229492188E-6' => 3,
-                ]
-            )
-        );
-
-        $expected = [
-            '0.4'                => 0.4,
-            '1.1'                => 1,
-            '1.2'                => 1.2,
-            '2.8610229492188E-6' => 3,
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Config :: merge()
-     *
-     * @author Cameron Hall <me@chall.id.au>
-     * @link   https://github.com/phalcon/cphalcon/issues/13768
-     * @since  2019-06-19
-     */
-    public function testAssociativeMergeReplacements(UnitTester $I)
-    {
-        $params1 = [
-            'a' => 'aaa',
-            'b' => [
-                'bar' => 'rrr',
-                'baz' => 'zzz',
-            ],
-        ];
-
-        $config = new Config($params1);
-
-        $params2 = [
-            'c' => 'ccc',
-            'b' => [
-                'baz' => 'xxx',
-            ],
-        ];
-
-        $config->merge(
-            new Config($params2)
-        );
-
-        $expected = [
-            'a' => 'aaa',
-            'b' => [
-                'bar' => 'rrr',
-                'baz' => 'xxx',
-            ],
-            'c' => 'ccc',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
     }
 }

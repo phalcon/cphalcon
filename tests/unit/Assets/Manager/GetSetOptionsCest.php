@@ -11,10 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Manager;
+namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Codeception\Example;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class GetSetOptionsCest
@@ -30,7 +32,6 @@ class GetSetOptionsCest
      *
      *
      * @dataProvider getExamples
-     *
      */
     public function assetsManagerGetSetOptions(
         UnitTester $I,
@@ -41,14 +42,14 @@ class GetSetOptionsCest
         );
 
         $options = $example['options'];
-        $assets  = new Manager($options);
+        $manager = new Manager(new TagFactory(new Escaper()), $options);
 
         if (!empty($example['set'])) {
-            $assets->setOptions($example['set']);
+            $manager->setOptions($example['set']);
         }
 
         $expected = $example['expected'];
-        $actual   = $assets->getOptions();
+        $actual   = $manager->getOptions();
         $I->assertEquals($expected, $actual);
     }
 

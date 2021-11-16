@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Events\Manager;
+namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Manager;
 use UnitTester;
@@ -21,8 +21,10 @@ class ArePrioritiesEnabledCest
     /**
      * Tests Phalcon\Events\Manager :: arePrioritiesEnabled()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-20
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function eventsManagerArePrioritiesEnabled(UnitTester $I)
     {
@@ -30,20 +32,17 @@ class ArePrioritiesEnabledCest
 
         $manager = new Manager();
 
-        $I->assertFalse(
-            $manager->arePrioritiesEnabled()
-        );
+        $actual = $manager->arePrioritiesEnabled();
+        $I->assertFalse($actual);
 
         $manager->enablePriorities(true);
 
-        $I->assertTrue(
-            $manager->arePrioritiesEnabled()
-        );
+        $actual = $manager->arePrioritiesEnabled();
+        $I->assertTrue($actual);
 
         $manager->enablePriorities(false);
 
-        $I->assertFalse(
-            $manager->arePrioritiesEnabled()
-        );
+        $actual = $manager->arePrioritiesEnabled();
+        $I->assertFalse($actual);
     }
 }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Controller;
+namespace Phalcon\Tests\Integration\Mvc\Controller;
 
 use IntegrationTester;
 

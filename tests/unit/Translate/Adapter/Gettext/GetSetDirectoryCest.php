@@ -11,15 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 use function dataDir;
 
+/**
+ * Class GetSetDirectoryCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class GetSetDirectoryCest
 {
     use TranslateGettextTrait;
@@ -27,8 +32,10 @@ class GetSetDirectoryCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getDirectory()/setDirectory()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterGettextGetSetDirectory(UnitTester $I)
     {
@@ -36,23 +43,16 @@ class GetSetDirectoryCest
 
         $params = $this->getGettextConfig();
 
-        $translator = new Gettext(
-            new InterpolatorFactory(),
-            $params
-        );
+        $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals(
-            dataDir('assets/translation/gettext'),
-            $translator->getDirectory()
-        );
+        $expected = dataDir('assets/translation/gettext');
+        $actual   = $translator->getDirectory();
+        $I->assertEquals($expected, $actual);
 
-        $translator->setDirectory(
-            dataDir()
-        );
+        $translator->setDirectory(dataDir());
 
-        $I->assertEquals(
-            dataDir(),
-            $translator->getDirectory()
-        );
+        $expected = dataDir();
+        $actual   = $translator->getDirectory();
+        $I->assertEquals($expected, $actual);
     }
 }

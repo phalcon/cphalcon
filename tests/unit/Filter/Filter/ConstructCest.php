@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter\Filter;
+namespace Phalcon\Tests\Unit\Filter\Filter;
 
-use Phalcon\Filter;
 use Phalcon\Filter\Exception;
+use Phalcon\Filter\Filter;
 use UnitTester;
 
 class ConstructCest
@@ -22,14 +22,16 @@ class ConstructCest
     /**
      * Tests Phalcon\Filter\Locator :: __construct() - empty
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-19
+     * @since  2020-09-09
      */
     public function filterFilterConstruct(UnitTester $I)
     {
         $I->wantToTest('Filter\Filter - __construct() - empty');
         $I->expectThrowable(
-            new Exception('The service unknown has not been found in the locator'),
+            new Exception('Filter unknown is not registered'),
             function () {
                 $locator = new Filter();
                 $locator->get('unknown');

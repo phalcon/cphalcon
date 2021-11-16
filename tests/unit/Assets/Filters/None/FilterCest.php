@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Filters\None;
+namespace Phalcon\Tests\Unit\Assets\Filters\None;
 
 use Phalcon\Assets\Filters\None;
 use UnitTester;
 
+/**
+ * Class FilterCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Filters\None
+ */
 class FilterCest
 {
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsFiltersNoneFilter(UnitTester $I)
     {
@@ -30,9 +37,8 @@ class FilterCest
 
         $filter = new None();
 
-        $I->assertEquals(
-            ' ',
-            $filter->filter(' ')
-        );
+        $expected = ' ';
+        $actual   = $filter->filter(' ');
+        $I->assertEquals($expected, $actual);
     }
 }

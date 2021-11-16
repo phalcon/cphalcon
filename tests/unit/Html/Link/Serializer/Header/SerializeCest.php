@@ -11,18 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\Serializer\Header;
+namespace Phalcon\Tests\Unit\Html\Link\Serializer\Header;
 
 use Phalcon\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\Serializer\Header;
 use UnitTester;
 
+/**
+ * Class SerializeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\Serializer\Header
+ */
 class SerializeCest
 {
     /**
      * Tests Phalcon\Html\Link\Serializer\Header :: serialize()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkSerializerHeaderSerialize(UnitTester $I)
     {
@@ -42,6 +50,8 @@ class SerializeCest
             (new EvolvableLink('alternate', '/2'))
                 ->withRel('next')
                 ->withAttribute('hreflang', ['en', 'es']),
+            // This will be ignored because it has a template
+            (new EvolvableLink('alternate', '/3/login/{username}')),
         ];
 
         $expected = '</1>; rel="preload"; as="image"; nopush,'
@@ -53,7 +63,10 @@ class SerializeCest
     /**
      * Tests Phalcon\Html\Link\Serializer\Header :: serialize() - empty
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkSerializerHeaderSerializeEmpty(UnitTester $I)
     {

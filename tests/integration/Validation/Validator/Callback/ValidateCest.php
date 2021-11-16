@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Validation\Validator\Callback;
+namespace Phalcon\Tests\Integration\Validation\Validator\Callback;
 
 use IntegrationTester;
 use Phalcon\Messages\Message;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query\Lang;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query\Lang;
 
 use IntegrationTester;
 

@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View\Simple;
+namespace Phalcon\Tests\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetDICest

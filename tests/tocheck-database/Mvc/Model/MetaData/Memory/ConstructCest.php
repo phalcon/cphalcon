@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Memory;
+namespace Phalcon\Tests\Integration\Mvc\Model\MetaData\Memory;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Robotto;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Robots;
+use Phalcon\Tests\Models\Robotto;
 
 use function dataDir;
 

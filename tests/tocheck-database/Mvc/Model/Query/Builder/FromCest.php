@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
+namespace Phalcon\Tests\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Tests\Models\RobotsParts;
 
 /**
  * Class FromCest

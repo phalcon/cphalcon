@@ -11,12 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class UnserializeCest
 {
@@ -43,17 +42,13 @@ class UnserializeCest
             'three' => 'four',
             'five'  => 'six',
         ];
-
         $serialized = serialize($data);
-
-        $collection = new Bag('BagTest');
-
+        $collection = new Bag('BagTest', $this->container);
 
         $collection->unserialize($serialized);
 
-        $I->assertEquals(
-            $data,
-            $collection->toArray()
-        );
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

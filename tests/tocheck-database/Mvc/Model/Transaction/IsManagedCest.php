@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
+namespace Phalcon\Tests\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Transaction;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class IsManagedCest
 {

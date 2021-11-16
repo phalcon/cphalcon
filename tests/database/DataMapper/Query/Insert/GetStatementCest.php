@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\DataMapper\Query\Insert;
+namespace Phalcon\Tests\Database\DataMapper\Query\Insert;
 
 use DatabaseTester;
 use PDO;

@@ -11,18 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset;
+namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class GetSetVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class GetSetVersionCest
 {
     /**
      * Unit Tests Phalcon\Assets\Asset :: getVersion() / setVersion()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsAssetGetSetVersion(UnitTester $I)
     {
@@ -32,7 +39,8 @@ class GetSetVersionCest
 
         $version = '4.1.0-rc.3';
         $asset->setVersion($version);
+        $actual = $asset->getVersion();
 
-        $I->assertEquals($version, $asset->getVersion());
+        $I->assertEquals($version, $actual);
     }
 }

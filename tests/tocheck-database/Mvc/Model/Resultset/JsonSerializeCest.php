@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
+namespace Phalcon\Tests\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
 

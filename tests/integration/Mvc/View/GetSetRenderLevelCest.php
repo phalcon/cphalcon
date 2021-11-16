@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\View;
+namespace Phalcon\Tests\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
-use Phalcon\Test\Fixtures\Mvc\View\AfterRenderListener;
+use Phalcon\Tests\Fixtures\Mvc\View\AfterRenderListener;
 
 use function dataDir;
 

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Service;
+namespace Phalcon\Tests\Fixtures\Service;
 
 /**
  * Class HelloService

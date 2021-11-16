@@ -38,7 +38,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex)
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @param mixed $input
+ * @param mixed $pattern
+ * @param mixed $replace
+ *
+ * @return string|string[]|null
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 {
@@ -64,7 +68,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 	zephir_fetch_params(1, 3, 0, &input, &pattern, &replace);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 50, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 49, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

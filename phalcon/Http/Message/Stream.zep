@@ -14,7 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Arr;
 use Exception;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -167,7 +166,7 @@ class Stream implements StreamInterface
             return metadata;
         }
 
-        return Arr::get(metadata, key, []);
+        return this->getArrVal(metadata, key, []);
     }
 
     /**
@@ -181,7 +180,7 @@ class Stream implements StreamInterface
             let stats = fstat(this->handle);
 
             if likely false !== stats {
-                return Arr::get(stats, "size", null);
+                return this->getArrVal(stats, "size", null);
             }
         }
 
@@ -406,5 +405,22 @@ class Stream implements StreamInterface
         if unlikely true !== this->isWritable() {
             throw new RuntimeException("The resource is not writable.");
         }
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

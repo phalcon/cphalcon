@@ -11,13 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
+/**
+ * Class ExistsCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
+ */
 class ExistsCest
 {
     use TranslateGettextTrait;
@@ -25,21 +30,19 @@ class ExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: exists()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function translateAdapterGettextExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - exists()');
 
         $params     = $this->getGettextConfig();
-        $translator = new Gettext(
-            new InterpolatorFactory(),
-            $params
-        );
+        $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertTrue(
-            $translator->exists('hi')
-        );
+        $actual = $translator->exists('hi');
+        $I->assertTrue($actual);
     }
 }

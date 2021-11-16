@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Resultset\Complex;
+namespace Phalcon\Tests\Database\Mvc\Model\Resultset\Complex;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\RecordsTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\RecordsTrait;
 
 class UnserializeCest
 {

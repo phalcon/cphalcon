@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
+namespace Phalcon\Tests\Unit\Http\Message\UploadedFile;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;

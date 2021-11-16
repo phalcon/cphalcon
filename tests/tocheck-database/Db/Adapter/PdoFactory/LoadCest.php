@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\PdoFactory;
+namespace Phalcon\Tests\Integration\Db\Adapter\PdoFactory;
 
 use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
 
 use function array_intersect_assoc;
 

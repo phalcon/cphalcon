@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\Server\Middleware;
+namespace Phalcon\Tests\Unit\Http\Server\Middleware;
 
 use UnitTester;
 

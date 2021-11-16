@@ -11,76 +11,82 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Asset\Css;
+namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 
 use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Css
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - local
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider provider
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function assetsAssetCssConstructLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset\Css - __construct() - local');
 
-        $asset = new Css(
-            $example['path'],
-            $example['local']
-        );
+        $asset = new Css($example['path'], $example['local']);
 
-        $I->assertEquals(
-            $example['local'],
-            $asset->getLocal()
-        );
+        $expected = $example['local'];
+        $actual   = $asset->isLocal();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - filter
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssConstructFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - filter');
 
-        $asset = new Css('css/docs.css');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
+        $asset  = new Css('css/docs.css');
+        $actual = $asset->getFilter();
+        $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - filter set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssConstructFilterSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset\Css - __construct() - filter set');
 
-        $asset = new Css('css/docs.css', true, false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        $asset  = new Css('css/docs.css', true, false);
+        $actual = $asset->getFilter();
+        $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - attributes
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssConstructAttributes(UnitTester $I)
     {
@@ -88,17 +94,18 @@ class ConstructCest
 
         $asset = new Css('css/docs.css');
 
-        $I->assertEquals(
-            [],
-            $asset->getAttributes()
-        );
+        $expected = [];
+        $actual   = $asset->getAttributes();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - attributes set
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsAssetCssConstructAttributesSet(UnitTester $I)
     {
@@ -115,12 +122,13 @@ class ConstructCest
             $attributes
         );
 
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
+        $actual = $asset->getAttributes();
+        $I->assertEquals($attributes, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     protected function provider(): array
     {
         return [

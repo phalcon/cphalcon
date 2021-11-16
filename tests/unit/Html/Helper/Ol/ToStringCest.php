@@ -9,18 +9,28 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Helper\Ol;
+namespace Phalcon\Tests\Unit\Html\Helper\Ol;
 
-use Phalcon\Escaper;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Ol;
 use UnitTester;
 
+use const PHP_EOL;
+
+/**
+ * Class ToStringCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Ol
+ */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Html\Helper\Ol :: __toString()
      *
-     * @since  2020-01-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function htmlHelperOlToStringEmpty(UnitTester $I)
     {
@@ -29,7 +39,7 @@ class ToStringCest
         $escaper = new Escaper();
         $helper  = new Ol($escaper);
 
-        $result = $helper(null, null, ['id' => 'carsList']);
+        $result = $helper('', PHP_EOL, ['id' => 'carsList']);
 
         $actual = (string) $result;
         $I->assertEmpty($actual);

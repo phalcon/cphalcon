@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Row;
+namespace Phalcon\Tests\Database\Mvc\Model\Row;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Row;

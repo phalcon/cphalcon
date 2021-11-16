@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 					return;
 				}
 				if (!(zephir_class_exists(&className, zephir_is_true(&__$false) ))) {
-					if (zephir_require_zval(&path) == FAILURE) {
+					if (zephir_require_once_zval(&path) == FAILURE) {
 						RETURN_MM_NULL();
 					}
 				}

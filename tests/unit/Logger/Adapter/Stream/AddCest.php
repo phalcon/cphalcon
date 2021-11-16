@@ -11,31 +11,55 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use DateTimeImmutable;
-use Phalcon\Logger;
+use DateTimeZone;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
+
+use function date_default_timezone_get;
 
 class AddCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: add()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function loggerAdapterStreamAdd(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - add()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
+        $timezone   = date_default_timezone_get();
+        $datetime   = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $adapter    = new Stream($outputPath . $fileName);
-        $time       = new DateTimeImmutable('now');
 
         $adapter->begin();
-        $item1 = new Item('Message 1', 'debug', Logger::DEBUG, $time);
-        $item2 = new Item('Message 2', 'debug', Logger::DEBUG, $time);
-        $item3 = new Item('Message 3', 'debug', Logger::DEBUG, $time);
+        $item1 = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
+        $item2 = new Item(
+            'Message 2',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
+        $item3 = new Item(
+            'Message 3',
+            'debug',
+            Logger::DEBUG,
+            $datetime
+        );
 
         $adapter
             ->add($item1)

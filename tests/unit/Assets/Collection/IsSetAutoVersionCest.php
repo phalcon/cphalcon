@@ -11,30 +11,35 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Collection;
+namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class IsSetAutoVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class IsSetAutoVersionCest
 {
     /**
      * Unit Tests Phalcon\Assets\Collection :: isAutoVersion() /
      * setAutoVersion()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionIsSetAutoVersion(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - isAutoVersion() / setAutoVersion()');
 
         $collection = new Collection();
-
         $I->assertFalse($collection->isAutoVersion());
 
         $collection->setAutoVersion(true);
-
         $I->assertTrue($collection->isAutoVersion());
     }
 }

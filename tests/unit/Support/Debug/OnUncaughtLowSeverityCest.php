@@ -11,17 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Support\Debug;
+namespace Phalcon\Tests\Unit\Support\Debug;
 
 use UnitTester;
 
+/**
+ * Class OnUncaughtLowSeverityCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug
+ */
 class OnUncaughtLowSeverityCest
 {
     /**
      * Tests Phalcon\Debug :: onUncaughtLowSeverity()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugOnUncaughtLowSeverity(UnitTester $I)
     {

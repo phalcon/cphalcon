@@ -12,12 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -29,9 +30,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Translate\Adapter
+ * Class AbstractAdapter
  *
- * Base class for Phalcon\Translate adapters
+ * @package Phalcon\Translate\Adapter
+ *
+ * @property string              $defaultInterpolator
+ * @property InterpolatorFactory $interpolatorFactory
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter)
 {
@@ -49,41 +53,48 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter)
 	return SUCCESS;
 }
 
+/**
+ * AbstractAdapter constructor.
+ *
+ * @param InterpolatorFactory $interpolator
+ * @param array               $options
+ */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
-	zval *interpolator, interpolator_sub, *options_param = NULL, _0, _2, _3;
+	zval *interpolator, interpolator_sub, *options_param = NULL, value;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&interpolator_sub);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&options);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 2)
+	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_fetch_params(1, 1, 1, &interpolator, &options_param);
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+		zephir_get_arrval(&options, options_param);
+	}
 
 
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "defaultInterpolator");
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "associativeArray");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
-	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &_0);
+	ZEPHIR_OBS_VAR(&value);
+	if (!(zephir_array_isset_string_fetch(&value, &options, SL("defaultInterpolator"), 0))) {
+		ZEPHIR_INIT_NVAR(&value);
+		ZVAL_STRING(&value, "associativeArray");
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &value);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorFactory"), interpolator);
 	ZEPHIR_MM_RESTORE();
 }
@@ -91,7 +102,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 /**
  * Returns the translation string of the given key (alias of method 't')
  *
- * @param array   placeholders
+ * @param string $translateKey
+ * @param array  $placeholders
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _)
 {
@@ -140,6 +154,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _)
 
 /**
  * Check whether a translation key exists
+ *
+ * @param mixed $translateKey
+ *
+ * @return bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
 {
@@ -168,6 +186,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
 
 /**
  * Returns the translation related to the given key
+ *
+ * @param mixed $translateKey
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
 {
@@ -197,7 +219,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
 /**
  * Sets a translation value
  *
- * @param string value
+ * @param mixed $offset
+ * @param mixed $value
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
 {
@@ -218,12 +243,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
 	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 103);
 	return;
 }
 
 /**
  * Unsets a translation from the dictionary
+ *
+ * @param mixed $offset
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
 {
@@ -242,14 +271,17 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 115);
 	return;
 }
 
 /**
  * Returns the translation string of the given key
  *
- * @param array   placeholders
+ * @param string $translateKey
+ * @param array  $placeholders
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t)
 {
@@ -298,6 +330,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t)
 
 /**
  * Replaces placeholders by the values passed
+ *
+ * @param string $translation
+ * @param array  $placeholders
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders)
 {

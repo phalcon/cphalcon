@@ -10,8 +10,7 @@
 
 namespace Phalcon\Html\Helper\Input;
 
-use Phalcon\Escaper\EscaperInterface;
-use Phalcon\Helper\Arr;
+use Phalcon\Html\Escaper\EscaperInterface;
 
 /**
  * Class Checkbox
@@ -82,9 +81,11 @@ class Checkbox extends AbstractInput
      */
     public function label(array attributes = []) -> <Checkbox>
     {
-        var text = "";
+        var text;
 
-        let text = Arr::get(attributes, "text", "");
+        if !fetch text, attributes["text"] {
+            let text = "";
+        }
 
         unset attributes["text"];
 
@@ -112,13 +113,17 @@ class Checkbox extends AbstractInput
         var checked, value;
         array attributes;
 
-        let attributes = this->attributes,
-            checked    = Arr::get(attributes, "checked", "");
+        let attributes = this->attributes;
+        if !fetch checked, attributes["checked"] {
+            let checked = "";
+        }
 
         unset attributes["checked"];
 
         if !empty checked {
-            let value = Arr::get(attributes, "value", "");
+            if !fetch value, attributes["value"] {
+                let value = "";
+            }
             if checked === value {
                 let attributes["checked"] = "checked";
             }
@@ -137,8 +142,10 @@ class Checkbox extends AbstractInput
         var unchecked;
         array attributes;
 
-        let attributes = this->attributes,
-            unchecked  = Arr::get(attributes, "unchecked", "");
+        let attributes = this->attributes;
+        if !fetch unchecked, attributes["unchecked"] {
+            let unchecked = "";
+        }
 
         unset attributes["unchecked"];
 

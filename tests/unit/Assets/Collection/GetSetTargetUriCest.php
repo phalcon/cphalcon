@@ -11,27 +11,32 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Assets\Collection;
+namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class GetSetTargetUriCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetSetTargetUriCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getTargetUri() / setTargetUri()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetTargetUri(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getTargetUri() / setTargetUri()');
 
         $collection = new Collection();
-
-        $targetUri = 'dist';
-
+        $targetUri  = 'dist';
         $collection->setTargetUri($targetUri);
 
         $I->assertEquals($targetUri, $collection->getTargetUri());

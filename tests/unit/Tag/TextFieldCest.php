@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Tag;
+namespace Phalcon\Tests\Unit\Tag;
 
-use Phalcon\Test\Fixtures\Helpers\TagHelper;
+use Phalcon\Tests\Fixtures\Helpers\TagHelper;
 
 class TextFieldCest extends TagHelper
 {

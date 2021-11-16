@@ -11,11 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
+namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvHelperTrait;
+use Phalcon\Tests\Fixtures\Traits\TranslateCsvTrait;
 
-class QueryCest extends TranslateCsvHelper
+/**
+ * Class QueryCest
+ *
+ * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
+ */
+class QueryCest
 {
-    protected $function = 'query';
+    use TranslateCsvTrait;
+    use TranslateCsvHelperTrait;
+
+    /**
+     * @return string
+     */
+    protected function func(): string
+    {
+        return 'query';
+    }
 }

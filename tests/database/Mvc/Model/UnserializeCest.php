@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
+use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Invoices;
 
 use function date;
 use function uniqid;
@@ -52,8 +52,7 @@ class UnserializeCest
 
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
-
-        $data = [
+        $data  = [
             'inv_id'          => null,
             'inv_cst_id'      => 5,
             'inv_status_flag' => 2,

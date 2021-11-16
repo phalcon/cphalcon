@@ -11,13 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Session\Bag;
+namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Bag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
 {
@@ -39,15 +38,13 @@ class GetSetDICest
     {
         $I->wantToTest("Session\Bag - getDI()/setDI()");
 
-        $session = new Bag('DiTest');
+        $container = new FactoryDefault();
+        $sessionBag = new Bag('DiTest', $this->container);
 
-        $di = new FactoryDefault();
+        $sessionBag->setDI($container);
 
-        $session->setDI($di);
-
-        $I->assertEquals(
-            $di,
-            $session->getDI()
-        );
+        $expected = $container;
+        $actual   = $sessionBag->getDI();
+        $I->assertEquals($expected, $actual);
     }
 }

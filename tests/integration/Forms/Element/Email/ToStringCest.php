@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Email;
+namespace Phalcon\Tests\Integration\Forms\Element\Email;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Tag;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class ToStringCest
 {

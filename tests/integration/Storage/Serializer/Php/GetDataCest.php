@@ -11,18 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Storage\Serializer\Php;
+namespace Phalcon\Tests\Integration\Storage\Serializer\Php;
 
-use Phalcon\Storage\Serializer\Php;
 use IntegrationTester;
+use Phalcon\Storage\Serializer\Php;
 
 class GetDataCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Php :: getData()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-12
+     * @since  2020-09-09
      */
     public function storageSerializerPhpGetData(IntegrationTester $I)
     {

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\PdoFactory;
+namespace Phalcon\Tests\Integration\Db\Adapter\PdoFactory;
 
 use Codeception\Example;
 use IntegrationTester;
