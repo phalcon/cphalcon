@@ -89,7 +89,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/jwt/token/abstractitem.zep.c
 	phalcon/events/abstracteventsaware.zep.c
 	phalcon/flash/abstractflash.zep.c
-	phalcon/html/helper/style.zep.c
 	phalcon/http/message/abstractrequest.zep.c
 	phalcon/http/message/responsestatuscodeinterface.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
@@ -132,6 +131,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/escaper/escaperinterface.zep.c
 	phalcon/html/helper/input/checkbox.zep.c
 	phalcon/html/helper/ol.zep.c
+	phalcon/html/helper/style.zep.c
 	phalcon/html/link/link.zep.c
 	phalcon/html/link/linkprovider.zep.c
 	phalcon/html/link/serializer/serializerinterface.zep.c
@@ -412,7 +412,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/enum.zep.c
 	phalcon/image/exception.zep.c
 	phalcon/image/imagefactory.zep.c
-	phalcon/kernel.zep.c
 	phalcon/loader.zep.c
 	phalcon/loader/exception.zep.c
 	phalcon/logger/adapter/noop.zep.c

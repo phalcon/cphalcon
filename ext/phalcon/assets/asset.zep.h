@@ -31,6 +31,8 @@ PHP_METHOD(Phalcon_Assets_Asset, setPath);
 PHP_METHOD(Phalcon_Assets_Asset, setVersion);
 PHP_METHOD(Phalcon_Assets_Asset, checkPath);
 PHP_METHOD(Phalcon_Assets_Asset, throwException);
+PHP_METHOD(Phalcon_Assets_Asset, phpFileExists);
+PHP_METHOD(Phalcon_Assets_Asset, phpFileGetContents);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_getfilter, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -143,6 +145,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_throwexcept
 	ZEND_ARG_TYPE_INFO(0, completePath, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpfileexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_asset_phpfilegetcontents, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_assets_asset_method_entry) {
 	PHP_ME(Phalcon_Assets_Asset, getFilter, arginfo_phalcon_assets_asset_getfilter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, getPath, arginfo_phalcon_assets_asset_getpath, ZEND_ACC_PUBLIC)
@@ -172,5 +182,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_asset_method_entry) {
 	PHP_ME(Phalcon_Assets_Asset, setVersion, arginfo_phalcon_assets_asset_setversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, checkPath, arginfo_phalcon_assets_asset_checkpath, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Assets_Asset, throwException, arginfo_phalcon_assets_asset_throwexception, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Assets_Asset, phpFileExists, arginfo_phalcon_assets_asset_phpfileexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Assets_Asset, phpFileGetContents, arginfo_phalcon_assets_asset_phpfilegetcontents, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

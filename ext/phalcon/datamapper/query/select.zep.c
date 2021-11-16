@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 	object_init_ex(&_5, spl_ce_BadMethodCallException);
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SVS(&_6, "Unknown method: [", &method, "]");
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 103, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 100, &_6);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_5, "phalcon/DataMapper/Query/Select.zep", 97);
 	ZEPHIR_MM_RESTORE();
@@ -372,12 +372,12 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_4, &_3, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 172);
-	ZEPHIR_CALL_FUNCTION(&end, "array_key_last", NULL, 51, &_4);
+	ZEPHIR_CALL_FUNCTION(&end, "array_key_last", NULL, 48, &_4);
 	zephir_check_call_status();
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_6, &_5, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 173);
 	zephir_array_fetch(&_7, &_6, &end, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 173);
-	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 51, &_7);
+	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 48, &_7);
 	zephir_check_call_status();
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_9, &_8, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 175);
@@ -813,7 +813,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 	}
 	zephir_read_property(&_19, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_20, &_19, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 330);
-	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 51, &_20);
+	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 48, &_20);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_21);
 	ZEPHIR_CONCAT_VSVSV(&_21, &join, " ", &table, " ", &condition);
@@ -934,7 +934,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 	object_init_ex(return_value, phalcon_datamapper_query_select_ce);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("connection"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("bind"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 215, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 214, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1057,9 +1057,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildlimitearly", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 216);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 215);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 217);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 216);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "WHERE");
@@ -1184,7 +1184,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _4);
 			ZEPHIR_MAKE_REF(&table);
-			ZEPHIR_CALL_FUNCTION(&_6$$4, "array_shift", &_7, 27, &table);
+			ZEPHIR_CALL_FUNCTION(&_6$$4, "array_shift", &_7, 23, &table);
 			ZEPHIR_UNREF(&table);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "indent", &_9, 0, &table);
@@ -1205,7 +1205,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_CALL_METHOD(&table, &_3, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_MAKE_REF(&table);
-				ZEPHIR_CALL_FUNCTION(&_11$$5, "array_shift", &_7, 27, &table);
+				ZEPHIR_CALL_FUNCTION(&_11$$5, "array_shift", &_7, 23, &table);
 				ZEPHIR_UNREF(&table);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_12$$5, this_ptr, "indent", &_9, 0, &table);

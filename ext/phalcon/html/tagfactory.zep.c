@@ -400,10 +400,10 @@ zend_object *zephir_init_properties_Phalcon_Html_TagFactory(zend_class_entry *cl
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
-
+	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
@@ -423,3 +423,4 @@ zend_object *zephir_init_properties_Phalcon_Html_TagFactory(zend_class_entry *cl
 		return Z_OBJ_P(this_ptr);
 	}
 }
+

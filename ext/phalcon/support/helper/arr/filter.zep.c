@@ -76,3 +76,4 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 	zephir_check_call_status();
 	RETURN_MM();
 }
+

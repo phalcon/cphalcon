@@ -154,3 +154,4 @@ PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
 }
+

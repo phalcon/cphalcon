@@ -161,14 +161,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct)
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 319, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 318, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 317, &headers);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 316, &headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "w+b");
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 40, body, &_3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 36, body, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
@@ -373,14 +373,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 320);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 319);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 321, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 320, code);
 	zephir_check_call_status();
 	_0 = zephir_get_intval(code);
 	ZEPHIR_INIT_NVAR(code);
 	ZVAL_LONG(code, _0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 322, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 321, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 225);
@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 	ZVAL_LONG(&_1, code);
 	ZVAL_LONG(&_2, 100);
 	ZVAL_LONG(&_3, 599);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 323, &_1, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 322, &_1, &_2, &_3);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 		ZVAL_LONG(&_5$$3, code);
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZEPHIR_CONCAT_SVS(&_6$$3, "Invalid status code '", &_5$$3, "', (allowed values 100-599)");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 20, &_6$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 39, &_6$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Http/Message/Response.zep", 260);
 		ZEPHIR_MM_RESTORE();
@@ -520,3 +520,4 @@ PHP_METHOD(Phalcon_Http_Message_Response, isBetween)
 	}
 	RETURN_BOOL(_0);
 }
+

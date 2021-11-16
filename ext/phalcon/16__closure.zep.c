@@ -51,3 +51,4 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 	zephir_ucfirst(return_value, &_0);
 	RETURN_MM();
 }
+

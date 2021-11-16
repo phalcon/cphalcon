@@ -73,3 +73,4 @@ PHP_METHOD(Phalcon_Exception, containerServiceNotFound)
 	ZEPHIR_CONCAT_SV(return_value, "A dependency injection container is required to access ", &service);
 	RETURN_MM();
 }
+

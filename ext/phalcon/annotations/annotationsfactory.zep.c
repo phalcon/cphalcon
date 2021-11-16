@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_METHOD(&options, &_1, "__invoke", NULL, 175, config, &_3, &_2);
+	ZEPHIR_CALL_METHOD(&options, &_1, "__invoke", NULL, 172, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();

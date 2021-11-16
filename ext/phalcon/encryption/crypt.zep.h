@@ -36,6 +36,8 @@ PHP_METHOD(Phalcon_Encryption_Crypt, checkIsMode);
 PHP_METHOD(Phalcon_Encryption_Crypt, getBlockSize);
 PHP_METHOD(Phalcon_Encryption_Crypt, getIvLength);
 PHP_METHOD(Phalcon_Encryption_Crypt, getMode);
+PHP_METHOD(Phalcon_Encryption_Crypt, phpFunctionExists);
+PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslRandomPseudoBytes);
 zend_object *zephir_init_properties_Phalcon_Encryption_Crypt(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt___construct, 0, 0, 0)
@@ -187,6 +189,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getmode, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_phpopensslrandompseudobytes, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_zephir_init_properties_phalcon_encryption_crypt, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -224,5 +234,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_method_entry) {
 	PHP_ME(Phalcon_Encryption_Crypt, getBlockSize, arginfo_phalcon_encryption_crypt_getblocksize, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Crypt, getIvLength, arginfo_phalcon_encryption_crypt_getivlength, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Crypt, getMode, arginfo_phalcon_encryption_crypt_getmode, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Encryption_Crypt, phpFunctionExists, arginfo_phalcon_encryption_crypt_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Crypt, phpOpensslRandomPseudoBytes, arginfo_phalcon_encryption_crypt_phpopensslrandompseudobytes, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

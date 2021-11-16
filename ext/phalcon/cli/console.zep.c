@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(&arguments);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", NULL, 27, &arguments);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", NULL, 23, &arguments);
 		ZEPHIR_UNREF(&arguments);
 		zephir_check_call_status();
 	}
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 				ZEPHIR_INIT_NVAR(&_3$$5);
 				ZVAL_STRING(&_3$$5, "--");
 				ZVAL_LONG(&_4$$5, 2);
-				ZEPHIR_CALL_FUNCTION(&_5$$5, "strncmp", &_6, 195, &arg, &_3$$5, &_4$$5);
+				ZEPHIR_CALL_FUNCTION(&_5$$5, "strncmp", &_6, 192, &arg, &_3$$5, &_4$$5);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(&_5$$5, 0)) {
 					ZEPHIR_INIT_NVAR(&_7$$6);
@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 					ZEPHIR_INIT_NVAR(&_18$$9);
 					ZVAL_STRING(&_18$$9, "-");
 					ZVAL_LONG(&_19$$9, 1);
-					ZEPHIR_CALL_FUNCTION(&_20$$9, "strncmp", &_6, 195, &arg, &_18$$9, &_19$$9);
+					ZEPHIR_CALL_FUNCTION(&_20$$9, "strncmp", &_6, 192, &arg, &_18$$9, &_19$$9);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_20$$9, 0)) {
 						ZVAL_LONG(&_21$$10, 1);
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 					ZEPHIR_INIT_NVAR(&_23$$14);
 					ZVAL_STRING(&_23$$14, "--");
 					ZVAL_LONG(&_24$$14, 2);
-					ZEPHIR_CALL_FUNCTION(&_25$$14, "strncmp", &_6, 195, &arg, &_23$$14, &_24$$14);
+					ZEPHIR_CALL_FUNCTION(&_25$$14, "strncmp", &_6, 192, &arg, &_23$$14, &_24$$14);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_25$$14, 0)) {
 						ZEPHIR_INIT_NVAR(&_26$$15);
@@ -507,7 +507,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 						ZEPHIR_INIT_NVAR(&_37$$18);
 						ZVAL_STRING(&_37$$18, "-");
 						ZVAL_LONG(&_38$$18, 1);
-						ZEPHIR_CALL_FUNCTION(&_39$$18, "strncmp", &_6, 195, &arg, &_37$$18, &_38$$18);
+						ZEPHIR_CALL_FUNCTION(&_39$$18, "strncmp", &_6, 192, &arg, &_37$$18, &_38$$18);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_LONG(&_39$$18, 0)) {
 							ZVAL_LONG(&_40$$19, 1);
@@ -535,14 +535,14 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 	} else {
 		if (zephir_fast_count_int(&args)) {
 			ZEPHIR_MAKE_REF(&args);
-			ZEPHIR_CALL_FUNCTION(&_45$$24, "array_shift", NULL, 27, &args);
+			ZEPHIR_CALL_FUNCTION(&_45$$24, "array_shift", NULL, 23, &args);
 			ZEPHIR_UNREF(&args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("task"), &_45$$24, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_fast_count_int(&args)) {
 			ZEPHIR_MAKE_REF(&args);
-			ZEPHIR_CALL_FUNCTION(&_46$$25, "array_shift", NULL, 27, &args);
+			ZEPHIR_CALL_FUNCTION(&_46$$25, "array_shift", NULL, 23, &args);
 			ZEPHIR_UNREF(&args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("action"), &_46$$25, PH_COPY | PH_SEPARATE);

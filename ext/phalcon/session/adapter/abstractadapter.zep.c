@@ -256,3 +256,4 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, getArrVal)
 	}
 	RETURN_CTOR(&value);
 }
+

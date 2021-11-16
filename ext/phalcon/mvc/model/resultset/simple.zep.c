@@ -644,7 +644,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize)
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "getdata", NULL, 0);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 17, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 16, data);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {

@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getName);
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct);
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, close);
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, process);
+PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_getname, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -28,10 +29,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_pr
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_stream_phpfopen, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter_Stream, getName, arginfo_phalcon_logger_adapter_stream_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, __construct, arginfo_phalcon_logger_adapter_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, close, arginfo_phalcon_logger_adapter_stream_close, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, process, arginfo_phalcon_logger_adapter_stream_process, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Stream, phpFopen, arginfo_phalcon_logger_adapter_stream_phpfopen, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

@@ -816,3 +816,4 @@ PHP_METHOD(Phalcon_Registry, unserialize)
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
+

@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
-	ZEPHIR_RETURN_CALL_FUNCTION("sha1", NULL, 99, &key);
+	ZEPHIR_RETURN_CALL_FUNCTION("sha1", NULL, 96, &key);
 	zephir_check_call_status();
 	RETURN_MM();
 }

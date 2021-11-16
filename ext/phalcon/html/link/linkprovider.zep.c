@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getKey)
 	zephir_fetch_params(1, 1, 0, &link);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 108, link);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 105, link);
 	zephir_check_call_status();
 	RETURN_MM();
 }

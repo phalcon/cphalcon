@@ -224,3 +224,4 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 	ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", &_18);
 	return;
 }
+

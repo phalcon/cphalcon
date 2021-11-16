@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 120);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 117);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -661,7 +661,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize)
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "getdata", NULL, 0);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 17, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 16, data);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {

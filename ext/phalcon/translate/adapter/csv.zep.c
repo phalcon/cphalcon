@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
-	ZEPHIR_CALL_FUNCTION(&fileHandler, "fopen", NULL, 92, &file, &_0);
+	ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpfopen", NULL, 0, &file, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&fileHandler) != IS_RESOURCE)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -316,6 +316,39 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	}
 	zephir_fclose(&fileHandler);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo to be removed when we get traits
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *filename_param = NULL, *mode_param = NULL;
+	zval filename, mode;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&filename);
+	ZVAL_UNDEF(&mode);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(filename)
+		Z_PARAM_STR(mode)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &filename_param, &mode_param);
+	zephir_get_strval(&filename, filename_param);
+	zephir_get_strval(&mode, mode_param);
+
+
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 89, &filename, &mode);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type)

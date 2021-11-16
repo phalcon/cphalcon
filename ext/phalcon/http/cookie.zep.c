@@ -311,30 +311,30 @@ PHP_METHOD(Phalcon_Http_Cookie, delete)
 	ZEPHIR_INIT_VAR(&_8);
 	ZVAL_STRING(&_8, "expires");
 	ZVAL_LONG(&_0, (zephir_get_numberval(&_3) - 691200));
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getarrval", NULL, 313, &options, &_8, &_0);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getarrval", NULL, 312, &options, &_8, &_0);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("expires"), &_7, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_STRING(&_8, "domain");
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getarrval", NULL, 313, &options, &_8, &domain);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getarrval", NULL, 312, &options, &_8, &domain);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("domain"), &_9, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_STRING(&_8, "path");
-	ZEPHIR_CALL_METHOD(&_10, this_ptr, "getarrval", NULL, 313, &options, &_8, &path);
+	ZEPHIR_CALL_METHOD(&_10, this_ptr, "getarrval", NULL, 312, &options, &_8, &path);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("path"), &_10, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_STRING(&_8, "secure");
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "getarrval", NULL, 313, &options, &_8, &secure);
+	ZEPHIR_CALL_METHOD(&_11, this_ptr, "getarrval", NULL, 312, &options, &_8, &secure);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("secure"), &_11, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_STRING(&_8, "httponly");
-	ZEPHIR_CALL_METHOD(&_12, this_ptr, "getarrval", NULL, 313, &options, &_8, &httpOnly);
+	ZEPHIR_CALL_METHOD(&_12, this_ptr, "getarrval", NULL, 312, &options, &_8, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_12, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 314, &name, &__$null, &options);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 313, &name, &__$null, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -893,30 +893,30 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 	}
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "expires");
-	ZEPHIR_CALL_METHOD(&_17, this_ptr, "getarrval", NULL, 313, &options, &_3, &expire);
+	ZEPHIR_CALL_METHOD(&_17, this_ptr, "getarrval", NULL, 312, &options, &_3, &expire);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("expires"), &_17, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "domain");
-	ZEPHIR_CALL_METHOD(&_18, this_ptr, "getarrval", NULL, 313, &options, &_3, &domain);
+	ZEPHIR_CALL_METHOD(&_18, this_ptr, "getarrval", NULL, 312, &options, &_3, &domain);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("domain"), &_18, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "path");
-	ZEPHIR_CALL_METHOD(&_19, this_ptr, "getarrval", NULL, 313, &options, &_3, &path);
+	ZEPHIR_CALL_METHOD(&_19, this_ptr, "getarrval", NULL, 312, &options, &_3, &path);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("path"), &_19, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "secure");
-	ZEPHIR_CALL_METHOD(&_20, this_ptr, "getarrval", NULL, 313, &options, &_3, &secure);
+	ZEPHIR_CALL_METHOD(&_20, this_ptr, "getarrval", NULL, 312, &options, &_3, &secure);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("secure"), &_20, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "httponly");
-	ZEPHIR_CALL_METHOD(&_21, this_ptr, "getarrval", NULL, 313, &options, &_3, &httpOnly);
+	ZEPHIR_CALL_METHOD(&_21, this_ptr, "getarrval", NULL, 312, &options, &_3, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_21, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 314, &name, &encryptValue, &options);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 313, &name, &encryptValue, &options);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -1300,14 +1300,14 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 244, &signKey);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 242, &signKey);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_LT_LONG(&length, 32))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_http_cookie_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "The cookie's key should be at least 32 characters long. Current length is %d.");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 144, &_1$$3, &length);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 141, &_1$$3, &length);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
