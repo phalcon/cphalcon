@@ -11,10 +11,11 @@
 namespace Phalcon\Support;
 
 use ErrorException;
-use ReflectionClass;
-use ReflectionFunction;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug\Exception;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionFunction;
+use Throwable;
 
 /**
  * Provides debug capabilities to Phalcon applications
@@ -55,11 +56,6 @@ class Debug
      * @var bool
      */
     protected showFiles = true;
-
-    /**
-     * @var TagFactory
-     */
-    protected tagFactory;
 
     /**
      * @var string
