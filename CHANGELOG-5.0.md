@@ -111,7 +111,7 @@
 - Added short versions of helpers for `Phalcon\Html\TagFactory` (call service as a method) [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Added short versions of helpers for `Phalcon\Support\HelperFactory` (call service as a method) [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Added `Phalcon\Html\Helper\Doctype` helper for `doctype` generation [#15776](https://github.com/phalcon/cphalcon/issues/15776)
-- Added `<style>` or `<link>` tag option for `Phalcon\Html\Helper\Style` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Added `style` or `link` tag option for `Phalcon\Html\Helper\Style` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 
 ## Fixed
 - Fixed `Query::getExpression()` return type [#15553](https://github.com/phalcon/cphalcon/issues/15553)
