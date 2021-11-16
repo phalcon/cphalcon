@@ -1,3 +1,9 @@
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (xxxx-xx-xx)
+
+## Changed
+## Added
+## Fixed
+
 # [5.0.0alpha7](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (2021-11-16)
 
 ## Changed
