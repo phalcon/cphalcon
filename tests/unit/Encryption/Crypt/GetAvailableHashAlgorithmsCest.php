@@ -46,5 +46,16 @@ class GetAvailableHashAlgorithmsCest
             $actual   = $crypt->getAvailableHashAlgorithms();
             $I->assertEquals($expected, $actual);
         }
+
+        $crypt = Stub::make(
+            Crypt::class,
+            [
+                "phpFunctionExists" => false,
+            ]
+        );
+
+        $expected = hash_algos();
+        $actual   = $crypt->getAvailableHashAlgorithms();
+        $I->assertEquals($expected, $actual);
     }
 }

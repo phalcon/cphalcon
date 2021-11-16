@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
-use Phalcon\Html\Escaper;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use Phalcon\Support\Version;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
@@ -49,7 +47,7 @@ class GetVersionCest
     {
         $I->wantToTest('Debug - getVersion()');
 
-        $debug   = new Debug(new TagFactory(new Escaper()));
+        $debug   = new Debug();
         $version = new Version();
 
         $target  = '"_new"';

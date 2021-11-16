@@ -74,7 +74,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
-        if unlikely !function_exists("gettext") {
+        if unlikely !this->phpFunctionExists("gettext") {
             throw new Exception(
                 "This class requires the gettext extension for PHP"
             );
@@ -289,5 +289,13 @@ class Gettext extends AbstractAdapter implements ArrayAccess
         this->setDefaultDomain(options["defaultDomain"]);
         this->setDirectory(options["directory"]);
         this->setDomain(options["defaultDomain"]);
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFunctionExists(string name) -> bool
+    {
+        return function_exists(name);
     }
 }

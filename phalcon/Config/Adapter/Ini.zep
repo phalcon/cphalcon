@@ -71,7 +71,7 @@ class Ini extends Config
         var directives, iniConfig, lastValue, path, section, sections;
         array config;
 
-        let iniConfig = parse_ini_file(filePath, true, mode);
+        let iniConfig = this->phpParseIniFile(filePath, true, mode);
 
         if unlikely iniConfig === false {
             throw new Exception(
@@ -203,5 +203,16 @@ class Ini extends Config
         return [
             key : result
         ];
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpParseIniFile(
+        string filename,
+        bool processSections = false,
+        int scannerMode = 1
+    ) {
+        return parse_ini_file(filename, processSections, scannerMode);
     }
 }

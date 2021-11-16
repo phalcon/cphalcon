@@ -61,4 +61,49 @@ class ProcessCest
         $I->assertTrue($actual);
         $I->safeDeleteFile($outputPath . $fileName);
     }
+
+    /**
+     * Tests Phalcon\Logger\Adapter\Stream :: process() - exception
+     *
+     * @param UnitTester $I
+     */
+    public function loggerAdapterStreamProcessException(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Adapter\Stream - process() - exception');
+
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = logsDir();
+
+        $I->expectThrowable(
+            new LogicException(
+                "The file '" .
+                $outputPath .
+                $fileName .
+                "' cannot be opened with mode 'ab'"
+            ),
+            function () use ($outputPath, $fileName) {
+                $adapter = Stub::construct(
+                    Stream::class,
+                    [
+                        $outputPath . $fileName,
+                    ],
+                    [
+                        'phpFopen' => false,
+                    ]
+                );
+
+                $timezone = date_default_timezone_get();
+                $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+                $item     = new Item(
+                    'Message 1',
+                    'debug',
+                    Logger::DEBUG,
+                    $datetime
+                );
+                $adapter->process($item);
+            }
+        );
+
+        $I->safeDeleteFile($outputPath . $fileName);
+    }
 }

@@ -157,7 +157,7 @@ class Asset implements AssetInterface
          */
         if (
             true === this->isLocal &&
-            true !== file_exists(completePath)
+            true !== this->phpFileExists(completePath)
         ) {
             this->throwException(completePath);
         }
@@ -166,7 +166,7 @@ class Asset implements AssetInterface
          * Use file_get_contents to respect the openbase_dir. Access URLs must
          * be enabled
          */
-        let content = file_get_contents(completePath);
+        let content = this->phpFileGetContents(completePath);
 
         if (false === content) {
             this->throwException(completePath);
@@ -220,7 +220,7 @@ class Asset implements AssetInterface
              * Get the real template path, the target path can optionally don't
              * exist
              */
-            if (true === file_exists(completePath)) {
+            if (true === this->phpFileExists(completePath)) {
                 let completePath = realpath(completePath);
 
                 if (false === completePath) {
@@ -439,5 +439,18 @@ class Asset implements AssetInterface
         throw new Exception(
             "Asset's content for '" . completePath . "' cannot be read"
         );
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFileExists(string filename) -> bool
+    {
+        return file_exists(filename);
+    }
+
+    protected function phpFileGetContents(string filename)
+    {
+        return file_get_contents(filename);
     }
 }

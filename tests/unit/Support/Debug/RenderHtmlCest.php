@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
-use Phalcon\Html\Escaper;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Version;
@@ -40,7 +38,7 @@ class RenderHtmlCest
         $I->wantToTest('Debug - renderHtml()');
 
         $exception = new Exception('exception message', 1234);
-        $debug     = new Debug(new TagFactory(new Escaper()));
+        $debug     = new Debug();
         $debug->setShowBackTrace(false);
 
         $version       = new Version();
@@ -70,7 +68,7 @@ class RenderHtmlCest
             . '<h1>Phalcon\Support\Exception: exception message</h1>'
             . '<span class="error-file">'
             . __FILE__
-            . ' (42)</span>'
+            . ' (40)</span>'
             . '</div>'
             . '<script type="application/javascript" '
             . 'src="https://assets.phalcon.io/debug/5.0.x/assets/'
@@ -105,7 +103,7 @@ class RenderHtmlCest
         $I->wantToTest('Debug - renderHtml() - with backtrace');
 
         $exception = new Exception('exception message', 1234);
-        $debug     = new Debug(new TagFactory(new Escaper()));
+        $debug     = new Debug();
         $debug->setShowBackTrace(true);
 
         $actual = $debug->renderHtml($exception);

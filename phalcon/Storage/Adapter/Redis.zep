@@ -356,6 +356,10 @@ class Redis extends AbstractAdapter
             let map["msgpack"] = constant("\\Redis::SERIALIZER_MSGPACK");
         }
 
+        if (defined("\\Redis::SERIALIZER_JSON")) {
+            let map["json"] = constant("\\Redis::SERIALIZER_JSON");
+        }
+
         let serializer = strtolower(this->defaultSerializer);
 
         if (true === isset(map[serializer])) {

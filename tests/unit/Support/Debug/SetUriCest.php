@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
-use Phalcon\Html\Escaper;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use UnitTester;
 
@@ -37,7 +35,7 @@ class SetUriCest
     {
         $I->wantToTest('Debug - setUri()');
 
-        $debug = new Debug(new TagFactory(new Escaper()));
+        $debug = new Debug();
         $uri   = 'https://something.com/test/';
 
         $expected = sprintf(

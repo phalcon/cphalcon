@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
-use Phalcon\Html\Escaper;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use UnitTester;
 
@@ -38,7 +36,7 @@ class GetJsSourcesCest
     public function supportDebugGetJsSources(UnitTester $I)
     {
         $I->wantToTest('Debug - getJsSources()');
-        $debug = new Debug(new TagFactory(new Escaper()));
+        $debug = new Debug();
         $uri   = 'https://assets.phalcon.io/debug/5.0.x/';
 
         $expected = sprintf(

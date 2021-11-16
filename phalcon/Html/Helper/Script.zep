@@ -10,11 +10,36 @@
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Html\Exception;
 /**
  * Class Script
  */
-class Script extends Style
+class Script extends AbstractSeries
 {
+    /**
+     * Add an element to the list
+     *
+     * @param string $url
+     * @param array  $attributes
+     *
+     * @return $this
+     * @throws Exception
+     */
+    public function add(string url, array attributes = [])
+    {
+        let this->store[] = [
+            "renderFullElement",
+            [
+                this->getTag(),
+                "",
+                this->getAttributes(url, attributes)
+            ],
+            this->indent()
+        ];
+
+        return this;
+    }
+
     /**
      * Returns the necessary attributes
      *

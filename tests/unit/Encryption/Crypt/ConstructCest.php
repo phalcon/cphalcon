@@ -62,4 +62,30 @@ class ConstructCest
         $I->assertEquals(5, Crypt::PADDING_ZERO);
         $I->assertEquals(6, Crypt::PADDING_SPACE);
     }
+
+    /**
+     * Tests Phalcon\Encryption\Crypt :: __construct() - no openssl exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
+     */
+    public function cryptConstructNoOpensslException(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - __construct() - no openssl exception');
+
+        $I->expectThrowable(
+            new Exception('This class requires the openssl extension for PHP'),
+            function () {
+                $crypt = Stub::construct(
+                    Crypt::class,
+                    [],
+                    [
+                        'phpFunctionExists' => false,
+                    ]
+                );
+            }
+        );
+    }
 }

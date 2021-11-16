@@ -314,9 +314,17 @@ class Collection implements
      *
      * See [rfc4627](https://www.ietf.org/rfc/rfc4627.txt)
      */
-    public function toJson(int options = 79) -> string
+    public function toJson(int options = 4194383) -> string
     {
-        return this->encode(this->toArray(), options);
+        var result;
+
+        let result = this->phpJsonEncode(this->jsonSerialize(), options);
+
+        if (false === result) {
+            let result = "";
+        }
+
+        return result;
     }
 
     /**
@@ -347,24 +355,10 @@ class Collection implements
     }
 
     /**
-     * @todo This will be removed when traits are introduced
+     * @todo to be removed when we get traits
      */
-    private function encode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
+    protected function phpJsonEncode(var value, int flags = 0, int depth = 512)
     {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
+        return json_encode(value, flags, depth);
     }
 }

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
-use Phalcon\Html\Escaper;
-use Phalcon\Html\TagFactory;
 use Phalcon\Support\Debug;
 use Phalcon\Support\Debug\Exception;
 use UnitTester;
@@ -41,7 +39,7 @@ class HaltCest
         $I->expectThrowable(
             new Exception('Halted request'),
             function () {
-                $debug = new Debug(new TagFactory(new Escaper()));
+                $debug = new Debug();
                 $debug->halt();
             }
         );

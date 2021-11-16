@@ -67,16 +67,6 @@ class Debug
     protected uri = "https://assets.phalcon.io/debug/5.0.x/";
 
     /**
-     * Constructor
-     *
-     * @param TagFactory $tagFactory
-     */
-    public function __construct(<TagFactory> tagFactory)
-    {
-        let this->tagFactory = tagFactory;
-    }
-
-    /**
      * Clears are variables added previously
      */
     public function clearVars() -> <Debug>
@@ -88,8 +78,10 @@ class Debug
 
     /**
      * Adds a variable to the debug output
+     *
+     * @param mixed $variable
      */
-    public function debugVar(varz, string key = null) -> <Debug>
+    public function debugVar(var varz) -> <Debug>
     {
         let this->data[] = [
             varz,
@@ -150,23 +142,21 @@ class Debug
         var link, version;
 
         let version = new Version(),
-            link    = this->tagFactory->a(
-                "https://docs.phalcon.io/"
-                    . version->getPart(Version::VERSION_MAJOR)
-                    . "."
-                    . version->getPart(Version::VERSION_MEDIUM)
-                    . "/en/",
-                version->get(),
-                [
-                    "target": "_new"
-                ]
-            );
+            link    = "https://docs.phalcon.io/"
+            . version->getPart(Version::VERSION_MAJOR)
+            . "."
+            . $version->getPart(Version::VERSION_MEDIUM)
+            . "/en/";
 
-        return "<div class=\"version\">Phalcon Framework " . link . "</div>";
+        return "<div class=\"version\">Phalcon Framework "
+            . "<a href=\"" . link . "\" target=\"_new\">"
+            . version->get() . "</a></div>";
     }
 
     /**
      * Halts the request showing a backtrace
+     *
+     * @throws Exception
      */
     public function halt() -> void
     {
@@ -174,7 +164,10 @@ class Debug
     }
 
     /**
-     * Listen for uncaught exceptions and unsilent notices or warnings
+     * Listen for uncaught exceptions and non silent notices or warnings
+     *
+     * @param bool $exceptions
+     * @param bool $lowSeverity
      */
     public function listen(bool exceptions = true, bool lowSeverity = false) -> <Debug>
     {
@@ -202,7 +195,7 @@ class Debug
     }
 
     /**
-     * Listen for unsilent notices or warnings
+     * Listen for non silent notices or warnings
      */
     public function listenLowSeverity() -> <Debug>
     {
@@ -270,8 +263,13 @@ class Debug
         }
     }
 
-    /*
+    /**
      * Render exception to html format.
+     *
+     * @param Throwable $exception
+     *
+     * @return string
+     * @throws ReflectionException
      */
     public function renderHtml(<\Throwable> exception) -> string
     {
@@ -433,7 +431,9 @@ class Debug
     }
 
     /**
-     * Sets if files the exception\"s backtrace must be showed
+     * Sets if files the exception's backtrace must be showed
+     *
+     * @param array $blacklist
      */
     public function setBlacklist(array blacklist) -> <Debug>
     {
@@ -464,7 +464,9 @@ class Debug
     }
 
     /**
-     * Sets if files the exception\"s backtrace must be showed
+     * Sets if files the exception's backtrace must be showed
+     *
+     * @param bool $showBackTrace
      */
     public function setShowBackTrace(bool showBackTrace) -> <Debug>
     {
@@ -476,6 +478,8 @@ class Debug
     /**
      * Sets if files must be completely opened and showed in the output
      * or just the fragment related to the exception
+     *
+     * @param bool $showFileFragment
      */
     public function setShowFileFragment(bool showFileFragment) -> <Debug>
     {
@@ -486,6 +490,8 @@ class Debug
 
     /**
      * Set if files part of the backtrace must be shown in the output
+     *
+     * @param bool $showFiles
      */
     public function setShowFiles(bool showFiles) -> <Debug>
     {
@@ -496,6 +502,8 @@ class Debug
 
     /**
      * Change the base URI for static resources
+     *
+     * @param string $uri
      */
     public function setUri(string! uri) -> <Debug>
     {
@@ -506,22 +514,25 @@ class Debug
 
     /**
      * Escapes a string with htmlentities
+     *
+     * @param string $value
      */
-    protected function escapeString(var value) -> string
+    protected function escapeString(string value) -> string
     {
-        if typeof value == "string" {
-            return htmlentities(
-                str_replace("\n", "\\n", value),
-                ENT_COMPAT,
-                "utf-8"
-            );
-        }
-
-        return value;
+        return htmlentities(
+            str_replace("\n", "\\n", value),
+            ENT_COMPAT,
+            "utf-8"
+        );
     }
 
     /**
      * Produces a recursive representation of an array
+     *
+     * @param array $arguments
+     * @param int   $number
+     *
+     * @return string|null
      */
     protected function getArrayDump(array! argument, n = 0) -> string | null
     {
@@ -638,6 +649,12 @@ class Debug
 
     /**
      * Shows a backtrace item
+     *
+     * @param int   $n
+     * @param array $trace
+     *
+     * @return string
+     * @throws ReflectionException
      */
     final protected function showTraceItem(int n, array! trace) -> string
     {

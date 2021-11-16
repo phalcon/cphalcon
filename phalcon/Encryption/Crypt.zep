@@ -289,7 +289,7 @@ class Crypt implements CryptInterface
 
         let mode      = this->getMode(),
             blockSize = this->getBlockSize(mode),
-            iv        = openssl_random_pseudo_bytes(ivLength);
+            iv        = this->phpOpensslRandomPseudoBytes(ivLength);
 
         if false === iv {
             throw new Exception("Cannot calculate Random Pseudo Bytes");
@@ -395,7 +395,7 @@ class Crypt implements CryptInterface
      */
     public function getAvailableHashAlgorithms() -> array
     {
-        if true === function_exists("hash_hmac_algos") {
+        if true === this->phpFunctionExists("hash_hmac_algos") {
             return hash_hmac_algos();
         }
 
@@ -867,7 +867,7 @@ class Crypt implements CryptInterface
         var available, cipher;
         array allowed;
 
-        if true !== function_exists("openssl_get_cipher_methods") {
+        if true !== this->phpFunctionExists("openssl_get_cipher_methods") {
             throw new Exception("This class requires the openssl extension for PHP");
         }
 
@@ -957,5 +957,18 @@ class Crypt implements CryptInterface
         return mb_strtolower(
             substr(this->cipher, position - strlen(this->cipher) + 1)
         );
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFunctionExists(string name) -> bool
+    {
+        return function_exists(name);
+    }
+
+    protected function phpOpensslRandomPseudoBytes(int length)
+    {
+        return openssl_random_pseudo_bytes(length);
     }
 }
