@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
+use Codeception\Stub;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Tests\Fixtures\Crypt\CryptFixture;
@@ -280,5 +281,33 @@ class EncryptCest
         $expected = $input;
         $actual   = $crypt->cryptPadText($input, $mode, $blockSize, $paddingType);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Encryption\Crypt :: encrypt() - cannot calculate Random Pseudo Bytes
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
+     */
+    public function cryptEncryptCannotCalculateRandomPseudoBytes(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() - cannot calculate Random Pseudo Bytes');
+
+        $I->expectThrowable(
+            new Exception("Cannot calculate Random Pseudo Bytes"),
+            function () {
+                $crypt = Stub::construct(
+                    Crypt::class,
+                    [],
+                    [
+                        'phpOpensslRandomPseudoBytes' => false,
+                    ]
+                );
+
+                $result = $crypt->encrypt('test', '1234');
+            }
+        );
     }
 }

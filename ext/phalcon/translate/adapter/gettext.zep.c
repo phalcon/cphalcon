@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
-#include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -137,13 +137,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale)
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval options;
-	zval *interpolator, interpolator_sub, *options_param = NULL;
+	zval *interpolator, interpolator_sub, *options_param = NULL, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&interpolator_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -159,11 +161,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("gettext")) == SUCCESS)))) {
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "gettext");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfunctionexists", NULL, 0, &_1);
+	zephir_check_call_status();
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "This class requires the gettext extension for PHP", "phalcon/Translate/Adapter/Gettext.zep", 80);
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_gettext_ce, getThis(), "__construct", &_0, 0, interpolator, &options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_gettext_ce, getThis(), "__construct", &_2, 0, interpolator, &options);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "prepareoptions", NULL, 0, &options);
 	zephir_check_call_status();
@@ -739,5 +745,32 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdomain", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo to be removed when we get traits
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Gettext, phpFunctionExists)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *name_param = NULL;
+	zval name;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+	zephir_get_strval(&name, name_param);
+
+
+	RETURN_MM_BOOL((zephir_function_exists(&name) == SUCCESS));
 }
 

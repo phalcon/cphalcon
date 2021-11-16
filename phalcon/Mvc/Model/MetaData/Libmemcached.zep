@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Cache\AdapterFactory;
@@ -31,9 +30,9 @@ class Libmemcached extends MetaData
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["persistentId"] = Arr::get(options, "persistentId", "ph-mm-mcid-"),
-            options["prefix"]       = Arr::get(options, "prefix", "ph-mm-memc-"),
-            options["lifetime"]     = Arr::get(options, "lifetime", 172800),
+        let options["persistentId"] = this->getArrVal(options, "persistentId", "ph-mm-mcid-"),
+            options["prefix"]       = this->getArrVal(options, "prefix", "ph-mm-memc-"),
+            options["lifetime"]     = this->getArrVal(options, "lifetime", 172800),
             this->adapter           = factory->newInstance("libmemcached", options);
     }
 

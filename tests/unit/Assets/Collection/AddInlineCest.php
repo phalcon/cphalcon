@@ -17,33 +17,32 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
+/**
+ * Class AddInlineCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class AddInlineCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: addInline()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionAddInline(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addInline()');
 
         $collection = new Collection();
-
-        $inline = new Inline("js", "alert('an amazing test');");
-
-        $collection->addInline(
-            $inline
-        );
+        $inline     = new Inline('js', "alert('an amazing test');");
+        $collection->addInline($inline);
 
         $codes = $collection->getCodes();
 
         $I->assertCount(1, $collection->getCodes());
-
-        $I->assertEquals(
-            end($codes),
-            $inline
-        );
+        $I->assertEquals(end($codes), $inline);
     }
 }

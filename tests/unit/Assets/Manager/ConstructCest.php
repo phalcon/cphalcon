@@ -15,6 +15,8 @@ namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class ConstructCest
@@ -29,9 +31,9 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Manager - __construct()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $I->assertInstanceOf(Manager::class, $assets);
-        $I->assertInstanceOf(InjectionAwareInterface::class, $assets);
+        $I->assertInstanceOf(Manager::class, $manager);
+        $I->assertInstanceOf(InjectionAwareInterface::class, $manager);
     }
 }

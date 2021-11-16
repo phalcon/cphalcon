@@ -22,10 +22,12 @@ class AppendMessageCest
     /**
      * Tests Phalcon\Messages\Messages :: appendMessage()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesAppendMessage(UnitTester $I)
+    public function messagesMessagesAppendMessage(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - appendMessage()');
 

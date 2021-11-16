@@ -10,7 +10,6 @@
 
 namespace Phalcon\Paginator\Adapter;
 
-use Phalcon\Helper\Arr;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Paginator\Exception;
@@ -97,8 +96,15 @@ class Model extends AbstractAdapter
         let limit      = (int) this->limitRows,
             config     = this->config,
             pageNumber = (int) this->page,
-            modelClass = <ModelInterface> config["model"],
-            parameters = Arr::get(config, "parameters", [], "array");
+            modelClass = <ModelInterface> config["model"];
+
+        if !fetch parameters, config["parameters"] {
+            let parameters = [];
+        }
+
+        if unlikely typeof parameters !== "array" {
+            let parameters = (array) parameters;
+        }
 
         // Prevents 0 or negative page numbers
         if pageNumber <= 0 {

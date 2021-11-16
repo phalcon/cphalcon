@@ -14,9 +14,9 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
 use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Json;
 use Serializable;
 use Traversable;
 
@@ -314,9 +314,17 @@ class Collection implements
      *
      * See [rfc4627](https://www.ietf.org/rfc/rfc4627.txt)
      */
-    public function toJson(int options = 79) -> string
+    public function toJson(int options = 4194383) -> string
     {
-        return Json::encode(this->toArray(), options);
+        var result;
+
+        let result = this->phpJsonEncode(this->jsonSerialize(), options);
+
+        if (false === result) {
+            let result = "";
+        }
+
+        return result;
     }
 
     /**
@@ -344,5 +352,13 @@ class Collection implements
 
         let this->data[element]  = value,
             this->lowerKeys[key] = element;
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpJsonEncode(var value, int flags = 0, int depth = 512)
+    {
+        return json_encode(value, flags, depth);
     }
 }

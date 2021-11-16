@@ -73,4 +73,49 @@ class ConstructCest
         $actual   = $config->database->password;
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - exceptions
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-21
+     */
+    public function configAdapterYamlConstructExceptions(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Yaml - construct - exceptions');
+
+        $filePath = dataDir('assets/config/callbacks.yml');
+
+        $I->expectThrowable(
+            new Exception(
+                'Yaml extension is not loaded'
+            ),
+            function () use ($filePath) {
+                $mock = Stub::make(
+                    Yaml::class,
+                    [
+                        'phpExtensionLoaded' => false,
+                    ]
+                );
+
+                $mock->__construct($filePath);
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                'Configuration file ' . basename($filePath) . ' can\'t be loaded'
+            ),
+            function () use ($filePath) {
+                $mock = Stub::make(
+                    Yaml::class,
+                    [
+                        'phpYamlParseFile' => false,
+                    ]
+                );
+
+                $mock->__construct($filePath);
+            }
+        );
+    }
 }

@@ -16,29 +16,30 @@ namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+/**
+ * Class GetAssetKeyCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Inline\Css
+ */
 class GetAssetKeyCest
 {
     /**
      * Tests Phalcon\Assets\Inline\Css :: getAssetKey()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function assetsInlineCssGetAssetKey(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline\Css - getAssetKey()');
 
         $content = 'p {color: #000099}';
+        $asset   = new Css($content);
 
-        $asset = new Css($content);
-
-        $expected = md5(
-            'css:' . $content
-        );
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
+        $expected = sha1('css:' . $content);
+        $actual   = $asset->getAssetKey();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -21,10 +21,12 @@ class GetSetFieldCest
     /**
      * Tests Phalcon\Messages\Message :: getField()/setField()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessageGetSetField(UnitTester $I)
+    public function messagesMessageGetSetField(UnitTester $I): void
     {
         $I->wantToTest('Messages\Message - getField()/setField()');
 

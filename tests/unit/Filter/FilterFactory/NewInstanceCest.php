@@ -78,15 +78,12 @@ class NewInstanceCest
         $factory  = new FilterFactory();
         $instance = $factory->newInstance();
 
-        $I->assertInstanceOf(
-            FilterInterface::class,
-            $instance
-        );
+        $class = FilterInterface::class;
+        $I->assertInstanceOf($class, $instance);
 
-        $I->assertInstanceOf(
-            $example[1],
-            $instance->get($example[0])
-        );
+        $class  = $example[1];
+        $actual = $instance->get($example[0]);
+        $I->assertInstanceOf($class, $actual);
     }
 
     /**

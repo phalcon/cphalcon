@@ -13,25 +13,30 @@ namespace Phalcon\Tests\Unit\Html\Helper\Button;
 
 use Codeception\Example;
 use Phalcon\Html\Escaper;
-use Phalcon\Factory\Exception as ExceptionAlias;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Button;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Button
+ */
 class UnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Button :: __invoke()
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @throws Exception
-     * @throws ExceptionAlias
-     * @dataProvider getExamples
-     * @since        2020-01-05
      *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperButtonUnderscoreInvoke(UnitTester $I, Example $example)
     {

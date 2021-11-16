@@ -17,12 +17,20 @@ use Phalcon\Html\Link\Link;
 use Psr\Link\LinkInterface;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\Link
+ */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Html\Link\Link :: __construct()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkConstruct(UnitTester $I)
     {

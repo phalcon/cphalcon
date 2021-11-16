@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 
 /**
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, format, _0, _2, _1$$3, _3$$5;
+	zval *validation, validation_sub, *field, field_sub, value, format, _0, _1, _3, _2$$4, _4$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -135,9 +135,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&format);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_4$$6);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -153,24 +154,29 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate)
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "format");
-	ZEPHIR_CALL_METHOD(&format, this_ptr, "getoption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "format");
+	ZEPHIR_CALL_METHOD(&format, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&format) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &format, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 87);
-		ZEPHIR_CPY_WRT(&format, &_1$$3);
+		zephir_array_fetch(&_2$$4, &format, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 90);
+		ZEPHIR_CPY_WRT(&format, &_2$$4);
 	}
 	if (ZEPHIR_IS_EMPTY(&format)) {
 		ZEPHIR_INIT_NVAR(&format);
 		ZVAL_STRING(&format, "Y-m-d");
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdate", NULL, 0, &value, &format);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "checkdate", NULL, 0, &value, &format);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_CALL_METHOD(&_3$$5, this_ptr, "messagefactory", NULL, 0, validation, field);
+	if (!(zephir_is_true(&_3))) {
+		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$5);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -214,10 +220,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, checkDate)
 	_1 = zephir_fetch_class_str_ex(SL("DateTime"), ZEND_FETCH_CLASS_AUTO);
 	ZEPHIR_CALL_CE_STATIC(&errors, _1, "getlasterrors", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_2, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 116);
+	zephir_array_fetch_string(&_2, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 119);
 	_3 = ZEPHIR_IS_LONG(&_2, 0);
 	if (_3) {
-		zephir_array_fetch_string(&_4, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 116);
+		zephir_array_fetch_string(&_4, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 119);
 		_3 = ZEPHIR_IS_LONG(&_4, 0);
 	}
 	RETURN_MM_BOOL(_3);

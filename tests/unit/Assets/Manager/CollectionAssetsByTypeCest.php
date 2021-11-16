@@ -18,6 +18,8 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Js;
 use Phalcon\Assets\AssetInterface;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 class CollectionAssetsByTypeCest
@@ -32,7 +34,7 @@ class CollectionAssetsByTypeCest
     {
         $I->wantToTest('Assets\Manager - collectionAssetsByType()');
 
-        $manager = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
         $assets  = [
             new Css('/scripts/style1.css'),
             new Css('/scripts/style2.css'),

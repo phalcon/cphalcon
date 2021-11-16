@@ -16,7 +16,6 @@
 namespace Phalcon\DataMapper\Query;
 
 use BadMethodCallException;
-use Phalcon\Helper\Arr;
 
 /**
  * Class Select
@@ -170,8 +169,8 @@ class Select extends AbstractConditions
             let condition .= this->bind->bindInline(value, type);
         }
 
-        let end = Arr::lastKey(this->store["FROM"]),
-            key = Arr::lastKey(this->store["FROM"][end]);
+        let end = array_key_last(this->store["FROM"]),
+            key = array_key_last(this->store["FROM"][end]);
 
         let this->store["FROM"][end][key] = this->store["FROM"][end][key] . condition;
 
@@ -328,7 +327,7 @@ class Select extends AbstractConditions
             let condition .= this->bind->bindInline(value, type);
         }
 
-        let key = Arr::lastKey(this->store["FROM"]);
+        let key = array_key_last(this->store["FROM"]);
 
         let this->store["FROM"][key][] = join . " " . table . " " . condition;
 

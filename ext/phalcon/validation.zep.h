@@ -14,6 +14,8 @@ PHP_METHOD(Phalcon_Validation, getFilters);
 PHP_METHOD(Phalcon_Validation, getLabel);
 PHP_METHOD(Phalcon_Validation, getMessages);
 PHP_METHOD(Phalcon_Validation, getValidators);
+PHP_METHOD(Phalcon_Validation, getValueByEntity);
+PHP_METHOD(Phalcon_Validation, getValueByData);
 PHP_METHOD(Phalcon_Validation, getValue);
 PHP_METHOD(Phalcon_Validation, rule);
 PHP_METHOD(Phalcon_Validation, rules);
@@ -68,6 +70,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_getmessages, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_getvalidators, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvaluebyentity, 0, 0, 2)
+	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvaluebydata, 0, 0, 2)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
@@ -132,6 +144,8 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
 	PHP_ME(Phalcon_Validation, getLabel, arginfo_phalcon_validation_getlabel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getMessages, arginfo_phalcon_validation_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValidators, arginfo_phalcon_validation_getvalidators, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, getValueByEntity, arginfo_phalcon_validation_getvaluebyentity, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, getValueByData, arginfo_phalcon_validation_getvaluebydata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValue, arginfo_phalcon_validation_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, rule, arginfo_phalcon_validation_rule, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, rules, arginfo_phalcon_validation_rules, ZEND_ACC_PUBLIC)

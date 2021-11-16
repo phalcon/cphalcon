@@ -88,4 +88,33 @@ class ConstructCest
         $actual = $config->toArray();
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Ini :: __construct() - exceptions
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-10-26
+     */
+    public function configAdapterIniConstructExceptions(UnitTester $I)
+    {
+        $I->wantToTest('Config\Adapter\Ini - construct - exceptions');
+
+        $mock = Stub::make(
+            Ini::class,
+            [
+                'phpParseIniFile' => false,
+            ]
+        );
+
+        $filePath = dataDir('assets/config/config-with-constants.ini');
+
+        $I->expectThrowable(
+            new Exception(
+                'Configuration file ' . basename($filePath) . ' cannot be loaded'
+            ),
+            function () use ($mock, $filePath) {
+                $mock->__construct($filePath);
+            }
+        );
+    }
 }

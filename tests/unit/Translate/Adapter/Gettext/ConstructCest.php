@@ -96,4 +96,36 @@ class ConstructCest
             }
         );
     }
+
+    /**
+     * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
+     * no gettext extension loaded
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function translateAdapterGettextConstructNoGettextException(UnitTester $I)
+    {
+        $I->wantToTest('Translate\Adapter\Gettext - __construct() - no gettext exception');
+
+        $I->expectThrowable(
+            new \Exception('This class requires the gettext extension for PHP'),
+            function () {
+                $gettext = Stub::construct(
+                    Gettext::class,
+                    [
+                        new InterpolatorFactory(),
+                        [
+                            'locale' => 'en_US.utf8',
+                        ],
+                    ],
+                    [
+                        'phpFunctionExists' => false,
+                    ]
+                );
+            }
+        );
+    }
 }

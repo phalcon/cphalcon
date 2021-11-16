@@ -17,9 +17,9 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -134,11 +134,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, __construct)
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate)
 {
-	double _3$$6, _4$$7;
+	double _4$$7, _5$$8;
 	zend_bool result = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, length, maximum, replacePairs, included, _0, _1$$5, _2$$6, _5$$10;
+	zval *validation, validation_sub, *field, field_sub, value, length, maximum, replacePairs, included, _0, _1, _2$$6, _3$$7, _6$$11;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -149,9 +149,10 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate)
 	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&included);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$6);
-	ZVAL_UNDEF(&_5$$10);
+	ZVAL_UNDEF(&_3$$7);
+	ZVAL_UNDEF(&_6$$11);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -167,35 +168,40 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate)
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_BOOL(1);
+	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 232, &value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 242, &value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&length);
 		ZVAL_LONG(&length, zephir_fast_strlen_ev(&value));
 	}
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "max");
-	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "max");
+	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength/Max.zep", 103);
-		ZEPHIR_CPY_WRT(&maximum, &_1$$5);
+		zephir_array_fetch(&_2$$6, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength/Max.zep", 106);
+		ZEPHIR_CPY_WRT(&maximum, &_2$$6);
 	}
-	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "included");
-	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_0);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "included");
+	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
-		ZEPHIR_OBS_VAR(&_2$$6);
-		zephir_array_fetch(&_2$$6, &included, field, PH_NOISY, "phalcon/Validation/Validator/StringLength/Max.zep", 109);
-		_3$$6 = zephir_get_boolval(&_2$$6);
-		ZEPHIR_INIT_NVAR(&included);
-		ZVAL_BOOL(&included, _3$$6);
-	} else {
-		_4$$7 = zephir_get_boolval(&included);
+		ZEPHIR_OBS_VAR(&_3$$7);
+		zephir_array_fetch(&_3$$7, &included, field, PH_NOISY, "phalcon/Validation/Validator/StringLength/Max.zep", 112);
+		_4$$7 = zephir_get_boolval(&_3$$7);
 		ZEPHIR_INIT_NVAR(&included);
 		ZVAL_BOOL(&included, _4$$7);
+	} else {
+		_5$$8 = zephir_get_boolval(&included);
+		ZEPHIR_INIT_NVAR(&included);
+		ZVAL_BOOL(&included, _5$$8);
 	}
 	if (zephir_is_true(&included)) {
 		result = ZEPHIR_GE(&length, &maximum);
@@ -206,9 +212,9 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate)
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$10, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_6$$11, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$10);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$11);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

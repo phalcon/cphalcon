@@ -33,14 +33,14 @@ class Basename
 
         let uri      = rtrim(uri, DIRECTORY_SEPARATOR),
             fileName = preg_match(
-                "@[^" . preg_quote(DIRECTORY_SEPARATOR, '@') . "]+$@",
+                "@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
                 uri,
                 matches
             ) ? matches[0] : "";
 
         if (true !== empty(suffix)) {
             let fileName = preg_replace(
-                "@" . preg_quote(suffix, '@') . "$@",
+                "@" . preg_quote(suffix, "@") . "$@",
                 "",
                 fileName
             );

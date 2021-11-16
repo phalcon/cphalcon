@@ -30,14 +30,6 @@ class GetHandlerCest
     public function mvcMicroLazyloaderGetHandler(IntegrationTester $I)
     {
         $I->wantToTest('Assets\Manager - getJs()');
-
-        $assets = new Manager();
-
-        $assets->addJs('/js/script1.js');
-        $assets->addJs('/js/script2.js');
-
-        $collection = $assets->getJs();
-
-        $I->assertCount(2, $collection);
+        $I->skipTest('Need implementation');
     }
 }

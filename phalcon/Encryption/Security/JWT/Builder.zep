@@ -10,10 +10,9 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Helper\Base64;
-use Phalcon\Helper\Json;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
@@ -198,15 +197,15 @@ class Builder
             );
         }
 
-        let encodedClaims    = Base64::encodeUrl(Json::encode(this->getClaims())),
+        let encodedClaims    = this->encodeUrl(this->encode(this->getClaims())),
             claims           = new Item(this->getClaims(), encodedClaims),
-            encodedHeaders   = Base64::encodeUrl(Json::encode(this->getHeaders())),
+            encodedHeaders   = this->encodeUrl(this->encode(this->getHeaders())),
             headers          = new Item(this->getHeaders(), encodedHeaders),
             signatureHash    = this->signer->sign(
                 encodedHeaders . "." . encodedClaims,
                 this->passphrase
             ),
-            encodedSignature = Base64::encodeUrl(signatureHash),
+            encodedSignature = this->encodeUrl(signatureHash),
             signature        = new Signature(signatureHash, encodedSignature);
 
         return new Token(headers, claims, signature);
@@ -423,5 +422,35 @@ class Builder
         this->claims->set(name, value);
 
         return this;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encodeUrl(string! input) -> string
+    {
+        return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function encode(
+        var data,
+        int options = 0,
+        int depth = 512
+    ) -> string
+    {
+        var encoded;
+
+        let encoded = json_encode(data, options, depth);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_encode error: " . json_last_error_msg()
+            );
+        }
+
+        return encoded;
     }
 }

@@ -22,10 +22,12 @@ class CountCest
     /**
      * Tests Phalcon\Messages\Messages :: count()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
-    public function messagesMessagesCount(UnitTester $I)
+    public function messagesMessagesCount(UnitTester $I): void
     {
         $I->wantToTest('Messages\Messages - count()');
 

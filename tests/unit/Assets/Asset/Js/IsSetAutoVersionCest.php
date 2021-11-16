@@ -16,24 +16,32 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
+/**
+ * Class IsSetAutoVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Js
+ */
 class IsSetAutoVersionCest
 {
     /**
      * Unit Tests Phalcon\Assets\Asset\Js :: isAutoVersion() / setAutoVersion()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsAssetJsIsSetAutoVersion(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset\Js - isAutoVersion() / setAutoVersion()');
+        $I->wantToTest('Assets\Asset\Js - isAutoVersion()/setAutoVersion()');
 
-        $asset = new Js('js/jquery.js');
-
-        $I->assertFalse($asset->isAutoVersion());
+        $asset  = new Js('js/jquery.js');
+        $actual = $asset->isAutoVersion();
+        $I->assertFalse($actual);
 
         $asset->setAutoVersion(true);
 
-        $I->assertTrue($asset->isAutoVersion());
+        $actual = $asset->isAutoVersion();
+        $I->assertTrue($actual);
     }
 }

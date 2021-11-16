@@ -1,4 +1,4 @@
-# [5.0.0alpha7](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha6) (xxxx-xx-xx)
+# [5.0.0alpha7](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (2021-11-16)
 
 ## Changed
 - Changes to the `Phalcon\Acl`:
@@ -75,6 +75,15 @@
 - Changed `Phalcon\Validation::getValue()` behavior to get value from `data` if not found in `entity`. [#14203](https://github.com/phalcon/cphalcon/issues/14203)
 - Changed `Phalcon\Forms\Form::isValid()` signature: added `whitelist` argument. [#14203](https://github.com/phalcon/cphalcon/issues/14203)
 - Changed `Phalcon\Support\Collection\ReadOnly` to `Phalcon\Support\Collection\ReadOnlyCollection` to avoid conflicts with the read-only feature in PHP 8.1 [#15767](https://github.com/phalcon/cphalcon/issues/15767)
+- Removed `Phalcon\Text` - replaced by `Phalcon\Support\Helper\Str\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed `Phalcon\Helper\Arr` - replaced by `Phalcon\Support\Helper\Arr\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed `Phalcon\Helper\File` - replaced by `Phalcon\Support\Helper\File\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed `Phalcon\Helper\Json` - replaced by `Phalcon\Support\Helper\Json\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed `Phalcon\Helper\Number` - replaced by `Phalcon\Support\Helper\Number\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed `Phalcon\Helper\Str` - replaced by `Phalcon\Support\Helper\Str\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed references to `Phalcon\Text`, `Phacon\Helper\*` from the code replacing it with `Phalcon\Support\Helper\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Synchronized tests with `phalcon/phalcon` thus increasing coverage [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Changed `Phalcon\Assets\Manager` to require a `Phalcon\Html\TagFactory` in its constructor [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 
 ## Added
 - Added more tests in the suite for additional code coverage [#15691](https://github.com/phalcon/cphalcon/issues/15691)
@@ -99,6 +108,10 @@
 - Added `Phalcon\Forms\Form::getFilteredValue()` to get filtered value without providing entity [#15438](https://github.com/phalcon/cphalcon/issues/15438)
 - Added `Phalcon\Forms\Form::setWhitelist()` and `Phalcon\Forms\Form::getWhitelist()` [#14203](https://github.com/phalcon/cphalcon/issues/14203)
 - Added `dirtyState` serialization in `Phalcon\Mvc\Model` [#15571](https://github.com/phalcon/cphalcon/issues/15571)
+- Added short versions of helpers for `Phalcon\Html\TagFactory` (call service as a method) [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Added short versions of helpers for `Phalcon\Support\HelperFactory` (call service as a method) [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Added `Phalcon\Html\Helper\Doctype` helper for `doctype` generation [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Added `<style>` or `<link>` tag option for `Phalcon\Html\Helper\Style` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 
 ## Fixed
 - Fixed `Query::getExpression()` return type [#15553](https://github.com/phalcon/cphalcon/issues/15553)
@@ -113,7 +126,12 @@
 - Fixed `Phalcon\Cache\Adapter\*` and `Phalcon\Storage\Adapter\*` to delete a key when `set()` is called with a zero or negative TTL [#15485](https://github.com/phalcon/cphalcon/issues/15485)
 - Fixed `Phalcon\Db\Adapter\Pdo\Mysql` to not use `PDO::ATTR_EMULATE_PREPARES` and `PDO::ATTR_STRINGIFY_FETCHES` by default. This allows numbers to be returned with resultsets instead of strings for numeric fields [#15361](https://github.com/phalcon/cphalcon/issues/15361) 
 - Fixed `Phalcon\Validation\Validator\File` to use `messageFileEmpty` [#14928](https://github.com/phalcon/cphalcon/issues/14928) 
-- Fixed `Phalcon\Db\RawValue` usage bugs in `Phalcon\Mvc\Model::doLowUpdate()` [#15413](https://github.com/phalcon/cphalcon/issues/15413) 
+- Fixed `Phalcon\Db\RawValue` usage bugs in `Phalcon\Mvc\Model::doLowUpdate()` [#15413](https://github.com/phalcon/cphalcon/issues/15413)
+- Fixed `type` attribute for stylesheet links [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Fixed `Phalcon\Debug` to not throw an exception if a URL service is not present [#15381](https://github.com/phalcon/cphalcon/issues/15381)
+
+## Removed
+- Removed `Phalcon\Kernel` - obsolete [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 
 # [5.0.0alpha6](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha6) (2021-09-16)
 

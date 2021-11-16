@@ -47,7 +47,7 @@ class HasCest
         $actual = $object($collection, 'suffix');
         $I->assertTrue($actual);
 
-        $actual = $object($collection, 'unknown');
+        $actual = $object($collection, uniqid());
         $I->assertFalse($actual);
     }
 }

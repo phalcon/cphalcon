@@ -16,27 +16,32 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class GetSetAttributesCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class GetSetAttributesCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getAttributes() / setAttributes()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-15
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionGetSetAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getAttributes() / setAttributes');
 
         $collection = new Collection();
-
         $attributes = [
-            'data-name' => 'phalon',
+            'data-name' => 'phalcon',
             'data-type' => 'book',
         ];
 
         $I->assertEquals([], $collection->getAttributes());
-
         $collection->setAttributes($attributes);
 
         $I->assertEquals($attributes, $collection->getAttributes());

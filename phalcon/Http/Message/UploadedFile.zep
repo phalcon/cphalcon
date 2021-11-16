@@ -14,9 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Number;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -257,7 +254,7 @@ final class UploadedFile implements UploadedFileInterface
      */
     private function checkError(int error) -> void
     {
-        if unlikely true !== Number::between(error, 0, 8) {
+        if unlikely true !== this->isBetween(error, 0, 8) {
             throw new InvalidArgumentException(
                 "Invalid error. Must be one of the UPLOAD_ERR_* constants"
             );
@@ -313,7 +310,11 @@ final class UploadedFile implements UploadedFileInterface
             8 : "A PHP extension stopped the file upload."
         ];
 
-        return Arr::get(errors, error, "Unknown upload error");
+        if likely (true === isset(errors[error])) {
+            return errors[error];
+        }
+
+        return "Unknown upload error";
     }
 
     /**
@@ -341,5 +342,13 @@ final class UploadedFile implements UploadedFileInterface
         }
 
         fclose(handle);
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function isBetween(int value, int from, int to) -> bool
+    {
+        return value >= from && value <= to;
     }
 }

@@ -16,13 +16,20 @@ namespace Phalcon\Tests\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
+/**
+ * Class AddCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Breadcrumbs
+ */
 class AddCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: add()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function htmlBreadcrumbsAdd(UnitTester $I)
     {

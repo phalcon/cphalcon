@@ -39,8 +39,8 @@ class AddComponentAccessCest
 
         $acl = new Memory();
 
-        $component   = new Component('Customer', 'Customer component');
-        $added       = $acl->addComponent('Customer', ['index']);
+        $component = new Component('Customer', 'Customer component');
+        $added     = $acl->addComponent('Customer', ['index']);
         $I->assertTrue($added);
         $accessAdded = $acl->addComponentAccess('Customer', ['new']);
 

@@ -25,6 +25,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkReadable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkSeekable);
 PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable);
+PHP_METHOD(Phalcon_Http_Message_Stream, getArrVal);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, stream)
@@ -103,6 +104,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkwritable, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_getarrval, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Stream, __construct, arginfo_phalcon_http_message_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 #if PHP_VERSION_ID >= 80000
@@ -134,5 +141,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Stream, checkReadable, arginfo_phalcon_http_message_stream_checkreadable, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Stream, checkSeekable, arginfo_phalcon_http_message_stream_checkseekable, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_Stream, checkWritable, arginfo_phalcon_http_message_stream_checkwritable, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_Stream, getArrVal, arginfo_phalcon_http_message_stream_getarrval, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

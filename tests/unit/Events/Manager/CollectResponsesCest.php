@@ -20,8 +20,10 @@ class CollectResponsesCest
     /**
      * Tests Phalcon\Events\Manager :: collectResponses()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function eventsManagerCollectResponses(UnitTester $I)
     {

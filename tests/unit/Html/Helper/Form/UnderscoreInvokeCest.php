@@ -13,25 +13,30 @@ namespace Phalcon\Tests\Unit\Html\Helper\Form;
 
 use Codeception\Example;
 use Phalcon\Html\Escaper;
-use Phalcon\Factory\Exception as ExceptionAlias;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Form;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Form
+ */
 class UnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Form :: __invoke()
      *
+     * @dataProvider getExamples
+     *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @throws Exception
-     * @throws ExceptionAlias
-     * @dataProvider getExamples
-     * @since        2020-01-05
      *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperFormUnderscoreInvoke(UnitTester $I, Example $example)
     {

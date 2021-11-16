@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, getTag);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractList(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_abstractlist___invoke, 0, 0, Phalcon\\Html\\Helper\\AbstractList, 0)
-	ZEND_ARG_TYPE_INFO(0, indent, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, indent, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
 #if PHP_VERSION_ID >= 80000
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")

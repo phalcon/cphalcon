@@ -79,7 +79,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
 
         if unlikely !fetch module, this->modules[name] {
             throw new Exception(
-                "Module '" . name . "' isn't registered in the application container"
+                "Module '" . name . "' is not registered in the application container"
             );
         }
 

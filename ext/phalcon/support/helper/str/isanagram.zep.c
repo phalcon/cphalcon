@@ -72,10 +72,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsAnagram, __invoke)
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&_1, "count_chars", NULL, 312, &first, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "count_chars", NULL, 0, &first, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&_2, "count_chars", NULL, 312, &second, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "count_chars", NULL, 0, &second, &_0);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_1, &_2));
 }

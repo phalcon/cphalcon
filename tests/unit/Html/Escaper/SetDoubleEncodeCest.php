@@ -16,13 +16,20 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class SetDoubleEncodeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Escaper
+ */
 class SetDoubleEncodeCest
 {
     /**
      * Tests Phalcon\Escaper :: setDoubleEncode()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function escaperSetDoubleEncode(UnitTester $I)
     {

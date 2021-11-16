@@ -16,24 +16,33 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+/**
+ * Class IsSetAutoVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset
+ */
 class IsSetAutoVersionCest
 {
     /**
      * Unit Tests Phalcon\Assets\Asset :: isAutoVersion() / setAutoVersion()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsAssetIsSetAutoVersion(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - isAutoVersion() / setAutoVersion()');
+        $I->wantToTest('Assets\Asset - isAutoVersion()/setAutoVersion()');
 
         $asset = new Asset('css', 'css/docs.css');
 
-        $I->assertFalse($asset->isAutoVersion());
+        $actual = $asset->isAutoVersion();
+        $I->assertFalse($actual);
 
         $asset->setAutoVersion(true);
 
-        $I->assertTrue($asset->isAutoVersion());
+        $actual = $asset->isAutoVersion();
+        $I->assertTrue($actual);
     }
 }

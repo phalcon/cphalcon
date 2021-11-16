@@ -47,4 +47,36 @@ class ToJsonCest
         $actual   = $collection->toJson(JSON_PRETTY_PRINT);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Support\Collection :: toJson() - encode fail
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function supportCollectionToJsonEncodeFail(UnitTester $I)
+    {
+        $I->wantToTest('Support\Collection - toJson() - encode fail');
+
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $collection = Stub::construct(
+            Collection::class,
+            [
+                $data,
+            ],
+            [
+                'phpJsonEncode' => false,
+            ]
+        );
+
+        $actual = $collection->toJson();
+        $I->assertEmpty($actual);
+    }
 }

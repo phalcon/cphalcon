@@ -17,12 +17,20 @@ use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\LinkProvider;
 use UnitTester;
 
+/**
+ * Class GetLinksByRelCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\LinkProvider
+ */
 class GetLinksByRelCest
 {
     /**
      * Tests Phalcon\Html\Link\LinkProvider :: getLinksByRel()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkProviderGetLinksByRel(UnitTester $I)
     {

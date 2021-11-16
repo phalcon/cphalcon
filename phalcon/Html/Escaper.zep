@@ -10,7 +10,6 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Html\Escaper\EscaperInterface;
 
 /**
@@ -340,7 +339,7 @@ class Escaper implements EscaperInterface
      *
      * @return string
      */
-    private function doEscapeJs(string $input) -> string
+    private function doEscapeJs(string input) -> string
     {
         return phalcon_escape_js(input);
     }

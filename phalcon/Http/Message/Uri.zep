@@ -14,8 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Str;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
 
@@ -119,14 +117,14 @@ final class Uri extends AbstractCommon implements UriInterface
                 let urlParts = [];
             }
 
-            let this->fragment = this->filterFragment(Arr::get(urlParts, "fragment", "")),
-                this->host     = strtolower(Arr::get(urlParts, "host", "")),
-                this->pass     = rawurlencode(Arr::get(urlParts, "pass", "")),
-                this->path     = this->filterPath(Arr::get(urlParts, "path", "")),
-                this->port     = this->filterPort(Arr::get(urlParts, "port", null)),
-                this->query    = this->filterQuery(Arr::get(urlParts, "query", "")),
-                this->scheme   = this->filterScheme(Arr::get(urlParts, "scheme", "")),
-                this->user     = rawurlencode(Arr::get(urlParts, "user", ""));
+            let this->fragment = this->filterFragment(this->getArrVal(urlParts, "fragment", "")),
+                this->host     = strtolower(this->getArrVal(urlParts, "host", "")),
+                this->pass     = rawurlencode(this->getArrVal(urlParts, "pass", "")),
+                this->path     = this->filterPath(this->getArrVal(urlParts, "path", "")),
+                this->port     = this->filterPort(this->getArrVal(urlParts, "port", null)),
+                this->query    = this->filterQuery(this->getArrVal(urlParts, "query", "")),
+                this->scheme   = this->filterScheme(this->getArrVal(urlParts, "scheme", "")),
+                this->user     = rawurlencode(this->getArrVal(urlParts, "user", ""));
         }
     }
 
@@ -645,5 +643,22 @@ final class Uri extends AbstractCommon implements UriInterface
         }
 
         return data;
+    }
+
+    /**
+     * @todo Remove this when we get traits
+     */
+    private function getArrVal(
+        array! collection,
+        var index,
+        var defaultValue = null
+    ) -> var {
+        var value;
+
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
+        }
+
+        return value;
     }
 }

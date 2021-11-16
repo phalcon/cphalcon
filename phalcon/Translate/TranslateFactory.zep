@@ -12,7 +12,6 @@ namespace Phalcon\Translate;
 
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
 use Phalcon\Translate\Adapter\AdapterInterface;
 
 /**
@@ -70,8 +69,11 @@ class TranslateFactory extends AbstractFactory
 
         let config  = this->checkConfig(config),
             config  = this->checkConfigElement(config, "adapter"),
-            name    = config["adapter"],
-            options = Arr::get(config, "options", []);
+            name    = config["adapter"];
+
+        if !fetch options, config["options"] {
+            let options = [];
+        }
 
         return this->newInstance(name, options);
     }

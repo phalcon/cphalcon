@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 
 
 	ZVAL_LONG(&_0, 518);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 276, input, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 290, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

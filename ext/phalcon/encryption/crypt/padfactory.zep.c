@@ -134,11 +134,11 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 {
 	zval map;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *number_param = NULL, _1, _2;
+	zval *number_param = NULL, _0, _1, _2;
 	zend_long number, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&map);
@@ -163,10 +163,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	add_index_stringl(&map, 2, SL("pjcs7"));
 	add_index_stringl(&map, 6, SL("space"));
 	add_index_stringl(&map, 5, SL("zero"));
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_support_helper_arr_get_ce);
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
 	ZVAL_LONG(&_1, number);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 81, &map, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 172, &map, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

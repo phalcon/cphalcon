@@ -911,13 +911,13 @@ PHP_METHOD(Phalcon_Support_Collection, toArray)
 PHP_METHOD(Phalcon_Support_Collection, toJson)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, _1, _2;
+	zval *options_param = NULL, result, _0, _1;
 	zend_long options, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -930,18 +930,22 @@ PHP_METHOD(Phalcon_Support_Collection, toJson)
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
 	if (!options_param) {
-		options = 79;
+		options = 4194383;
 	} else {
 		options = zephir_get_intval(options_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "jsonserialize", NULL, 0);
 	zephir_check_call_status();
-	ZVAL_LONG(&_2, options);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 16, &_1, &_2);
+	ZVAL_LONG(&_1, options);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpjsonencode", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
-	RETURN_MM();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
+		ZEPHIR_INIT_NVAR(&result);
+		ZVAL_STRING(&result, "");
+	}
+	RETURN_CCTOR(&result);
 }
 
 /**
@@ -974,7 +978,7 @@ PHP_METHOD(Phalcon_Support_Collection, unserialize)
 
 	zephir_cast_to_string(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 17, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 16, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
@@ -1021,6 +1025,48 @@ PHP_METHOD(Phalcon_Support_Collection, setData)
 	zephir_update_property_array(this_ptr, SL("data"), &element, value);
 	zephir_update_property_array(this_ptr, SL("lowerKeys"), &key, &element);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo to be removed when we get traits
+ */
+PHP_METHOD(Phalcon_Support_Collection, phpJsonEncode)
+{
+	zend_long flags, depth;
+	zval *value, value_sub, *flags_param = NULL, *depth_param = NULL, _0, _1;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(flags)
+		Z_PARAM_LONG(depth)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	zephir_fetch_params_without_memory_grow(1, 2, &value, &flags_param, &depth_param);
+	if (!flags_param) {
+		flags = 0;
+	} else {
+		flags = zephir_get_intval(flags_param);
+	}
+	if (!depth_param) {
+		depth = 512;
+	} else {
+		depth = zephir_get_intval(depth_param);
+	}
+
+
+	ZVAL_LONG(&_0, flags);
+	ZVAL_LONG(&_1, depth);
+	zephir_json_encode(return_value, value, zephir_get_intval(&_0) );
+	return;
 }
 
 zend_object *zephir_init_properties_Phalcon_Support_Collection(zend_class_entry *class_type)

@@ -13,7 +13,7 @@ namespace Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Padding\PadInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Class PadFactory
@@ -68,7 +68,7 @@ class PadFactory extends AbstractFactory
             Crypt::PADDING_ZERO           : "zero"
         ];
 
-        return Arr::get(map, number, "noop");
+        return (new Get())->__invoke(map, number, "noop");
     }
 
     /**

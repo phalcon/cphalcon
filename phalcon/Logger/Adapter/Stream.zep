@@ -119,7 +119,7 @@ class Stream extends AbstractAdapter
         var message;
 
         if !is_resource(this->handler) {
-            let this->handler = fopen(this->name, this->mode);
+            let this->handler = this->phpFopen(this->name, this->mode);
 
             if !is_resource(this->handler) {
                 let this->handler = null;
@@ -137,5 +137,13 @@ class Stream extends AbstractAdapter
         let message = this->getFormattedItem(item);
 
         fwrite(this->handler, message);
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFopen(string filename, string mode)
+    {
+        return fopen(filename, mode);
     }
 }

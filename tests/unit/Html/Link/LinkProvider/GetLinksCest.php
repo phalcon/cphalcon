@@ -19,12 +19,20 @@ use UnitTester;
 
 use function spl_object_hash;
 
+/**
+ * Class GetLinksCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Link\LinkProvider
+ */
 class GetLinksCest
 {
     /**
      * Tests Phalcon\Html\Link\LinkProvider :: getLinks()
      *
-     * @since  2019-11-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function linkLinkProviderGetLinks(UnitTester $I)
     {

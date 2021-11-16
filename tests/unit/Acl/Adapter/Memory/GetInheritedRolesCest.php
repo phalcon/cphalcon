@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Component;
-use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
 use UnitTester;
 
@@ -75,7 +73,7 @@ class GetInheritedRolesCest
                 'memberOne',
                 'memberTwo',
             ],
-            'memberTwo'      => [
+            'memberTwo'     => [
                 'guestOne',
                 'guestTwo',
             ],

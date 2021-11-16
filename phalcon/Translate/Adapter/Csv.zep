@@ -112,7 +112,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
     {
         var data, fileHandler;
 
-        let fileHandler = fopen(file, "rb");
+        let fileHandler = this->phpFopen(file, "rb");
 
         if unlikely typeof fileHandler !== "resource" {
             throw new Exception(
@@ -135,5 +135,13 @@ class Csv extends AbstractAdapter implements ArrayAccess
         }
 
         fclose(fileHandler);
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFopen(string filename, string mode)
+    {
+        return fopen(filename, mode);
     }
 }

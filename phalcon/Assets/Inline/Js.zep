@@ -20,11 +20,14 @@ class Js extends InlineBase
     /**
      * Phalcon\Assets\Inline\Js constructor
      */
-    public function __construct(string content, bool filter = true, var attributes = null)
-    {
-        if attributes == null {
+    public function __construct(
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) {
+        if (true === empty(attributes)) {
             let attributes = [
-                "type": "text/javascript"
+                "type": "application/javascript"
             ];
         }
 

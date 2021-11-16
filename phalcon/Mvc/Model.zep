@@ -20,7 +20,6 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
@@ -1010,7 +1009,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return Arr::toObject(hydrateArray);
+            return (object) hydrateArray;
         }
 
         return hydrateArray;

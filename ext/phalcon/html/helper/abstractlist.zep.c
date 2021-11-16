@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 
@@ -62,19 +62,20 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes;
-	zval *indent_param = NULL, *delimiter_param = NULL, *attributes_param = NULL, _0;
+	zval *indent_param = NULL, *delimiter_param = NULL, *attributes_param = NULL, _0, _1;
 	zval indent, delimiter;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&indent);
 	ZVAL_UNDEF(&delimiter);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&attributes);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_STR_OR_NULL(indent)
+		Z_PARAM_STR(indent)
 		Z_PARAM_STR_OR_NULL(delimiter)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
@@ -85,6 +86,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 	zephir_fetch_params(1, 0, 3, &indent_param, &delimiter_param, &attributes_param);
 	if (!indent_param) {
 		ZEPHIR_INIT_VAR(&indent);
+		ZVAL_STRING(&indent, "    ");
 	} else {
 		zephir_get_strval(&indent, indent_param);
 	}
@@ -102,15 +104,18 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &attributes);
-	if (UNEXPECTED(!(ZEPHIR_IS_EMPTY(&delimiter)))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &delimiter);
-	}
-	if (UNEXPECTED(!(ZEPHIR_IS_EMPTY(&indent)))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indent"), &indent);
-	}
 	ZEPHIR_INIT_VAR(&_0);
-	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &_0);
+	if (ZEPHIR_IS_EMPTY(&delimiter)) {
+		ZEPHIR_INIT_NVAR(&_0);
+		ZEPHIR_GET_CONSTANT(&_0, "PHP_EOL");
+	} else {
+		ZEPHIR_CPY_WRT(&_0, &delimiter);
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("indent"), &indent);
+	ZEPHIR_INIT_VAR(&_1);
+	array_init(&_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &_1);
 	RETURN_THIS();
 }
 

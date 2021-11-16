@@ -12,7 +12,7 @@ namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Factory to create annotations components
@@ -49,7 +49,7 @@ class AnnotationsFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = Arr::get(config, "options", []);
+        let options = (new Get())->__invoke(config, "options", []);
 
         return this->newInstance(name, options);
     }

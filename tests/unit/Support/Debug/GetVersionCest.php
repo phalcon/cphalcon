@@ -18,10 +18,18 @@ use Phalcon\Support\Version;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+/**
+ * Class GetVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Support\Debug
+ */
 class GetVersionCest
 {
     use DiTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->setNewFactoryDefault();
@@ -30,8 +38,10 @@ class GetVersionCest
     /**
      * Tests Phalcon\Debug :: getVersion()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function supportDebugGetVersion(UnitTester $I)
     {
@@ -47,7 +57,7 @@ class GetVersionCest
         $version = $version->get();
 
         $I->assertEquals(
-            "<div class='version'>Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>",
+            "<div class=\"version\">Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>",
             $debug->getVersion()
         );
     }

@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages)
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/Messages/Messages.zep", 69);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be iterable", "phalcon/Messages/Messages.zep", 69);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&currentMessages);
@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset)
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 464, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 460, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

@@ -11,9 +11,6 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 use InvalidArgumentException;
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Base64;
-use Phalcon\Helper\Json;
 
 /**
  * Class Parser
@@ -54,7 +51,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = Json::decode(Base64::decodeUrl(claims), true);
+        let decoded = this->decode(this->decodeUrl(claims), true);
 
         if typeof decoded !== "array" {
             throw new InvalidArgumentException(
@@ -83,7 +80,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = Json::decode(Base64::decodeUrl(headers), true);
+        let decoded = this->decode(this->decodeUrl(headers), true);
 
         if typeof decoded !== "array" {
             throw new InvalidArgumentException(
@@ -118,7 +115,7 @@ class Parser
             let decoded   = "",
                 signature = "";
         } else {
-            let decoded = Base64::decodeUrl(signature);
+            let decoded = this->decodeUrl(signature);
         }
 
         return new Signature(decoded, signature);
@@ -144,5 +141,48 @@ class Parser
         }
 
         return parts;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function decode(
+        string! data,
+        bool associative = false,
+        int depth = 512,
+        int options = 0
+    ) -> var
+    {
+        var decoded;
+
+        let decoded = json_decode(data, associative, depth, options);
+
+        if unlikely JSON_ERROR_NONE !== json_last_error() {
+            throw new InvalidArgumentException(
+                "json_decode error: " . json_last_error_msg()
+            );
+        }
+
+        return decoded;
+    }
+
+    /**
+     * @todo This will be removed when traits are introduced
+     */
+    private function decodeUrl(string! input) -> string
+    {
+        var data, remainder;
+
+        let remainder = strlen(input) % 4;
+        if remainder {
+            let input .= str_repeat("=", 4 - remainder);
+        }
+
+        let data = base64_decode(strtr(input, "-_", "+/"));
+        if (false === data) {
+            let data = "";
+        }
+
+        return data;
     }
 }

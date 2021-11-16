@@ -10,8 +10,8 @@
 
 namespace Phalcon\Validation\Validator;
 
-use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
+use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidatorComposite;
 use Phalcon\Validation\Validator\File\MimeType;
@@ -124,21 +124,24 @@ class File extends AbstractValidatorComposite
      */
     public function __construct(array! options = [])
     {
-        var included = null, key, message = null, validator, value,
-            messageFileEmpty = null, messageIniSize = null, messageValid = null;
+        var helper, included = null, key, message = null,
+            messageFileEmpty = null, messageIniSize = null, messageValid = null,
+            validator, value;
+
+        let helper = new Get();
 
         if isset options["messageFileEmpty"] {
-            let messageFileEmpty  = Arr::get(options, "messageFileEmpty");
+            let messageFileEmpty  = helper->__invoke(options, "messageFileEmpty");
             unset options["messageFileEmpty"];
         }
 
         if isset options["messageIniSize"] {
-            let messageIniSize  = Arr::get(options, "messageIniSize");
+            let messageIniSize  = helper->__invoke(options, "messageIniSize");
             unset options["messageIniSize"];
         }
 
         if isset options["messageValid"] {
-            let messageValid  = Arr::get(options, "messageValid");
+            let messageValid  = helper->__invoke(options, "messageValid");
             unset options["messageValid"];
         }
 
@@ -146,8 +149,8 @@ class File extends AbstractValidatorComposite
         for key, value in options {
             // min file size
             if strcasecmp(key, "minSize") === 0 {
-                let message  = Arr::get(options, "messageMinSize"),
-                    included = Arr::get(options, "includedMinSize");
+                let message  = helper->__invoke(options, "messageMinSize"),
+                    included = helper->__invoke(options, "includedMinSize");
 
                 let validator = new MinFileSize(
                     [
@@ -163,8 +166,8 @@ class File extends AbstractValidatorComposite
 
             // max file size
             elseif strcasecmp(key, "maxSize") === 0 {
-                let message  = Arr::get(options, "messageSize"),
-                    included = Arr::get(options, "includedSize");
+                let message  = helper->__invoke(options, "messageSize"),
+                    included = helper->__invoke(options, "includedSize");
 
                 let validator = new MaxFileSize(
                     [
@@ -181,7 +184,7 @@ class File extends AbstractValidatorComposite
 
             // equal file size
             elseif strcasecmp(key, "equalSize") === 0 {
-                let message = Arr::get(options, "messageEqualSize");
+                let message = helper->__invoke(options, "messageEqualSize");
 
                 let validator = new EqualFileSize(
                     [
@@ -196,7 +199,7 @@ class File extends AbstractValidatorComposite
 
             // mime types
             elseif strcasecmp(key, "allowedTypes") === 0 {
-                let message = Arr::get(options, "messageType");
+                let message = helper->__invoke(options, "messageType");
 
                 let validator = new MimeType(
                     [
@@ -211,8 +214,8 @@ class File extends AbstractValidatorComposite
 
             // max resolution
             elseif strcasecmp(key, "maxResolution") === 0 {
-                let message  = Arr::get(options, "messageMaxResolution"),
-                    included = Arr::get(options, "includedMaxResolution");
+                let message  = helper->__invoke(options, "messageMaxResolution"),
+                    included = helper->__invoke(options, "includedMaxResolution");
 
                 let validator = new MaxResolution(
                     [
@@ -229,8 +232,8 @@ class File extends AbstractValidatorComposite
 
             // min resolution
             elseif strcasecmp(key, "minResolution") === 0 {
-                let message  = Arr::get(options, "messageMinResolution"),
-                    included = Arr::get(options, "includedMinResolution");
+                let message  = helper->__invoke(options, "messageMinResolution"),
+                    included = helper->__invoke(options, "includedMinResolution");
 
                 let validator = new MinResolution(
                     [
@@ -247,7 +250,7 @@ class File extends AbstractValidatorComposite
 
             // equal resolution
             elseif strcasecmp(key, "equalResolution") === 0 {
-                let message = Arr::get(options, "messageEqualResolution");
+                let message = helper->__invoke(options, "messageEqualResolution");
 
                 let validator = new EqualResolution(
                     [

@@ -93,3 +93,4 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, set)
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 33);
 	return;
 }
+

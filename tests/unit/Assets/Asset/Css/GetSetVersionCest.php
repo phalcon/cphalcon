@@ -16,23 +16,31 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+/**
+ * Class GetSetVersionCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Asset\Css
+ */
 class GetSetVersionCest
 {
     /**
      * Unit Tests Phalcon\Assets\Asset\Css :: getVersion() / setVersion()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsAssetCssGetSetVersion(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset\Css - getVersion() / setVersion()');
+        $I->wantToTest('Assets\Asset\Css - getVersion()/setVersion()');
 
         $asset = new Css('css/docs.css');
 
         $version = '4.1.0-rc.3';
         $asset->setVersion($version);
+        $actual = $asset->getVersion();
 
-        $I->assertEquals($version, $asset->getVersion());
+        $I->assertEquals($version, $actual);
     }
 }

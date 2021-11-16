@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 		return;
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 227, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 237, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Base64.zep", 50);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 225, data);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 236, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_MM_RESTORE();

@@ -70,7 +70,7 @@ class BlackListCest
             ' key-6 ' => 'value-6',
             'key-8'   => 'value-8',
         ];
-        $actual   = $object($value, $blackList);
+        $actual   = $object->__invoke($value, $blackList);
 
         $I->assertSame($expected, $actual);
     }

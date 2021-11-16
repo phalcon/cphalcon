@@ -31,7 +31,7 @@ class ConstructCest
     {
         $I->wantToTest('Filter\Filter - __construct() - empty');
         $I->expectThrowable(
-            new Exception('The service unknown has not been found in the locator'),
+            new Exception('Filter unknown is not registered'),
             function () {
                 $locator = new Filter();
                 $locator->get('unknown');

@@ -161,14 +161,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct)
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 331, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 318, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 329, &headers);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 316, &headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "w+b");
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 37, body, &_3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 36, body, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
@@ -373,17 +373,17 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 332);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 319);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 333, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 320, code);
 	zephir_check_call_status();
 	_0 = zephir_get_intval(code);
 	ZEPHIR_INIT_NVAR(code);
 	ZVAL_LONG(code, _0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 334, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 321, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 226);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 225);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	}
 	if (EXPECTED(_2)) {
 		ZEPHIR_OBS_NVAR(phrase);
-		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 230);
+		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 229);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("statusCode"), code);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("reasonPhrase"), phrase);
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType)
 		_0 = Z_TYPE_P(code) != IS_STRING;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 247);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 246);
 		return;
 	}
 }
@@ -441,20 +441,19 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType)
  */
 PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 {
-	zval _7$$3;
+	zval _6$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *code_param = NULL, _0, _2, _3, _4, _5$$3, _6$$3;
+	zval *code_param = NULL, _0, _1, _2, _3, _4$$3, _5$$3;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -468,24 +467,57 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 	code = zephir_get_intval(code_param);
 
 
-	ZVAL_LONG(&_2, code);
-	ZVAL_LONG(&_3, 100);
-	ZVAL_LONG(&_4, 599);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 335, &_2, &_3, &_4);
+	ZVAL_LONG(&_1, code);
+	ZVAL_LONG(&_2, 100);
+	ZVAL_LONG(&_3, 599);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 322, &_1, &_2, &_3);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+		ZEPHIR_INIT_VAR(&_4$$3);
+		object_init_ex(&_4$$3, phalcon_http_message_exception_invalidargumentexception_ce);
 		ZEPHIR_INIT_VAR(&_5$$3);
-		object_init_ex(&_5$$3, phalcon_http_message_exception_invalidargumentexception_ce);
+		ZVAL_LONG(&_5$$3, code);
 		ZEPHIR_INIT_VAR(&_6$$3);
-		ZVAL_LONG(&_6$$3, code);
-		ZEPHIR_INIT_VAR(&_7$$3);
-		ZEPHIR_CONCAT_SVS(&_7$$3, "Invalid status code '", &_6$$3, "', (allowed values 100-599)");
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 40, &_7$$3);
+		ZEPHIR_CONCAT_SVS(&_6$$3, "Invalid status code '", &_5$$3, "', (allowed values 100-599)");
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 39, &_6$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 261);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Http/Message/Response.zep", 260);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @todo Remove this when we get traits
+ */
+PHP_METHOD(Phalcon_Http_Message_Response, isBetween)
+{
+	zend_bool _0;
+	zval *value_param = NULL, *from_param = NULL, *to_param = NULL;
+	zend_long value, from, to;
+	zval *this_ptr = getThis();
+
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_LONG(value)
+		Z_PARAM_LONG(from)
+		Z_PARAM_LONG(to)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	zephir_fetch_params_without_memory_grow(3, 0, &value_param, &from_param, &to_param);
+	value = zephir_get_intval(value_param);
+	from = zephir_get_intval(from_param);
+	to = zephir_get_intval(to_param);
+
+
+	_0 = value >= from;
+	if (_0) {
+		_0 = value <= to;
+	}
+	RETURN_BOOL(_0);
 }
 

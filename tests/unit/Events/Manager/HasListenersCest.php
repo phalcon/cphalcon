@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Events\Manager;
 use UnitTester;
 
 class HasListenersCest
@@ -20,13 +21,27 @@ class HasListenersCest
     /**
      * Tests Phalcon\Events\Manager :: hasListeners()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function eventsManagerHasListeners(UnitTester $I)
     {
         $I->wantToTest('Events\Manager - hasListeners()');
 
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+        $actual  = $manager->hasListeners('some');
+        $I->assertFalse($actual);
+
+        $manager->attach(
+            'some:upload',
+            function () {
+                return true;
+            }
+        );
+
+        $actual = $manager->hasListeners('some:upload');
+        $I->assertTrue($actual);
     }
 }

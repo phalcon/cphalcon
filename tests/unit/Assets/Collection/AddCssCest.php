@@ -16,33 +16,33 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
+/**
+ * Class AddCssCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Collection
+ */
 class AddCssCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: addCss()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-02-06
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function assetsCollectionAddCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addCss()');
 
         $collection = new Collection();
+        $collection->addCss('css/docs.css');
+        $collection->addCss('https://assets.phalcon.io/phalcon/css/core.css');
 
-        $collection->addCss(
-            'css/docs.css'
-        );
-
-        $collection->addCss(
-            'https://assets.phalcon.io/phalcon/css/core.css'
-        );
-
+        $expected = 'css';
         foreach ($collection as $asset) {
-            $I->assertEquals(
-                'css',
-                $asset->getType()
-            );
+            $actual = $asset->getType();
+            $I->assertEquals($expected, $actual);
         }
 
         $I->assertCount(2, $collection);

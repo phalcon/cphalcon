@@ -289,11 +289,11 @@ class CompileStringCest
             ],
             [
                 '{{ "hello"|uppercase }}',
-                '<?= Phalcon\Text::upper(\'hello\') ?>',
+                '<?= strtoupper(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|lowercase }}',
-                '<?= Phalcon\Text::lower(\'hello\') ?>',
+                '<?= strtolower(\'hello\') ?>',
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',

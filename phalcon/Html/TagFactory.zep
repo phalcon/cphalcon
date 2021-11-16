@@ -15,7 +15,58 @@ use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Factory\AbstractFactory;
 
 /**
- * ServiceLocator implementation for Tag helpers
+ * ServiceLocator implementation for Tag helpers.
+ *
+ * Services are registered using the constructor using a key-value pair. The
+ * key is the name of the tag helper, while the value is a callable that returns
+ * the object.
+ *
+ * The class implements `__call()` to allow calling helper objects as methods.
+ *
+ * @property EscaperInterface $escaper
+ * @property array            $services
+ *
+ * @method a(string $href, string $text, array $attributes = [], bool $raw = false): string
+ * @method base(string $href, array $attributes = []): string
+ * @method body(array $attributes = []): string
+ * @method button(string $text, array $attributes = [], bool $raw = false): string
+ * @method close(string $tag, bool $raw = false): string
+ * @method doctype(int $flag, string $delimiter): string
+ * @method element(string $tag, string $text, array $attributes = [], bool $raw = false): string
+ * @method form(array $attributes = []): string
+ * @method img(string $src, array $attributes = []): string
+ * @method inputCheckbox(string $name, string $value = null, array $attributes = []): string
+ * @method inputColor(string $name, string $value = null, array $attributes = []): string
+ * @method inputDate(string $name, string $value = null, array $attributes = []): string
+ * @method inputDateTime(string $name, string $value = null, array $attributes = []): string
+ * @method inputDateTimeLocal(string $name, string $value = null, array $attributes = []): string
+ * @method inputEmail(string $name, string $value = null, array $attributes = []): string
+ * @method inputFile(string $name, string $value = null, array $attributes = []): string
+ * @method inputHidden(string $name, string $value = null, array $attributes = []): string
+ * @method inputImage(string $name, string $value = null, array $attributes = []): string
+ * @method inputInput(string $name, string $value = null, array $attributes = []): string
+ * @method inputMonth(string $name, string $value = null, array $attributes = []): string
+ * @method inputNumeric(string $name, string $value = null, array $attributes = []): string
+ * @method inputPassword(string $name, string $value = null, array $attributes = []): string
+ * @method inputRadio(string $name, string $value = null, array $attributes = []): string
+ * @method inputRange(string $name, string $value = null, array $attributes = []): string
+ * @method inputSearch(string $name, string $value = null, array $attributes = []): string
+ * @method inputSelect(string $name, string $value = null, array $attributes = []): string
+ * @method inputSubmit(string $name, string $value = null, array $attributes = []): string
+ * @method inputTel(string $name, string $value = null, array $attributes = []): string
+ * @method inputText(string $name, string $value = null, array $attributes = []): string
+ * @method inputTextarea(string $name, string $value = null, array $attributes = []): string
+ * @method inputTime(string $name, string $value = null, array $attributes = []): string
+ * @method inputUrl(string $name, string $value = null, array $attributes = []): string
+ * @method inputWeek(string $name, string $value = null, array $attributes = []): string
+ * @method label(array $attributes = []): string
+ * @method link(string $indent = '    ', string $delimiter = PHP_EOL): string
+ * @method meta(string $indent = '    ', string $delimiter = PHP_EOL): string
+ * @method ol(string $text, array $attributes = [], bool $raw = false): string
+ * @method script(string $indent = '    ', string $delimiter = PHP_EOL): string
+ * @method style(string $indent = '    ', string $delimiter = PHP_EOL): string
+ * @method title(string $separator = '', string $indent = '', string $delimiter = PHP_EOL): string
+ * @method ul(string $text, array $attributes = [], bool $raw = false): string
  */
 class TagFactory extends AbstractFactory
 {
@@ -25,7 +76,15 @@ class TagFactory extends AbstractFactory
     private escaper;
 
     /**
+     * @var array
+     */
+    protected services = [];
+
+    /**
      * TagFactory constructor.
+     *
+     * @param Escaper $escaper
+     * @param array   $services
      */
     public function __construct(<EscaperInterface> escaper, array! services = [])
     {
@@ -35,7 +94,40 @@ class TagFactory extends AbstractFactory
     }
 
     /**
-     * @param string name
+     * Magic call to make the helper objects available as methods.
+     *
+     * @param string $name
+     * @param array  $args
+     *
+     * @return false|mixed
+     */
+    public function __call(string name, array args)
+    {
+        var services;
+
+        let services = this->getServices();
+
+        if (true !== isset(services[name])) {
+            throw new Exception("Service " . name . " is not registered");
+        }
+
+        return call_user_func_array(this->newInstance(name), args);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function has(string name) -> bool
+    {
+        return isset(this->mapper[name]);
+    }
+
+    /**
+     * Create a new instance of the object
+     *
+     * @param string $name
      *
      * @return mixed
      * @throws Exception
@@ -58,6 +150,16 @@ class TagFactory extends AbstractFactory
     }
 
     /**
+     * @param string   $name
+     * @param callable $method
+     */
+    public function set(string name, var method) -> void
+    {
+        let this->mapper[name] = method;
+        unset(this->services[name]);
+    }
+
+    /**
      * @return string
      */
     protected function getExceptionClass() -> string
@@ -66,7 +168,7 @@ class TagFactory extends AbstractFactory
     }
 
     /**
-     * Returns the available adapters
+     * Returns the available services
      *
      * @return string[]
      */
@@ -78,9 +180,11 @@ class TagFactory extends AbstractFactory
             "body"               : "Phalcon\\Html\\Helper\\Body",
             "button"             : "Phalcon\\Html\\Helper\\Button",
             "close"              : "Phalcon\\Html\\Helper\\Close",
+            "doctype"            : "Phalcon\\Html\\Helper\\Doctype",
             "element"            : "Phalcon\\Html\\Helper\\Element",
             "form"               : "Phalcon\\Html\\Helper\\Form",
             "img"                : "Phalcon\\Html\\Helper\\Img",
+            "inputCheckbox"      : "Phalcon\\Html\\Helper\\Input\\Checkbox",
             "inputColor"         : "Phalcon\\Html\\Helper\\Input\\Color",
             "inputDate"          : "Phalcon\\Html\\Helper\\Input\\Date",
             "inputDateTime"      : "Phalcon\\Html\\Helper\\Input\\DateTime",
@@ -93,9 +197,10 @@ class TagFactory extends AbstractFactory
             "inputMonth"         : "Phalcon\\Html\\Helper\\Input\\Month",
             "inputNumeric"       : "Phalcon\\Html\\Helper\\Input\\Numeric",
             "inputPassword"      : "Phalcon\\Html\\Helper\\Input\\Password",
+            "inputRadio"         : "Phalcon\\Html\\Helper\\Input\\Radio",
             "inputRange"         : "Phalcon\\Html\\Helper\\Input\\Range",
-            "inputSelect"        : "Phalcon\\Html\\Helper\\Input\\Select",
             "inputSearch"        : "Phalcon\\Html\\Helper\\Input\\Search",
+            "inputSelect"        : "Phalcon\\Html\\Helper\\Input\\Select",
             "inputSubmit"        : "Phalcon\\Html\\Helper\\Input\\Submit",
             "inputTel"           : "Phalcon\\Html\\Helper\\Input\\Tel",
             "inputText"          : "Phalcon\\Html\\Helper\\Input\\Text",

@@ -14,13 +14,25 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
+use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
+/**
+ * Class AddAssetByTypeCest
+ *
+ * @package Phalcon\Tests\Unit\Assets\Manager
+ */
 class AddAssetByTypeCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addAssetByType()
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
@@ -29,26 +41,17 @@ class AddAssetByTypeCest
     {
         $I->wantToTest('Assets\Manager - addAssetByType()');
 
-        $assets = new Manager();
+        $manager = new Manager(new TagFactory(new Escaper()));
 
-        $assets->addAssetByType(
-            "css",
-            new Css('/css/style1.css')
-        );
-
-        $assets->addAssetByType(
-            "css",
-            new Css('/css/style2.css')
-        );
+        $manager->addAssetByType('css', new Css('/css/style1.css'));
+        $manager->addAssetByType('css', new Css('/css/style2.css'));
 
 
-        $collection = $assets->get('css');
-
+        $collection = $manager->get('css');
+        $expected   = 'css';
         foreach ($collection as $resource) {
-            $I->assertEquals(
-                'css',
-                $resource->getType()
-            );
+            $actual = $resource->getType();
+            $I->assertEquals($expected, $actual);
         }
 
         $I->assertCount(2, $collection);

@@ -47,7 +47,7 @@ class GetCest
         $actual = $collection->get('THREE');
         $I->assertEquals($expected, $actual);
 
-        $actual = $collection->get('unknown', 'four');
+        $actual = $collection->get(uniqid(), 'four');
         $I->assertEquals($expected, $actual);
 
         $actual = $collection['three'];

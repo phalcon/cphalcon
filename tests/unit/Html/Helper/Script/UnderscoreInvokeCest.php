@@ -13,23 +13,32 @@ namespace Phalcon\Tests\Unit\Html\Helper\Script;
 
 use Codeception\Example;
 use Phalcon\Html\Escaper;
-use Phalcon\Factory\Exception;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Script;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use const PHP_EOL;
+
+/**
+ * Class UnderscoreInvokeCest
+ *
+ * @package Phalcon\Tests\Unit\Html\Helper\Script
+ */
 class UnderscoreInvokeCest
 {
     /**
      * Tests Phalcon\Html\Helper\Script :: __invoke()
+     *
+     * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
      * @throws Exception
      *
-     * @dataProvider getExamples
-     * @since        2020-01-06
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function htmlHelperScriptUnderscoreInvoke(UnitTester $I, Example $example)
     {
@@ -67,8 +76,8 @@ class UnderscoreInvokeCest
         return [
             [
                 'message'   => 'base',
-                'indent'    => null,
-                'delimiter' => null,
+                'indent'    => '    ',
+                'delimiter' => PHP_EOL,
                 'add'       => [
                     [
                         "/js/custom.js",
@@ -79,8 +88,10 @@ class UnderscoreInvokeCest
                         ["ie" => "active"],
                     ],
                 ],
-                'result'    => "    <script type=\"text/javascript\" src=\"/js/custom.js\"></script>" . PHP_EOL
-                    . "    <script type=\"text/javascript\" src=\"/js/print.js\" ie=\"active\"></script>" . PHP_EOL,
+                'result'    => "    <script type=\"application/javascript\" "
+                    . "src=\"/js/custom.js\"></script>" . PHP_EOL
+                    . "    <script type=\"application/javascript\" "
+                    . "src=\"/js/print.js\" ie=\"active\"></script>" . PHP_EOL,
             ],
             [
                 'message'   => 'with indent and delimiter',
@@ -96,8 +107,10 @@ class UnderscoreInvokeCest
                         ["ie" => "active"],
                     ],
                 ],
-                'result'    => "--<script type=\"text/javascript\" src=\"/js/custom.js\"></script>+"
-                    . "--<script type=\"text/javascript\" src=\"/js/print.js\" ie=\"active\"></script>+",
+                'result'    => "--<script type=\"application/javascript\" "
+                    . "src=\"/js/custom.js\"></script>+"
+                    . "--<script type=\"application/javascript\" "
+                    . "src=\"/js/print.js\" ie=\"active\"></script>+",
             ],
         ];
     }

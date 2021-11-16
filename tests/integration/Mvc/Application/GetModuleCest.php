@@ -76,7 +76,7 @@ class GetModuleCest
 
         $I->expectThrowable(
             new Exception(
-                "Module 'foo' isn't registered in the application container"
+                "Module 'foo' is not registered in the application container"
             ),
             function () use ($application) {
                 $application->getModule('foo');
