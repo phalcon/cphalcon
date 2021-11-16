@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollectionCollection;
+namespace Phalcon\Tests\Unit\Support\Collection\ReadOnlyCollection;
 
 use Codeception\Example;
 use Phalcon\Support\Collection\ReadOnlyCollection;

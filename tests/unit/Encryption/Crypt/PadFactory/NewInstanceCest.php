@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Crypt\PadFactory;
+namespace Phalcon\Tests\Unit\Encryption\Crypt\PadFactory;
 
 use Codeception\Example;
 use Exception;
@@ -30,7 +30,7 @@ use UnitTester;
 /**
  * Class NewInstanceCest
  *
- * @package Phalcon\Tests\Unit\Crypt\PadFactory
+ * @package Phalcon\Tests\Unit\Encryption\Crypt\PadFactory
  */
 class NewInstanceCest
 {
