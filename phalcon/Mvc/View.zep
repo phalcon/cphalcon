@@ -298,31 +298,11 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
     /**
      * Checks whether view exists
+     * @deprecated
      */
     public function exists(string! view) -> bool
     {
-        var basePath, viewsDir, engines, extension;
-
-        let basePath = this->basePath,
-            engines  = this->registeredEngines;
-
-        if empty engines {
-            let engines = [
-                ".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"
-            ];
-
-            this->registerEngines(engines);
-        }
-
-        for viewsDir in this->getViewsDirs() {
-            for extension, _ in engines {
-                if file_exists(basePath . viewsDir . view . extension) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return this->has(view);
     }
 
     /**
@@ -562,6 +542,35 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         return this->viewsDirs;
+    }
+
+    /**
+     * Checks whether view exists
+     */
+    public function has(string! view) -> bool
+    {
+        var basePath, viewsDir, engines, extension;
+
+        let basePath = this->basePath,
+            engines  = this->registeredEngines;
+
+        if empty engines {
+            let engines = [
+                ".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"
+            ];
+
+            this->registerEngines(engines);
+        }
+
+        for viewsDir in this->getViewsDirs() {
+            for extension, _ in engines {
+                if file_exists(basePath . viewsDir . view . extension) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

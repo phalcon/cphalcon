@@ -19,29 +19,32 @@ use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 /**
- * Class ExistsCest
+ * Class HasCest
  *
  * @package Phalcon\Tests\Unit\Translate\Adapter\Csv
  */
-class ExistsCest
+class HasCest
 {
     use TranslateCsvTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: exists()
+     * Tests Phalcon\Translate\Adapter\Csv :: has()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function translateAdapterCsvExists(UnitTester $I)
+    public function translateAdapterCsvHas(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Csv - exists()');
+        $I->wantToTest('Translate\Adapter\Csv - has()');
 
         $language   = $this->getCsvConfig()['en'];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
-        $I->assertTrue($translator->exists('hi'));
+        $actual = $translator->exists('hi');
+        $I->assertTrue($actual);
+        $actual = $translator->has('hi');
+        $I->assertTrue($actual);
     }
 }
