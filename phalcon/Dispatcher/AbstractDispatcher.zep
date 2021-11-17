@@ -175,7 +175,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         bool hasService, hasEventsManager;
         int numberDispatches;
         var value, handler, container, namespaceName, handlerName, actionName,
-            params, eventsManager, handlerClass, status, actionMethod,
+            eventsManager, handlerClass, status, actionMethod,
             modelBinder, bindCacheKey, isNewHandler, handlerHash, e;
 
         let container = <DiInterface> this->container;
