@@ -175,7 +175,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         bool hasService, hasEventsManager;
         int numberDispatches;
         var value, handler, container, namespaceName, handlerName, actionName,
-            params, eventsManager, handlerClass, status, actionMethod,
+            eventsManager, handlerClass, status, actionMethod,
             modelBinder, bindCacheKey, isNewHandler, handlerHash, e;
 
         let container = <DiInterface> this->container;
@@ -332,12 +332,11 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let namespaceName = this->namespaceName;
             let handlerName = this->handlerName;
             let actionName = this->actionName;
-            let params = this->params;
 
             /**
              * Check if the params is an array
              */
-            if unlikely typeof params != "array" {
+            if unlikely typeof this->params != "array" {
                 /**
                  * An invalid parameter variable was passed throw an exception
                  */
@@ -498,9 +497,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 let modelBinder = this->modelBinder;
                 let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
 
-                let params = modelBinder->bindToHandler(
+                let this->params = modelBinder->bindToHandler(
                     handler,
-                    params,
+                    this->params,
                     bindCacheKey,
                     actionMethod
                 );
@@ -550,7 +549,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 let this->returnedValue = this->callActionMethod(
                     handler,
                     actionMethod,
-                    params
+                    this->params
                 );
 
                 if this->finished === false {
