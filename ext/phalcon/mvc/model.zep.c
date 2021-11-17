@@ -2028,7 +2028,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getwriteconnection", NULL, 472);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0, &metaData, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &metaData, &_1);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -4029,7 +4029,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh)
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("uniqueKey"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&uniqueKey, &_1);
 	if (!(zephir_is_true(&uniqueKey))) {
-		ZEPHIR_CALL_METHOD(&_2$$6, this_ptr, "exists", NULL, 0, &metaData, &readConnection);
+		ZEPHIR_CALL_METHOD(&_2$$6, this_ptr, "has", NULL, 0, &metaData, &readConnection);
 		zephir_check_call_status();
 		if (UNEXPECTED(!zephir_is_true(&_2$$6))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted", "phalcon/Mvc/Model.zep", 2383);
@@ -4205,7 +4205,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save)
 	}
 	ZEPHIR_CALL_METHOD(&readConnection, this_ptr, "getreadconnection", NULL, 482);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&exists, this_ptr, "exists", NULL, 0, &metaData, &readConnection);
+	ZEPHIR_CALL_METHOD(&exists, this_ptr, "has", NULL, 0, &metaData, &readConnection);
 	zephir_check_call_status();
 	if (zephir_is_true(&exists)) {
 		ZEPHIR_INIT_ZVAL_NREF(_2$$7);
@@ -5480,7 +5480,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getreadconnection", NULL, 482);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "exists", NULL, 0, &metaData, &_2$$3);
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "has", NULL, 0, &metaData, &_2$$3);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_1$$3))) {
 			ZEPHIR_INIT_VAR(&_3$$4);
@@ -7204,7 +7204,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
  *
  * @return bool
  */
-PHP_METHOD(Phalcon_Mvc_Model, exists)
+PHP_METHOD(Phalcon_Mvc_Model, has)
 {
 	zend_bool _6$$11, _14$$19;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

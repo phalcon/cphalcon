@@ -33,6 +33,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender);
 PHP_METHOD(Phalcon_Mvc_View, getVar);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDirs);
+PHP_METHOD(Phalcon_Mvc_View, has);
 PHP_METHOD(Phalcon_Mvc_View, isDisabled);
 PHP_METHOD(Phalcon_Mvc_View, partial);
 PHP_METHOD(Phalcon_Mvc_View, pick);
@@ -172,6 +173,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getviewsdir, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getviewsdirs, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_has, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, view, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_isdisabled, 0, 0, _IS_BOOL, 0)
@@ -347,6 +352,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
 #endif
 	PHP_ME(Phalcon_Mvc_View, getViewsDirs, arginfo_phalcon_mvc_view_getviewsdirs, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_View, has, arginfo_phalcon_mvc_view_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, isDisabled, arginfo_phalcon_mvc_view_isdisabled, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, partial, arginfo_phalcon_mvc_view_partial, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_view_pick, ZEND_ACC_PUBLIC)

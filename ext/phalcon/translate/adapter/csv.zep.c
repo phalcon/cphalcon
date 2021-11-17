@@ -127,8 +127,51 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
  * @param string $index
  *
  * @return bool
+ * @deprecated
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL;
+	zval index;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(index)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(&index, index_param);
+	} else {
+		ZEPHIR_INIT_VAR(&index);
+	}
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Check whether is defined a translation key in the internal array
+ *
+ * @param string $index
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index_param = NULL, _0;
@@ -286,7 +329,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Error opening translation file '", &file, "'");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 120);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 133);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -297,7 +340,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
 		}
-		zephir_array_fetch_long(&_5$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 130);
+		zephir_array_fetch_long(&_5$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 143);
 		ZVAL_LONG(&_3$$4, 0);
 		ZVAL_LONG(&_6$$4, 1);
 		ZEPHIR_INIT_NVAR(&_7$$4);
@@ -309,9 +352,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (_8$$4) {
 			continue;
 		}
-		zephir_array_fetch_long(&_9$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 134);
+		zephir_array_fetch_long(&_9$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 147);
 		ZEPHIR_OBS_NVAR(&_10$$4);
-		zephir_array_fetch_long(&_10$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 134);
+		zephir_array_fetch_long(&_10$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 147);
 		zephir_update_property_array(this_ptr, SL("translate"), &_10$$4, &_9$$4);
 	}
 	zephir_fclose(&fileHandler);
