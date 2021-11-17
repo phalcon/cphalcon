@@ -50,6 +50,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, hasBelongsTo);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, hasHasMany);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, hasHasOne);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, hasHasOneThrough);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, hasHasManyToMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords);
@@ -68,6 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, checkHasRelationship);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 1, IS_VOID, 0)
@@ -318,6 +324,31 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getreusablerecords, 0, 
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_hasbelongsto, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_hashasmany, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_hashasone, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_hashasonethrough, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_hashasmanytomany, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setreusablerecords, 0, 3, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
@@ -405,6 +436,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager___destruct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_checkhasrelationship, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, collection, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_zephir_init_properties_phalcon_mvc_model_manager, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -456,6 +493,11 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Manager, _mergeFindParameters, arginfo_phalcon_mvc_model_manager__mergefindparameters, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationRecords, arginfo_phalcon_mvc_model_manager_getrelationrecords, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getReusableRecords, arginfo_phalcon_mvc_model_manager_getreusablerecords, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, hasBelongsTo, arginfo_phalcon_mvc_model_manager_hasbelongsto, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, hasHasMany, arginfo_phalcon_mvc_model_manager_hashasmany, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, hasHasOne, arginfo_phalcon_mvc_model_manager_hashasone, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, hasHasOneThrough, arginfo_phalcon_mvc_model_manager_hashasonethrough, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, hasHasManyToMany, arginfo_phalcon_mvc_model_manager_hashasmanytomany, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setReusableRecords, arginfo_phalcon_mvc_model_manager_setreusablerecords, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, clearReusableObjects, arginfo_phalcon_mvc_model_manager_clearreusableobjects, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getBelongsToRecords, arginfo_phalcon_mvc_model_manager_getbelongstorecords, ZEND_ACC_PUBLIC)
@@ -478,5 +520,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 #else
 	PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 #endif
+	PHP_ME(Phalcon_Mvc_Model_Manager, checkHasRelationship, arginfo_phalcon_mvc_model_manager_checkhasrelationship, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

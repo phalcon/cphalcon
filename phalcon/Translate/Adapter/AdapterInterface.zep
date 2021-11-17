@@ -24,7 +24,7 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public function exists(string! index) -> bool;
+    public function has(string! index) -> bool;
 
     /**
      * Returns the translation related to the given key

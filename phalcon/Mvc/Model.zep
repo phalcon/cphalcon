@@ -1124,7 +1124,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Get the current connection use write to prevent replica lag
          * If the record already exists we must throw an exception
          */
-        if this->exists(metaData, this->getWriteConnection()) {
+        if this->has(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
@@ -2377,7 +2377,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We need to check if the record exists
              */
-            if unlikely !this->exists(metaData, readConnection) {
+            if unlikely !this->has(metaData, readConnection) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2517,7 +2517,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We need to check if the record exists
          */
-        let exists = this->exists(metaData, readConnection);
+        let exists = this->has(metaData, readConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -3200,7 +3200,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if this->dirtyState {
             let metaData = this->getModelsMetaData();
 
-            if !this->exists(metaData, this->getReadConnection()) {
+            if !this->has(metaData, this->getReadConnection()) {
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
@@ -4076,7 +4076,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return bool
      */
-    protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
+    protected function has(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var attributeField, bindDataTypes, columnMap, field, joinWhere, num,

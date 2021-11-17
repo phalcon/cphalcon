@@ -18,26 +18,21 @@ use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-/**
- * Class ExistsCest
- *
- * @package Phalcon\Tests\Unit\Translate\Adapter\NativeArray
- */
-class ExistsCest
+class HasCest
 {
     use TranslateNativeArrayTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: exists()
+     * Tests Phalcon\Translate\Adapter\NativeArray :: has()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function translateAdapterNativeArrayExists(UnitTester $I)
+    public function translateAdapterNativeArrayHas(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\NativeArray - exists()');
+        $I->wantToTest('Translate\Adapter\NativeArray - has()');
 
         $language = $this->getArrayConfig()['en'];
 
@@ -48,8 +43,9 @@ class ExistsCest
             ]
         );
 
-        $I->assertTrue(
-            $translator->exists('hi')
-        );
+        $expected = $translator->exists('hi');
+        $I->assertTrue($expected);
+        $expected = $translator->has('hi');
+        $I->assertTrue($expected);
     }
 }

@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseCascade);
 PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict);
 PHP_METHOD(Phalcon_Mvc_Model, doLowInsert);
 PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate);
-PHP_METHOD(Phalcon_Mvc_Model, exists);
+PHP_METHOD(Phalcon_Mvc_Model, has);
 PHP_METHOD(Phalcon_Mvc_Model, getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, groupResult);
 PHP_METHOD(Phalcon_Mvc_Model, invokeFinder);
@@ -401,7 +401,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowupdate, 0
 	ZEND_ARG_INFO(0, table)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_exists, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_has, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
@@ -623,7 +623,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict, arginfo_phalcon_mvc_model_checkforeignkeysreverserestrict, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, doLowInsert, arginfo_phalcon_mvc_model_dolowinsert, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, doLowUpdate, arginfo_phalcon_mvc_model_dolowupdate, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, exists, arginfo_phalcon_mvc_model_exists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, has, arginfo_phalcon_mvc_model_has, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getRelatedRecords, arginfo_phalcon_mvc_model_getrelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, groupResult, arginfo_phalcon_mvc_model_groupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, invokeFinder, arginfo_phalcon_mvc_model_invokefinder, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL|ZEND_ACC_STATIC)

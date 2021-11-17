@@ -99,26 +99,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
 /**
- * Checks whether a model has a belongsTo relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsBelongsTo);
-/**
- * Checks whether a model has a hasMany relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasMany);
-/**
- * Checks whether a model has a hasOne relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOne);
-/**
- * Checks whether a model has a hasOneThrough relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOneThrough);
-/**
- * Checks whether a model has a hasManyToMany relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasManyToMany);
-/**
  * Gets belongsTo relations defined on a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsTo);
@@ -227,6 +207,26 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getWriteConnection);
  * Returns the connection service name used to write data related to a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getWriteConnectionService);
+/**
+ * Checks whether a model has a belongsTo relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasBelongsTo);
+/**
+ * Checks whether a model has a hasMany relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasMany);
+/**
+ * Checks whether a model has a hasOne relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOne);
+/**
+ * Checks whether a model has a hasOneThrough relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOneThrough);
+/**
+ * Checks whether a model has a hasManyToMany relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasManyToMany);
 /**
  * Loads a model throwing an exception if it doesn't exist
  */

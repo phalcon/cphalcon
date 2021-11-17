@@ -19,11 +19,11 @@ use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 /**
- * Class ExistsCest
+ * Class HasCest
  *
  * @package Phalcon\Tests\Unit\Translate\Adapter\Gettext
  */
-class ExistsCest
+class HasCest
 {
     use TranslateGettextTrait;
 
@@ -35,14 +35,16 @@ class ExistsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function translateAdapterGettextExists(UnitTester $I)
+    public function translateAdapterGettextHas(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Gettext - exists()');
+        $I->wantToTest('Translate\Adapter\Gettext - has()');
 
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
         $actual = $translator->exists('hi');
+        $I->assertTrue($actual);
+        $actual = $translator->has('hi');
         $I->assertTrue($actual);
     }
 }

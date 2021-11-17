@@ -1,3 +1,29 @@
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (xxxx-xx-xx)
+
+## Changed
+- Marked as deprecated:
+  - `Phalcon\Mvc\Model::existsBelongsTo()`
+  - `Phalcon\Mvc\Model::existsHasMany()`
+  - `Phalcon\Mvc\Model::existsHasOne()`
+  - `Phalcon\Mvc\Model::existsHasOneThrough()`
+  - `Phalcon\Mvc\Model::existsHasManyToMany()`
+  - `Phalcon\Translate\Adapter\Csv::exists()`
+  - `Phalcon\Translate\Adapter\Gettext::exists()`
+  - `Phalcon\Translate\Adapter\NativeArray::exists()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
+
+## Added
+- Added:
+    - `Phalcon\Mvc\Model::hasBelongsTo()`
+    - `Phalcon\Mvc\Model::hasHasMany()`
+    - `Phalcon\Mvc\Model::hasHasOne()`
+    - `Phalcon\Mvc\Model::hasHasOneThrough()`
+    - `Phalcon\Mvc\Model::hasHasManyToMany()`
+    - `Phalcon\Translate\Adapter\Csv::has()`
+    - `Phalcon\Translate\Adapter\Gettext::has()`
+    - `Phalcon\Translate\Adapter\NativeArray::has()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
+
+## Fixed
+
 # [5.0.0alpha7](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (2021-11-16)
 
 ## Changed
