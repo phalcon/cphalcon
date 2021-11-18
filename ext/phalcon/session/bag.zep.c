@@ -71,8 +71,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_2 = NULL;
-	zval *name_param = NULL, *container = NULL, container_sub, __$null, data, session, _4, _5, _9, _0$$3, _1$$3, _3$$3, _6$$4, _7$$4, _8$$4;
+	zval *name_param = NULL, *container = NULL, container_sub, __$null, data, session, _0, _1, _2;
 	zval name;
 	zval *this_ptr = getThis();
 
@@ -81,15 +80,9 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&session);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$4);
-	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -119,43 +112,25 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	if (UNEXPECTED(Z_TYPE_P(container) == IS_NULL)) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_session_exception_ce);
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "the 'session' service");
-		ZEPHIR_CALL_CE_STATIC(&_1$$3, phalcon_session_exception_ce, "containerservicenotfound", &_2, 0, &_3$$3);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_1$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Session/Bag.zep", 64);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/Session/Bag.zep", 62);
 		return;
 	}
-	ZEPHIR_INIT_VAR(&_5);
-	ZVAL_STRING(&_5, "session");
-	ZEPHIR_CALL_METHOD(&_4, container, "has", NULL, 0, &_5);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "session");
+	ZEPHIR_CALL_METHOD(&_0, container, "has", NULL, 0, &_1);
 	zephir_check_call_status();
-	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_4))) {
-		ZEPHIR_INIT_VAR(&_6$$4);
-		object_init_ex(&_6$$4, phalcon_session_exception_ce);
-		ZEPHIR_INIT_VAR(&_8$$4);
-		ZVAL_STRING(&_8$$4, "the 'session' service");
-		ZEPHIR_CALL_CE_STATIC(&_7$$4, phalcon_session_exception_ce, "containerservicenotfound", &_2, 0, &_8$$4);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 8, &_7$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Bag.zep", 72);
-		ZEPHIR_MM_RESTORE();
+	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/Session/Bag.zep", 68);
 		return;
 	}
-	ZEPHIR_INIT_NVAR(&_5);
-	ZVAL_STRING(&_5, "session");
-	ZEPHIR_CALL_METHOD(&session, container, "getshared", NULL, 0, &_5);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "session");
+	ZEPHIR_CALL_METHOD(&session, container, "getshared", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("session"), &session);
-	zephir_read_property(&_9, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_9);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&data);

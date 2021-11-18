@@ -2932,7 +2932,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod)
 			object_init_ex(&_2$$4, phalcon_http_request_exception_ce);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZEPHIR_CONCAT_SV(&_3$$4, "Invalid HTTP method: ", methods);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 30, &_3$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Request.zep", 1075);
 			ZEPHIR_MM_RESTORE();
@@ -3410,7 +3410,7 @@ PHP_METHOD(Phalcon_Http_Request, setParameterFilters)
 		object_init_ex(&_0$$3, phalcon_http_request_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, "Filters have not been defined for '", &name, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 30, &_1$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request.zep", 1259);
 		ZEPHIR_MM_RESTORE();
@@ -3431,7 +3431,7 @@ PHP_METHOD(Phalcon_Http_Request, setParameterFilters)
 				object_init_ex(&_6$$5, phalcon_http_request_exception_ce);
 				ZEPHIR_INIT_NVAR(&_7$$5);
 				ZEPHIR_CONCAT_SVS(&_7$$5, "Sanitizer '", &sanitizer, "' does not exist in the filter locator");
-				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 8, &_7$$5);
+				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 30, &_7$$5);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_6$$5, "phalcon/Http/Request.zep", 1268);
 				ZEPHIR_MM_RESTORE();
@@ -3456,7 +3456,7 @@ PHP_METHOD(Phalcon_Http_Request, setParameterFilters)
 					object_init_ex(&_10$$7, phalcon_http_request_exception_ce);
 					ZEPHIR_INIT_NVAR(&_11$$7);
 					ZEPHIR_CONCAT_SVS(&_11$$7, "Sanitizer '", &sanitizer, "' does not exist in the filter locator");
-					ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 8, &_11$$7);
+					ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 30, &_11$$7);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_10$$7, "phalcon/Http/Request.zep", 1268);
 					ZEPHIR_MM_RESTORE();
@@ -4619,21 +4619,17 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles)
  */
 PHP_METHOD(Phalcon_Http_Request, getFilterService)
 {
-	zval container, filterService, _0, _1$$3, _6$$3, _7$$3, _2$$4, _3$$4, _5$$4;
+	zval container, filterService, _0, _1$$3, _2$$3, _3$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_4 = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&filterService);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 
 
 	ZEPHIR_MM_GROW();
@@ -4644,23 +4640,14 @@ PHP_METHOD(Phalcon_Http_Request, getFilterService)
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&container, &_1$$3);
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(&_2$$4);
-			object_init_ex(&_2$$4, phalcon_http_request_exception_ce);
-			ZEPHIR_INIT_VAR(&_5$$4);
-			ZVAL_STRING(&_5$$4, "the 'filter' service");
-			ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_http_request_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Request.zep", 1584);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection container is required to access the 'filter' service", "phalcon/Http/Request.zep", 1584);
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_7$$3);
-		ZVAL_STRING(&_7$$3, "filter");
-		ZEPHIR_CALL_METHOD(&_6$$3, &container, "getshared", NULL, 0, &_7$$3);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "filter");
+		ZEPHIR_CALL_METHOD(&_2$$3, &container, "getshared", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&filterService, &_6$$3);
+		ZEPHIR_CPY_WRT(&filterService, &_2$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("filterService"), &filterService);
 	}
 	RETURN_MM_MEMBER(getThis(), "filterService");

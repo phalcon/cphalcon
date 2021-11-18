@@ -58,17 +58,13 @@ class Bag extends Collection implements InjectionAwareInterface
 
         if unlikely null === container {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the 'session' service"
-                )
+                "A dependency injection container is required to access the 'session' service"
             );
         }
 
         if unlikely true !== container->has("session") {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the 'session' service"
-                )
+                "A dependency injection container is required to access the 'session' service"
             );
         }
 

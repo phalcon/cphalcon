@@ -179,9 +179,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ODM"
-                )
+                "A dependency injection container is required to access the services related to the ODM"
             );
         }
 
@@ -2676,9 +2674,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound(
-                        "the services related to the ODM"
-                    )
+                    "A dependency injection container is required to access the services related to the ODM"
                 );
             }
 

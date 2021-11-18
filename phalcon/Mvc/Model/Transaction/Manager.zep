@@ -110,9 +110,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ORM"
-                )
+                "A dependency injection container is required to access the services related to the ORM"
             );
         }
     }
@@ -208,9 +206,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ORM"
-                )
+                "A dependency injection container is required to access the services related to the ORM"
             );
         }
 

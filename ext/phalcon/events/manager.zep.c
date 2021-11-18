@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 		object_init_ex(&_1$$4, phalcon_events_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "Invalid event type ", &eventType);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 8, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 30, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/Events/Manager.zep", 200);
 		ZEPHIR_MM_RESTORE();

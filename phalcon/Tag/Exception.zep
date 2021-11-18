@@ -15,7 +15,7 @@ namespace Phalcon\Tag;
  *
  * Exceptions thrown in Phalcon\Tag will use this class
  */
-class Exception extends \Phalcon\Exception
+class Exception extends \Exception
 {
 
 }

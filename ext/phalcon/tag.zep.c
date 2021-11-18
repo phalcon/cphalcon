@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle)
 			object_init_ex(&_3$$4, phalcon_tag_exception_ce);
 			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 8, &_4$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 30, &_4$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Tag.zep", 307);
 			ZEPHIR_MM_RESTORE();
@@ -838,19 +838,15 @@ PHP_METHOD(Phalcon_Tag, getDI)
  */
 PHP_METHOD(Phalcon_Tag, getEscaperService)
 {
-	zval escaper, container, _0$$4, _1$$4, _3$$4, _4$$3, _5$$3;
+	zval escaper, container, _0$$3, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper);
 	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 
 
 	ZEPHIR_MM_GROW();
@@ -861,23 +857,14 @@ PHP_METHOD(Phalcon_Tag, getEscaperService)
 		ZEPHIR_CALL_SELF(&container, "getdi", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(&_0$$4);
-			object_init_ex(&_0$$4, phalcon_tag_exception_ce);
-			ZEPHIR_INIT_VAR(&_3$$4);
-			ZVAL_STRING(&_3$$4, "the 'escaper' service");
-			ZEPHIR_CALL_CE_STATIC(&_1$$4, phalcon_tag_exception_ce, "containerservicenotfound", &_2, 0, &_3$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 8, &_1$$4);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_0$$4, "phalcon/Tag.zep", 402);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injection container is required to access the 'escaper' service", "phalcon/Tag.zep", 402);
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "escaper");
-		ZEPHIR_CALL_METHOD(&_4$$3, &container, "getshared", NULL, 0, &_5$$3);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "escaper");
+		ZEPHIR_CALL_METHOD(&_0$$3, &container, "getshared", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&escaper, &_4$$3);
+		ZEPHIR_CPY_WRT(&escaper, &_0$$3);
 		zephir_update_static_property_ce(phalcon_tag_ce, ZEND_STRL("escaperService"), &escaper);
 	}
 	RETURN_CCTOR(&escaper);
@@ -1083,19 +1070,15 @@ PHP_METHOD(Phalcon_Tag, getTitleSeparator)
  */
 PHP_METHOD(Phalcon_Tag, getUrlService)
 {
-	zval url, container, _0$$4, _1$$4, _3$$4, _4$$3, _5$$3;
+	zval url, container, _0$$3, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&url);
 	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 
 
 	ZEPHIR_MM_GROW();
@@ -1106,23 +1089,14 @@ PHP_METHOD(Phalcon_Tag, getUrlService)
 		ZEPHIR_CALL_SELF(&container, "getdi", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(&_0$$4);
-			object_init_ex(&_0$$4, phalcon_tag_exception_ce);
-			ZEPHIR_INIT_VAR(&_3$$4);
-			ZVAL_STRING(&_3$$4, "the 'url' service");
-			ZEPHIR_CALL_CE_STATIC(&_1$$4, phalcon_tag_exception_ce, "containerservicenotfound", &_2, 0, &_3$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 8, &_1$$4);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_0$$4, "phalcon/Tag.zep", 497);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injection container is required to access the 'url' service", "phalcon/Tag.zep", 497);
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "url");
-		ZEPHIR_CALL_METHOD(&_4$$3, &container, "getshared", NULL, 0, &_5$$3);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "url");
+		ZEPHIR_CALL_METHOD(&_0$$3, &container, "getshared", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&url, &_4$$3);
+		ZEPHIR_CPY_WRT(&url, &_0$$3);
 		zephir_update_static_property_ce(phalcon_tag_ce, ZEND_STRL("urlService"), &url);
 	}
 	RETURN_CCTOR(&url);
@@ -2180,7 +2154,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 					zephir_gettype(&_16$$13, &value);
 					ZEPHIR_INIT_NVAR(&_17$$13);
 					ZEPHIR_CONCAT_SVSVS(&_17$$13, "Value at index: '", &key, "' type: '", &_16$$13, "' cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 8, &_17$$13);
+					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 30, &_17$$13);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_15$$13, "phalcon/Tag.zep", 951);
 					ZEPHIR_MM_RESTORE();
@@ -2226,7 +2200,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 						zephir_gettype(&_24$$18, &value);
 						ZEPHIR_INIT_NVAR(&_25$$18);
 						ZEPHIR_CONCAT_SVSVS(&_25$$18, "Value at index: '", &key, "' type: '", &_24$$18, "' cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 8, &_25$$18);
+						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 30, &_25$$18);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_23$$18, "phalcon/Tag.zep", 951);
 						ZEPHIR_MM_RESTORE();

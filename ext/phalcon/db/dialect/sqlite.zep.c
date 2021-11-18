@@ -1594,7 +1594,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_7$$38);
 			ZEPHIR_CONCAT_SV(&_7$$38, "Unrecognized SQLite data type at column ", &_6$$38);
-			ZEPHIR_CALL_METHOD(NULL, &_5$$38, "__construct", NULL, 8, &_7$$38);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$38, "__construct", NULL, 30, &_7$$38);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$38, "phalcon/Db/Dialect/Sqlite.zep", 520);
 			ZEPHIR_MM_RESTORE();

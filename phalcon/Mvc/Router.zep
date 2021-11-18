@@ -672,9 +672,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                     if unlikely typeof container != "object" {
                         throw new Exception(
-                            Exception::containerServiceNotFound(
-                                "the 'request' service"
-                            )
+                            "A dependency injection container is required to access the 'request' service"
                         );
                     }
 
@@ -703,9 +701,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                     if unlikely typeof container != "object" {
                         throw new Exception(
-                            Exception::containerServiceNotFound(
-                                "the 'request' service"
-                            )
+                            "A dependency injection container is required to access the 'request' service"
                         );
                     }
 

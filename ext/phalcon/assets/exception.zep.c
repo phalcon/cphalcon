@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets, Exception, phalcon, assets_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets, Exception, phalcon, assets_exception, zend_ce_exception, NULL, 0);
 
 	return SUCCESS;
 }

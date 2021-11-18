@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Dispatcher, Exception, phalcon, dispatcher_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Dispatcher, Exception, phalcon, dispatcher_exception, zend_ce_exception, NULL, 0);
 
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 5);
 

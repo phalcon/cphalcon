@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Ucwords, __invoke)
 
 
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text, &_0, &encoding);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 10, &text, &_0, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &attributes);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 9);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 8);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_1);
 	ZEPHIR_MM_RESTORE();

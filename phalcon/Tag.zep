@@ -398,7 +398,7 @@ class Tag
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'escaper' service")
+                    "A dependency injection container is required to access the 'escaper' service"
                 );
             }
 
@@ -493,7 +493,7 @@ class Tag
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'url' service")
+                    "A dependency injection container is required to access the 'url' service"
                 );
             }
 

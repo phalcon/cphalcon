@@ -13,7 +13,7 @@ namespace Phalcon\Mvc\Micro;
 /**
  * Exceptions thrown in Phalcon\Mvc\Micro will use this class
  */
-class Exception extends \Phalcon\Exception
+class Exception extends \Exception
 {
 
 }

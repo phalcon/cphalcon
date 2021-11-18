@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 		object_init_ex(&_0$$3, phalcon_html_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 30, &_1$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Html/TagFactory.zep", 111);
 		ZEPHIR_MM_RESTORE();

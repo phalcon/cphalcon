@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 	if (UNEXPECTED(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&ex);
 		object_init_ex(&ex, phalcon_datamapper_pdo_exception_exception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &ex, "__construct", NULL, 8);
+		ZEPHIR_CALL_METHOD(NULL, &ex, "__construct", NULL, 30);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 207, &__$true);
 		zephir_check_call_status();

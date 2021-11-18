@@ -46,7 +46,7 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &element);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 10, element);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 9, element);
 	zephir_check_call_status();
 	zephir_ucfirst(return_value, &_0);
 	RETURN_MM();

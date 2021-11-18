@@ -1037,7 +1037,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_7$$7, &_8$$7);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_9, "unserialize", NULL, 16, &payload);
+	ZEPHIR_CALL_FUNCTION(&_9, "unserialize", NULL, 15, &payload);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&payload, &_9);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 90);
@@ -1152,7 +1152,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 	zephir_get_strval(&key, key_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "serialize", NULL, 15, &payload);
+	ZEPHIR_CALL_FUNCTION(&_0, "serialize", NULL, 14, &payload);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&payload, &_0);
 	ZEPHIR_CALL_METHOD(&directory, this_ptr, "getdir", NULL, 150, &key);

@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withMethod)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "method");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, method, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, method, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withRequestTarget)
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "requestTarget");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, requestTarget, &_4);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, requestTarget, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri)
 	ZEPHIR_CPY_WRT(&headers, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "uri");
-	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 21, uri, &_3);
+	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 20, uri, &_3);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(preserveHost))) {
 		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "checkheaderhost", NULL, 44, &headers);
