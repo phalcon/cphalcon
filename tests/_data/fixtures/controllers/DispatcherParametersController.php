@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Controllers;
+
+use Phalcon\Mvc\Dispatcher;
+
+class DispatcherParametersController
+{
+    public function afterExecuteRoute(Dispatcher $dispatcher)
+    {
+        $params = $dispatcher->getParams();
+
+        $params["trace"][] = "afterExecuteRoute";
+
+        $dispatcher->setParams($params);
+    }
+
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        $params = $dispatcher->getParams();
+
+        $params["trace"][] = "beforeExecuteRoute";
+
+        $dispatcher->setParams($params);
+    }
+
+    public function indexAction()
+    {
+
+    }
+}
