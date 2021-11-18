@@ -143,7 +143,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'url' service")
+                    "A dependency injection container is required to access the 'url' service"
                 );
             }
 

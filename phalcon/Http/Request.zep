@@ -1580,7 +1580,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'filter' service")
+                    "A dependency injection container is required to access the 'filter' service"
                 );
             }
 

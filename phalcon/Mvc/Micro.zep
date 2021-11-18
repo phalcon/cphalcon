@@ -415,7 +415,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("micro services")
+                "A dependency injection container is required to access micro services"
             );
         }
 

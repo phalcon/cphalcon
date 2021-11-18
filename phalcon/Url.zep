@@ -136,17 +136,13 @@ class Url extends AbstractInjectionAware implements UrlInterface
 
                 if unlikely typeof container != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'router' service"
-                        )
+                        "A dependency injection container is required to access the 'router' service"
                     );
                 }
 
                 if unlikely !container->has("router") {
                     throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'router' service"
-                        )
+                        "A dependency injection container is required to access the 'router' service"
                     );
                 }
 

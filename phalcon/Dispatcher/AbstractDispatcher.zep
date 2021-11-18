@@ -182,9 +182,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound(
-                    "related dispatching services"
-                ),
+                "A dependency injection container is required to access related dispatching services",
                 PhalconException::EXCEPTION_NO_DI
             );
 
@@ -647,7 +645,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * );
      * ```
      *
-     * @throws \Phalcon\Exception
+     * @throws Phalcon\Dispatcher\Exception
      */
     public function forward(array forward) -> void
     {
@@ -836,9 +834,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound(
-                    "the 'filter' service"
-                ),
+                "A dependency injection container is required to access the 'filter' service",
                 PhalconException::EXCEPTION_NO_DI
             );
         }

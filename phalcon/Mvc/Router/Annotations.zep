@@ -110,7 +110,7 @@ class Annotations extends Router
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("the 'annotations' service")
+                "A dependency injection container is required to access the 'annotations' service"
             );
         }
 

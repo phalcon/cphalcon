@@ -96,7 +96,7 @@ class Application extends AbstractApplication
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound("internal services")
+                "A dependency injection container is required to access internal services"
             );
         }
 

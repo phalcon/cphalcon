@@ -307,9 +307,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound(
-                        "the 'response' service"
-                    )
+                    "A dependency injection container is required to access the 'response' service"
                 );
             }
 

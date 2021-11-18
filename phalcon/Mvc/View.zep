@@ -1128,9 +1128,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
             } else {
                 if typeof di != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "application services"
-                        )
+                        "A dependency injection container is required to access application services"
                     );
                 }
 

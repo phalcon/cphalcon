@@ -341,9 +341,7 @@ class Validation extends Injectable implements ValidationInterface
 
                     if unlikely typeof container != "object" {
                         throw new Exception(
-                            Exception::containerServiceNotFound(
-                                "the 'filter' service"
-                            )
+                            "A dependency injection container is required to access the 'filter' service"
                         );
                     }
                 }

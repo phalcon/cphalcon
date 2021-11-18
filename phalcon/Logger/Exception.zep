@@ -15,6 +15,6 @@ namespace Phalcon\Logger;
  *
  * Exceptions thrown in Phalcon\Logger will use this class
  */
-class Exception extends \Phalcon\Exception
+class Exception extends \Exception
 {
 }

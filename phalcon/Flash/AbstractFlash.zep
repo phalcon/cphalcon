@@ -150,7 +150,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         }
 
         throw new Exception(
-            Exception::containerServiceNotFound("the 'escaper' service")
+            "A dependency injection container is required to access the 'escaper' service"
         );
     }
 

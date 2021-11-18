@@ -261,9 +261,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
                 if unlikely typeof container != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'filter' and 'crypt' services"
-                        )
+                        "A dependency injection container is required to access the 'filter' and 'crypt' services"
                     );
                 }
 
@@ -312,9 +310,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
                         if unlikely typeof container != "object" {
                             throw new Exception(
-                                Exception::containerServiceNotFound(
-                                    "the 'filter' service"
-                                )
+                                "A dependency injection container is required to access the 'filter' service"
                             );
                         }
                     }
@@ -462,9 +458,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if this->useEncryption && !empty value {
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound(
-                        "the 'filter' service"
-                    )
+                    "A dependency injection container is required to access the 'filter' service"
                 );
             }
 
