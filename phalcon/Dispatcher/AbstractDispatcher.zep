@@ -645,7 +645,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * );
      * ```
      *
-     * @throws Phalcon\Dispatcher\Exception
+     * @throws PhalconException
      */
     public function forward(array forward) -> void
     {
