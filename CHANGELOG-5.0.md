@@ -10,6 +10,7 @@
   - `Phalcon\Translate\Adapter\Csv::exists()`
   - `Phalcon\Translate\Adapter\Gettext::exists()`
   - `Phalcon\Translate\Adapter\NativeArray::exists()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
+- Moved `Phalcon\Container` to `Phalcon\Container\Container` [#15796](https://github.com/phalcon/cphalcon/issues/15796)
 
 ## Added
 - Added:
