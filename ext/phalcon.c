@@ -263,7 +263,7 @@ zend_class_entry *phalcon_config_adapter_php_ce;
 zend_class_entry *phalcon_config_adapter_yaml_ce;
 zend_class_entry *phalcon_config_configfactory_ce;
 zend_class_entry *phalcon_config_exception_ce;
-zend_class_entry *phalcon_container_ce;
+zend_class_entry *phalcon_container_container_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_decorated_ce;
 zend_class_entry *phalcon_datamapper_pdo_connectionlocator_ce;
@@ -895,7 +895,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Yaml);
 	ZEPHIR_INIT(Phalcon_Config_ConfigFactory);
 	ZEPHIR_INIT(Phalcon_Config_Exception);
-	ZEPHIR_INIT(Phalcon_Container);
+	ZEPHIR_INIT(Phalcon_Container_Container);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_ConnectionLocator);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection_Decorated);

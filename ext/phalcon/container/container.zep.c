@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -29,22 +29,22 @@
 /**
  * PSR-11 Wrapper for `Phalcon\Di`
  */
-ZEPHIR_INIT_CLASS(Phalcon_Container)
+ZEPHIR_INIT_CLASS(Phalcon_Container_Container)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon, Container, phalcon, container, phalcon_container_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Container, Container, phalcon, container_container, phalcon_container_container_method_entry, 0);
 
 	/**
 	 * @var DiInterface
 	 */
-	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_container_ce, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
+	zend_declare_property_null(phalcon_container_container_ce, SL("container"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_container_container_ce, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Container constructor
  */
-PHP_METHOD(Phalcon_Container, __construct)
+PHP_METHOD(Phalcon_Container_Container, __construct)
 {
 	zval *container, container_sub;
 	zval *this_ptr = getThis();
@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Container, __construct)
 /**
  * Return the service
  */
-PHP_METHOD(Phalcon_Container, get)
+PHP_METHOD(Phalcon_Container_Container, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Container, get)
 /**
  * Whether a service exists or not in the container
  */
-PHP_METHOD(Phalcon_Container, has)
+PHP_METHOD(Phalcon_Container_Container, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

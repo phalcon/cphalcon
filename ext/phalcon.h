@@ -219,7 +219,7 @@
 #include "phalcon/config/adapter/yaml.zep.h"
 #include "phalcon/config/configfactory.zep.h"
 #include "phalcon/config/exception.zep.h"
-#include "phalcon/container.zep.h"
+#include "phalcon/container/container.zep.h"
 #include "phalcon/datamapper/pdo/connection.zep.h"
 #include "phalcon/datamapper/pdo/connection/decorated.zep.h"
 #include "phalcon/datamapper/pdo/connectionlocator.zep.h"
