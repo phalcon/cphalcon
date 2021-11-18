@@ -1638,7 +1638,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_7$$36);
 			ZEPHIR_CONCAT_SV(&_7$$36, "Unrecognized PostgreSQL data type at column ", &_6$$36);
-			ZEPHIR_CALL_METHOD(NULL, &_5$$36, "__construct", NULL, 8, &_7$$36);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$36, "__construct", NULL, 30, &_7$$36);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$36, "phalcon/Db/Dialect/Postgresql.zep", 511);
 			ZEPHIR_MM_RESTORE();

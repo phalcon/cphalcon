@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Micro, Exception, phalcon, mvc_micro_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Micro, Exception, phalcon, mvc_micro_exception, zend_ce_exception, NULL, 0);
 
 	return SUCCESS;
 }

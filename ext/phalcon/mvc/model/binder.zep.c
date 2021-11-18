@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 						object_init_ex(&_10$$14, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_NVAR(&_11$$14);
 						ZEPHIR_CONCAT_SVS(&_11$$14, "You should provide model class name for ", &paramKey, " parameter");
-						ZEPHIR_CALL_METHOD(NULL, &_10$$14, "__construct", &_12, 8, &_11$$14);
+						ZEPHIR_CALL_METHOD(NULL, &_10$$14, "__construct", &_12, 30, &_11$$14);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_10$$14, "phalcon/Mvc/Model/Binder.zep", 199);
 						ZEPHIR_MM_RESTORE();
@@ -580,7 +580,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 							object_init_ex(&_18$$28, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_NVAR(&_19$$28);
 							ZEPHIR_CONCAT_SVS(&_19$$28, "You should provide model class name for ", &paramKey, " parameter");
-							ZEPHIR_CALL_METHOD(NULL, &_18$$28, "__construct", &_12, 8, &_19$$28);
+							ZEPHIR_CALL_METHOD(NULL, &_18$$28, "__construct", &_12, 30, &_19$$28);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_18$$28, "phalcon/Mvc/Model/Binder.zep", 199);
 							ZEPHIR_MM_RESTORE();

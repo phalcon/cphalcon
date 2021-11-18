@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		object_init_ex(&_3$$19, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$19);
 		ZEPHIR_CONCAT_SV(&_4$$19, "Unknown statement ", &type);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$19, "__construct", NULL, 8, &_4$$19);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$19, "__construct", NULL, 30, &_4$$19);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$19, "phalcon/Mvc/Model/Query.zep", 393);
 		ZEPHIR_MM_RESTORE();
@@ -796,7 +796,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse)
 				object_init_ex(&_4$$13, phalcon_mvc_model_exception_ce);
 				ZEPHIR_INIT_VAR(&_5$$13);
 				ZEPHIR_CONCAT_SVSV(&_5$$13, "Unknown statement ", &type, ", when preparing: ", &phql);
-				ZEPHIR_CALL_METHOD(NULL, &_4$$13, "__construct", NULL, 8, &_5$$13);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$13, "__construct", NULL, 30, &_5$$13);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_4$$13, "phalcon/Mvc/Model/Query.zep", 599);
 				ZEPHIR_MM_RESTORE();
@@ -1370,7 +1370,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 						object_init_ex(&_12$$12, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_NVAR(&_13$$12);
 						ZEPHIR_CONCAT_SVS(&_13$$12, "Bound parameter '", &wildcard, "' cannot be replaced because it isn't in the placeholders list");
-						ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", &_14, 8, &_13$$12);
+						ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", &_14, 30, &_13$$12);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_12$$12, "phalcon/Mvc/Model/Query.zep", 912);
 						ZEPHIR_MM_RESTORE();
@@ -1400,7 +1400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 					object_init_ex(&_19$$15, phalcon_mvc_model_exception_ce);
 					ZEPHIR_INIT_NVAR(&_20$$15);
 					ZEPHIR_CONCAT_SVS(&_20$$15, "Column '", &fieldName, "' isn't part of the column map");
-					ZEPHIR_CALL_METHOD(NULL, &_19$$15, "__construct", &_14, 8, &_20$$15);
+					ZEPHIR_CALL_METHOD(NULL, &_19$$15, "__construct", &_14, 30, &_20$$15);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_19$$15, "phalcon/Mvc/Model/Query.zep", 935);
 					ZEPHIR_MM_RESTORE();
@@ -1453,7 +1453,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 							object_init_ex(&_27$$21, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_NVAR(&_28$$21);
 							ZEPHIR_CONCAT_SVS(&_28$$21, "Bound parameter '", &wildcard, "' cannot be replaced because it isn't in the placeholders list");
-							ZEPHIR_CALL_METHOD(NULL, &_27$$21, "__construct", &_14, 8, &_28$$21);
+							ZEPHIR_CALL_METHOD(NULL, &_27$$21, "__construct", &_14, 30, &_28$$21);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_27$$21, "phalcon/Mvc/Model/Query.zep", 912);
 							ZEPHIR_MM_RESTORE();
@@ -1483,7 +1483,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 						object_init_ex(&_32$$24, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_NVAR(&_33$$24);
 						ZEPHIR_CONCAT_SVS(&_33$$24, "Column '", &fieldName, "' isn't part of the column map");
-						ZEPHIR_CALL_METHOD(NULL, &_32$$24, "__construct", &_14, 8, &_33$$24);
+						ZEPHIR_CALL_METHOD(NULL, &_32$$24, "__construct", &_14, 30, &_33$$24);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_32$$24, "phalcon/Mvc/Model/Query.zep", 935);
 						ZEPHIR_MM_RESTORE();
@@ -2382,7 +2382,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 					object_init_ex(&_91$$98, phalcon_mvc_model_exception_ce);
 					ZEPHIR_INIT_VAR(&_92$$98);
 					ZEPHIR_CONCAT_SVS(&_92$$98, "Resultset class \"", &resultsetClassName, "\" not found");
-					ZEPHIR_CALL_METHOD(NULL, &_91$$98, "__construct", NULL, 8, &_92$$98);
+					ZEPHIR_CALL_METHOD(NULL, &_91$$98, "__construct", NULL, 30, &_92$$98);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_91$$98, "phalcon/Mvc/Model/Query.zep", 1293);
 					ZEPHIR_MM_RESTORE();
@@ -2397,7 +2397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 					object_init_ex(&_95$$99, phalcon_mvc_model_exception_ce);
 					ZEPHIR_INIT_VAR(&_96$$99);
 					ZEPHIR_CONCAT_SVS(&_96$$99, "Resultset class \"", &resultsetClassName, "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
-					ZEPHIR_CALL_METHOD(NULL, &_95$$99, "__construct", NULL, 8, &_96$$99);
+					ZEPHIR_CALL_METHOD(NULL, &_95$$99, "__construct", NULL, 30, &_96$$99);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_95$$99, "phalcon/Mvc/Model/Query.zep", 1299);
 					ZEPHIR_MM_RESTORE();
@@ -2586,7 +2586,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 						object_init_ex(&_12$$11, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_NVAR(&_13$$11);
 						ZEPHIR_CONCAT_SVS(&_13$$11, "Bound parameter '", &wildcard, "' cannot be replaced because it's not in the placeholders list");
-						ZEPHIR_CALL_METHOD(NULL, &_12$$11, "__construct", &_14, 8, &_13$$11);
+						ZEPHIR_CALL_METHOD(NULL, &_12$$11, "__construct", &_14, 30, &_13$$11);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_12$$11, "phalcon/Mvc/Model/Query.zep", 1422);
 						ZEPHIR_MM_RESTORE();
@@ -2662,7 +2662,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 							object_init_ex(&_24$$20, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_NVAR(&_25$$20);
 							ZEPHIR_CONCAT_SVS(&_25$$20, "Bound parameter '", &wildcard, "' cannot be replaced because it's not in the placeholders list");
-							ZEPHIR_CALL_METHOD(NULL, &_24$$20, "__construct", &_14, 8, &_25$$20);
+							ZEPHIR_CALL_METHOD(NULL, &_24$$20, "__construct", &_14, 30, &_25$$20);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_24$$20, "phalcon/Mvc/Model/Query.zep", 1422);
 							ZEPHIR_MM_RESTORE();
@@ -3414,7 +3414,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 								object_init_ex(&_50$$44, phalcon_mvc_model_exception_ce);
 								ZEPHIR_INIT_VAR(&_51$$44);
 								ZEPHIR_CONCAT_SV(&_51$$44, "Bind value is required for array type placeholder: ", &name);
-								ZEPHIR_CALL_METHOD(NULL, &_50$$44, "__construct", NULL, 8, &_51$$44);
+								ZEPHIR_CALL_METHOD(NULL, &_50$$44, "__construct", NULL, 30, &_51$$44);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_50$$44, "phalcon/Mvc/Model/Query.zep", 1898);
 								ZEPHIR_MM_RESTORE();
@@ -3425,7 +3425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 								object_init_ex(&_52$$45, phalcon_mvc_model_exception_ce);
 								ZEPHIR_INIT_VAR(&_53$$45);
 								ZEPHIR_CONCAT_SV(&_53$$45, "Bind type requires an array in placeholder: ", &name);
-								ZEPHIR_CALL_METHOD(NULL, &_52$$45, "__construct", NULL, 8, &_53$$45);
+								ZEPHIR_CALL_METHOD(NULL, &_52$$45, "__construct", NULL, 30, &_53$$45);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_52$$45, "phalcon/Mvc/Model/Query.zep", 1904);
 								ZEPHIR_MM_RESTORE();
@@ -3436,7 +3436,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 								object_init_ex(&_54$$46, phalcon_mvc_model_exception_ce);
 								ZEPHIR_INIT_VAR(&_55$$46);
 								ZEPHIR_CONCAT_SV(&_55$$46, "At least one value must be bound in placeholder: ", &name);
-								ZEPHIR_CALL_METHOD(NULL, &_54$$46, "__construct", NULL, 8, &_55$$46);
+								ZEPHIR_CALL_METHOD(NULL, &_54$$46, "__construct", NULL, 30, &_55$$46);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_54$$46, "phalcon/Mvc/Model/Query.zep", 1910);
 								ZEPHIR_MM_RESTORE();
@@ -3457,7 +3457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 						object_init_ex(&_58$$47, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_VAR(&_59$$47);
 						ZEPHIR_CONCAT_SV(&_59$$47, "Unknown bind type: ", &bindType);
-						ZEPHIR_CALL_METHOD(NULL, &_58$$47, "__construct", NULL, 8, &_59$$47);
+						ZEPHIR_CALL_METHOD(NULL, &_58$$47, "__construct", NULL, 30, &_59$$47);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_58$$47, "phalcon/Mvc/Model/Query.zep", 1925);
 						ZEPHIR_MM_RESTORE();
@@ -3671,7 +3671,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 			object_init_ex(&_84$$70, phalcon_mvc_model_exception_ce);
 			ZEPHIR_INIT_VAR(&_85$$70);
 			ZEPHIR_CONCAT_SV(&_85$$70, "Unknown expression type ", &exprType);
-			ZEPHIR_CALL_METHOD(NULL, &_84$$70, "__construct", NULL, 8, &_85$$70);
+			ZEPHIR_CALL_METHOD(NULL, &_84$$70, "__construct", NULL, 30, &_85$$70);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_84$$70, "phalcon/Mvc/Model/Query.zep", 2124);
 			ZEPHIR_MM_RESTORE();
@@ -4077,7 +4077,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoinType)
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVSV(&_2, "Unknown join type ", &type, ", when preparing: ", &_1);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 8, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 30, &_2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Query.zep", 2310);
 	ZEPHIR_MM_RESTORE();
@@ -4302,7 +4302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 					zephir_read_property(&_6$$9, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_7$$9);
 					ZEPHIR_CONCAT_SVSV(&_7$$9, "Cannot use '", &alias, "' as join alias because it was already used, when preparing: ", &_6$$9);
-					ZEPHIR_CALL_METHOD(NULL, &_5$$9, "__construct", &_8, 8, &_7$$9);
+					ZEPHIR_CALL_METHOD(NULL, &_5$$9, "__construct", &_8, 30, &_7$$9);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_5$$9, "phalcon/Mvc/Model/Query.zep", 2391);
 					ZEPHIR_MM_RESTORE();
@@ -4325,7 +4325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 					zephir_read_property(&_10$$11, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_11$$11);
 					ZEPHIR_CONCAT_SVSV(&_11$$11, "Cannot use '", &realModelName, "' as join alias because it was already used, when preparing: ", &_10$$11);
-					ZEPHIR_CALL_METHOD(NULL, &_9$$11, "__construct", &_8, 8, &_11$$11);
+					ZEPHIR_CALL_METHOD(NULL, &_9$$11, "__construct", &_8, 30, &_11$$11);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_9$$11, "phalcon/Mvc/Model/Query.zep", 2450);
 					ZEPHIR_MM_RESTORE();
@@ -4381,7 +4381,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 						zephir_read_property(&_14$$14, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_15$$14);
 						ZEPHIR_CONCAT_SVSV(&_15$$14, "Cannot use '", &alias, "' as join alias because it was already used, when preparing: ", &_14$$14);
-						ZEPHIR_CALL_METHOD(NULL, &_13$$14, "__construct", &_8, 8, &_15$$14);
+						ZEPHIR_CALL_METHOD(NULL, &_13$$14, "__construct", &_8, 30, &_15$$14);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_13$$14, "phalcon/Mvc/Model/Query.zep", 2391);
 						ZEPHIR_MM_RESTORE();
@@ -4404,7 +4404,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 						zephir_read_property(&_17$$16, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_18$$16);
 						ZEPHIR_CONCAT_SVSV(&_18$$16, "Cannot use '", &realModelName, "' as join alias because it was already used, when preparing: ", &_17$$16);
-						ZEPHIR_CALL_METHOD(NULL, &_16$$16, "__construct", &_8, 8, &_18$$16);
+						ZEPHIR_CALL_METHOD(NULL, &_16$$16, "__construct", &_8, 30, &_18$$16);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_16$$16, "phalcon/Mvc/Model/Query.zep", 2450);
 						ZEPHIR_MM_RESTORE();
@@ -4621,7 +4621,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 									zephir_read_property(&_53$$31, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 									ZEPHIR_INIT_NVAR(&_54$$31);
 									ZEPHIR_CONCAT_SVSVSV(&_54$$31, "There is more than one relation between models '", &fromModelName, "' and '", &joinModel, "', the join must be done using an alias, when preparing: ", &_53$$31);
-									ZEPHIR_CALL_METHOD(NULL, &_52$$31, "__construct", &_8, 8, &_54$$31);
+									ZEPHIR_CALL_METHOD(NULL, &_52$$31, "__construct", &_8, 30, &_54$$31);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_52$$31, "phalcon/Mvc/Model/Query.zep", 2597);
 									ZEPHIR_MM_RESTORE();
@@ -4727,7 +4727,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 										zephir_read_property(&_67$$45, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 										ZEPHIR_INIT_NVAR(&_68$$45);
 										ZEPHIR_CONCAT_SVSVSV(&_68$$45, "There is more than one relation between models '", &fromModelName, "' and '", &joinModel, "', the join must be done using an alias, when preparing: ", &_67$$45);
-										ZEPHIR_CALL_METHOD(NULL, &_66$$45, "__construct", &_8, 8, &_68$$45);
+										ZEPHIR_CALL_METHOD(NULL, &_66$$45, "__construct", &_8, 30, &_68$$45);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_66$$45, "phalcon/Mvc/Model/Query.zep", 2597);
 										ZEPHIR_MM_RESTORE();
@@ -4851,7 +4851,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 										zephir_read_property(&_83$$60, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 										ZEPHIR_INIT_NVAR(&_84$$60);
 										ZEPHIR_CONCAT_SVSVSV(&_84$$60, "There is more than one relation between models '", &fromModelName, "' and '", &joinModel, "', the join must be done using an alias, when preparing: ", &_83$$60);
-										ZEPHIR_CALL_METHOD(NULL, &_82$$60, "__construct", &_8, 8, &_84$$60);
+										ZEPHIR_CALL_METHOD(NULL, &_82$$60, "__construct", &_8, 30, &_84$$60);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_82$$60, "phalcon/Mvc/Model/Query.zep", 2597);
 										ZEPHIR_MM_RESTORE();
@@ -4957,7 +4957,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins)
 											zephir_read_property(&_95$$74, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 											ZEPHIR_INIT_NVAR(&_96$$74);
 											ZEPHIR_CONCAT_SVSVSV(&_96$$74, "There is more than one relation between models '", &fromModelName, "' and '", &joinModel, "', the join must be done using an alias, when preparing: ", &_95$$74);
-											ZEPHIR_CALL_METHOD(NULL, &_94$$74, "__construct", &_8, 8, &_96$$74);
+											ZEPHIR_CALL_METHOD(NULL, &_94$$74, "__construct", &_8, 30, &_96$$74);
 											zephir_check_call_status();
 											zephir_throw_exception_debug(&_94$$74, "phalcon/Mvc/Model/Query.zep", 2597);
 											ZEPHIR_MM_RESTORE();
@@ -5175,7 +5175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getMultiJoin)
 					zephir_read_property(&_6$$5, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_7$$5);
 					ZEPHIR_CONCAT_SVSVSV(&_7$$5, "The number of fields must be equal to the number of referenced fields in join ", &modelAlias, "-", &joinAlias, ", when preparing: ", &_6$$5);
-					ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", &_8, 8, &_7$$5);
+					ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", &_8, 30, &_7$$5);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_5$$5, "phalcon/Mvc/Model/Query.zep", 2756);
 					ZEPHIR_MM_RESTORE();
@@ -5223,7 +5223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getMultiJoin)
 						zephir_read_property(&_14$$7, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_15$$7);
 						ZEPHIR_CONCAT_SVSVSV(&_15$$7, "The number of fields must be equal to the number of referenced fields in join ", &modelAlias, "-", &joinAlias, ", when preparing: ", &_14$$7);
-						ZEPHIR_CALL_METHOD(NULL, &_13$$7, "__construct", &_8, 8, &_15$$7);
+						ZEPHIR_CALL_METHOD(NULL, &_13$$7, "__construct", &_8, 30, &_15$$7);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_13$$7, "phalcon/Mvc/Model/Query.zep", 2756);
 						ZEPHIR_MM_RESTORE();
@@ -5583,7 +5583,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 			zephir_read_property(&_9$$7, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_10$$7);
 			ZEPHIR_CONCAT_SVSV(&_10$$7, "Unknown model or alias '", &columnDomain, "' (11), when preparing: ", &_9$$7);
-			ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 8, &_10$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 30, &_10$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_8$$7, "phalcon/Mvc/Model/Query.zep", 2946);
 			ZEPHIR_MM_RESTORE();
@@ -5599,7 +5599,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 				zephir_read_property(&_13$$9, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_VAR(&_14$$9);
 				ZEPHIR_CONCAT_SVSV(&_14$$9, "There is no model related to model or alias '", &columnDomain, "', when executing: ", &_13$$9);
-				ZEPHIR_CALL_METHOD(NULL, &_12$$9, "__construct", NULL, 8, &_14$$9);
+				ZEPHIR_CALL_METHOD(NULL, &_12$$9, "__construct", NULL, 30, &_14$$9);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_12$$9, "phalcon/Mvc/Model/Query.zep", 2965);
 				ZEPHIR_MM_RESTORE();
@@ -5619,7 +5619,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 				zephir_read_property(&_16$$12, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_VAR(&_17$$12);
 				ZEPHIR_CONCAT_SVSVSV(&_17$$12, "Column '", &columnName, "' doesn't belong to the model or alias '", &columnDomain, "', when executing: ", &_16$$12);
-				ZEPHIR_CALL_METHOD(NULL, &_15$$12, "__construct", NULL, 8, &_17$$12);
+				ZEPHIR_CALL_METHOD(NULL, &_15$$12, "__construct", NULL, 30, &_17$$12);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_15$$12, "phalcon/Mvc/Model/Query.zep", 2977);
 				ZEPHIR_MM_RESTORE();
@@ -5649,7 +5649,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 						zephir_read_property(&_24$$17, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_25$$17);
 						ZEPHIR_CONCAT_SVSV(&_25$$17, "The column '", &columnName, "' is ambiguous, when preparing: ", &_24$$17);
-						ZEPHIR_CALL_METHOD(NULL, &_23$$17, "__construct", NULL, 8, &_25$$17);
+						ZEPHIR_CALL_METHOD(NULL, &_23$$17, "__construct", NULL, 30, &_25$$17);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_23$$17, "phalcon/Mvc/Model/Query.zep", 3000);
 						ZEPHIR_MM_RESTORE();
@@ -5679,7 +5679,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 							zephir_read_property(&_29$$20, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 							ZEPHIR_INIT_NVAR(&_30$$20);
 							ZEPHIR_CONCAT_SVSV(&_30$$20, "The column '", &columnName, "' is ambiguous, when preparing: ", &_29$$20);
-							ZEPHIR_CALL_METHOD(NULL, &_28$$20, "__construct", NULL, 8, &_30$$20);
+							ZEPHIR_CALL_METHOD(NULL, &_28$$20, "__construct", NULL, 30, &_30$$20);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_28$$20, "phalcon/Mvc/Model/Query.zep", 3000);
 							ZEPHIR_MM_RESTORE();
@@ -5698,7 +5698,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 			zephir_read_property(&_32$$21, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_33$$21);
 			ZEPHIR_CONCAT_SVSV(&_33$$21, "Column '", &columnName, "' doesn't belong to any of the selected models (1), when preparing: ", &_32$$21);
-			ZEPHIR_CALL_METHOD(NULL, &_31$$21, "__construct", NULL, 8, &_33$$21);
+			ZEPHIR_CALL_METHOD(NULL, &_31$$21, "__construct", NULL, 30, &_33$$21);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_31$$21, "phalcon/Mvc/Model/Query.zep", 3014);
 			ZEPHIR_MM_RESTORE();
@@ -5719,7 +5719,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 			zephir_read_property(&_36$$23, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_37$$23);
 			ZEPHIR_CONCAT_SVSV(&_37$$23, "Can't obtain model's source from models list: '", &className, "', when preparing: ", &_36$$23);
-			ZEPHIR_CALL_METHOD(NULL, &_35$$23, "__construct", NULL, 8, &_37$$23);
+			ZEPHIR_CALL_METHOD(NULL, &_35$$23, "__construct", NULL, 30, &_37$$23);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_35$$23, "phalcon/Mvc/Model/Query.zep", 3036);
 			ZEPHIR_MM_RESTORE();
@@ -5740,7 +5740,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 				zephir_read_property(&_39$$27, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_VAR(&_40$$27);
 				ZEPHIR_CONCAT_SVSV(&_40$$27, "Column '", &columnName, "' doesn't belong to any of the selected models (3), when preparing: ", &_39$$27);
-				ZEPHIR_CALL_METHOD(NULL, &_38$$27, "__construct", NULL, 8, &_40$$27);
+				ZEPHIR_CALL_METHOD(NULL, &_38$$27, "__construct", NULL, 30, &_40$$27);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_38$$27, "phalcon/Mvc/Model/Query.zep", 3055);
 				ZEPHIR_MM_RESTORE();
@@ -6080,7 +6080,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 			zephir_read_property(&_13$$11, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_14$$11);
 			ZEPHIR_CONCAT_SVSV(&_14$$11, "Unknown model or alias '", &columnDomain, "' (2), when preparing: ", &_13$$11);
-			ZEPHIR_CALL_METHOD(NULL, &_12$$11, "__construct", NULL, 8, &_14$$11);
+			ZEPHIR_CALL_METHOD(NULL, &_12$$11, "__construct", NULL, 30, &_14$$11);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_12$$11, "phalcon/Mvc/Model/Query.zep", 3222);
 			ZEPHIR_MM_RESTORE();
@@ -6143,7 +6143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 	object_init_ex(&_19, phalcon_mvc_model_exception_ce);
 	ZEPHIR_INIT_VAR(&_20);
 	ZEPHIR_CONCAT_SV(&_20, "Unknown type of column ", &columnType);
-	ZEPHIR_CALL_METHOD(NULL, &_19, "__construct", NULL, 8, &_20);
+	ZEPHIR_CALL_METHOD(NULL, &_19, "__construct", NULL, 30, &_20);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_19, "phalcon/Mvc/Model/Query.zep", 3302);
 	ZEPHIR_MM_RESTORE();
@@ -6279,7 +6279,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleJoin)
 					zephir_read_property(&_10$$6, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_11$$6);
 					ZEPHIR_CONCAT_SVSVSV(&_11$$6, "The number of fields must be equal to the number of referenced fields in join ", &modelAlias, "-", &joinAlias, ", when preparing: ", &_10$$6);
-					ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_12, 8, &_11$$6);
+					ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_12, 30, &_11$$6);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_9$$6, "phalcon/Mvc/Model/Query.zep", 3364);
 					ZEPHIR_MM_RESTORE();
@@ -6327,7 +6327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleJoin)
 						zephir_read_property(&_18$$8, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_19$$8);
 						ZEPHIR_CONCAT_SVSVSV(&_19$$8, "The number of fields must be equal to the number of referenced fields in join ", &modelAlias, "-", &joinAlias, ", when preparing: ", &_18$$8);
-						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_12, 8, &_19$$8);
+						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_12, 30, &_19$$8);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_17$$8, "phalcon/Mvc/Model/Query.zep", 3364);
 						ZEPHIR_MM_RESTORE();
@@ -6874,7 +6874,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert)
 					zephir_read_property(&_19$$11, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_20$$11);
 					ZEPHIR_CONCAT_SVSVSV(&_20$$11, "The model '", &modelName, "' doesn't have the attribute '", &name, "', when preparing: ", &_19$$11);
-					ZEPHIR_CALL_METHOD(NULL, &_18$$11, "__construct", &_21, 8, &_20$$11);
+					ZEPHIR_CALL_METHOD(NULL, &_18$$11, "__construct", &_21, 30, &_20$$11);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_18$$11, "phalcon/Mvc/Model/Query.zep", 3625);
 					ZEPHIR_MM_RESTORE();
@@ -6903,7 +6903,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert)
 						zephir_read_property(&_25$$13, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_26$$13);
 						ZEPHIR_CONCAT_SVSVSV(&_26$$13, "The model '", &modelName, "' doesn't have the attribute '", &name, "', when preparing: ", &_25$$13);
-						ZEPHIR_CALL_METHOD(NULL, &_24$$13, "__construct", &_21, 8, &_26$$13);
+						ZEPHIR_CALL_METHOD(NULL, &_24$$13, "__construct", &_21, 30, &_26$$13);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_24$$13, "phalcon/Mvc/Model/Query.zep", 3625);
 						ZEPHIR_MM_RESTORE();
@@ -7203,7 +7203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 					zephir_read_property(&_6$$17, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_7$$17);
 					ZEPHIR_CONCAT_SVSV(&_7$$17, "Alias '", &alias, "' is used more than once, when preparing: ", &_6$$17);
-					ZEPHIR_CALL_METHOD(NULL, &_5$$17, "__construct", &_8, 8, &_7$$17);
+					ZEPHIR_CALL_METHOD(NULL, &_5$$17, "__construct", &_8, 30, &_7$$17);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_5$$17, "phalcon/Mvc/Model/Query.zep", 3779);
 					ZEPHIR_MM_RESTORE();
@@ -7274,7 +7274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 								zephir_read_property(&_18$$27, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 								ZEPHIR_INIT_NVAR(&_19$$27);
 								ZEPHIR_CONCAT_SVSVSV(&_19$$27, "Can't find a relationship between '", &modelName, "' and '", &relationModel, "' when preparing: ", &_18$$27);
-								ZEPHIR_CALL_METHOD(NULL, &_17$$27, "__construct", &_8, 8, &_19$$27);
+								ZEPHIR_CALL_METHOD(NULL, &_17$$27, "__construct", &_8, 30, &_19$$27);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_17$$27, "phalcon/Mvc/Model/Query.zep", 3837);
 								ZEPHIR_MM_RESTORE();
@@ -7351,7 +7351,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 									zephir_read_property(&_30$$31, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 									ZEPHIR_INIT_NVAR(&_31$$31);
 									ZEPHIR_CONCAT_SVSVSV(&_31$$31, "Can't find a relationship between '", &modelName, "' and '", &relationModel, "' when preparing: ", &_30$$31);
-									ZEPHIR_CALL_METHOD(NULL, &_29$$31, "__construct", &_8, 8, &_31$$31);
+									ZEPHIR_CALL_METHOD(NULL, &_29$$31, "__construct", &_8, 30, &_31$$31);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_29$$31, "phalcon/Mvc/Model/Query.zep", 3837);
 									ZEPHIR_MM_RESTORE();
@@ -7437,7 +7437,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 						zephir_read_property(&_39$$36, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 						ZEPHIR_INIT_NVAR(&_40$$36);
 						ZEPHIR_CONCAT_SVSV(&_40$$36, "Alias '", &alias, "' is used more than once, when preparing: ", &_39$$36);
-						ZEPHIR_CALL_METHOD(NULL, &_38$$36, "__construct", &_8, 8, &_40$$36);
+						ZEPHIR_CALL_METHOD(NULL, &_38$$36, "__construct", &_8, 30, &_40$$36);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_38$$36, "phalcon/Mvc/Model/Query.zep", 3779);
 						ZEPHIR_MM_RESTORE();
@@ -7509,7 +7509,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 									zephir_read_property(&_51$$46, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 									ZEPHIR_INIT_NVAR(&_52$$46);
 									ZEPHIR_CONCAT_SVSVSV(&_52$$46, "Can't find a relationship between '", &modelName, "' and '", &relationModel, "' when preparing: ", &_51$$46);
-									ZEPHIR_CALL_METHOD(NULL, &_50$$46, "__construct", &_8, 8, &_52$$46);
+									ZEPHIR_CALL_METHOD(NULL, &_50$$46, "__construct", &_8, 30, &_52$$46);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_50$$46, "phalcon/Mvc/Model/Query.zep", 3837);
 									ZEPHIR_MM_RESTORE();
@@ -7586,7 +7586,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect)
 										zephir_read_property(&_63$$50, this_ptr, ZEND_STRL("phql"), PH_NOISY_CC | PH_READONLY);
 										ZEPHIR_INIT_NVAR(&_64$$50);
 										ZEPHIR_CONCAT_SVSVSV(&_64$$50, "Can't find a relationship between '", &modelName, "' and '", &relationModel, "' when preparing: ", &_63$$50);
-										ZEPHIR_CALL_METHOD(NULL, &_62$$50, "__construct", &_8, 8, &_64$$50);
+										ZEPHIR_CALL_METHOD(NULL, &_62$$50, "__construct", &_8, 30, &_64$$50);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_62$$50, "phalcon/Mvc/Model/Query.zep", 3837);
 										ZEPHIR_MM_RESTORE();

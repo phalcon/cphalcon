@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		ZVAL_STRING(&_2$$3, "Unknown hashing algorithm: %s");
 		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 141, &_2$$3, &algo);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security.zep", 219);
 		ZEPHIR_MM_RESTORE();

@@ -577,14 +577,14 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withFragment)
 	ZEPHIR_SEPARATE_PARAM(fragment);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, fragment);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, fragment);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "filterfragment", NULL, 364, fragment);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(fragment, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "fragment");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, fragment, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, fragment, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -640,7 +640,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withPath)
 	ZEPHIR_SEPARATE_PARAM(path);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, path);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, path);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "?");
@@ -663,7 +663,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withPath)
 	ZEPHIR_CPY_WRT(path, &_5);
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "path");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, path, &_6);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, path, &_6);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withPort)
 	}
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "port");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, port, &_3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, port, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withQuery)
 	ZEPHIR_SEPARATE_PARAM(query);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, query);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, query);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "#");
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withQuery)
 	ZEPHIR_CPY_WRT(query, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "query");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, query, &_3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, query, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withScheme)
 	ZEPHIR_SEPARATE_PARAM(scheme);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, scheme);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, scheme);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "filterscheme", NULL, 368, scheme);
 	zephir_check_call_status();
@@ -889,10 +889,10 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withUserInfo)
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, user);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, user);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(password) != IS_NULL)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, user);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, user);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "rawurlencode", NULL, 308, user);
@@ -905,7 +905,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withUserInfo)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "user");
-	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 21, user, &_2);
+	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 20, user, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(&newInstance, ZEND_STRL("pass"), password);
 	RETURN_CCTOR(&newInstance);
@@ -1469,7 +1469,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterScheme)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 10, &scheme);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 9, &scheme);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "#:(//)?$#");

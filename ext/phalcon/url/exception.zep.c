@@ -29,7 +29,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Url_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Url, Exception, phalcon, url_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Url, Exception, phalcon, url_exception, zend_ce_exception, NULL, 0);
 
 	return SUCCESS;
 }

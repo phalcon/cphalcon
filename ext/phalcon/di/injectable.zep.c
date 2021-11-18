@@ -199,17 +199,14 @@ PHP_METHOD(Phalcon_Di_Injectable, __isset)
  */
 PHP_METHOD(Phalcon_Di_Injectable, getDI)
 {
-	zval container, _0, _2$$4, _3$$4, _5$$4;
+	zval container, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$4);
 
 
 	ZEPHIR_MM_GROW();
@@ -220,16 +217,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(&_2$$4);
-			object_init_ex(&_2$$4, phalcon_di_exception_ce);
-			ZEPHIR_INIT_VAR(&_5$$4);
-			ZVAL_STRING(&_5$$4, "internal services");
-			ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_di_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 125);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection container is required to access internal services", "phalcon/Di/Injectable.zep", 125);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdi", NULL, 0, &container);

@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 	object_init_ex(&_11, phalcon_db_exception_ce);
 	ZEPHIR_INIT_VAR(&_12);
 	ZEPHIR_CONCAT_SVS(&_12, "Invalid SQL expression type '", &type, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_11, "__construct", NULL, 8, &_12);
+	ZEPHIR_CALL_METHOD(NULL, &_11, "__construct", NULL, 30, &_12);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_11, "phalcon/Db/Dialect.zep", 369);
 	ZEPHIR_MM_RESTORE();

@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 		object_init_ex(&_6$$15, phalcon_annotations_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$15);
 		ZEPHIR_CONCAT_SVS(&_7$$15, "The expression ", &type, " is unknown");
-		ZEPHIR_CALL_METHOD(NULL, &_6$$15, "__construct", NULL, 8, &_7$$15);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$15, "__construct", NULL, 30, &_7$$15);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$15, "phalcon/Annotations/Annotation.zep", 154);
 		ZEPHIR_MM_RESTORE();

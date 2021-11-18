@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	if (UNEXPECTED(found == 0)) {
 		ZEPHIR_INIT_VAR(&_5$$21);
 		object_init_ex(&_5$$21, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$21, "__construct", NULL, 8);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$21, "__construct", NULL, 30);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 205);
 		ZEPHIR_MM_RESTORE();

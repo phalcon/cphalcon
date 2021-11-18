@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Exception, Exception, phalcon, cache_exception_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Exception, Exception, phalcon, cache_exception_exception, zend_ce_exception, NULL, 0);
 
 	zend_class_implements(phalcon_cache_exception_exception_ce, 1, zephir_get_internal_ce(SL("psr\\simplecache\\cacheexception")));
 	return SUCCESS;

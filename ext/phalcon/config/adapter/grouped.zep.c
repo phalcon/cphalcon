@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 					object_init_ex(&_14$$9, phalcon_config_exception_ce);
 					ZEPHIR_INIT_NVAR(&_15$$9);
 					ZEPHIR_CONCAT_SS(&_15$$9, "To use 'array' adapter you have to specify ", "the 'config' as an array.");
-					ZEPHIR_CALL_METHOD(NULL, &_14$$9, "__construct", &_16, 8, &_15$$9);
+					ZEPHIR_CALL_METHOD(NULL, &_14$$9, "__construct", &_16, 30, &_15$$9);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_14$$9, "phalcon/Config/Adapter/Grouped.zep", 110);
 					ZEPHIR_MM_RESTORE();
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 				zephir_array_fetch_string(&configArray, &configInstance, SL("config"), PH_NOISY, "phalcon/Config/Adapter/Grouped.zep", 113);
 				ZEPHIR_INIT_NVAR(&configInstance);
 				object_init_ex(&configInstance, phalcon_config_config_ce);
-				ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_17, 24, &configArray);
+				ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_17, 23, &configArray);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_INIT_NVAR(&_18$$10);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 						object_init_ex(&_27$$17, phalcon_config_exception_ce);
 						ZEPHIR_INIT_NVAR(&_28$$17);
 						ZEPHIR_CONCAT_SS(&_28$$17, "To use 'array' adapter you have to specify ", "the 'config' as an array.");
-						ZEPHIR_CALL_METHOD(NULL, &_27$$17, "__construct", &_16, 8, &_28$$17);
+						ZEPHIR_CALL_METHOD(NULL, &_27$$17, "__construct", &_16, 30, &_28$$17);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_27$$17, "phalcon/Config/Adapter/Grouped.zep", 110);
 						ZEPHIR_MM_RESTORE();
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 					zephir_array_fetch_string(&configArray, &configInstance, SL("config"), PH_NOISY, "phalcon/Config/Adapter/Grouped.zep", 113);
 					ZEPHIR_INIT_NVAR(&configInstance);
 					object_init_ex(&configInstance, phalcon_config_config_ce);
-					ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_17, 24, &configArray);
+					ZEPHIR_CALL_METHOD(NULL, &configInstance, "__construct", &_17, 23, &configArray);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(&_29$$18);

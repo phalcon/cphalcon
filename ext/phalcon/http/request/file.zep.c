@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile)
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&tmp) == IS_STRING;
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 19, &tmp);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 18, &tmp);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_1);
 	}

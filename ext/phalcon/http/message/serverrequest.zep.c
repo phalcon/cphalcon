@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("queryParams"), &queryParams);
 	ZEPHIR_INIT_NVAR(&_6);
 	object_init_ex(&_6, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 24);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 23);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_6);
 	ZEPHIR_MM_RESTORE();
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "attributes");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cookieParams");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &cookies, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, &cookies, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parsedBody");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, data, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, data, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "queryParams");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &query, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, &query, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "uploadedFiles");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &uploadedFiles, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, &uploadedFiles, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "attributes");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

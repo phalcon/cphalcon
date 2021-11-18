@@ -1881,7 +1881,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_36$$59);
 			ZEPHIR_CONCAT_SV(&_36$$59, "Unrecognized MySQL data type at column ", &_35$$59);
-			ZEPHIR_CALL_METHOD(NULL, &_34$$59, "__construct", NULL, 8, &_36$$59);
+			ZEPHIR_CALL_METHOD(NULL, &_34$$59, "__construct", NULL, 30, &_36$$59);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_34$$59, "phalcon/Db/Dialect/Mysql.zep", 635);
 			ZEPHIR_MM_RESTORE();

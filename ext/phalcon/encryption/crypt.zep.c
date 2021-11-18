@@ -1077,7 +1077,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable)
 	}
 	ZEPHIR_CALL_METHOD_ZVAL(&available, this_ptr, &method, NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&lower, "mb_strtolower", NULL, 10, &cipher);
+	ZEPHIR_CALL_FUNCTION(&lower, "mb_strtolower", NULL, 9, &cipher);
 	zephir_check_call_status();
 	if (1 != zephir_array_isset(&available, &lower)) {
 		ZEPHIR_INIT_VAR(&_1$$5);
@@ -1086,7 +1086,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable)
 		ZVAL_STRING(&_2$$5, "The %s algorithm '%s' is not supported on this system.");
 		ZEPHIR_CALL_FUNCTION(&_3$$5, "sprintf", NULL, 141, &_2$$5, &type, &cipher);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 8, &_3$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 30, &_3$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$5, "phalcon/Encryption/Crypt.zep", 587);
 		ZEPHIR_MM_RESTORE();
@@ -1884,7 +1884,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getMode)
 	ZVAL_LONG(&_5, ((zephir_get_numberval(&position) - zephir_fast_strlen_ev(&_4)) + 1));
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_substr(&_1, &_3, zephir_get_intval(&_5), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 10, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 9, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

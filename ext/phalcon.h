@@ -4,7 +4,6 @@
 #ifndef ZEPHIR_CLASS_ENTRIES_H
 #define ZEPHIR_CLASS_ENTRIES_H
 
-#include "phalcon/exception.zep.h"
 #include "phalcon/di/injectionawareinterface.zep.h"
 #include "phalcon/html/helper/abstracthelper.zep.h"
 #include "phalcon/validation/validatorinterface.zep.h"

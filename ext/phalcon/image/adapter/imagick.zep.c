@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct)
 			zephir_read_property(&_9$$5, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_10$$5);
 			ZEPHIR_CONCAT_SVS(&_10$$5, "Imagick::readImage ", &_9$$5, " failed");
-			ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 8, &_10$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 30, &_10$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_8$$5, "phalcon/Image/Adapter/Imagick.zep", 63);
 			ZEPHIR_MM_RESTORE();
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct)
 			zephir_read_property(&_22$$9, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_23$$9);
 			ZEPHIR_CONCAT_SV(&_23$$9, "Failed to create image from file ", &_22$$9);
-			ZEPHIR_CALL_METHOD(NULL, &_21$$9, "__construct", NULL, 8, &_23$$9);
+			ZEPHIR_CALL_METHOD(NULL, &_21$$9, "__construct", NULL, 30, &_23$$9);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_21$$9, "phalcon/Image/Adapter/Imagick.zep", 84);
 			ZEPHIR_MM_RESTORE();
