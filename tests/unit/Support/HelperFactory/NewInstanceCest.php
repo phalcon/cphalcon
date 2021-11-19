@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\HelperFactory;
 
 use Codeception\Example;
-use Phalcon\Filter\Filter;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Helper\Arr\Blacklist;
 use Phalcon\Support\Helper\Arr\Chunk;
+use Phalcon\Support\Helper\Arr\Filter;
 use Phalcon\Support\Helper\Arr\First;
 use Phalcon\Support\Helper\Arr\FirstKey;
 use Phalcon\Support\Helper\Arr\Flatten;
