@@ -124,6 +124,7 @@ class HelperFactory extends AbstractFactory
         return [
             "blacklist"     : "Phalcon\\Support\\Helper\\Arr\\Blacklist",
             "chunk"         : "Phalcon\\Support\\Helper\\Arr\\Chunk",
+            "filter"        : "Phalcon\\Support\\Helper\\Arr\\Filter",
             "first"         : "Phalcon\\Support\\Helper\\Arr\\First",
             "firstKey"      : "Phalcon\\Support\\Helper\\Arr\\FirstKey",
             "flatten"       : "Phalcon\\Support\\Helper\\Arr\\Flatten",
@@ -146,13 +147,15 @@ class HelperFactory extends AbstractFactory
             "basename"      : "Phalcon\\Support\\Helper\\File\\Basename",
             "decode"        : "Phalcon\\Support\\Helper\\Json\\Decode",
             "encode"        : "Phalcon\\Support\\Helper\\Json\\Encode",
-            "between"       : "Phalcon\\Support\\Helper\\Number\\IsBetween",
+            "isBetween"     : "Phalcon\\Support\\Helper\\Number\\IsBetween",
+            "camelize"      : "Phalcon\\Support\\Helper\\Str\\Camelize",
             "concat"        : "Phalcon\\Support\\Helper\\Str\\Concat",
             "countVowels"   : "Phalcon\\Support\\Helper\\Str\\CountVowels",
             "decapitalize"  : "Phalcon\\Support\\Helper\\Str\\Decapitalize",
             "decrement"     : "Phalcon\\Support\\Helper\\Str\\Decrement",
             "dirFromFile"   : "Phalcon\\Support\\Helper\\Str\\DirFromFile",
             "dirSeparator"  : "Phalcon\\Support\\Helper\\Str\\DirSeparator",
+            "dynamic"       : "Phalcon\\Support\\Helper\\Str\\Dynamic",
             "endsWith"      : "Phalcon\\Support\\Helper\\Str\\EndsWith",
             "firstBetween"  : "Phalcon\\Support\\Helper\\Str\\FirstBetween",
             "friendly"      : "Phalcon\\Support\\Helper\\Str\\Friendly",
@@ -172,6 +175,7 @@ class HelperFactory extends AbstractFactory
             "startsWith"    : "Phalcon\\Support\\Helper\\Str\\StartsWith",
             "suffix"        : "Phalcon\\Support\\Helper\\Str\\Suffix",
             "ucwords"       : "Phalcon\\Support\\Helper\\Str\\Ucwords",
+            "uncamelize"    : "Phalcon\\Support\\Helper\\Str\\Uncamelize",
             "underscore"    : "Phalcon\\Support\\Helper\\Str\\Underscore",
             "upper"         : "Phalcon\\Support\\Helper\\Str\\Upper"
         ];
