@@ -1,5 +1,5 @@
 
-extern zend_class_entry *phalcon_url_exception_ce;
+extern zend_class_entry *phalcon_mvc_url_exception_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Url_Exception);
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url_Exception);
 

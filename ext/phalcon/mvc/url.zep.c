@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -21,7 +21,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "phalcon/url/utils.h"
+#include "phalcon/mvc/url/utils.h"
 
 
 /**
@@ -49,31 +49,31 @@
  * );
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Url)
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Url, phalcon, url, phalcon_di_abstractinjectionaware_ce, phalcon_url_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Url, phalcon, mvc_url, phalcon_di_abstractinjectionaware_ce, phalcon_mvc_url_method_entry, 0);
 
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("basePath"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("basePath"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var RouterInterface | null
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("router"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("router"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_url_ce, 1, phalcon_url_urlinterface_ce);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_mvc_url_ce, 1, phalcon_mvc_url_urlinterface_ce);
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Url, __construct)
+PHP_METHOD(Phalcon_Mvc_Url, __construct)
 {
 	zval *router = NULL, router_sub, __$null;
 	zval *this_ptr = getThis();
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Url, __construct)
  *     'for' => '',
  * ]
  */
-PHP_METHOD(Phalcon_Url, get)
+PHP_METHOD(Phalcon_Mvc_Url, get)
 {
 	zval strUri, _16$$15;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -217,9 +217,9 @@ PHP_METHOD(Phalcon_Url, get)
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 107);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Mvc/Url.zep", 107);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 107);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Mvc/Url.zep", 107);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Url, get)
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&routeName);
 		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&routeName, uri, SL("for"), 0)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 126);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Mvc/Url.zep", 126);
 			return;
 		}
 		zephir_read_property(&_6$$9, this_ptr, ZEND_STRL("router"), PH_NOISY_CC | PH_READONLY);
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Url, get)
 			zephir_read_property(&_7$$11, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CPY_WRT(&container, &_7$$11);
 			if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "A dependency injection container is required to access the 'router' service", "phalcon/Url.zep", 140);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "A dependency injection container is required to access the 'router' service", "phalcon/Mvc/Url.zep", 140);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_9$$11);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Url, get)
 			ZEPHIR_CALL_METHOD(&_8$$11, &container, "has", NULL, 0, &_9$$11);
 			zephir_check_call_status();
 			if (UNEXPECTED(!zephir_is_true(&_8$$11))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "A dependency injection container is required to access the 'router' service", "phalcon/Url.zep", 146);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "A dependency injection container is required to access the 'router' service", "phalcon/Mvc/Url.zep", 146);
 				return;
 			}
 			ZEPHIR_INIT_NVAR(&_9$$11);
@@ -279,12 +279,12 @@ PHP_METHOD(Phalcon_Url, get)
 		ZEPHIR_CPY_WRT(&route, &_11$$9);
 		if (UNEXPECTED(Z_TYPE_P(&route) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_12$$14);
-			object_init_ex(&_12$$14, phalcon_url_exception_ce);
+			object_init_ex(&_12$$14, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(&_13$$14);
 			ZEPHIR_CONCAT_SVS(&_13$$14, "Cannot obtain a route using the name '", &routeName, "'");
 			ZEPHIR_CALL_METHOD(NULL, &_12$$14, "__construct", NULL, 30, &_13$$14);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_12$$14, "phalcon/Url.zep", 161);
+			zephir_throw_exception_debug(&_12$$14, "phalcon/Mvc/Url.zep", 161);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Url, get)
 /**
  * Returns the base path
  */
-PHP_METHOD(Phalcon_Url, getBasePath)
+PHP_METHOD(Phalcon_Mvc_Url, getBasePath)
 {
 	zval *this_ptr = getThis();
 
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Url, getBasePath)
 /**
  * Returns the prefix for all the generated urls. By default /
  */
-PHP_METHOD(Phalcon_Url, getBaseUri)
+PHP_METHOD(Phalcon_Mvc_Url, getBaseUri)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval _SERVER, baseUri, phpSelf, uri, _0;
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Url, getBaseUri)
  *     'for' => ''
  * ]
  */
-PHP_METHOD(Phalcon_Url, getStatic)
+PHP_METHOD(Phalcon_Mvc_Url, getStatic)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Url, getStatic)
 /**
  * Returns the prefix for all the generated static urls. By default /
  */
-PHP_METHOD(Phalcon_Url, getStaticBaseUri)
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri)
 {
 	zval staticBaseUri, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Url, getStaticBaseUri)
  * $url->setBasePath("/var/www/htdocs/");
  *```
  */
-PHP_METHOD(Phalcon_Url, setBasePath)
+PHP_METHOD(Phalcon_Mvc_Url, setBasePath)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *basePath_param = NULL;
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Url, setBasePath)
  * $url->setBaseUri("/invo/index.php/");
  *```
  */
-PHP_METHOD(Phalcon_Url, setBaseUri)
+PHP_METHOD(Phalcon_Mvc_Url, setBaseUri)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *baseUri_param = NULL, _0;
@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Url, setBaseUri)
  * $url->setStaticBaseUri("/invo/");
  *```
  */
-PHP_METHOD(Phalcon_Url, setStaticBaseUri)
+PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *staticBaseUri_param = NULL;
@@ -601,7 +601,7 @@ PHP_METHOD(Phalcon_Url, setStaticBaseUri)
 /**
  * Generates a local path
  */
-PHP_METHOD(Phalcon_Url, path)
+PHP_METHOD(Phalcon_Mvc_Url, path)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *path_param = NULL, _0;
