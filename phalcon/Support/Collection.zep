@@ -124,15 +124,25 @@ class Collection implements
     ) -> var {
         var key, value;
 
-        if likely this->insensitive {
-            let element = element->lower();
-        }
+        let element = this->processKey(element);
 
-        if unlikely !fetch key, this->lowerKeys[element] {
+        /**
+         * If the key is not set, return the default value
+         */
+        if unlikely true !== isset(this->lowerKeys[element]) {
             return defaultValue;
         }
 
-        let value = this->data[key];
+        let key   = this->lowerKeys[element],
+            value = this->data[key];
+
+        /**
+         * If the key is set and is `null` then return the default
+         * value also. This aligns with 3.x behavior
+         */
+        if unlikely (null === value) {
+            return defaultValue;
+        }
 
         if unlikely cast {
             settype(value, cast);
@@ -149,16 +159,21 @@ class Collection implements
         return new ArrayIterator(this->data);
     }
 
-
+    /**
+     * Return the keys as an array
+     */
     public function getKeys(bool insensitive = true) -> array
     {
-        if insensitive {
-            return array_keys(this->lowerKeys);
-        } else {
-            return array_keys(this->data);
-        }
+        array collection;
+
+        let collection = (insensitive === true) ? this->lowerKeys : this->data;
+
+        return array_keys(collection);
     }
 
+    /**
+     * Return the values as an array
+     */
     public function getValues() -> array
     {
         return array_values(this->data);
@@ -169,9 +184,7 @@ class Collection implements
      */
     public function has(string element) -> bool
     {
-        if likely this->insensitive {
-            let element = element->lower();
-        }
+        let element = this->processKey(element);
 
         return isset this->lowerKeys[element];
     }
@@ -263,11 +276,8 @@ class Collection implements
         array lowerKeys, data;
 
         if likely this->has(element) {
-            if likely this->insensitive {
-                let element = element->lower();
-            }
-
-            let data      = this->data,
+            let element   = this->processKey(element),
+                data      = this->data,
                 lowerKeys = this->lowerKeys,
                 key       = lowerKeys[element];
 
@@ -348,9 +358,8 @@ class Collection implements
     {
         var key;
 
-        let key = (true === this->insensitive) ? element->lower() : element;
-
-        let this->data[element]  = value,
+        let key                  = this->processKey(element),
+            this->data[element]  = value,
             this->lowerKeys[key] = element;
     }
 
@@ -360,5 +369,18 @@ class Collection implements
     protected function phpJsonEncode(var value, int flags = 0, int depth = 512)
     {
         return json_encode(value, flags, depth);
+    }
+
+    /**
+     * Checks if we need insensitive keys and if so, converts the element to
+     * lowercase
+     */
+    protected function processKey(string element) -> string
+    {
+        if likely this->insensitive {
+            return mb_strtolower(element);
+        }
+
+        return element;
     }
 }

@@ -11,6 +11,7 @@
   - `Phalcon\Translate\Adapter\Gettext::exists()`
   - `Phalcon\Translate\Adapter\NativeArray::exists()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
 - Moved `Phalcon\Container` to `Phalcon\Container\Container` [#15796](https://github.com/phalcon/cphalcon/issues/15796)
+- Changed the `Phalcon\Support\Collection::get()` to return the default value if the key does not exist or the value is `null` to mirror the behavior of v3. [#15370](https://github.com/phalcon/cphalcon/issues/15370)
 
 ## Added
 - Added:
