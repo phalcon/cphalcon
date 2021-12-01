@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class CountCest
+class ClearCest
 {
     /**
-     * Tests Phalcon\Registry :: count()
+     * Tests Phalcon\Support\Registry :: clear()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryCount(UnitTester $I)
+    public function registryClear(UnitTester $I)
     {
-        $I->wantToTest('Registry - count()');
+        $I->wantToTest('Registry - clear()');
 
         $data = [
             'one'   => 'two',
@@ -36,13 +36,15 @@ class CountCest
 
         $registry = new Registry($data);
 
-        $I->assertCount(
-            3,
+        $I->assertEquals(
+            $data,
             $registry->toArray()
         );
 
+        $registry->clear();
+
         $I->assertEquals(
-            3,
+            0,
             $registry->count()
         );
     }

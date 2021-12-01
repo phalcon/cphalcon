@@ -11,28 +11,31 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class ConstructCest
+class SetCest
 {
     /**
-     * Tests Phalcon\Registry :: __construct()
+     * Tests Phalcon\Support\Registry :: set()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryConstruct(UnitTester $I)
+    public function registrySet(UnitTester $I)
     {
-        $I->wantToTest('Registry - __construct()');
+        $I->wantToTest('Registry - set()');
 
         $registry = new Registry();
 
-        $I->assertInstanceOf(
-            Registry::class,
-            $registry
+
+        $registry->set('three', 'two');
+
+        $I->assertEquals(
+            'two',
+            $registry->get('three')
         );
     }
 }

@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
 class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Registry :: getIterator()
+     * Tests Phalcon\Support\Registry :: getIterator()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

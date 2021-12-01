@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class UnserializeCest
+class JsonSerializeCest
 {
     /**
-     * Tests Phalcon\Registry :: unserialize()
+     * Tests Phalcon\Support\Registry :: jsonSerialize()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryUnserialize(UnitTester $I)
+    public function registryJsonSerialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - unserialize()');
+        $I->wantToTest('Registry - jsonSerialize()');
 
         $data = [
             'one'   => 'two',
@@ -34,15 +34,11 @@ class UnserializeCest
             'five'  => 'six',
         ];
 
-        $serialized = serialize($data);
-
-        $registry = new Registry();
-
-        $registry->unserialize($serialized);
+        $registry = new Registry($data);
 
         $I->assertEquals(
             $data,
-            $registry->toArray()
+            $registry->jsonSerialize()
         );
     }
 }

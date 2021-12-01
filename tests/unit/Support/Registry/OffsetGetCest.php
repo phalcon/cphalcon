@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class ClearCest
+class OffsetGetCest
 {
     /**
-     * Tests Phalcon\Registry :: clear()
+     * Unit Tests Phalcon\Support\Registry :: offsetGet()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function registryClear(UnitTester $I)
+    public function registryOffsetGet(UnitTester $I)
     {
-        $I->wantToTest('Registry - clear()');
+        $I->wantToTest('Registry - offsetGet()');
 
         $data = [
             'one'   => 'two',
@@ -36,16 +36,16 @@ class ClearCest
 
         $registry = new Registry($data);
 
+        $expected = 'four';
+
         $I->assertEquals(
-            $data,
-            $registry->toArray()
+            $expected,
+            $registry['three']
         );
 
-        $registry->clear();
-
         $I->assertEquals(
-            0,
-            $registry->count()
+            $expected,
+            $registry->offsetGet('three')
         );
     }
 }

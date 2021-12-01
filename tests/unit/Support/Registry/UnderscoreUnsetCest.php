@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class RemoveCest
+class UnderscoreUnsetCest
 {
     /**
-     * Tests Phalcon\Registry :: remove()
+     * Unit Tests Phalcon\Support\Registry :: __unset()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function registryRemove(UnitTester $I)
+    public function registryUnderscoreUnset(UnitTester $I)
     {
-        $I->wantToTest('Registry - remove()');
+        $I->wantToTest('Registry - __unset()');
 
         $data = [
             'one'   => 'two',
@@ -42,7 +42,7 @@ class RemoveCest
         );
 
 
-        $registry->remove('five');
+        unset($registry->five);
 
         $I->assertEquals(
             [
@@ -53,33 +53,7 @@ class RemoveCest
         );
 
 
-        $registry->remove('FIVE');
-
-        $I->assertEquals(
-            [
-                'one'   => 'two',
-                'three' => 'four',
-            ],
-            $registry->toArray()
-        );
-
-
-        $registry->init($data);
-
-        unset($registry['five']);
-
-        $I->assertEquals(
-            [
-                'one'   => 'two',
-                'three' => 'four',
-            ],
-            $registry->toArray()
-        );
-
-
-        $registry->init($data);
-
-        $registry->offsetUnset('five');
+        unset($registry->FIVE);
 
         $I->assertEquals(
             [

@@ -11,38 +11,30 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class OffsetSetCest
+class UnderscoreSetCest
 {
     /**
-     * Unit Tests Phalcon\Registry :: offsetSet()
+     * Unit Tests Phalcon\Support\Registry :: __set()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function registryOffsetSet(UnitTester $I)
+    public function registryUnderscoreSet(UnitTester $I)
     {
-        $I->wantToTest('Registry - offsetSet()');
+        $I->wantToTest('Registry - __set()');
 
         $registry = new Registry();
 
 
-        $registry->offsetSet('three', 123);
+        $registry->three = 'Phalcon';
 
         $I->assertEquals(
-            123,
-            $registry->get('three')
-        );
-
-
-        $registry['three'] = 456;
-
-        $I->assertEquals(
-            456,
+            'Phalcon',
             $registry->get('three')
         );
     }

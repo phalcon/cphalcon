@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class OffsetExistsCest
+class UnderscoreIsSetCest
 {
     /**
-     * Unit Tests Phalcon\Registry :: offsetExists()
+     * Unit Tests Phalcon\Support\Registry :: __isset()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function registryOffsetExists(UnitTester $I)
+    public function registryUnderscoreIsSet(UnitTester $I)
     {
-        $I->wantToTest('Registry - offsetExists()');
+        $I->wantToTest('Registry - __isset()');
 
         $data = [
             'one'   => 'two',
@@ -37,19 +37,11 @@ class OffsetExistsCest
         $registry = new Registry($data);
 
         $I->assertTrue(
-            isset($registry['three'])
+            isset($registry->three)
         );
 
         $I->assertFalse(
-            isset($registry['unknown'])
-        );
-
-        $I->assertTrue(
-            $registry->offsetExists('three')
-        );
-
-        $I->assertFalse(
-            $registry->offsetExists('unknown')
+            isset($registry->unknown)
         );
     }
 }

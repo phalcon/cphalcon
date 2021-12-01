@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class JsonSerializeCest
+class ToJsonCest
 {
     /**
-     * Tests Phalcon\Registry :: jsonSerialize()
+     * Tests Phalcon\Support\Registry :: toJson()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryJsonSerialize(UnitTester $I)
+    public function registryToJson(UnitTester $I)
     {
-        $I->wantToTest('Registry - jsonSerialize()');
+        $I->wantToTest('Registry - toJson()');
 
         $data = [
             'one'   => 'two',
@@ -37,8 +37,13 @@ class JsonSerializeCest
         $registry = new Registry($data);
 
         $I->assertEquals(
-            $data,
-            $registry->jsonSerialize()
+            json_encode($data),
+            $registry->toJson()
+        );
+
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $registry->toJson(JSON_PRETTY_PRINT)
         );
     }
 }

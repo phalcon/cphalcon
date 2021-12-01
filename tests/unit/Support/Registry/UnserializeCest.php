@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class InitCest
+class UnserializeCest
 {
     /**
-     * Tests Phalcon\Registry :: init()
+     * Tests Phalcon\Support\Registry :: unserialize()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryInit(UnitTester $I)
+    public function registryUnserialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - init()');
+        $I->wantToTest('Registry - unserialize()');
 
         $data = [
             'one'   => 'two',
@@ -34,14 +34,11 @@ class InitCest
             'five'  => 'six',
         ];
 
+        $serialized = serialize($data);
+
         $registry = new Registry();
 
-        $I->assertEquals(
-            0,
-            $registry->count()
-        );
-
-        $registry->init($data);
+        $registry->unserialize($serialized);
 
         $I->assertEquals(
             $data,
