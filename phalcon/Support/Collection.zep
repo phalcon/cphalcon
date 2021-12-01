@@ -133,16 +133,16 @@ class Collection implements
             return defaultValue;
         }
 
+        let key   = this->lowerKeys[element],
+            value = this->data[key];
+
         /**
          * If the key is set and is `null` then return the default
          * value also. This aligns with 3.x behavior
          */
-        if unlikely (null === this->data[element]) {
+        if unlikely (null === value) {
             return defaultValue;
         }
-
-        let key   = this->lowerKeys[element],
-            value = this->data[key];
 
         if unlikely cast {
             settype(value, cast);
@@ -357,6 +357,7 @@ class Collection implements
     protected function setData(string element, var value) -> void
     {
         var key;
+
         let key                  = this->processKey(element),
             this->data[element]  = value,
             this->lowerKeys[key] = element;
