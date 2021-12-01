@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
 use Codeception\Example;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use stdClass;
 use UnitTester;
 
 class GetCest
 {
     /**
-     * Tests Phalcon\Registry :: get()
+     * Tests Phalcon\Support\Registry :: get()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -45,7 +45,7 @@ class GetCest
     }
 
     /**
-     * Tests Phalcon\Registry :: get() - cast
+     * Tests Phalcon\Support\Registry :: get() - cast
      *
      * @dataProvider getExamples
      *

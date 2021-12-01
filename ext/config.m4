@@ -480,7 +480,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/exception.zep.c
 	phalcon/paginator/paginatorfactory.zep.c
 	phalcon/paginator/repository.zep.c
-	phalcon/registry.zep.c
 	phalcon/session/adapter/libmemcached.zep.c
 	phalcon/session/adapter/redis.zep.c
 	phalcon/session/adapter/stream.zep.c
@@ -560,6 +559,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/helper/str/underscore.zep.c
 	phalcon/support/helper/str/upper.zep.c
 	phalcon/support/helperfactory.zep.c
+	phalcon/support/registry.zep.c
 	phalcon/support/version.zep.c
 	phalcon/tag.zep.c
 	phalcon/tag/exception.zep.c

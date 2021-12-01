@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class UnderscoreGetCest
+class CountCest
 {
     /**
-     * Unit Tests Phalcon\Registry :: __get()
+     * Tests Phalcon\Support\Registry :: count()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-25
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public function registryUnderscoreGet(UnitTester $I)
+    public function registryCount(UnitTester $I)
     {
-        $I->wantToTest('Registry - __get()');
+        $I->wantToTest('Registry - count()');
 
         $data = [
             'one'   => 'two',
@@ -36,9 +36,14 @@ class UnderscoreGetCest
 
         $registry = new Registry($data);
 
+        $I->assertCount(
+            3,
+            $registry->toArray()
+        );
+
         $I->assertEquals(
-            'four',
-            $registry->three
+            3,
+            $registry->count()
         );
     }
 }

@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class OffsetUnsetCest
+class UnderscoreGetCest
 {
     /**
-     * Unit Tests Phalcon\Registry :: offsetUnset()
+     * Unit Tests Phalcon\Support\Registry :: __get()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function registryOffsetUnset(UnitTester $I)
+    public function registryUnderscoreGet(UnitTester $I)
     {
-        $I->wantToTest('Registry - offsetUnset()');
+        $I->wantToTest('Registry - __get()');
 
         $data = [
             'one'   => 'two',
@@ -36,25 +36,9 @@ class OffsetUnsetCest
 
         $registry = new Registry($data);
 
-
-        unset($registry['five']);
-
         $I->assertEquals(
-            [
-                'one'   => 'two',
-                'three' => 'four',
-            ],
-            $registry->toArray()
-        );
-
-
-        $registry->offsetUnset('one');
-
-        $I->assertEquals(
-            [
-                'three' => 'four',
-            ],
-            $registry->toArray()
+            'four',
+            $registry->three
         );
     }
 }

@@ -11,22 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Registry;
+namespace Phalcon\Tests\Unit\Support\Registry;
 
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use UnitTester;
 
-class ToArrayCest
+class SerializeCest
 {
     /**
-     * Tests Phalcon\Registry :: toArray()
+     * Tests Phalcon\Support\Registry :: serialize()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function registryToArray(UnitTester $I)
+    public function registrySerialize(UnitTester $I)
     {
-        $I->wantToTest('Registry - toArray()');
+        $I->wantToTest('Registry - serialize()');
 
         $data = [
             'one'   => 'two',
@@ -37,8 +37,8 @@ class ToArrayCest
         $registry = new Registry($data);
 
         $I->assertEquals(
-            $data,
-            $registry->toArray()
+            serialize($data),
+            $registry->serialize()
         );
     }
 }

@@ -237,9 +237,10 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 
 
 
-	zephir_create_array(return_value, 53, 0);
+	zephir_create_array(return_value, 59, 0);
 	add_assoc_stringl_ex(return_value, SL("blacklist"), SL("Phalcon\\Support\\Helper\\Arr\\Blacklist"));
 	add_assoc_stringl_ex(return_value, SL("chunk"), SL("Phalcon\\Support\\Helper\\Arr\\Chunk"));
+	add_assoc_stringl_ex(return_value, SL("filter"), SL("Phalcon\\Support\\Helper\\Arr\\Filter"));
 	add_assoc_stringl_ex(return_value, SL("first"), SL("Phalcon\\Support\\Helper\\Arr\\First"));
 	add_assoc_stringl_ex(return_value, SL("firstKey"), SL("Phalcon\\Support\\Helper\\Arr\\FirstKey"));
 	add_assoc_stringl_ex(return_value, SL("flatten"), SL("Phalcon\\Support\\Helper\\Arr\\Flatten"));
@@ -262,13 +263,15 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("basename"), SL("Phalcon\\Support\\Helper\\File\\Basename"));
 	add_assoc_stringl_ex(return_value, SL("decode"), SL("Phalcon\\Support\\Helper\\Json\\Decode"));
 	add_assoc_stringl_ex(return_value, SL("encode"), SL("Phalcon\\Support\\Helper\\Json\\Encode"));
-	add_assoc_stringl_ex(return_value, SL("between"), SL("Phalcon\\Support\\Helper\\Number\\IsBetween"));
+	add_assoc_stringl_ex(return_value, SL("isBetween"), SL("Phalcon\\Support\\Helper\\Number\\IsBetween"));
+	add_assoc_stringl_ex(return_value, SL("camelize"), SL("Phalcon\\Support\\Helper\\Str\\Camelize"));
 	add_assoc_stringl_ex(return_value, SL("concat"), SL("Phalcon\\Support\\Helper\\Str\\Concat"));
 	add_assoc_stringl_ex(return_value, SL("countVowels"), SL("Phalcon\\Support\\Helper\\Str\\CountVowels"));
 	add_assoc_stringl_ex(return_value, SL("decapitalize"), SL("Phalcon\\Support\\Helper\\Str\\Decapitalize"));
 	add_assoc_stringl_ex(return_value, SL("decrement"), SL("Phalcon\\Support\\Helper\\Str\\Decrement"));
 	add_assoc_stringl_ex(return_value, SL("dirFromFile"), SL("Phalcon\\Support\\Helper\\Str\\DirFromFile"));
 	add_assoc_stringl_ex(return_value, SL("dirSeparator"), SL("Phalcon\\Support\\Helper\\Str\\DirSeparator"));
+	add_assoc_stringl_ex(return_value, SL("dynamic"), SL("Phalcon\\Support\\Helper\\Str\\Dynamic"));
 	add_assoc_stringl_ex(return_value, SL("endsWith"), SL("Phalcon\\Support\\Helper\\Str\\EndsWith"));
 	add_assoc_stringl_ex(return_value, SL("firstBetween"), SL("Phalcon\\Support\\Helper\\Str\\FirstBetween"));
 	add_assoc_stringl_ex(return_value, SL("friendly"), SL("Phalcon\\Support\\Helper\\Str\\Friendly"));
@@ -288,6 +291,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("startsWith"), SL("Phalcon\\Support\\Helper\\Str\\StartsWith"));
 	add_assoc_stringl_ex(return_value, SL("suffix"), SL("Phalcon\\Support\\Helper\\Str\\Suffix"));
 	add_assoc_stringl_ex(return_value, SL("ucwords"), SL("Phalcon\\Support\\Helper\\Str\\Ucwords"));
+	add_assoc_stringl_ex(return_value, SL("uncamelize"), SL("Phalcon\\Support\\Helper\\Str\\Uncamelize"));
 	add_assoc_stringl_ex(return_value, SL("underscore"), SL("Phalcon\\Support\\Helper\\Str\\Underscore"));
 	add_assoc_stringl_ex(return_value, SL("upper"), SL("Phalcon\\Support\\Helper\\Str\\Upper"));
 	return;

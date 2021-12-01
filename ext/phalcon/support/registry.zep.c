@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -78,9 +78,9 @@
  * are implemented using object handlers or similar techniques: this allows to
  * bypass relatively slow method calls.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Registry)
+ZEPHIR_INIT_CLASS(Phalcon_Support_Registry)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_support_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support, Registry, phalcon, support_registry, phalcon_support_collection_ce, phalcon_support_registry_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
 }
@@ -88,7 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Registry)
 /**
  * Constructor
  */
-PHP_METHOD(Phalcon_Registry, __construct)
+PHP_METHOD(Phalcon_Support_Registry, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Registry, __construct)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "__construct", &_0, 0, &data);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "__construct", &_0, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Registry, __construct)
 /**
  * Magic getter to get an element from the collection
  */
-PHP_METHOD(Phalcon_Registry, __get)
+PHP_METHOD(Phalcon_Support_Registry, __get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Registry, __get)
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", &_0, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Registry, __get)
 /**
  * Magic isset to check whether an element exists or not
  */
-PHP_METHOD(Phalcon_Registry, __isset)
+PHP_METHOD(Phalcon_Support_Registry, __isset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Registry, __isset)
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "has", &_0, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Registry, __isset)
 /**
  * Magic setter to assign values to an element
  */
-PHP_METHOD(Phalcon_Registry, __set)
+PHP_METHOD(Phalcon_Support_Registry, __set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Registry, __set)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, &element, value);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", &_0, 0, &element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Registry, __set)
 /**
  * Magic unset to remove an element from the collection
  */
-PHP_METHOD(Phalcon_Registry, __unset)
+PHP_METHOD(Phalcon_Support_Registry, __unset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Registry, __unset)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "remove", &_0, 0, &element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Registry, __unset)
 /**
  * Clears the internal collection
  */
-PHP_METHOD(Phalcon_Registry, clear)
+PHP_METHOD(Phalcon_Support_Registry, clear)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Registry, clear)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "clear", &_0, 0);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "clear", &_0, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Registry, clear)
  *
  * @link https://php.net/manual/en/countable.count.php
  */
-PHP_METHOD(Phalcon_Registry, count)
+PHP_METHOD(Phalcon_Support_Registry, count)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Registry, count)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "count", &_0, 0);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "count", &_0, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Registry, count)
 /**
  * Get the element from the collection
  */
-PHP_METHOD(Phalcon_Registry, get)
+PHP_METHOD(Phalcon_Support_Registry, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Registry, get)
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue, &cast);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue, &cast);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Registry, get)
 /**
  * Returns the iterator of the class
  */
-PHP_METHOD(Phalcon_Registry, getIterator)
+PHP_METHOD(Phalcon_Support_Registry, getIterator)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Registry, getIterator)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "getiterator", &_0, 0);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "getiterator", &_0, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Registry, getIterator)
 /**
  * Determines whether an element is present in the collection.
  */
-PHP_METHOD(Phalcon_Registry, has)
+PHP_METHOD(Phalcon_Support_Registry, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_Registry, has)
 	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "has", &_0, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Registry, has)
 /**
  * Initialize internal array
  */
-PHP_METHOD(Phalcon_Registry, init)
+PHP_METHOD(Phalcon_Support_Registry, init)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Registry, init)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "init", &_0, 0, &data);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "init", &_0, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Registry, init)
  *
  * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
  */
-PHP_METHOD(Phalcon_Registry, jsonSerialize)
+PHP_METHOD(Phalcon_Support_Registry, jsonSerialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Registry, jsonSerialize)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "jsonserialize", &_0, 0);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "jsonserialize", &_0, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Registry, jsonSerialize)
  *
  * @link https://php.net/manual/en/arrayaccess.offsetexists.php
  */
-PHP_METHOD(Phalcon_Registry, offsetExists)
+PHP_METHOD(Phalcon_Support_Registry, offsetExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -524,7 +524,7 @@ PHP_METHOD(Phalcon_Registry, offsetExists)
 	zephir_fetch_params(1, 1, 0, &element);
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, element);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "has", &_0, 0, element);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Registry, offsetExists)
  *
  * @link https://php.net/manual/en/arrayaccess.offsetget.php
  */
-PHP_METHOD(Phalcon_Registry, offsetGet)
+PHP_METHOD(Phalcon_Support_Registry, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Registry, offsetGet)
 	zephir_fetch_params(1, 1, 0, &element);
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, element);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", &_0, 0, element);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Registry, offsetGet)
  *
  * @link https://php.net/manual/en/arrayaccess.offsetset.php
  */
-PHP_METHOD(Phalcon_Registry, offsetSet)
+PHP_METHOD(Phalcon_Support_Registry, offsetSet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Registry, offsetSet)
 	zephir_fetch_params(1, 2, 0, &element, &value);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, element, value);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", &_0, 0, element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -598,7 +598,7 @@ PHP_METHOD(Phalcon_Registry, offsetSet)
  *
  * @link https://php.net/manual/en/arrayaccess.offsetunset.php
  */
-PHP_METHOD(Phalcon_Registry, offsetUnset)
+PHP_METHOD(Phalcon_Support_Registry, offsetUnset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Registry, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &element);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, element);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "remove", &_0, 0, element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Registry, offsetUnset)
 /**
  * Delete the element from the collection
  */
-PHP_METHOD(Phalcon_Registry, remove)
+PHP_METHOD(Phalcon_Support_Registry, remove)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Registry, remove)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "remove", &_0, 0, &element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -668,7 +668,7 @@ PHP_METHOD(Phalcon_Registry, remove)
  *
  * @link https://php.net/manual/en/serializable.serialize.php
  */
-PHP_METHOD(Phalcon_Registry, serialize)
+PHP_METHOD(Phalcon_Support_Registry, serialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Registry, serialize)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "serialize", &_0, 0);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "serialize", &_0, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Registry, serialize)
 /**
  * Set an element in the collection
  */
-PHP_METHOD(Phalcon_Registry, set)
+PHP_METHOD(Phalcon_Support_Registry, set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Registry, set)
 	}
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "set", &_0, 0, &element, value);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", &_0, 0, &element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Registry, set)
 /**
  * Returns the object in an array format
  */
-PHP_METHOD(Phalcon_Registry, toArray)
+PHP_METHOD(Phalcon_Support_Registry, toArray)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Registry, toArray)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "toarray", &_0, 0);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "toarray", &_0, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Registry, toArray)
  *
  * @see https://www.ietf.org/rfc/rfc4627.txt
  */
-PHP_METHOD(Phalcon_Registry, toJson)
+PHP_METHOD(Phalcon_Support_Registry, toJson)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Registry, toJson)
 
 
 	ZVAL_LONG(&_1, options);
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "tojson", &_0, 0, &_1);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "tojson", &_0, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Registry, toJson)
  *
  * @link https://php.net/manual/en/serializable.unserialize.php
  */
-PHP_METHOD(Phalcon_Registry, unserialize)
+PHP_METHOD(Phalcon_Support_Registry, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Registry, unserialize)
 	zephir_fetch_params(1, 1, 0, &serialized);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "unserialize", &_0, 0, serialized);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "unserialize", &_0, 0, serialized);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
