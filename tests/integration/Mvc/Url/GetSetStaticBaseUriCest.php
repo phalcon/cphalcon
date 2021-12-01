@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 class GetSetStaticBaseUriCest
 {
     /**
-     * Tests Phalcon\Url :: getStaticBaseUri()/setStaticBaseUri()
+     * Tests Phalcon\Mvc\Url :: getStaticBaseUri()/setStaticBaseUri()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function urlGetSetStaticBaseUri(IntegrationTester $I)
+    public function mvcUrlGetSetStaticBaseUri(IntegrationTester $I)
     {
         $I->wantToTest('Url - getStaticBaseUri()/setStaticBaseUri()');
 
@@ -41,13 +41,13 @@ class GetSetStaticBaseUriCest
     }
 
     /**
-     * Tests Phalcon\Url :: getStaticBaseUri()/setStaticBaseUri() -
+     * Tests Phalcon\Mvc\Url :: getStaticBaseUri()/setStaticBaseUri() -
      * getBaseUrl()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function urlGetSetStaticBaseUriGetBaseUri(IntegrationTester $I)
+    public function mvcUrlGetSetStaticBaseUriGetBaseUri(IntegrationTester $I)
     {
         $I->wantToTest('Url - getStaticBaseUri()/setStaticBaseUri() - getBaseUri()');
 

@@ -37,7 +37,7 @@ foreach ($iteratorDocs as $fileName) {
     $documents[$key]['docs'][implode('/', $split)] = $fileName;
 
     if (strpos($documents[$key]['title'], 'Url') > 0) {
-        $documents[$key]['title'] = 'Phalcon\Url';
+        $documents[$key]['title'] = 'Phalcon\Mvc\Url';
     }
 
     ksort($documents[$key]['docs']);

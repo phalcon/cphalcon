@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Url :: getDI()/setDI()
+     * Tests Phalcon\Mvc\Url :: getDI()/setDI()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function urlGetSetDI(IntegrationTester $I)
+    public function mvcUrlGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest('Url - getDI()/setDI()');
 

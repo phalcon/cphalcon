@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Mvc;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Url\Exception;
-use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Url\Exception;
+use Phalcon\Mvc\Url\UrlInterface;
 
 /**
  * This components helps in the generation of: URIs, URLs and Paths

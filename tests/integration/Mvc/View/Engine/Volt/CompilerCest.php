@@ -27,7 +27,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tag;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 use stdClass;
 
 /**
