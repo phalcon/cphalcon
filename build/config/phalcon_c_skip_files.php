@@ -13,7 +13,7 @@ return [
 
     'phalcon/annotations/scanner.h',
     'phalcon/annotations/annot.h',
-    'phalcon/url/utils.h',
+    'phalcon/mvc/url/utils.h',
     'phalcon/mvc/model/orm.h',
     'phalcon/mvc/model/query/scanner.h',
     'phalcon/mvc/model/query/phql.h',

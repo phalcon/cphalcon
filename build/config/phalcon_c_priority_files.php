@@ -15,7 +15,7 @@ return [
     'phalcon/mvc/view/engine/volt/parser.php.inc.h',
     'phalcon/annotations/parser.php.h',
     'phalcon/annotations/parser.php.inc.h',
-    'phalcon/url/utils.h',
+    'phalcon/mvc/url/utils.h',
     'kernel/main.h',
     'kernel/memory.h',
     'kernel/exception.h',

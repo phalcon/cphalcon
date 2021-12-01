@@ -49,7 +49,7 @@
     "phalcon/mvc/model/query/parser.c",
     "phalcon/mvc/view/engine/volt/parser.c",
     "phalcon/mvc/view/engine/volt/scanner.c",
-    "phalcon/url/utils.c"
+    "phalcon/mvc/url/utils.c"
   ],
 
   "destructors": {
