@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 399);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 426);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 			if (Z_TYPE_P(&value) != IS_NULL) {
 				ZEPHIR_INIT_NVAR(&_8$$5);
 				ZEPHIR_CONCAT_VSV(&_8$$5, &header, ": ", &value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &_8$$5, &__$true);
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &_8$$5, &__$true);
 				zephir_check_call_status();
 			} else {
 				_10$$6 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 102);
@@ -256,12 +256,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 					_10$$6 = ZEPHIR_IS_STRING(&_13$$6, "HTTP/");
 				}
 				if (_10$$6) {
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &header, &__$true);
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &header, &__$true);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(&_14$$8);
 					ZEPHIR_CONCAT_VS(&_14$$8, &header, ": ");
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &_14$$8, &__$true);
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &_14$$8, &__$true);
 					zephir_check_call_status();
 				}
 			}
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 				if (Z_TYPE_P(&value) != IS_NULL) {
 					ZEPHIR_INIT_NVAR(&_15$$10);
 					ZEPHIR_CONCAT_VSV(&_15$$10, &header, ": ", &value);
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &_15$$10, &__$true);
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &_15$$10, &__$true);
 					zephir_check_call_status();
 				} else {
 					_16$$11 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 102);
@@ -294,12 +294,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 						_16$$11 = ZEPHIR_IS_STRING(&_19$$11, "HTTP/");
 					}
 					if (_16$$11) {
-						ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &header, &__$true);
+						ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &header, &__$true);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(&_20$$13);
 						ZEPHIR_CONCAT_VS(&_20$$13, &header, ": ");
-						ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 400, &_20$$13, &__$true);
+						ZEPHIR_CALL_FUNCTION(NULL, "header", &_9, 427, &_20$$13, &__$true);
 						zephir_check_call_status();
 					}
 				}

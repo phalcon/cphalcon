@@ -111,13 +111,13 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct)
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 314);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 344);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 315, uri);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 345, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 316, headers);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 346, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_2);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 112, &method);

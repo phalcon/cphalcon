@@ -41,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidator);
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Validation\ValidatorInterface[] validators
+ * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
  * @param bool merge
  *
  * @return ElementInterface

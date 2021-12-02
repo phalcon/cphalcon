@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_NVAR(&_3);
-	zephir_create_closure_ex(&_3, NULL, phalcon_16__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_3, NULL, phalcon_18__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_FUNCTION(&output, "array_map", NULL, 107, &_3, &exploded);
 	zephir_check_call_status();
 	zephir_fast_join_str(return_value, SL(""), &output);

@@ -536,7 +536,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_usedynamicupda
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidationInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validationhasfailed, 0, 0, _IS_BOOL, 0)

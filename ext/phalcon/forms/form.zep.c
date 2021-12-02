@@ -1408,12 +1408,12 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 	zephir_check_call_status();
 	_7 = Z_TYPE_P(&validation) != IS_OBJECT;
 	if (!(_7)) {
-		_7 = !((zephir_instance_of_ev(&validation, phalcon_validation_validationinterface_ce)));
+		_7 = !((zephir_instance_of_ev(&validation, phalcon_filter_validation_validationinterface_ce)));
 	}
 	if (_7) {
 		ZEPHIR_INIT_NVAR(&validation);
-		object_init_ex(&validation, phalcon_validation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 295);
+		object_init_ex(&validation, phalcon_filter_validation_ce);
+		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 325);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
@@ -1436,7 +1436,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				{
 					ZEPHIR_INIT_NVAR(&validator);
 					ZVAL_COPY(&validator, _11$$10);
-					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 296, &name, &validator);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 326, &name, &validator);
 					zephir_check_call_status();
 				} ZEND_HASH_FOREACH_END();
 			} else {
@@ -1450,7 +1450,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 					}
 					ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 296, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 326, &name, &validator);
 						zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 					zephir_check_call_status();
@@ -1460,7 +1460,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 			ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&filters) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 297, &name, &filters);
+				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 327, &name, &filters);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -1488,7 +1488,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 					{
 						ZEPHIR_INIT_NVAR(&validator);
 						ZVAL_COPY(&validator, _15$$15);
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 296, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 326, &name, &validator);
 						zephir_check_call_status();
 					} ZEND_HASH_FOREACH_END();
 				} else {
@@ -1502,7 +1502,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 						}
 						ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 296, &name, &validator);
+							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 326, &name, &validator);
 							zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 						zephir_check_call_status();
@@ -1512,7 +1512,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&filters) == IS_ARRAY) {
-					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 297, &name, &filters);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 327, &name, &filters);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_8, "next", NULL, 0);
@@ -1520,7 +1520,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 298, data, entity);
+	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 328, data, entity);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_17, &messages, "count", NULL, 0);
 	zephir_check_call_status();
@@ -1864,7 +1864,7 @@ PHP_METHOD(Phalcon_Forms_Form, setValidation)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_validationinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_validationinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

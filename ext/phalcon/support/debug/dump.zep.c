@@ -890,7 +890,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			ZEPHIR_CONCAT_VS(&_45$$11, &_44$$11, "[skipped]\n");
 			zephir_concat_self(&output, &_45$$11);
 		} else if (_42$$9) {
-			ZEPHIR_CALL_FUNCTION(&_46$$12, "get_object_vars", NULL, 477, variable);
+			ZEPHIR_CALL_FUNCTION(&_46$$12, "get_object_vars", NULL, 500, variable);
 			zephir_check_call_status();
 			zephir_is_iterable(&_46$$12, 0, "phalcon/Support/Debug/Dump.zep", 263);
 			if (Z_TYPE_P(&_46$$12) == IS_ARRAY) {
