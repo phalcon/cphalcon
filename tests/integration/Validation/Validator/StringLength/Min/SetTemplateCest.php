@@ -14,17 +14,17 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Min;
 
 use IntegrationTester;
-use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Filter\Validation\Validator\StringLength\Min;
 
 class SetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: setTemplate()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Min :: setTemplate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetTemplate(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMinSetTemplate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - setTemplate()');
 

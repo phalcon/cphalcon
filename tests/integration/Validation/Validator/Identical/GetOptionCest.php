@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Identical;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Identical;
+use Phalcon\Filter\Validation\Validator\Identical;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Identical :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIdenticalGetOption(IntegrationTester $I)
+    public function filterValidationValidatorIdenticalGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - getOption()');
 

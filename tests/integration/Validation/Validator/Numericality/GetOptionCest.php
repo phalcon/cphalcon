@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Numericality;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Filter\Validation\Validator\Numericality;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Numericality :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Numericality :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorNumericalityGetOption(IntegrationTester $I)
+    public function filterValidationValidatorNumericalityGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - getOption()');
 

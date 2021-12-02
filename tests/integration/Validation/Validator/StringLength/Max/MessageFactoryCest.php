@@ -16,18 +16,18 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 
 class MessageFactoryCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: messageFactory()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: messageFactory()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxMessageFactory(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxMessageFactory(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - messageFactory()');
 

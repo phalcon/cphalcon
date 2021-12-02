@@ -184,7 +184,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setentity, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setvalidation, 0, 1, Phalcon\\Forms\\Form, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation\\ValidationInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setwhitelist, 0, 1, Phalcon\\Forms\\Form, 0)

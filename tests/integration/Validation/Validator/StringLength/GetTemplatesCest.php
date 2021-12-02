@@ -18,12 +18,12 @@ use IntegrationTester;
 class GetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: getTemplates()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: getTemplates()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthGetTemplates(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthGetTemplates(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - getTemplates()');
 

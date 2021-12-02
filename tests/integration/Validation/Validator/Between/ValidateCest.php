@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Between;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Between;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Between;
 
 /**
  * Class ValidateCest
@@ -25,12 +25,12 @@ use Phalcon\Validation\Validator\Between;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Between :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Between :: validate() - single field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorBetweenValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorBetweenValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - single field");
 
@@ -87,12 +87,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Between :: validate() - multiple field
+     * Tests Phalcon\Filter\Validation\Validator\Between :: validate() - multiple field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorBetweenValidateMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorBetweenValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - multiple field");
 
@@ -178,12 +178,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Between :: validate() - custom message
+     * Tests Phalcon\Filter\Validation\Validator\Between :: validate() - custom message
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorBetweenValidateCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorBetweenValidateCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - custom message");
 

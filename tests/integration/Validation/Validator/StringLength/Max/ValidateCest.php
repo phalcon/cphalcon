@@ -14,30 +14,30 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxValidate(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - validate()');
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMaxStringLengthValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorMaxStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 
@@ -78,13 +78,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMaxOrEqualStringLengthValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorMaxOrEqualStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 

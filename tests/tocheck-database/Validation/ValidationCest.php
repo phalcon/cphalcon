@@ -18,7 +18,7 @@ use stdClass;
 
 /**
  * Phalcon\Tests\Integration\ValidationCest
- * Tests the \Phalcon\Validation component
+ * Tests the \Phalcon\Filter\Validation component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link          http://www.phalcon.io

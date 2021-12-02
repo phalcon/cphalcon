@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Uniqueness;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Uniqueness;
+use Phalcon\Filter\Validation\Validator\Uniqueness;
 
 /**
  * Class HasOptionCest
@@ -25,12 +25,12 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Uniqueness :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Uniqueness :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorUniquenessHasOption(IntegrationTester $I)
+    public function filterValidationValidatorUniquenessHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - hasOption()');
 

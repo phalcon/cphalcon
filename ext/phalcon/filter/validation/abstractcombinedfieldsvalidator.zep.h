@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_filter_validation_abstractcombinedfieldsvalidator_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractCombinedFieldsValidator);
+

@@ -14,8 +14,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Email;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Email;
 
 class EmailCest
 {
@@ -25,7 +25,7 @@ class EmailCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function filterValidationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -78,7 +78,7 @@ class EmailCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorMultipleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -154,7 +154,7 @@ class EmailCest
         );
     }
 
-    public function validationValidatorCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorCustomMessage(IntegrationTester $I)
     {
         $validation = new Validation();
 

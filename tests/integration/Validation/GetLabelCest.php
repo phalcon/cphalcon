@@ -21,12 +21,12 @@ use IntegrationTester;
 class GetLabelCest
 {
     /**
-     * Tests Phalcon\Validation :: getLabel()
+     * Tests Phalcon\Filter\Validation :: getLabel()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetLabel(IntegrationTester $I)
+    public function filterValidationGetLabel(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getLabel()');
 

@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\PresenceOf;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class ConstructCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\PresenceOf :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorPresenceOfConstruct(IntegrationTester $I)
+    public function filterValidationValidatorPresenceOfConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - __construct()');
 

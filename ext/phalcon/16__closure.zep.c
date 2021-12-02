@@ -12,9 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/string.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
 
 
@@ -27,13 +25,11 @@ ZEPHIR_INIT_CLASS(phalcon_16__closure)
 
 PHP_METHOD(phalcon_16__closure, __invoke)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element, element_sub, _0;
+	zend_bool _0;
+	zval *element, element_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
-	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -42,13 +38,13 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 #endif
 
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &element);
+	zephir_fetch_params_without_memory_grow(1, 0, &element);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 9, element);
-	zephir_check_call_status();
-	zephir_ucfirst(return_value, &_0);
-	RETURN_MM();
+	_0 = Z_TYPE_P(element) == IS_LONG;
+	if (!(_0)) {
+		_0 = Z_TYPE_P(element) == IS_STRING;
+	}
+	RETURN_BOOL(_0);
 }
 

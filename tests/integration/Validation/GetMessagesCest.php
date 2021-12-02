@@ -21,12 +21,12 @@ use IntegrationTester;
 class GetMessagesCest
 {
     /**
-     * Tests Phalcon\Validation :: getMessages()
+     * Tests Phalcon\Filter\Validation :: getMessages()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetMessages(IntegrationTester $I)
+    public function filterValidationGetMessages(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getMessages()');
 

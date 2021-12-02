@@ -17,8 +17,8 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Url;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Url;
 
 use const FILTER_FLAG_PATH_REQUIRED;
 use const FILTER_FLAG_QUERY_REQUIRED;
@@ -29,12 +29,12 @@ use const FILTER_FLAG_QUERY_REQUIRED;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - single field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorUrlSingleField(IntegrationTester $I)
+    public function filterValidationValidatorUrlSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - single field');
 
@@ -86,12 +86,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate() - multiple field
+     * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - multiple field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorUrlMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorUrlMultipleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - multiple field');
 
@@ -167,12 +167,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate() - custom message
+     * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - custom message
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorUrlCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorUrlCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - custom message');
 
@@ -227,14 +227,14 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate() - flags
+     * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - flags
      *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-05-10
      */
-    public function validationValidatorUrlFlags(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorUrlFlags(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - options ' . $example[0]);
 

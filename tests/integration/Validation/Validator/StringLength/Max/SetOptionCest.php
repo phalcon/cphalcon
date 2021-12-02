@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength;
 
 class SetOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxSetOption(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - setOption()');
 

@@ -20,8 +20,8 @@ use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Validation;
-use Phalcon\Validation\ValidationInterface;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface

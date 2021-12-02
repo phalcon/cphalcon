@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\ExclusionIn :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorExclusioninValidate(IntegrationTester $I)
+    public function filterValidationValidatorExclusioninValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - validate()');
 

@@ -14,19 +14,19 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Min;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength\Min;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMinStringLengthValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorMinStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 
@@ -67,13 +67,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMinOrEqualStringLengthValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorMinOrEqualStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 

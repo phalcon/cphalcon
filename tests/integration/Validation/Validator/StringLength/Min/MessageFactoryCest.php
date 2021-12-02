@@ -16,18 +16,18 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Min;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength\Min;
 
 class MessageFactoryCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: messageFactory()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Min :: messageFactory()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinMessageFactory(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMinMessageFactory(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - messageFactory()');
 

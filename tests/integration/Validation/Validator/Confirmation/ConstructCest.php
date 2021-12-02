@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Confirmation;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Confirmation;
+use Phalcon\Filter\Validation\Validator\Confirmation;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorConfirmationConstruct(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - __construct()');
 

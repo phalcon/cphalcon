@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator\CreditCard;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\CreditCard;
 
 /**
  * Class ValidateCest
@@ -25,13 +25,13 @@ use Phalcon\Validation\Validator\CreditCard;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorCreditCardValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - single");
 
@@ -62,13 +62,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - multiple
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorCreditCardValidateMultipleFields(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardValidateMultipleFields(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - multiple");
 
@@ -147,13 +147,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - valid card
      * numbers
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
-    public function validationValidatorCreditCardValidateValidCreditCard(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardValidateValidCreditCard(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - valid card");
 
@@ -185,13 +185,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - invalid
      * card numbers
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
-    public function validationValidatorCreditCardValidateInvalidCreditCard(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardValidateInvalidCreditCard(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - invalid card");
 

@@ -21,12 +21,12 @@ use IntegrationTester;
 class SetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Validation :: setEventsManager()
+     * Tests Phalcon\Filter\Validation :: setEventsManager()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationSetEventsManager(IntegrationTester $I)
+    public function filterValidationSetEventsManager(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setEventsManager()');
 

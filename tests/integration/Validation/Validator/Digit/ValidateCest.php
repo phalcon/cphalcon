@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Digit :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDigitValidate(IntegrationTester $I)
+    public function filterValidationValidatorDigitValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - validate()');
 

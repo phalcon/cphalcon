@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Numericality;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Numericality;
 use stdClass;
 
 /**
@@ -25,14 +25,14 @@ use stdClass;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Numericality :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Numericality :: validate()
      *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
-    public function validationValidatorNumericalityValidate(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorNumericalityValidate(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Validation\Validator\Numericality - validate() ' . $example[0]);
 

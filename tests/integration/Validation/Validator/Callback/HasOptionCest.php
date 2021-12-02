@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Callback;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Callback;
+use Phalcon\Filter\Validation\Validator\Callback;
 
 class HasOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCallbackHasOption(IntegrationTester $I)
+    public function filterValidationValidatorCallbackHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - hasOption()');
 

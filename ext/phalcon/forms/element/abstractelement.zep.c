@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_validation_validatorinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_filter_validation_validatorinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Validation\ValidatorInterface[] validators
+ * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
  * @param bool                                     merge
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)

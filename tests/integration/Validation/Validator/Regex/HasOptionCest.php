@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Regex;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Filter\Validation\Validator\Regex;
 
 /**
  * Class HasOptionCest
@@ -25,12 +25,12 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Regex :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Regex :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorRegexHasOption(IntegrationTester $I)
+    public function filterValidationValidatorRegexHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - hasOption()');
 

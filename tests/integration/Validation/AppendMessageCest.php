@@ -21,12 +21,12 @@ use IntegrationTester;
 class AppendMessageCest
 {
     /**
-     * Tests Phalcon\Validation :: appendMessage()
+     * Tests Phalcon\Filter\Validation :: appendMessage()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationAppendMessage(IntegrationTester $I)
+    public function filterValidationAppendMessage(IntegrationTester $I)
     {
         $I->wantToTest('Validation - appendMessage()');
 

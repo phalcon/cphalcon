@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator :: validate()
+     * Tests Phalcon\Filter\Validation\Validator :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorValidate(IntegrationTester $I)
+    public function filterValidationValidatorValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator - validate()');
         $I->skipTest('Need implementation');

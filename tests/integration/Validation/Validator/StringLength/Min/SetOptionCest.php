@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Min;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength;
 
 class SetOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Min :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetOption(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMinSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - setOption()');
 

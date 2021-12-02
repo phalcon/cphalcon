@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\CreditCard;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation\Validator\CreditCard;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCreditCardSetOption(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - setOption()');
 

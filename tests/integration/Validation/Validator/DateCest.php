@@ -15,8 +15,8 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Date;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Date;
 use stdClass;
 
 class DateCest
@@ -27,7 +27,7 @@ class DateCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function filterValidationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -67,7 +67,7 @@ class DateCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorMultipleField(IntegrationTester $I)
     {
         $validation = new Validation();
 

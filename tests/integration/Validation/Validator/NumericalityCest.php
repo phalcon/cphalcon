@@ -13,8 +13,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Numericality;
 
 class NumericalityCest
 {
@@ -27,7 +27,7 @@ class NumericalityCest
      *
      * @dataProvider validationValidatorSingleFieldProvider
      */
-    public function validationValidatorSingleField(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorSingleField(IntegrationTester $I, Example $example)
     {
         $validation = new Validation();
 
@@ -54,7 +54,7 @@ class NumericalityCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorMultipleField(IntegrationTester $I)
     {
         $validation = new Validation();
 

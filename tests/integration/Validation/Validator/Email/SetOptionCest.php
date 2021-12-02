@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Email;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Email;
+use Phalcon\Filter\Validation\Validator\Email;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Email :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Email :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorEmailSetOption(IntegrationTester $I)
+    public function filterValidationValidatorEmailSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - setOption()');
 

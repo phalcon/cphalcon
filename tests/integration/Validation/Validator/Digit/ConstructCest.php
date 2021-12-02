@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Digit;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Digit;
+use Phalcon\Filter\Validation\Validator\Digit;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Digit :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDigitConstruct(IntegrationTester $I)
+    public function filterValidationValidatorDigitConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - __construct()');
 

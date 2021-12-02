@@ -21,12 +21,12 @@ use IntegrationTester;
 class HasOptionCest
 {
     /**
-     * Tests Phalcon\Validation\Validator :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorHasOption(IntegrationTester $I)
+    public function filterValidationValidatorHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator - hasOption()');
         $I->skipTest('Need implementation');

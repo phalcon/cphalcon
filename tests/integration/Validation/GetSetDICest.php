@@ -18,12 +18,12 @@ use IntegrationTester;
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Validation :: getDI() / setDI()
+     * Tests Phalcon\Filter\Validation :: getDI() / setDI()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetSetDI(IntegrationTester $I)
+    public function filterValidationGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getDI() / setDI()');
 
