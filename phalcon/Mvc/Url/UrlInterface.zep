@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Url;
+namespace Phalcon\Mvc\Url;
 
 /**
- * Interface for Phalcon\Url\UrlInterface
+ * Interface for Phalcon\Mvc\Url\UrlInterface
  */
 interface UrlInterface
 {

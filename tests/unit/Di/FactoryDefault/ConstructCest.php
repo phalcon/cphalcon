@@ -34,7 +34,7 @@ use Phalcon\Mvc\Router;
 use Phalcon\Encryption\Security;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Tag;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 class ConstructCest

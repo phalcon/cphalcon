@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Tag;
 
 use Phalcon\Tag;
 use Phalcon\Tests\Fixtures\Helpers\TagSetup;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 use UnitTester;
 
 class GetUrlServiceCest extends TagSetup

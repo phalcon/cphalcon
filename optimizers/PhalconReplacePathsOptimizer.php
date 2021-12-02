@@ -62,7 +62,7 @@ class PhalconReplacePathsOptimizer extends OptimizerAbstract
         }
 
         $context->headersManager->add(
-            'phalcon/url/utils',
+            'phalcon/mvc/url/utils',
             HeadersManager::POSITION_LAST
         );
 

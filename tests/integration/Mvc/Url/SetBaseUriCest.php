@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use Codeception\Example;
 use IntegrationTester;

@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 class GetStaticCest
 {
     /**
-     * Tests Phalcon\Url :: getStatic()
+     * Tests Phalcon\Mvc\Url :: getStatic()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function urlGetStatic(IntegrationTester $I)
+    public function mvcUrlGetStatic(IntegrationTester $I)
     {
         $I->wantToTest('Url - getStatic()');
         $url = new Url();

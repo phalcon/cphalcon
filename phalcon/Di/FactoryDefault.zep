@@ -57,7 +57,7 @@ class FactoryDefault extends \Phalcon\Di
             "security":           new Service("Phalcon\\Encryption\\Security", true),
             "tag":                new Service("Phalcon\\Tag", true),
             "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
-            "url":                new Service("Phalcon\\Url", true)
+            "url":                new Service("Phalcon\\Mvc\\Url", true)
         ];
     }
 }

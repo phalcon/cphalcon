@@ -11,19 +11,19 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
 
 class SetBasePathCest
 {
     /**
-     * Tests Phalcon\Url :: setBasePath()
+     * Tests Phalcon\Mvc\Url :: setBasePath()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function urlSetBasePath(IntegrationTester $I)
+    public function mvcUrlSetBasePath(IntegrationTester $I)
     {
         $I->wantToTest('Url - setBasePath()');
 

@@ -11,20 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 class PathCest
 {
     /**
-     * Tests Phalcon\Url :: path()
+     * Tests Phalcon\Mvc\Url :: path()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function urlPath(IntegrationTester $I)
+    public function mvcUrlPath(IntegrationTester $I)
     {
         $I->wantToTest('Url - path()');
         $url = new Url();

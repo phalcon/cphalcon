@@ -43,7 +43,7 @@ use Phalcon\Session\Manager;
 use Phalcon\Storage\AdapterFactory as StorageAdapterFactory;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 use function getOptionsLibmemcached;
 use function getOptionsModelCacheStream;

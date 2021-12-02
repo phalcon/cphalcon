@@ -11,19 +11,19 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Url;
+namespace Phalcon\Tests\Integration\Mvc\Url;
 
 use IntegrationTester;
 
 class SetStaticBaseUriCest
 {
     /**
-     * Tests Phalcon\Url :: setStaticBaseUri()
+     * Tests Phalcon\Mvc\Url :: setStaticBaseUri()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function urlSetStaticBaseUri(IntegrationTester $I)
+    public function mvcUrlSetStaticBaseUri(IntegrationTester $I)
     {
         $I->wantToTest('Url - setStaticBaseUri()');
 

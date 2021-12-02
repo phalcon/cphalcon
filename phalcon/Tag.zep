@@ -16,7 +16,7 @@ use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
-use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Support\Helper\Str\Friendly;
 
 /**

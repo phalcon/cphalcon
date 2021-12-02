@@ -9,7 +9,7 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
 use Phalcon\Tests\Fixtures\MemorySession as PhalconMemorySession;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 $container = new FactoryDefault();
 
