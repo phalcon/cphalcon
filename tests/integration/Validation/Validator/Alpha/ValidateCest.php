@@ -154,8 +154,10 @@ class ValidateCest
      *
      * @dataProvider validationValidatorAlphaValidateNonAlphabeticCharactersProvider
      */
-    public function filterValidationValidatorAlphaValidateNonAlphabeticCharacters(IntegrationTester $I, Example $example)
-    {
+    public function filterValidationValidatorAlphaValidateNonAlphabeticCharacters(
+        IntegrationTester $I,
+        Example $example
+    ) {
         $I->wantToTest("Validation\Validator\Alpha - validate() - non alphabetic characters");
 
         $input = $example[0];

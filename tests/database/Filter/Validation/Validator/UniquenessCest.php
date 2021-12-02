@@ -38,7 +38,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with single fields
+     * Filter\Validation\Validator\Uniqueness with single fields
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -49,9 +49,9 @@ class UniquenessCest
      * @group  sqlite
      */
 
-    public function testSingleField(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessSingleField(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with single fields');
+        $I->wantToTest('Filter\Validation\Validator\Uniqueness with single fields');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -88,7 +88,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with single fields and a converted value
+     * Filter\Validation\Validator\Uniqueness with single fields and a converted value
      *
      * @author Bas Stottelaar <basstottelaar@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -98,9 +98,11 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testSingleFieldConvert(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessSingleFieldConvert(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with single fields and a converted value');
+        $I->wantToTest(
+            'Filter\Validation\Validator\Uniqueness with single fields and a converted value'
+        );
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -134,7 +136,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple fields
+     * Filter\Validation\Validator\Uniqueness with multiple fields
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -144,9 +146,9 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testMultipleFields(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessMultipleFields(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple fields');
+        $I->wantToTest('Filter\Validation\Validator\Uniqueness with multiple fields');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -210,7 +212,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple fields and a converted value
+     * Filter\Validation\Validator\Uniqueness with multiple fields and a converted value
      *
      * @author Bas Stottelaar <basstottelaar@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -220,9 +222,11 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testMultipleFieldsConvert(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessMultipleFieldsConvert(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple fields and a converted value');
+        $I->wantToTest(
+            'Filter\Validation\Validator\Uniqueness with multiple fields and a converted value'
+        );
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -259,7 +263,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with single field and except
+     * Filter\Validation\Validator\Uniqueness with single field and except
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -269,9 +273,9 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testExceptSingleFieldSingleExcept(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessExceptSingleFieldSingleExcept(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with single field and except');
+        $I->wantToTest('Filter\Validation\Validator\Uniqueness with single field and except');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -319,7 +323,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with single field and multiple except'
+     * Filter\Validation\Validator\Uniqueness with single field and multiple except'
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -329,9 +333,11 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testExceptSingleFieldMultipleExcept(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessExceptSingleFieldMultipleExcept(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with single field and multiple except');
+        $I->wantToTest(
+            'Filter\Validation\Validator\Uniqueness with single field and multiple except'
+        );
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -389,7 +395,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple field and single except
+     * Filter\Validation\Validator\Uniqueness with multiple field and single except
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -399,9 +405,11 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testExceptMultipleFieldSingleExcept(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessExceptMultipleFieldSingleExcept(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple field and single except');
+        $I->wantToTest(
+            'Filter\Validation\Validator\Uniqueness with multiple field and single except'
+        );
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -463,7 +471,7 @@ class UniquenessCest
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple field and except
+     * Filter\Validation\Validator\Uniqueness with multiple field and except
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
@@ -473,9 +481,9 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testExceptMultipleFieldMultipleExcept(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessExceptMultipleFieldMultipleExcept(DatabaseTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Filter\Validation\Validator\Uniqueness with multiple field and except');
+        $I->wantToTest('Filter\Validation\Validator\Uniqueness with multiple field and except');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -534,7 +542,7 @@ class UniquenessCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function testIssue13398(DatabaseTester $I)
+    public function filterValidationValidatorUniquenessIssue13398(DatabaseTester $I)
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
