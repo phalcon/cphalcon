@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorStringLengthSetOption(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - setOption()');
 

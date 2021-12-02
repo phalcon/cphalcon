@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Ip;
+use Phalcon\Filter\Validation\Validator\Ip;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Ip :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Ip :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIpGetOption(IntegrationTester $I)
+    public function filterValidationValidatorIpGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - getOption()');
 

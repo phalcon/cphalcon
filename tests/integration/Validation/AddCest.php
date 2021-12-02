@@ -14,20 +14,20 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Alpha;
-use Phalcon\Validation\Validator\Email;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation\Validator\Email;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class AddCest
 {
     /**
-     * Tests Phalcon\Validation :: add()
+     * Tests Phalcon\Filter\Validation :: add()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */
-    public function validationAdd(IntegrationTester $I)
+    public function filterValidationAdd(IntegrationTester $I)
     {
         $I->wantToTest('Validation - add()');
 

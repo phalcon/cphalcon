@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Ip;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Ip;
 
 /**
  * Class ValidateCest
@@ -23,12 +23,12 @@ use Phalcon\Validation\Validator\Ip;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Ip :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Ip :: validate() - single field
      *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */
-    public function validationValidatorIpSingleField(IntegrationTester $I)
+    public function filterValidationValidatorIpSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip :: validate() - single field');
 
@@ -135,12 +135,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Ip :: validate() - multiple field
+     * Tests Phalcon\Filter\Validation\Validator\Ip :: validate() - multiple field
      *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */
-    public function validationValidatorIpMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorIpMultipleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip :: validate() - multiple field');
 

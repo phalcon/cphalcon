@@ -40,7 +40,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Validation\ValidationInterface;
+use Phalcon\Filter\Validation\ValidationInterface;
 use Serializable;
 
 /**
@@ -5705,8 +5705,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
-     * use Phalcon\Validation\Validator\ExclusionIn;
+     * use Phalcon\Filter\Validation;
+     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
      * {
@@ -5763,8 +5763,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
-     * use Phalcon\Validation\Validator\ExclusionIn;
+     * use Phalcon\Filter\Validation;
+     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
      * {

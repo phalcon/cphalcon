@@ -21,12 +21,12 @@ use IntegrationTester;
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Validation :: __get()
+     * Tests Phalcon\Filter\Validation :: __get()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationUnderscoreGet(IntegrationTester $I)
+    public function filterValidationUnderscoreGet(IntegrationTester $I)
     {
         $I->wantToTest('Validation - __get()');
 

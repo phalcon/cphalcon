@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Date;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Date;
+use Phalcon\Filter\Validation\Validator\Date;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Date :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Date :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDateGetOption(IntegrationTester $I)
+    public function filterValidationValidatorDateGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - getOption()');
 

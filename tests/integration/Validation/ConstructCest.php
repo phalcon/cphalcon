@@ -14,19 +14,19 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Date;
-use Phalcon\Validation\Validator\Email;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Date;
+use Phalcon\Filter\Validation\Validator\Email;
 
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Validation :: __construct()
+     * Tests Phalcon\Filter\Validation :: __construct()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function validationConstruct(IntegrationTester $I)
+    public function filterValidationConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation - __construct()');
 

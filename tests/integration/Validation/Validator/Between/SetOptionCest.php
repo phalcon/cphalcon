@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Between;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Between;
+use Phalcon\Filter\Validation\Validator\Between;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Between :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Between :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorBetweenSetOption(IntegrationTester $I)
+    public function filterValidationValidatorBetweenSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - setOption()');
 

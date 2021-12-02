@@ -16,7 +16,7 @@ use Phalcon\Forms\Exception;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Filter\Validation\ValidatorInterface;
 
 /**
  * This is a base class for form elements
@@ -132,7 +132,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Adds a group of validators
      *
-     * @param \Phalcon\Validation\ValidatorInterface[] validators
+     * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
      * @param bool                                     merge
      */
     public function addValidators(array! validators, bool merge = true) -> <ElementInterface>

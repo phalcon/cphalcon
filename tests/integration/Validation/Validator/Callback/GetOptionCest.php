@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Callback;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Callback;
+use Phalcon\Filter\Validation\Validator\Callback;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCallbackGetOption(IntegrationTester $I)
+    public function filterValidationValidatorCallbackGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - getOption()');
 

@@ -14,8 +14,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Regex;
 
 class RegexCest
 {
@@ -25,7 +25,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function filterValidationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -73,7 +73,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleFieldSinglePattern(IntegrationTester $I)
+    public function filterValidationValidatorMultipleFieldSinglePattern(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -151,7 +151,7 @@ class RegexCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleFieldMultiplePattern(IntegrationTester $I)
+    public function filterValidationValidatorMultipleFieldMultiplePattern(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -249,7 +249,7 @@ class RegexCest
         );
     }
 
-    public function validationValidatorCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorCustomMessage(IntegrationTester $I)
     {
         $validation = new Validation();
 

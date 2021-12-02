@@ -21,12 +21,12 @@ use IntegrationTester;
 class SetLabelsCest
 {
     /**
-     * Tests Phalcon\Validation :: setLabels()
+     * Tests Phalcon\Filter\Validation :: setLabels()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationSetLabels(IntegrationTester $I)
+    public function filterValidationSetLabels(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setLabels()');
 

@@ -16,23 +16,23 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Callback;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Callback;
-use Phalcon\Validation\Validator\Exception;
-use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Callback;
+use Phalcon\Filter\Validation\Validator\Exception;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength\Min;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - single field
      * using boolean
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function validationValidatorCallbackValidateSingleFieldBoolean(IntegrationTester $I)
+    public function filterValidationValidatorCallbackValidateSingleFieldBoolean(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Callback - validate() - single field using boolean"
@@ -99,13 +99,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - single field
      * using validator
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function validationValidatorCallbackValidateSingleFieldValidator(IntegrationTester $I)
+    public function filterValidationValidatorCallbackValidateSingleFieldValidator(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Callback - validate() - single field using validator"
@@ -179,13 +179,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - multiple
      * field returning boolean
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function validationValidatorCallbackValidateMultipleFieldBoolean(IntegrationTester $I)
+    public function filterValidationValidatorCallbackValidateMultipleFieldBoolean(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Callback - validate() - multiple field returning boolean"
@@ -261,13 +261,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - multiple
      * field validator
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function validationValidatorCallbackValidateMultipleFieldValidator(IntegrationTester $I)
+    public function filterValidationValidatorCallbackValidateMultipleFieldValidator(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Callback - validate() - multiple field validator");
 
@@ -379,19 +379,19 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Callback :: validate() - exception
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - exception
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
-    public function validationValidatorCallbackValidateException(IntegrationTester $I)
+    public function filterValidationValidatorCallbackValidateException(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Callback - validate() - exception"
         );
 
         $I->expectThrowable(
-            new Exception('Callback must return bool or Phalcon\Validation\Validator object'),
+            new Exception('Callback must return bool or Phalcon\Filter\Validation\Validator object'),
             function () {
                 $validation = new Validation();
 

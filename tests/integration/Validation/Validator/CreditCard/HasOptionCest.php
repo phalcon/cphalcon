@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\CreditCard;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation\Validator\CreditCard;
 
 /**
  * Class HasOptionCest
@@ -25,12 +25,12 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCreditCardHasOption(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - hasOption()');
 

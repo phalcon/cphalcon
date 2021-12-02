@@ -14,17 +14,17 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 
 class HasOptionCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxHasOption(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - hasOption()');
 

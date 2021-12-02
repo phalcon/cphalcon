@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Between;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Between;
+use Phalcon\Filter\Validation\Validator\Between;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Between :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Between :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorBetweenConstruct(IntegrationTester $I)
+    public function filterValidationValidatorBetweenConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - __construct()');
 

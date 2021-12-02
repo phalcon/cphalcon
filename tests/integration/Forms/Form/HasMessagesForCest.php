@@ -20,7 +20,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Filter\Validation\Validator\Regex;
 
 class HasMessagesForCest
 {

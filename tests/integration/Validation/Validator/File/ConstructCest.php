@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\File;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\File;
+use Phalcon\Filter\Validation\Validator\File;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\File :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\File :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileConstruct(IntegrationTester $I)
+    public function filterValidationValidatorFileConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - __construct()');
 

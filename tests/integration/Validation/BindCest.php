@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
 use stdClass;
 
 class BindCest
 {
     /**
-     * Tests Phalcon\Validation :: bind()
+     * Tests Phalcon\Filter\Validation :: bind()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function validationBind(IntegrationTester $I)
+    public function filterValidationBind(IntegrationTester $I)
     {
         $I->wantToTest('Validation - bind()');
 

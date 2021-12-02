@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Confirmation;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Confirmation;
+use Phalcon\Filter\Validation\Validator\Confirmation;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorConfirmationSetOption(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - setOption()');
 

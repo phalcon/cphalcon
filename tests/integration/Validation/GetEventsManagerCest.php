@@ -21,12 +21,12 @@ use IntegrationTester;
 class GetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Validation :: getEventsManager()
+     * Tests Phalcon\Filter\Validation :: getEventsManager()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetEventsManager(IntegrationTester $I)
+    public function filterValidationGetEventsManager(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getEventsManager()');
 

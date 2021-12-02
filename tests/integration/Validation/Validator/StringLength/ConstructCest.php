@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Validation\ValidatorCompositeInterface;
+use Phalcon\Filter\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\ValidatorCompositeInterface;
 
 /**
  * Class ConstructCest
@@ -26,12 +26,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorStringLengthConstruct(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - __construct()');
 

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Ip;
+use Phalcon\Filter\Validation\Validator\Ip;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Ip :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Ip :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIpSetOption(IntegrationTester $I)
+    public function filterValidationValidatorIpSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - setOption()');
 

@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Validation\Validator\StringLength\Max;
-use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation\Validator\StringLength\Min;
 
 /**
  * Class ValidateCest
@@ -27,13 +27,13 @@ use Phalcon\Validation\Validator\StringLength\Min;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
      * field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorStringLengthValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 
@@ -75,12 +75,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - minimum
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
-    public function validationValidatorStringLengthValidateMinimum(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMinimum(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - minimum');
 
@@ -129,13 +129,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - minimum
      * custom message
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
-    public function validationValidatorStringLengthValidateMinimumWithCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMinimumWithCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest(
             'Validation\Validator\StringLength :: validate() - minimum custom message'
@@ -187,12 +187,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - maximum
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
-    public function validationValidatorStringLengthValidateMaximum(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMaximum(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - maximum');
 
@@ -241,13 +241,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - maximum
      * custom message
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
-    public function validationValidatorStringLengthValidateMaximumWithCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMaximumWithCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest(
             'Validation\Validator\StringLength :: validate() - maximum custom message'
@@ -299,13 +299,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate()
      * multiple field and single min, max
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorStringLengthValidateMultipleFieldSingleMinMax(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMultipleFieldSingleMinMax(IntegrationTester $I)
     {
         $I->wantToTest(
             'Validation\Validator\StringLength :: validate() - multiple field and single min, max'
@@ -394,13 +394,13 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate()
      * multiple field and min, max
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorStringLengthValidateMultipleFieldMultipleMinMax(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthValidateMultipleFieldMultipleMinMax(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - multiple field and min, max');
 

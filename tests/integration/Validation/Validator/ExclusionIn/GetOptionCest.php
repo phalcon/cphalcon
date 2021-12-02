@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\ExclusionIn;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Filter\Validation\Validator\ExclusionIn;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\ExclusionIn :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorExclusionInGetOption(IntegrationTester $I)
+    public function filterValidationValidatorExclusionInGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - getOption()');
 

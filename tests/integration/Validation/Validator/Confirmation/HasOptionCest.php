@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Confirmation;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Confirmation;
+use Phalcon\Filter\Validation\Validator\Confirmation;
 
 class HasOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorConfirmationHasOption(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - hasOption()');
 

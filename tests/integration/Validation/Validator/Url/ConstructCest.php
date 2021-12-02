@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Url;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Url;
+use Phalcon\Filter\Validation\Validator\Url;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Url :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorUrlConstruct(IntegrationTester $I)
+    public function filterValidationValidatorUrlConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - __construct()');
 

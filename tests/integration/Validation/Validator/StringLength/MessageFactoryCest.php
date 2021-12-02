@@ -18,12 +18,12 @@ use IntegrationTester;
 class MessageFactoryCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: messageFactory()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: messageFactory()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMessageFactory(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMessageFactory(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - messageFactory()');
 

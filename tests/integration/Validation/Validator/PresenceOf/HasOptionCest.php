@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\PresenceOf;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class HasOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\PresenceOf :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorPresenceOfHasOption(IntegrationTester $I)
+    public function filterValidationValidatorPresenceOfHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - hasOption()');
 

@@ -14,17 +14,17 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 
 class GetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: getTemplate()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: getTemplate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxGetTemplate(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxGetTemplate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - getTemplate()');
 

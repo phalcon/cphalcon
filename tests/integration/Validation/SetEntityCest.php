@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
 use stdClass;
 
 class SetEntityCest
 {
     /**
-     * Tests Phalcon\Validation :: setEntity()
+     * Tests Phalcon\Filter\Validation :: setEntity()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function validationSetEntity(IntegrationTester $I)
+    public function filterValidationSetEntity(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setEntity()');
 

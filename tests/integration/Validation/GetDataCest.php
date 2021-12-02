@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
 use stdClass;
 
 class GetDataCest
 {
     /**
-     * Tests Phalcon\Validation :: getData()
+     * Tests Phalcon\Filter\Validation :: getData()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function validationGetData(IntegrationTester $I)
+    public function filterValidationGetData(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getData()');
 

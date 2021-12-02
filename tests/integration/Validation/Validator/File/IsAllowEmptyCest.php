@@ -16,12 +16,12 @@ use IntegrationTester;
 class IsAllowEmptyCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\File :: isAllowEmpty()
+     * Tests Phalcon\Filter\Validation\Validator\File :: isAllowEmpty()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileIsAllowEmpty(IntegrationTester $I)
+    public function filterValidationValidatorFileIsAllowEmpty(IntegrationTester $I)
     {
         $I->skipTest('Need implementation');
     }

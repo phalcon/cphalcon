@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Numericality;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Filter\Validation\Validator\Numericality;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Numericality :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Numericality :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorNumericalityConstruct(IntegrationTester $I)
+    public function filterValidationValidatorNumericalityConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - __construct()');
 

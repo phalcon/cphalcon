@@ -21,9 +21,9 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Tests\Fixtures\Forms\ValidationForm;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\Regex;
 
 class IsValidCest
 {

@@ -17,18 +17,18 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Alpha;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - single field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorAlphaValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorAlphaValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alpha - validate() - single field");
 
@@ -65,12 +65,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - multiple field
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - multiple field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorAlphaValidateMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorAlphaValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alpha - validate() - multiple field");
 
@@ -146,7 +146,7 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Non Alphabetic
      * Characters
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -154,7 +154,7 @@ class ValidateCest
      *
      * @dataProvider validationValidatorAlphaValidateNonAlphabeticCharactersProvider
      */
-    public function validationValidatorAlphaValidateNonAlphabeticCharacters(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorAlphaValidateNonAlphabeticCharacters(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Validation\Validator\Alpha - validate() - non alphabetic characters");
 
@@ -192,7 +192,7 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Alphabetic
      * Characters
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -200,7 +200,7 @@ class ValidateCest
      *
      * @dataProvider validationValidatorAlphaValidateAlphabeticCharactersProvider
      */
-    public function validationValidatorAlphaValidateAlphabeticCharacters(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorAlphaValidateAlphabeticCharacters(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Validation\Validator\Alpha - validate() - alphabetic characters");
 
@@ -230,7 +230,7 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Non Latin
      * Characters
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -238,7 +238,7 @@ class ValidateCest
      *
      * @dataProvider nonLatinCharactersProvider
      */
-    public function validationValidatorAlphaValidateNonLatinCharacters(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorAlphaValidateNonLatinCharacters(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Validation\Validator\Alpha - validate() - non latin characters");
 
