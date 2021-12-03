@@ -1235,7 +1235,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if unlikely !fetch value, this->{attributeField} {
                 throw new Exception(
-                    "Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+                    "Cannot delete the record because the primary key attribute: '" . attributeField . "' was not set"
                 );
             }
 

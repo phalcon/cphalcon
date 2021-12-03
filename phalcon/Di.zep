@@ -220,7 +220,7 @@ class Di implements DiInterface
                  */
                 if unlikely !class_exists(name) {
                     throw new Exception(
-                        "Service '" . name . "' wasn't found in the dependency injection container"
+                        "Service '" . name . "' was not found in the dependency injection container"
                     );
                 }
 
@@ -286,7 +286,7 @@ class Di implements DiInterface
 
         if unlikely !fetch service, this->services[name] {
             throw new Exception(
-                "Service '" . name . "' wasn't found in the dependency injection container"
+                "Service '" . name . "' was not found in the dependency injection container"
             );
         }
 
@@ -302,7 +302,7 @@ class Di implements DiInterface
 
         if unlikely !fetch service, this->services[name] {
             throw new Exception(
-                "Service '" . name . "' wasn't found in the dependency injection container"
+                "Service '" . name . "' was not found in the dependency injection container"
             );
         }
 
