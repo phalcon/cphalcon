@@ -15,42 +15,54 @@ namespace Phalcon\Tests\Unit\Di\Service;
 
 use Codeception\Example;
 use Phalcon\Di\Service;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class IsSharedCest
+ *
+ * @package Phalcon\Tests\Unit\Di\Service
+ */
 class IsSharedCest
 {
     /**
      * Tests Phalcon\Di\Service :: isShared()
      *
-     * @author       Sid Roberts <https://github.com/SidRoberts>
-     * @since        2019-06-12
+     * @dataProvider getExamples
      *
-     * @dataProvider provider
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-09
      */
     public function diServiceIsShared(UnitTester $I, Example $example)
     {
         $I->wantToTest('Di\Service - isShared()');
 
-        $I->assertEquals(
-            $example['expected'],
-            $example['service']->isShared()
-        );
+        $service  = $example[0];
+        $expected = $example[1];
+        $actual   = $service->isShared();
+        $I->assertEquals($expected, $actual);
     }
 
-    private function provider(): array
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
     {
         return [
             [
-                'service'  => new Service('some-service'),
-                'expected' => false,
+                new Service(Escaper::class),
+                false,
             ],
             [
-                'service'  => new Service('some-service', true),
-                'expected' => true,
+                new Service(Escaper::class, true),
+                true,
             ],
             [
-                'service'  => new Service('some-service', false),
-                'expected' => false,
+                new Service(Escaper::class, false),
+                false,
             ],
         ];
     }

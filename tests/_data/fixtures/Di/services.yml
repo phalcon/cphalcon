@@ -1,12 +1,12 @@
 unit-test:
-  className: \Phalcon\Tests\Module\UnitTest
+  className: \UnitTester
 
 config:
   className: \Phalcon\Config\Config
   shared: true
 
 component:
-  className: \SomeComponent
+  className: Phalcon\Tests\Fixtures\Di\ServiceComponent
   arguments:
     - type: service
       name: config

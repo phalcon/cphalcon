@@ -19,39 +19,64 @@ use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class GetServiceCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class GetServiceCest
 {
     /**
      * Unit Tests Phalcon\Di :: getService()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-13
+     * @since  2019-09-09
      */
     public function diGetService(UnitTester $I)
     {
         $I->wantToTest('Di - getService()');
 
         // setup
-        $di = new Di();
+        $container = new Di();
 
         // set a service and get it to check
-        $actual = $di->set('escaper', Escaper::class);
-
-        $I->assertInstanceOf(Service::class, $actual);
+        $class  = Service::class;
+        $actual = $container->set('escaper', Escaper::class);
+        $I->assertInstanceOf($class, $actual);
 
         // get escaper service
-        $actual = $di->getService('escaper');
+        $escaper = $container->getService('escaper');
+        $I->assertInstanceOf(Service::class, $escaper);
 
-        $I->assertInstanceOf(Service::class, $actual);
-        $I->assertFalse($actual->isShared());
+        $actual = $escaper->isShared();
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Unit Tests Phalcon\Di :: getService() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
+     */
+    public function diGetServiceException(UnitTester $I)
+    {
+        $I->wantToTest('Di - getService() - exception');
+
+        // setup
+        $container = new Di();
 
         // non exists service
         $I->expectThrowable(
             new Exception(
-                "Service 'non-exists' wasn't found in the dependency injection container"
+                "Service 'non-exists' was not found in the " .
+                "dependency injection container"
             ),
-            function () use ($di) {
-                $di->getService('non-exists');
+            function () use ($container) {
+                $container->getService('non-exists');
             }
         );
     }

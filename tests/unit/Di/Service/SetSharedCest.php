@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Di\Service;
 
 use Codeception\Example;
 use Phalcon\Di\Service;
+use Phalcon\Html\Escaper;
 use UnitTester;
 
 class SetSharedCest
@@ -22,41 +23,44 @@ class SetSharedCest
     /**
      * Tests Phalcon\Di\Service :: setShared()
      *
-     * @author       Sid Roberts <https://github.com/SidRoberts>
-     * @since        2019-06-12
+     * @dataProvider getExamples
      *
-     * @dataProvider provider
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-09
      */
     public function diServiceSetShared(UnitTester $I, Example $example)
     {
         $I->wantToTest('Di\Service - setShared()');
 
-        $service = $example['service'];
-
+        $service = $example[0];
         $service->setShared(true);
 
-        $I->assertTrue(
-            $service->isShared()
-        );
+        $actual = $service->isShared();
+        $I->assertTrue($actual);
 
         $service->setShared(false);
 
-        $I->assertFalse(
-            $service->isShared()
-        );
+        $actual = $service->isShared();
+        $I->assertFalse($actual);
     }
 
-    private function provider(): array
+    /**
+     * @return Service[][]
+     */
+    private function getExamples(): array
     {
         return [
             [
-                'service' => new Service('some-service'),
+                new Service(Escaper::class),
             ],
             [
-                'service' => new Service('some-service', true),
+                new Service(Escaper::class, true),
             ],
             [
-                'service' => new Service('some-service', false),
+                new Service(Escaper::class, false),
             ],
         ];
     }

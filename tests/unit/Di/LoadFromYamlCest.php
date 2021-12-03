@@ -14,35 +14,47 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Config\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Di;
+use Phalcon\Di\Exception;
 use UnitTester;
 
+/**
+ * Class LoadFromYamlCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class LoadFromYamlCest
 {
     /**
      * Unit Tests Phalcon\Di :: loadFromYaml()
      *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-13
+     * @since  2019-09-09
      */
     public function diLoadFromYaml(UnitTester $I)
     {
         $I->wantToTest('Di - loadFromYaml()');
 
-        $di = new Di();
+        $container = new Di();
 
-        // load php
-        $di->loadFromYaml(dataDir('fixtures/Di/services.yml'));
+        // load yaml
+        $container->loadFromYaml(dataDir('fixtures/Di/services.yml'));
 
         // there are 3
-        $I->assertCount(3, $di->getServices());
+        $I->assertCount(3, $container->getServices());
 
         // check some services
-        $actual = $di->get('config');
+        $actual = $container->get('config');
         $I->assertInstanceOf(Config::class, $actual);
+        $I->assertInstanceOf(ConfigInterface::class, $actual);
 
-        $I->assertTrue($di->has('config'));
-        $I->assertTrue($di->has('unit-test'));
-        $I->assertTrue($di->has('component'));
+        $I->assertTrue($container->has('config'));
+        $I->assertTrue($container->has('unit-test'));
+        $I->assertTrue($container->has('component'));
     }
 }

@@ -17,28 +17,33 @@ use Phalcon\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class HasCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class HasCest
 {
     /**
      * Tests Phalcon\Di :: has()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function diHas(UnitTester $I)
     {
         $I->wantToTest('Di - has()');
 
-        $di = new Di();
+        $container = new Di();
 
-        $I->assertFalse(
-            $di->has('escaper')
-        );
+        $actual = $container->has('escaper');
+        $I->assertFalse($actual);
 
-        $di->set('escaper', Escaper::class);
+        $container->set('escaper', Escaper::class);
 
-        $I->assertTrue(
-            $di->has('escaper')
-        );
+        $actual = $container->has('escaper');
+        $I->assertTrue($actual);
     }
 }

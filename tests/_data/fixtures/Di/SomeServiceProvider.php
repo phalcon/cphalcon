@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Phalcon\Tests\Fixtures\Di;
+
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
@@ -28,7 +30,7 @@ class SomeServiceProvider implements ServiceProviderInterface
         };
 
         $di['fooAction'] = function () {
-            return new \SomeComponent('phalcon');
+            return new SomeComponent('phalcon');
         };
     }
 }
