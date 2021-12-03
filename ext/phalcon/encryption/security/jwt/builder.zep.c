@@ -502,27 +502,27 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 	}
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getclaims", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "encode", NULL, 261, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "encode", NULL, 271, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&encodedClaims, this_ptr, "encodeurl", NULL, 262, &_1);
+	ZEPHIR_CALL_METHOD(&encodedClaims, this_ptr, "encodeurl", NULL, 272, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&claims);
 	object_init_ex(&claims, phalcon_encryption_security_jwt_token_item_ce);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getclaims", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &claims, "__construct", NULL, 263, &_3, &encodedClaims);
+	ZEPHIR_CALL_METHOD(NULL, &claims, "__construct", NULL, 273, &_3, &encodedClaims);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "encode", NULL, 261, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "encode", NULL, 271, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&encodedHeaders, this_ptr, "encodeurl", NULL, 262, &_4);
+	ZEPHIR_CALL_METHOD(&encodedHeaders, this_ptr, "encodeurl", NULL, 272, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&headers);
 	object_init_ex(&headers, phalcon_encryption_security_jwt_token_item_ce);
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &headers, "__construct", NULL, 263, &_6, &encodedHeaders);
+	ZEPHIR_CALL_METHOD(NULL, &headers, "__construct", NULL, 273, &_6, &encodedHeaders);
 	zephir_check_call_status();
 	zephir_read_property(&_7, this_ptr, ZEND_STRL("signer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_8);
@@ -530,14 +530,14 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 	zephir_read_property(&_9, this_ptr, ZEND_STRL("passphrase"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&signatureHash, &_7, "sign", NULL, 0, &_8, &_9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&encodedSignature, this_ptr, "encodeurl", NULL, 262, &signatureHash);
+	ZEPHIR_CALL_METHOD(&encodedSignature, this_ptr, "encodeurl", NULL, 272, &signatureHash);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&signature);
 	object_init_ex(&signature, phalcon_encryption_security_jwt_token_signature_ce);
-	ZEPHIR_CALL_METHOD(NULL, &signature, "__construct", NULL, 264, &signatureHash, &encodedSignature);
+	ZEPHIR_CALL_METHOD(NULL, &signature, "__construct", NULL, 274, &signatureHash, &encodedSignature);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_token_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 265, &headers, &claims, &signature);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 275, &headers, &claims, &signature);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1096,7 +1096,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, encodeUrl)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 237, &input);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 247, &input);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "+/");
@@ -1160,12 +1160,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, encode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_VAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 200);
+	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 210);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 201);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 211);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);

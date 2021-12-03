@@ -2390,7 +2390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 				}
 				ZEPHIR_INIT_VAR(&_93$$97);
 				ZVAL_STRING(&_93$$97, "Phalcon\\Mvc\\Model\\ResultsetInterface");
-				ZEPHIR_CALL_FUNCTION(&_94$$97, "is_subclass_of", NULL, 511, &resultsetClassName, &_93$$97);
+				ZEPHIR_CALL_FUNCTION(&_94$$97, "is_subclass_of", NULL, 0, &resultsetClassName, &_93$$97);
 				zephir_check_call_status();
 				if (UNEXPECTED(!zephir_is_true(&_94$$97))) {
 					ZEPHIR_INIT_VAR(&_95$$99);
