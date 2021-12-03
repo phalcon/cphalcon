@@ -13,31 +13,44 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di\Di;
+use Phalcon\Di;
 use UnitTester;
 
 /**
- * Class ConstructCest
+ * Class GetDefaultCest
  *
  * @package Phalcon\Tests\Unit\Di
  */
-class ConstructCest
+class GetSetDefaultResetCest
 {
     /**
-     * Tests Phalcon\Di\Di :: __construct()
+     * Unit Tests Phalcon\Di :: getDefault()/setDefault()/reset()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
-    public function diConstruct(UnitTester $I)
+    public function diGetSetDefaultReset(UnitTester $I)
     {
-        $I->wantToTest('Di - __construct()');
+        $I->wantToTest('Di - getDefault()/setDefault()/reset()');
 
         $class  = Di::class;
         $actual = Di::getDefault();
         $I->assertInstanceOf($class, $actual);
+
+        $container = Di::getDefault();
+        $class     = Di::class;
+        $I->assertInstanceOf($class, $container);
+
+        // delete it
+        Di::reset();
+
+        $actual = Di::getDefault();
+        $I->assertNull($actual);
+
+        // set it again
+        Di::setDefault($container);
 
         $actual = Di::getDefault();
         $I->assertInstanceOf($class, $actual);

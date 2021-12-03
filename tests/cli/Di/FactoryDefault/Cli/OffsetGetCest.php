@@ -35,7 +35,7 @@ class OffsetGetCest
 
         $I->expectThrowable(
             new Exception(
-                "Service 'non-exists' wasn't found in the dependency injection container"
+                "Service 'non-exists' was not found in the dependency injection container"
             ),
             function () use ($di) {
                 $di['non-exists'];
@@ -44,7 +44,7 @@ class OffsetGetCest
 
         $I->expectThrowable(
             new Exception(
-                "Service 'non-exists' wasn't found in the dependency injection container"
+                "Service 'non-exists' was not found in the dependency injection container"
             ),
             function () use ($di) {
                 $di->offsetGet('non-exists');
