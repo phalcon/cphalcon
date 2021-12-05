@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 				zephir_array_update_string(&_8$$4, SL("min"), &value, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_8$$4, SL("message"), &message, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_8$$4, SL("included"), &included, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_9, 322, &_8$$4);
+				ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_9, 331, &_8$$4);
 				zephir_check_call_status();
 				zephir_array_unset_string(&options, SL("min"), PH_SEPARATE);
 				zephir_array_unset_string(&options, SL("message"), PH_SEPARATE);
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 				zephir_array_update_string(&_10$$9, SL("max"), &value, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$9, SL("message"), &message, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$9, SL("included"), &included, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 323, &_10$$9);
+				ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 332, &_10$$9);
 				zephir_check_call_status();
 				zephir_array_unset_string(&options, SL("max"), PH_SEPARATE);
 				zephir_array_unset_string(&options, SL("message"), PH_SEPARATE);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 					zephir_array_update_string(&_15$$16, SL("min"), &value, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&_15$$16, SL("message"), &message, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&_15$$16, SL("included"), &included, PH_COPY | PH_SEPARATE);
-					ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 323, &_15$$16);
+					ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 332, &_15$$16);
 					zephir_check_call_status();
 					zephir_array_unset_string(&options, SL("min"), PH_SEPARATE);
 					zephir_array_unset_string(&options, SL("message"), PH_SEPARATE);
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 					zephir_array_update_string(&_16$$21, SL("max"), &value, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&_16$$21, SL("message"), &message, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&_16$$21, SL("included"), &included, PH_COPY | PH_SEPARATE);
-					ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 323, &_16$$21);
+					ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_11, 332, &_16$$21);
 					zephir_check_call_status();
 					zephir_array_unset_string(&options, SL("max"), PH_SEPARATE);
 					zephir_array_unset_string(&options, SL("message"), PH_SEPARATE);

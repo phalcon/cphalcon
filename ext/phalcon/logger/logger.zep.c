@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Logger_Logger, __construct)
 
 	ZEPHIR_CPY_WRT(&localTimeZone, timezone);
 	if (ZEPHIR_IS_EMPTY(timezone)) {
-		ZEPHIR_CALL_FUNCTION(&localTimeZone, "date_default_timezone_get", NULL, 479);
+		ZEPHIR_CALL_FUNCTION(&localTimeZone, "date_default_timezone_get", NULL, 486);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(&localTimeZone)) {
 			ZEPHIR_INIT_NVAR(&localTimeZone);
@@ -703,7 +703,7 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 480, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 487, level);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &intLevel, &_0, &context);
@@ -1011,9 +1011,9 @@ PHP_METHOD(Phalcon_Logger_Logger, addMessage)
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_3$$3, &_1$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_4$$3, level);
-		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 481, &message, &levelName, &_4$$3, &_2$$3, &context);
+		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 488, &message, &levelName, &_4$$3, &_2$$3, &context);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&adapters, "array_diff_key", NULL, 482, &registered, &excluded);
+		ZEPHIR_CALL_FUNCTION(&adapters, "array_diff_key", NULL, 489, &registered, &excluded);
 		zephir_check_call_status();
 		zephir_is_iterable(&adapters, 0, "phalcon/Logger/Logger.zep", 427);
 		if (Z_TYPE_P(&adapters) == IS_ARRAY) {
@@ -1124,7 +1124,7 @@ PHP_METHOD(Phalcon_Logger_Logger, getLevelNumber)
 		zephir_fast_strtoupper(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 194, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 204, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset(&levels, &levelName)) {
 			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/Logger.zep", 473);
