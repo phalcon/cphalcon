@@ -41,7 +41,7 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
       </td>
     <td align="center" valign="bottom">   
       <a href="https://crowdin.com/">
-        <img width="222px" height="40px" src="https://assets.phalcon.io/phalcon/images/backers/crowdin.png" style="max-width:100%;" alt="Crowdin">
+        <img width="222px" height="auto" src="https://assets.phalcon.io/phalcon/images/backers/crowdin.png" style="max-width:100%;" alt="Crowdin">
       </a>
     </td>
      <td align="center" valign="bottom">   
@@ -52,8 +52,18 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
     </tr>
     <tr>
     <td align="center" valign="bottom">   
-      <a href="https://www.uptrends.com">
+      <a href="https://www.digitalocean.com/">
         <img width="170px" height="40px" src="https://assets.phalcon.io/phalcon/images/backers/digitalocean.svg" style="max-width:100%;" alt="DigitalOcean open source">
+      </a>
+    </td>
+     <td align="center" valign="bottom">   
+      <a href="https://packagecloud.io/">
+        <img width="170px" height="auto" src="https://assets.phalcon.io/phalcon/images/backers/packagecloud.png" style="max-width:100%;" alt="Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud">
+      </a>
+    </td>
+     <td align="center" valign="bottom">   
+      <a href="https://www.postype.com/">
+        <img width="170px" height="40px" src="https://assets.phalcon.io/phalcon/images/backers/postype.svg" style="max-width:100%;" alt="https://www.postype.com/">
       </a>
     </td>
     <td align="center" valign="center">   
