@@ -20,12 +20,7 @@ use Phalcon\Tag;
 class Password extends AbstractElement
 {
     /**
-     * Renders the element widget returning HTML
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::passwordField(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputPassword";
 }

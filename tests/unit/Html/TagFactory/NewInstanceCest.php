@@ -57,6 +57,8 @@ use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use function uniqid;
+
 /**
  * Class NewInstanceCest
  *
@@ -99,12 +101,22 @@ class NewInstanceCest
     {
         $I->wantToTest('Helper\TagFactory - newInstance() - exception');
 
+        $name = uniqid();
         $I->expectThrowable(
-            new Exception('Service unknown is not registered'),
-            function () {
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
                 $escaper = new Escaper();
                 $factory = new TagFactory($escaper);
-                $service = $factory->newInstance('unknown');
+                $service = $factory->newInstance($name);
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
+                $escaper = new Escaper();
+                $factory = new TagFactory($escaper);
+                $service = $factory->$name();
             }
         );
     }

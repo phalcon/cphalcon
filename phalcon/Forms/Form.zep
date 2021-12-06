@@ -74,6 +74,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     protected options = [];
 
     /**
+     * @var TagFactory|null
+     */
+    protected tagFactory = null;
+
+    /**
      * @var ValidationInterface|null
      */
     protected validation = null { get };
@@ -129,6 +134,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
          * Link the element to the form
          */
         element->setForm(this);
+        if method_exists(element, "setTagFactory") {
+            element->{"setTagFactory"}(this->tagFactory);
+        }
 
         if position == null || empty this->elements {
             /**
@@ -545,6 +553,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             "label":         true,
             "value":         true,
             "di":            true,
+            "tagFactory":    true,
             "eventsmanager": true
         ];
 
@@ -564,13 +573,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             return this->{method}();
         }
 
-        /**
-         * Check if the tag has a default value
-         */
-        if Tag::hasValue(name) {
-            return Tag::getValue(name);
-        }
-
+//        /**
+//         * Check if the tag has a default value
+//         */
+//        if Tag::hasValue(name) {
+//            return Tag::getValue(name);
+//        }
+//
         /**
          * Check if element has default value
          */

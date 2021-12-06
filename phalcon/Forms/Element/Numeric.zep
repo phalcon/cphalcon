@@ -20,12 +20,7 @@ use Phalcon\Tag;
 class Numeric extends AbstractElement
 {
     /**
-     * Renders the element widget returning HTML
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::numericField(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputNumeric";
 }

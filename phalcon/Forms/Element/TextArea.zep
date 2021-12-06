@@ -18,12 +18,7 @@ use Phalcon\Tag;
 class TextArea extends AbstractElement
 {
     /**
-     * Renders the element widget
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::textArea(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputTextarea";
 }

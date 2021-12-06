@@ -18,12 +18,7 @@ use Phalcon\Tag;
 class File extends AbstractElement
 {
     /**
-     * Renders the element widget returning HTML
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::fileField(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputFile";
 }

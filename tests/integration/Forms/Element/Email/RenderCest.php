@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new Email('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="email" id="simple" name="simple" />',
             $element->render()
         );
@@ -76,7 +76,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="email" id="fantastic" name="fantastic" class="fancy" placeholder="Initial value" />',
             $element->render()
         );

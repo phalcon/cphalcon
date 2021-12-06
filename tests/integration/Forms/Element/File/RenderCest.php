@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new File('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="file" id="simple" name="simple" />',
             $element->render()
         );
@@ -75,7 +75,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="file" id="fantastic" name="fantastic" class="fancy" />',
             $element->render()
         );

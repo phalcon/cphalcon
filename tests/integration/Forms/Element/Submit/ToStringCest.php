@@ -45,7 +45,7 @@ class ToStringCest
 
         $element = new Submit('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="submit" value="simple" />',
             $element->__toString()
         );
@@ -72,7 +72,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="submit" value="fantastic" class="fancy" />',
             $element->__toString()
         );

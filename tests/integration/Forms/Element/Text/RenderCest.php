@@ -15,31 +15,11 @@ namespace Phalcon\Tests\Integration\Forms\Element\Text;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Tag;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 
 class RenderCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newDi();
-        $this->setDiService('escaper');
-        $this->setDiService('url');
-    }
-
-    /**
-     * executed after each test
-     */
-    public function _after(IntegrationTester $I)
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-    }
-
     /**
      * Tests Phalcon\Forms\Element\Text :: render()
      *
@@ -50,12 +30,13 @@ class RenderCest
     {
         $I->wantToTest('Forms\Element\Text - render()');
 
+        $factory = new TagFactory(new Escaper());
         $element = new Text('simple');
+        $element->setTagFactory($factory);
 
-        $I->assertEquals(
-            '<input type="text" id="simple" name="simple" />',
-            $element->render()
-        );
+        $expected = '<input type="text" id="simple" name="simple" />';
+        $actual   = $element->render();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -68,6 +49,7 @@ class RenderCest
     {
         $I->wantToTest('Forms\Element\Text - render() with parameters');
 
+        $factory = new TagFactory(new Escaper());
         $element = new Text(
             'fantastic',
             [
@@ -75,10 +57,11 @@ class RenderCest
                 'placeholder' => 'Initial value',
             ]
         );
+        $element->setTagFactory($factory);
 
-        $I->assertEquals(
-            '<input type="text" id="fantastic" name="fantastic" class="fancy" placeholder="Initial value" />',
-            $element->render()
-        );
+        $expected = '<input type="text" id="fantastic" name="fantastic" '
+            . 'class="fancy" placeholder="Initial value" />';
+        $actual   = $element->render();
+        $I->assertSame($expected, $actual);
     }
 }
