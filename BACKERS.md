@@ -109,8 +109,6 @@ Thanks for the support
 <a href="https://github.com/gwijnja"><img src="https://avatars1.githubusercontent.com/u/2666867?s=460&u=7f358f88d53208909d808db17b382ae44d9eb48a&v=4" title="Gerben Wijnja" width="60" height="60"></a>
 <a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
-<a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
-<a href="https://github.com/RayHughes"><img src="https://avatars3.githubusercontent.com/u/4381883?s=460&u=16dbf2e3fbfae0892a858d6d4cc8869bfde6dd74&v=4" title="Ray Hughes" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
@@ -125,6 +123,14 @@ Thanks for the support
 <a href="https://github.com/postype"><img src="https://avatars.githubusercontent.com/u/54393235?s=200&v=4" title="https://www.postype.com/" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
 <a href="https://github.com/bian2222"><img src="https://avatars.githubusercontent.com/u/93346543?s=60&v=4" title="bian" width="60" height="60"></a>
+<a href="https://github.com/barnettruth"><img src="https://avatars.githubusercontent.com/u/95089067?v=4" title="barnettruth" width="60" height="60"></a>
+<a href="https://github.com/mccauleycassa"><img src="https://avatars.githubusercontent.com/u/95136425?v=4" title="mccauleycassa" width="60" height="60"></a>
+<a href="https://github.com/hillbrianna"><img src="https://avatars.githubusercontent.com/u/95143459?v=4" title="hillbrianna" width="60" height="60"></a>
+<a href="https://github.com/whitneyza"><img src="https://avatars.githubusercontent.com/u/95216218?v=4" title="whitneyza" width="60" height="60"></a>
+<a href="https://github.com/volkmanaub"><img src="https://avatars.githubusercontent.com/u/95301170?v=4" title="volkmanaub" width="60" height="60"></a>
+<a href="https://github.com/lueilwit"><img src="https://avatars.githubusercontent.com/u/95302137?v=4" title="lueilwit" width="60" height="60"></a>
+<a href="https://github.com/nicolec3urv7"><img src="https://avatars.githubusercontent.com/u/95520516?v=4" title="nicolec3urv7" width="60" height="60"></a>
+<a href="https://github.com/lazospark1"><img src="https://avatars.githubusercontent.com/u/95704274?v=4" title="lazospark1" width="60" height="60"></a>
 
 [//]: github-sponsors
 
