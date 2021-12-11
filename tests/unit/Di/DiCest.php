@@ -18,7 +18,7 @@
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Config\Config;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Http\Request;

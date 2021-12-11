@@ -22,7 +22,7 @@ use Phalcon\Cli\Console;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;

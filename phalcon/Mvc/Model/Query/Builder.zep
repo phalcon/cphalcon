@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\Exception;

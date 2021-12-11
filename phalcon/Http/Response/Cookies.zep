@@ -27,7 +27,7 @@ use Phalcon\Http\Cookie\CookieInterface;
  * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Encryption\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *

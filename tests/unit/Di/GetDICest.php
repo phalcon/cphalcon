@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Tests\Fixtures\Di\InjectableComponent;
 use ReflectionClass;
 use ReflectionException;

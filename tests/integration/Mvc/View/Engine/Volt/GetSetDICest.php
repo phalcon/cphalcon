@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 

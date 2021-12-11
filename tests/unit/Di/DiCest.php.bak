@@ -17,7 +17,7 @@
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;

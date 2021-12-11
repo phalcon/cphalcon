@@ -10,7 +10,7 @@
 
 namespace Phalcon\Flash;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Html\Escaper\EscaperInterface;

@@ -32,7 +32,7 @@ use ReflectionProperty;
  * Container such as Phalcon\Di.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
  * $di = new Di();

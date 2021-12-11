@@ -8,7 +8,7 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Di;
 
 use Phalcon\Di\Service;
 use Phalcon\Di\DiInterface;
@@ -41,7 +41,7 @@ use Phalcon\Di\ServiceProviderInterface;
  * less prone to errors.
  *
  *```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Http\Request;
  *
  * $di = new Di();

@@ -3,7 +3,7 @@
 namespace Phalcon\Tests\Integration\Mvc\Dispatcher\Helper;
 
 use IntegrationTester;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Http\Response;

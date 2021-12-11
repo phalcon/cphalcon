@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\Application;
 
 use IntegrationTester;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;

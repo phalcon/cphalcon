@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Traits;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
