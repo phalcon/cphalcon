@@ -18,6 +18,7 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
+use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Filter\Validation;
