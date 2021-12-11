@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Encryption\Crypt;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
 class OffsetSetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: offsetSet()
+     * Unit Tests Phalcon\Di\Di :: offsetSet()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

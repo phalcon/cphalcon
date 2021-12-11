@@ -18,7 +18,7 @@
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Config\Config;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Http\Request;
@@ -34,7 +34,7 @@ use function dataDir;
 use function is_string;
 
 /**
- * Tests the \Phalcon\Di component
+ * Tests the \Phalcon\Di\Di component
  */
 class DiCest
 {

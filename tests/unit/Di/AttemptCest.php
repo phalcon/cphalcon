@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class AttemptCest
 {
     /**
-     * Tests Phalcon\Di :: attempt()
+     * Tests Phalcon\Di\Di :: attempt()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

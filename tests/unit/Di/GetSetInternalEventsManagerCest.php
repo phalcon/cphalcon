@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Events\ManagerInterface;
 use UnitTester;
@@ -26,7 +26,7 @@ use UnitTester;
 class GetSetInternalEventsManagerCest
 {
     /**
-     * Unit Tests Phalcon\Di :: getInternalEventsManager()/setInternalEventsManager()
+     * Unit Tests Phalcon\Di\Di :: getInternalEventsManager()/setInternalEventsManager()
      *
      * @param UnitTester $I
      *

@@ -21,7 +21,7 @@ use Phalcon\Filter\FilterInterface;
  * it, and then instantiating a task and calling an action on it.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Cli\Dispatcher;
  *
  * $di = new Di();

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use SomeComponent;
 use SomeServiceProvider;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class RegisterCest
 {
     /**
-     * Unit Tests Phalcon\Di :: register()
+     * Unit Tests Phalcon\Di\Di :: register()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

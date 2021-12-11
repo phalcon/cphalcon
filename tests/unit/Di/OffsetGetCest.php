@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class OffsetGetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: offsetGet()
+     * Unit Tests Phalcon\Di\Di :: offsetGet()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

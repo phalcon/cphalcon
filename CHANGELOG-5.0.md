@@ -1,4 +1,4 @@
-# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (xxxx-xx-xx)
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-12)
 
 ## Changed
 - Marked as deprecated:
@@ -15,7 +15,8 @@
 - Moved `Phalcon\Registry` to `Phalcon\Support\Registry` [#15802](https://github.com/phalcon/cphalcon/issues/15802)
 - Moved `Phalcon\Url` to `Phalcon\Mvc\Url` [#15798](https://github.com/phalcon/cphalcon/issues/15798)
 - Moved `Phalcon\Loader` to `Phalcon\Autoload\Loader` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
- 
+- Moved `Phalcon\Di` to `Phalcon\Di\Di` [#15799](https://github.com/phalcon/cphalcon/issues/15799)
+
 ## Added
 - Added:
     - `Phalcon\Mvc\Model::hasBelongsTo()`

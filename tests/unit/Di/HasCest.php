@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
 class HasCest
 {
     /**
-     * Tests Phalcon\Di :: has()
+     * Tests Phalcon\Di\Di :: has()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

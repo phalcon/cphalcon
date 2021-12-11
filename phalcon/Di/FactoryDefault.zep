@@ -16,12 +16,12 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Filter\FilterFactory;
 
 /**
- * This is a variant of the standard Phalcon\Di. By default it automatically
+ * This is a variant of the standard Phalcon\Di\Di. By default it automatically
  * registers all the services provided by the framework. Thanks to this, the
  * developer does not need to register each service individually providing a
  * full stack framework
  */
-class FactoryDefault extends \Phalcon\Di
+class FactoryDefault extends \Phalcon\Di\Di
 {
     /**
      * Phalcon\Di\FactoryDefault constructor

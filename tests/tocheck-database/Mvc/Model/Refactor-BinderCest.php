@@ -5,7 +5,7 @@ namespace Phalcon\Tests\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;

@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Config\Config;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use UnitTester;
 
 class LoadFromYamlCest
 {
     /**
-     * Unit Tests Phalcon\Di :: loadFromYaml()
+     * Unit Tests Phalcon\Di\Di :: loadFromYaml()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

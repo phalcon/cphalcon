@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
 class OffsetExistsCest
 {
     /**
-     * Tests Phalcon\Di :: offsetExists()
+     * Tests Phalcon\Di\Di :: offsetExists()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

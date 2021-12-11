@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class SetServiceCest
 {
     /**
-     * Unit Tests Phalcon\Di :: setService()
+     * Unit Tests Phalcon\Di\Di :: setService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

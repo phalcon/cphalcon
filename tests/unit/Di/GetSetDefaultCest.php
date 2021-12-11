@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Encryption\Crypt;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
 class GetSetDefaultCest
 {
     /**
-     * Tests Phalcon\Di :: getDefault() / setDefault()
+     * Tests Phalcon\Di\Di :: getDefault() / setDefault()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

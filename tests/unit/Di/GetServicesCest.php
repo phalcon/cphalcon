@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use UnitTester;
 
 class GetServicesCest
 {
     /**
-     * Unit Tests Phalcon\Di :: getServices()
+     * Unit Tests Phalcon\Di\Di :: getServices()
      *
      * @param  UnitTester $I
      *

@@ -17,7 +17,7 @@ use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Messages\Message;
@@ -1367,7 +1367,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * // encapsulate find it into an running transaction esp. useful for application unit-tests
      * // or complex business logic where we wanna control which transactions are used.
      *
-     * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction->begin();
      *
      * $newRobot = new Robot();
@@ -1404,9 +1404,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $myTransaction->rollback();
      *
      * // creating two different transactions
-     * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction1 = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction1->begin();
-     * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction2 = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction2->begin();
      *
      *  // add a new robots
@@ -1560,7 +1560,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo "The first virtual robot name is ", $robot->name;
      *
      * // behaviour with transaction
-     * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction->begin();
      *
      * $newRobot = new Robot();

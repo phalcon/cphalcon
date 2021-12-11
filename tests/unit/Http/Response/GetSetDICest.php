@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Response;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Http\Response;
 use UnitTester;
 

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model;

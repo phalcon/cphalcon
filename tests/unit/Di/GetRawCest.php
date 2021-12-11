@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Exception;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
 class GetRawCest
 {
     /**
-     * Tests Phalcon\Di :: getRaw()
+     * Tests Phalcon\Di\Di :: getRaw()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

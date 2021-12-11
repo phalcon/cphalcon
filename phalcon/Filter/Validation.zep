@@ -10,7 +10,7 @@
 
 namespace Phalcon\Filter;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;

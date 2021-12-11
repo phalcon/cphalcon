@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
@@ -22,7 +22,7 @@ use UnitTester;
 class GetServiceCest
 {
     /**
-     * Unit Tests Phalcon\Di :: getService()
+     * Unit Tests Phalcon\Di\Di :: getService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13
