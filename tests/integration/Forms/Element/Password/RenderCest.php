@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new Password('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="password" id="simple" name="simple" />',
             $element->render()
         );
@@ -76,7 +76,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="password" id="fantastic" name="fantastic" class="fancy" placeholder="Initial value" />',
             $element->render()
         );

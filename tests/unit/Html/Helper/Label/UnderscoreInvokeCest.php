@@ -18,6 +18,8 @@ use Phalcon\Html\Helper\Label;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use function uniqid;
+
 /**
  * Class UnderscoreInvokeCest
  *
@@ -40,18 +42,18 @@ class UnderscoreInvokeCest
      */
     public function htmlHelperLabelUnderscoreInvoke(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Label - __invoke()');
+        $I->wantToTest('Html\Helper\Label - __invoke() - ' . $example[0]);
         $escaper = new Escaper();
         $helper  = new Label($escaper);
 
-        $expected = $example[0];
-        $actual   = $helper($example[1]);
+        $expected = $example[1];
+        $actual   = $helper($example[2], $example[3], $example[4]);
         $I->assertEquals($expected, $actual);
 
         $factory  = new TagFactory($escaper);
         $locator  = $factory->newInstance('label');
-        $expected = $example[0];
-        $actual   = $locator($example[1]);
+        $expected = $example[1];
+        $actual   = $locator($example[2], $example[3], $example[4]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -60,25 +62,45 @@ class UnderscoreInvokeCest
      */
     private function getExamples(): array
     {
+        $text = uniqid();
         return [
             [
-                '<label>',
+                'empty',
+                '<label></label>',
+                '',
                 [],
+                false,
             ],
             [
-                '<label for="my-name" id="my-id">',
+                'standard',
+                '<label for="my-name" id="my-id">' . $text . '&amp;' . $text . '</label>',
+                $text . '&' . $text,
                 [
                     'id'  => 'my-id',
                     'for' => 'my-name',
                 ],
+                false,
             ],
             [
-                '<label for="my-name" id="my-id" class="my-class">',
+                'with id',
+                '<label for="my-name" id="my-id" class="my-class">' . $text . '&amp;' . $text . '</label>',
+                $text . '&' . $text,
                 [
                     'class' => 'my-class',
                     'for'   => 'my-name',
                     'id'    => 'my-id',
                 ],
+                false,
+            ],
+            [
+                'raw',
+                '<label for="my-name" id="my-id">raw & text</label>',
+                'raw & text',
+                [
+                    'id'  => 'my-id',
+                    'for' => 'my-name',
+                ],
+                true,
             ],
         ];
     }

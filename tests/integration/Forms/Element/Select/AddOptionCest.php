@@ -41,7 +41,7 @@ class AddOptionCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<select id="test-select" name="test-select"><option value="key">value</option></select>',
             preg_replace(
                 '/[[:cntrl:]]/',
@@ -57,7 +57,7 @@ class AddOptionCest
 
         $element->addOption('value');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<select id="test-select" name="test-select"><option value="0">value</option></select>',
             preg_replace(
                 '/[[:cntrl:]]/',

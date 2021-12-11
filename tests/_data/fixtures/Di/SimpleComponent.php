@@ -12,6 +12,8 @@ declare(strict_types=1);
  */
 
 
+namespace Phalcon\Tests\Fixtures\Di;
+
 /**
  * SimpleComponent class
  */

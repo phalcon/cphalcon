@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct)
 
 
 	if (!(zephir_is_true(container))) {
-		ZEPHIR_CALL_CE_STATIC(container, phalcon_di_ce, "getdefault", &_0, 0);
+		ZEPHIR_CALL_CE_STATIC(container, phalcon_di_di_ce, "getdefault", &_0, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);

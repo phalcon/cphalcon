@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new Radio('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="radio" id="simple" name="simple" />',
             $element->render()
         );
@@ -75,7 +75,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="radio" id="fantastic" name="fantastic" class="fancy" />',
             $element->render()
         );

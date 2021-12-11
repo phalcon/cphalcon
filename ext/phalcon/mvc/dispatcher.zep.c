@@ -35,7 +35,7 @@
  * controller.
  *
  *```php
- * $di = new \Phalcon\Di();
+ * $di = new \Phalcon\Di\Di();
  *
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
  *

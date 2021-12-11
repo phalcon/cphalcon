@@ -30,18 +30,6 @@ use Phalcon\Validation\Validator\StringLength;
 class FormElementsCest
 {
     /**
-     * Executed before each test
-     */
-    public function _before(IntegrationTester $I)
-    {
-        Tag::resetInput();
-
-        Tag::setDocType(
-            Tag::HTML5
-        );
-    }
-
-    /**
      * Tests cancelling validation on first fail
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149

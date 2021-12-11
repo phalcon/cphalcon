@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new Textarea('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<textarea id="simple" name="simple"></textarea>',
             $element->render()
         );
@@ -76,7 +76,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<textarea id="fantastic" name="fantastic" class="fancy" placeholder="Initial value"></textarea>',
             $element->render()
         );

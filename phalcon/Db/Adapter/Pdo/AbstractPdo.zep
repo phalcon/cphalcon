@@ -342,13 +342,13 @@ abstract class AbstractPdo extends AbstractAdapter
                 if !fetch value, params[placeMatch[1]] {
                     if unlikely !isset placeMatch[2] {
                         throw new Exception(
-                            "Matched parameter wasn't found in parameters list"
+                            "Matched parameter was not found in parameters list"
                         );
                     }
 
                     if unlikely !fetch value, params[placeMatch[2]] {
                         throw new Exception(
-                            "Matched parameter wasn't found in parameters list"
+                            "Matched parameter was not found in parameters list"
                         );
                     }
                 }

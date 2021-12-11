@@ -52,7 +52,7 @@ class RenderCest
 
         $element = new Date('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="date" id="simple" name="simple" />',
             $element->render()
         );
@@ -75,7 +75,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="date" id="fantastic" name="fantastic" class="fancy" />',
             $element->render()
         );

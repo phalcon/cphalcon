@@ -52,7 +52,7 @@ class ToStringCest
 
         $element = new Date('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="date" id="simple" name="simple" />',
             (string) $element
         );
@@ -75,7 +75,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="date" id="fantastic" name="fantastic" class="fancy" />',
             (string) $element
         );

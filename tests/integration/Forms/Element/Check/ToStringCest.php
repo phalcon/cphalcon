@@ -52,7 +52,7 @@ class ToStringCest
 
         $element = new Check('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="checkbox" id="simple" name="simple" />',
             (string) $element
         );
@@ -75,7 +75,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="checkbox" id="fantastic" name="fantastic" class="fancy" />',
             (string) $element
         );

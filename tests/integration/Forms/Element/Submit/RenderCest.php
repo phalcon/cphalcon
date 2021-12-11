@@ -45,7 +45,7 @@ class RenderCest
 
         $element = new Submit('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="submit" value="simple" />',
             $element->render()
         );
@@ -72,7 +72,7 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="submit" value="fantastic" class="fancy" />',
             $element->render()
         );

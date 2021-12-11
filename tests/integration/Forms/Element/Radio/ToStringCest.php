@@ -52,7 +52,7 @@ class ToStringCest
 
         $element = new Radio('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="radio" id="simple" name="simple" />',
             (string) $element
         );
@@ -75,7 +75,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="radio" id="fantastic" name="fantastic" class="fancy" />',
             (string) $element
         );

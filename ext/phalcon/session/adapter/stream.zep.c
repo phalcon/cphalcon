@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 397, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 395, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 146, &file);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 144, &file);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				_9$$3 = ZEPHIR_LT(&_10$$3, &time);
 			}
 			if (_9$$3) {
-				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 146, &file);
+				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 144, &file);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 					_14$$5 = ZEPHIR_LT(&_15$$5, &time);
 				}
 				if (_14$$5) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 146, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 144, &file);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 		ZEPHIR_CALL_FUNCTION(&pointer, "fopen", NULL, 89, &name, &_2$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_3$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 155, &pointer, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 153, &pointer, &_3$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_4$$3)) {
 			ZEPHIR_INIT_NVAR(&data);
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	ZVAL_LONG(&_2, 2);
-	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 158, &name, data, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 156, &name, data, &_2);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
 }

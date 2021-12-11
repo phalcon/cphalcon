@@ -52,7 +52,7 @@ class ToStringCest
 
         $element = new Email('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="email" id="simple" name="simple" />',
             (string) $element
         );
@@ -76,7 +76,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="email" id="fantastic" name="fantastic" class="fancy" placeholder="Initial value" />',
             (string) $element
         );

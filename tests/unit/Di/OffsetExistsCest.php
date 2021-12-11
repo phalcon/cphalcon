@@ -17,28 +17,33 @@ use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class OffsetExistsCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class OffsetExistsCest
 {
     /**
      * Tests Phalcon\Di\Di :: offsetExists()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function diOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Di - offsetExists()');
 
-        $di = new Di();
+        $container = new Di();
 
-        $I->assertFalse(
-            isset($di['escaper'])
-        );
+        $actual = isset($container['escaper']);
+        $I->assertFalse($actual);
 
-        $di->set('escaper', Escaper::class);
+        $container->set('escaper', Escaper::class);
 
-        $I->assertTrue(
-            isset($di['escaper'])
-        );
+        $actual = isset($container['escaper']);
+        $I->assertTrue($actual);
     }
 }

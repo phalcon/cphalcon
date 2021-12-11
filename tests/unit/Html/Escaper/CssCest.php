@@ -29,7 +29,6 @@ class CssCest
     public function escaperCss(UnitTester $I)
     {
         $I->wantToTest('Escaper - css()');
-        $I->skipTest("TODO: Enable this after escaping is converted from C to PHP");
 
         $escaper = new Escaper();
 

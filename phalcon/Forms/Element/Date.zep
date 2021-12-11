@@ -18,12 +18,7 @@ use Phalcon\Tag;
 class Date extends AbstractElement
 {
     /**
-     * Renders the element widget returning html
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::dateField(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputDate";
 }

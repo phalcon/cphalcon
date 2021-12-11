@@ -18,6 +18,7 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
+use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Filter\Validation;
@@ -72,6 +73,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @var array
      */
     protected options = [];
+
+    /**
+     * @var TagFactory|null
+     */
+    protected tagFactory = null;
 
     /**
      * @var ValidationInterface|null
@@ -129,6 +135,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
          * Link the element to the form
          */
         element->setForm(this);
+        if method_exists(element, "setTagFactory") {
+            element->{"setTagFactory"}(this->tagFactory);
+        }
 
         if position == null || empty this->elements {
             /**
@@ -276,10 +285,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let data = [];
 
             for element in elements {
-                Tag::setDefault(
-                    element->getName(),
-                    element->getDefault()
-                );
+                element->clear();
             }
         } else {
             if typeof fields != "array" {
@@ -292,10 +298,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 if fetch element, elements[field] {
-                    Tag::setDefault(
-                        element->getName(),
-                        element->getDefault()
-                    );
+                    element->clear();
                 }
             }
         }
@@ -545,6 +548,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             "label":         true,
             "value":         true,
             "di":            true,
+            "tagFactory":    true,
             "eventsmanager": true
         ];
 
@@ -564,13 +568,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             return this->{method}();
         }
 
-        /**
-         * Check if the tag has a default value
-         */
-        if Tag::hasValue(name) {
-            return Tag::getValue(name);
-        }
-
+//        /**
+//         * Check if the tag has a default value
+//         */
+//        if Tag::hasValue(name) {
+//            return Tag::getValue(name);
+//        }
+//
         /**
          * Check if element has default value
          */

@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 }
 
 /**
- * AdapterFactory constructor.
+ * Initialize services/add new services
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 {

@@ -52,7 +52,7 @@ class ToStringCest
 
         $element = new Text('simple');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="text" id="simple" name="simple" />',
             (string) $element
         );
@@ -76,7 +76,7 @@ class ToStringCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '<input type="text" id="fantastic" name="fantastic" class="fancy" placeholder="Initial value" />',
             (string) $element
         );

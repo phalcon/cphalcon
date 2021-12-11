@@ -10,22 +10,22 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
- * Phalcon\Forms\Element\Check
- *
  * Component INPUT[type=check] for forms
  */
 class Check extends AbstractElement
 {
     /**
-     * Renders the element widget returning HTML
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::checkField(
-            this->prepareAttributes(attributes, true)
-        );
-    }
+    protected method = "inputCheckbox";
+//    /**
+//     * Renders the element widget returning HTML
+//     */
+//    public function render(array attributes = []) -> string
+//    {
+//        return Tag::checkField(
+//            this->prepareAttributes(attributes, true)
+//        );
+//    }
 }

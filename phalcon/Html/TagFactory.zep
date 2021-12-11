@@ -97,21 +97,17 @@ class TagFactory extends AbstractFactory
      * Magic call to make the helper objects available as methods.
      *
      * @param string $name
-     * @param array  $args
+     * @param array  $arguments
      *
      * @return false|mixed
      */
-    public function __call(string name, array args)
+    public function __call(string name, array arguments)
     {
-        var services;
+        var helper;
 
-        let services = this->getServices();
+        let helper = this->newInstance(name);
 
-        if (true !== isset(services[name])) {
-            throw new Exception("Service " . name . " is not registered");
-        }
-
-        return call_user_func_array(this->newInstance(name), args);
+        return call_user_func_array([helper, "__invoke"], arguments);
     }
 
     /**

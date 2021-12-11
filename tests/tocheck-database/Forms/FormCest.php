@@ -25,26 +25,6 @@ use Phalcon\Validation\Validator\StringLength\Min;
 
 class FormCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
-    }
-
-    /**
-     * executed after each test
-     */
-    public function _after(IntegrationTester $I)
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-    }
-
     public function testLabels(IntegrationTester $I)
     {
         $form = new Form();

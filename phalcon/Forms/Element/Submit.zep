@@ -18,15 +18,7 @@ use Phalcon\Tag;
 class Submit extends AbstractElement
 {
     /**
-     * Renders the element widget
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        /**
-         * Merged passed attributes with previously defined ones
-         */
-        return Tag::submitButton(
-            this->prepareAttributes(attributes)
-        );
-    }
+    protected method = "inputSubmit";
 }

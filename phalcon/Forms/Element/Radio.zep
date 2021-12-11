@@ -20,12 +20,7 @@ use Phalcon\Tag;
 class Radio extends AbstractElement
 {
     /**
-     * Renders the element widget returning HTML
+     * @var string
      */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::radioField(
-            this->prepareAttributes(attributes, true)
-        );
-    }
+    protected method = "inputRadio";
 }
