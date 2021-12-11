@@ -21,7 +21,7 @@ use UnitTester;
 class AttemptCest
 {
     /**
-     * Tests Phalcon\Di :: attempt()
+     * Tests Phalcon\Di\Di :: attempt()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

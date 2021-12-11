@@ -21,7 +21,7 @@ use UnitTester;
 class SetServiceCest
 {
     /**
-     * Unit Tests Phalcon\Di :: setService()
+     * Unit Tests Phalcon\Di\Di :: setService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

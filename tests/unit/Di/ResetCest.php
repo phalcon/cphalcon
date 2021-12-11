@@ -19,7 +19,7 @@ use UnitTester;
 class ResetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: reset()
+     * Unit Tests Phalcon\Di\Di :: reset()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

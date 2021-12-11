@@ -34,7 +34,7 @@ use function dataDir;
 use function is_string;
 
 /**
- * Tests the \Phalcon\Di component
+ * Tests the \Phalcon\Di\Di component
  */
 class DiCest
 {

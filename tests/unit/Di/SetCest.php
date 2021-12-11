@@ -21,7 +21,7 @@ use UnitTester;
 class SetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: set()
+     * Unit Tests Phalcon\Di\Di :: set()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

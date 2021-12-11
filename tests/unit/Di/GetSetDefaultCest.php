@@ -21,7 +21,7 @@ use UnitTester;
 class GetSetDefaultCest
 {
     /**
-     * Tests Phalcon\Di :: getDefault() / setDefault()
+     * Tests Phalcon\Di\Di :: getDefault() / setDefault()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

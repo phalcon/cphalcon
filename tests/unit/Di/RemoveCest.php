@@ -20,7 +20,7 @@ use UnitTester;
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Di :: remove()
+     * Tests Phalcon\Di\Di :: remove()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

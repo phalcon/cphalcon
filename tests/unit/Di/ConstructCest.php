@@ -19,7 +19,7 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Di :: __construct()
+     * Tests Phalcon\Di\Di :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

@@ -20,7 +20,7 @@ use UnitTester;
 class OffsetUnsetCest
 {
     /**
-     * Tests Phalcon\Di :: offsetUnset()
+     * Tests Phalcon\Di\Di :: offsetUnset()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-28

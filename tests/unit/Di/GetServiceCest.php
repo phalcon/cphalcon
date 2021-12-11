@@ -22,7 +22,7 @@ use UnitTester;
 class GetServiceCest
 {
     /**
-     * Unit Tests Phalcon\Di :: getService()
+     * Unit Tests Phalcon\Di\Di :: getService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

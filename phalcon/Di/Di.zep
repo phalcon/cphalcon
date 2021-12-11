@@ -23,10 +23,10 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
 /**
- * Phalcon\Di is a component that implements Dependency Injection/Service
+ * Phalcon\Di\Di is a component that implements Dependency Injection/Service
  * Location of services and it's itself a container for them.
  *
- * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the
+ * Since Phalcon is highly decoupled, Phalcon\Di\Di is essential to integrate the
  * different components of the framework. The developer can also use this
  * component to inject dependencies and manage global instances of the different
  * classes used in the application.
@@ -91,7 +91,7 @@ class Di implements DiInterface
     protected static _default;
 
     /**
-     * Phalcon\Di constructor
+     * Phalcon\Di\Di constructor
      */
     public function __construct()
     {

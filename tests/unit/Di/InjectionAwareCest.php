@@ -27,7 +27,7 @@ use function spl_object_hash;
 class InjectionAwareCest
 {
     /**
-     * Tests Phalcon\Di :: injection aware trait
+     * Tests Phalcon\Di\Di :: injection aware trait
      *
      * @param UnitTester $I
      *

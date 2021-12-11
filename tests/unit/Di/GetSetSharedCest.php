@@ -27,7 +27,7 @@ use function spl_object_hash;
 class GetSetSharedCest
 {
     /**
-     * Tests Phalcon\Di :: getShared()/setShared()
+     * Tests Phalcon\Di\Di :: getShared()/setShared()
      *
      * @param UnitTester $I
      *
@@ -55,7 +55,7 @@ class GetSetSharedCest
     }
 
     /**
-     * Tests Phalcon\Di :: getShared() - set
+     * Tests Phalcon\Di\Di :: getShared() - set
      *
      * @param UnitTester $I
      *

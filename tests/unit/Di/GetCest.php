@@ -22,7 +22,7 @@ use UnitTester;
 class GetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: get()
+     * Unit Tests Phalcon\Di\Di :: get()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

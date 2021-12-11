@@ -20,7 +20,7 @@ use UnitTester;
 class HasCest
 {
     /**
-     * Tests Phalcon\Di :: has()
+     * Tests Phalcon\Di\Di :: has()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02

@@ -20,7 +20,7 @@ use UnitTester;
 class LoadFromPhpCest
 {
     /**
-     * Unit Tests Phalcon\Di :: loadFromPhp()
+     * Unit Tests Phalcon\Di\Di :: loadFromPhp()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13

@@ -21,7 +21,7 @@ use UnitTester;
 class OffsetSetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: offsetSet()
+     * Unit Tests Phalcon\Di\Di :: offsetSet()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13
