@@ -81,13 +81,10 @@ class RenderCest
         $expected = str_replace(":name:", $name, $example[2]);
         $actual   = $object->render();
 
-var_dump($actual);
-var_dump((string) $object);
-
         $I->assertSame($expected, $actual);
 
-//        $actual = (string) $object;
-//        $I->assertSame($expected, $actual);
+        $actual = (string) $object;
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -96,66 +93,66 @@ var_dump((string) $object);
     private function getExamples(): array
     {
         return [
-//            [
-//                "Check",
-//                Check::class,
-//                '<input type="checkbox" id=":name:" name=":name:" />',
-//            ],
+            [
+                "Check",
+                Check::class,
+                '<input type="checkbox" id=":name:" name=":name:" />',
+            ],
             [
                 "Date",
                 Date::class,
                 '<input type="date" id=":name:" name=":name:" />',
             ],
-//            [
-//                "Email",
-//                Email::class,
-//                "",
-//            ],
-//            [
-//                "File",
-//                File::class,
-//                "",
-//            ],
-//            [
-//                "Hidden",
-//                Hidden::class,
-//                "",
-//            ],
-//            [
-//                "Numeric",
-//                Numeric::class,
-//                "",
-//            ],
-//            [
-//                "Password",
-//                Password::class,
-//                "",
-//            ],
-//            [
-//                "Radio",
-//                Radio::class,
-//                "",
-//            ],
-//            [
-//                "Select",
-//                Select::class,
-//                "",
-//            ],
-//            [
-//                "Submit",
-//                Submit::class,
-//                "",
-//            ],
-//            [
-//                "Text",
-//                Text::class,
-//                "",
-//            ],
-//            [
-//                "TextArea",
-//                TextArea::class,
-//                "",
-//            ],
+            [
+                "Email",
+                Email::class,
+                "",
+            ],
+            [
+                "File",
+                File::class,
+                "",
+            ],
+            [
+                "Hidden",
+                Hidden::class,
+                "",
+            ],
+            [
+                "Numeric",
+                Numeric::class,
+                "",
+            ],
+            [
+                "Password",
+                Password::class,
+                "",
+            ],
+            [
+                "Radio",
+                Radio::class,
+                "",
+            ],
+            [
+                "Select",
+                Select::class,
+                "",
+            ],
+            [
+                "Submit",
+                Submit::class,
+                "",
+            ],
+            [
+                "Text",
+                Text::class,
+                "",
+            ],
+            [
+                "TextArea",
+                TextArea::class,
+                "",
+            ],
         ];
     }
 }
