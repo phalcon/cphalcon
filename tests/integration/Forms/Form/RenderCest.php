@@ -22,30 +22,6 @@ use stdClass;
 
 class RenderCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newDi();
-        $this->setDiService('escaper');
-        $this->setDiService('url');
-
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-    }
-
-    /**
-     * executed after each test
-     */
-    public function _after(IntegrationTester $I)
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-    }
-
     /**
      * Tests Form::render
      *

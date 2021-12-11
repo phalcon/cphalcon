@@ -34,16 +34,6 @@ use Phalcon\Validation\Validator\PresenceOf;
 
 class FormsCest
 {
-    use DiTrait;
-
-    public function _before()
-    {
-        $this->setNewFactoryDefault();
-
-        Tag::setDoctype(
-            Tag::HTML5
-        );
-    }
 
     public function testFormElementRender(IntegrationTester $I)
     {
