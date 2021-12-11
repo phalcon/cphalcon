@@ -131,6 +131,7 @@ Thanks for the support
 <a href="https://github.com/lueilwit"><img src="https://avatars.githubusercontent.com/u/95302137?v=4" title="lueilwit" width="60" height="60"></a>
 <a href="https://github.com/nicolec3urv7"><img src="https://avatars.githubusercontent.com/u/95520516?v=4" title="nicolec3urv7" width="60" height="60"></a>
 <a href="https://github.com/lazospark1"><img src="https://avatars.githubusercontent.com/u/95704274?v=4" title="lazospark1" width="60" height="60"></a>
+<a href="https://github.com/leonardarac"><img src="https://avatars.githubusercontent.com/u/95871191?v=4" title="leonardarac" width="60" height="60"></a>
 
 [//]: github-sponsors
 
