@@ -161,7 +161,7 @@ zend_class_entry *phalcon_assets_asset_ce;
 zend_class_entry *phalcon_assets_inline_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_abstractconnection_ce;
 zend_class_entry *phalcon_datamapper_pdo_exception_exception_ce;
-zend_class_entry *phalcon_di_ce;
+zend_class_entry *phalcon_di_di_ce;
 zend_class_entry *phalcon_dispatcher_abstractdispatcher_ce;
 zend_class_entry *phalcon_dispatcher_exception_ce;
 zend_class_entry *phalcon_encryption_security_jwt_token_abstractitem_ce;
@@ -812,7 +812,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Assets_Inline);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection_AbstractConnection);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Exception_Exception);
-	ZEPHIR_INIT(Phalcon_Di);
+	ZEPHIR_INIT(Phalcon_Di_Di);
 	ZEPHIR_INIT(Phalcon_Dispatcher_AbstractDispatcher);
 	ZEPHIR_INIT(Phalcon_Dispatcher_Exception);
 	ZEPHIR_INIT(Phalcon_Encryption_Security_JWT_Token_AbstractItem);

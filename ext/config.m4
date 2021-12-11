@@ -81,7 +81,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/inline.zep.c
 	phalcon/datamapper/pdo/connection/abstractconnection.zep.c
 	phalcon/datamapper/pdo/exception/exception.zep.c
-	phalcon/di.zep.c
+	phalcon/di/di.zep.c
 	phalcon/dispatcher/abstractdispatcher.zep.c
 	phalcon/dispatcher/exception.zep.c
 	phalcon/domain/payload/readableinterface.zep.c

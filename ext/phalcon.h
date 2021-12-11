@@ -76,7 +76,7 @@
 #include "phalcon/assets/inline.zep.h"
 #include "phalcon/datamapper/pdo/connection/abstractconnection.zep.h"
 #include "phalcon/datamapper/pdo/exception/exception.zep.h"
-#include "phalcon/di.zep.h"
+#include "phalcon/di/di.zep.h"
 #include "phalcon/dispatcher/abstractdispatcher.zep.h"
 #include "phalcon/dispatcher/exception.zep.h"
 #include "phalcon/domain/payload/readableinterface.zep.h"

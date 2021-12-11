@@ -39,10 +39,10 @@
  * relations between the different models of the application.
  *
  * A ModelsManager is injected to a model via a Dependency Injector/Services
- * Container such as Phalcon\Di.
+ * Container such as Phalcon\Di\Di.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
  * $di = new Di();
@@ -675,10 +675,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty)
 		array_init(&publicProperties);
 		ZEPHIR_INIT_VAR(&classReflection);
 		object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 173, &className);
+		ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 171, &className);
 		zephir_check_call_status();
 		ZVAL_LONG(&_1$$3, 1);
-		ZEPHIR_CALL_METHOD(&reflectionProperties, &classReflection, "getproperties", NULL, 177, &_1$$3);
+		ZEPHIR_CALL_METHOD(&reflectionProperties, &classReflection, "getproperties", NULL, 175, &_1$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&reflectionProperties, 0, "phalcon/Mvc/Model/Manager.zep", 434);
 		if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
