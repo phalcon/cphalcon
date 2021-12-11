@@ -284,10 +284,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let data = [];
 
             for element in elements {
-                Tag::setDefault(
-                    element->getName(),
-                    element->getDefault()
-                );
+                element->clear();
+//                Tag::setDefault(
+//                    element->getName(),
+//                    element->getDefault()
+//                );
             }
         } else {
             if typeof fields != "array" {
@@ -300,10 +301,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 if fetch element, elements[field] {
-                    Tag::setDefault(
-                        element->getName(),
-                        element->getDefault()
-                    );
+                    element->clear();
+//                    Tag::setDefault(
+//                        element->getName(),
+//                        element->getDefault()
+//                    );
                 }
             }
         }
