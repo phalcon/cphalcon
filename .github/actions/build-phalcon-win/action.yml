@@ -75,9 +75,19 @@ runs:
         cache_dir: ${{ env.CACHE_DIR }}
 
     - name: Configure Developer Command Prompt for MSVC compiler
-      uses: ilammy/msvc-dev-cmd@v1.9.0
+      uses: ilammy/msvc-dev-cmd@v1.10.0
       with:
         arch: ${{ inputs.arch }}
+
+    # Workaround for
+    # PHP Warning:  PHP Startup: Can't load module 'C:\tools\php\ext\php_zephir_parser.dll'
+    # as it's linked with 14.29, but the core is linked with 14.16 in Unknown on line 0
+    - name: Configure Developer Command Prompt for MSVC compiler
+      uses: ilammy/msvc-dev-cmd@v1.10.0
+      if: ${{ inputs.php_version }} == '7.4'
+      with:
+        arch: ${{ inputs.arch }}
+        toolset: 14.16
 
     - name: Getting Details About Installed PHP
       shell: powershell
