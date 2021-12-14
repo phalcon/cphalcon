@@ -1,5 +1,5 @@
 FROM composer:latest as composer
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 # Compilation parameters
 RUN CPU_CORES="$(getconf _NPROCESSORS_ONLN)";
@@ -12,7 +12,7 @@ ENV MY_USER="phalcon" \
 	MY_GROUP="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
-	PHP_VERSION="8.0" \
+	PHP_VERSION="8.1" \
 	LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
@@ -78,7 +78,6 @@ RUN docker-php-ext-install \
 # Install PHP extensions
 RUN docker-php-ext-enable \
         psr \
-        gettext \
         redis \
         igbinary \
         msgpack \

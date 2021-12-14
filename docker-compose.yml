@@ -19,11 +19,19 @@ services:
     volumes:
       - .:/srv
 
+  cphalcon-8.1:
+    container_name: cphalcon-8.1
+    hostname: cphalcon-81
+    build: docker/8.1
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
   mysql:
     container_name: cphalcon-mysql
     image: mysql:5.7
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_USER=phalcon
@@ -34,7 +42,7 @@ services:
     container_name: cphalcon-postgres
     image: postgres:12-alpine
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=phalcon
@@ -44,10 +52,8 @@ services:
     container_name: cphalcon-redis
     image: redis:5-alpine
     ports:
-      - 6379:6379
+      - "6379:6379"
 
   memcached:
     container_name: cphalcon-memcached
     image: memcached:1.5-alpine
-#    ports:
-#      - 11211:11211
