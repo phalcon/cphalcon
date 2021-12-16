@@ -25,9 +25,9 @@ class GetSetEntityCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-05
      */
-    public function formsFormGetEntity(IntegrationTester $I)
+    public function formsFormGetSetEntity(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - getEntity()');
+        $I->wantToTest('Forms\Form - getEntity()/setEntity()');
 
         $entity = new stdClass();
         $form   = new Form($entity);

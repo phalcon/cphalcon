@@ -23,6 +23,7 @@ use Phalcon\Di\Di;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
@@ -62,10 +63,17 @@ class CompilerCest
             dataDir('fixtures/views/extends/other.volt.php')
         );
 
-        $di = new Di();
-
-        $view = new View();
-
+        $di      = new Di();
+        $escaper = new Escaper();
+        $view    = new View();
+        $di->set("escaper", $escaper);
+        $di->set("tag", new TagFactory($escaper));
+        $di->set(
+            "url",
+            function () {
+                return (new Url())->setBaseUri('/');
+            }
+        );
         $view->setDI($di);
 
         $view->setViewsDir(
@@ -227,34 +235,17 @@ class CompilerCest
 
         Di::reset();
 
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-
-        $view = new View();
-        $di   = new Di();
-
+        $di      = new Di();
+        $escaper = new Escaper();
+        $view    = new View();
+        $di->set("escaper", $escaper);
+        $di->set("tag", new TagFactory($escaper));
         $di->set(
-            'escaper',
-            function () {
-                return new Escaper();
-            }
-        );
-
-        $di->set(
-            'tag',
-            function () {
-                return new Tag();
-            }
-        );
-
-        $di->set(
-            'url',
+            "url",
             function () {
                 return (new Url())->setBaseUri('/');
             }
         );
-
         $view->setDI($di);
 
         $view->setViewsDir(
@@ -263,8 +254,8 @@ class CompilerCest
 
         $view->registerEngines(
             [
-                '.volt' => function ($view) {
-                    $volt = new Volt($view, $this);
+                '.volt' => function ($view) use ($di) {
+                    $volt = new Volt($view, $di);
 
                     $compiler = $volt->getCompiler();
 
@@ -392,39 +383,23 @@ class CompilerCest
 
         Di::reset();
 
-        $view = new View();
-        $di   = new Di();
-
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-
+        $di      = new Di();
+        $escaper = new Escaper();
+        $view    = new View();
+        $di->set("escaper", $escaper);
+        $di->set("tag", new TagFactory($escaper));
         $di->set(
-            'escaper',
-            function () {
-                return new Escaper();
-            }
-        );
-
-        $di->set(
-            'tag',
-            function () {
-                return new Tag();
-            }
-        );
-
-        $di->set(
-            'url',
+            "url",
             function () {
                 return (new Url())->setBaseUri('/');
             }
         );
-
         $view->setDI($di);
+
         $view->setViewsDir(dataDir('fixtures/views/'));
         $view->registerEngines([
-            '.volt' => function ($view) {
-                return new Volt($view, $this);
+            '.volt' => function ($view) use ($di) {
+                return new Volt($view, $di);
             },
         ]);
         $object      = new stdClass();

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Di\Di;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Forms\Form;
 
 class GetSetDICest
@@ -32,8 +33,9 @@ class GetSetDICest
         $container = new Di();
         $form      = new Form();
 
+        $class  = FactoryDefault::class;
         $actual = $form->getDI();
-        $I->assertNull($actual);
+        $I->assertInstanceOf($class, $actual);
 
         $form->setDI($container);
 

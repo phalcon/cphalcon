@@ -265,11 +265,11 @@ class CompileStringCest
             //Filters
             [
                 '{{ "hello"|e }}',
-                '<?= $this->escaper->escapeHtml(\'hello\') ?>',
+                '<?= $this->escaper->html(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|escape }}',
-                '<?= $this->escaper->escapeHtml(\'hello\') ?>',
+                '<?= $this->escaper->html(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|trim }}',
@@ -297,7 +297,7 @@ class CompileStringCest
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',
-                '<?= $this->length($this->escaper->escapeHtml((\'hello\' . \'lol\'))) ?>',
+                '<?= $this->length($this->escaper->html((\'hello\' . \'lol\'))) ?>',
             ],
             //Filters with parameters
             [
@@ -509,8 +509,8 @@ class CompileStringCest
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .
                 '{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?>" .
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
+                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?>" .
+                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?><?= 'hello' ?>",
             ],
             //Mixed
             [

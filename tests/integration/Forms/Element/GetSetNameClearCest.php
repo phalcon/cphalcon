@@ -63,10 +63,9 @@ class GetSetNameClearCest
         $I->assertSame($expected, $actual);
 
         $object->clear();
-        
-        $expected = $name;
-        $actual   = $object->getName();
-        $I->assertSame($expected, $actual);
+
+        $actual = $object->getForm();
+        $I->assertNull($actual);
     }
 
     /**
