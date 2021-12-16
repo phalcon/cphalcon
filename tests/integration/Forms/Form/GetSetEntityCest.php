@@ -17,25 +17,31 @@ use IntegrationTester;
 use Phalcon\Forms\Form;
 use stdClass;
 
-class GetEntityCest
+class GetSetEntityCest
 {
     /**
-     * Tests Phalcon\Forms\Form :: getEntity()
+     * Tests Phalcon\Forms\Form :: getEntity()/setEntity()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-23
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-05
      */
     public function formsFormGetEntity(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - getEntity()');
 
         $entity = new stdClass();
+        $form   = new Form($entity);
 
-        $form = new Form($entity);
+        $expected = $entity;
+        $actual   = $form->getEntity();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $entity,
-            $form->getEntity()
-        );
+        $second = new stdClass();
+
+        $form->setEntity($second);
+
+        $expected = $second;
+        $actual   = $form->getEntity();
+        $I->assertSame($expected, $actual);
     }
 }

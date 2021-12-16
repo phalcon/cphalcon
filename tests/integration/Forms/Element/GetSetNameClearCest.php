@@ -30,10 +30,10 @@ use Phalcon\Forms\Element\TextArea;
 
 use function uniqid;
 
-class GetSetNameCest
+class GetSetNameClearCest
 {
     /**
-     * Tests Phalcon\Forms\Element\* :: getName()/setName()
+     * Tests Phalcon\Forms\Element\* :: getName()/setName()/clear()
      *
      * @dataProvider getExamples
      *
@@ -43,9 +43,9 @@ class GetSetNameCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
-    public function formsElementGetSetName(IntegrationTester $I, Example $example)
+    public function formsElementGetSetNameClear(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Forms\Element\* - getName()/setName() - ' . $example[0]);
+        $I->wantToTest('Forms\Element\* - getName()/setName()/clear() - ' . $example[0]);
 
         $name   = uniqid();
         $class  = $example[1];
@@ -59,6 +59,12 @@ class GetSetNameCest
         $object->setName($different);
 
         $expected = $different;
+        $actual   = $object->getName();
+        $I->assertSame($expected, $actual);
+
+        $object->clear();
+        
+        $expected = $name;
         $actual   = $object->getName();
         $I->assertSame($expected, $actual);
     }
