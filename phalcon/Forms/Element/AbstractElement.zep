@@ -423,7 +423,7 @@ abstract class AbstractElement implements ElementInterface
      */
     public function render(array attributes = []) -> string
     {
-        var helper, mergedAttributes, method, name, tagFactory, value;
+        var helper, merged, method, name, result, tagFactory, value;
 
         let name       = this->name,
             value      = null,
@@ -436,9 +436,10 @@ abstract class AbstractElement implements ElementInterface
             unset attributes["value"];
         }
 
-        let mergedAttributes = array_merge(this->attributes, attributes);
+        let merged = array_merge(this->attributes, attributes),
+            result = helper->__invoke(name, value, merged);
 
-        return helper->__invoke(name, value, mergedAttributes);
+        return (string) result;
     }
 
     /**

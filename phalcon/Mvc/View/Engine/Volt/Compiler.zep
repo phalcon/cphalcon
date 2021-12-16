@@ -638,7 +638,7 @@ class Compiler implements InjectionAwareInterface
          * Echo statement
          */
         if this->autoescape {
-            return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
+            return "<?= $this->escaper->html(" . exprCode . ") ?>";
         }
 
         return "<?= " . exprCode . " ?>";
@@ -1654,39 +1654,37 @@ class Compiler implements InjectionAwareInterface
     /**
      * Fires an event to registered extensions
      *
-     * @param string name
-     * @param array arguments
+     * @param string $name
+     * @param array  $arguments
      *
      * @return mixed
      */
-    final public function fireExtensionEvent(string! name, arguments = null) // TODO: Make arguments array
+    final public function fireExtensionEvent(string! name, array arguments = [])
     {
         var extensions, extension, status;
 
         let extensions = this->extensions;
 
-        if typeof extensions == "array" {
-            for extension in extensions {
-                /**
-                 * Check if the extension implements the required event name
-                 */
-                if method_exists(extension, name) {
-                    if typeof arguments == "array" {
-                        let status = call_user_func_array(
-                            [extension, name],
-                            arguments
-                        );
-                    } else {
-                        let status = call_user_func([extension, name]);
-                    }
+        for extension in extensions {
+            /**
+             * Check if the extension implements the required event name
+             */
+            if method_exists(extension, name) {
+                if !empty arguments {
+                    let status = call_user_func_array(
+                        [extension, name],
+                        arguments
+                    );
+                } else {
+                    let status = call_user_func([extension, name]);
+                }
 
-                    /**
-                     * Only string statuses means the extension processes
-                     * something
-                     */
-                    if typeof status == "string" {
-                        return status;
-                    }
+                /**
+                 * Only string statuses means the extension processes
+                 * something
+                 */
+                if typeof status == "string" {
+                    return status;
                 }
             }
         }
@@ -1702,9 +1700,9 @@ class Compiler implements InjectionAwareInterface
      */
     public function functionCall(array! expr) -> string
     {
-        var code, funcArguments, arguments, nameExpr, nameType, name,
-            extensions, functions, definition, extendedBlocks, block,
-            currentBlock, exprLevel, escapedCode, method, arrayHelpers;
+        var arrayHelpers, arguments, block, code, currentBlock, definition,
+            escapedCode, exprLevel, extendedBlocks, extensions, functions,
+            funcArguments, method, name, nameExpr, nameType;
 
         let code          = null,
             funcArguments = null;
@@ -1833,93 +1831,96 @@ class Compiler implements InjectionAwareInterface
                 return "''";
             }
 
-            let method = lcfirst(
-                camelize(name)
-            );
-
+            /**
+             * TagFactory helpers
+             */
             let arrayHelpers = [
-                "link_to":        true,
-                "image":          true,
-                "form":           true,
-                "submit_button":  true,
-                "radio_field":    true,
-                "check_field":    true,
-                "file_field":     true,
-                "hidden_field":   true,
-                "password_field": true,
-                "text_area":      true,
-                "text_field":     true,
-                "email_field":    true,
-                "date_field":     true,
-                "tel_field":      true,
-                "numeric_field":  true,
-                "image_input":    true
+                "a"                  : "a",
+                "base"               : "base",
+                "body"               : "body",
+                "button"             : "button",
+                "button_submit"      : "",
+                "check_field"        : "inputCheckbox",
+                "close"              : "close",
+                "date_field"         : "inputDate",
+                "doctype"            : "doctype",
+                "element"            : "element",
+                "element_close"      : "",
+                "end_form"           : "",
+                "email_field"        : "inputEmail",
+                "file_field"         : "inputFile",
+                "form"               : "form",
+                "friendly_title"     : "",
+                "get_doc_type"       : "doctype",
+                "get_title"          : "title",
+                "get_title_separator": "",
+                "hidden_field"       : "inputHidden",
+                "image"              : "img",
+                "image_input"        : "inputImage",
+                "img"                : "img",
+                "inputCheckbox"      : "inputCheckbox",
+                "inputColor"         : "inputColor",
+                "inputDate"          : "inputDate",
+                "inputDateTime"      : "inputDateTime",
+                "inputDateTimeLocal" : "inputDateTimeLocal",
+                "inputEmail"         : "inputEmail",
+                "inputFile"          : "inputFile",
+                "inputHidden"        : "inputHidden",
+                "inputImage"         : "inputImage",
+                "inputInput"         : "inputInput",
+                "inputMonth"         : "inputMonth",
+                "inputNumeric"       : "inputNumeric",
+                "inputPassword"      : "inputPassword",
+                "inputRadio"         : "inputRadio",
+                "inputRange"         : "inputRange",
+                "inputSearch"        : "inputSearch",
+                "inputSelect"        : "inputSelect",
+                "inputSubmit"        : "inputSubmit",
+                "inputTel"           : "inputTel",
+                "inputText"          : "inputText",
+                "inputTextarea"      : "inputTextarea",
+                "inputTime"          : "inputTime",
+                "inputUrl"           : "inputUrl",
+                "inputWeek"          : "inputWeek",
+                "javascript"         : "link",
+                "label"              : "label",
+                "link"               : "link",
+                "link_to"            : "a",
+                "meta"               : "meta",
+                "numeric_field"      : "inputNumeric",
+                "ol"                 : "ol",
+                "password_field"     : "inputPassword",
+                "prepend_title"      : "",
+                "radio_field"        : "inputRadio",
+                "render_title"       : "",
+                "select"             : "inputSelect",
+                "script"             : "script",
+                "style"              : "style",
+                "stylesheet"         : "style",
+                "submit_button"      : "inputSubmit",
+                "submit"             : "inputSubmit",
+                "tel_field"          : "inputTel",
+                "text_area"          : "inputTextarea",
+                "text_field"         : "inputText",
+                "title"              : "title",
+                "ul"                 : "ul"
             ];
 
-            /**
-             * Check if it's a method in Phalcon\Tag
-             */
-            if method_exists("Phalcon\\Tag", method) {
+            if this->container->has("tag") {
                 if isset arrayHelpers[name] {
+                    if "end_form" === name {
+                        return "$this->tag->close(\"form\")";
+                    }
+
+                    if "element_close" === name {
+                        return "$this->tag->close([" . arguments . "])";
+                    }
+
+                    let method = arrayHelpers[name];
+
                     return "$this->tag->" . method . "([" . arguments . "])";
                 }
-
-                return "$this->tag->" . method . "(" . arguments . ")";
             }
-
-            /**
-             * The code below will be activated when Html\Tag is enabled
-             */
-            /**
-            let arrayHelpers = [
-                "button_submit"         : true.
-                "element"               : true.
-                "element_close"         : true.
-                "end_form"              : true.
-                "form"                  : true.
-                "friendly_title"        : true.
-                "get_doc_type"          : true.
-                "get_title"             : true.
-                "get_title_separator"   : true.
-                "image"                 : true.
-                "input_checkbox"        : true.
-                "input_color"           : true.
-                "input_date"            : true.
-                "input_date_time"       : true.
-                "input_date_time_local" : true.
-                "input_email"           : true.
-                "input_file"            : true.
-                "input_hidden"          : true.
-                "input_image"           : true.
-                "input_month"           : true.
-                "input_numeric"         : true.
-                "input_password"        : true.
-                "input_radio"           : true.
-                "input_range"           : true.
-                "input_search"          : true.
-                "input_tel"             : true.
-                "input_text"            : true.
-                "input_time"            : true.
-                "input_url"             : true.
-                "input_week"            : true.
-                "javascript"            : true.
-                "link"                  : true.
-                "prepend_title"         : true.
-                "render_title"          : true.
-                "select"                : true.
-                "stylesheet"            : true.
-                "submit"                : true.
-                "text_area"             : true.
-            ];
-
-            if method_exists("Phalcon\\Html\\Tag", method) {
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
-                }
-
-                return "$this->tag->" . method . "(" . arguments . ")";
-            }
-            */
 
             /**
              * Get a dynamic URL
@@ -2530,21 +2531,21 @@ class Compiler implements InjectionAwareInterface
          * "e"/"escape" filter uses the escaper component
          */
         if name == "e" || name == "escape" {
-            return "$this->escaper->escapeHtml(" . arguments . ")";
+            return "$this->escaper->html(" . arguments . ")";
         }
 
         /**
          * "escape_css" filter uses the escaper component to filter CSS
          */
         if name == "escape_css" {
-            return "$this->escaper->escapeCss(" . arguments . ")";
+            return "$this->escaper->css(" . arguments . ")";
         }
 
         /**
          * "escape_js" filter uses the escaper component to escape JavaScript
          */
         if name == "escape_js" {
-            return "$this->escaper->escapeJs(" . arguments . ")";
+            return "$this->escaper->js(" . arguments . ")";
         }
 
         /**
@@ -2552,7 +2553,7 @@ class Compiler implements InjectionAwareInterface
          * attributes
          */
         if name == "escape_attr" {
-            return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
+            return "$this->escaper->attr(" . arguments . ")";
         }
 
         /**

@@ -385,6 +385,27 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Gets a value from the internal filtered data or calls getValue(name)
+     */
+    public function getFilteredValue(string! name) -> var | null
+    {
+        var filteredData, value;
+
+        let filteredData = this->filteredData;
+
+        if typeof filteredData == "array" {
+            /**
+             * Check if the data is in the data array
+             */
+            if fetch value, filteredData[name] {
+                return value;
+            }
+        }
+
+        return this->getValue(name);
+    }
+
+    /**
      * Returns a label for an element
      */
     public function getLabel(string! name) -> string
@@ -448,6 +469,14 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Returns the tagFactory object
+     */
+    public function getTagFactory() -> <TagFactory> | null
+    {
+        return this->tagFactory;
+    }
+
+    /**
      * Returns the value of an option if present
      */
     public function getUserOption(string option, var defaultValue = null) -> var
@@ -467,27 +496,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function getUserOptions() -> array
     {
         return this->options;
-    }
-
-    /**
-     * Gets a value from the internal filtered data or calls getValue(name)
-     */
-    public function getFilteredValue(string! name) -> var | null
-    {
-        var filteredData, value;
-
-        let filteredData = this->filteredData;
-
-        if typeof filteredData == "array" {
-            /**
-             * Check if the data is in the data array
-             */
-            if fetch value, filteredData[name] {
-                return value;
-            }
-        }
-
-        return this->getValue(name);
     }
 
     /**
@@ -568,13 +576,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             return this->{method}();
         }
 
-//        /**
-//         * Check if the tag has a default value
-//         */
-//        if Tag::hasValue(name) {
-//            return Tag::getValue(name);
-//        }
-//
         /**
          * Check if element has default value
          */
@@ -819,6 +820,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
+    }
+
+    /**
      * Sets the entity related to the model
      *
      * @param object entity
@@ -826,6 +837,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
+        return this;
+    }
+
+    /**
+     * Sets the tagFactory for the form
+     */
+    public function setTagFactory(<TagFactory> tagFactory) -> <Form>
+    {
+        let this->tagFactory = tagFactory;
 
         return this;
     }
@@ -850,16 +871,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setWhitelist(array whitelist) -> <Form>
     {
         let this->whitelist = whitelist;
-
-        return this;
-    }
-
-    /**
-    * Set form attributes collection
-    */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
-    {
-        let this->attributes = attributes;
 
         return this;
     }
