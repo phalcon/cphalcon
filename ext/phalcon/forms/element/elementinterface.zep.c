@@ -115,11 +115,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, hasMessages);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, label);
 /**
- * Returns an array of prepared attributes for Phalcon\Tag helpers
- * according to the element's parameters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, prepareAttributes);
-/**
  * Renders the element widget
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, render);

@@ -441,7 +441,6 @@
 #include "phalcon/image/enum.zep.h"
 #include "phalcon/image/exception.zep.h"
 #include "phalcon/image/imagefactory.zep.h"
-#include "phalcon/loader/exception.zep.h"
 #include "phalcon/logger/adapter/noop.zep.h"
 #include "phalcon/logger/adapter/stream.zep.h"
 #include "phalcon/logger/adapter/syslog.zep.h"

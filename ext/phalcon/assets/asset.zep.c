@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setFilter)
  *
  * @return AssetInterface
  */
-PHP_METHOD(Phalcon_Assets_Asset, setLocal)
+PHP_METHOD(Phalcon_Assets_Asset, setIsLocal)
 {
 	zval *flag_param = NULL, __$true, __$false;
 	zend_bool flag;
