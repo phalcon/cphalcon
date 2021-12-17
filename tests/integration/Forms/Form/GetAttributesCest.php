@@ -19,6 +19,8 @@ use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Tag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+use function method_exists;
+
 class GetAttributesCest
 {
     /**
@@ -33,69 +35,48 @@ class GetAttributesCest
 
         $form = new Form();
 
-        $I->assertTrue(
-            method_exists($form, 'getAttributes')
-        );
-    }
-
-    /**
-     * Test form attributes
-     */
-    public function testAttributes(IntegrationTester $I)
-    {
-        $form = new Form();
+        $actual = method_exists($form, 'getAttributes');
+        $I->assertTrue($actual);
 
         // Form implements AttributeInterface
-        $I->assertInstanceOf(
-            AttributesInterface::class,
-            $form
-        );
+        $class = AttributesInterface::class;
+        $I->assertInstanceOf($class, $form);
 
 
         // Empty attributes
-        $I->assertCount(
-            0,
-            $form->getAttributes()
-        );
-
+        $expected = 0;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
         // Set an attribute
         $form->getAttributes()->set('attr', 'value');
 
-        $I->assertCount(
-            1,
-            $form->getAttributes()
-        );
+        $expected = 1;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
 
-        // Check has attribute
-        $I->assertTrue(
-            $form->getAttributes()->has('attr')
-        );
+        // Check has
+        $actual = $form->getAttributes()->has('attr');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $form->getAttributes()->has('fake-attr')
-        );
+        $actual = $form->getAttributes()->has('fake-attr');
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $form->getAttributes()->has('non exists attr')
-        );
-
+        $actual = $form->getAttributes()->has('non exists attr');
+        $I->assertFalse($actual);
 
         // Render an attribute
-        $I->assertEquals(
-            ' attr="value"',
-            $form->getAttributes()->render()
-        );
-
+        $expected = 'attr="value" ';
+        $actual   = $form->getAttributes()->render();
+        $I->assertEquals($expected, $actual);
 
         // Reset attributes
         $form->getAttributes()->clear();
 
-        $I->assertCount(
-            0,
-            $form->getAttributes()
-        );
+        $expected = 0;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
         // Set multi attributes
         $form->getAttributes()->init(
@@ -107,85 +88,65 @@ class GetAttributesCest
         )
         ;
 
-        $I->assertCount(
-            3,
-            $form->getAttributes()
-        );
-
+        $expected = 3;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
         // Render multi attributes
-        $I->assertEquals(
-            ' attr1="value1" attr2="value2" attr3="value3"',
-            $form->getAttributes()->render()
-        );
-
+        $expected = 'attr1="value1" attr2="value2" attr3="value3" ';
+        $actual   = $form->getAttributes()->render();
+        $I->assertEquals($expected, $actual);
 
         // Get an attribute
-        $I->assertEquals(
-            'value2',
-            $form->getAttributes()->get('attr2')
-        );
-
+        $expected = 'value2';
+        $actual   = $form->getAttributes()->get('attr2');
+        $I->assertEquals($expected, $actual);
 
         // Test action attribute
         $form->setAction('/some-url');
 
-        $I->assertEquals(
-            '/some-url',
-            $form->getAction()
-        );
+        $expected = '/some-url';
+        $actual   = $form->getAction();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            '/some-url',
-            $form->getAttributes()->get('action')
-        );
+        $expected = '/some-url';
+        $actual   = $form->getAttributes()->get('action');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            ' action="/some-url" attr1="value1" attr2="value2" attr3="value3"',
-            $form->getAttributes()->render()
-        );
-
+        $expected = 'action="/some-url" attr1="value1" attr2="value2" attr3="value3" ';
+        $actual   = $form->getAttributes()->render();
+        $I->assertEquals($expected, $actual);
 
         // Remove an attribute
         $form->getAttributes()->remove('attr2');
 
-        $I->assertFalse(
-            $form->getAttributes()->has('attr2'),
-            'Remove an attribute'
-        );
+        $actual = $form->getAttributes()->has('attr2');
+        $I->assertFalse($actual);
 
-        $I->assertCount(
-            3,
-            $form->getAttributes()
-        );
-
+        $expected = 3;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
         // Delete a nonexistent attribute
         $form->getAttributes()->remove('attr2');
 
-        $I->assertFalse(
-            $form->getAttributes()->has('attr2')
-        );
+        $actual = $form->getAttributes()->has('attr2');
+        $I->assertFalse($actual);
 
         // Render multi attributes again
-        $I->assertEquals(
-            ' action="/some-url" attr1="value1" attr3="value3"',
-            $form->getAttributes()->render()
-        );
-
+        $expected = 'action="/some-url" attr1="value1" attr3="value3" ';
+        $actual   = $form->getAttributes()->render();
+        $I->assertEquals($expected, $actual);
 
         // Reset attributes
         $form->getAttributes()->clear();
 
-        $I->assertCount(
-            0,
-            $form->getAttributes()
-        );
-
+        $expected = 0;
+        $actual   = $form->getAttributes();
+        $I->assertCount($expected, $actual);
 
         // Exception on non exists attribute
-        $I->assertNull(
-            $form->getAttributes()->get('non exists')
-        );
+        $actual = $form->getAttributes()->get('non exists');
+        $I->assertNull($actual);
     }
 }

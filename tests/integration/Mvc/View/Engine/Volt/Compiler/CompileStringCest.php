@@ -17,9 +17,12 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class CompileStringCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString()
      *
@@ -35,12 +38,12 @@ class CompileStringCest
         $param    = $example[0];
         $expected = $example[1];
 
+        $this->setNewFactoryDefault();
         $volt = new Compiler();
+        $volt->setDI($this->container);
 
-        $I->assertEquals(
-            $expected,
-            $volt->compileString($param)
-        );
+        $actual = $volt->compileString($param);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -239,27 +242,27 @@ class CompileStringCest
             //Phalcon\Tag helpers
             [
                 "{{ link_to('hello', 'some-link') }}",
-                '<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>',
+                '<?= \Phalcon\Tag::linkTo([\'hello\', \'some-link\']) ?>',
             ],
             [
                 "{{ form('action': 'save/products', 'method': 'post') }}",
-                '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
+                '<?= \Phalcon\Tag::form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
             ],
             [
                 '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',
-                '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>',
+                '<?= \Phalcon\Tag::stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>',
             ],
             [
                 "{{ javascript_include('js/some.js') }}",
-                '<?= $this->tag->javascriptInclude(\'js/some.js\') ?>',
+                '<?= \Phalcon\Tag::javascriptInclude(\'js/some.js\') ?>',
             ],
             [
                 "{{ image('img/logo.png', 'width': 80) }}",
-                "<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>",
+                "<?= \\Phalcon\Tag::image(['img/logo.png', 'width' => 80]) ?>",
             ],
             [
                 "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', " .
+                "<?= \\Phalcon\Tag::emailField(['email', 'class' => 'form-control', " .
                 "'placeholder' => 'Email Address']) ?>",
             ],
             //Filters
