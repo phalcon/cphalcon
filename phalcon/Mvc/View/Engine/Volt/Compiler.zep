@@ -1700,12 +1700,13 @@ class Compiler implements InjectionAwareInterface
      */
     public function functionCall(array! expr) -> string
     {
-        var arrayHelpers, arguments, block, code, currentBlock, definition,
-            escapedCode, exprLevel, extendedBlocks, extensions, functions,
-            funcArguments, method, name, nameExpr, nameType;
+        var code, funcArguments, arguments, nameExpr, nameType, name,
+            extensions, functions, definition, extendedBlocks, block,
+            currentBlock, exprLevel, escapedCode, method, arrayHelpers, tagService;
 
-        let code          = null,
-            funcArguments = null;
+        let code = null;
+
+        let funcArguments = null;
 
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
@@ -1831,94 +1832,56 @@ class Compiler implements InjectionAwareInterface
                 return "''";
             }
 
-            /**
-             * TagFactory helpers
-             */
+            let method = lcfirst(
+                camelize(name)
+            );
+
             let arrayHelpers = [
-                "a"                  : "a",
-                "base"               : "base",
-                "body"               : "body",
-                "button"             : "button",
-                "button_submit"      : "",
-                "check_field"        : "inputCheckbox",
-                "close"              : "close",
-                "date_field"         : "inputDate",
-                "doctype"            : "doctype",
-                "element"            : "element",
-                "element_close"      : "",
-                "end_form"           : "",
-                "email_field"        : "inputEmail",
-                "file_field"         : "inputFile",
-                "form"               : "form",
-                "friendly_title"     : "",
-                "get_doc_type"       : "doctype",
-                "get_title"          : "title",
-                "get_title_separator": "",
-                "hidden_field"       : "inputHidden",
-                "image"              : "img",
-                "image_input"        : "inputImage",
-                "img"                : "img",
-                "inputCheckbox"      : "inputCheckbox",
-                "inputColor"         : "inputColor",
-                "inputDate"          : "inputDate",
-                "inputDateTime"      : "inputDateTime",
-                "inputDateTimeLocal" : "inputDateTimeLocal",
-                "inputEmail"         : "inputEmail",
-                "inputFile"          : "inputFile",
-                "inputHidden"        : "inputHidden",
-                "inputImage"         : "inputImage",
-                "inputInput"         : "inputInput",
-                "inputMonth"         : "inputMonth",
-                "inputNumeric"       : "inputNumeric",
-                "inputPassword"      : "inputPassword",
-                "inputRadio"         : "inputRadio",
-                "inputRange"         : "inputRange",
-                "inputSearch"        : "inputSearch",
-                "inputSelect"        : "inputSelect",
-                "inputSubmit"        : "inputSubmit",
-                "inputTel"           : "inputTel",
-                "inputText"          : "inputText",
-                "inputTextarea"      : "inputTextarea",
-                "inputTime"          : "inputTime",
-                "inputUrl"           : "inputUrl",
-                "inputWeek"          : "inputWeek",
-                "javascript"         : "link",
-                "label"              : "label",
-                "link"               : "link",
-                "link_to"            : "a",
-                "meta"               : "meta",
-                "numeric_field"      : "inputNumeric",
-                "ol"                 : "ol",
-                "password_field"     : "inputPassword",
-                "prepend_title"      : "",
-                "radio_field"        : "inputRadio",
-                "render_title"       : "",
-                "select"             : "inputSelect",
-                "script"             : "script",
-                "style"              : "style",
-                "stylesheet"         : "style",
-                "submit_button"      : "inputSubmit",
-                "submit"             : "inputSubmit",
-                "tel_field"          : "inputTel",
-                "text_area"          : "inputTextarea",
-                "text_field"         : "inputText",
-                "title"              : "title",
-                "ul"                 : "ul"
+                "link_to":        true,
+                "image":          true,
+                "form":           true,
+                "submit_button":  true,
+                "radio_field":    true,
+                "check_field":    true,
+                "file_field":     true,
+                "hidden_field":   true,
+                "password_field": true,
+                "text_area":      true,
+                "text_field":     true,
+                "email_field":    true,
+                "date_field":     true,
+                "tel_field":      true,
+                "numeric_field":  true,
+                "image_input":    true
             ];
 
-            if this->container->has("tag") {
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            if name === "preload" {
+                return "$this->preload(" . arguments . ")";
+            }
+
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            if method_exists("Phalcon\\Tag", method) {
                 if isset arrayHelpers[name] {
-                    if "end_form" === name {
-                        return "$this->tag->close(\"form\")";
-                    }
+                    return "\Phalcon\Tag::" . method . "([" . arguments . "])";
+                }
 
-                    if "element_close" === name {
-                        return "$this->tag->close([" . arguments . "])";
-                    }
+                return "\Phalcon\Tag::" . method . "(" . arguments . ")";
+            }
 
-                    let method = arrayHelpers[name];
-
-                    return "$this->tag->" . method . "([" . arguments . "])";
+            /**
+             * These are for the TagFactory
+             */
+            if true === this->container->has("tag") {
+                let tagService = this->container->get("tag");
+                if true === tagService->has(name) {
+                    return "$this->tag->" . name . "(" . arguments . ")";
                 }
             }
 
