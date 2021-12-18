@@ -24,6 +24,6 @@ class StringVal
      */
     public function __invoke(var input)
     {
-        return filter_var(input, FILTER_SANITIZE_STRING);
+        return filter_var(input, FILTER_UNSAFE_RAW);
     }
 }
