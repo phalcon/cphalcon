@@ -11,10 +11,6 @@
 namespace Phalcon\Storage\Serializer;
 
 /**
- * Class AbstractSerializer
- *
- * @package Phalcon\Storage\Serializer
- *
  * @property mixed $data
  */
 abstract class AbstractSerializer implements SerializerInterface
@@ -60,5 +56,15 @@ abstract class AbstractSerializer implements SerializerInterface
     public function setData(var data) -> void
     {
         let this->data = data;
+    }
+
+    public function __serialize() -> array
+    {
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        // Nothing here
     }
 }

@@ -13,11 +13,6 @@ namespace Phalcon\Storage\Serializer;
 use InvalidArgumentException;
 use JsonSerializable;
 
-/**
- * Class Json
- *
- * @package Phalcon\Storage\Serializer
- */
 class Json extends AbstractSerializer
 {
     /**
@@ -48,7 +43,7 @@ class Json extends AbstractSerializer
      *
      * @return void
      */
-    public function unserialize(var data) -> void
+    public function unserialize(string data) -> void
     {
         let this->data = this->getDecode(data);
     }

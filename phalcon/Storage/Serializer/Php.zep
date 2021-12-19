@@ -34,7 +34,7 @@ class Php extends AbstractSerializer
      *
      * @param string $data
 	 */
-	public function unserialize(var data) -> void
+	public function unserialize(string data) -> void
     {
         this->processSerializable(data);
         this->processNotSerializable(data);
@@ -43,7 +43,7 @@ class Php extends AbstractSerializer
     /**
      * @param mixed $data
      */
-    private function processSerializable(var data) -> void
+    private function processSerializable(string data) -> void
     {
         var version;
 
@@ -87,7 +87,7 @@ class Php extends AbstractSerializer
     /**
      * @param mixed $data
      */
-    private function processNotSerializable(var data) -> void
+    private function processNotSerializable(string data) -> void
     {
         if (true !== this->isSerializable(data)) {
             let this->data = data;

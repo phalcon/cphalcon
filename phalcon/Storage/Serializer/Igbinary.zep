@@ -33,7 +33,7 @@ class Igbinary extends AbstractSerializer
      *
      * @return void
      */
-	public function unserialize(var data) -> void
+	public function unserialize(string data) -> void
 	{
 	    var version;
 
