@@ -31,7 +31,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "phalcon/zephir": "dev-development"
     },
     "require-dev": {
         "ext-apcu": "*",
@@ -66,7 +67,7 @@
         "squizlabs/php_codesniffer": "^3.4",
         "twig/twig": "~1.36",
         "vimeo/psalm": "^4.7",
-        "vlucas/phpdotenv": "^2.5"
+        "vlucas/phpdotenv": "^5.4"
     },
     "config": {
         "optimize-autoloader": true,
