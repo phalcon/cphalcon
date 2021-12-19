@@ -341,12 +341,11 @@ class Collection implements
      * Constructs the object
      * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
      */
-    public function unserialize(var serialized) -> void
+    public function unserialize(string serialized) -> void
     {
         var data;
 
-        let serialized = (string) serialized,
-            data       = unserialize(serialized);
+        let data = unserialize(serialized);
 
         this->init(data);
     }
