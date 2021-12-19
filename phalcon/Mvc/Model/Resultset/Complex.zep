@@ -24,8 +24,6 @@ use Psr\SimpleCache\CacheInterface;
 use stdClass;
 
 /**
- * Phalcon\Mvc\Model\Resultset\Complex
- *
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
  */
@@ -45,8 +43,6 @@ class Complex extends Resultset implements ResultsetInterface
     protected disableHydration = false;
 
     /**
-     * Phalcon\Mvc\Model\Resultset\Complex constructor
-     *
      * @param array                columnTypes
      * @param ResultInterface|null result
      * @param CacheInterface|null  cache
@@ -68,7 +64,7 @@ class Complex extends Resultset implements ResultsetInterface
     /**
      * Returns current row in the resultset
      */
-    final public function current() -> <ModelInterface> | bool
+    final public function current() -> mixed
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
@@ -166,7 +162,6 @@ class Complex extends Resultset implements ResultsetInterface
                  * Generate the column value according to the hydration type
                  */
                 switch hydrateMode {
-
                     case Resultset::HYDRATE_RECORDS:
                         // Check if the resultset must keep snapshots
                         if !fetch keepSnapshots, column["keepSnapshots"] {
@@ -174,7 +169,6 @@ class Complex extends Resultset implements ResultsetInterface
                         }
 
                         if globals_get("orm.late_state_binding") {
-
                             if column["instance"] instanceof Model {
                                 let modelName = get_class(column["instance"]);
                             } else {
@@ -188,9 +182,7 @@ class Complex extends Resultset implements ResultsetInterface
                                 dirtyState,
                                 keepSnapshots
                             );
-
                         } else {
-
                             /**
                              * Get the base instance. Assign the values to the
                              * attributes using a column map
@@ -221,9 +213,7 @@ class Complex extends Resultset implements ResultsetInterface
                  * The complete object is assigned to an attribute with the name of the alias or the model name
                  */
                 let attribute = column["balias"];
-
             } else {
-
                 /**
                  * Scalar columns are simply assigned to the result object
                  */
@@ -244,12 +234,10 @@ class Complex extends Resultset implements ResultsetInterface
             }
 
             if !fetch eager, column["eager"] {
-
                 /**
                  * Assign the instance according to the hydration type
                  */
                 switch hydrateMode {
-
                     case Resultset::HYDRATE_ARRAYS:
                         let activeRow[attribute] = value;
                         break;
@@ -379,5 +367,16 @@ class Complex extends Resultset implements ResultsetInterface
             this->cache       = resultset["cache"],
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
+    }
+
+    public function __serialize() -> array
+    {
+        // Nothing here
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        // Nothing here
     }
 }
