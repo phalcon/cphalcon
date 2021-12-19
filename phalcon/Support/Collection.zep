@@ -351,6 +351,16 @@ class Collection implements
         this->init(data);
     }
 
+    public function __serialize() -> array
+    {
+        return this->toArray();
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        this->init(data);
+    }
+
     /**
      * Internal method to set data
      */
