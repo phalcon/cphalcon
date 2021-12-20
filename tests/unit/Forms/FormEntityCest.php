@@ -32,6 +32,7 @@ class FormEntityCest
         $product = new Products();
 
         $form = new Form($product);
+        $form->setTagFactory($this->container->get("tag"));
         $form->setValidation($validator);
         $name = new Text('prd_name');
         $form->add($name);

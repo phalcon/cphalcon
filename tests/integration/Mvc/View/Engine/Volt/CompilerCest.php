@@ -23,12 +23,15 @@ use Phalcon\Di\Di;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tag;
 use Phalcon\Mvc\Url;
 use stdClass;
+
+use function dataDir;
 
 /**
  * Phalcon\Tests\Integration\Mvc\View\Engine\Volt\CompilerCest
@@ -47,30 +50,14 @@ class CompilerCest
      */
     public function shouldCreateContent(IntegrationTester $I)
     {
-        $I->wantToTest('Compile import recursive files');
+        $I->wantToTest('Mvc\View\Engine\Volt\Compiler - import recursive files');
         $I->skipTest('TODO - Check me');
 
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/layouts/extends.volt.php')
-        );
+        $this->clearFiles($I);
 
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/index.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/other.volt.php')
-        );
-
-        $di = new Di();
-
-        $view = new View();
-
-        $view->setDI($di);
-
-        $view->setViewsDir(
-            dataDir('fixtures/views/')
-        );
+        Di::reset();
+        $di   = new Di();
+        $view = $this->setupServices($di);
 
         $view->registerEngines(
             [
@@ -82,39 +69,25 @@ class CompilerCest
 
 
         $view->start();
-
-        $view->setRenderLevel(
-            View::LEVEL_ACTION_VIEW
-        );
-
+        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->render('extends', 'index');
-
         $view->finish();
 
-
-        $I->assertEquals(
-            'Hello Rock n roll!',
-            $view->getContent()
-        );
+        $expected = 'Hello Rock n roll!';
+        $actual   = $view->getContent();
+        $I->assertSame($expected, $actual);
 
         $view->setParamToView('some_eval', true);
 
-
         $view->start();
-
-        $view->setRenderLevel(
-            View::LEVEL_LAYOUT
-        );
-
+        $view->setRenderLevel(View::LEVEL_LAYOUT);
         $view->render('extends', 'index');
-
         $view->finish();
 
 
-        $I->assertEquals(
-            'Clearly, the song is: Hello Rock n roll!.' . PHP_EOL,
-            $view->getContent()
-        );
+        $expected = 'Clearly, the song is: Hello Rock n roll!.' . PHP_EOL;
+        $actual   = $view->getContent();
+        $I->assertSame($expected, $actual);
 
         // Refreshing generated view
         $I->writeToFile(
@@ -125,35 +98,22 @@ class CompilerCest
         $view->setParamToView('song', 'Le Song');
 
         $view->start();
-
-        $view->setRenderLevel(
-            View::LEVEL_ACTION_VIEW
-        );
-
+        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->render('extends', 'other');
-
         $view->finish();
 
-        $I->assertEquals(
-            'Le Song Le Song',
-            $view->getContent()
-        );
+        $expected = 'Le Song Le Song';
+        $actual   = $view->getContent();
+        $I->assertSame($expected, $actual);
 
         $view->start();
-
-        $view->setRenderLevel(
-            View::LEVEL_LAYOUT
-        );
-
+        $view->setRenderLevel(View::LEVEL_LAYOUT);
         $view->render('extends', 'other');
-
         $view->finish();
 
-        $I->assertEquals(
-            'Clearly, the song is: Le Song Le Song.' . PHP_EOL,
-            $view->getContent()
-        );
-
+        $expected = 'Clearly, the song is: Le Song Le Song.' . PHP_EOL;
+        $actual   = $view->getContent();
+        $I->assertSame($expected, $actual);
 
         // Change the view
         $I->writeToFile(
@@ -162,109 +122,37 @@ class CompilerCest
         );
 
         $view->start();
-
-        $view->setRenderLevel(
-            View::LEVEL_LAYOUT
-        );
-
+        $view->setRenderLevel(View::LEVEL_LAYOUT);
         $view->render('extends', 'other');
-
         $view->finish();
 
-        $I->assertEquals(
-            'Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL,
-            $view->getContent()
-        );
+        $expected = 'Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL;
+        $actual   = $view->getContent();
+        $I->assertSame($expected, $actual);
 
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/layouts/extends.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/index.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/other.volt.php')
-        );
+        $this->clearFiles($I);
     }
 
     /**
      * Test to correct create content with macros
      *
-     * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
-    public function shouldCorrectWorkWithVoltMacros(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerMacros(IntegrationTester $I)
     {
-        $I->wantToTest('Volt macros');
+        $I->wantToTest('Mvc\View\Engine\Volt\Compiler - macros');
 
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/hello.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/conditionaldate.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/my_input.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/error_messages.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/related_links.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/strtotime.volt.php')
-        );
+        $this->clearFiles($I);
 
         Di::reset();
-
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-
-        $view = new View();
         $di   = new Di();
-
-        $di->set(
-            'escaper',
-            function () {
-                return new Escaper();
-            }
-        );
-
-        $di->set(
-            'tag',
-            function () {
-                return new Tag();
-            }
-        );
-
-        $di->set(
-            'url',
-            function () {
-                return (new Url())->setBaseUri('/');
-            }
-        );
-
-        $view->setDI($di);
-
-        $view->setViewsDir(
-            dataDir('fixtures/views/')
-        );
+        $view = $this->setupServices($di);
 
         $view->registerEngines(
             [
-                '.volt' => function ($view) {
-                    $volt = new Volt($view, $this);
+                '.volt' => function ($view) use ($di) {
+                    $volt = new Volt($view, $di);
 
                     $compiler = $volt->getCompiler();
 
@@ -283,7 +171,6 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-
         $view->start();
         $view->render('macro', 'conditionaldate');
         $view->finish();
@@ -291,7 +178,6 @@ class CompilerCest
         $expected = sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i'));
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
-
 
         $view->start();
         $view->render('macro', 'my_input');
@@ -301,7 +187,6 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-
         $view->start();
         $view->render('macro', 'error_messages');
         $view->finish();
@@ -310,7 +195,6 @@ class CompilerCest
             . '<span class="error-message">The name is invalid</span></div>';
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
-
 
         $view->setVar(
             'links',
@@ -330,7 +214,6 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
-
         $view->setVar('date', new DateTime());
         $view->start();
         $view->render('macro', 'strtotime');
@@ -344,89 +227,31 @@ class CompilerCest
         $I->assertEquals($content[1], $content[2]);
         $I->assertEquals($content[2], $content[0]);
 
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/hello.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/conditionaldate.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/my_input.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/error_messages.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/related_links.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/strtotime.volt.php')
-        );
+        $this->clearFiles($I);
     }
 
     /**
      * Test to correct create content with macros with object
      *
-     * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
-    public function shouldAcceptObjectToVoltMacros(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerMacrosWithObjects(IntegrationTester $I)
     {
-        $I->wantToTest('Volt macros can accept objects');
+        $I->wantToTest('Mvc\View\Engine\Volt\Compiler - macros with objects');
 
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/list.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/macro/form_row.volt.php')
-        );
+        $this->clearFiles($I);
 
         Di::reset();
-
-        $view = new View();
         $di   = new Di();
+        $view = $this->setupServices($di);
 
-        Tag::setDocType(
-            Tag::XHTML5
-        );
-
-        $di->set(
-            'escaper',
-            function () {
-                return new Escaper();
-            }
-        );
-
-        $di->set(
-            'tag',
-            function () {
-                return new Tag();
-            }
-        );
-
-        $di->set(
-            'url',
-            function () {
-                return (new Url())->setBaseUri('/');
-            }
-        );
-
-        $view->setDI($di);
-        $view->setViewsDir(dataDir('fixtures/views/'));
         $view->registerEngines([
-            '.volt' => function ($view) {
-                return new Volt($view, $this);
+            '.volt' => function ($view) use ($di) {
+                return new Volt($view, $di);
             },
         ]);
+
         $object      = new stdClass();
         $object->foo = 'bar';
         $object->baz = 'buz';
@@ -449,19 +274,16 @@ class CompilerCest
 
         $I->assertEquals($expected, $actual);
 
+        $escaper    = $di->get("escaper");
+        $tagFactory = new TagFactory($escaper);
+        $form       = new Form();
+        $form->setTagFactory($tagFactory);
 
-        $form = new Form();
-
-        $form->add(
-            new Password('password')
-        );
-
+        $form->add(new Password('password'));
         $view->setVar('formLogin', $form);
 
         $view->start();
-
         $view->render('macro', 'form_row');
-
         $view->finish();
 
         $expected = <<<FORM
@@ -471,9 +293,77 @@ class CompilerCest
 </div>
 FORM;
 
-        $I->assertEquals(
-            $expected,
-            $view->getContent()
+        $actual = $view->getContent();
+        $I->assertSame($expected, $actual);
+
+        $this->clearFiles($I);
+    }
+
+    /**
+     * Test to correct compile string use loop
+     *
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-01-17
+     */
+    public function mvcViewEngineVoltCompilerLoop(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\View\Engine\Volt\Compiler - loop');
+
+        $volt     = new Compiler();
+        $compiled = $volt->compileString(
+            '{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}'
+        );
+
+        ob_start();
+
+        eval('?>' . $compiled);
+
+        $result = ob_get_clean();
+
+        $I->assertEquals('12345', $result);
+    }
+
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
+    private function clearFiles(IntegrationTester $I): void
+    {
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/layouts/extends.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/index.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/other.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/hello.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/conditionaldate.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/my_input.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/error_messages.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/related_links.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/strtotime.volt.php')
         );
 
         $I->safeDeleteFile(
@@ -486,31 +376,26 @@ FORM;
     }
 
     /**
-     * Test to correct compile string use loop
+     * Sets up a view with relevant services
      *
-     * @test
-     * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-01-17
+     * @return View
      */
-    public function shouldLoopContext(IntegrationTester $I)
+    private function setupServices(Di $di): View
     {
-        $I->wantToTest('Volt Loop context');
-
-        $volt = new Compiler();
-
-        $compiled = $volt->compileString(
-            '{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}'
+        $escaper = new Escaper();
+        $view    = new View();
+        $di->set("escaper", $escaper);
+        $di->set("tag", new TagFactory($escaper));
+        $di->set(
+            "url",
+            function () {
+                return (new Url())->setBaseUri('/');
+            }
         );
+        $view->setDI($di);
 
-        ob_start();
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
-        eval(
-            '?>' . $compiled
-        );
-
-        $result = ob_get_clean();
-
-        $I->assertEquals('12345', $result);
+        return $view;
     }
 }

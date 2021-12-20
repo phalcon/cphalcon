@@ -22,7 +22,7 @@ PHP_METHOD(Phalcon_Assets_Asset, isLocal);
 PHP_METHOD(Phalcon_Assets_Asset, setAttributes);
 PHP_METHOD(Phalcon_Assets_Asset, setAutoVersion);
 PHP_METHOD(Phalcon_Assets_Asset, setFilter);
-PHP_METHOD(Phalcon_Assets_Asset, setLocal);
+PHP_METHOD(Phalcon_Assets_Asset, setIsLocal);
 PHP_METHOD(Phalcon_Assets_Asset, setSourcePath);
 PHP_METHOD(Phalcon_Assets_Asset, setTargetPath);
 PHP_METHOD(Phalcon_Assets_Asset, setTargetUri);
@@ -108,7 +108,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_asset_setfilter, 0
 	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_asset_setlocal, 0, 1, Phalcon\\Assets\\AssetInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_asset_setislocal, 0, 1, Phalcon\\Assets\\AssetInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -173,7 +173,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_asset_method_entry) {
 	PHP_ME(Phalcon_Assets_Asset, setAttributes, arginfo_phalcon_assets_asset_setattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, setAutoVersion, arginfo_phalcon_assets_asset_setautoversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, setFilter, arginfo_phalcon_assets_asset_setfilter, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Assets_Asset, setLocal, arginfo_phalcon_assets_asset_setlocal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Asset, setIsLocal, arginfo_phalcon_assets_asset_setislocal, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, setSourcePath, arginfo_phalcon_assets_asset_setsourcepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, setTargetPath, arginfo_phalcon_assets_asset_settargetpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, setTargetUri, arginfo_phalcon_assets_asset_settargeturi, ZEND_ACC_PUBLIC)

@@ -20,7 +20,7 @@ use UnitTester;
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Loader :: getEventsManager() / setEventsManager()
+     * Tests Phalcon\Autoload\Loader :: getEventsManager() / setEventsManager()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-19

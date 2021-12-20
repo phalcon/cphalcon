@@ -265,6 +265,14 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
+     * Returns the tagFactory; throws exception if not present
+     */
+    public function getTagFactory() -> <TagFactory> | null
+    {
+        return this->tagFactory;
+    }
+
+    /**
      * Returns the value of an option if present
      */
     public function getUserOption(string option, var defaultValue = null) -> var
@@ -338,7 +346,7 @@ abstract class AbstractElement implements ElementInterface
         /**
          * Check if there is an "id" attribute defined
          */
-        let tagFactory         = this->getTagFactory(),
+        let tagFactory         = this->getLocalTagFactory(),
             internalAttributes = this->attributes;
 
         if !fetch name, internalAttributes["id"] {
@@ -364,71 +372,16 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * Returns an array of prepared attributes for Phalcon\Html\TagFactory
-     * helpers according to the element parameters
-     */
-    public function prepareAttributes(array attributes = [], bool useChecked = false) -> array
-    {
-        var value, name, mergedAttributes, defaultAttributes, currentValue;
-
-        let name = this->name;
-
-        let attributes[0] = name;
-
-        /**
-         * Merge passed parameters with default ones
-         */
-        let defaultAttributes = this->attributes,
-            mergedAttributes = array_merge(defaultAttributes, attributes);
-
-        /**
-         * Get the current element value
-         */
-        let value = this->getValue();
-
-        /**
-         * If the widget has a value set it as default value
-         */
-        if value !== null {
-            if useChecked {
-                /**
-                 * Check if the element already has a default value, compare it
-                 * with the one in the attributes, if they are the same mark the
-                 * element as checked
-                 */
-                if fetch currentValue, mergedAttributes["value"] {
-                    if currentValue == value {
-                        let mergedAttributes["checked"] = "checked";
-                    }
-                } else {
-                    /**
-                     * Evaluate the current value and mark the check as checked
-                     */
-                    if value {
-                        let mergedAttributes["checked"] = "checked";
-                    }
-
-                    let mergedAttributes["value"] = value;
-                }
-            } else {
-                let mergedAttributes["value"] = value;
-            }
-        }
-
-        return mergedAttributes;
-    }
-
-    /**
      * Renders the element widget returning HTML
      */
     public function render(array attributes = []) -> string
     {
-        var helper, mergedAttributes, method, name, tagFactory, value;
+        var helper, merged, method, name, result, tagFactory, value;
 
         let name       = this->name,
-            value      = null,
+            value      = this->getValue(),
             method     = this->method,
-            tagFactory = this->getTagFactory(),
+            tagFactory = this->getLocalTagFactory(),
             helper     = tagFactory->newInstance(method);
 
         if isset attributes["value"] {
@@ -436,9 +389,10 @@ abstract class AbstractElement implements ElementInterface
             unset attributes["value"];
         }
 
-        let mergedAttributes = array_merge(this->attributes, attributes);
+        let merged = array_merge(this->attributes, attributes),
+            result = helper->__invoke(name, value, merged);
 
-        return helper->__invoke(name, value, mergedAttributes);
+        return (string) result;
     }
 
     /**
@@ -561,7 +515,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Returns the tagFactory; throws exception if not present
      */
-    protected function getTagFactory() -> <TagFactory>
+    protected function getLocalTagFactory() -> <TagFactory>
     {
         if unlikely empty this->tagFactory {
             throw new Exception(

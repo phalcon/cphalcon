@@ -17,15 +17,10 @@ use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
-/**
- * Class SetLocalCest
- *
- * @package Phalcon\Tests\Unit\Assets\Asset
- */
-class IsSetLocalCest
+class IsSetIsLocalCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: isLocal()/setLocal()
+     * Tests Phalcon\Assets\Asset :: isLocal()/setIsLocal()
      *
      * @dataProvider provider
      *
@@ -37,14 +32,14 @@ class IsSetLocalCest
      */
     public function assetsAssetSetLocalCssLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - isLocal()/setLocal()');
+        $I->wantToTest('Assets\Asset - isLocal()/setIsLocal()');
 
         $asset = new Asset($example['type'], $example['path']);
 
         $actual = $asset->isLocal();
         $I->assertTrue($actual);
 
-        $asset->setLocal($example['local']);
+        $asset->setIsLocal($example['local']);
 
         $actual = $asset->isLocal();
         $I->assertEquals($example['local'], $actual);

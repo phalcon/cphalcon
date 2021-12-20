@@ -124,12 +124,6 @@ interface ElementInterface
     public function label() -> string;
 
     /**
-     * Returns an array of prepared attributes for Phalcon\Tag helpers
-     * according to the element's parameters
-     */
-    public function prepareAttributes(array attributes = [], bool useChecked = false) -> array;
-
-    /**
      * Renders the element widget
      */
     public function render(array attributes = []) -> string;

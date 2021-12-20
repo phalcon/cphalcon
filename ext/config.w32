@@ -115,7 +115,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message/stream", "input.zep.c memory.zep.c temp.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/server", "abstractmiddleware.zep.c abstractrequesthandler.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image", "enum.zep.c exception.zep.c imagefactory.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/loader", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "adapterfactory.zep.c exception.zep.c item.zep.c logger.zep.c loggerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/application", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/controller", "bindmodelinterface.zep.c", "phalcon");

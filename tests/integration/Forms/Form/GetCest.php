@@ -23,8 +23,8 @@ class GetCest
     /**
      * Tests Phalcon\Forms\Form :: get()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-23
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-05
      */
     public function formsFormGet(IntegrationTester $I)
     {
@@ -38,22 +38,20 @@ class GetCest
         $form->add($address);
         $form->add($telephone);
 
-        $I->assertSame(
-            $address,
-            $form->get('address')
-        );
+        $expected = $address;
+        $actual   = $form->get("address");
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $telephone,
-            $form->get('telephone')
-        );
+        $expected = $telephone;
+        $actual   = $form->get("telephone");
+        $I->assertSame($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Forms\Form :: get() non-existent element
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-05-23
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-05
      */
     public function formsFormGetNonexistentElement(IntegrationTester $I)
     {

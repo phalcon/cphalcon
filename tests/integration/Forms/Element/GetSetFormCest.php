@@ -80,7 +80,7 @@ class GetSetFormCest
         $object = new $class($name);
         $form   = new Form();
 
-        $object->add($form);
+        $object->setForm($form);
 
         $expected = $form;
         $actual   = $object->getForm();

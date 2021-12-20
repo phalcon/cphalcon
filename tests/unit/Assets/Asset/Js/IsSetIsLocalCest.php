@@ -22,10 +22,10 @@ use UnitTester;
  *
  * @package Phalcon\Tests\Unit\Assets\Asset\Js
  */
-class IsSetLocalCest
+class IsSetIsLocalCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: isLocal()/setLocal()
+     * Tests Phalcon\Assets\Asset\Js :: isLocal()/setIsLocal()
      *
      * @dataProvider provider
      *
@@ -37,11 +37,11 @@ class IsSetLocalCest
      */
     public function assetsAssetJsSetLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset\Js - isLocal()/setLocal()');
+        $I->wantToTest('Assets\Asset\Js - isLocal()/setIsLocal()');
 
         $asset = new Js($example['path'], $example['local']);
 
-        $asset->setLocal($example['newLocal']);
+        $asset->setIsLocal($example['newLocal']);
         $expected = $example['newLocal'];
         $actual   = $asset->isLocal();
         $I->assertEquals($expected, $actual);

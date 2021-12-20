@@ -484,7 +484,6 @@ zend_class_entry *phalcon_image_adapter_imagick_ce;
 zend_class_entry *phalcon_image_enum_ce;
 zend_class_entry *phalcon_image_exception_ce;
 zend_class_entry *phalcon_image_imagefactory_ce;
-zend_class_entry *phalcon_loader_exception_ce;
 zend_class_entry *phalcon_logger_adapter_noop_ce;
 zend_class_entry *phalcon_logger_adapter_stream_ce;
 zend_class_entry *phalcon_logger_adapter_syslog_ce;
@@ -1116,7 +1115,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Image_Enum);
 	ZEPHIR_INIT(Phalcon_Image_Exception);
 	ZEPHIR_INIT(Phalcon_Image_ImageFactory);
-	ZEPHIR_INIT(Phalcon_Loader_Exception);
 	ZEPHIR_INIT(Phalcon_Logger_AdapterFactory);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter_Noop);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter_Stream);

@@ -638,7 +638,7 @@ class Compiler implements InjectionAwareInterface
          * Echo statement
          */
         if this->autoescape {
-            return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
+            return "<?= $this->escaper->html(" . exprCode . ") ?>";
         }
 
         return "<?= " . exprCode . " ?>";
@@ -1654,39 +1654,37 @@ class Compiler implements InjectionAwareInterface
     /**
      * Fires an event to registered extensions
      *
-     * @param string name
-     * @param array arguments
+     * @param string $name
+     * @param array  $arguments
      *
      * @return mixed
      */
-    final public function fireExtensionEvent(string! name, arguments = null) // TODO: Make arguments array
+    final public function fireExtensionEvent(string! name, array arguments = [])
     {
         var extensions, extension, status;
 
         let extensions = this->extensions;
 
-        if typeof extensions == "array" {
-            for extension in extensions {
-                /**
-                 * Check if the extension implements the required event name
-                 */
-                if method_exists(extension, name) {
-                    if typeof arguments == "array" {
-                        let status = call_user_func_array(
-                            [extension, name],
-                            arguments
-                        );
-                    } else {
-                        let status = call_user_func([extension, name]);
-                    }
+        for extension in extensions {
+            /**
+             * Check if the extension implements the required event name
+             */
+            if method_exists(extension, name) {
+                if !empty arguments {
+                    let status = call_user_func_array(
+                        [extension, name],
+                        arguments
+                    );
+                } else {
+                    let status = call_user_func([extension, name]);
+                }
 
-                    /**
-                     * Only string statuses means the extension processes
-                     * something
-                     */
-                    if typeof status == "string" {
-                        return status;
-                    }
+                /**
+                 * Only string statuses means the extension processes
+                 * something
+                 */
+                if typeof status == "string" {
+                    return status;
                 }
             }
         }
@@ -1704,10 +1702,11 @@ class Compiler implements InjectionAwareInterface
     {
         var code, funcArguments, arguments, nameExpr, nameType, name,
             extensions, functions, definition, extendedBlocks, block,
-            currentBlock, exprLevel, escapedCode, method, arrayHelpers;
+            currentBlock, exprLevel, escapedCode, method, arrayHelpers, tagService;
 
-        let code          = null,
-            funcArguments = null;
+        let code = null;
+
+        let funcArguments = null;
 
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
@@ -1858,68 +1857,33 @@ class Compiler implements InjectionAwareInterface
 
             /**
              * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            if name === "preload" {
+                return "$this->preload(" . arguments . ")";
+            }
+
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
              */
             if method_exists("Phalcon\\Tag", method) {
                 if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
+                    return "\Phalcon\Tag::" . method . "([" . arguments . "])";
                 }
 
-                return "$this->tag->" . method . "(" . arguments . ")";
+                return "\Phalcon\Tag::" . method . "(" . arguments . ")";
             }
 
             /**
-             * The code below will be activated when Html\Tag is enabled
+             * These are for the TagFactory
              */
-            /**
-            let arrayHelpers = [
-                "button_submit"         : true.
-                "element"               : true.
-                "element_close"         : true.
-                "end_form"              : true.
-                "form"                  : true.
-                "friendly_title"        : true.
-                "get_doc_type"          : true.
-                "get_title"             : true.
-                "get_title_separator"   : true.
-                "image"                 : true.
-                "input_checkbox"        : true.
-                "input_color"           : true.
-                "input_date"            : true.
-                "input_date_time"       : true.
-                "input_date_time_local" : true.
-                "input_email"           : true.
-                "input_file"            : true.
-                "input_hidden"          : true.
-                "input_image"           : true.
-                "input_month"           : true.
-                "input_numeric"         : true.
-                "input_password"        : true.
-                "input_radio"           : true.
-                "input_range"           : true.
-                "input_search"          : true.
-                "input_tel"             : true.
-                "input_text"            : true.
-                "input_time"            : true.
-                "input_url"             : true.
-                "input_week"            : true.
-                "javascript"            : true.
-                "link"                  : true.
-                "prepend_title"         : true.
-                "render_title"          : true.
-                "select"                : true.
-                "stylesheet"            : true.
-                "submit"                : true.
-                "text_area"             : true.
-            ];
-
-            if method_exists("Phalcon\\Html\\Tag", method) {
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
+            if true === this->container->has("tag") {
+                let tagService = this->container->get("tag");
+                if true === tagService->has(name) {
+                    return "$this->tag->" . name . "(" . arguments . ")";
                 }
-
-                return "$this->tag->" . method . "(" . arguments . ")";
             }
-            */
 
             /**
              * Get a dynamic URL
@@ -2530,21 +2494,21 @@ class Compiler implements InjectionAwareInterface
          * "e"/"escape" filter uses the escaper component
          */
         if name == "e" || name == "escape" {
-            return "$this->escaper->escapeHtml(" . arguments . ")";
+            return "$this->escaper->html(" . arguments . ")";
         }
 
         /**
          * "escape_css" filter uses the escaper component to filter CSS
          */
         if name == "escape_css" {
-            return "$this->escaper->escapeCss(" . arguments . ")";
+            return "$this->escaper->css(" . arguments . ")";
         }
 
         /**
          * "escape_js" filter uses the escaper component to escape JavaScript
          */
         if name == "escape_js" {
-            return "$this->escaper->escapeJs(" . arguments . ")";
+            return "$this->escaper->js(" . arguments . ")";
         }
 
         /**
@@ -2552,7 +2516,7 @@ class Compiler implements InjectionAwareInterface
          * attributes
          */
         if name == "escape_attr" {
-            return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
+            return "$this->escaper->attr(" . arguments . ")";
         }
 
         /**

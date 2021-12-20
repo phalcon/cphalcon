@@ -15,55 +15,57 @@ namespace Phalcon\Tests\Integration\Forms\Element\Select;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Select;
-use Phalcon\Tag;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
+
+use function preg_replace;
 
 class AddOptionCest
 {
-    use DiTrait;
-
-    public function _before()
+    /**
+     * Tests Phalcon\Forms\Element\Select :: addOption() - array
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-17
+     */
+    public function formsElementSelectAddOptionArray(IntegrationTester $I)
     {
-        $this->setNewFactoryDefault();
+        $I->wantToTest('Forms\Element\Select - addOption() - array');
 
-        Tag::setDoctype(
-            Tag::HTML5
-        );
-    }
-
-    public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray(IntegrationTester $I)
-    {
         $element = new Select('test-select');
-
+        $element->setTagFactory(new TagFactory(new Escaper()));
         $element->addOption(
             [
                 'key' => 'value',
             ]
         );
 
-        $I->assertSame(
-            '<select id="test-select" name="test-select"><option value="key">value</option></select>',
-            preg_replace(
-                '/[[:cntrl:]]/',
-                '',
-                $element->render()
-            )
-        );
+        $expected = '<select id="test-select" name="test-select"><option value="key">value</option></select>';
+        $actual   = preg_replace('/[[:cntrl:]]/', '', $element->render());
+        $I->assertSame($expected, $actual);
     }
 
-    public function testCorrectlyAddOptionToSelectElementIfParameterIsAString(IntegrationTester $I)
+    /**
+     * Tests Phalcon\Forms\Element\Select :: addOption() - string
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-17
+     */
+    public function formsElementSelectAddOptionString(IntegrationTester $I)
     {
+        $I->wantToTest('Forms\Element\Select - addOption() - string');
+
         $element = new Select('test-select');
+        $element->setTagFactory(new TagFactory(new Escaper()));
 
         $element->addOption('value');
 
-        $I->assertSame(
-            '<select id="test-select" name="test-select"><option value="0">value</option></select>',
-            preg_replace(
-                '/[[:cntrl:]]/',
-                '',
-                $element->render()
-            )
-        );
+        $expected = '<select id="test-select" name="test-select"><option value="0">value</option></select>';
+        $actual   = preg_replace('/[[:cntrl:]]/', '', $element->render());
+        $I->assertSame($expected, $actual);
     }
 }
