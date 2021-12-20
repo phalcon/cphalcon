@@ -38,19 +38,21 @@ class LoggerFactory extends AbstractConfigFactory
      * @param array|ConfigInterface $config = [
      *     'name'     => 'messages',
      *     'adapters' => [
-     *         'adapter' => 'stream',
-     *         'name'    => 'file.log',
-     *         'options' => [
-     *             'mode'     => 'ab',
-     *             'option'   => null,
-     *             'facility' => null
-     *         ]
+     *         'adapter-name' => [
+     *              'adapter' => 'stream',
+     *              'name'    => 'file.log',
+     *              'options' => [
+     *                  'mode'     => 'ab',
+     *                  'option'   => null,
+     *                  'facility' => null
+     *              ],
+     *         ],
      *     ]
      * ]
      */
     public function load(var config) -> <Logger>
     {
-        var adapter, adapterClass, adapterFileName, adapterOptions,
+        var adapter, adapterClass, adapterFileName, adapterName, adapterOptions,
             adapters, name, timezone, options;
         array data;
 
@@ -64,12 +66,12 @@ class LoggerFactory extends AbstractConfigFactory
 
 
 
-        for adapter in adapters {
+        for adapterName, adapter in adapters {
             let adapterClass    = this->getArrVal(adapter, "adapter"),
                 adapterFileName = this->getArrVal(adapter, "name"),
                 adapterOptions  = this->getArrVal(adapter, "options", []);
 
-            let data[] = this->adapterFactory->newInstance(
+            let data[adapterName] = this->adapterFactory->newInstance(
                 adapterClass,
                 adapterFileName,
                 adapterOptions
