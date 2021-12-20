@@ -69,7 +69,7 @@ class Collection implements Iterator, Countable
     /**
      * Returns the current annotation in the iterator
      */
-    public function current() -> <Annotation> | bool
+    public function current() -> mixed
     {
         var annotation;
 

@@ -481,7 +481,7 @@ abstract class Resultset
     /**
      * Gets row in a specific position of the resultset
      */
-    public function offsetGet(var index) -> <ModelInterface> | bool
+    public function offsetGet(mixed index) -> mixed
     {
         if unlikely index >= this->count {
             throw new Exception("The index does not exist in the cursor");
@@ -498,7 +498,7 @@ abstract class Resultset
     /**
      * Checks whether offset exists in the resultset
      */
-    public function offsetExists(var index) -> bool
+    public function offsetExists(mixed index) -> bool
     {
         return index < this->count;
     }
@@ -509,7 +509,7 @@ abstract class Resultset
      * @param int index
      * @param \Phalcon\Mvc\ModelInterface value
      */
-    public function offsetSet(var index, var value) -> void
+    public function offsetSet(mixed index, mixed value) -> void
     {
         throw new Exception("Cursor is an immutable ArrayAccess object");
     }
@@ -517,7 +517,7 @@ abstract class Resultset
     /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      */
-    public function offsetUnset(var offset) -> void
+    public function offsetUnset(mixed offset) -> void
     {
         throw new Exception("Cursor is an immutable ArrayAccess object");
     }

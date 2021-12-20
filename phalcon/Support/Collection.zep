@@ -227,7 +227,7 @@ class Collection implements
      * Whether a offset exists
      * See [offsetExists](https://php.net/manual/en/arrayaccess.offsetexists.php)
      */
-    public function offsetExists(var element) -> bool
+    public function offsetExists(mixed element) -> bool
     {
         let element = (string) element;
 
@@ -238,7 +238,7 @@ class Collection implements
      * Offset to retrieve
      * See [offsetGet](https://php.net/manual/en/arrayaccess.offsetget.php)
      */
-    public function offsetGet(var element)
+    public function offsetGet(mixed element)
     {
         let element = (string) element;
 
@@ -249,7 +249,7 @@ class Collection implements
      * Offset to set
      * See [offsetSet](https://php.net/manual/en/arrayaccess.offsetset.php)
      */
-    public function offsetSet(var element, var value) -> void
+    public function offsetSet(mixed element, mixed value) -> void
     {
         let element = (string) element;
 
@@ -260,7 +260,7 @@ class Collection implements
      * Offset to unset
      * See [offsetUnset](https://php.net/manual/en/arrayaccess.offsetunset.php)
      */
-    public function offsetUnset(var element) -> void
+    public function offsetUnset(mixed element) -> void
     {
         let element = (string) element;
 

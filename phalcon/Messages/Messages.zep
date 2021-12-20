@@ -201,7 +201,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      *
      * @param int index
      */
-    public function offsetExists(var index) -> boolean
+    public function offsetExists(mixed index) -> bool
     {
         return isset this->messages[index];
     }
@@ -215,7 +215,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      * );
      *```
      */
-    public function offsetGet(var index) -> var
+    public function offsetGet(mixed index) -> mixed
     {
         var message, returnValue = null;
 
@@ -235,7 +235,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      *
      * @param \Phalcon\Messages\Message message
      */
-    public function offsetSet(var index, var message) -> void
+    public function offsetSet(mixed index, mixed message) -> void
     {
         if typeof message != "object" {
             throw new Exception("The message must be an object");
@@ -251,7 +251,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      * unset($message["database"]);
      *```
      */
-    public function offsetUnset(var index) -> void
+    public function offsetUnset(mixed index) -> void
     {
         if isset this->messages[index] {
             array_splice(this->messages, index, 1);

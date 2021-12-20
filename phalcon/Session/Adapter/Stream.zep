@@ -86,7 +86,7 @@ class Stream extends Noop
     /**
      * Garbage Collector
      */
-    public function gc(var maxlifetime)
+    public function gc(int maxlifetime) -> int|bool
     {
         var file, pattern, time;
 
