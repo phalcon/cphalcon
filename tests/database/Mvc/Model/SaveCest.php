@@ -223,7 +223,7 @@ class SaveCest
 
         $expected = 0;
         $actual   = $customer->cst_status_flag;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -630,7 +630,7 @@ class SaveCest
 
         $expected = 0;
         $actual   = $customer->cst_status_flag;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
