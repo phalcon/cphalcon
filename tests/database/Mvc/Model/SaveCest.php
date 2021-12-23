@@ -108,7 +108,7 @@ class SaveCest
 
         $expected = 1;
         $actual   = $customer->cst_status_flag;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $customer->cst_name_last = null;
 
@@ -204,7 +204,7 @@ class SaveCest
 
         $expected = 1;
         $actual   = $invoice->customer->id;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $invoice->customer->cst_name_first  = 'new_firstName';
         $invoice->customer->cst_status_flag = 0;
@@ -564,7 +564,7 @@ class SaveCest
 
         $expected = 1;
         $actual   = $model->id;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $expected = 'co_sources';
         $actual   = $model->getSource();
@@ -611,7 +611,7 @@ class SaveCest
 
         $expected = 1;
         $actual   = $invoice->customer->id;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $invoice->customer->cst_name_first  = 'new_firstName';
         $invoice->customer->cst_status_flag = 0;
