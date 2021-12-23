@@ -1043,6 +1043,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
+            record->setDirtyState(self::DIRTY_STATE_TRANSIENT);
             let dirtyRelated[name] = record;
         }
 
@@ -4802,7 +4803,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
         var className, manager, type, relation, columns, referencedFields,
-            referencedModel, message, nesting, name, record;
+            message, nesting, name, record;
 
         let nesting = false;
 
@@ -4842,8 +4843,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     }
 
                     let columns = relation->getFields(),
-                        referencedModel = relation->getReferencedModel(),
                         referencedFields = relation->getReferencedFields();
+//                    let columns = relation->getFields(),
+//                        referencedModel = relation->getReferencedModel(),
+//                        referencedFields = relation->getReferencedFields();
 
                     if unlikely typeof columns == "array" {
                         connection->rollback(nesting);
