@@ -13,28 +13,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Response;
 
+use Phalcon\Mvc\Micro;
+use Phalcon\Tests\Fixtures\Micro\HttpResponseContentMiddleware;
 use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
+
+use function headers_list;
+use function ob_clean;
+use function ob_end_flush;
+use function ob_get_clean;
+use function ob_start;
+use function xdebug_get_headers;
 
 class GetSetStatusCodeCest extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Response :: getStatusCode() / setStatusCode()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2019-12-08
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-12-24
      */
     public function httpResponseGetSetStatusCode(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getStatusCode() / setStatusCode()');
-        $nCode     = 200;
-        $oResponse = $this->getResponseObject();
-        $oResponse->setStatusCode($nCode);
 
-        $I->assertSame(
-            $nCode,
-            $oResponse->getStatusCode()
-        );
+        $code     = 200;
+        $response = $this->getResponseObject();
+        $response->setStatusCode($code);
+
+        $expected = $code;
+        $actual   = $response->getStatusCode();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -49,6 +58,7 @@ class GetSetStatusCodeCest extends HttpBase
         $response->resetHeaders();
         $response->setStatusCode(404, 'Not Found');
         $actual = $response->getHeaders();
+
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 404 Not Found')
@@ -74,6 +84,7 @@ class GetSetStatusCodeCest extends HttpBase
         $response->setStatusCode(404, 'Not Found');
         $response->setStatusCode(409, 'Conflict');
         $actual = $response->getHeaders();
+
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 409 Conflict')
@@ -128,5 +139,78 @@ class GetSetStatusCodeCest extends HttpBase
             '418 My own message',
             $actual->get('Status')
         );
+    }
+
+    /**
+     * Tests the setStatusCode after send
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseSetStatusCodeSend(UnitTester $I)
+    {
+        $response = $this->getResponseObject();
+
+        $body = ['test' => 123];
+        $response
+            ->resetHeaders()
+            ->setStatusCode(404)
+            ->setContentType('application/json', 'UTF-8')
+            ->setJsonContent($body, JSON_NUMERIC_CHECK)
+        ;
+
+        ob_start();
+        $response->send();
+        $contents = ob_get_clean();
+
+        $expected = [
+            "Status: 404 Not Found",
+            "Content-Type: application/json"
+        ];
+        $actual   = xdebug_get_headers();
+        $I->assertSame($expected, $actual);
+
+        $expected = '{"test":123}';
+        $actual   = $contents;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests the setStatusCode after send
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseSetStatusCodeSendMicro(UnitTester $I)
+    {
+        $application = new Micro($this->container);
+
+        $application->before(new HttpResponseContentMiddleware());
+        $application->notFound(
+            function () {
+                return '404 - handler';
+            }
+        );
+        $application->get(
+            "/",
+            function () {
+                return '200 - "/"';
+            }
+        );
+
+        ob_start();
+        $application->handle("/");
+        $contents = ob_get_clean();
+
+        $expected = [
+            "Status: 404 Not Found",
+            "Content-Type: application/json"
+        ];
+        $actual   = xdebug_get_headers();
+        $I->assertSame($expected, $actual);
+
+        $expected = '{"test":123}';
+        $actual   = $contents;
+        $I->assertSame($expected, $actual);
     }
 }

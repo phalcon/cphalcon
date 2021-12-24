@@ -23,23 +23,26 @@ class HttpBase
 {
     use DiTrait;
 
-    protected $server = [];
+    protected $store = [];
 
     /**
      * executed before each test
      */
     public function _before(UnitTester $I)
     {
-        $this->server = $_SERVER;
-        $_SERVER      = [];
+        $this->store["SERVER"]  = $_SERVER ?? [];
+        $this->store["REQUEST"] = $_REQUEST ?? [];
+        $this->store["GET"]     = $_GET ?? [];
+        $this->store["POST"]    = $_POST ?? [];
+        $this->store["COOKIE"]  = $_COOKIE ?? [];
 
-        $this->newDi();
-        $this->setDiService('escaper');
-        $this->setDiService('eventsManager');
-        $this->setDiService('filter');
-        $this->setDiService('url');
-        $this->setDiService('request');
-        $this->setDiService('response');
+        $_SERVER  = [];
+        $_REQUEST = [];
+        $_GET     = [];
+        $_POST    = [];
+        $_COOKIE  = [];
+
+        $this->setNewFactoryDefault();
     }
 
     /**
@@ -47,7 +50,11 @@ class HttpBase
      */
     public function _after(UnitTester $I)
     {
-        $_SERVER = $this->server;
+        $_SERVER  = $this->store["SERVER"];
+        $_REQUEST = $this->store["REQUEST"];
+        $_GET     = $this->store["GET"];
+        $_POST    = $this->store["POST"];
+        $_COOKIE  = $this->store["COOKIE"];
     }
 
     /**
@@ -58,9 +65,7 @@ class HttpBase
      */
     protected function getResponseObject(): Response
     {
-        $container = Di::getDefault();
-
-        return $container->get('response');
+        return $this->container->get('response');
     }
 
     /**
@@ -86,9 +91,7 @@ class HttpBase
      */
     protected function getRequestObject(): Request
     {
-        $container = Di::getDefault();
-
-        return $container->get('request');
+        return $this->container->get('request');
     }
 
     /**
