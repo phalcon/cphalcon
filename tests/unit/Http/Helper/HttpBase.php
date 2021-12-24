@@ -19,6 +19,8 @@ use Phalcon\Http\Response;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+use function header_remove;
+
 class HttpBase
 {
     use DiTrait;
@@ -41,6 +43,8 @@ class HttpBase
         $_GET     = [];
         $_POST    = [];
         $_COOKIE  = [];
+
+        header_remove();
 
         $this->setNewFactoryDefault();
     }

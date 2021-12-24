@@ -18,9 +18,6 @@ use Phalcon\Tests\Fixtures\Micro\HttpResponseContentMiddleware;
 use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-use function headers_list;
-use function ob_clean;
-use function ob_end_flush;
 use function ob_get_clean;
 use function ob_start;
 use function xdebug_get_headers;
