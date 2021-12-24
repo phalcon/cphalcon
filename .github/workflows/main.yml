@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.0.0alpha7
+  PHALCON_VERSION: 5.0.0beta1
   ZEPHIR_PARSER_VERSION: 1.4.1
   ZEPHIR_VERSION: 0.15.0
   PSR_VERSION: 1.1.0

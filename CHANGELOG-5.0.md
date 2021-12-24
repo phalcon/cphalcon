@@ -1,4 +1,4 @@
-# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-12)
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-24)
 
 ## Changed
 - Marked as deprecated:
