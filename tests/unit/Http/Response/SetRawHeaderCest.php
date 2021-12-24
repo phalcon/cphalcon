@@ -29,13 +29,12 @@ class SetRawHeaderCest extends HttpBase
         $response = $this->getResponseObject();
 
         $response->resetHeaders();
-
         $response->setRawHeader('HTTP/1.1 404 Not Found');
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
-            '',
-            $actual->get('HTTP/1.1 304 Not modified')
-        );
+
+        $expected = "";
+        $actual   = $actual->get('HTTP/1.1 304 Not modified');
+        $I->assertEquals($expected, $actual);
     }
 }
