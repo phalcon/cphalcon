@@ -1,4 +1,4 @@
-# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-12)
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-24)
 
 ## Changed
 - Marked as deprecated:
@@ -26,6 +26,9 @@
 - `Phalcon\Forms\Form` requires a `Phalcon\Html\TagFactory` to be set before it can render elements [#15801](https://github.com/phalcon/cphalcon/issues/15801)
 - `Phalcon\Di\FactoryDefault` will now return a `Phalcon\Html\TagFactory` for the `tag` service [#15801](https://github.com/phalcon/cphalcon/issues/15801)
 
+## Fixed
+- `Phalcon\Logger\LoggerFactory::load()` to correctly use the key of the adapters array as the name of the adapter [#15831](https://github.com/phalcon/cphalcon/issues/15831)
+
 ## Added
 - Added:
     - `Phalcon\Mvc\Model::hasBelongsTo()`
@@ -41,6 +44,7 @@
 
 ## Fixed
 - Fixed `Phalcon\Dispatcher\Dispatcher::setParams()` not updating local params during `dispatch()` loop [#15603](https://github.com/phalcon/cphalcon/issues/15603)
+- Fixed related records auto-save with `belongsTo()` relation [#15148](https://github.com/phalcon/cphalcon/issues/15148)
 
 ## Removed
 - Removed `Phalcon\Exception`; replaced by `\Exception` [#15800](https://github.com/phalcon/cphalcon/issues/15800)

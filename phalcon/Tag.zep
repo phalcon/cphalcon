@@ -10,6 +10,7 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;

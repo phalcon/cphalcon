@@ -29,6 +29,7 @@ use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
+use Phalcon\Html\TagFactory;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
@@ -282,6 +283,17 @@ trait DiTrait
                     'session',
                     function () use ($class) {
                         return (new Manager())->setAdapter($class);
+                    }
+                );
+                break;
+
+            case 'tag':
+                $this->container->set(
+                    $service,
+                    function () {
+                        $escaper = $this->container->get("escaper");
+
+                        return new TagFactory($escaper);
                     }
                 );
                 break;

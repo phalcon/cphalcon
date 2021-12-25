@@ -34,29 +34,6 @@ use function uniqid;
 
 class RenderCest
 {
-//    /**
-//     * Tests Phalcon\Forms\Element\Check :: render() with parameters
-//     *
-//     * @author Sid Roberts <https://github.com/SidRoberts>
-//     * @since  2019-05-23
-//     */
-//    public function formsElementCheckRenderWithParameters(IntegrationTester $I)
-//    {
-//        $I->wantToTest('Forms\Element\Check - render() with parameters');
-//
-//        $element = new Check(
-//            'fantastic',
-//            [
-//                'class' => 'fancy',
-//            ]
-//        );
-//
-//        $I->assertSame(
-//            '<input type="checkbox" id="fantastic" name="fantastic" class="fancy" />',
-//            $element->render()
-//        );
-//    }
-
     /**
      * Tests Phalcon\Forms\Element\* :: clear()
      *
@@ -85,6 +62,19 @@ class RenderCest
 
         $actual = (string) $object;
         $I->assertSame($expected, $actual);
+
+        /**
+         * With attributes
+         */
+        $object->setAttributes($example[3]);
+
+        $expected = str_replace(":name:", $name, $example[4]);
+        $actual   = $object->render();
+
+        $I->assertSame($expected, $actual);
+
+        $actual = (string) $object;
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -97,61 +87,85 @@ class RenderCest
                 "Check",
                 Check::class,
                 '<input type="checkbox" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="checkbox" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Date",
                 Date::class,
                 '<input type="date" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="date" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Email",
                 Email::class,
-                "",
+                '<input type="email" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="email" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "File",
                 File::class,
-                "",
+                '<input type="file" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="file" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Hidden",
                 Hidden::class,
-                "",
+                '<input type="hidden" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="hidden" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Numeric",
                 Numeric::class,
-                "",
+                '<input type="numeric" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="numeric" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Password",
                 Password::class,
-                "",
+                '<input type="password" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="password" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Radio",
                 Radio::class,
-                "",
+                '<input type="radio" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="radio" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Select",
                 Select::class,
-                "",
+                '<select id=":name:" name=":name:">' . PHP_EOL . '</select>',
+                ['class' => 'alert alert-warning'],
+                '<select id=":name:" name=":name:" class="alert alert-warning">' . PHP_EOL . '</select>',
             ],
             [
                 "Submit",
                 Submit::class,
-                "",
+                '<input type="submit" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="submit" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Text",
                 Text::class,
-                "",
+                '<input type="text" id=":name:" name=":name:" />',
+                ['class' => 'alert alert-warning'],
+                '<input type="text" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "TextArea",
                 TextArea::class,
-                "",
+                '<textarea id=":name:" name=":name:"></textarea>',
+                ['class' => 'alert alert-warning'],
+                '<textarea id=":name:" name=":name:" class="alert alert-warning"></textarea>',
             ],
         ];
     }

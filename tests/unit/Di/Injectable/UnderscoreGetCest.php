@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di\Injectable;
 
 use Exception;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Tests\Fixtures\Di\InjectableComponent;
 use stdClass;
 use UnitTester;

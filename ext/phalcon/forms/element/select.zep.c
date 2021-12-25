@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 
 
 /**
@@ -245,5 +246,57 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions)
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("optionsValues"), options);
 	RETURN_THISW();
+}
+
+/**
+ * Returns an array of prepared attributes for Phalcon\Html\TagFactory
+ * helpers according to the element parameters
+ */
+PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *attributes_param = NULL, value, name, mergedAttributes, defaultAttributes, _0;
+	zval attributes;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&mergedAttributes);
+	ZVAL_UNDEF(&defaultAttributes);
+	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &attributes_param);
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+		zephir_get_arrval(&attributes, attributes_param);
+	}
+
+
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&name, &_0);
+	zephir_array_update_long(&attributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+	ZEPHIR_OBS_VAR(&defaultAttributes);
+	zephir_read_property(&defaultAttributes, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(&mergedAttributes);
+	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&value) != IS_NULL) {
+		zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
+	}
+	RETURN_CCTOR(&mergedAttributes);
 }
 

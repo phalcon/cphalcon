@@ -92,4 +92,37 @@ class Select extends AbstractElement
 
         return this;
     }
+
+    /**
+     * Returns an array of prepared attributes for Phalcon\Html\TagFactory
+     * helpers according to the element parameters
+     */
+    protected function prepareAttributes(array attributes = []) -> array
+    {
+        var value, name, mergedAttributes, defaultAttributes;
+
+        let name = this->name;
+
+        let attributes[0] = name;
+
+        /**
+         * Merge passed parameters with default ones
+         */
+        let defaultAttributes = this->attributes,
+            mergedAttributes = array_merge(defaultAttributes, attributes);
+
+        /**
+         * Get the current element value
+         */
+        let value = this->getValue();
+
+        /**
+         * If the widget has a value set it as default value
+         */
+        if value !== null {
+            let mergedAttributes["value"] = value;
+        }
+
+        return mergedAttributes;
+    }
 }

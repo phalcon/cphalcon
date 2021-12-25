@@ -39,7 +39,10 @@ class FunctionCallCest
     {
         $I->wantToTest('Mvc\View\Engine\Volt\Compiler - functionCall() ' . $example[0]);
 
+        $this->setNewFactoryDefault();
+
         $volt = new Compiler();
+        $volt->setDI($this->container);
 
         $expected = $example[2];
         $actual   = $volt->compileString($example[1]);
@@ -71,82 +74,82 @@ class FunctionCallCest
             [
                 'link_to',
                 '{{ link_to(\'abc\') }}',
-                '<?= $this->tag->linkTo([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::linkTo([\'abc\']) ?>',
             ],
             [
                 'image',
                 '{{ image(\'abc\') }}',
-                '<?= $this->tag->image([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::image([\'abc\']) ?>',
             ],
             [
                 'form',
                 '{{ form(\'abc\') }}',
-                '<?= $this->tag->form([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::form([\'abc\']) ?>',
             ],
             [
                 'submit_button',
                 '{{ submit_button(\'abc\') }}',
-                '<?= $this->tag->submitButton([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::submitButton([\'abc\']) ?>',
             ],
             [
                 'radio_field',
                 '{{ radio_field(\'abc\') }}',
-                '<?= $this->tag->radioField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::radioField([\'abc\']) ?>',
             ],
             [
                 'check_field',
                 '{{ check_field(\'abc\') }}',
-                '<?= $this->tag->checkField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::checkField([\'abc\']) ?>',
             ],
             [
                 'file_field',
                 '{{ file_field(\'abc\') }}',
-                '<?= $this->tag->fileField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::fileField([\'abc\']) ?>',
             ],
             [
                 'hidden_field',
                 '{{ hidden_field(\'abc\') }}',
-                '<?= $this->tag->hiddenField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::hiddenField([\'abc\']) ?>',
             ],
             [
                 'password_field',
                 '{{ password_field(\'abc\') }}',
-                '<?= $this->tag->passwordField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::passwordField([\'abc\']) ?>',
             ],
             [
                 'text_area',
                 '{{ text_area(\'abc\') }}',
-                '<?= $this->tag->textArea([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::textArea([\'abc\']) ?>',
             ],
             [
                 'text_field',
                 '{{ text_field(\'abc\') }}',
-                '<?= $this->tag->textField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::textField([\'abc\']) ?>',
             ],
             [
                 'email_field',
                 '{{ email_field(\'abc\') }}',
-                '<?= $this->tag->emailField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::emailField([\'abc\']) ?>',
             ],
             [
                 'date_field',
                 '{{ date_field(\'abc\') }}',
-                '<?= $this->tag->dateField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::dateField([\'abc\']) ?>',
             ],
             [
                 'tel_field',
                 '{{ tel_field(\'abc\') }}',
-                '<?= $this->tag->telField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::telField([\'abc\']) ?>',
             ],
             [
                 'numeric_field',
                 '{{ numeric_field(\'abc\') }}',
-                '<?= $this->tag->numericField([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::numericField([\'abc\']) ?>',
             ],
             [
                 'image_input',
                 '{{ image_input(\'abc\') }}',
-                '<?= $this->tag->imageInput([\'abc\']) ?>',
+                '<?= \Phalcon\Tag::imageInput([\'abc\']) ?>',
             ],
             [
                 'url',
@@ -191,12 +194,12 @@ class FunctionCallCest
             [
                 'preload',
                 '{{ preload(\'abc.css\') }}',
-                '<?= $this->tag->preload(\'abc.css\') ?>',
+                '<?= $this->preload(\'abc.css\') ?>',
             ],
             [
                 'preload array',
                 '{{ preload(\'abc.jpg\', [\'as\' : \'image\']) }}',
-                '<?= $this->tag->preload(\'abc.jpg\', [\'as\' => \'image\']) ?>',
+                '<?= $this->preload(\'abc.jpg\', [\'as\' => \'image\']) ?>',
             ],
             [
                 'somefunction',
