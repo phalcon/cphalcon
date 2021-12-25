@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Regex :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Regex :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorRegexValidate(IntegrationTester $I)
+    public function filterValidationValidatorRegexValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - validate()');
 

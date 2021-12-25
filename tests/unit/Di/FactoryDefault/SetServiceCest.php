@@ -23,6 +23,8 @@ class SetServiceCest
     /**
      * Unit Tests Phalcon\Di\FactoryDefault :: setService()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13
      */
@@ -30,12 +32,10 @@ class SetServiceCest
     {
         $I->wantToTest('Di\FactoryDefault - setService()');
 
-        $di = new FactoryDefault();
+        $container = new FactoryDefault();
 
         $expected = new Service(Escaper::class);
-
-        $actual = $di->setService('escaper', $expected);
-
+        $actual   = $container->setService('escaper', $expected);
         $I->assertSame($expected, $actual);
     }
 }

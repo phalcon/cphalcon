@@ -29,7 +29,7 @@ class JsCest
     public function escaperJs(UnitTester $I)
     {
         $I->wantToTest('Escaper - js()');
-        $I->skipTest("TODO: Enable this after escaping is converted from C to PHP");
+
         $escaper = new Escaper();
 
         $source = 'function createtoc () {'

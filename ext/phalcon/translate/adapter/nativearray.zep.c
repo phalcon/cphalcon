@@ -127,8 +127,51 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
  * @param string $index
  *
  * @return bool
+ * @deprecated
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL;
+	zval index;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(index)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(&index, index_param);
+	} else {
+		ZEPHIR_INIT_VAR(&index);
+	}
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Check whether is defined a translation key in the internal array
+ *
+ * @param string $index
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index_param = NULL, _0;
@@ -209,9 +252,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Cannot find translation key: ", &index);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 94);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 107);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

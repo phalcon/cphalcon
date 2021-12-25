@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Ip;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Ip;
+use Phalcon\Filter\Validation\Validator\Ip;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Ip :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Ip :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIpConstruct(IntegrationTester $I)
+    public function filterValidationValidatorIpConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - __construct()');
 

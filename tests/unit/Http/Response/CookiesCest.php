@@ -2,7 +2,7 @@
 
 namespace Phalcon\Tests\Unit\Http\Response;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Response;

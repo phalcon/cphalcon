@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\Micro;
 
 use IntegrationTester;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Micro;
 

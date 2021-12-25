@@ -67,7 +67,6 @@ class SaveCest
         $connection = $I->getConnection();
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
 
         /**
          * New model
@@ -75,60 +74,53 @@ class SaveCest
         $customer                 = new Customers();
         $customer->cst_name_first = 'cst_test_firstName';
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         $customer->cst_name_last = 'cst_test_lastName';
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         /**
          * Saved model
          */
         $customer = Customers::findFirst();
 
-        $I->assertEquals(
-            [
-                'cst_id'          => $customer->cst_id,
-                'cst_status_flag' => null,
-                'cst_name_first'  => 'cst_test_firstName',
-                'cst_name_last'   => 'cst_test_lastName',
-            ],
-            $customer->toArray()
-        );
+        $expected = [
+            'cst_id'          => $customer->cst_id,
+            'cst_status_flag' => null,
+            'cst_name_last'   => 'cst_test_lastName',
+            'cst_name_first'  => 'cst_test_firstName',
+        ];
+        $actual   = $customer->toArray();
+        $I->assertSame($expected, $actual);
 
         $customer->cst_status_flag = 1;
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         /**
          * Modified saved model
          */
         $customer = Customers::findFirst();
 
-        $I->assertEquals(
-            1,
-            $customer->cst_status_flag
-        );
+        $expected = 1;
+        $actual   = $customer->cst_status_flag;
+        $I->assertEquals($expected, $actual);
 
         $customer->cst_name_last = null;
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         /**
          * Verify model count
          */
-        $I->assertEquals(
-            1,
-            Customers::count()
-        );
+        $expected = 1;
+        $actual   = Customers::count();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -155,35 +147,29 @@ class SaveCest
             ]
         );
 
-        $I->assertTrue(
-            $invoice->save()
-        );
+        $actual = $invoice->save();
+        $I->assertTrue($actual);
 
-        $I->assertGreaterThan(
-            0,
-            $invoice->inv_cst_id
-        );
+        $expected = 0;
+        $actual   = $invoice->inv_cst_id;
+        $I->assertGreaterThan($expected, $actual);
 
-        $I->assertEquals(
-            $invoice->inv_cst_id,
-            $invoice->customer->cst_id
-        );
+        $expected = $invoice->inv_cst_id;
+        $actual   = $invoice->customer->cst_id;
+        $I->assertEquals($expected, $actual);
 
         $connection = $this->getService('db');
 
-        $I->assertFalse(
-            $connection->isUnderTransaction()
-        );
+        $actual = $connection->isUnderTransaction();
+        $I->assertFalse($actual);
 
-        $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
-            $invoice->getDirtyState()
-        );
+        $expected = Model::DIRTY_STATE_PERSISTENT;
+        $actual   = $invoice->getDirtyState();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
-            $invoice->customer->getDirtyState()
-        );
+        $expected = Model::DIRTY_STATE_PERSISTENT;
+        $actual   = $invoice->customer->getDirtyState();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -206,11 +192,9 @@ class SaveCest
         $connection = $I->getConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
 
         /**
@@ -218,32 +202,28 @@ class SaveCest
          */
         $invoice = Invoices::findFirst(77);
 
-        $I->assertEquals(
-            1,
-            $invoice->customer->id
-        );
+        $expected = 1;
+        $actual   = $invoice->customer->id;
+        $I->assertEquals($expected, $actual);
 
         $invoice->customer->cst_name_first  = 'new_firstName';
         $invoice->customer->cst_status_flag = 0;
 
-        $I->assertTrue(
-            $invoice->save()
-        );
+        $actual = $invoice->save();
+        $I->assertTrue($actual);
 
         /**
          * @var Customers $customer
          */
         $customer = Customers::findFirst(1);
 
-        $I->assertEquals(
-            'new_firstName',
-            $customer->cst_name_first
-        );
+        $expected = 'new_firstName';
+        $actual   = $customer->cst_name_first;
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            0,
-            $customer->cst_status_flag
-        );
+        $expected = 0;
+        $actual   = $customer->cst_status_flag;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -266,12 +246,10 @@ class SaveCest
         $connection = $I->getConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
         $invoicesMigration->insert(88, 1, 1, uniqid('inv-'));
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
         $customersMigration->insert(2, 0, 'test_firstName_2', 'test_lastName_2');
 
@@ -285,18 +263,16 @@ class SaveCest
          */
         $customer = $invoice->customer;
 
-        $I->assertTrue(
-            $invoice->save()
-        );
+        $actual = $invoice->save();
+        $I->assertTrue($actual);
 
         /**
          * @var Model\Resultset\Simple $invoices
          */
         $invoices = $customer->invoices;
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
     }
 
     /**
@@ -319,12 +295,10 @@ class SaveCest
         $connection = $I->getConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
         $invoicesMigration->insert(88, 1, 1, uniqid('inv-'));
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
         $customersMigration->insert(2, 0, 'test_firstName_2', 'test_lastName_2');
 
@@ -338,18 +312,16 @@ class SaveCest
          */
         $customer = $invoice->getCustomer();
 
-        $I->assertTrue(
-            $invoice->save()
-        );
+        $actual = $invoice->save();
+        $I->assertTrue($actual);
 
         /**
          * @var Model\Resultset\Simple $invoices
          */
         $invoices = $customer->getInvoices();
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
     }
 
     /**
@@ -372,9 +344,7 @@ class SaveCest
         $connection = $I->getConnection();
 
         $customersMigration = new CustomersDefaultsMigration($connection);
-        $customersMigration->clear();
-
-        $customer = new CustomersDefaults();
+        $customer           = new CustomersDefaults();
 
         /**
          * Default values are present in schema
@@ -385,9 +355,8 @@ class SaveCest
 
         $customer->assign($customerData);
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         /**
          * @var MetaData
@@ -400,10 +369,8 @@ class SaveCest
         $defaultValues = $metaData->getDefaultValues($customer);
 
         foreach ($defaultValues as $attribute => $value) {
-            $I->assertEquals(
-                $value,
-                $customer->{$attribute}
-            );
+            $actual = $customer->{$attribute};
+            $I->assertEquals($value, $actual);
         }
     }
 
@@ -424,10 +391,7 @@ class SaveCest
         $connection = $I->getConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
-
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
 
         $invoice = new InvoicesKeepSnapshots(
             [
@@ -450,13 +414,14 @@ class SaveCest
         ];
 
         // Save should handle the circular relation without issue
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
         // Both should have an ID now
-        $I->assertNotNull($invoice->inv_id);
-        $I->assertNotNull($customer->cst_id);
+        $actual = $invoice->inv_id;
+        $I->assertNotNull($actual);
+        $actual = $customer->cst_id;
+        $I->assertNotNull($actual);
     }
 
     /**
@@ -479,7 +444,6 @@ class SaveCest
         $connection = $I->getConnection();
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
 
         $customer = Customers::findFirst();
@@ -492,13 +456,11 @@ class SaveCest
 
         $customer->invoices = [];
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $invoice->save()
-        );
+        $actual = $invoice->save();
+        $I->assertFalse($actual);
     }
 
     /**
@@ -521,32 +483,17 @@ class SaveCest
         $customer                  = new Customers();
         $customer->cst_status_flag = $example['value'];
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $actual = $customer->save();
+        $I->assertTrue($actual);
 
-        $I->assertNotNull(
-            $customer->cst_id
-        );
+        $actual = $customer->cst_id;
+        $I->assertNotNull($actual);
 
         $storedModel = Customers::findFirstByCstId($customer->cst_id);
 
-        $I->assertEquals(
-            $example['value'],
-            $storedModel->cst_status_flag
-        );
-    }
-
-    /**
-     * @return array
-     */
-    protected function tinyintProvider()
-    {
-        return [
-            ['value' => "1"],
-            ['value' => "0"],
-            ['value' => "127"]
-        ];
+        $expected = $example['value'];
+        $actual   = $storedModel->cst_status_flag;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -601,7 +548,6 @@ class SaveCest
         $connection = $I->getConnection();
 
         $sourcesMigration = new SourcesMigration($connection);
-        $sourcesMigration->clear();
         $sourcesMigration->insert(1, 'llama', 'test_source');
 
         $model = Sources::findFirst(
@@ -613,14 +559,89 @@ class SaveCest
             ]
         );
 
-        $I->assertInstanceOf(Sources::class, $model);
-        $I->assertEquals(1, $model->id);
-        $I->assertEquals('co_sources', $model->getSource());
+        $class = Sources::class;
+        $I->assertInstanceOf($class, $model);
+
+        $expected = 1;
+        $actual   = $model->id;
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'co_sources';
+        $actual   = $model->getSource();
+        $I->assertSame($expected, $actual);
 
         $model->username = 'vader';
         $result          = $model->save();
 
-        $I->assertCount(0, $model->getMessages());
+        $expected = 0;
+        $actual   = $model->getMessages();
+        $I->assertCount($expected, $actual);
         $I->assertNotFalse($result);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: save() with related records property (relation many - belongs)
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2020-11-04
+     *
+     * @see https://github.com/phalcon/cphalcon/issues/15148
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelSaveWithRelatedManyAndBelongsRecordsProperty(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() with related records property (relation many - belongs)');
+
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
+
+        /**
+         * @var Invoices $invoice
+         */
+        $invoice = InvoicesKeepSnapshots::findFirst(77);
+
+        $expected = 1;
+        $actual   = $invoice->customer->id;
+        $I->assertEquals($expected, $actual);
+
+        $invoice->customer->cst_name_first  = 'new_firstName';
+        $invoice->customer->cst_status_flag = 0;
+
+        $actual = $invoice->save();
+        $I->assertTrue($actual);
+
+        /**
+         * @var Customers $customer
+         */
+        $customer = Customers::findFirst(1);
+
+        $expected = 'new_firstName';
+        $actual   = $customer->cst_name_first;
+        $I->assertSame($expected, $actual);
+
+        $expected = 0;
+        $actual   = $customer->cst_status_flag;
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return \string[][]
+     */
+    private function tinyintProvider(): array
+    {
+        return [
+            ['value' => "1"],
+            ['value' => "0"],
+            ['value' => "127"]
+        ];
     }
 }

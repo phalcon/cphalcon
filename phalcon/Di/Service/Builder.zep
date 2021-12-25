@@ -120,7 +120,8 @@ class Builder
                 if fetch arguments, method["arguments"] {
                     if unlikely typeof arguments != "array" {
                         throw new Exception(
-                            "Call arguments must be an array " . methodPosition
+                            "Call arguments must be an array on position " .
+                            (string) methodPosition
                         );
                     }
 

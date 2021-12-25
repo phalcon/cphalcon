@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\InclusionIn;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\InclusionIn;
+use Phalcon\Filter\Validation\Validator\InclusionIn;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\InclusionIn :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\InclusionIn :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorInclusionInSetOption(IntegrationTester $I)
+    public function filterValidationValidatorInclusionInSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - setOption()');
 

@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn)
 		}
 		_8$$5 = _7$$5;
 		if (!(_8$$5)) {
-			ZEPHIR_CALL_FUNCTION(&_9$$5, "is_float", NULL, 219, &defaultValue);
+			ZEPHIR_CALL_FUNCTION(&_9$$5, "is_float", NULL, 227, &defaultValue);
 			zephir_check_call_status();
 			_8$$5 = zephir_is_true(&_9$$5);
 		}
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn)
 		} else {
 			ZEPHIR_INIT_VAR(&_11$$7);
 			ZVAL_STRING(&_11$$7, "\"");
-			ZEPHIR_CALL_FUNCTION(&_12$$7, "addcslashes", NULL, 220, &defaultValue, &_11$$7);
+			ZEPHIR_CALL_FUNCTION(&_12$$7, "addcslashes", NULL, 228, &defaultValue, &_11$$7);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_13$$7);
 			ZEPHIR_CONCAT_SVS(&_13$$7, " DEFAULT \"", &_12$$7, "\"");
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 				}
 				_11$$10 = _10$$10;
 				if (!(_11$$10)) {
-					ZEPHIR_CALL_FUNCTION(&_12$$10, "is_float", &_13, 219, &defaultValue);
+					ZEPHIR_CALL_FUNCTION(&_12$$10, "is_float", &_13, 227, &defaultValue);
 					zephir_check_call_status();
 					_11$$10 = zephir_is_true(&_12$$10);
 				}
@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 				} else {
 					ZEPHIR_INIT_NVAR(&_15$$12);
 					ZVAL_STRING(&_15$$12, "\"");
-					ZEPHIR_CALL_FUNCTION(&_16$$12, "addcslashes", &_17, 220, &defaultValue, &_15$$12);
+					ZEPHIR_CALL_FUNCTION(&_16$$12, "addcslashes", &_17, 228, &defaultValue, &_15$$12);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_18$$12);
 					ZEPHIR_CONCAT_SVS(&_18$$12, " DEFAULT \"", &_16$$12, "\"");
@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 					}
 					_30$$19 = _29$$19;
 					if (!(_30$$19)) {
-						ZEPHIR_CALL_FUNCTION(&_31$$19, "is_float", &_13, 219, &defaultValue);
+						ZEPHIR_CALL_FUNCTION(&_31$$19, "is_float", &_13, 227, &defaultValue);
 						zephir_check_call_status();
 						_30$$19 = zephir_is_true(&_31$$19);
 					}
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 					} else {
 						ZEPHIR_INIT_NVAR(&_33$$21);
 						ZVAL_STRING(&_33$$21, "\"");
-						ZEPHIR_CALL_FUNCTION(&_34$$21, "addcslashes", &_17, 220, &defaultValue, &_33$$21);
+						ZEPHIR_CALL_FUNCTION(&_34$$21, "addcslashes", &_17, 228, &defaultValue, &_33$$21);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_35$$21);
 						ZEPHIR_CONCAT_SVS(&_35$$21, " DEFAULT \"", &_34$$21, "\"");
@@ -1635,7 +1635,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getcolumnsize", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_2$$3);
 			ZEPHIR_CONCAT_VV(&_2$$3, &_0$$3, &_1$$3);
@@ -1697,7 +1697,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_7$$18, this_ptr, "getcolumnsizeandscale", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_8$$18, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_8$$18, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_9$$18);
 			ZEPHIR_CONCAT_VV(&_9$$18, &_7$$18, &_8$$18);
@@ -1708,9 +1708,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			if (ZEPHIR_IS_EMPTY(&columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("DOUBLE"));
 			}
-			ZEPHIR_CALL_METHOD(&_10$$20, this_ptr, "checkcolumnsizeandscale", NULL, 222, column);
+			ZEPHIR_CALL_METHOD(&_10$$20, this_ptr, "checkcolumnsizeandscale", NULL, 230, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_11$$20, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_11$$20, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_12$$20);
 			ZEPHIR_CONCAT_VV(&_12$$20, &_10$$20, &_11$$20);
@@ -1730,9 +1730,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			if (ZEPHIR_IS_EMPTY(&columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("FLOAT"));
 			}
-			ZEPHIR_CALL_METHOD(&_14$$24, this_ptr, "checkcolumnsizeandscale", NULL, 222, column);
+			ZEPHIR_CALL_METHOD(&_14$$24, this_ptr, "checkcolumnsizeandscale", NULL, 230, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_15$$24, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_15$$24, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_16$$24);
 			ZEPHIR_CONCAT_VV(&_16$$24, &_14$$24, &_15$$24);
@@ -1745,7 +1745,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_17$$26, this_ptr, "getcolumnsize", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_18$$26, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_18$$26, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_19$$26);
 			ZEPHIR_CONCAT_VV(&_19$$26, &_17$$26, &_18$$26);
@@ -1782,7 +1782,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_20$$36, this_ptr, "getcolumnsize", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_21$$36, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_21$$36, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_22$$36);
 			ZEPHIR_CONCAT_VV(&_22$$36, &_20$$36, &_21$$36);
@@ -1801,7 +1801,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_23$$40, this_ptr, "getcolumnsize", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_24$$40, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_24$$40, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_25$$40);
 			ZEPHIR_CONCAT_VV(&_25$$40, &_23$$40, &_24$$40);
@@ -1852,7 +1852,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			}
 			ZEPHIR_CALL_METHOD(&_30$$52, this_ptr, "getcolumnsize", NULL, 0, column);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_31$$52, this_ptr, "checkcolumnunsigned", NULL, 221, column);
+			ZEPHIR_CALL_METHOD(&_31$$52, this_ptr, "checkcolumnunsigned", NULL, 229, column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_32$$52);
 			ZEPHIR_CONCAT_VV(&_32$$52, &_30$$52, &_31$$52);
@@ -1881,7 +1881,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_36$$59);
 			ZEPHIR_CONCAT_SV(&_36$$59, "Unrecognized MySQL data type at column ", &_35$$59);
-			ZEPHIR_CALL_METHOD(NULL, &_34$$59, "__construct", NULL, 8, &_36$$59);
+			ZEPHIR_CALL_METHOD(NULL, &_34$$59, "__construct", NULL, 30, &_36$$59);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_34$$59, "phalcon/Db/Dialect/Mysql.zep", 635);
 			ZEPHIR_MM_RESTORE();
@@ -1901,7 +1901,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 						ZVAL_COPY(&value$$61, _37$$61);
 						ZEPHIR_INIT_NVAR(&_39$$62);
 						ZVAL_STRING(&_39$$62, "\"");
-						ZEPHIR_CALL_FUNCTION(&_40$$62, "addcslashes", &_41, 220, &value$$61, &_39$$62);
+						ZEPHIR_CALL_FUNCTION(&_40$$62, "addcslashes", &_41, 228, &value$$61, &_39$$62);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_42$$62);
 						ZEPHIR_CONCAT_SVS(&_42$$62, "\"", &_40$$62, "\", ");
@@ -1920,7 +1920,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_43$$63);
 							ZVAL_STRING(&_43$$63, "\"");
-							ZEPHIR_CALL_FUNCTION(&_44$$63, "addcslashes", &_41, 220, &value$$61, &_43$$63);
+							ZEPHIR_CALL_FUNCTION(&_44$$63, "addcslashes", &_41, 228, &value$$61, &_43$$63);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_45$$63);
 							ZEPHIR_CONCAT_SVS(&_45$$63, "\"", &_44$$63, "\", ");
@@ -1940,7 +1940,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 			} else {
 				ZEPHIR_INIT_VAR(&_50$$64);
 				ZVAL_STRING(&_50$$64, "\"");
-				ZEPHIR_CALL_FUNCTION(&_51$$64, "addcslashes", &_41, 220, &typeValues, &_50$$64);
+				ZEPHIR_CALL_FUNCTION(&_51$$64, "addcslashes", &_41, 228, &typeValues, &_50$$64);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_52$$64);
 				ZEPHIR_CONCAT_SVS(&_52$$64, "(\"", &_51$$64, "\")");
@@ -2187,7 +2187,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn)
 		}
 		_13$$8 = _12$$8;
 		if (!(_13$$8)) {
-			ZEPHIR_CALL_FUNCTION(&_14$$8, "is_float", NULL, 219, &defaultValue);
+			ZEPHIR_CALL_FUNCTION(&_14$$8, "is_float", NULL, 227, &defaultValue);
 			zephir_check_call_status();
 			_13$$8 = zephir_is_true(&_14$$8);
 		}
@@ -2198,7 +2198,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn)
 		} else {
 			ZEPHIR_INIT_VAR(&_16$$10);
 			ZVAL_STRING(&_16$$10, "\"");
-			ZEPHIR_CALL_FUNCTION(&_17$$10, "addcslashes", NULL, 220, &defaultValue, &_16$$10);
+			ZEPHIR_CALL_FUNCTION(&_17$$10, "addcslashes", NULL, 228, &defaultValue, &_16$$10);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_18$$10);
 			ZEPHIR_CONCAT_SVS(&_18$$10, " DEFAULT \"", &_17$$10, "\"");

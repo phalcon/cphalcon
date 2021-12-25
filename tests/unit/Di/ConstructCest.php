@@ -13,25 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use UnitTester;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Di :: __construct()
+     * Tests Phalcon\Di\Di :: __construct()
+     *
+     * @param UnitTester $I
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2019-09-09
      */
     public function diConstruct(UnitTester $I)
     {
         $I->wantToTest('Di - __construct()');
 
-        $di = new Di();
+        $class  = Di::class;
+        $actual = Di::getDefault();
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertInstanceOf(Di::class, $di);
-
-        $I->assertInstanceOf(Di::class, Di::getDefault());
+        $actual = Di::getDefault();
+        $I->assertInstanceOf($class, $actual);
     }
 }

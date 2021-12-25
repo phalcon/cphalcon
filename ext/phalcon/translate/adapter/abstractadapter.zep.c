@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
 	zephir_fetch_params(1, 1, 0, &translateKey);
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, translateKey);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
 }

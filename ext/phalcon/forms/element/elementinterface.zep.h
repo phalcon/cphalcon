@@ -8,7 +8,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_elementinte
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_elementinterface_addvalidator, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_elementinterface_addvalidators, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
@@ -67,15 +67,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementint
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementinterface_label, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementinterface_prepareattributes, 0, 0, IS_ARRAY, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#endif
-	ZEND_ARG_TYPE_INFO(0, useChecked, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementinterface_render, 0, 0, IS_STRING, 0)
@@ -148,7 +139,6 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getValue, arginfo_phalcon_forms_element_elementinterface_getvalue)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, hasMessages, arginfo_phalcon_forms_element_elementinterface_hasmessages)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, label, arginfo_phalcon_forms_element_elementinterface_label)
-	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, prepareAttributes, arginfo_phalcon_forms_element_elementinterface_prepareattributes)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, render, arginfo_phalcon_forms_element_elementinterface_render)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, setAttribute, arginfo_phalcon_forms_element_elementinterface_setattribute)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, setAttributes, arginfo_phalcon_forms_element_elementinterface_setattributes)

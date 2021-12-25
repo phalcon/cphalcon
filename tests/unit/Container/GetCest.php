@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container;
 
-use Phalcon\Container;
+use Phalcon\Container\Container;
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;

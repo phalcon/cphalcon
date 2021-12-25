@@ -15,18 +15,18 @@ namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Alpha;
 
 class AllowEmptyCest
 {
     /**
-     * Tests Phalcon\Validation :: allowEmpty()
+     * Tests Phalcon\Filter\Validation :: allowEmpty()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
-    public function validationAllowEmptyFalse(IntegrationTester $I)
+    public function filterValidationAllowEmptyFalse(IntegrationTester $I)
     {
         $I->wantToTest('Validation - allowEmpty() - false');
 
@@ -39,7 +39,7 @@ class AllowEmptyCest
         $I->assertCount(0, $messages);
     }
 
-    public function validationAllowEmptyTrue(IntegrationTester $I)
+    public function filterValidationAllowEmptyTrue(IntegrationTester $I)
     {
         $I->wantToTest('Validation - allowEmpty() - true');
 

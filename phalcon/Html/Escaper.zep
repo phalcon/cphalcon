@@ -42,9 +42,11 @@ class Escaper implements EscaperInterface
     protected encoding = "utf-8" { get };
 
     /**
+     * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
+     *
      * @var int
      */
-    protected flags = 3 { get };
+    protected flags = 11 { get };
 
     /**
      * Escapes a HTML attribute string

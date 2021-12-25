@@ -56,7 +56,7 @@
         "codeception/module-cli": "^1.0.0",
         "codeception/module-db": "^1.0.0",
         "codeception/module-filesystem": "^1.0.0",
-        "codeception/module-phalcon4": "^1.0.3",
+        "codeception/module-phalcon5": "^1.0.0",
         "codeception/module-redis": "^1.0.0",
         "friendsofphp/php-cs-fixer": "~2.0",
         "mustache/mustache": "^2.12",

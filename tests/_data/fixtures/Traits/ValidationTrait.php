@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Fixtures\Traits;
 
 use IntegrationTester;
-use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Filter\Validation\ValidatorInterface;
 
 trait ValidationTrait
 {
     /**
-     * Tests Phalcon\Validation\Validator\* :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\* :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -50,7 +50,7 @@ trait ValidationTrait
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\* :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\* :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -73,7 +73,7 @@ trait ValidationTrait
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\* :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\* :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -93,7 +93,7 @@ trait ValidationTrait
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\* :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\* :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

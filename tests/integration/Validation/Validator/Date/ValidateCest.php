@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Date :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Date :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDateValidate(IntegrationTester $I)
+    public function filterValidationValidatorDateValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - validate()');
 

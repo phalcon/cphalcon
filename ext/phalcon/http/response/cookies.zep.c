@@ -41,7 +41,7 @@
  * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Encryption\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 399);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 433);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {
@@ -472,11 +472,10 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_14 = NULL;
 	zval options, _3$$3;
 	zend_bool secure, httpOnly;
 	zend_long expire, ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *value = NULL, value_sub, *expire_param = NULL, *path_param = NULL, *secure_param = NULL, *domain_param = NULL, *httpOnly_param = NULL, *options_param = NULL, __$true, __$false, __$null, cookie, encryption, container, response, _0, _10, _1$$3, _2$$3, _4$$3, _5$$3, _6$$4, _7$$5, _8$$5, _9$$5, _11$$6, _16$$6, _12$$7, _13$$7, _15$$7;
+	zval *name_param = NULL, *value = NULL, value_sub, *expire_param = NULL, *path_param = NULL, *secure_param = NULL, *domain_param = NULL, *httpOnly_param = NULL, *options_param = NULL, __$true, __$false, __$null, cookie, encryption, container, response, _0, _10, _1$$3, _2$$3, _4$$3, _5$$3, _6$$4, _7$$5, _8$$5, _9$$5, _11$$6, _12$$6;
 	zval name, path, domain;
 	zval *this_ptr = getThis();
 
@@ -502,10 +501,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	ZVAL_UNDEF(&_8$$5);
 	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&_11$$6);
-	ZVAL_UNDEF(&_16$$6);
-	ZVAL_UNDEF(&_12$$7);
-	ZVAL_UNDEF(&_13$$7);
-	ZVAL_UNDEF(&_15$$7);
+	ZVAL_UNDEF(&_12$$6);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_3$$3);
 #if PHP_VERSION_ID >= 80000
@@ -654,21 +650,12 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		zephir_read_property(&_11$$6, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&container, &_11$$6);
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(&_12$$7);
-			object_init_ex(&_12$$7, phalcon_http_cookie_exception_ce);
-			ZEPHIR_INIT_VAR(&_15$$7);
-			ZVAL_STRING(&_15$$7, "the 'response' service");
-			ZEPHIR_CALL_CE_STATIC(&_13$$7, phalcon_http_cookie_exception_ce, "containerservicenotfound", &_14, 0, &_15$$7);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 8, &_13$$7);
-			zephir_check_call_status();
-			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 313);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection container is required to access the 'response' service", "phalcon/Http/Response/Cookies.zep", 311);
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_16$$6);
-		ZVAL_STRING(&_16$$6, "response");
-		ZEPHIR_CALL_METHOD(&response, &container, "getshared", NULL, 0, &_16$$6);
+		ZEPHIR_INIT_VAR(&_12$$6);
+		ZVAL_STRING(&_12$$6, "response");
+		ZEPHIR_CALL_METHOD(&response, &container, "getshared", NULL, 0, &_12$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &response, "setcookies", NULL, 0, this_ptr);
 		zephir_check_call_status();

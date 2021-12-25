@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Flash\Direct;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Flash\Direct;
 use UnitTester;
 

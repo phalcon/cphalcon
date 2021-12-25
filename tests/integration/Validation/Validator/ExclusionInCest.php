@@ -14,8 +14,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\ExclusionIn;
 
 class ExclusionInCest
 {
@@ -25,7 +25,7 @@ class ExclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function filterValidationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -73,7 +73,7 @@ class ExclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleFieldSingleDomain(IntegrationTester $I)
+    public function filterValidationValidatorMultipleFieldSingleDomain(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -128,7 +128,7 @@ class ExclusionInCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleFieldMultipleDomain(IntegrationTester $I)
+    public function filterValidationValidatorMultipleFieldMultipleDomain(IntegrationTester $I)
     {
         $validation         = new Validation();
         $validationMessages = [
@@ -187,7 +187,7 @@ class ExclusionInCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function validationValidatorCustomMessage(IntegrationTester $I)
+    public function filterValidationValidatorCustomMessage(IntegrationTester $I)
     {
         $validation = new Validation();
 

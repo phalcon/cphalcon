@@ -17,7 +17,7 @@ use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Messages\Message;
@@ -40,7 +40,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Validation\ValidationInterface;
+use Phalcon\Filter\Validation\ValidationInterface;
 use Serializable;
 
 /**
@@ -179,9 +179,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ODM"
-                )
+                "A dependency injection container is required to access the services related to the ODM"
             );
         }
 
@@ -1045,6 +1043,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
+            record->setDirtyState(self::DIRTY_STATE_TRANSIENT);
             let dirtyRelated[name] = record;
         }
 
@@ -1124,7 +1123,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Get the current connection use write to prevent replica lag
          * If the record already exists we must throw an exception
          */
-        if this->exists(metaData, this->getWriteConnection()) {
+        if this->has(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
@@ -1237,7 +1236,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if unlikely !fetch value, this->{attributeField} {
                 throw new Exception(
-                    "Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+                    "Cannot delete the record because the primary key attribute: '" . attributeField . "' was not set"
                 );
             }
 
@@ -1369,7 +1368,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * // encapsulate find it into an running transaction esp. useful for application unit-tests
      * // or complex business logic where we wanna control which transactions are used.
      *
-     * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction->begin();
      *
      * $newRobot = new Robot();
@@ -1406,9 +1405,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $myTransaction->rollback();
      *
      * // creating two different transactions
-     * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction1 = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction1->begin();
-     * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction2 = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction2->begin();
      *
      *  // add a new robots
@@ -1562,7 +1561,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo "The first virtual robot name is ", $robot->name;
      *
      * // behaviour with transaction
-     * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction->begin();
      *
      * $newRobot = new Robot();
@@ -2377,7 +2376,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We need to check if the record exists
              */
-            if unlikely !this->exists(metaData, readConnection) {
+            if unlikely !this->has(metaData, readConnection) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2517,7 +2516,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We need to check if the record exists
          */
-        let exists = this->exists(metaData, readConnection);
+        let exists = this->has(metaData, readConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -2676,9 +2675,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound(
-                        "the services related to the ODM"
-                    )
+                    "A dependency injection container is required to access the services related to the ODM"
                 );
             }
 
@@ -3200,7 +3197,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if this->dirtyState {
             let metaData = this->getModelsMetaData();
 
-            if !this->exists(metaData, this->getReadConnection()) {
+            if !this->has(metaData, this->getReadConnection()) {
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
@@ -4076,7 +4073,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return bool
      */
-    protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
+    protected function has(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var attributeField, bindDataTypes, columnMap, field, joinWhere, num,
@@ -4806,7 +4803,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
         var className, manager, type, relation, columns, referencedFields,
-            referencedModel, message, nesting, name, record;
+            message, nesting, name, record;
 
         let nesting = false;
 
@@ -4846,8 +4843,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     }
 
                     let columns = relation->getFields(),
-                        referencedModel = relation->getReferencedModel(),
                         referencedFields = relation->getReferencedFields();
+//                    let columns = relation->getFields(),
+//                        referencedModel = relation->getReferencedModel(),
+//                        referencedFields = relation->getReferencedFields();
 
                     if unlikely typeof columns == "array" {
                         connection->rollback(nesting);
@@ -5709,8 +5708,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
-     * use Phalcon\Validation\Validator\ExclusionIn;
+     * use Phalcon\Filter\Validation;
+     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
      * {
@@ -5767,8 +5766,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
-     * use Phalcon\Validation\Validator\ExclusionIn;
+     * use Phalcon\Filter\Validation;
+     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
      * {

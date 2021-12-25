@@ -20,27 +20,24 @@ use UnitTester;
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Dispatcher :: getEventsManager() / setEventsManager()
+     * Tests Phalcon\Dispatcher :: getEventsManager()/setEventsManager()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-17
      */
     public function dispatcherGetSetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getEventsManager() / setEventsManager()');
 
-        $oDispatcher = new Dispatcher();
-        $oManager    = new Manager();
+        $dispatcher = new Dispatcher();
+        $manager    = new Manager();
 
-        $oDispatcher->setEventsManager($oManager);
+        $dispatcher->setEventsManager($manager);
 
-        $oActual = $oDispatcher->getEventsManager();
+        $actual = $dispatcher->getEventsManager();
+        $I->assertEquals($manager, $actual);
 
-        $I->assertInstanceOf(
-            Manager::class,
-            $oActual
-        );
-
-        $I->assertEquals($oManager, $oActual);
+        $class  = Manager::class;
+        $I->assertInstanceOf($class, $actual);
     }
 }

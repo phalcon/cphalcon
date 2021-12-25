@@ -11,7 +11,7 @@
 namespace Phalcon\Support\Debug;
 
 use InvalidArgumentException; // @todo this will also be removed when traits are available
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Reflection;
 use ReflectionClass;
 use ReflectionProperty;

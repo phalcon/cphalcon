@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Url;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Url;
+use Phalcon\Filter\Validation\Validator\Url;
 
 /**
  * Class HasOptionCest
@@ -25,12 +25,12 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Url :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorUrlHasOption(IntegrationTester $I)
+    public function filterValidationValidatorUrlHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - hasOption()');
 

@@ -13,13 +13,13 @@ namespace Phalcon\Http;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException; // @todo this will also be removed when traits are available
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
-use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Di\InjectionAwareInterface;
@@ -143,7 +143,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'url' service")
+                    "A dependency injection container is required to access the 'url' service"
                 );
             }
 
@@ -180,10 +180,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = substr(
-            this->getHeaders()->get("Status"),
-            4
-        );
+        let statusReasonPhrase = substr(this->headers->get("Status"), 4);
 
         return statusReasonPhrase ? statusReasonPhrase : null;
     }
@@ -199,11 +196,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = substr(
-            this->getHeaders()->get("Status"),
-            0,
-            3
-        );
+        let statusCode = substr(this->headers->get("Status"), 0, 3);
 
         return statusCode ? (int) statusCode : null;
     }
@@ -319,11 +312,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function removeHeader(string name) -> <ResponseInterface>
     {
-        var headers;
-
-        let headers = this->getHeaders();
-
-        headers->remove(name);
+        this->headers->remove(name);
 
         return this;
     }
@@ -332,11 +321,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function resetHeaders() -> <ResponseInterface>
     {
-        var headers;
-
-        let headers = this->getHeaders();
-
-        headers->reset();
+        this->headers->reset();
 
         return this;
     }
@@ -397,12 +382,12 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function sendHeaders() -> <ResponseInterface> | boolean
     {
-        var headers, eventsManager;
+        var eventsManager, headers, result;
 
-        let headers = <HeadersInterface> this->getHeaders();
-        let eventsManager = <ManagerInterface> this->getEventsManager();
+        let headers       = this->headers,
+            eventsManager = this->eventsManager;
 
-        if typeof eventsManager == "object" {
+        if typeof eventsManager === "object" {
             if eventsManager->fire("response:beforeSendHeaders", this) === false {
                 return false;
             }
@@ -411,7 +396,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * Send headers
          */
-        if headers->send() && typeof eventsManager == "object" {
+        let result = headers->send();
+
+        if true === result && typeof eventsManager === "object" {
             eventsManager->fire("response:afterSendHeaders", this);
         }
 
@@ -431,16 +418,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         let date = new DateTime();
 
-        date->modify(
-            "+" . minutes . " minutes"
-        );
+        date->modify("+" . minutes . " minutes");
 
         this->setExpires(date);
-
-        this->setHeader(
-            "Cache-Control",
-            "max-age=" . (minutes * 60)
-        );
+        this->setHeader("Cache-Control", "max-age=" . (minutes * 60));
 
         return this;
     }
@@ -547,17 +528,12 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * All the expiration times are sent in UTC
          * Change the timezone to UTC
          */
-        date->setTimezone(
-            new DateTimeZone("UTC")
-        );
+        date->setTimezone(new DateTimeZone("UTC"));
 
         /**
          * The 'Expires' header set this info
          */
-        this->setHeader(
-            "Expires",
-            date->format("D, d M Y H:i:s") . " GMT"
-        );
+        this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
 
         return this;
     }
@@ -595,14 +571,17 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Transfer-Encoding: binary");
-            // According RFC2231 section-7, non-ASCII header param must add a extended one to indicate charset
+            // According RFC2231 section-7, non-ASCII header param must add a
+            // extended one to indicate charset
             if basePathEncoding != "ASCII" {
                 let basePath = rawurlencode(basePath);
                 this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
             } else {
-                // According RFC2045 section-5.1, header param value contains special chars must be as quoted-string
-                // Always quote value is accepted because the special chars is a large list
-                // According RFC822 appendix-D, CR "\" <"> must to be quoted in syntax rule of quoted-string
+                // According RFC2045 section-5.1, header param value contains
+                // special chars must be as quoted-string. Always quote value
+                // is accepted because the special chars is a large list.
+                // According RFC822 appendix-D, CR "\" <"> must to be quoted
+                // in syntax rule of quoted-string
                 let basePath = addcslashes(basePath, "\15\17\\\"");
                 this->setRawHeader("Content-Disposition: attachment; filename=\"" . basePath . "\"");
             }
@@ -622,11 +601,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setHeader(string name, value) -> <ResponseInterface>
     {
-        var headers;
-
-        let headers = this->getHeaders();
-
-        headers->set(name, value);
+        this->headers->set(name, value);
 
         return this;
     }
@@ -636,16 +611,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setHeaders(<HeadersInterface> headers) -> <ResponseInterface>
     {
-        var data, existing, name, value;
+        var data, name, value;
 
-        let data = headers->toArray(),
-            existing = this->getHeaders();
+        let data = headers->toArray();
 
         for name, value in data {
-            existing->set(name, value);
+            this->headers->set(name, value);
         }
-
-        let this->headers = existing;
 
         return this;
     }
@@ -690,17 +662,12 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * All the Last-Modified times are sent in UTC
          * Change the timezone to UTC
          */
-        date->setTimezone(
-            new DateTimeZone("UTC")
-        );
+        date->setTimezone(new DateTimeZone("UTC"));
 
         /**
          * The 'Last-Modified' header sets this info
          */
-        this->setHeader(
-            "Last-Modified",
-            date->format("D, d M Y H:i:s") . " GMT"
-        );
+        this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
 
         return this;
     }
@@ -724,10 +691,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setStatusCode(int code, string message = null) -> <ResponseInterface>
     {
-        var headers, currentHeadersRaw, key, statusCodes, defaultMessage;
+        var currentHeadersRaw, key, statusCodes, defaultMessage;
 
-        let headers = this->getHeaders(),
-            currentHeadersRaw = headers->toArray();
+        let currentHeadersRaw = this->headers->toArray();
 
         /**
          * We use HTTP/1.1 instead of HTTP/1.0
@@ -736,7 +702,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         for key, _ in currentHeadersRaw {
             if typeof key == "string" && strstr(key, "HTTP/") {
-                headers->remove(key);
+                this->headers->remove(key);
             }
         }
 
@@ -853,18 +819,15 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             }
 
             let defaultMessage = statusCodes[code],
-                message = defaultMessage;
+                message        = defaultMessage;
         }
 
-        headers->setRaw("HTTP/1.1 " . code . " " . message);
+        this->headers->setRaw("HTTP/1.1 " . code . " " . message);
 
         /**
          * We also define a 'Status' header with the HTTP status
          */
-        headers->set(
-            "Status",
-            code . " " . message
-        );
+        this->headers->set("Status", code . " " . message);
 
         return this;
     }
@@ -878,11 +841,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setRawHeader(string header) -> <ResponseInterface>
     {
-        var headers;
-
-        let headers = this->getHeaders();
-
-        headers->setRaw(header);
+        this->headers->setRaw(header);
 
         return this;
     }
@@ -892,15 +851,16 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     private function getBasename(string! uri, var suffix = null) -> string
     {
-	var filename, matches;
+	    var filename, matches;
+
         let uri = rtrim(uri, DIRECTORY_SEPARATOR);
         let filename = preg_match(
-		"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
-		uri,
-		matches
-        ) ? matches[0] : "";
+		        "@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
+		        uri,
+		        matches
+            ) ? matches[0] : "";
         if suffix {
-		let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
+		    let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
         }
 
         return filename;

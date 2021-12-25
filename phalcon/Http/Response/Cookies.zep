@@ -27,7 +27,7 @@ use Phalcon\Http\Cookie\CookieInterface;
  * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Encryption\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *
@@ -307,9 +307,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound(
-                        "the 'response' service"
-                    )
+                    "A dependency injection container is required to access the 'response' service"
                 );
             }
 

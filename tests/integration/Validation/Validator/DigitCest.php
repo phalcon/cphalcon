@@ -13,8 +13,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Digit;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Digit;
 
 class DigitCest
 {
@@ -24,7 +24,7 @@ class DigitCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function filterValidationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -64,7 +64,7 @@ class DigitCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorMultipleField(IntegrationTester $I)
     {
         $validation = new Validation();
 
@@ -140,7 +140,7 @@ class DigitCest
     /**
      * @dataProvider shouldValidateIntOrStringOfDigitsProvider
      */
-    public function validationValidatorShouldValidateIntOrStringOfDigits(IntegrationTester $I, Example $example)
+    public function filterValidationValidatorShouldValidateIntOrStringOfDigits(IntegrationTester $I, Example $example)
     {
         $digit = $example[0];
 

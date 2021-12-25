@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Identical :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIdenticalValidate(IntegrationTester $I)
+    public function filterValidationValidatorIdenticalValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - validate()');
 

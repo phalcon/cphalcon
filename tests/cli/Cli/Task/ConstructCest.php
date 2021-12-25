@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Cli\Cli\Task;
 use CliTester;
 use Phalcon\Cli\Task;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 use Phalcon\Tests\Fixtures\Tasks\EchoTask;
 use Phalcon\Tests\Fixtures\Tasks\MainTask;
 use Phalcon\Tests\Fixtures\Tasks\OnConstructTask;

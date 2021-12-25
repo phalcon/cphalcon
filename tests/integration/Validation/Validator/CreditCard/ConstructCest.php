@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\CreditCard;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation\Validator\CreditCard;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCreditCardConstruct(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - __construct()');
 

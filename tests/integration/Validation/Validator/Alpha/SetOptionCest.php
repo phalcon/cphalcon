@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Alpha;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation\Validator\Alpha;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorAlphaSetOption(IntegrationTester $I)
+    public function filterValidationValidatorAlphaSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - setOption()');
 

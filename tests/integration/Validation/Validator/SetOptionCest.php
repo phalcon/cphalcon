@@ -21,12 +21,12 @@ use IntegrationTester;
 class SetOptionCest
 {
     /**
-     * Tests Phalcon\Validation\Validator :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorSetOption(IntegrationTester $I)
+    public function filterValidationValidatorSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator - setOption()');
         $I->skipTest('Need implementation');

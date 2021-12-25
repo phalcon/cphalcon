@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 use Phalcon\Di\FactoryDefault\Cli as Di;
-use SomeComponent;
-use SomeServiceProvider;
+use Phalcon\Tests\Fixtures\Di\SomeComponent;
+use Phalcon\Tests\Fixtures\Di\SomeServiceProvider;
 
 class RegisterCest
 {

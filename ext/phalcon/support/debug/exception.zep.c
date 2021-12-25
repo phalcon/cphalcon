@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Debug, Exception, phalcon, support_debug_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Debug, Exception, phalcon, support_debug_exception, zend_ce_exception, NULL, 0);
 
 	return SUCCESS;
 }

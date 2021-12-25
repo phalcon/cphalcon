@@ -20,7 +20,6 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -55,6 +54,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_AbstractElement)
 	 */
 	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("label"), ZEND_ACC_PROTECTED);
 	/**
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_forms_element_abstractelement_ce, SL("method"), "inputText", ZEND_ACC_PROTECTED);
+	/**
 	 * @var Messages
 	 */
 	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("messages"), ZEND_ACC_PROTECTED);
@@ -66,6 +69,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_AbstractElement)
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("options"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var TagFactory|null
+	 */
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("tagFactory"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
@@ -124,14 +131,14 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH);
 	zephir_get_strval(&name, &_0);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element/AbstractElement.zep", 84);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element/AbstractElement.zep", 94);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &attributes);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 9);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 8);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_1);
 	ZEPHIR_MM_RESTORE();
@@ -217,7 +224,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_validation_validatorinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_filter_validation_validatorinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -232,20 +239,23 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Validation\ValidatorInterface[] validators
- * @param bool                                     merge
+ * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
+ * @param bool                                            merge
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
-	zval *validators_param = NULL, *merge_param = NULL, _0$$3, _1$$3;
+	zval *validators_param = NULL, *merge_param = NULL, validator, *_1, _2, _0$$3;
 	zval validators;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validators);
+	ZVAL_UNDEF(&validator);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -266,13 +276,38 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 	}
 
 
-	if (merge) {
+	if (UNEXPECTED(!merge)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("validators"), PH_NOISY_CC | PH_READONLY);
-		zephir_fast_array_merge(&_0$$3, &_1$$3, &validators);
-		ZEPHIR_CPY_WRT(&validators, &_0$$3);
+		array_init(&_0$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &_0$$3);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &validators);
+	zephir_is_iterable(&validators, 0, "phalcon/Forms/Element/AbstractElement.zep", 160);
+	if (Z_TYPE_P(&validators) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _1)
+		{
+			ZEPHIR_INIT_NVAR(&validator);
+			ZVAL_COPY(&validator, _1);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_3, 0, &validator);
+			zephir_check_call_status();
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &validators, "rewind", NULL, 0);
+		zephir_check_call_status();
+		while (1) {
+			ZEPHIR_CALL_METHOD(&_2, &validators, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_2)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
+			zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_3, 0, &validator);
+				zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
+			zephir_check_call_status();
+		}
+	}
+	ZEPHIR_INIT_NVAR(&validator);
 	RETURN_THIS();
 }
 
@@ -311,16 +346,14 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, appendMessage)
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, clear)
 {
-	zval form, _0, name, value;
+	zval form, _0, name;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&form);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&value);
 
 
 	ZEPHIR_MM_GROW();
@@ -329,13 +362,8 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, clear)
 	ZEPHIR_CPY_WRT(&form, &_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&name, &_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("value"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&value, &_0);
 	if (Z_TYPE_P(&form) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(NULL, &form, "clear", NULL, 0, &name);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_1, 0, &name, &value);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
@@ -481,6 +509,18 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getName)
 }
 
 /**
+ * Returns the tagFactory; throws exception if not present
+ */
+PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getTagFactory)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "tagFactory");
+}
+
+/**
  * Returns the value of an option if present
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOption)
@@ -551,9 +591,8 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValidators)
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValue)
 {
-	zval name, _0, form, value, _1, _4$$5;
+	zval name, _0, form, value, _1$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -561,8 +600,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValue)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&form);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_1$$4);
 
 
 	ZEPHIR_MM_GROW();
@@ -578,15 +616,9 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValue)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 0, &name);
-	zephir_check_call_status();
-	if (zephir_is_true(&_1)) {
-		ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 0, &name);
-		zephir_check_call_status();
-	}
 	if (Z_TYPE_P(&value) == IS_NULL) {
-		zephir_read_property(&_4$$5, this_ptr, ZEND_STRL("value"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CPY_WRT(&value, &_4$$5);
+		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("value"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CPY_WRT(&value, &_1$$4);
 	}
 	RETURN_CCTOR(&value);
 }
@@ -612,24 +644,20 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, hasMessages)
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label)
 {
-	zend_bool _4;
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes_param = NULL, internalAttributes, label, name, code, _2, _3, _0$$3, _5$$5, _6$$6;
+	zval *attributes_param = NULL, code, internalAttributes, labelName, name, tagFactory, _0$$3;
 	zval attributes;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&attributes);
-	ZVAL_UNDEF(&internalAttributes);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&code);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&internalAttributes);
+	ZVAL_UNDEF(&labelName);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&tagFactory);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_6$$6);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -649,8 +677,10 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&internalAttributes, this_ptr, "getattributes", NULL, 0);
+	ZEPHIR_CALL_METHOD(&tagFactory, this_ptr, "getlocaltagfactory", NULL, 0);
 	zephir_check_call_status();
+	ZEPHIR_OBS_VAR(&internalAttributes);
+	zephir_read_property(&internalAttributes, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(&name);
 	if (!(zephir_array_isset_string_fetch(&name, &internalAttributes, SL("id"), 0))) {
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
@@ -659,105 +689,83 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label)
 	if (!(zephir_array_isset_string(&attributes, SL("for")))) {
 		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "<label");
-	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_1, 0, &_2, &attributes);
+	ZEPHIR_OBS_VAR(&labelName);
+	zephir_read_property(&labelName, this_ptr, ZEND_STRL("label"), PH_NOISY_CC);
+	_1 = zephir_is_true(&labelName);
+	if (!(_1)) {
+		_1 = zephir_is_numeric(&labelName);
+	}
+	if (!(_1)) {
+		ZEPHIR_CPY_WRT(&labelName, &name);
+	}
+	ZEPHIR_CALL_METHOD(&code, &tagFactory, "label", NULL, 0, &labelName, &attributes);
 	zephir_check_call_status();
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("label"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&label, &_3);
-	_4 = zephir_is_true(&label);
-	if (!(_4)) {
-		_4 = zephir_is_numeric(&label);
-	}
-	if (_4) {
-		ZEPHIR_INIT_VAR(&_5$$5);
-		ZEPHIR_CONCAT_SVS(&_5$$5, ">", &label, "</label>");
-		zephir_concat_self(&code, &_5$$5);
-	} else {
-		ZEPHIR_INIT_VAR(&_6$$6);
-		ZEPHIR_CONCAT_SVS(&_6$$6, ">", &name, "</label>");
-		zephir_concat_self(&code, &_6$$6);
-	}
 	RETURN_CCTOR(&code);
 }
 
 /**
- * Returns an array of prepared attributes for Phalcon\Tag helpers
- * according to the element parameters
+ * Renders the element widget returning HTML
  */
-PHP_METHOD(Phalcon_Forms_Element_AbstractElement, prepareAttributes)
+PHP_METHOD(Phalcon_Forms_Element_AbstractElement, render)
 {
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool useChecked;
-	zval *attributes_param = NULL, *useChecked_param = NULL, value, name, mergedAttributes, defaultAttributes, currentValue, _0, _1$$6, _2$$8;
+	zval *attributes_param = NULL, helper, merged, method, name, result, tagFactory, value, _0;
 	zval attributes;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&attributes);
-	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&helper);
+	ZVAL_UNDEF(&merged);
+	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&mergedAttributes);
-	ZVAL_UNDEF(&defaultAttributes);
-	ZVAL_UNDEF(&currentValue);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&tagFactory);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$6);
-	ZVAL_UNDEF(&_2$$8);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 2)
+	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
-		Z_PARAM_BOOL(useChecked)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &attributes_param, &useChecked_param);
+	zephir_fetch_params(1, 0, 1, &attributes_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!useChecked_param) {
-		useChecked = 0;
-	} else {
-		useChecked = zephir_get_boolval(useChecked_param);
-	}
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&name, &_0);
-	zephir_array_update_long(&attributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-	ZEPHIR_OBS_VAR(&defaultAttributes);
-	zephir_read_property(&defaultAttributes, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(&mergedAttributes);
-	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes);
 	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&value) != IS_NULL) {
-		if (useChecked) {
-			if (zephir_array_isset_string_fetch(&currentValue, &mergedAttributes, SL("value"), 1)) {
-				if (ZEPHIR_IS_EQUAL(&currentValue, &value)) {
-					ZEPHIR_INIT_VAR(&_1$$6);
-					ZVAL_STRING(&_1$$6, "checked");
-					zephir_array_update_string(&mergedAttributes, SL("checked"), &_1$$6, PH_COPY | PH_SEPARATE);
-				}
-			} else {
-				if (zephir_is_true(&value)) {
-					ZEPHIR_INIT_VAR(&_2$$8);
-					ZVAL_STRING(&_2$$8, "checked");
-					zephir_array_update_string(&mergedAttributes, SL("checked"), &_2$$8, PH_COPY | PH_SEPARATE);
-				}
-				zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
-			}
-		} else {
-			zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
-		}
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("method"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&method, &_0);
+	ZEPHIR_CALL_METHOD(&tagFactory, this_ptr, "getlocaltagfactory", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&helper, &tagFactory, "newinstance", NULL, 0, &method);
+	zephir_check_call_status();
+	if (zephir_array_isset_string(&attributes, SL("value"))) {
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch_string(&value, &attributes, SL("value"), PH_NOISY, "phalcon/Forms/Element/AbstractElement.zep", 388);
+		zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);
 	}
-	RETURN_CCTOR(&mergedAttributes);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&merged);
+	zephir_fast_array_merge(&merged, &_0, &attributes);
+	ZEPHIR_CALL_METHOD(&result, &helper, "__invoke", NULL, 0, &name, &value, &merged);
+	zephir_check_call_status();
+	zephir_cast_to_string(&_1, &result);
+	RETURN_CTOR(&_1);
 }
 
 /**
@@ -871,7 +879,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters)
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element/AbstractElement.zep", 465);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The filter needs to be an array or string", "phalcon/Forms/Element/AbstractElement.zep", 437);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("filters"), filters);
@@ -991,6 +999,30 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setName)
 }
 
 /**
+ * Sets the TagFactory
+ */
+PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setTagFactory)
+{
+	zval *tagFactory, tagFactory_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&tagFactory_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(tagFactory, phalcon_html_tagfactory_ce)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	zephir_fetch_params_without_memory_grow(1, 0, &tagFactory);
+
+
+	zephir_update_property_zval(this_ptr, ZEND_STRL("tagFactory"), tagFactory);
+	RETURN_THISW();
+}
+
+/**
  * Sets an option for the element
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOption)
@@ -1046,6 +1078,26 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOptions)
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	RETURN_THIS();
+}
+
+/**
+ * Returns the tagFactory; throws exception if not present
+ */
+PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getLocalTagFactory)
+{
+	zval _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+
+
+
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("tagFactory"), PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&_0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The TagFactory must be set for this element to render", "phalcon/Forms/Element/AbstractElement.zep", 523);
+		return;
+	}
+	RETURN_MEMBER(getThis(), "tagFactory");
 }
 
 zend_object *zephir_init_properties_Phalcon_Forms_Element_AbstractElement(zend_class_entry *class_type)

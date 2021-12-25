@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Split, __invoke)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, &collection);
 	zephir_array_fast_append(return_value, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 14, &collection);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 13, &collection);
 	zephir_check_call_status();
 	zephir_array_fast_append(return_value, &_1);
 	RETURN_MM();

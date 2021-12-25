@@ -1,3 +1,54 @@
+# [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-24)
+
+## Changed
+- Marked as deprecated:
+  - `Phalcon\Mvc\Model::existsBelongsTo()`
+  - `Phalcon\Mvc\Model::existsHasMany()`
+  - `Phalcon\Mvc\Model::existsHasOne()`
+  - `Phalcon\Mvc\Model::existsHasOneThrough()`
+  - `Phalcon\Mvc\Model::existsHasManyToMany()`
+  - `Phalcon\Translate\Adapter\Csv::exists()`
+  - `Phalcon\Translate\Adapter\Gettext::exists()`
+  - `Phalcon\Translate\Adapter\NativeArray::exists()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
+- Moved `Phalcon\Container` to `Phalcon\Container\Container` [#15796](https://github.com/phalcon/cphalcon/issues/15796)
+- Changed the `Phalcon\Support\Collection::get()` to return the default value if the key does not exist or the value is `null` to mirror the behavior of v3. [#15370](https://github.com/phalcon/cphalcon/issues/15370)
+- Moved `Phalcon\Registry` to `Phalcon\Support\Registry` [#15802](https://github.com/phalcon/cphalcon/issues/15802)
+- Moved `Phalcon\Url` to `Phalcon\Mvc\Url` [#15798](https://github.com/phalcon/cphalcon/issues/15798)
+- Moved `Phalcon\Loader` to `Phalcon\Autoload\Loader` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
+- Changes to `Phalcon\Autoload\Loader`:
+  - Renamed `registerClasses()` to `setClasses()`
+  - Renamed `registerDirectories()` to `setDirectories()`
+  - Renamed `registertExtensions()` to `setExtensions()`
+  - Renamed `registertFiles()` to `setFiles()`
+  - Renamed `registertNamespaces()` to `setNamespaces()` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
+- Moved `Phalcon\Di` to `Phalcon\Di\Di` [#15799](https://github.com/phalcon/cphalcon/issues/15799)
+- Removed references to `Phalcon\Tag` from the framework in favor of `Phalcon\Html\TagFactory` [#15801](https://github.com/phalcon/cphalcon/issues/15801)
+- `Phalcon\Forms\Form` requires a `Phalcon\Html\TagFactory` to be set before it can render elements [#15801](https://github.com/phalcon/cphalcon/issues/15801)
+- `Phalcon\Di\FactoryDefault` will now return a `Phalcon\Html\TagFactory` for the `tag` service [#15801](https://github.com/phalcon/cphalcon/issues/15801)
+
+## Fixed
+- `Phalcon\Logger\LoggerFactory::load()` to correctly use the key of the adapters array as the name of the adapter [#15831](https://github.com/phalcon/cphalcon/issues/15831)
+
+## Added
+- Added:
+    - `Phalcon\Mvc\Model::hasBelongsTo()`
+    - `Phalcon\Mvc\Model::hasHasMany()`
+    - `Phalcon\Mvc\Model::hasHasOne()`
+    - `Phalcon\Mvc\Model::hasHasOneThrough()`
+    - `Phalcon\Mvc\Model::hasHasManyToMany()`
+    - `Phalcon\Translate\Adapter\Csv::has()`
+    - `Phalcon\Translate\Adapter\Gettext::has()`
+    - `Phalcon\Translate\Adapter\NativeArray::has()` [#15785](https://github.com/phalcon/cphalcon/issues/15785)
+- Added `filter`, `camelize`, `dynamic` and `uncamelize` in `Phalcon\Support\HelperFactory` [#15805](https://github.com/phalcon/cphalcon/issues/15805)
+- Added `Phalcon\Autoload\Loader::getDebug()` to collect debugging information from the loader (enabled from the constructor) [#15797](https://github.com/phalcon/cphalcon/issues/15797)
+
+## Fixed
+- Fixed `Phalcon\Dispatcher\Dispatcher::setParams()` not updating local params during `dispatch()` loop [#15603](https://github.com/phalcon/cphalcon/issues/15603)
+- Fixed related records auto-save with `belongsTo()` relation [#15148](https://github.com/phalcon/cphalcon/issues/15148)
+
+## Removed
+- Removed `Phalcon\Exception`; replaced by `\Exception` [#15800](https://github.com/phalcon/cphalcon/issues/15800)
+
 # [5.0.0alpha7](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha7) (2021-11-16)
 
 ## Changed

@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Email :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Email :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorEmailValidate(IntegrationTester $I)
+    public function filterValidationValidatorEmailValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - validate()');
 

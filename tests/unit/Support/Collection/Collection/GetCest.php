@@ -26,7 +26,8 @@ class GetCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2021-12-01
+     * @issue  https://github.com/phalcon/cphalcon/issues/15370
      */
     public function supportCollectionGet(UnitTester $I)
     {
@@ -36,6 +37,8 @@ class GetCest
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
+            'seven' => '',
+            'eight' => null,
         ];
 
         $collection = new Collection($data);
@@ -58,6 +61,18 @@ class GetCest
 
         $actual = $collection->offsetGet('three');
         $I->assertEquals($expected, $actual);
+
+        $expected = 'two';
+        $actual   = $collection->get('one', 'fallback');
+        $I->assertEquals($expected, $actual);
+
+        $expected = '';
+        $actual   = $collection->get('seven', 'fallback');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'fallback';
+        $actual   = $collection->get('eight', 'fallback');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -68,7 +83,7 @@ class GetCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function helperArrGetCast(UnitTester $I, Example $example)
+    public function supportCollectionGetCast(UnitTester $I, Example $example)
     {
         $I->wantToTest('Support\Collection - get() - cast ' . $example[0]);
 

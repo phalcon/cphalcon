@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setFilter)
  *
  * @return AssetInterface
  */
-PHP_METHOD(Phalcon_Assets_Asset, setLocal)
+PHP_METHOD(Phalcon_Assets_Asset, setIsLocal)
 {
 	zval *flag_param = NULL, __$true, __$false;
 	zend_bool flag;
@@ -988,7 +988,7 @@ PHP_METHOD(Phalcon_Assets_Asset, throwException)
 	object_init_ex(&_0, phalcon_assets_exception_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVS(&_1, "Asset's content for '", &completePath, "' cannot be read");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 8, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 30, &_1);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 441);
 	ZEPHIR_MM_RESTORE();

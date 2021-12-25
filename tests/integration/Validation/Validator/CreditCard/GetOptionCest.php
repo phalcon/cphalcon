@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\CreditCard;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation\Validator\CreditCard;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorCreditCardGetOption(IntegrationTester $I)
+    public function filterValidationValidatorCreditCardGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - getOption()');
 

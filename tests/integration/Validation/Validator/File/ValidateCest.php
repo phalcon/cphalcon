@@ -21,12 +21,12 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\File :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\File :: validate()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileValidate(IntegrationTester $I)
+    public function filterValidationValidatorFileValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - validate()');
 

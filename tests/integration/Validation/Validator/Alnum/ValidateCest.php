@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator\Alnum;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Alnum;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: validate() - single field
+     * Tests Phalcon\Filter\Validation\Validator\Alnum :: validate() - single field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorAlnumValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorAlnumValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alnum - validate() - single field");
 
@@ -60,12 +60,12 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: validate() - multiple field
+     * Tests Phalcon\Filter\Validation\Validator\Alnum :: validate() - multiple field
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
-    public function validationValidatorAlnumValidateMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorAlnumValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alnum - validate() - multiple field");
 

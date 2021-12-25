@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_AbstractArr, toFilter)
 	if (_0) {
 		RETURN_CTOR(&collection);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 17, &collection, method);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 16, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

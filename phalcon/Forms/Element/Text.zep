@@ -10,7 +10,7 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
+use Phalcon\Forms\Exception;
 
 /**
  * Phalcon\Forms\Element\Text
@@ -19,13 +19,4 @@ use Phalcon\Tag;
  */
 class Text extends AbstractElement
 {
-    /**
-     * Renders the element widget
-     */
-    public function render(array attributes = []) -> string
-    {
-        return Tag::textField(
-            this->prepareAttributes(attributes)
-        );
-    }
 }

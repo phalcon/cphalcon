@@ -34,22 +34,13 @@ class GetHandlerClassCest
         $dispatcher = new Dispatcher();
 
         // test the handler name
-        $dispatcher->setNamespaceName(
-            $example[0]
-        );
+        $dispatcher->setNamespaceName($example[0]);
+        $dispatcher->setControllerName($example[1]);
+        $dispatcher->setHandlerSuffix($example[2]);
 
-        $dispatcher->setControllerName(
-            $example[1]
-        );
-
-        $dispatcher->setHandlerSuffix(
-            $example[2]
-        );
-
-        $I->assertEquals(
-            $example[3],
-            $dispatcher->getHandlerClass()
-        );
+        $expected = $example[3];
+        $actual   = $dispatcher->getHandlerClass();
+        $I->assertEquals($expected, $actual);
     }
 
     private function getTestCases(): array

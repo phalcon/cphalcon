@@ -55,10 +55,10 @@ class SetOptionCest
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}' .
                 '{% autoescape false %}{{ "hello" }}{% endautoescape %}' .
                 '{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= \$this->escaper->escapeHtml('hello') ?>" .
-                "<?= \$this->escaper->escapeHtml('hello') ?>" .
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?>" .
-                "<?= \$this->escaper->escapeHtml('hello') ?>",
+                "<?= \$this->escaper->html('hello') ?>" .
+                "<?= \$this->escaper->html('hello') ?>" .
+                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?>" .
+                "<?= \$this->escaper->html('hello') ?>",
             ],
         ];
     }

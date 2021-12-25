@@ -10,13 +10,14 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
-use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Support\Helper\Str\Friendly;
 
 /**
@@ -398,7 +399,7 @@ class Tag
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'escaper' service")
+                    "A dependency injection container is required to access the 'escaper' service"
                 );
             }
 
@@ -493,7 +494,7 @@ class Tag
 
             if unlikely typeof container != "object" {
                 throw new Exception(
-                    Exception::containerServiceNotFound("the 'url' service")
+                    "A dependency injection container is required to access the 'url' service"
                 );
             }
 

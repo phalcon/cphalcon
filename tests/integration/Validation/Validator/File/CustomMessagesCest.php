@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\File;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\File;
+use Phalcon\Filter\Validation\Validator\File;
 
 /**
  * Class CustomMessagesCest
@@ -25,12 +25,12 @@ class CustomMessagesCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\File :: customMessages[]
+     * Tests Phalcon\Filter\Validation\Validator\File :: customMessages[]
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileCustomMessages(IntegrationTester $I)
+    public function filterValidationValidatorFileCustomMessages(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - customMessages[]');
 

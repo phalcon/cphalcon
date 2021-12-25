@@ -74,8 +74,21 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
      * @param string $index
      *
      * @return bool
+     * @deprecated
      */
     public function exists(string! index) -> bool
+    {
+        return this->has(index);
+    }
+
+    /**
+     * Check whether is defined a translation key in the internal array
+     *
+     * @param string $index
+     *
+     * @return bool
+     */
+    public function has(string! index) -> bool
     {
         return isset this->translate[index];
     }

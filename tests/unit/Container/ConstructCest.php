@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container;
 
-use Phalcon\Container;
-use Phalcon\Di;
+use Phalcon\Container\Container;
+use Phalcon\Di\Di;
 use Psr\Container\ContainerInterface;
 use UnitTester;
 

@@ -17,7 +17,7 @@ use IntegrationTester;
 use Phalcon\Tests\Models\EntityWithGetter;
 use Phalcon\Tests\Models\EntityWithHook;
 use Phalcon\Tests\Models\EntityWithPublic;
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
 
 /**
  * Class GetValueByEntityCest
@@ -27,12 +27,12 @@ class GetValueByEntityCest
     public const NAME = 'John Doe';
 
     /**
-     * Tests Phalcon\Validation :: getValueByEntity()
+     * Tests Phalcon\Filter\Validation :: getValueByEntity()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
-    public function validationGetValueByEntityPublic(IntegrationTester $I): void
+    public function filterValidationGetValueByEntityPublic(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValueByEntity() - public property');
 
@@ -44,7 +44,7 @@ class GetValueByEntityCest
         $I->assertSame($entity->name, $value);
     }
 
-    public function validationGetValueByEntityGetter(IntegrationTester $I): void
+    public function filterValidationGetValueByEntityGetter(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValueByEntity() - getter');
 
@@ -56,7 +56,7 @@ class GetValueByEntityCest
         $I->assertSame($entity->getName(), $value);
     }
 
-    public function validationGetValueByEntityReadAttribute(IntegrationTester $I): void
+    public function filterValidationGetValueByEntityReadAttribute(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValueByEntity() - readAttribute');
 

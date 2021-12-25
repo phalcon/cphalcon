@@ -13,48 +13,138 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Encryption\Crypt;
-use Phalcon\Di;
+use Codeception\Example;
+use Phalcon\Di\Di;
+use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
+use Phalcon\Support\Collection;
 use UnitTester;
 
+/**
+ * Class SetCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class SetCest
 {
     /**
      * Unit Tests Phalcon\Di :: set()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-13
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @throws Exception
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-09
      */
-    public function diSet(UnitTester $I)
+    public function diSet(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Di - set()');
+        $I->wantToTest('Di - set() - ' . $example[0]);
 
-        $di = new Di();
+        $container = new Di();
 
         // set non shared service
-        $di->set('escaper', Escaper::class);
+        $container->set($example[1], $example[2]);
 
-        $actual = $di->get('escaper');
-        $I->assertInstanceOf(Escaper::class, $actual);
+        $class  = $example[3];
+        $actual = $container->get($example[1]);
+        $I->assertInstanceOf($class, $actual);
+    }
 
-        $actual = $di->getService('escaper');
-        $I->assertFalse($actual->isShared());
+    /**
+     * Unit Tests Phalcon\Di :: set() - shared
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
+     */
+    public function diSetShared(UnitTester $I)
+    {
+        $I->wantToTest('Di - set() - shared');
+
+        $container = new Di();
+
+        // set non shared service
+        $container->set('escaper', Escaper::class);
+
+        $class  = Escaper::class;
+        $actual = $container->get('escaper');
+        $I->assertInstanceOf($class, $actual);
+
+        $escaper = $container->getService('escaper');
+        $actual  = $escaper->isShared();
+        $I->assertFalse($actual);
 
         // set shared service
-        $di->set('crypt', Crypt::class, true);
+        $container->set('collection', Collection::class, true);
 
-        $actual = $di->get('crypt');
-        $I->assertInstanceOf(Crypt::class, $actual);
+        $class  = Collection::class;
+        $actual = $container->get('collection');
+        $I->assertInstanceOf($class, $actual);
 
-        $actual = $di->getService('crypt');
-        $I->assertTrue($actual->isShared());
+        $collection = $container->getService('collection');
+        $actual     = $collection->isShared();
+        $I->assertTrue($actual);
+    }
 
-        // testing closure
-        $returnValue = "Closure Test!";
-        $di->set('closure', function () use ($returnValue) {
-            return $returnValue;
-        });
-        $I->assertEquals($returnValue, $di->get('closure'));
+
+    /**
+     * Unit Tests Phalcon\Di :: set() - alias
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
+     */
+    public function diSetAlias(UnitTester $I)
+    {
+        $I->wantToTest('Di - set() - alias');
+
+        $container = new Di();
+        $escaper   = new Escaper();
+
+        $container->set('alias', Escaper::class);
+        $container->set(Escaper::class, $escaper);
+
+        $class  = Escaper::class;
+        $actual = $container->get('alias');
+        $I->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'string',
+                'escaper',
+                Escaper::class,
+                Escaper::class
+            ],
+            [
+                'anonymous',
+                'escaper',
+                function () {
+                    return new Escaper();
+                },
+                Escaper::class
+            ],
+            [
+                'array',
+                'escaper',
+                [
+                    'className' => Escaper::class,
+                ],
+                Escaper::class
+            ],
+        ];
     }
 }

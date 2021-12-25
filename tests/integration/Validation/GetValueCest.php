@@ -21,12 +21,12 @@ use IntegrationTester;
 class GetValueCest
 {
     /**
-     * Tests Phalcon\Validation :: getValue()
+     * Tests Phalcon\Filter\Validation :: getValue()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationGetValue(IntegrationTester $I)
+    public function filterValidationGetValue(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getValue()');
 

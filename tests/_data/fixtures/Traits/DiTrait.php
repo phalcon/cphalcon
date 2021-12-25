@@ -22,13 +22,14 @@ use Phalcon\Cli\Console;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
+use Phalcon\Html\TagFactory;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
@@ -43,7 +44,7 @@ use Phalcon\Session\Manager;
 use Phalcon\Storage\AdapterFactory as StorageAdapterFactory;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Url;
+use Phalcon\Mvc\Url;
 
 use function getOptionsLibmemcached;
 use function getOptionsModelCacheStream;
@@ -282,6 +283,17 @@ trait DiTrait
                     'session',
                     function () use ($class) {
                         return (new Manager())->setAdapter($class);
+                    }
+                );
+                break;
+
+            case 'tag':
+                $this->container->set(
+                    $service,
+                    function () {
+                        $escaper = $this->container->get("escaper");
+
+                        return new TagFactory($escaper);
                     }
                 );
                 break;

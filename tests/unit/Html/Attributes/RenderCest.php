@@ -45,9 +45,8 @@ class RenderCest
             ]
         );
 
-        $I->assertEquals(
-            ' type="text" name="q" value="" class="form-control"',
-            $attributes->render()
-        );
+        $expected = 'type="text" name="q" value="" class="form-control" ';
+        $actual   = $attributes->render();
+        $I->assertSame($expected, $actual);
     }
 }

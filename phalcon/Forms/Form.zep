@@ -18,10 +18,11 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
+use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Validation;
-use Phalcon\Validation\ValidationInterface;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface
@@ -72,6 +73,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @var array
      */
     protected options = [];
+
+    /**
+     * @var TagFactory|null
+     */
+    protected tagFactory = null;
 
     /**
      * @var ValidationInterface|null
@@ -129,6 +135,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
          * Link the element to the form
          */
         element->setForm(this);
+        if method_exists(element, "setTagFactory") && this->tagFactory !== null {
+            element->{"setTagFactory"}(this->tagFactory);
+        }
 
         if position == null || empty this->elements {
             /**
@@ -276,10 +285,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let data = [];
 
             for element in elements {
-                Tag::setDefault(
-                    element->getName(),
-                    element->getDefault()
-                );
+                element->clear();
             }
         } else {
             if typeof fields != "array" {
@@ -292,10 +298,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 if fetch element, elements[field] {
-                    Tag::setDefault(
-                        element->getName(),
-                        element->getDefault()
-                    );
+                    element->clear();
                 }
             }
         }
@@ -382,6 +385,27 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Gets a value from the internal filtered data or calls getValue(name)
+     */
+    public function getFilteredValue(string! name) -> var | null
+    {
+        var filteredData, value;
+
+        let filteredData = this->filteredData;
+
+        if typeof filteredData == "array" {
+            /**
+             * Check if the data is in the data array
+             */
+            if fetch value, filteredData[name] {
+                return value;
+            }
+        }
+
+        return this->getValue(name);
+    }
+
+    /**
      * Returns a label for an element
      */
     public function getLabel(string! name) -> string
@@ -445,6 +469,14 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * Returns the tagFactory object
+     */
+    public function getTagFactory() -> <TagFactory> | null
+    {
+        return this->tagFactory;
+    }
+
+    /**
      * Returns the value of an option if present
      */
     public function getUserOption(string option, var defaultValue = null) -> var
@@ -464,27 +496,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function getUserOptions() -> array
     {
         return this->options;
-    }
-
-    /**
-     * Gets a value from the internal filtered data or calls getValue(name)
-     */
-    public function getFilteredValue(string! name) -> var | null
-    {
-        var filteredData, value;
-
-        let filteredData = this->filteredData;
-
-        if typeof filteredData == "array" {
-            /**
-             * Check if the data is in the data array
-             */
-            if fetch value, filteredData[name] {
-                return value;
-            }
-        }
-
-        return this->getValue(name);
     }
 
     /**
@@ -545,6 +556,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             "label":         true,
             "value":         true,
             "di":            true,
+            "tagFactory":    true,
             "eventsmanager": true
         ];
 
@@ -562,13 +574,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let method = "get" . camelize(name);
         if method_exists(this, method) {
             return this->{method}();
-        }
-
-        /**
-         * Check if the tag has a default value
-         */
-        if Tag::hasValue(name) {
-            return Tag::getValue(name);
         }
 
         /**
@@ -815,6 +820,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
+    }
+
+    /**
      * Sets the entity related to the model
      *
      * @param object entity
@@ -822,6 +837,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
+        return this;
+    }
+
+    /**
+     * Sets the tagFactory for the form
+     */
+    public function setTagFactory(<TagFactory> tagFactory) -> <Form>
+    {
+        let this->tagFactory = tagFactory;
 
         return this;
     }
@@ -846,16 +871,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function setWhitelist(array whitelist) -> <Form>
     {
         let this->whitelist = whitelist;
-
-        return this;
-    }
-
-    /**
-    * Set form attributes collection
-    */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
-    {
-        let this->attributes = attributes;
 
         return this;
     }

@@ -201,7 +201,7 @@ class Session extends AbstractFlash
         }
 
         throw new Exception(
-            Exception::containerServiceNotFound("the 'session' service")
+            "A dependency injection container is required to access the 'session' service"
         );
     }
 }

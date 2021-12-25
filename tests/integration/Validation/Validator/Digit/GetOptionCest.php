@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Digit;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Digit;
+use Phalcon\Filter\Validation\Validator\Digit;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Digit :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Digit :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDigitGetOption(IntegrationTester $I)
+    public function filterValidationValidatorDigitGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - getOption()');
 

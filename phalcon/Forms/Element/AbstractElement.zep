@@ -11,12 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use InvalidArgumentException;
+use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Exception;
+use Phalcon\Html\TagFactory;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\Tag;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * This is a base class for form elements
@@ -44,6 +44,11 @@ abstract class AbstractElement implements ElementInterface
     protected label = null;
 
     /**
+     * @var string
+     */
+    protected method = "inputText";
+
+    /**
      * @var Messages
      */
     protected messages;
@@ -57,6 +62,11 @@ abstract class AbstractElement implements ElementInterface
      * @var array
      */
     protected options = [];
+
+    /**
+     * @var TagFactory|null
+     */
+    protected tagFactory = null;
 
     /**
      * @var array
@@ -84,9 +94,9 @@ abstract class AbstractElement implements ElementInterface
             );
         }
 
-        let this->name = name;
-        let this->attributes = attributes;
-        let this->messages = new Messages();
+        let this->name       = name,
+            this->attributes = attributes,
+            this->messages   = new Messages();
     }
 
     /**
@@ -132,19 +142,20 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Adds a group of validators
      *
-     * @param \Phalcon\Validation\ValidatorInterface[] validators
-     * @param bool                                     merge
+     * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
+     * @param bool                                            merge
      */
     public function addValidators(array! validators, bool merge = true) -> <ElementInterface>
     {
-        if merge {
-            let validators = array_merge(
-                this->validators,
-                validators
-            );
+        var validator;
+
+        if unlikely !merge {
+            let this->validators = [];
         }
 
-        let this->validators = validators;
+        for validator in validators {
+            this->addValidator(validator);
+        }
 
         return this;
     }
@@ -165,13 +176,10 @@ abstract class AbstractElement implements ElementInterface
     public function clear() -> <ElementInterface>
     {
         var form  = this->form,
-            name  = this->name,
-            value = this->value;
+            name  = this->name;
 
         if typeof form == "object" {
             form->clear(name);
-        } else {
-            Tag::setDefault(name, value);
         }
 
         return this;
@@ -257,6 +265,14 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
+     * Returns the tagFactory; throws exception if not present
+     */
+    public function getTagFactory() -> <TagFactory> | null
+    {
+        return this->tagFactory;
+    }
+
+    /**
      * Returns the value of an option if present
      */
     public function getUserOption(string option, var defaultValue = null) -> var
@@ -303,15 +319,7 @@ abstract class AbstractElement implements ElementInterface
         }
 
         /**
-         * Otherwise check Phalcon\Tag
-         */
-        if Tag::hasValue(name) {
-            let value = Tag::getValue(name);
-        }
-
-        /**
-         * Assign the default value if there is no form available or
-         * Phalcon\Tag returns null
+         * Assign the default value if there is no form available
          */
         if value === null {
             let value = this->value;
@@ -333,12 +341,13 @@ abstract class AbstractElement implements ElementInterface
      */
     public function label(array attributes = []) -> string
     {
-        var internalAttributes, label, name, code;
+        var code, internalAttributes, labelName, name, tagFactory;
 
         /**
          * Check if there is an "id" attribute defined
          */
-        let internalAttributes = this->getAttributes();
+        let tagFactory         = this->getLocalTagFactory(),
+            internalAttributes = this->attributes;
 
         if !fetch name, internalAttributes["id"] {
             let name = this->name;
@@ -348,79 +357,42 @@ abstract class AbstractElement implements ElementInterface
             let attributes["for"] = name;
         }
 
-        let code = Tag::renderAttributes("<label", attributes);
-
         /**
          * Use the default label or leave the same name as label
          */
-        let label = this->label;
+        let labelName = this->label;
 
-        if label || is_numeric(label) {
-            let code .= ">" . label . "</label>";
-        } else {
-            let code .= ">" . name . "</label>";
+        if !(labelName || is_numeric(labelName)) {
+            let labelName = name;
         }
+
+        let code = tagFactory->{"label"}(labelName, attributes);
 
         return code;
     }
 
     /**
-     * Returns an array of prepared attributes for Phalcon\Tag helpers
-     * according to the element parameters
+     * Renders the element widget returning HTML
      */
-    public function prepareAttributes(array attributes = [], bool useChecked = false) -> array
+    public function render(array attributes = []) -> string
     {
-        var value, name, mergedAttributes, defaultAttributes, currentValue;
+        var helper, merged, method, name, result, tagFactory, value;
 
-        let name = this->name;
+        let name       = this->name,
+            value      = this->getValue(),
+            method     = this->method,
+            tagFactory = this->getLocalTagFactory(),
+            helper     = tagFactory->newInstance(method);
 
-        let attributes[0] = name;
-
-        /**
-         * Merge passed parameters with default ones
-         */
-        let defaultAttributes = this->attributes;
-
-        let mergedAttributes = array_merge(
-            defaultAttributes,
-            attributes
-        );
-
-        /**
-         * Get the current element value
-         */
-        let value = this->getValue();
-
-        /**
-         * If the widget has a value set it as default value
-         */
-        if value !== null {
-            if useChecked {
-                /**
-                 * Check if the element already has a default value, compare it
-                 * with the one in the attributes, if they are the same mark the
-                 * element as checked
-                 */
-                if fetch currentValue, mergedAttributes["value"] {
-                    if currentValue == value {
-                        let mergedAttributes["checked"] = "checked";
-                    }
-                } else {
-                    /**
-                     * Evaluate the current value and mark the check as checked
-                     */
-                    if value {
-                        let mergedAttributes["checked"] = "checked";
-                    }
-
-                    let mergedAttributes["value"] = value;
-                }
-            } else {
-                let mergedAttributes["value"] = value;
-            }
+        if isset attributes["value"] {
+            let value = attributes["value"];
+            unset attributes["value"];
         }
 
-        return mergedAttributes;
+        let merged = array_merge(this->attributes, attributes),
+            result = helper->__invoke(name, value, merged);
+
+        return (string) result;
     }
 
     /**
@@ -462,7 +434,7 @@ abstract class AbstractElement implements ElementInterface
     public function setFilters(var filters) -> <ElementInterface>
     {
         if unlikely (typeof filters != "string" && typeof filters != "array") {
-            throw new Exception("Wrong filter type added");
+            throw new Exception("The filter needs to be an array or string");
         }
 
         let this->filters = filters;
@@ -511,6 +483,16 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
+     * Sets the TagFactory
+     */
+    public function setTagFactory(<TagFactory> tagFactory) -> <AbstractElement>
+    {
+        let this->tagFactory = tagFactory;
+
+        return this;
+    }
+
+    /**
      * Sets an option for the element
      */
     public function setUserOption(string option, var value) -> <ElementInterface>
@@ -528,5 +510,19 @@ abstract class AbstractElement implements ElementInterface
         let this->options = options;
 
         return this;
+    }
+
+    /**
+     * Returns the tagFactory; throws exception if not present
+     */
+    protected function getLocalTagFactory() -> <TagFactory>
+    {
+        if unlikely empty this->tagFactory {
+            throw new Exception(
+                "The TagFactory must be set for this element to render"
+            );
+        }
+
+        return this->tagFactory;
     }
 }

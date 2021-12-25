@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\Validator;
 
 use IntegrationTester;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 /**
  * Class ConstructCest
@@ -22,21 +22,21 @@ use Phalcon\Validation\Validator\PresenceOf;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Validation\Validator :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorConstruct(IntegrationTester $I)
+    public function filterValidationValidatorConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator - __construct()');
         $I->skipTest('Need implementation');
     }
 
     /**
-     * Tests Phalcon\Validation\Validator :: __construct() with message option
+     * Tests Phalcon\Filter\Validation\Validator :: __construct() with message option
      */
-    public function validationValidatorConstructWithMessage(IntegrationTester $I)
+    public function filterValidationValidatorConstructWithMessage(IntegrationTester $I)
     {
         $validator_default = new PresenceOf(); // default message
         $validator_custom = new PresenceOf(['message' => 'Custom message']); // custom message

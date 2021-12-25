@@ -44,7 +44,7 @@ abstract class AbstractFactory extends AbstractConfigFactory
     }
 
     /**
-     * AdapterFactory constructor.
+     * Initialize services/add new services
      */
     protected function init(array! services = []) -> void
     {

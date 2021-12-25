@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Crypt\Padding;
+namespace Phalcon\Tests\Unit\Encryption\Crypt\Padding;
 
 use Phalcon\Encryption\Crypt\Padding\Zero;
 use UnitTester;

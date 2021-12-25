@@ -100,31 +100,6 @@ interface ManagerInterface
     public function executeQuery(string! phql, var placeholders = null, var types = null) -> var;
 
     /**
-     * Checks whether a model has a belongsTo relation with another model
-     */
-    public function existsBelongsTo(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Checks whether a model has a hasMany relation with another model
-     */
-    public function existsHasMany(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Checks whether a model has a hasOne relation with another model
-     */
-    public function existsHasOne(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Checks whether a model has a hasOneThrough relation with another model
-     */
-    public function existsHasOneThrough(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Checks whether a model has a hasManyToMany relation with another model
-     */
-    public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool;
-
-    /**
      * Gets belongsTo relations defined on a model
      */
     public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array;
@@ -253,6 +228,31 @@ interface ManagerInterface
      * Returns the connection service name used to write data related to a model
      */
     public function getWriteConnectionService(<ModelInterface> model) -> string;
+
+    /**
+     * Checks whether a model has a belongsTo relation with another model
+     */
+    public function hasBelongsTo(string! modelName, string! modelRelation) -> bool;
+
+    /**
+     * Checks whether a model has a hasMany relation with another model
+     */
+    public function hasHasMany(string! modelName, string! modelRelation) -> bool;
+
+    /**
+     * Checks whether a model has a hasOne relation with another model
+     */
+    public function hasHasOne(string! modelName, string! modelRelation) -> bool;
+
+    /**
+     * Checks whether a model has a hasOneThrough relation with another model
+     */
+    public function hasHasOneThrough(string! modelName, string! modelRelation) -> bool;
+
+    /**
+     * Checks whether a model has a hasManyToMany relation with another model
+     */
+    public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool;
 
     /**
      * Loads a model throwing an exception if it doesn't exist

@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 
 class ConstructCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxConstruct(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthMaxConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - __construct()');
 

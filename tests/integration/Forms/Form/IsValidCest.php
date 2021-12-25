@@ -21,30 +21,12 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Tests\Fixtures\Forms\ValidationForm;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\Regex;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\Regex;
 
 class IsValidCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newDi();
-        $this->setDiService('escaper');
-        $this->setDiService('url');
-    }
-
-    /**
-     * executed after each test
-     */
-    public function _after(IntegrationTester $I)
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
-    }
-
     /**
      * Tests Form::isValid()
      *

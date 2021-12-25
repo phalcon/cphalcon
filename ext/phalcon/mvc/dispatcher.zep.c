@@ -35,7 +35,7 @@
  * controller.
  *
  *```php
- * $di = new \Phalcon\Di();
+ * $di = new \Phalcon\Di\Di();
  *
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
  *
@@ -403,9 +403,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, handleException)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, container, response, exception, _0, _6, _7, _1$$3, _2$$3, _4$$3, _5$$3;
+	zval *message_param = NULL, *exceptionCode_param = NULL, container, response, exception, _0, _4, _5, _1$$3, _2$$3, _3$$3;
 	zval message;
 	zval *this_ptr = getThis();
 
@@ -414,12 +413,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	ZVAL_UNDEF(&response);
 	ZVAL_UNDEF(&exception);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_3$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -453,35 +451,33 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_dispatcher_exception_ce);
-		ZEPHIR_INIT_VAR(&_4$$3);
-		ZVAL_STRING(&_4$$3, "the 'response' service");
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_dispatcher_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
-		zephir_check_call_status();
-		ZVAL_LONG(&_5$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3, &_5$$3);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "A dependency injection container is required to access the 'response' service");
+		ZVAL_LONG(&_3$$3, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 228);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(&_7);
-	ZVAL_STRING(&_7, "response");
-	ZEPHIR_CALL_METHOD(&_6, &container, "getshared", NULL, 0, &_7);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "response");
+	ZEPHIR_CALL_METHOD(&_4, &container, "getshared", NULL, 0, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&response, &_6);
+	ZEPHIR_CPY_WRT(&response, &_4);
 	ZVAL_LONG(&_0, 404);
-	ZEPHIR_INIT_NVAR(&_7);
-	ZVAL_STRING(&_7, "Not Found");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setstatuscode", NULL, 0, &_0, &_7);
+	ZEPHIR_INIT_NVAR(&_5);
+	ZVAL_STRING(&_5, "Not Found");
+	ZEPHIR_CALL_METHOD(NULL, &response, "setstatuscode", NULL, 0, &_0, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_mvc_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 8, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 30, &message, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "handleexception", NULL, 0, &exception);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&_6)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_4)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 250);

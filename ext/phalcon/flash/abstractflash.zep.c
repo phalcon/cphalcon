@@ -269,9 +269,8 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, error)
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService)
 {
 	zend_bool _2;
-	zval _0, _1, _3, _4, _5, _9, _11, _6$$4, _7$$4, _8$$4;
+	zval _0, _1, _3, _4, _5, _6$$4, _7$$4, _8$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -280,8 +279,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
@@ -312,16 +309,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("escaperService"), &_7$$4);
 		RETURN_MM_MEMBER(getThis(), "escaperService");
 	}
-	ZEPHIR_INIT_NVAR(&_5);
-	object_init_ex(&_5, phalcon_flash_exception_ce);
-	ZEPHIR_INIT_VAR(&_11);
-	ZVAL_STRING(&_11, "the 'escaper' service");
-	ZEPHIR_CALL_CE_STATIC(&_9, phalcon_flash_exception_ce, "containerservicenotfound", &_10, 0, &_11);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 8, &_9);
-	zephir_check_call_status();
-	zephir_throw_exception_debug(&_5, "phalcon/Flash/AbstractFlash.zep", 154);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'escaper' service", "phalcon/Flash/AbstractFlash.zep", 154);
 	return;
 }
 

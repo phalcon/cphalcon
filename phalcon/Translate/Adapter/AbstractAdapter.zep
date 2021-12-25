@@ -63,7 +63,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function _(string! translateKey, array placeholders = []) -> string
     {
-        return this->{"query"}(translateKey, placeholders);
+        return this->query(translateKey, placeholders);
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function offsetExists(var translateKey) -> bool
     {
-        return this->{"exists"}(translateKey);
+        return this->has(translateKey);
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function offsetGet(var translateKey) -> var
     {
-        return this->{"query"}(translateKey);
+        return this->query(translateKey);
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function t(string! translateKey, array placeholders = []) -> string
     {
-        return this->{"query"}(translateKey, placeholders);
+        return this->query(translateKey, placeholders);
     }
 
     /**

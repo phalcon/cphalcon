@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Validation\Validator\StringLength;
 
-use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\StringLength;
 use IntegrationTester;
 
 class GetValidatorsCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: getValidators()
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: getValidators()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthGetValidators(IntegrationTester $I)
+    public function filterValidationValidatorStringLengthGetValidators(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - getValidators()');
 

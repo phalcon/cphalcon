@@ -41,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidator);
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Validation\ValidatorInterface[] validators
+ * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
  * @param bool merge
  *
  * @return ElementInterface
@@ -114,11 +114,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, hasMessages);
  * Generate the HTML to label the element
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, label);
-/**
- * Returns an array of prepared attributes for Phalcon\Tag helpers
- * according to the element's parameters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, prepareAttributes);
 /**
  * Renders the element widget
  */

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Alpha;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation\Validator\Alpha;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alpha :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorAlphaConstruct(IntegrationTester $I)
+    public function filterValidationValidatorAlphaConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - __construct()');
 

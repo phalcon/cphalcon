@@ -113,7 +113,7 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testBeforeDispatchLoopBaselinePrePhalcon40MultipleReturnFalseMixed(IntegrationTester $I)
+    public function testBeforeDispatchLoopBaselinePrePhalcon50MultipleReturnFalseMixed(IntegrationTester $I)
     {
         $dispatcher = $this->getDispatcher();
 
@@ -173,7 +173,7 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testBeforeDispatchLoopBaselinePrePhalcon40MultipleReturnFalse(IntegrationTester $I)
+    public function testBeforeDispatchLoopBaselinePrePhalcon50MultipleReturnFalse(IntegrationTester $I)
     {
         $dispatcher = $this->getDispatcher();
 

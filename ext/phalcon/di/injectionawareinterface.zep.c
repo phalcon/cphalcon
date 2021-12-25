@@ -22,7 +22,7 @@
  */
 /**
  * This interface must be implemented in those classes that uses internally the
- * Phalcon\Di that creates them
+ * Phalcon\Di\Di that creates them
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_InjectionAwareInterface)
 {

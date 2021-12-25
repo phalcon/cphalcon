@@ -21,12 +21,12 @@ use IntegrationTester;
 class SetDefaultMessagesCest
 {
     /**
-     * Tests Phalcon\Validation :: setDefaultMessages()
+     * Tests Phalcon\Filter\Validation :: setDefaultMessages()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function validationSetDefaultMessages(IntegrationTester $I)
+    public function filterValidationSetDefaultMessages(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setDefaultMessages()');
 

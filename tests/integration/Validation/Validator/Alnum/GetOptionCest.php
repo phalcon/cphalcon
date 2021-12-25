@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Alnum;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation\Validator\Alnum;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\Alnum :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorAlnumGetOption(IntegrationTester $I)
+    public function filterValidationValidatorAlnumGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - getOption()');
 

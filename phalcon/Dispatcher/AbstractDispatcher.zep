@@ -175,16 +175,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         bool hasService, hasEventsManager;
         int numberDispatches;
         var value, handler, container, namespaceName, handlerName, actionName,
-            params, eventsManager, handlerClass, status, actionMethod,
+            eventsManager, handlerClass, status, actionMethod,
             modelBinder, bindCacheKey, isNewHandler, handlerHash, e;
 
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound(
-                    "related dispatching services"
-                ),
+                "A dependency injection container is required to access related dispatching services",
                 PhalconException::EXCEPTION_NO_DI
             );
 
@@ -332,12 +330,11 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let namespaceName = this->namespaceName;
             let handlerName = this->handlerName;
             let actionName = this->actionName;
-            let params = this->params;
 
             /**
              * Check if the params is an array
              */
-            if unlikely typeof params != "array" {
+            if unlikely typeof this->params != "array" {
                 /**
                  * An invalid parameter variable was passed throw an exception
                  */
@@ -498,9 +495,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 let modelBinder = this->modelBinder;
                 let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
 
-                let params = modelBinder->bindToHandler(
+                let this->params = modelBinder->bindToHandler(
                     handler,
-                    params,
+                    this->params,
                     bindCacheKey,
                     actionMethod
                 );
@@ -550,7 +547,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 let this->returnedValue = this->callActionMethod(
                     handler,
                     actionMethod,
-                    params
+                    this->params
                 );
 
                 if this->finished === false {
@@ -647,7 +644,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * );
      * ```
      *
-     * @throws \Phalcon\Exception
+     * @throws PhalconException
      */
     public function forward(array forward) -> void
     {
@@ -836,9 +833,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
         if typeof container != "object" {
             this->{"throwDispatchException"}(
-                PhalconException::containerServiceNotFound(
-                    "the 'filter' service"
-                ),
+                "A dependency injection container is required to access the 'filter' service",
                 PhalconException::EXCEPTION_NO_DI
             );
         }

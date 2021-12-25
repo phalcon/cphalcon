@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation\ValidatorFactory;
 
 use IntegrationTester;
-use Phalcon\Validation\Validator\Alnum;
-use Phalcon\Validation\ValidatorFactory;
+use Phalcon\Filter\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation\ValidatorFactory;
 
 class NewInstanceCest
 {
     /**
-     * Tests Phalcon\Validation\ValidatorFactory :: newInstance()
+     * Tests Phalcon\Filter\Validation\ValidatorFactory :: newInstance()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
-    public function imageValidatorFactoryNewInstance(IntegrationTester $I)
+    public function filterValidationValidatorFactoryNewInstance(IntegrationTester $I)
     {
         $I->wantToTest('Validation\ValidatorFactory - newInstance()');
 

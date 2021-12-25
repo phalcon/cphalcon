@@ -13,34 +13,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class RemoveCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Di :: remove()
+     * Tests Phalcon\Di\Di :: remove()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-02
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function diRemove(UnitTester $I)
     {
         $I->wantToTest('Di - remove()');
 
-        $di = new Di();
+        $container = new Di();
 
-        $di->set('escaper', Escaper::class);
+        $container->set('escaper', Escaper::class);
 
-        $I->assertTrue(
-            $di->has('escaper')
-        );
+        $actual = $container->has('escaper');
+        $I->assertTrue($actual);
 
-        $di->remove('escaper');
+        $container->remove('escaper');
 
-        $I->assertFalse(
-            $di->has('escaper')
-        );
+        $actual = $container->has('escaper');
+        $I->assertFalse($actual);
     }
 }

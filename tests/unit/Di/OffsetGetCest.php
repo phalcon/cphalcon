@@ -13,53 +13,76 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+/**
+ * Class OffsetGetCest
+ *
+ * @package Phalcon\Tests\Unit\Di
+ */
 class OffsetGetCest
 {
     /**
-     * Unit Tests Phalcon\Di :: offsetGet()
+     * Unit Tests Phalcon\Di\Di :: offsetGet()
+     *
+     * @param UnitTester $I
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-06-13
+     * @since  2019-09-09
      */
     public function diOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Di - offsetGet()');
 
-        $di = new Di();
+        $container = new Di();
+
+        $container->set('escaper', Escaper::class);
+
+        $class  = Escaper::class;
+        $actual = $container->offsetGet('escaper');
+        $I->assertInstanceOf($class, $actual);
+
+        $actual = $container['escaper'];
+        $I->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * Unit Tests Phalcon\Di :: offsetGet() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
+     */
+    public function diOffsetGetException(UnitTester $I)
+    {
+        $I->wantToTest('Di - offsetGet() - exception');
+
+        $container = new Di();
 
         $I->expectThrowable(
             new Exception(
-                "Service 'non-exists' wasn't found in the dependency injection container"
+                "Service 'non-exists' was not found " .
+                "in the dependency injection container"
             ),
-            function () use ($di) {
-                $di['non-exists'];
+            function () use ($container) {
+                $container['non-exists'];
             }
         );
 
         $I->expectThrowable(
             new Exception(
-                "Service 'non-exists' wasn't found in the dependency injection container"
+                "Service 'non-exists' was not found " .
+                "in the dependency injection container"
             ),
-            function () use ($di) {
-                $di->offsetGet('non-exists');
+            function () use ($container) {
+                $container->offsetGet('non-exists');
             }
-        );
-
-        $di->set('escaper', Escaper::class);
-
-        $I->assertInstanceOf(
-            Escaper::class,
-            $di->offsetGet('escaper')
-        );
-
-        $I->assertInstanceOf(
-            Escaper::class,
-            $di['escaper']
         );
     }
 }

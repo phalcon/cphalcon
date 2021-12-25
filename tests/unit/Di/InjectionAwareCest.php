@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Tests\Fixtures\Di\InjectionAwareComponent;
 use UnitTester;
 
@@ -27,7 +27,7 @@ use function spl_object_hash;
 class InjectionAwareCest
 {
     /**
-     * Tests Phalcon\Di :: injection aware trait
+     * Tests Phalcon\Di\Di :: injection aware trait
      *
      * @param UnitTester $I
      *

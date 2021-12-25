@@ -16,6 +16,10 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
+use const ENT_HTML401;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
+
 /**
  * Class GetSetFlagsCest
  *
@@ -37,7 +41,15 @@ class GetSetFlagsCest
 
         $escaper = new Escaper();
 
+        $expected = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401;
+        $actual   = $escaper->getFlags();
+        $I->assertEquals($expected, $actual);
+
         $escaper->setFlags(ENT_HTML401);
+
+        $expected = ENT_HTML401;
+        $actual   = $escaper->getFlags();
+        $I->assertEquals($expected, $actual);
 
         $expected = 'That&#039;s right';
         $actual   = $escaper->attributes("That's right");

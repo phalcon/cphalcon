@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\PresenceOf;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 /**
  * Class GetOptionCest
@@ -25,12 +25,12 @@ class GetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\PresenceOf :: getOption()
+     * Tests Phalcon\Filter\Validation\Validator\PresenceOf :: getOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorPresenceOfGetOption(IntegrationTester $I)
+    public function filterValidationValidatorPresenceOfGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - getOption()');
 

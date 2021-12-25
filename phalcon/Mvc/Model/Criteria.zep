@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;

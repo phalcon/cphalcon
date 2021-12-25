@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\ExclusionIn;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Filter\Validation\Validator\ExclusionIn;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\ExclusionIn :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorExclusionInConstruct(IntegrationTester $I)
+    public function filterValidationValidatorExclusionInConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - __construct()');
 

@@ -6,8 +6,8 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Products;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use UnitTester;
 
 class FormEntityCest
@@ -32,6 +32,7 @@ class FormEntityCest
         $product = new Products();
 
         $form = new Form($product);
+        $form->setTagFactory($this->container->get("tag"));
         $form->setValidation($validator);
         $name = new Text('prd_name');
         $form->add($name);

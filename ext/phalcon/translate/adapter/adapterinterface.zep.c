@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface)
  *
  * @return bool
  */
-ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, exists);
+ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, has);
 /**
  * Returns the translation related to the given key
  *

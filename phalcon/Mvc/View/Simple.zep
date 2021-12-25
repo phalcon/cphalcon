@@ -445,9 +445,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
             } else {
                 if typeof di != "object" {
                     throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the application services"
-                        )
+                        "A dependency injection container is required to access the application services"
                     );
                 }
 

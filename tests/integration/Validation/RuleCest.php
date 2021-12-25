@@ -14,20 +14,20 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Alpha;
-use Phalcon\Validation\Validator\Email;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation\Validator\Email;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class RuleCest
 {
     /**
-     * Tests Phalcon\Validation :: rule()
+     * Tests Phalcon\Filter\Validation :: rule()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */
-    public function validationRule(IntegrationTester $I)
+    public function filterValidationRule(IntegrationTester $I)
     {
         $I->wantToTest('Validation - rule()');
 

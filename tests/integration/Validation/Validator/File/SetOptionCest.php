@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\File;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\File;
+use Phalcon\Filter\Validation\Validator\File;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\File :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\File :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileSetOption(IntegrationTester $I)
+    public function filterValidationValidatorFileSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - setOption()');
 

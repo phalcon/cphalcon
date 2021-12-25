@@ -15,8 +15,8 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class PresenceOfCest
 {

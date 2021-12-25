@@ -88,27 +88,18 @@ class Headers implements HeadersInterface
     {
         var header, value;
 
-        if true === headers_sent() || true === this->isSent() {
+        if true === headers_sent() || true === this->isSent {
             return false;
         }
 
         for header, value in this->headers {
             if value !== null {
-                header(
-                    header . ": " . value,
-                    true
-                );
+                header(header . ": " . value, true);
             } else {
                 if memstr(header, ":") || substr(header, 0, 5) == "HTTP/" {
-                    header(
-                        header,
-                        true
-                    );
+                    header(header, true);
                 } else {
-                    header(
-                        header . ": ",
-                        true
-                    );
+                    header(header . ": ", true);
                 }
             }
         }

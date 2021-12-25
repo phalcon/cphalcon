@@ -21,7 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Di
+ * Interface for Phalcon\Di\Di
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface)
 {

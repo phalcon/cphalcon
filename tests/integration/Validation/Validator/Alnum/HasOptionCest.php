@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Alnum;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation\Validator\Alnum;
 
 class HasOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\Alnum :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorAlnumHasOption(IntegrationTester $I)
+    public function filterValidationValidatorAlnumHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - hasOption()');
 

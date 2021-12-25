@@ -15,19 +15,19 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Alnum;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation\Validator\Alnum;
 
 class ConstructCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Alnum :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Alnum :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorAlnumConstruct(IntegrationTester $I)
+    public function filterValidationValidatorAlnumConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - __construct()');
 

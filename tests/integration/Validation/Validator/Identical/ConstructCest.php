@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Identical;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Identical;
+use Phalcon\Filter\Validation\Validator\Identical;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Identical :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Identical :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorIdenticalConstruct(IntegrationTester $I)
+    public function filterValidationValidatorIdenticalConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - __construct()');
 

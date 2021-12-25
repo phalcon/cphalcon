@@ -29,10 +29,10 @@ use ReflectionProperty;
  * relations between the different models of the application.
  *
  * A ModelsManager is injected to a model via a Dependency Injector/Services
- * Container such as Phalcon\Di.
+ * Container such as Phalcon\Di\Di.
  *
  * ```php
- * use Phalcon\Di;
+ * use Phalcon\Di\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
  * $di = new Di();
@@ -538,9 +538,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ORM"
-                )
+                "A dependency injection container is required to access the services related to the ORM"
             );
         }
 
@@ -1261,127 +1259,47 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Checks whether a model has a belongsTo relation with another model
+     * @deprecated
      */
     public function existsBelongsTo(string! modelName, string! modelRelation) -> bool
     {
-        var entityName;
-        string keyRelation;
-
-        let entityName = strtolower(modelName);
-
-        /**
-         * Relationship unique key
-         */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
-
-        /**
-         * Initialize the model first
-         */
-        if !isset this->initialized[entityName] {
-            this->load(modelName);
-        }
-
-        return isset this->belongsTo[keyRelation];
+        return this->hasBelongsTo(modelName, modelRelation);
     }
 
     /**
      * Checks whether a model has a hasMany relation with another model
+     * @deprecated
      */
     public function existsHasMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName;
-        string keyRelation;
-
-        let entityName = strtolower(modelName);
-
-        /**
-         * Relationship unique key
-         */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
-
-        /**
-         * Initialize the model first
-         */
-        if !isset this->initialized[entityName] {
-            this->load(modelName);
-        }
-
-        return isset this->hasMany[keyRelation];
+        return this->hasHasMany(modelName, modelRelation);
     }
 
     /**
      * Checks whether a model has a hasOne relation with another model
+     * @deprecated
      */
     public function existsHasOne(string! modelName, string! modelRelation) -> bool
     {
-        var entityName;
-        string keyRelation;
-
-        let entityName = strtolower(modelName);
-
-        /**
-         * Relationship unique key
-         */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
-
-        /**
-         * Initialize the model first
-         */
-        if !isset this->initialized[entityName] {
-            this->load(modelName);
-        }
-
-        return isset this->hasOne[keyRelation];
+        return this->hasHasOne(modelName, modelRelation);
     }
 
     /**
      * Checks whether a model has a hasOneThrough relation with another model
+     * @deprecated
      */
     public function existsHasOneThrough(string! modelName, string! modelRelation) -> bool
     {
-        var entityName;
-        string keyRelation;
-
-        let entityName = strtolower(modelName);
-
-        /**
-         * Relationship unique key
-         */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
-
-        /**
-         * Initialize the model first
-         */
-        if !isset this->initialized[entityName] {
-            this->load(modelName);
-        }
-
-        return isset this->hasOneThrough[keyRelation];
+        return this->hasHasOneThrough(modelName, modelRelation);
     }
 
     /**
      * Checks whether a model has a hasManyToMany relation with another model
+     * @deprecated
      */
     public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName;
-        string keyRelation;
-
-        let entityName = strtolower(modelName);
-
-        /**
-         * Relationship unique key
-         */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
-
-        /**
-         * Initialize the model first
-         */
-        if !isset this->initialized[entityName] {
-            this->load(modelName);
-        }
-
-        return isset this->hasManyToMany[keyRelation];
+        return this->hasHasManyToMany(modelName, modelRelation);
     }
 
     /**
@@ -1697,6 +1615,45 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Checks whether a model has a belongsTo relation with another model
+     */
+    public function hasBelongsTo(string! modelName, string! modelRelation) -> bool
+    {
+        return this->checkHasRelationship("belongsTo", modelName, modelRelation);
+    }
+
+    /**
+     * Checks whether a model has a hasMany relation with another model
+     */
+    public function hasHasMany(string! modelName, string! modelRelation) -> bool
+    {
+        return this->checkHasRelationship("hasMany", modelName, modelRelation);
+    }
+
+    /**
+     * Checks whether a model has a hasOne relation with another model
+     */
+    public function hasHasOne(string! modelName, string! modelRelation) -> bool
+    {
+        return this->checkHasRelationship("hasOne", modelName, modelRelation);
+    }
+
+    /**
+     * Checks whether a model has a hasOneThrough relation with another model
+     */
+    public function hasHasOneThrough(string! modelName, string! modelRelation) -> bool
+    {
+        return this->checkHasRelationship("hasOneThrough", modelName, modelRelation);
+    }
+
+    /**
+     * Checks whether a model has a hasManyToMany relation with another model
+     */
+    public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool
+    {
+        return this->checkHasRelationship("hasManyToMany", modelName, modelRelation);
+    }
+    /**
      * Stores a reusable record in the internal list
      */
     public function setReusableRecords(string! modelName, string! key, var records) -> void
@@ -2007,9 +1964,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ORM"
-                )
+                "A dependency injection container is required to access the services related to the ORM"
             );
         }
 
@@ -2086,9 +2041,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         if unlikely typeof container != "object" {
             throw new Exception(
-                Exception::containerServiceNotFound(
-                    "the services related to the ORM"
-                )
+                "A dependency injection container is required to access the services related to the ORM"
             );
         }
 
@@ -2120,5 +2073,30 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         phalcon_orm_destroy_cache();
 
         Query::clean();
+    }
+
+    private function checkHasRelationship(
+        string collection,
+        string! modelName,
+        string! modelRelation
+    ) -> bool {
+        var entityName;
+        string keyRelation;
+
+        let entityName = strtolower(modelName);
+
+        /**
+         * Relationship unique key
+         */
+        let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+        /**
+         * Initialize the model first
+         */
+        if !isset this->initialized[entityName] {
+            this->load(modelName);
+        }
+
+        return isset this->{collection}[keyRelation];
     }
 }

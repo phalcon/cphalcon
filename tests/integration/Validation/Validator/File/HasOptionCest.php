@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\File;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\File;
+use Phalcon\Filter\Validation\Validator\File;
 
 /**
  * Class HasOptionCest
@@ -25,12 +25,12 @@ class HasOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\File :: hasOption()
+     * Tests Phalcon\Filter\Validation\Validator\File :: hasOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorFileHasOption(IntegrationTester $I)
+    public function filterValidationValidatorFileHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - hasOption()');
 

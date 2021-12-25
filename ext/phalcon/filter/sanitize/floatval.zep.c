@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_FloatVal, __invoke)
 	zephir_create_array(&_0, 1, 0);
 	add_assoc_long_ex(&_0, SL("flags"), 4096);
 	ZVAL_LONG(&_1, 520);
-	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 290, input, &_1, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 298, input, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM_DOUBLE(zephir_get_doubleval(&_2));
 }

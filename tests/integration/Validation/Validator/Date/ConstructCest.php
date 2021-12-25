@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Date;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Date;
+use Phalcon\Filter\Validation\Validator\Date;
 
 /**
  * Class ConstructCest
@@ -25,12 +25,12 @@ class ConstructCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Date :: __construct()
+     * Tests Phalcon\Filter\Validation\Validator\Date :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorDateConstruct(IntegrationTester $I)
+    public function filterValidationValidatorDateConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - __construct()');
 

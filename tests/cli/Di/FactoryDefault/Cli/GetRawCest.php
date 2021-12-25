@@ -33,7 +33,7 @@ class GetRawCest
         $di = new Di();
 
         // nonexistent service
-        $expected = new Exception("Service 'nonexistent-service' wasn't found in the dependency injection container");
+        $expected = new Exception("Service 'nonexistent-service' was not found in the dependency injection container");
         $actual   = function () use ($di) {
             $di->getRaw('nonexistent-service');
         };

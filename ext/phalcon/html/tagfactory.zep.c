@@ -18,7 +18,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 
@@ -147,7 +146,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
  * Magic call to make the helper objects available as methods.
  *
  * @param string $name
- * @param array  $args
+ * @param array  $arguments
  *
  * @return false|mixed
  */
@@ -155,48 +154,40 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval args;
-	zval *name_param = NULL, *args_param = NULL, services, _2, _0$$3;
-	zval name, _1$$3;
+	zval arguments, _0;
+	zval *name_param = NULL, *arguments_param = NULL, helper, _1;
+	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&services);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&args);
+	ZVAL_UNDEF(&helper);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&arguments);
+	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
-		Z_PARAM_ARRAY(args)
+		Z_PARAM_ARRAY(arguments)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name_param, &args_param);
+	zephir_fetch_params(1, 2, 0, &name_param, &arguments_param);
 	zephir_get_strval(&name, name_param);
-	zephir_get_arrval(&args, args_param);
+	zephir_get_arrval(&arguments, arguments_param);
 
 
-	ZEPHIR_CALL_METHOD(&services, this_ptr, "getservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name);
 	zephir_check_call_status();
-	if (1 != zephir_array_isset(&services, &name)) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_html_exception_ce);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CONCAT_SVS(&_1$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_1$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Html/TagFactory.zep", 111);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "newinstance", NULL, 0, &name);
-	zephir_check_call_status();
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_2, &args);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 2, 0);
+	zephir_array_fast_append(&_0, &helper);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "__invoke");
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -285,7 +276,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 149);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 145);
 	RETURN_CTOR(&_5);
 }
 

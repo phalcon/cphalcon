@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Confirmation;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Confirmation;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Confirmation;
 
 /**
  * Class ValidateCest
@@ -26,7 +26,7 @@ class ValidateCest
 {
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - single
      * field
      *
      * @param IntegrationTester $I
@@ -34,7 +34,7 @@ class ValidateCest
      * @since  2016-06-05
      * @author Wojciech Ślawski <jurigag@gmail.com>
      */
-    public function validationValidatorConfirmationValidateSingleField(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Confirmation - validate() - single field"
@@ -89,7 +89,7 @@ class ValidateCest
         $I->assertEquals(
             1,
             $messages->count(),
-            "Phalcon\Validation\Validator\Confirmation failed to compare 000012345=12345"
+            "Phalcon\Filter\Validation\Validator\Confirmation failed to compare 000012345=12345"
         );
 
         $messages = $validation->validate(
@@ -102,12 +102,12 @@ class ValidateCest
         $I->assertEquals(
             1,
             $messages->count(),
-            "Phalcon\Validation\Validator\Confirmation failed to compare asd=asdß"
+            "Phalcon\Filter\Validation\Validator\Confirmation failed to compare asd=asdß"
         );
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - multiple
      * field
      *
      * @param IntegrationTester $I
@@ -115,7 +115,7 @@ class ValidateCest
      * @since  2016-06-05
      * @author Wojciech Ślawski <jurigag@gmail.com>
      */
-    public function validationValidatorConfirmationValidateMultipleField(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest(
             "Validation\Validator\Confirmation - validate() - multiple field"
@@ -203,7 +203,7 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
+     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - empty
      * value
      *
      * @param IntegrationTester $I
@@ -211,7 +211,7 @@ class ValidateCest
      * @since  2015-09-06
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      */
-    public function validationValidatorConfirmationValidateEmptyValues(IntegrationTester $I)
+    public function filterValidationValidatorConfirmationValidateEmptyValues(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Confirmation - validate() - empty value");
 

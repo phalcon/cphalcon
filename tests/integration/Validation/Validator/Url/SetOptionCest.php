@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Validation\Validator\Url;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
-use Phalcon\Validation\Validator\Url;
+use Phalcon\Filter\Validation\Validator\Url;
 
 /**
  * Class SetOptionCest
@@ -25,12 +25,12 @@ class SetOptionCest
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: setOption()
+     * Tests Phalcon\Filter\Validation\Validator\Url :: setOption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function validationValidatorUrlSetOption(IntegrationTester $I)
+    public function filterValidationValidatorUrlSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - setOption()');
 

@@ -13,35 +13,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Mvc\Dispatcher;
 use UnitTester;
 
 class GetSetDICest
 {
     /**
-     * Tests Phalcon\Dispatcher :: getDI() / setDI()
+     * Tests Phalcon\Dispatcher :: getDI()/setDI()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-17
      */
     public function dispatcherGetSetDI(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getDI() / setDI()');
 
-        $oContainer = new Di();
+        $container  = new Di();
+        $dispatcher = new Dispatcher();
 
-        $oDispatcher = new Dispatcher();
+        $dispatcher->setDI($container);
 
-        $oDispatcher->setDI($oContainer);
+        $actual   = $container;
+        $expected = $dispatcher->getDI();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $oContainer,
-            $oDispatcher->getDI()
-        );
-
-        $oClass  = Di::class;
-        $oActual = $oDispatcher->getDI();
-        $I->assertInstanceOf($oClass, $oActual);
+        $class  = Di::class;
+        $actual = $dispatcher->getDI();
+        $I->assertInstanceOf($class, $actual);
     }
 }

@@ -91,30 +91,6 @@ class UnderscoreInvokeCest
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Input :: __invoke() - input
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function htmlHelperInputUnderscoreInvokeInput(UnitTester $I)
-    {
-        $I->wantToTest('Html\Helper\Input - __invoke() - input week');
-
-        $escaper = new Escaper();
-        $helper  = new Input($escaper);
-
-        $helper->setType('week');
-        $result = $helper('x_name');
-
-        $I->assertEquals(
-            '<input type="week" id="x_name" name="x_name" />',
-            (string) $result
-        );
-    }
-
-    /**
      * Tests Phalcon\Html\Helper\Input :: __invoke() - textarea
      *
      * @param UnitTester $I
