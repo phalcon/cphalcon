@@ -11,23 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt;
+namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt\Extensions;
 
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-class CallMacroCest
+class PhpCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: callMacro() - PHP function
+     * Tests Phalcon\Mvc\View\Engine\Volt\Extensions :: php()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
-     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      */
-    public function mvcViewEngineVoltCallMacroPhpFunction(IntegrationTester $I)
+    public function mvcViewEngineVoltExtensionsPhp(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Engine\Volt - callMacro() - php function');
+        $I->wantToTest('Mvc\View\Engine\Volt\Extensions - php');
 
         $compiler  = new Compiler();
 
@@ -38,15 +37,14 @@ class CallMacroCest
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: callMacro() - PHP function
+     * Tests Phalcon\Mvc\View\Engine\Volt\Extensions :: does not exist
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
-     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      */
-    public function mvcViewEngineVoltCallMacroPhpFunctionDoesNotExist(IntegrationTester $I)
+    public function mvcViewEngineVoltExtensionsDoesNotExist(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Engine\Volt - callMacro() - php function does not exist');
+        $I->wantToTest('Mvc\View\Engine\Volt\Extensions - does not exist');
 
         $compiler  = new Compiler();
 
