@@ -233,7 +233,7 @@ class Compiler implements InjectionAwareInterface
                  * Services registered in the dependency injector container are
                  * available always
                  */
-                if typeof this->container == "object" && this->container->has(variable) {
+                if this->container !== null && this->container->has(variable) {
                     let exprCode .= "$this->" . variable;
                 } else {
                     let exprCode .= "$" . variable;
@@ -1878,7 +1878,7 @@ class Compiler implements InjectionAwareInterface
             /**
              * These are for the TagFactory
              */
-            if typeof this->container == "object" && true === this->container->has("tag") {
+            if this->container !== null && true === this->container->has("tag") {
                 let tagService = this->container->get("tag");
                 if true === tagService->has(name) {
                     return "$this->tag->" . name . "(" . arguments . ")";
