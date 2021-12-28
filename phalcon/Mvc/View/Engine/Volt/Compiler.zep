@@ -1878,7 +1878,7 @@ class Compiler implements InjectionAwareInterface
             /**
              * These are for the TagFactory
              */
-            if true === this->container->has("tag") {
+            if typeof this->container == "object" && true === this->container->has("tag") {
                 let tagService = this->container->get("tag");
                 if true === tagService->has(name) {
                     return "$this->tag->" . name . "(" . arguments . ")";
