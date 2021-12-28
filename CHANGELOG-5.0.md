@@ -1,3 +1,8 @@
+# [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (xxxx-xx-xx)
+
+## Fixed
+- `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall()` to check for container presence before checking the `tag` service [#15842](https://github.com/phalcon/cphalcon/issues/15842)
+
 # [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-24)
 
 ## Changed
