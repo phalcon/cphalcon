@@ -46,7 +46,7 @@ class GetAddSetDirectoriesCest
                 '/phalcon/public/css',
             ]
         );
-        $expected = [sha1('/phalcon/public/css') => '/phalcon/public/css'];
+        $expected = [hash("sha256", '/phalcon/public/css') => '/phalcon/public/css'];
         $actual   = $loader->getDirectories();
         $I->assertEquals($expected, $actual);
 
@@ -66,8 +66,8 @@ class GetAddSetDirectoriesCest
         ;
 
         $expected = [
-            sha1('/phalcon/public/css') => '/phalcon/public/css',
-            sha1('/phalcon/public/js')  => '/phalcon/public/js',
+            hash("sha256", '/phalcon/public/css') => '/phalcon/public/css',
+            hash("sha256", '/phalcon/public/js')  => '/phalcon/public/js',
         ];
         $actual   = $loader->getDirectories();
         $I->assertEquals($expected, $actual);
