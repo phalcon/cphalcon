@@ -18,7 +18,7 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
-use function sha1;
+use function hash;
 
 class GetAddSetNamespacesCest
 {
@@ -60,11 +60,11 @@ class GetAddSetNamespacesCest
 
         $expected = [
             'Phalcon\Loader\\'   => [
-                sha1('/path/to/loader/') => '/path/to/loader/',
+                hash("sha256", '/path/to/loader/') => '/path/to/loader/',
             ],
             'Phalcon\Provider\\' => [
-                sha1('/path/to/provider/source/') => '/path/to/provider/source/',
-                sha1('/path/to/provider/target/') => '/path/to/provider/target/',
+                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
+                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -99,11 +99,11 @@ class GetAddSetNamespacesCest
 
         $expected = [
             'Phalcon\Loader\\'   => [
-                sha1('/path/to/loader/') => '/path/to/loader/',
+                hash("sha256", '/path/to/loader/') => '/path/to/loader/',
             ],
             'Phalcon\Provider\\' => [
-                sha1('/path/to/provider/source/') => '/path/to/provider/source/',
-                sha1('/path/to/provider/target/') => '/path/to/provider/target/',
+                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
+                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -140,9 +140,9 @@ class GetAddSetNamespacesCest
 
         $expected = [
             'Phalcon\Loader\\' => [
-                sha1('/path/to/provider/target/') => '/path/to/provider/target/',
-                sha1('/path/to/loader/')          => '/path/to/loader/',
-                sha1('/path/to/provider/source/') => '/path/to/provider/source/',
+                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
+                hash("sha256", '/path/to/loader/')          => '/path/to/loader/',
+                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
             ],
         ];
         $actual   = $loader->getNamespaces();
