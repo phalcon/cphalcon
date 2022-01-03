@@ -34,8 +34,6 @@ class GetCest
      *
      * @param UnitTester $I
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

@@ -36,8 +36,8 @@ class LevelsCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
      */
     public function loggerAlert(UnitTester $I, Example $example)
     {
@@ -46,15 +46,17 @@ class LevelsCest
         $level    = $example[0];
         $fileName = $I->getNewFileName('log', 'log');
         $fileName = logsDir($fileName);
-        $adapter = new Stream($fileName);
-        $logger  = new Logger('my-logger', ['one' => $adapter]);
+        $adapter  = new Stream($fileName);
+        $logger   = new Logger('my-logger', ['one' => $adapter]);
 
         $logString = 'Hello';
         $logTime   = date('c');
 
         $logger->{$level}($logString);
 
-        $logger->getAdapter('one')->close();
+        $logger->getAdapter('one')
+               ->close()
+        ;
 
         $I->amInPath(logsDir());
         $I->openFile($fileName);
@@ -81,7 +83,8 @@ class LevelsCest
         $date             = end($matches);
         $logDateTime      = new DateTime($date);
         $dateTimeAfterLog = new DateTime($logTime);
-        $nInterval        = $logDateTime->diff($dateTimeAfterLog)->format('%s');
+        $nInterval        = $logDateTime->diff($dateTimeAfterLog)
+                                        ->format('%s');
         $nSecondThreshold = 60;
 
         $I->assertLessThan($nSecondThreshold, $nInterval);

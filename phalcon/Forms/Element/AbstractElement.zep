@@ -11,9 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use InvalidArgumentException;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\Di;
 use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Exception;
+use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
@@ -517,10 +520,45 @@ abstract class AbstractElement implements ElementInterface
      */
     protected function getLocalTagFactory() -> <TagFactory>
     {
+        var container, escaper, tagFactory;
+
+        let tagFactory = null;
+
         if unlikely empty this->tagFactory {
-            throw new Exception(
-                "The TagFactory must be set for this element to render"
-            );
+            /**
+             * Check the form for the TagFactory
+             */
+            if this->form !== null {
+                let tagFactory = this->form->getTagFactory();
+            }
+
+            /**
+             * Check the DI container
+             */
+            if tagFactory === null {
+                let container = Di::getDefault();
+
+                if likely true === container->has("tag") {
+                    let tagFactory = container->getShared("tag");
+                }
+            }
+
+            /**
+             * All failed, create a new TagFactory
+             */
+            if tagFactory === null {
+                let container = Di::getDefault();
+
+                if likely true === container->has("escaper") {
+                    let escaper = container->getShared("escaper");
+                } else {
+                    let escaper = new Escaper();
+                }
+
+                let tagFactory = new TagFactory(escaper);
+            }
+
+            let this->tagFactory = tagFactory;
         }
 
         return this->tagFactory;

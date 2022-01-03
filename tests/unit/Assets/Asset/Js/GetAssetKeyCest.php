@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
+use function hash;
+
 /**
  * Class GetAssetKeyCest
  *
@@ -37,7 +39,7 @@ class GetAssetKeyCest
 
         $path     = 'js/jquery.js';
         $asset    = new Js($path);
-        $expected = sha1('js:' . $path);
+        $expected = hash("sha256", 'js:' . $path);
         $actual   = $asset->getAssetKey();
 
         $I->assertEquals($expected, $actual);
