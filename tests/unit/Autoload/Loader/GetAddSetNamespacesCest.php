@@ -18,7 +18,7 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
-use function sha1;
+use function hash;
 
 class GetAddSetNamespacesCest
 {

@@ -30,7 +30,7 @@ class HtmlCest
     {
         $I->wantToTest('Escaper - html()');
 
-        $escaper  = new Escaper();
+        $escaper = new Escaper();
 
         $expected = '&lt;h1&gt;&lt;/h1&gt;';
         $actual   = $escaper->html('<h1></h1>');

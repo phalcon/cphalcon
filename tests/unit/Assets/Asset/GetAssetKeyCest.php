@@ -17,6 +17,8 @@ use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
+use function hash;
+
 /**
  * Class GetAssetKeyCest
  *

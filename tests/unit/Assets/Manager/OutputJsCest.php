@@ -120,9 +120,9 @@ class OutputJsCest
         $manager->useImplicitOutput(false);
 
         $manager->collection('js')
-               ->addJs(dataDir('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputDir('tests/assets/combined.js'))
-               ->setTargetUri('production/combined.js')
+                ->addJs(dataDir('assets/assets/jquery.js'), false, false)
+                ->setTargetPath(outputDir('tests/assets/combined.js'))
+                ->setTargetUri('production/combined.js')
         ;
 
         $expected = sprintf(
@@ -149,10 +149,10 @@ class OutputJsCest
         $manager->useImplicitOutput(false);
 
         $manager->collection('js')
-               ->addJs(dataDir('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputDir('tests/assets/combined.js'))
-               ->setTargetUri('production/combined.js')
-               ->join(true)
+                ->addJs(dataDir('assets/assets/jquery.js'), false, false)
+                ->setTargetPath(outputDir('tests/assets/combined.js'))
+                ->setTargetUri('production/combined.js')
+                ->join(true)
         ;
 
         $expected = sprintf(
@@ -254,9 +254,9 @@ class OutputJsCest
         $expectedJS = sprintf(
             "%s" . PHP_EOL . "%s" . PHP_EOL,
             '<script type="application/javascript" '
-                . 'src="http:://cdn.example.com/js/script1.js"></script>',
+            . 'src="http:://cdn.example.com/js/script1.js"></script>',
             '<script type="application/javascript" '
-                . 'src="http:://cdn.example.com/js/script2.js"></script>'
+            . 'src="http:://cdn.example.com/js/script2.js"></script>'
         );
 
         $I->assertEquals($expectedJS, $manager->outputJs('header'));
@@ -303,7 +303,7 @@ class OutputJsCest
 
         $I->assertEquals(
             '<script type="application/javascript" '
-                . 'src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
+            . 'src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
             $manager->outputJs('js')
         );
 

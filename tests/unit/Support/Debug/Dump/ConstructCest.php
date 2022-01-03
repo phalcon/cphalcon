@@ -36,7 +36,6 @@ class ConstructCest
      */
     public function supportDebugDumpConstructDump(UnitTester $I)
     {
-        $I->skipTest("Needs a review");
         $I->wantToTest('Debug\Dump - __construct() - dump properties');
 
         $patient = new ClassProperties();

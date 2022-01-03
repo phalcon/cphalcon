@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
+use function hash;
+
 /**
  * Class GetAssetKeyCest
  *

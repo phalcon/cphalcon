@@ -22,7 +22,6 @@ use Phalcon\Tests\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-use function cacheDir;
 use function outputDir;
 
 class OutputCssCest

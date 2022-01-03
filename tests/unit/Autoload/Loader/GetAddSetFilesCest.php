@@ -17,6 +17,8 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Tests\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
+use function hash;
+
 class GetAddSetFilesCest
 {
     use LoaderTrait;

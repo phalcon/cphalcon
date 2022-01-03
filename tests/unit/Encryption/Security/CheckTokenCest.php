@@ -108,6 +108,9 @@ class CheckTokenCest
         $I->wantToTest('Security - checkToken() - with Request');
         $I->skipTest("Enable when Request is ready");
 
+        $store = $_POST ?? [];
+        $_POST = [];
+
         /** @var Manager $session */
         $session = $this->container->getShared('session');
         $session->start();
