@@ -38,7 +38,7 @@ class GetAssetKeyCest
         $content = '<script>alert("Hello");</script>';
         $asset   = new Js($content);
 
-        $expected = sha1('js:' . $content);
+        $expected = hash("sha256", 'js:' . $content);
         $actual   = $asset->getAssetKey();
         $I->assertEquals($expected, $actual);
     }

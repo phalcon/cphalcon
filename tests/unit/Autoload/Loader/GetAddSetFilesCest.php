@@ -46,7 +46,7 @@ class GetAddSetFilesCest
                 'classOne.php',
             ]
         );
-        $expected = [sha1('classOne.php') => 'classOne.php'];
+        $expected = [hash("sha256", 'classOne.php') => 'classOne.php'];
         $actual   = $loader->getFiles();
         $I->assertEquals($expected, $actual);
 
@@ -66,8 +66,8 @@ class GetAddSetFilesCest
         ;
 
         $expected = [
-            sha1('classOne.php') => 'classOne.php',
-            sha1('classTwo.php') => 'classTwo.php',
+            hash("sha256", 'classOne.php') => 'classOne.php',
+            hash("sha256", 'classTwo.php') => 'classTwo.php',
         ];
         $actual   = $loader->getFiles();
         $I->assertEquals($expected, $actual);

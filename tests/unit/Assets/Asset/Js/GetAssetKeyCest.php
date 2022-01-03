@@ -37,7 +37,7 @@ class GetAssetKeyCest
 
         $path     = 'js/jquery.js';
         $asset    = new Js($path);
-        $expected = sha1('js:' . $path);
+        $expected = hash("sha256", 'js:' . $path);
         $actual   = $asset->getAssetKey();
 
         $I->assertEquals($expected, $actual);

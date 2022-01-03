@@ -38,7 +38,7 @@ class GetAssetKeyCest
         $content = 'p {color: #000099}';
         $asset   = new Css($content);
 
-        $expected = sha1('css:' . $content);
+        $expected = hash("sha256", 'css:' . $content);
         $actual   = $asset->getAssetKey();
         $I->assertEquals($expected, $actual);
     }

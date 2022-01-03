@@ -121,7 +121,7 @@ class Asset implements AssetInterface
 
         let key = this->getType() . ":" . this->getPath();
 
-        return sha1(key);
+        return hash("sha256", key);
     }
 
     /**
