@@ -11,30 +11,24 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Converts strings to upperCamelCase or lowerCamelCase
+ * Converts strings to snake_case style
  */
-class Camelize extends PascalCase
+class SnakeCase extends PascalCase
 {
     /**
      * @param string      $text
      * @param string|null $delimiters
-     * @param bool        $lowerFirst
      *
      * @return string
      */
     public function __invoke(
         string text,
-        string delimiters = null,
-        bool lowerFirst = false
+        string delimiters = null
     ) -> string {
-        var result;
+        var output;
 
-        let result = parent::__invoke(text, delimiters);
+        let output = this->processArray(text, delimiters);
 
-        if (lowerFirst === true) {
-            let result = lcfirst(result);
-        }
-
-        return result;
+        return implode("-", output);
     }
 }
