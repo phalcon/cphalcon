@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Autoload\Loader;
 
-use Phalcon\Events\Manager;
 use Phalcon\Autoload\Loader;
+use Phalcon\Events\Manager;
 use UnitTester;
 
 class GetSetEventsManagerCest

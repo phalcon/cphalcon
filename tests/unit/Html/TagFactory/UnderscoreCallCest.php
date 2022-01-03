@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\TagFactory;
 
 use Phalcon\Html\Escaper;
-use Phalcon\Html\Helper\Anchor;
-use Phalcon\Html\Helper\Base;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
@@ -36,7 +34,7 @@ class UnderscoreCallCest
         $factory = new TagFactory($escaper);
 
         $expected = '<body>';
-        $actual = $factory->body();
+        $actual   = $factory->body();
         $I->assertEquals($expected, $actual);
     }
 }

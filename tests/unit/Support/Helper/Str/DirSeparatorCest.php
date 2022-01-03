@@ -16,8 +16,6 @@ namespace Phalcon\Tests\Unit\Support\Helper\Str;
 use Phalcon\Support\Helper\Str\DirSeparator;
 use UnitTester;
 
-use const DIRECTORY_SEPARATOR;
-use const PHP_OS;
 use const PHP_OS_FAMILY;
 
 /**

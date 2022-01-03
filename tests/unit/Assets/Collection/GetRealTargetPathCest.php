@@ -65,7 +65,7 @@ class GetRealTargetPathCest
             $I->markTestSkipped('Need to fix Windows new lines...');
         }
 
-        $collection = Stub::make(
+        $collection        = Stub::make(
             Collection::class,
             [
                 'phpFileExists' => false,

@@ -41,7 +41,7 @@ class AttributesCest
 
         $escaper = new Escaper();
 
-        $text = $example['text'];
+        $text  = $example['text'];
         $flags = $example['htmlQuoteType'];
 
         $escaper->setHtmlQuoteType($flags);
@@ -50,7 +50,7 @@ class AttributesCest
         $actual   = $escaper->attributes($text);
         $I->assertEquals($expected, $actual);
 
-        $actual   = $escaper->escapeHtmlAttr($text);
+        $actual = $escaper->escapeHtmlAttr($text);
         $I->assertEquals($expected, $actual);
     }
 

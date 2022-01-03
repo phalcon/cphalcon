@@ -40,6 +40,7 @@ use Phalcon\Factory\AbstractFactory;
  * @method string decode(string $data, bool $associative = false, int $depth = 512, int $options = 0)
  * @method string encode($data, int $options = 0, int $depth = 512)
  * @method bool   between(int $value, int $start, int $end)
+ * @method string camelize(string $text, string $delimiters = null, bool $lowerFirst = false)
  * @method string concat(string $delimiter, string $first, string $second, string ...$arguments)
  * @method int    countVowels(string $text)
  * @method string decapitalize(string $text, bool $upperRest = false, string $encoding = 'UTF-8')
@@ -56,14 +57,18 @@ use Phalcon\Factory\AbstractFactory;
  * @method bool   isLower(string $text, string $encoding = 'UTF-8')
  * @method bool   isPalindrome(string $text)
  * @method bool   isUpper(string $text, string $encoding = 'UTF-8')
+ * @method string kebabCase(string $text, string $delimiters = null)
  * @method int    len(string $text, string $encoding = 'UTF-8')
  * @method string lower(string $text, string $encoding = 'UTF-8')
+ * @method string pascalCase(string $text, string $delimiters = null)
  * @method string prefix($text, string $prefix)
  * @method string random(int $type = 0, int $length = 8)
  * @method string reduceSlashes(string $text)
  * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
+ * @method string snakeCase(string $text, string $delimiters = null)
  * @method string suffix($text, string $suffix)
  * @method string ucwords(string $text, string $encoding = 'UTF-8')
+ * @method string uncamelize(string $text, string $delimiters = '_')
  * @method string underscore(string $text)
  * @method string upper(string $text, string $encoding = 'UTF-8')
  */
@@ -167,11 +172,14 @@ class HelperFactory extends AbstractFactory
             "isLower"       : "Phalcon\\Support\\Helper\\Str\\IsLower",
             "isPalindrome"  : "Phalcon\\Support\\Helper\\Str\\IsPalindrome",
             "isUpper"       : "Phalcon\\Support\\Helper\\Str\\IsUpper",
+            "kebabCase"     : "Phalcon\\Support\\Helper\\Str\\KebabCase",
             "len"           : "Phalcon\\Support\\Helper\\Str\\Len",
             "lower"         : "Phalcon\\Support\\Helper\\Str\\Lower",
+            "pascalCase"    : "Phalcon\\Support\\Helper\\Str\\PascalCase",
             "prefix"        : "Phalcon\\Support\\Helper\\Str\\Prefix",
             "random"        : "Phalcon\\Support\\Helper\\Str\\Random",
             "reduceSlashes" : "Phalcon\\Support\\Helper\\Str\\ReduceSlashes",
+            "snakeCase"     : "Phalcon\\Support\\Helper\\Str\\SnakeCase",
             "startsWith"    : "Phalcon\\Support\\Helper\\Str\\StartsWith",
             "suffix"        : "Phalcon\\Support\\Helper\\Str\\Suffix",
             "ucwords"       : "Phalcon\\Support\\Helper\\Str\\Ucwords",

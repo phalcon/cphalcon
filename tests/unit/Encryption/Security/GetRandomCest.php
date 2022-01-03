@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Security;
 
-use Phalcon\Encryption\Security\Random;
 use Phalcon\Encryption\Security;
+use Phalcon\Encryption\Security\Random;
 use UnitTester;
 
 class GetRandomCest

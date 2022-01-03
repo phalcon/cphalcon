@@ -17,11 +17,6 @@ use Codeception\Example;
 use Phalcon\Support\Helper\Str\Camelize;
 use UnitTester;
 
-/**
- * Class CamelizeCest
- *
- * @package Phalcon\Tests\Unit\Support\Helper\Str
- */
 class CamelizeCest
 {
     /**
@@ -43,8 +38,9 @@ class CamelizeCest
         $value     = $example[0];
         $expected  = $example[1];
         $delimiter = $example[2];
+        $lowercase = $example[3];
 
-        $actual = $object($value, $delimiter);
+        $actual = $object($value, $delimiter, $lowercase);
         $I->assertEquals($expected, $actual);
     }
 
@@ -54,26 +50,32 @@ class CamelizeCest
     private function getSources(): array
     {
         return [
-            ['camelize', 'Camelize', null],
-            ['CameLiZe', 'Camelize', null],
-            ['cAmeLize', 'Camelize', null],
-            ['123camelize', '123camelize', null],
-            ['c_a_m_e_l_i_z_e', 'CAMELIZE', null],
-            ['Camelize', 'Camelize', null],
-            ['camel_ize', 'CamelIze', null],
-            ['CameLize', 'Camelize', null],
-            ['c_a-m_e-l_i-z_e', 'CAMELIZE', null],
-            ['came_li_ze', 'CameLiZe', null],
-            ['=_camelize', '=Camelize', '_'],
-            ['camelize', 'Camelize', '_'],
-            ['came_li_ze', 'CameLiZe', '_'],
-            ['came#li#ze', 'CameLiZe', '#'],
-            ['came li ze', 'CameLiZe', ' '],
-            ['came.li^ze', 'CameLiZe', '.^'],
-            ['c_a-m_e-l_i-z_e', 'CAMELIZE', '-_'],
-            ['came.li.ze', 'CameLiZe', '.'],
-            ['came-li-ze', 'CameLiZe', '-'],
-            ['c+a+m+e+l+i+z+e', 'CAMELIZE', '+'],
+            ['camelize', 'Camelize', null, false],
+            ['CameLiZe', 'Camelize', null, false],
+            ['cAmeLize', 'Camelize', null, false],
+            ['123camelize', '123camelize', null, false],
+            ['c_a_m_e_l_i_z_e', 'CAMELIZE', null, false],
+            ['Camelize', 'Camelize', null, false],
+            ['camel_ize', 'CamelIze', null, false],
+            ['CameLize', 'Camelize', null, false],
+            ['c_a-m_e-l_i-z_e', 'CAMELIZE', null, false],
+            ['came_li_ze', 'CameLiZe', null, false],
+            ['=_camelize', '=Camelize', '_', false],
+            ['camelize', 'Camelize', '_', false],
+            ['came_li_ze', 'CameLiZe', '_', false],
+            ['came#li#ze', 'CameLiZe', '#', false],
+            ['came li ze', 'CameLiZe', ' ', false],
+            ['came.li^ze', 'CameLiZe', '.^', false],
+            ['c_a-m_e-l_i-z_e', 'CAMELIZE', '-_', false],
+            ['came.li.ze', 'CameLiZe', '.', false],
+            ['came-li-ze', 'CameLiZe', '-', false],
+            ['c+a+m+e+l+i+z+e', 'CAMELIZE', '+', false],
+            ['customer-session', 'CustomerSession', null, false],
+            ['customer Session', 'CustomerSession', ' -_', false],
+            ['customer-Session', 'CustomerSession', ' -_', false],
+            ['customer-session', 'customerSession', null, true],
+            ['customer Session', 'customerSession', ' -_', true],
+            ['customer-Session', 'customerSession', ' -_', true],
         ];
     }
 }
