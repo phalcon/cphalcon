@@ -2516,7 +2516,7 @@ class Compiler implements InjectionAwareInterface
          * attributes
          */
         if name == "escape_attr" {
-            return "$this->escaper->attr(" . arguments . ")";
+            return "$this->escaper->attributes(" . arguments . ")";
         }
 
         /**
