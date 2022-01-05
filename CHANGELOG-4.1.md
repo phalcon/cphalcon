@@ -1,3 +1,11 @@
+
+# [4.1.3](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (xxxx-xx-xx)
+
+## Fixed
+
+- Fixed `Phalcon\Mvc\Model::getRelated()` to correctly return relationships (cached or not) when the foreign key has changed [#15649](https://github.com/phalcon/cphalcon/issues/15649)
+
+
 # [4.1.2](https://github.com/phalcon/cphalcon/releases/tag/v4.1.2) (2021-04-22)
 
 ## Changed
