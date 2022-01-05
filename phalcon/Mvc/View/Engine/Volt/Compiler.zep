@@ -1920,7 +1920,7 @@ class Compiler implements InjectionAwareInterface
             }
 
             if name == "preload" {
-                return "$this->tag->preload(" . arguments . ")";
+                return "$this->preload(" . arguments . ")";
             }
 
             /**
