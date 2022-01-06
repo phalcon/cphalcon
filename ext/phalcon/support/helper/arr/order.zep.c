@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 13, &sorted);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &sorted);
 	zephir_check_call_status();
 	RETURN_MM();
 }

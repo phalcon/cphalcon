@@ -2450,7 +2450,7 @@ PHP_METHOD(Phalcon_Mvc_View, engineRender)
 		object_init_ex(&_44$$30, phalcon_mvc_view_exception_ce);
 		ZEPHIR_INIT_VAR(&_45$$30);
 		ZEPHIR_CONCAT_SVS(&_45$$30, "View '", &viewPath, "' was not found in any of the views directory");
-		ZEPHIR_CALL_METHOD(NULL, &_44$$30, "__construct", NULL, 30, &_45$$30);
+		ZEPHIR_CALL_METHOD(NULL, &_44$$30, "__construct", NULL, 31, &_45$$30);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_44$$30, "phalcon/Mvc/View.zep", 1089);
 		ZEPHIR_MM_RESTORE();
@@ -2586,7 +2586,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 							ZEPHIR_CALL_CE_STATIC(&_7$$9, _8$$9, "bind", &_9, 0, &engineService, &di);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&engineService, &_7$$9);
-							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 198, &engineService, this_ptr);
+							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 199, &engineService, this_ptr);
 							zephir_check_call_status();
 							zephir_array_update_zval(&engines, &extension, &_7$$9, PH_COPY | PH_SEPARATE);
 						} else {
@@ -2598,7 +2598,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 							object_init_ex(&_11$$12, phalcon_mvc_view_exception_ce);
 							ZEPHIR_INIT_NVAR(&_12$$12);
 							ZEPHIR_CONCAT_SV(&_12$$12, "Invalid template engine registration for extension: ", &extension);
-							ZEPHIR_CALL_METHOD(NULL, &_11$$12, "__construct", &_13, 30, &_12$$12);
+							ZEPHIR_CALL_METHOD(NULL, &_11$$12, "__construct", &_13, 31, &_12$$12);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_11$$12, "phalcon/Mvc/View.zep", 1160);
 							ZEPHIR_MM_RESTORE();
@@ -2631,7 +2631,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 								ZEPHIR_CALL_CE_STATIC(&_16$$15, _17$$15, "bind", &_9, 0, &engineService, &di);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&engineService, &_16$$15);
-								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 198, &engineService, this_ptr);
+								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 199, &engineService, this_ptr);
 								zephir_check_call_status();
 								zephir_array_update_zval(&engines, &extension, &_16$$15, PH_COPY | PH_SEPARATE);
 							} else {
@@ -2643,7 +2643,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 								object_init_ex(&_18$$18, phalcon_mvc_view_exception_ce);
 								ZEPHIR_INIT_NVAR(&_19$$18);
 								ZEPHIR_CONCAT_SV(&_19$$18, "Invalid template engine registration for extension: ", &extension);
-								ZEPHIR_CALL_METHOD(NULL, &_18$$18, "__construct", &_13, 30, &_19$$18);
+								ZEPHIR_CALL_METHOD(NULL, &_18$$18, "__construct", &_13, 31, &_19$$18);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_18$$18, "phalcon/Mvc/View.zep", 1160);
 								ZEPHIR_MM_RESTORE();

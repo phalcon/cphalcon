@@ -57,6 +57,7 @@
  * @method string decode(string $data, bool $associative = false, int $depth = 512, int $options = 0)
  * @method string encode($data, int $options = 0, int $depth = 512)
  * @method bool   between(int $value, int $start, int $end)
+ * @method string camelize(string $text, string $delimiters = null, bool $lowerFirst = false)
  * @method string concat(string $delimiter, string $first, string $second, string ...$arguments)
  * @method int    countVowels(string $text)
  * @method string decapitalize(string $text, bool $upperRest = false, string $encoding = 'UTF-8')
@@ -73,14 +74,18 @@
  * @method bool   isLower(string $text, string $encoding = 'UTF-8')
  * @method bool   isPalindrome(string $text)
  * @method bool   isUpper(string $text, string $encoding = 'UTF-8')
+ * @method string kebabCase(string $text, string $delimiters = null)
  * @method int    len(string $text, string $encoding = 'UTF-8')
  * @method string lower(string $text, string $encoding = 'UTF-8')
+ * @method string pascalCase(string $text, string $delimiters = null)
  * @method string prefix($text, string $prefix)
  * @method string random(int $type = 0, int $length = 8)
  * @method string reduceSlashes(string $text)
  * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
+ * @method string snakeCase(string $text, string $delimiters = null)
  * @method string suffix($text, string $suffix)
  * @method string ucwords(string $text, string $encoding = 'UTF-8')
+ * @method string uncamelize(string $text, string $delimiters = '_')
  * @method string underscore(string $text)
  * @method string upper(string $text, string $encoding = 'UTF-8')
  */
@@ -283,11 +288,14 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("isLower"), SL("Phalcon\\Support\\Helper\\Str\\IsLower"));
 	add_assoc_stringl_ex(return_value, SL("isPalindrome"), SL("Phalcon\\Support\\Helper\\Str\\IsPalindrome"));
 	add_assoc_stringl_ex(return_value, SL("isUpper"), SL("Phalcon\\Support\\Helper\\Str\\IsUpper"));
+	add_assoc_stringl_ex(return_value, SL("kebabCase"), SL("Phalcon\\Support\\Helper\\Str\\KebabCase"));
 	add_assoc_stringl_ex(return_value, SL("len"), SL("Phalcon\\Support\\Helper\\Str\\Len"));
 	add_assoc_stringl_ex(return_value, SL("lower"), SL("Phalcon\\Support\\Helper\\Str\\Lower"));
+	add_assoc_stringl_ex(return_value, SL("pascalCase"), SL("Phalcon\\Support\\Helper\\Str\\PascalCase"));
 	add_assoc_stringl_ex(return_value, SL("prefix"), SL("Phalcon\\Support\\Helper\\Str\\Prefix"));
 	add_assoc_stringl_ex(return_value, SL("random"), SL("Phalcon\\Support\\Helper\\Str\\Random"));
 	add_assoc_stringl_ex(return_value, SL("reduceSlashes"), SL("Phalcon\\Support\\Helper\\Str\\ReduceSlashes"));
+	add_assoc_stringl_ex(return_value, SL("snakeCase"), SL("Phalcon\\Support\\Helper\\Str\\SnakeCase"));
 	add_assoc_stringl_ex(return_value, SL("startsWith"), SL("Phalcon\\Support\\Helper\\Str\\StartsWith"));
 	add_assoc_stringl_ex(return_value, SL("suffix"), SL("Phalcon\\Support\\Helper\\Str\\Suffix"));
 	add_assoc_stringl_ex(return_value, SL("ucwords"), SL("Phalcon\\Support\\Helper\\Str\\Ucwords"));

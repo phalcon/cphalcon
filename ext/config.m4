@@ -73,6 +73,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter/abstractadapter.zep.c
+	phalcon/support/helper/str/pascalcase.zep.c
 	phalcon/translate/adapter/abstractadapter.zep.c
 	phalcon/acl/adapter/adapterinterface.zep.c
 	phalcon/application/abstractapplication.zep.c
@@ -582,11 +583,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/helper/str/islower.zep.c
 	phalcon/support/helper/str/ispalindrome.zep.c
 	phalcon/support/helper/str/isupper.zep.c
+	phalcon/support/helper/str/kebabcase.zep.c
 	phalcon/support/helper/str/len.zep.c
 	phalcon/support/helper/str/lower.zep.c
 	phalcon/support/helper/str/prefix.zep.c
 	phalcon/support/helper/str/random.zep.c
 	phalcon/support/helper/str/reduceslashes.zep.c
+	phalcon/support/helper/str/snakecase.zep.c
 	phalcon/support/helper/str/startswith.zep.c
 	phalcon/support/helper/str/suffix.zep.c
 	phalcon/support/helper/str/ucwords.zep.c

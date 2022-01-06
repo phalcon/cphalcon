@@ -1319,7 +1319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						object_init_ex(&_4$$17, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_VAR(&_5$$17);
 						ZEPHIR_CONCAT_SVS(&_5$$17, "Column '", &firstPrimaryKey, "' isn't part of the column map");
-						ZEPHIR_CALL_METHOD(NULL, &_4$$17, "__construct", NULL, 30, &_5$$17);
+						ZEPHIR_CALL_METHOD(NULL, &_4$$17, "__construct", NULL, 31, &_5$$17);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_4$$17, "phalcon/Mvc/Model/Query/Builder.zep", 739);
 						ZEPHIR_MM_RESTORE();
@@ -1821,7 +1821,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (zephir_is_numeric(&number)) {
 			zephir_concat_self_str(&phql, SL(" LIMIT :APL0:"));
 			ZVAL_LONG(&_82$$86, 10);
-			ZEPHIR_CALL_FUNCTION(&_83$$86, "intval", NULL, 50, &number, &_82$$86);
+			ZEPHIR_CALL_FUNCTION(&_83$$86, "intval", NULL, 51, &number, &_82$$86);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_84$$86);
 			ZVAL_STRING(&_84$$86, "APL0");
@@ -1838,7 +1838,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 			if (_87$$86) {
 				zephir_concat_self_str(&phql, SL(" OFFSET :APL1:"));
 				ZVAL_LONG(&_88$$87, 10);
-				ZEPHIR_CALL_FUNCTION(&_89$$87, "intval", NULL, 50, &offset, &_88$$87);
+				ZEPHIR_CALL_FUNCTION(&_89$$87, "intval", NULL, 51, &offset, &_88$$87);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_90$$87);
 				ZVAL_STRING(&_90$$87, "APL1");
@@ -3351,9 +3351,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 140, &_2$$3, &operator);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1571);
 		ZEPHIR_MM_RESTORE();
@@ -3473,9 +3473,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 140, &_2$$3, &operator);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1619);
 		ZEPHIR_MM_RESTORE();
@@ -3634,9 +3634,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 140, &_2$$3, &operator);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1673);
 		ZEPHIR_MM_RESTORE();
@@ -3756,9 +3756,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 139, &_2$$3, &operator);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 140, &_2$$3, &operator);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1720);
 		ZEPHIR_MM_RESTORE();

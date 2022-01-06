@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		zephir_get_class(&_3$$3, model, 0);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SVSV(&_4$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_3$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 30, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 31, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 92);
 		ZEPHIR_MM_RESTORE();
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		zephir_get_class(&_7$$6, model, 0);
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZEPHIR_CONCAT_SVSV(&_8$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_7$$6);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 30, &_8$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 31, &_8$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 112);
 		ZEPHIR_MM_RESTORE();

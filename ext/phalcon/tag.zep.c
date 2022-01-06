@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle)
 			object_init_ex(&_3$$4, phalcon_tag_exception_ce);
 			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 30, &_4$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 31, &_4$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Tag.zep", 308);
 			ZEPHIR_MM_RESTORE();
@@ -2154,7 +2154,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 					zephir_gettype(&_16$$13, &value);
 					ZEPHIR_INIT_NVAR(&_17$$13);
 					ZEPHIR_CONCAT_SVSVS(&_17$$13, "Value at index: '", &key, "' type: '", &_16$$13, "' cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 30, &_17$$13);
+					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 31, &_17$$13);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_15$$13, "phalcon/Tag.zep", 952);
 					ZEPHIR_MM_RESTORE();
@@ -2200,7 +2200,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 						zephir_gettype(&_24$$18, &value);
 						ZEPHIR_INIT_NVAR(&_25$$18);
 						ZEPHIR_CONCAT_SVSVS(&_25$$18, "Value at index: '", &key, "' type: '", &_24$$18, "' cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 30, &_25$$18);
+						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 31, &_25$$18);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_23$$18, "phalcon/Tag.zep", 952);
 						ZEPHIR_MM_RESTORE();

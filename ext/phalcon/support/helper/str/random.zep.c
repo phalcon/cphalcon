@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	zephir_array_update_long(&pools, 4, &_11, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "2345679ACDEFHJKLMNPRSTUVWXYZ");
-	ZEPHIR_CALL_FUNCTION(&_11, "str_split", NULL, 114, &_2);
+	ZEPHIR_CALL_FUNCTION(&_11, "str_split", NULL, 115, &_2);
 	zephir_check_call_status();
 	zephir_array_update_long(&pools, 5, &_11, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZVAL_LONG(&_7, 0);

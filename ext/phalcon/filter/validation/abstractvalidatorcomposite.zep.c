@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 		zephir_get_class(&_2$$3, this_ptr, 0);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_VS(&_3$$3, &_2$$3, " does not have any validator added");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 30, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/AbstractValidatorComposite.zep", 33);
 		ZEPHIR_MM_RESTORE();
