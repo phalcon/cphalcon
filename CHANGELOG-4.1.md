@@ -1,5 +1,6 @@
+# [4.1.4](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (xxxx-xx-xx)
 
-# [4.1.3](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (xxxx-xx-xx)
+# [4.1.3](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (2022-01-06)
 
 ## Fixed
 
