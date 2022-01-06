@@ -11,42 +11,30 @@
 namespace Phalcon\Support\Helper\Str;
 
 /**
- * Converts strings to camelize style
+ * Converts strings to upperCamelCase or lowerCamelCase
  */
-class Camelize
+class Camelize extends PascalCase
 {
     /**
      * @param string      $text
      * @param string|null $delimiters
+     * @param bool        $lowerFirst
      *
      * @return string
      */
     public function __invoke(
         string text,
-        string delimiters = null
+        string delimiters = null,
+        bool lowerFirst = false
     ) -> string {
-        var delims, exploded, output;
+        var result;
 
-        if !delimiters {
-            let delims = "_-";
-        } else {
-            let delims = delimiters;
+        let result = parent::__invoke(text, delimiters);
+
+        if (lowerFirst === true) {
+            let result = lcfirst(result);
         }
 
-        let exploded   = preg_split(
-            "/[" . delims . "]+/",
-            text,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-
-        let output     = array_map(
-            function (element) {
-                return ucfirst(mb_strtolower(element));
-            },
-            exploded
-        );
-
-        return implode("", output);
+        return result;
     }
 }

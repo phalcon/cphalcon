@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Html\Attributes;
 
-use Phalcon\Support\Collection;
 use Phalcon\Html\Attributes;
+use Phalcon\Support\Collection;
 use UnitTester;
 
 class ConstructCest

@@ -1124,7 +1124,7 @@ PHP_METHOD(Phalcon_Logger_Logger, getLevelNumber)
 		zephir_fast_strtoupper(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 202, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 203, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset(&levels, &levelName)) {
 			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/Logger.zep", 473);

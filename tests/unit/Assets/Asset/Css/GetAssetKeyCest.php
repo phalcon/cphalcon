@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
+use function hash;
+
 /**
  * Class GetAssetKeyCest
  *
@@ -38,7 +40,7 @@ class GetAssetKeyCest
         $path = 'css/docs.css';
 
         $asset    = new Css($path);
-        $assetKey = sha1('css:' . $path);
+        $assetKey = hash("sha256", 'css:' . $path);
         $actual   = $asset->getAssetKey();
 
         $I->assertEquals($assetKey, $actual);

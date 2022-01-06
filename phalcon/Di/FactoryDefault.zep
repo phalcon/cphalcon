@@ -33,6 +33,18 @@ class FactoryDefault extends \Phalcon\Di\Di
 
         let this->services = [
             "annotations"        : new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
+            "assets"             : new Service(
+                [
+                    "className" : "Phalcon\\Assets\\Manager",
+                    "arguments" : [
+                        [
+                            "type" : "service",
+                            "name" : "tag"
+                        ]
+                    ]
+                ],
+                true
+            ),
             "crypt"              : new Service("Phalcon\\Encryption\\Crypt", true),
             "cookies"            : new Service("Phalcon\\Http\\Response\\Cookies", true),
             "dispatcher"         : new Service("Phalcon\\Mvc\\Dispatcher", true),
@@ -48,34 +60,46 @@ class FactoryDefault extends \Phalcon\Di\Di
             "response"           : new Service("Phalcon\\Http\\Response", true),
             "router"             : new Service("Phalcon\\Mvc\\Router", true),
             "security"           : new Service("Phalcon\\Encryption\\Security", true),
+            "tag"                : new Service(
+                [
+                    "className" : "Phalcon\\Html\\TagFactory",
+                    "arguments" : [
+                        [
+                            "type" : "service",
+                            "name" : "escaper"
+                        ]
+                    ]
+                ],
+                true
+            ),
             "transactionManager" : new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
             "url"                : new Service("Phalcon\\Mvc\\Url", true)
         ];
 
-        this->set(
-            "assets",
-            [
-                "className" : "Phalcon\\Assets\\Manager",
-                "arguments" : [
-                    [
-                        "type" : "service",
-                        "name" : "tag"
-                    ]
-                ]
-            ]
-        );
-
-        this->set(
-            "tag",
-            [
-                "className" : "Phalcon\\Html\\TagFactory",
-                "arguments" : [
-                    [
-                        "type" : "service",
-                        "name" : "escaper"
-                    ]
-                ]
-            ]
-        );
+//        this->setShared(
+//            "assets",
+//            [
+//                "className" : "Phalcon\\Assets\\Manager",
+//                "arguments" : [
+//                    [
+//                        "type" : "service",
+//                        "name" : "tag"
+//                    ]
+//                ]
+//            ]
+//        );
+//
+//        this->setShared(
+//            "tag",
+//            [
+//                "className" : "Phalcon\\Html\\TagFactory",
+//                "arguments" : [
+//                    [
+//                        "type" : "service",
+//                        "name" : "escaper"
+//                    ]
+//                ]
+//            ]
+//        );
     }
 }

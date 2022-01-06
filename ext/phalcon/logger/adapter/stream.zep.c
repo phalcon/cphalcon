@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 			zephir_read_property(&_7$$4, this_ptr, ZEND_STRL("mode"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "The file '%s' cannot be opened with mode '%s'");
-			ZEPHIR_CALL_FUNCTION(&_9$$4, "sprintf", NULL, 139, &_8$$4, &_6$$4, &_7$$4);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "sprintf", NULL, 140, &_8$$4, &_6$$4, &_7$$4);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 479, &_9$$4);
 			zephir_check_call_status();
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen)
 	zephir_get_strval(&mode, mode_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 89, &filename, &mode);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 90, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 }

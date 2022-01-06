@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct)
  */
 PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 {
-	zval key, _0, _1;
+	zval key, _0, _1, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -172,6 +172,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 
 	ZEPHIR_MM_GROW();
@@ -182,7 +183,9 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
-	ZEPHIR_RETURN_CALL_FUNCTION("sha1", NULL, 96, &key);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "sha256");
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 99, &_2, &key);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Logger;
 use UnitTester;
 

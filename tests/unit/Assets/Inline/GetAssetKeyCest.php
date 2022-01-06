@@ -17,6 +17,8 @@ use Codeception\Example;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
+use function hash;
+
 class GetAssetKeyCest
 {
     /**
@@ -36,7 +38,8 @@ class GetAssetKeyCest
             $example['content']
         );
 
-        $expected = sha1(
+        $expected = hash(
+            "sha256",
             $example['type'] . ':' . $example['content']
         );
 

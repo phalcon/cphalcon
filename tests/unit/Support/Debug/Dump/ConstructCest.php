@@ -17,11 +17,8 @@ use Phalcon\Support\Debug\Dump;
 use Phalcon\Tests\Fixtures\Support\Dump\ClassProperties;
 use UnitTester;
 
-/**
- * Class ConstructCest
- *
- * @package Phalcon\Tests\Unit\Support\Debug\Dump
- */
+use const PHP_OS_FAMILY;
+
 class ConstructCest
 {
     /**
@@ -36,8 +33,11 @@ class ConstructCest
      */
     public function supportDebugDumpConstructDump(UnitTester $I)
     {
-        $I->skipTest("Needs a review");
         $I->wantToTest('Debug\Dump - __construct() - dump properties');
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to fix Windows new lines...');
+        }
 
         $patient = new ClassProperties();
         $dump    = new Dump([], true);

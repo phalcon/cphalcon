@@ -60,11 +60,14 @@ use Phalcon\Support\Helper\Str\IsAnagram;
 use Phalcon\Support\Helper\Str\IsLower;
 use Phalcon\Support\Helper\Str\IsPalindrome;
 use Phalcon\Support\Helper\Str\IsUpper;
+use Phalcon\Support\Helper\Str\KebabCase;
 use Phalcon\Support\Helper\Str\Len;
 use Phalcon\Support\Helper\Str\Lower;
+use Phalcon\Support\Helper\Str\PascalCase;
 use Phalcon\Support\Helper\Str\Prefix;
 use Phalcon\Support\Helper\Str\Random;
 use Phalcon\Support\Helper\Str\ReduceSlashes;
+use Phalcon\Support\Helper\Str\SnakeCase;
 use Phalcon\Support\Helper\Str\StartsWith;
 use Phalcon\Support\Helper\Str\Suffix;
 use Phalcon\Support\Helper\Str\Ucwords;
@@ -172,9 +175,11 @@ class NewInstanceCest
             ["isLower",        IsLower::class],
             ["isPalindrome",   IsPalindrome::class],
             ["isUpper",        IsUpper::class],
+            ["kebabCase",      KebabCase::class],
             ["len",            Len::class],
             ["lower",          Lower::class],
             ["prefix",         Prefix::class],
+            ["pascalCase",     PascalCase::class],
             ["random",         Random::class],
             ["reduceSlashes",  ReduceSlashes::class],
             ["startsWith",     StartsWith::class],

@@ -156,14 +156,14 @@ PHP_METHOD(Phalcon_Filter_Validation, __construct)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_7__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 16, &validators, &_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_8__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 17, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_8__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 16, &validators, &_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_9__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 17, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("combinedFieldsValidators"), &_3);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {

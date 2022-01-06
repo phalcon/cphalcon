@@ -36,7 +36,7 @@ class UrlCest
         $actual   = $escaper->url('http://phalcon.io/a.php?c=d&e=f');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $escaper->escapeUrl('http://phalcon.io/a.php?c=d&e=f');
+        $actual = $escaper->escapeUrl('http://phalcon.io/a.php?c=d&e=f');
         $I->assertEquals($expected, $actual);
     }
 }

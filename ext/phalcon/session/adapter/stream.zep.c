@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		object_init_ex(&_4$$4, phalcon_session_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZEPHIR_CONCAT_SVS(&_5$$4, "The session save path [", &path, "] is not writable");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 30, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 31, &_5$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$4, "phalcon/Session/Adapter/Stream.zep", 67);
 		ZEPHIR_MM_RESTORE();
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 144, &file);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 145, &file);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				_9$$3 = ZEPHIR_LT(&_10$$3, &time);
 			}
 			if (_9$$3) {
-				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 144, &file);
+				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 145, &file);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 					_14$$5 = ZEPHIR_LT(&_15$$5, &time);
 				}
 				if (_14$$5) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 144, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 145, &file);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
@@ -350,10 +350,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 	if ((zephir_file_exists(&name) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "r");
-		ZEPHIR_CALL_FUNCTION(&pointer, "fopen", NULL, 89, &name, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&pointer, "fopen", NULL, 90, &name, &_2$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_3$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 153, &pointer, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 154, &pointer, &_3$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_4$$3)) {
 			ZEPHIR_INIT_NVAR(&data);
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	ZVAL_LONG(&_2, 2);
-	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 156, &name, data, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 157, &name, data, &_2);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
 }

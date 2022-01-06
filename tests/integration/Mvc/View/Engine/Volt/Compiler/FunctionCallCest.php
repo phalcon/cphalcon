@@ -206,6 +206,156 @@ class FunctionCallCest
                 '{{ somefunction(\'abc\') }}',
                 '<?= $this->callMacro(\'somefunction\', [\'abc\']) ?>',
             ],
+            [
+                'length',
+                '{{ "abc" | length }}',
+                '<?= $this->length(\'abc\') ?>',
+            ],
+            [
+                'e',
+                '{{ "abc" | e }}',
+                '<?= $this->escaper->html(\'abc\') ?>',
+            ],
+            [
+                'escape',
+                '{{ "abc" | escape }}',
+                '<?= $this->escaper->html(\'abc\') ?>',
+            ],
+            [
+                'escape_css',
+                '{{ "abc" | escape_css }}',
+                '<?= $this->escaper->css(\'abc\') ?>',
+            ],
+            [
+                'escape_js',
+                '{{ "abc" | escape_js }}',
+                '<?= $this->escaper->js(\'abc\') ?>',
+            ],
+            [
+                'escape_attr',
+                '{{ "abc" | escape_attr }}',
+                '<?= $this->escaper->attributes(\'abc\') ?>',
+            ],
+            [
+                'trim',
+                '{{ "abc" | trim }}',
+                '<?= trim(\'abc\') ?>',
+            ],
+            [
+                'left_trim',
+                '{{ "abc" | left_trim }}',
+                '<?= ltrim(\'abc\') ?>',
+            ],
+            [
+                'right_trim',
+                '{{ "abc" | right_trim }}',
+                '<?= rtrim(\'abc\') ?>',
+            ],
+            [
+                'striptags',
+                '{{ "abc" | striptags }}',
+                '<?= strip_tags(\'abc\') ?>',
+            ],
+            [
+                'url_encode',
+                '{{ "abc" | url_encode }}',
+                '<?= urlencode(\'abc\') ?>',
+            ],
+            [
+                'striptags',
+                '{{ "abc" | striptags }}',
+                '<?= strip_tags(\'abc\') ?>',
+            ],
+            [
+                'slashes',
+                '{{ "abc" | slashes }}',
+                '<?= addslashes(\'abc\') ?>',
+            ],
+            [
+                'stripslashes',
+                '{{ "abc" | stripslashes }}',
+                '<?= stripslashes(\'abc\') ?>',
+            ],
+            [
+                'nl2br',
+                '{{ "abc" | nl2br }}',
+                '<?= nl2br(\'abc\') ?>',
+            ],
+            [
+                'keys',
+                '{{ "abc" | keys }}',
+                '<?= array_keys(\'abc\') ?>',
+            ],
+            [
+                'join',
+                '{{ ["abc", "def"] | join(",") }}',
+                '<?= join(\',\', [\'abc\', \'def\']) ?>',
+            ],
+            [
+                'lower',
+                '{{ "abc" | lower }}',
+                '<?= strtolower(\'abc\') ?>',
+            ],
+            [
+                'lowercase',
+                '{{ "abc" | lowercase }}',
+                '<?= strtolower(\'abc\') ?>',
+            ],
+            [
+                'upper',
+                '{{ "abc" | upper }}',
+                '<?= strtoupper(\'abc\') ?>',
+            ],
+            [
+                'uppercase',
+                '{{ "abc" | uppercase }}',
+                '<?= strtoupper(\'abc\') ?>',
+            ],
+            [
+                'capitalize',
+                '{{ "abc" | capitalize }}',
+                '<?= ucwords(\'abc\') ?>',
+            ],
+            [
+                'sort',
+                '{{ "abc" | sort }}',
+                '<?= $this->sort(\'abc\') ?>',
+            ],
+            [
+                'json_encode',
+                '{{ "abc" | json_encode }}',
+                '<?= json_encode(\'abc\') ?>',
+            ],
+            [
+                'json_decode',
+                '{{ "abc" | json_decode }}',
+                '<?= json_decode(\'abc\') ?>',
+            ],
+            [
+                'format',
+                '{{ "abc" | format }}',
+                '<?= sprintf(\'abc\') ?>',
+            ],
+            [
+                'abs',
+                '{{ "abc" | abs }}',
+                '<?= abs(\'abc\') ?>',
+            ],
+            [
+                'slice',
+                '{{ "abc" | slice }}',
+                '<?= $this->slice(\'abc\') ?>',
+            ],
+            [
+                'default',
+                '{{ "abc" | default("def") }}',
+                '<?= (empty(\'abc\') ? (\'def\') : (\'abc\')) ?>',
+            ],
+            [
+                'convert_encoding',
+                '{{ "abc" | convert_encoding }}',
+                '<?= $this->convertEncoding(\'abc\') ?>',
+            ],
         ];
     }
 }

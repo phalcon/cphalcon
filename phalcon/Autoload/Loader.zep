@@ -91,7 +91,7 @@ class Loader extends AbstractEventsAware
      */
     public function __construct(bool isDebug = false)
     {
-        let this->extensions[sha1("php")] = "php",
+        let this->extensions[hash("sha256", "php")] = "php",
             this->isDebug    = isDebug;
     }
 
@@ -119,7 +119,7 @@ class Loader extends AbstractEventsAware
      */
     public function addDirectory(string directory) -> <Loader>
     {
-        let this->directories[sha1(directory)] = directory;
+        let this->directories[hash("sha256", directory)] = directory;
 
         return this;
     }
@@ -133,7 +133,7 @@ class Loader extends AbstractEventsAware
      */
     public function addExtension(string extension) -> <Loader>
     {
-        let this->extensions[sha1(extension)] = extension;
+        let this->extensions[hash("sha256", extension)] = extension;
 
         return this;
     }
@@ -147,7 +147,7 @@ class Loader extends AbstractEventsAware
      */
     public function addFile(string file) -> <Loader>
     {
-        let this->files[sha1(file)] = file;
+        let this->files[hash("sha256", file)] = file;
 
         return this;
     }
@@ -409,7 +409,7 @@ class Loader extends AbstractEventsAware
 
         if (!merge) {
             let this->extensions = [],
-                this->extensions[sha1("php")] = "php";
+                this->extensions[hash("sha256", "php")] = "php";
         }
 
         for extension in extensions {
@@ -737,7 +737,7 @@ class Loader extends AbstractEventsAware
         for directory in directories {
             let directory = rtrim(directory, dirSeparator) . dirSeparator;
 
-            let results[sha1(directory)] = directory;
+            let results[hash("sha256", directory)] = directory;
         }
 
         return results;

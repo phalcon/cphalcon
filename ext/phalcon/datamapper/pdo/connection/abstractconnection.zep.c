@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 		ZEPHIR_CONCAT_SVSVS(&message, "Class '", &className, "' does not have a method '", name, "'");
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, spl_ce_BadMethodCallException);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 100, &message);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 103, &message);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 62);
 		ZEPHIR_MM_RESTORE();
