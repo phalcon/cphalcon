@@ -124,7 +124,7 @@ class Postgresql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, indexType, onDelete, onUpdate,
-            columnDefinition;
+            columnDefinition, tableComment;
         array createLines, primaryColumns;
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
@@ -257,6 +257,16 @@ class Postgresql extends Dialect
         let sql .= join(",\n\t", createLines) . "\n)";
         if isset definition["options"] {
             let sql .= " " . this->getTableOptions(definition);
+            if fetch options, definition["options"] {
+                /**
+                * Check if there is an comment option
+                */
+                if fetch tableComment, options["TABLE_COMMENT"] {
+                    if tableComment {
+                        let sql .= "; COMMENT ON TABLE " . table . " IS '".tableComment."'";
+                    }
+                }
+            }
         }
         let sql .= ";" . indexSqlAfterCreate;
 
@@ -656,7 +666,10 @@ class Postgresql extends Dialect
      */
     public function tableOptions(string! table, string schema = null) -> string
     {
-        return "";
+        string sql;
+
+        let sql = "select  cast(obj_description(relfilenode,'pg_class') as varchar) as table_comment from pg_class where   relname ='" . table . "'" ;
+        return sql;
     }
 
     /**
