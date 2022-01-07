@@ -199,7 +199,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let formatter = this->getFormatter();
 
-        return formatter->format(item) . PHP_EOL;
+        return formatter->format(item);
     }
 
     /**
