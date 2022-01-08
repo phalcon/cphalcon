@@ -1,4 +1,10 @@
-# [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2022-01-06)
+# [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Logger\AbstractAdapter::getFormattedItem()` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
+
+
+# [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)
 
 ## Fixed
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall()` to check for container presence before checking the `tag` service [#15842](https://github.com/phalcon/cphalcon/issues/15842)
