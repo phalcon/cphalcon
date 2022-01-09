@@ -472,7 +472,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *         "name" => "Voltron",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "name" => Column::BIND_PARAM_STR,
      *     ]
      * );
      *```
