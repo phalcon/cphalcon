@@ -453,7 +453,7 @@ class Di implements DiInterface
      * var_dump($di["request"]);
      *```
      */
-    public function offsetGet(mixed name) -> var
+    public function offsetGet(mixed name) -> mixed
     {
         return this->getShared(name);
     }

@@ -238,7 +238,7 @@ class Collection implements
      * Offset to retrieve
      * See [offsetGet](https://php.net/manual/en/arrayaccess.offsetget.php)
      */
-    public function offsetGet(mixed element)
+    public function offsetGet(mixed element) -> mixed
     {
         let element = (string) element;
 
