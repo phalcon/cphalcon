@@ -121,7 +121,6 @@ Thanks for the support
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
 <a href="https://github.com/postype"><img src="https://avatars.githubusercontent.com/u/54393235?s=200&v=4" title="https://www.postype.com/" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
-<a href="https://github.com/barnettruth"><img src="https://avatars.githubusercontent.com/u/95089067?v=4" title="barnettruth" width="60" height="60"></a>
 <a href="https://github.com/mccauleycassa"><img src="https://avatars.githubusercontent.com/u/95136425?v=4" title="mccauleycassa" width="60" height="60"></a>
 <a href="https://github.com/hillbrianna"><img src="https://avatars.githubusercontent.com/u/95143459?v=4" title="hillbrianna" width="60" height="60"></a>
 <a href="https://github.com/whitneyza"><img src="https://avatars.githubusercontent.com/u/95216218?v=4" title="whitneyza" width="60" height="60"></a>
