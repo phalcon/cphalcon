@@ -32,4 +32,5 @@ class Enum
     const FETCH_PROPS_LATE = \Pdo::FETCH_PROPS_LATE;
     const FETCH_SERIALIZE  = \Pdo::FETCH_SERIALIZE;
     const FETCH_UNIQUE     = \Pdo::FETCH_UNIQUE;
+    const FETCH_DEFAULT    = \Pdo::FETCH_DEFAULT;
 }
