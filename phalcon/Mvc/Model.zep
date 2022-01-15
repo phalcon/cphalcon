@@ -5812,4 +5812,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         return key;
     }
+
+    public function __serialize() -> array
+    {
+        // Nothing here
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        // Nothing here
+    }
 }
