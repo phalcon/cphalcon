@@ -2,6 +2,7 @@
 
 ## Fixed
 - Fixed `Phalcon\Logger\AbstractAdapter::getFormattedItem()` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
+- Fixed PHP8.1 compatibility in `Phalcon\Http\Request\File:getRealType()` method [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 
 ## Added
 - Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`) [#15598](https://github.com/phalcon/cphalcon/issues/15598)
