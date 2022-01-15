@@ -1920,7 +1920,7 @@ class Compiler implements InjectionAwareInterface
             }
 
             if name == "preload" {
-                return "$this->tag->preload(" . arguments . ")";
+                return "$this->preload(" . arguments . ")";
             }
 
             /**
@@ -2516,7 +2516,7 @@ class Compiler implements InjectionAwareInterface
          * attributes
          */
         if name == "escape_attr" {
-            return "$this->escaper->attr(" . arguments . ")";
+            return "$this->escaper->attributes(" . arguments . ")";
         }
 
         /**

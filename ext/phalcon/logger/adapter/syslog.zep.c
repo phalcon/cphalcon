@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		zephir_cast_to_string(&_6$$3, &_5$$3);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 139, &_7$$3, &_4$$3, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 140, &_7$$3, &_4$$3, &_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 479, &_8$$3);
 		zephir_check_call_status();

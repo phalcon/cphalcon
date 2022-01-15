@@ -93,9 +93,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 9, &needle);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 10, &needle);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 9, &haystack);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 10, &haystack);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle);
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toLower)
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 10, &text, &_0, &encoding);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text, &_0, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -317,9 +317,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toStartsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 9, &needle);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 10, &needle);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 9, &haystack);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 10, &haystack);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle);
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toUpper)
 
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 10, &text, &_0, &encoding);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text, &_0, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 }
