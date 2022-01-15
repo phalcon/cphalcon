@@ -27,6 +27,6 @@ class InvoicesSchema extends Model
     public function initialize()
     {
         $this->setSource('co_invoices');
-        $this->setSchema($_ENV['DATA_MYSQL_NAME']);
+        $this->setSchema(env('DATA_MYSQL_NAME'));
     }
 }
