@@ -9,6 +9,7 @@
 
 ## Changed
 - Replicated `filter_var(input, FILTER_SANITIZE_STRING)` in `Phalcon\Filter\Sanitize\StringVal` to custom solution, due PHP8.1 deprecation [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+- Changed property types, as in original, in `Phalcon\Db\Result\Pdo:fetch()` and `Phalcon\Db\Result\Pdo:fetchAll()` methods [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 
 
 # [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)

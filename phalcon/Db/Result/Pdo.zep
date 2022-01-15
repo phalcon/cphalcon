@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Result;
 
+use Pdo;
 use Phalcon\Db\Enum;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -55,7 +56,7 @@ class Pdo implements ResultInterface
      *
      * @var int
      */
-    protected fetchMode = Enum::FETCH_OBJ;
+    protected fetchMode = Enum::FETCH_DEFAULT;
 
     /**
      * Internal resultset
@@ -83,9 +84,13 @@ class Pdo implements ResultInterface
     /**
      * Phalcon\Db\Result\Pdo constructor
      */
-    public function __construct(<AdapterInterface> connection, <\PDOStatement> result,
-        sqlStatement = null, bindParams = null, bindTypes = null)
-    {
+    public function __construct(
+        <AdapterInterface> connection,
+        <\PDOStatement> result,
+        sqlStatement = null,
+        bindParams = null,
+        bindTypes = null
+    ) {
         let this->connection = connection,
             this->pdoStatement = result,
             this->sqlStatement = sqlStatement,
@@ -147,7 +152,7 @@ class Pdo implements ResultInterface
             number--;
 
         while n != number {
-            statement->$fetch();
+            statement->$fetch(this->fetchMode);
 
             let n++;
         }
@@ -180,10 +185,14 @@ class Pdo implements ResultInterface
      * }
      *```
      */
-    public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
+    public function $fetch(int fetchStyle = null, int cursorOrientation = Pdo::FETCH_ORI_NEXT, int cursorOffset = 0)
     {
+        var mode;
+
+        let mode = typeof fetchStyle === "int" ? fetchStyle : this->fetchMode;
+
         return this->pdoStatement->$fetch(
-            fetchStyle,
+            mode,
             cursorOrientation,
             cursorOffset
         );
@@ -202,22 +211,15 @@ class Pdo implements ResultInterface
      * $robots = $result->fetchAll();
      *```
      */
-    public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
+    public function fetchAll(int fetchStyle = null, int fetchArgument = Pdo::FETCH_ORI_NEXT, int ctorArgs = 0) -> array
     {
-        var pdoStatement;
+        var pdoStatement, mode;
 
         let pdoStatement = this->pdoStatement;
-
-        if typeof fetchStyle != "integer" {
-            return pdoStatement->fetchAll();
-        }
+        let mode = typeof fetchStyle === "int" ? fetchStyle : this->fetchMode;
 
         if fetchStyle == Enum::FETCH_CLASS {
-            return pdoStatement->fetchAll(
-                fetchStyle,
-                fetchArgument,
-                ctorArgs
-            );
+            return pdoStatement->fetchAll(mode, fetchArgument, ctorArgs);
         }
 
         if fetchStyle == Enum::FETCH_COLUMN || fetchStyle == Enum::FETCH_FUNC {
@@ -246,7 +248,7 @@ class Pdo implements ResultInterface
      */
     public function fetchArray()
     {
-        return this->pdoStatement->$fetch();
+        return this->pdoStatement->$fetch(this->fetchMode);
     }
 
     /**
