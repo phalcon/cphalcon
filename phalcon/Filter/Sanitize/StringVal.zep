@@ -11,8 +11,6 @@
 namespace Phalcon\Filter\Sanitize;
 
 /**
- * Phalcon\Filter\Sanitize\String
- *
  * Sanitizes a value to string
  */
 class StringVal
@@ -20,10 +18,24 @@ class StringVal
     /**
      * @param mixed $input The text to sanitize
      *
-     * @return string
+     * @return string|false
      */
     public function __invoke(var input)
     {
-        return filter_var(input, FILTER_UNSAFE_RAW);
+        /**
+         * Since PHP8.1, filter `FILTER_SANITIZE_STRING` is deprecated.
+         *
+         * Code below is identical replication of `filter_var(input, FILTER_SANITIZE_STRING)`
+         * for backward compatibility.
+         */
+
+        if typeof input === "array" {
+            return false;
+        }
+
+        let input = str_replace(chr(0), "", (string)input);
+        let input = preg_replace("/<[^>]*>?/", "", input);
+
+        return str_replace(["'", "\""], ["&#39;", "&#34;"], input);
     }
 }

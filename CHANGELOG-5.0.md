@@ -4,7 +4,10 @@
 - Fixed `Phalcon\Logger\AbstractAdapter::getFormattedItem()` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 
 ## Added
-- Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`)
+- Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`) [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+
+## Changed
+- Replicated `filter_var(input, FILTER_SANITIZE_STRING)` in `Phalcon\Filter\Sanitize\StringVal` to custom solution, due PHP8.1 deprecation [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 
 
 # [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)
