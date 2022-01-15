@@ -12,7 +12,6 @@ use Phalcon\DataMapper\Pdo\Connection;
 
 use function date;
 use function env;
-use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsSqlite;

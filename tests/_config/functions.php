@@ -207,7 +207,7 @@ if (!function_exists('env')) {
             return constant($key);
         }
 
-        return getenv($key) ?: $default;
+        return $_ENV[$key] ?? $default;
     }
 }
 
