@@ -15,7 +15,6 @@ use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Encryption\Security\JWT\Token\Token;
-use Phalcon\Tests\Fixtures\Security\ExtendedBuilder;
 
 trait JWTTrait
 {
@@ -29,18 +28,6 @@ trait JWTTrait
     protected function newToken($signerClass = Hmac::class, int $issDrift = 0): Token
     {
         return $this->generateToken(Builder::class, $signerClass, $issDrift);
-    }
-
-    /**
-     * @param string $signerClass
-     * @param int    $issDrift
-     *
-     * @return Token
-     * @throws ValidatorException
-     */
-    protected function newExtendedToken($signerClass = Hmac::class, int $issDrift = 0): Token
-    {
-        return $this->generateToken(ExtendedBuilder::class, $signerClass, $issDrift);
     }
 
     /**
