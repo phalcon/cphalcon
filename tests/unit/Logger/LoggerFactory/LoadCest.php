@@ -13,13 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\LoggerFactory;
 
-use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\AdapterFactory;
 use Phalcon\Logger\Exception as LoggerException;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
 use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
-use Psr\Log\LoggerInterface;
 use UnitTester;
 
 class LoadCest

@@ -31,6 +31,10 @@ use Traversable;
  * It can be used in any part of the application that needs collection of data
  * Such implementations are for instance accessing globals `$_GET`, `$_POST`
  * etc.
+ *
+ * @property array $data
+ * @property bool  $insensitive
+ * @property array $lowerKeys
  */
 class Collection implements
     ArrayAccess,

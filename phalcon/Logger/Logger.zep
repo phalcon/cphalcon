@@ -74,9 +74,9 @@ class Logger implements LoggerInterface
     protected name = "" { get };
 
     /**
-     * @var DateTimeZone|null
+     * @var DateTimeZone
      */
-    protected timezone = null;
+    protected timezone;
 
     /**
      * Constructor.
