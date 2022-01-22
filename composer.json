@@ -32,7 +32,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "phalcon/zephir": "dev-development"
+        "phalcon/zephir": "dev-#2341-dynamic-arg-info"
     },
     "require-dev": {
         "ext-apcu": "*",
