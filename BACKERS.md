@@ -121,7 +121,6 @@ Thanks for the support
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
 <a href="https://github.com/postype"><img src="https://avatars.githubusercontent.com/u/54393235?s=200&v=4" title="https://www.postype.com/" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
-<a href="https://github.com/lazospark1"><img src="https://avatars.githubusercontent.com/u/95704274?v=4" title="lazospark1" width="60" height="60"></a>
 <a href="https://github.com/leonardarac"><img src="https://avatars.githubusercontent.com/u/95871191?v=4" title="leonardarac" width="60" height="60"></a>
 
 [//]: github-sponsors
