@@ -27,7 +27,7 @@ class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProvide
      * normally without errors. The link is present if link is === identical
      * to a link object already in the collection.
      *
-     * @param LinkInterface link
+     * @param \Psr\Link\LinkInterface link
      *   A link object that should be included in this collection.
      *
      * @return static

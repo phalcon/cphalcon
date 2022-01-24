@@ -100,7 +100,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected bindTypes = [];
 
     /**
-     * @var \Psr\SimpleCache\CacheInterface|null
+     * @var \PsrExt\SimpleCache\CacheInterface|null
      */
     protected cache = null;
 
