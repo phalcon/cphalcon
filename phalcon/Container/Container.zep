@@ -10,7 +10,7 @@
 
 namespace Phalcon\Container;
 
-use Psr\Container\ContainerInterface;
+use PsrExt\Container\ContainerInterface;
 use Phalcon\Di\DiInterface;
 
 /**

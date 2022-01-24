@@ -17,8 +17,8 @@ namespace Phalcon\Http\Message;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
+use PsrExt\Http\Message\StreamInterface;
+use PsrExt\Http\Message\UriInterface;
 
 /**
  * Message methods

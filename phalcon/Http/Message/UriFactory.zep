@@ -14,8 +14,8 @@
 
 namespace Phalcon\Http\Message;
 
-use Psr\Http\Message\UriFactoryInterface;
-use Psr\Http\Message\UriInterface;
+use PsrExt\Http\Message\UriFactoryInterface;
+use PsrExt\Http\Message\UriInterface;
 
 /**
  * PSR-17 UriFactory

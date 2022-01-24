@@ -10,8 +10,8 @@
 
 namespace Phalcon\Html\Link;
 
-use Psr\Link\LinkInterface;
-use Psr\Link\LinkProviderInterface;
+use PsrExt\Link\LinkInterface;
+use PsrExt\Link\LinkProviderInterface;
 
 /**
  * @property LinkInterface[] links

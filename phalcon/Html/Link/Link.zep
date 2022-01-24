@@ -12,7 +12,7 @@ namespace Phalcon\Html\Link;
 
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
-use Psr\Link\LinkInterface;
+use PsrExt\Link\LinkInterface;
 
 /**
  * Class Phalcon\Http\Link\Link

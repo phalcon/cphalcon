@@ -20,7 +20,7 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Psr\SimpleCache\CacheInterface;
+use PsrExt\SimpleCache\CacheInterface;
 use SeekableIterator;
 use Serializable;
 

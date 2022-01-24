@@ -15,8 +15,8 @@ use DateTimeZone;
 use Exception;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Exception as LoggerException;
-use Psr\Log\InvalidArgumentException;
-use Psr\Log\LoggerInterface;
+use PsrExt\Log\InvalidArgumentException;
+use PsrExt\Log\LoggerInterface;
 
 /**
  * Phalcon Logger.

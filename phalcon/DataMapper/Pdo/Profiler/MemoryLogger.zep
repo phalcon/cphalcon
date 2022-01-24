@@ -15,7 +15,7 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
-use Psr\Log\AbstractLogger;
+use PsrExt\Log\AbstractLogger;
 
 /**
  * A naive memory-based logger.

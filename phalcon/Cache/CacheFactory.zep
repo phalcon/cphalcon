@@ -15,7 +15,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
-use Psr\SimpleCache\CacheInterface;
+use PsrExt\SimpleCache\CacheInterface;
 
 /**
  * Creates a new Cache class

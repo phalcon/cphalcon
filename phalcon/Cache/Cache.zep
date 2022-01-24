@@ -13,7 +13,7 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Psr\SimpleCache\CacheInterface;
+use PsrExt\SimpleCache\CacheInterface;
 use Traversable;
 
 /**

@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Psr\SimpleCache\CacheInterface;
+use PsrExt\SimpleCache\CacheInterface;
 
 /**
  * Simple resultsets only contains a complete objects

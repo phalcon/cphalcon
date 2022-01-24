@@ -10,8 +10,8 @@
 
 namespace Phalcon\Html\Link;
 
-use Psr\Link\EvolvableLinkProviderInterface;
-use Psr\Link\LinkInterface;
+use PsrExt\Link\EvolvableLinkProviderInterface;
+use PsrExt\Link\LinkInterface;
 
 /**
  * Class Phalcon\Http\Link\LinkProvider
