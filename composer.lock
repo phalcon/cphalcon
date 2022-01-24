@@ -111,12 +111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "d514b08589177dff04bcb93ce2401c196d7e3871"
+                "reference": "23825621701309e4c18c09ecbeb49da968fe9696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/d514b08589177dff04bcb93ce2401c196d7e3871",
-                "reference": "d514b08589177dff04bcb93ce2401c196d7e3871",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/23825621701309e4c18c09ecbeb49da968fe9696",
+                "reference": "23825621701309e4c18c09ecbeb49da968fe9696",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-23T18:38:19+00:00"
+            "time": "2022-01-24T21:20:29+00:00"
         },
         {
             "name": "psr/container",
