@@ -17,5 +17,6 @@
         <InvalidReturnType errorLevel="suppress"/>
         <PropertyNotSetInConstructor errorLevel="suppress"/>
         <UnusedParam errorLevel="suppress"/>
+        <MissingDependency errorLevel="suppress"/>
     </issueHandlers>
 </psalm>
