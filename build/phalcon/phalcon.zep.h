@@ -16940,22 +16940,22 @@ ZEPHIR_INIT_FUNCS(phalcon_db_reference_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_db_result_pdo_ce;
+zend_class_entry *phalcon_db_result_pdoresult_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo);
+ZEPHIR_INIT_CLASS(Phalcon_Db_Result_PdoResult);
 
-static PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, fetch);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
-static PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
-zend_object *zephir_init_properties_Phalcon_Db_Result_Pdo(zend_class_entry *class_type);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, dataSeek);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, execute);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, fetch);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchArray);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, getInternalResult);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows);
+static PHP_METHOD(Phalcon_Db_Result_PdoResult, setFetchMode);
+zend_object *zephir_init_properties_Phalcon_Db_Result_PdoResult(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, result, PDOStatement, 0)
 	ZEND_ARG_INFO(0, sqlStatement)
@@ -16963,58 +16963,58 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_dataseek, 0, 1, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_dataseek, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, number, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_execute, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_execute, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_fetch, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetch, 0, 0, 0)
 	ZEND_ARG_INFO(0, fetchStyle)
 	ZEND_ARG_INFO(0, cursorOrientation)
 	ZEND_ARG_INFO(0, cursorOffset)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_fetchall, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetchall, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, fetchStyle)
 	ZEND_ARG_INFO(0, fetchArgument)
 	ZEND_ARG_INFO(0, ctorArgs)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_fetcharray, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetcharray, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_result_pdo_getinternalresult, 0, 0, PDOStatement, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_result_pdoresult_getinternalresult, 0, 0, PDOStatement, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_numrows, 0, 0, IS_LONG, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_numrows, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_setfetchmode, 0, 1, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_setfetchmode, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, fetchMode, IS_LONG, 0)
 	ZEND_ARG_INFO(0, colNoOrClassNameOrObject)
 	ZEND_ARG_INFO(0, ctorargs)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_zephir_init_properties_phalcon_db_result_pdo, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult_zephir_init_properties_phalcon_db_result_pdoresult, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEPHIR_INIT_FUNCS(phalcon_db_result_pdo_method_entry) {
-	PHP_ME(Phalcon_Db_Result_Pdo, __construct, arginfo_phalcon_db_result_pdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_result_pdo_dataseek, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, execute, arginfo_phalcon_db_result_pdo_execute, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, fetch, arginfo_phalcon_db_result_pdo_fetch, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, arginfo_phalcon_db_result_pdo_fetchall, ZEND_ACC_PUBLIC)
+ZEPHIR_INIT_FUNCS(phalcon_db_result_pdoresult_method_entry) {
+	PHP_ME(Phalcon_Db_Result_PdoResult, __construct, arginfo_phalcon_db_result_pdoresult___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Result_PdoResult, dataSeek, arginfo_phalcon_db_result_pdoresult_dataseek, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, execute, arginfo_phalcon_db_result_pdoresult_execute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, fetch, arginfo_phalcon_db_result_pdoresult_fetch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, fetchAll, arginfo_phalcon_db_result_pdoresult_fetchall, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, arginfo_phalcon_db_result_pdo_fetcharray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, fetchArray, arginfo_phalcon_db_result_pdoresult_fetcharray, ZEND_ACC_PUBLIC)
 #else
-	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, fetchArray, NULL, ZEND_ACC_PUBLIC)
 #endif
-	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, arginfo_phalcon_db_result_pdo_getinternalresult, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, numRows, arginfo_phalcon_db_result_pdo_numrows, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, getInternalResult, arginfo_phalcon_db_result_pdoresult_getinternalresult, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, numRows, arginfo_phalcon_db_result_pdoresult_numrows, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_PdoResult, setFetchMode, arginfo_phalcon_db_result_pdoresult_setfetchmode, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -21390,11 +21390,11 @@ static PHP_METHOD(Phalcon_Html_Helper_Title, __toString);
 static PHP_METHOD(Phalcon_Html_Helper_Title, append);
 static PHP_METHOD(Phalcon_Html_Helper_Title, get);
 static PHP_METHOD(Phalcon_Html_Helper_Title, set);
+static PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator);
 static PHP_METHOD(Phalcon_Html_Helper_Title, prepend);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Title(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title___invoke, 0, 0, Phalcon\\Html\\Helper\\Title, 0)
-	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, indent, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
 ZEND_END_ARG_INFO()
@@ -21419,6 +21419,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_set, 0,
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_setseparator, 0, 1, Phalcon\\Html\\Helper\\Title, 0)
+	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_prepend, 0, 1, Phalcon\\Html\\Helper\\Title, 0)
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
@@ -21437,6 +21442,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_helper_title_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Title, append, arginfo_phalcon_html_helper_title_append, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Title, get, arginfo_phalcon_html_helper_title_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Title, set, arginfo_phalcon_html_helper_title_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Title, setSeparator, arginfo_phalcon_html_helper_title_setseparator, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Title, prepend, arginfo_phalcon_html_helper_title_prepend, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
