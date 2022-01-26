@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Enum;
-use Phalcon\Db\Result\Pdo;
+use Phalcon\Db\Result\PdoResult;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
@@ -65,7 +65,7 @@ class QueryCest
         $result = $db->query('SELECT * FROM co_invoices LIMIT 3');
 
         $I->assertTrue(is_object($result));
-        $I->assertInstanceOf(Pdo::class, $result);
+        $I->assertInstanceOf(PdoResult::class, $result);
 
         $row = $result->fetch();
         $I->assertEquals(1, $row['inv_id']);
@@ -83,7 +83,7 @@ class QueryCest
         $result = $db->query('SELECT * FROM co_invoices LIMIT 5');
 
         $I->assertTrue(is_object($result));
-        $I->assertInstanceOf(Pdo::class, $result);
+        $I->assertInstanceOf(PdoResult::class, $result);
 
         while ($result->fetch()) {
             $number++;
