@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, AbstractMiddleware, phalcon, http_server_abstractmiddleware, phalcon_http_server_abstractmiddleware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_http_server_abstractmiddleware_ce, 1, zephir_get_internal_ce(SL("psr\\http\\server\\middlewareinterface")));
+	zend_class_implements(phalcon_http_server_abstractmiddleware_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\server\\middlewareinterface")));
 	return SUCCESS;
 }
 

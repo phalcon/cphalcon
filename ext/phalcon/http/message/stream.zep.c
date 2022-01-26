@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream)
 	 * @var resource | string
 	 */
 	zend_declare_property_null(phalcon_http_message_stream_ce, SL("stream"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_http_message_stream_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")));
+	zend_class_implements(phalcon_http_message_stream_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\streaminterface")));
 	return SUCCESS;
 }
 

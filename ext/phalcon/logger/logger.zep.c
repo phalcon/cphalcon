@@ -75,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
 	 */
 	zend_declare_property_string(phalcon_logger_logger_ce, SL("name"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var DateTimeZone|null
+	 * @var DateTimeZone
 	 */
 	zend_declare_property_null(phalcon_logger_logger_ce, SL("timezone"), ZEND_ACC_PROTECTED);
 	phalcon_logger_logger_ce->create_object = zephir_init_properties_Phalcon_Logger_Logger;
@@ -97,7 +97,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
 
 	zephir_declare_class_constant_long(phalcon_logger_logger_ce, SL("WARNING"), 4);
 
-	zend_class_implements(phalcon_logger_logger_ce, 1, zephir_get_internal_ce(SL("psr\\log\\loggerinterface")));
+	zend_class_implements(phalcon_logger_logger_ce, 1, zephir_get_internal_ce(SL("psrext\\log\\loggerinterface")));
 	return SUCCESS;
 }
 

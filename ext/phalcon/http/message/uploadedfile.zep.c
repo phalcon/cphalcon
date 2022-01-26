@@ -111,7 +111,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFile)
 	 * @var StreamInterface|string|null
 	 */
 	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("stream"), ZEND_ACC_PRIVATE);
-	zend_class_implements(phalcon_http_message_uploadedfile_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfileinterface")));
+	zend_class_implements(phalcon_http_message_uploadedfile_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\uploadedfileinterface")));
 	return SUCCESS;
 }
 
