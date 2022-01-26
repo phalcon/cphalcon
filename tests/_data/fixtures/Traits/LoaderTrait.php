@@ -15,11 +15,20 @@ use UnitTester;
 
 trait LoaderTrait
 {
-    protected $loaders;
-    protected $includePath;
+    /**
+     * @var array
+     */
+    protected array $loaders = [];
 
     /**
-     * executed before each test
+     * @var string
+     */
+    protected string $includePath = '';
+
+    /**
+     * Executed before each test
+     *
+     * @param UnitTester $I
      */
     public function _before(UnitTester $I)
     {
@@ -33,7 +42,9 @@ trait LoaderTrait
     }
 
     /**
-     * executed after each test
+     * Executed after each test
+     *
+     * @param UnitTester $I
      */
     public function _after(UnitTester $I)
     {
@@ -49,8 +60,6 @@ trait LoaderTrait
             spl_autoload_register($loader);
         }
 
-        set_include_path(
-            $this->includePath
-        );
+        set_include_path($this->includePath);
     }
 }

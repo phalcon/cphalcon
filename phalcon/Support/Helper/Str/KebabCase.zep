@@ -29,6 +29,6 @@ class KebabCase extends PascalCase
 
         let output = this->processArray(text, delimiters);
 
-        return implode("_", output);
+        return implode("-", output);
     }
 }
