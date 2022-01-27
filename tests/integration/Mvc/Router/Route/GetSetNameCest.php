@@ -18,23 +18,28 @@ use Phalcon\Mvc\Router\Route;
 
 use function uniqid;
 
-class GetPatternCest
+class GetSetNameCest
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getPattern()
+     * Tests Phalcon\Mvc\Router\Route :: getName()/setName()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */
-    public function mvcRouterRouteGetPattern(IntegrationTester $I)
+    public function mvcRouterRouteGetSetName(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Route - getPattern()');
+        $I->wantToTest('Mvc\Router\Route - getName()/setName()');
 
-        $pattern = uniqid();
-        $route   = new Route($pattern);
+        $route = new Route('test');
 
-        $expected = $pattern;
-        $actual   = $route->getPattern();
+        $actual = $route->getName();
+        $I->assertNull($actual);
+
+        $name = uniqid();
+        $route->setName($name);
+
+        $expected = $name;
+        $actual   = $route->getName();
         $I->assertSame($expected, $actual);
     }
 }

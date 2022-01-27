@@ -14,27 +14,33 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\Router\Route;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 
 use function uniqid;
 
-class GetPatternCest
+class GetSetGroupCest
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getPattern()
+     * Tests Phalcon\Mvc\Router\Route :: getGroup()/setGroup()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */
-    public function mvcRouterRouteGetPattern(IntegrationTester $I)
+    public function mvcRouterRouteGetSetGroup(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Route - getPattern()');
+        $I->wantToTest('Mvc\Router\Route - getGroup()/setGroup()');
 
-        $pattern = uniqid();
-        $route   = new Route($pattern);
+        $route = new Route('test');
 
-        $expected = $pattern;
-        $actual   = $route->getPattern();
+        $actual = $route->getGroup();
+        $I->assertNull($actual);
+
+        $group = new Group();
+        $route->setGroup($group);
+
+        $expected = $group;
+        $actual   = $route->getGroup();
         $I->assertSame($expected, $actual);
     }
 }
