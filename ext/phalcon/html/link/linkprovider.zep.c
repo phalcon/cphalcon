@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_LinkProvider)
 	zend_declare_property_null(phalcon_html_link_linkprovider_ce, SL("links"), ZEND_ACC_PROTECTED);
 	phalcon_html_link_linkprovider_ce->create_object = zephir_init_properties_Phalcon_Html_Link_LinkProvider;
 
-	zend_class_implements(phalcon_html_link_linkprovider_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\linkproviderinterface")));
+	zend_class_implements(phalcon_html_link_linkprovider_ce, 1, zephir_get_internal_ce(SL("psr\\link\\linkproviderinterface")));
 	return SUCCESS;
 }
 

@@ -40,7 +40,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Profiler, MemoryLogger, phalcon, datamapper_pdo_profiler_memorylogger, zephir_get_internal_ce(SL("psrext\\log\\abstractlogger")), phalcon_datamapper_pdo_profiler_memorylogger_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Profiler, MemoryLogger, phalcon, datamapper_pdo_profiler_memorylogger, zephir_get_internal_ce(SL("psr\\log\\abstractlogger")), phalcon_datamapper_pdo_profiler_memorylogger_method_entry, 0);
 
 	/**
 	 * @var array

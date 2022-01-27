@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, StreamFactory, phalcon, http_message_streamfactory, phalcon_http_message_streamfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_streamfactory_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\streamfactoryinterface")));
+	zend_class_implements(phalcon_http_message_streamfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streamfactoryinterface")));
 	return SUCCESS;
 }
 

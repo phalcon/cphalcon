@@ -105,7 +105,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest)
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uploadedFiles"), ZEND_ACC_PROTECTED);
 	phalcon_http_message_serverrequest_ce->create_object = zephir_init_properties_Phalcon_Http_Message_ServerRequest;
 
-	zend_class_implements(phalcon_http_message_serverrequest_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\serverrequestinterface")));
+	zend_class_implements(phalcon_http_message_serverrequest_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\serverrequestinterface")));
 	return SUCCESS;
 }
 

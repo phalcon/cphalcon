@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Cache)
 	 * @var AdapterInterface
 	 */
 	zend_declare_property_null(phalcon_cache_cache_ce, SL("adapter"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_cache_cache_ce, 1, zephir_get_internal_ce(SL("psrext\\simplecache\\cacheinterface")));
+	zend_class_implements(phalcon_cache_cache_ce, 1, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")));
 	return SUCCESS;
 }
 

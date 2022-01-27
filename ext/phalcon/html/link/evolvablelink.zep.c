@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Link, EvolvableLink, phalcon, html_link_evolvablelink, phalcon_html_link_link_ce, phalcon_html_link_evolvablelink_method_entry, 0);
 
-	zend_class_implements(phalcon_html_link_evolvablelink_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\evolvablelinkinterface")));
+	zend_class_implements(phalcon_html_link_evolvablelink_ce, 1, zephir_get_internal_ce(SL("psr\\link\\evolvablelinkinterface")));
 	return SUCCESS;
 }
 

@@ -32,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractRequestHandler)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, AbstractRequestHandler, phalcon, http_server_abstractrequesthandler, phalcon_http_server_abstractrequesthandler_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_http_server_abstractrequesthandler_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\server\\requesthandlerinterface")));
+	zend_class_implements(phalcon_http_server_abstractrequesthandler_ce, 1, zephir_get_internal_ce(SL("psr\\http\\server\\requesthandlerinterface")));
 	return SUCCESS;
 }
 

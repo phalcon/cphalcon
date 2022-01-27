@@ -55,7 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Link)
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_html_link_link_ce, SL("templated"), 0, ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_html_link_link_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\linkinterface")));
+	zend_class_implements(phalcon_html_link_link_ce, 1, zephir_get_internal_ce(SL("psr\\link\\linkinterface")));
 	return SUCCESS;
 }
 
