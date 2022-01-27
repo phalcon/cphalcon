@@ -18,23 +18,28 @@ use Phalcon\Mvc\Router\Route;
 
 use function uniqid;
 
-class GetPatternCest
+class GetSetHostnameCest
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getPattern()
+     * Tests Phalcon\Mvc\Router\Route :: getHostname()/setHostname()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */
-    public function mvcRouterRouteGetPattern(IntegrationTester $I)
+    public function mvcRouterRouteGetSetHostname(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Route - getPattern()');
+        $I->wantToTest('Mvc\Router\Route - getHostname()/setHostname()');
 
-        $pattern = uniqid();
-        $route   = new Route($pattern);
+        $route = new Route('test');
 
-        $expected = $pattern;
-        $actual   = $route->getPattern();
+        $actual = $route->getHostname();
+        $I->assertNull($actual);
+
+        $name = uniqid();
+        $route->setHostname($name);
+
+        $expected = $name;
+        $actual   = $route->getHostname();
         $I->assertSame($expected, $actual);
     }
 }
