@@ -59,7 +59,7 @@
         "codeception/module-phalcon5": "^1.0.0",
         "codeception/module-redis": "^1.0.0",
         "friendsofphp/php-cs-fixer": "~3.0",
-        "mustache/mustache": "^2.12",
+        "mustache/mustache": "^2.14",
         "phalcon/ide-stubs": "^4.1",
         "phpunit/phpunit": "^8.5",
         "predis/predis": "^1.1",
