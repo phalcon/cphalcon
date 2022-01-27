@@ -43,6 +43,10 @@
  * It can be used in any part of the application that needs collection of data
  * Such implementations are for instance accessing globals `$_GET`, `$_POST`
  * etc.
+ *
+ * @property array $data
+ * @property bool  $insensitive
+ * @property array $lowerKeys
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Collection)
 {
@@ -348,10 +352,10 @@ PHP_METHOD(Phalcon_Support_Collection, get)
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&key);
-	zephir_array_fetch(&key, &_2, &element, PH_NOISY, "phalcon/Support/Collection.zep", 136);
+	zephir_array_fetch(&key, &_2, &element, PH_NOISY, "phalcon/Support/Collection.zep", 140);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&value);
-	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Support/Collection.zep", 137);
+	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Support/Collection.zep", 141);
 	if (UNEXPECTED((Z_TYPE_P(&value) == IS_NULL))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
@@ -523,7 +527,7 @@ PHP_METHOD(Phalcon_Support_Collection, init)
 	}
 
 
-	zephir_is_iterable(&data, 0, "phalcon/Support/Collection.zep", 202);
+	zephir_is_iterable(&data, 0, "phalcon/Support/Collection.zep", 206);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -591,7 +595,7 @@ PHP_METHOD(Phalcon_Support_Collection, jsonSerialize)
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Support/Collection.zep", 223);
+	zephir_is_iterable(&_0, 0, "phalcon/Support/Collection.zep", 227);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -829,7 +833,7 @@ PHP_METHOD(Phalcon_Support_Collection, remove)
 		ZEPHIR_CPY_WRT(&data, &_2$$3);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&lowerKeys, &_3$$3);
-		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 282);
+		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 286);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &key, PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);

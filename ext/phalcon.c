@@ -295,7 +295,7 @@ zend_class_entry *phalcon_db_profiler_ce;
 zend_class_entry *phalcon_db_profiler_item_ce;
 zend_class_entry *phalcon_db_rawvalue_ce;
 zend_class_entry *phalcon_db_reference_ce;
-zend_class_entry *phalcon_db_result_pdo_ce;
+zend_class_entry *phalcon_db_result_pdoresult_ce;
 zend_class_entry *phalcon_di_exception_serviceresolutionexception_ce;
 zend_class_entry *phalcon_di_factorydefault_cli_ce;
 zend_class_entry *phalcon_di_service_builder_ce;
@@ -929,7 +929,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Db_Profiler_Item);
 	ZEPHIR_INIT(Phalcon_Db_RawValue);
 	ZEPHIR_INIT(Phalcon_Db_Reference);
-	ZEPHIR_INIT(Phalcon_Db_Result_Pdo);
+	ZEPHIR_INIT(Phalcon_Db_Result_PdoResult);
 	ZEPHIR_INIT(Phalcon_Di_Exception_ServiceResolutionException);
 	ZEPHIR_INIT(Phalcon_Di_FactoryDefault_Cli);
 	ZEPHIR_INIT(Phalcon_Di_Service);

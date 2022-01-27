@@ -17,7 +17,6 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -354,13 +353,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, formatter, _0, _1;
+	zval *item, item_sub, formatter;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&formatter);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -375,11 +372,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem)
 
 	ZEPHIR_CALL_METHOD(&formatter, this_ptr, "getformatter", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, &formatter, "format", NULL, 0, item);
+	ZEPHIR_RETURN_CALL_METHOD(&formatter, "format", NULL, 0, item);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_GET_CONSTANT(&_1, "PHP_EOL");
-	ZEPHIR_CONCAT_VV(return_value, &_0, &_1);
 	RETURN_MM();
 }
 

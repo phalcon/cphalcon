@@ -75,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
 	 */
 	zend_declare_property_string(phalcon_logger_logger_ce, SL("name"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var DateTimeZone|null
+	 * @var DateTimeZone
 	 */
 	zend_declare_property_null(phalcon_logger_logger_ce, SL("timezone"), ZEND_ACC_PROTECTED);
 	phalcon_logger_logger_ce->create_object = zephir_init_properties_Phalcon_Logger_Logger;
