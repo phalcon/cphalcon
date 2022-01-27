@@ -42,6 +42,5 @@ class GetSetGroupCest
         $expected = $group;
         $actual   = $route->getGroup();
         $I->assertSame($expected, $actual);
-
     }
 }
