@@ -109,8 +109,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
  * @param array parameters
  * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
  *
- * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface.
+ * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface (it also returns Row).
  * @see https://github.com/phalcon/cphalcon/issues/15212
+ * @see https://github.com/phalcon/cphalcon/issues/15883
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 /**
