@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute)
  *         "name" => "Voltron",
  *     ],
  *     [
- *         "name" => Column::BIND_PARAM_INT,
+ *         "name" => Column::BIND_PARAM_STR,
  *     ]
  * );
  *```
@@ -1581,7 +1581,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query)
 			ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_4$$9, this_ptr);
 			zephir_check_call_status();
 		}
-		object_init_ex(return_value, phalcon_db_result_pdo_ce);
+		object_init_ex(return_value, phalcon_db_result_pdoresult_ce);
 		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 52, this_ptr, &statement, &sqlStatement, &bindParams, &bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();

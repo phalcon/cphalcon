@@ -24,7 +24,6 @@ use Phalcon\Filter\Validation\Validator\Confirmation;
  */
 class ValidateCest
 {
-
     /**
      * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - single
      * field
@@ -50,7 +49,6 @@ class ValidateCest
                 ]
             )
         );
-
 
         $messages = $validation->validate(
             [

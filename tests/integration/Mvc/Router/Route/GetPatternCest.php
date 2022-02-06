@@ -14,21 +14,27 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\Router\Route;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Route;
 
-/**
- * Class GetPatternCest
- */
+use function uniqid;
+
 class GetPatternCest
 {
     /**
      * Tests Phalcon\Mvc\Router\Route :: getPattern()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2022-01-27
      */
     public function mvcRouterRouteGetPattern(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Route - getPattern()');
-        $I->skipTest('Need implementation');
+
+        $pattern = uniqid();
+        $route   = new Route($pattern);
+
+        $expected = $pattern;
+        $actual   = $route->getPattern();
+        $I->assertSame($expected, $actual);
     }
 }

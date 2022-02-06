@@ -13,7 +13,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
-use Phalcon\Db\Result\Pdo as ResultPdo;
+use Phalcon\Db\Result\PdoResult;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
 
@@ -472,7 +472,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *         "name" => "Voltron",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "name" => Column::BIND_PARAM_STR,
      *     ]
      * );
      *```
@@ -732,7 +732,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 eventsManager->fire("db:afterQuery", this);
             }
 
-            return new ResultPdo(
+            return new PdoResult(
                 this,
                 statement,
                 sqlStatement,

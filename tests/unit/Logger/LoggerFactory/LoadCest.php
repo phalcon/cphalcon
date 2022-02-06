@@ -133,9 +133,9 @@ class LoadCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function translateFactoryLoadExceptions(UnitTester $I)
+    public function loggerFactoryLoadExceptions(UnitTester $I)
     {
-        $I->wantToTest('Translate\Factory - load() - exceptions');
+        $I->wantToTest('Logger\Factory - load() - exceptions');
 
         $options = $this->arrayConfig['logger'];
         $factory = new LoggerFactory(new AdapterFactory());

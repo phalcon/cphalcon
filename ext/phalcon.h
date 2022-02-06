@@ -251,7 +251,7 @@
 #include "phalcon/db/profiler/item.zep.h"
 #include "phalcon/db/rawvalue.zep.h"
 #include "phalcon/db/reference.zep.h"
-#include "phalcon/db/result/pdo.zep.h"
+#include "phalcon/db/result/pdoresult.zep.h"
 #include "phalcon/di/exception/serviceresolutionexception.zep.h"
 #include "phalcon/di/factorydefault/cli.zep.h"
 #include "phalcon/di/service.zep.h"

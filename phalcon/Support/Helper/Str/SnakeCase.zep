@@ -29,6 +29,6 @@ class SnakeCase extends PascalCase
 
         let output = this->processArray(text, delimiters);
 
-        return implode("-", output);
+        return implode("_", output);
     }
 }

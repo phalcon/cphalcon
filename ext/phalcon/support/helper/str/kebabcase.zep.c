@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_KebabCase, __invoke)
 
 	ZEPHIR_CALL_METHOD(&output, this_ptr, "processarray", NULL, 0, &text, &delimiters);
 	zephir_check_call_status();
-	zephir_fast_join_str(return_value, SL("_"), &output);
+	zephir_fast_join_str(return_value, SL("-"), &output);
 	RETURN_MM();
 }
 

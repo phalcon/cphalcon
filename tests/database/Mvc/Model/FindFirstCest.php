@@ -88,7 +88,7 @@ class FindFirstCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst()
+     * Tests Phalcon\Mvc\Model :: findFirst() - with column map
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -209,6 +209,41 @@ class FindFirstCest
 
         $invoice = InvoicesExtended::findFirst(0);
         $I->assertNull($invoice);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst() - extended column
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-02-05
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindFirstExtendedColumn(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - extended column');
+
+        $title = uniqid('inv-');
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4, null, 0, $title);
+
+        $invoice = InvoicesExtended::findFirst(
+            [
+                'columns' => 'inv_title',
+            ]
+        );
+
+        $class = Row::class;
+        $actual = $invoice;
+        $I->assertInstanceOf($class, $actual);
+
+        $expected = $title;
+        $actual   = $invoice->inv_title;
+        $I->assertEquals($expected, $actual);
     }
 
     /**

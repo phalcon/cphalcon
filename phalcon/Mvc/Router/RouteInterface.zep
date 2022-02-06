@@ -35,7 +35,7 @@ interface RouteInterface
     /**
      * Returns the hostname restriction if any
      */
-    public function getHostname() -> string;
+    public function getHostname() -> string | null;
 
     /**
      * Returns the HTTP methods that constraint matching the route
@@ -45,7 +45,7 @@ interface RouteInterface
     /**
      * Returns the route's name
      */
-    public function getName() -> string;
+    public function getName() -> string | null;
 
     /**
      * Returns the paths

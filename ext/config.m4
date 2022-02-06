@@ -256,7 +256,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/profiler/item.zep.c
 	phalcon/db/rawvalue.zep.c
 	phalcon/db/reference.zep.c
-	phalcon/db/result/pdo.zep.c
+	phalcon/db/result/pdoresult.zep.c
 	phalcon/di/exception/serviceresolutionexception.zep.c
 	phalcon/di/factorydefault/cli.zep.c
 	phalcon/di/service.zep.c
