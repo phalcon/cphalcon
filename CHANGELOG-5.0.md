@@ -1,4 +1,4 @@
-# [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (xxxx-xx-xx)
+# [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (2022-02-06)
 
 ## Changed
 - Renamed `Phalcon\Db\Result\Pdo` to `Phalcon\Db\Result\PdoResult` to avoid collisions with `\PDO` [#15874](https://github.com/phalcon/cphalcon/issues/15854)
