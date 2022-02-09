@@ -88,37 +88,19 @@ jobs:
         name:
           - ubuntu-gcc
           - macos-clang
-          - windows2016-vc15
-          - windows2019-vs16
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - name: ubuntu-gcc
-            os: ubuntu-18.04
-            compiler: gcc
-
+          - { name: ubuntu-gcc, os: ubuntu-18.04, compiler: gcc }
           # macOS
-          - name: macos-clang
-            os: macos-10.15
-            compiler: clang
-
+          - { name: macos-clang, os: macos-10.15, compiler: clang }
           # Windows
-          - name: windows2016-vc15
-            os: windows-2016
-            compiler: vc15
-
-          - name: windows2019-vs16
-            os: windows-2019
-            compiler: vs16
-
-        exclude:
-          - name: windows2019-vs16
-            php: '7.4'
-
-          - name: windows2016-vc15
-            php: '8.0'
+          - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
+          - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
+          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
       - uses: actions/checkout@v2
@@ -227,6 +209,13 @@ jobs:
       - name: Run CLI Tests
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+
+      - name: Check Release notes parser
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          echo "-- Creating Release Notes"
+          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
 
   install:
     needs: setup_workflow
@@ -399,7 +388,7 @@ jobs:
           find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1
