@@ -433,6 +433,27 @@ class Crypt implements CryptInterface
     }
 
     /**
+     * Returns if the input length for decryption is valid or not
+     * (number of bytes required by the cipher).
+     *
+     * @param string $input
+     *
+     * @return bool
+     */
+    public function isValidDecryptLength(string input) -> bool
+    {
+        var length;
+
+        let length = this->phpOpensslCipherIvLength();
+
+        if unlikely length < 0 {
+            return false;
+        }
+
+        return length <= mb_strlen(input);
+    }
+
+    /**
      * @param string $data
      *
      * @return CryptInterface
@@ -965,6 +986,41 @@ class Crypt implements CryptInterface
     protected function phpFunctionExists(string name) -> bool
     {
         return function_exists(name);
+    }
+
+    protected function phpOpensslCipherIvLength() -> int
+    {
+        var cipher, length, version;
+
+        let cipher = this->cipher;
+
+        globals_set("warning.enable", false);
+
+        if version_compare(version, "8.0", ">=") {
+            set_error_handler(
+                function (number, message, file, line) {
+                    globals_set("warning.enable", true);
+                },
+                E_WARNING
+            );
+        } else {
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_WARNING
+            );
+        }
+
+        let length = openssl_cipher_iv_length(cipher);
+
+        restore_error_handler();
+
+        if unlikely (globals_get("warning.enable") || length === false) {
+            let length = -1;
+        }
+
+        return length;
     }
 
     protected function phpOpensslRandomPseudoBytes(int length)
