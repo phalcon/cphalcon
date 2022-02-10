@@ -444,9 +444,9 @@ class Crypt implements CryptInterface
     {
         var length;
 
-        let length = this->phpOpensslCipherIvLength();
+        let length = $this->phpOpensslCipherIvLength(this->cipher);
 
-        if unlikely length < 0 {
+        if length === false {
             return false;
         }
 
@@ -988,40 +988,9 @@ class Crypt implements CryptInterface
         return function_exists(name);
     }
 
-    protected function phpOpensslCipherIvLength() -> int
+    protected function phpOpensslCipherIvLength(string cipher) -> int|bool
     {
-        var cipher, length, version;
-
-        let cipher  = this->cipher,
-            version = phpversion();
-
-        globals_set("warning.enable", false);
-
-        if version_compare(version, "8.0", ">=") {
-            set_error_handler(
-                function (number, message, file, line) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
-        } else {
-            set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
-        }
-
-        let length = openssl_cipher_iv_length(cipher);
-
-        restore_error_handler();
-
-        if unlikely (globals_get("warning.enable") || length === false) {
-            let length = -1;
-        }
-
-        return length;
+        return openssl_cipher_iv_length(cipher);
     }
 
     protected function phpOpensslRandomPseudoBytes(int length)

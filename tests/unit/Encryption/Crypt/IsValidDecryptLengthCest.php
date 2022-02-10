@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
+use Codeception\Stub;
 use Phalcon\Encryption\Crypt;
 use UnitTester;
 
@@ -40,6 +41,30 @@ class IsValidDecryptLengthCest
 
         $actual = $crypt->isValidDecryptLength($encrypted);
         $I->assertTrue($actual);
+
+        $actual = $crypt->isValidDecryptLength('text');
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Encryption\Crypt :: isValidDecryptLength() - false length
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-02-09
+     */
+    public function cryptGetSetKeyFalseLength(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - isValidDecryptLength()');
+
+        $crypt = Stub::make(
+            Crypt::class,
+            [
+                'phpOpensslCipherIvLength' => false,
+            ]
+        );
+        $crypt->setKey('1234');
 
         $actual = $crypt->isValidDecryptLength('text');
         $I->assertFalse($actual);
