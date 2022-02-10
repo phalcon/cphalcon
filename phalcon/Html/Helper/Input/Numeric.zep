@@ -15,5 +15,5 @@ namespace Phalcon\Html\Helper\Input;
  */
 class Numeric extends AbstractInput
 {
-    protected type = "numeric";
+    protected type = "number";
 }
