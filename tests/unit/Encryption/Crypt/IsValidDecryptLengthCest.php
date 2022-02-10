@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
 use UnitTester;
-use function substr;
+
 use function uniqid;
 
 class IsValidDecryptLengthCest

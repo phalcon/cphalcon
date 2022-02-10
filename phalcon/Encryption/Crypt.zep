@@ -992,7 +992,8 @@ class Crypt implements CryptInterface
     {
         var cipher, length, version;
 
-        let cipher = this->cipher;
+        let cipher  = this->cipher,
+            version = phpversion();
 
         globals_set("warning.enable", false);
 
