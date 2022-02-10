@@ -1,5 +1,8 @@
 # [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (xxxx-xx-xx)
 
+## Fixed
+- Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
+
 ## Added
 - Added `Phalcon\Encryption\Crypt::isValidDecryptLength($input)` to allow checking for the length of the decryption string [#15879](https://github.com/phalcon/cphalcon/issues/15879)
  
