@@ -60,7 +60,7 @@ class PascalCase
          */
         if strpos(delimiters, "\\-") !== false || strpos(delimiters, "-") !== false {
             let delimiters = str_replace(["\\-", "-"], ["", ""], delimiters),
-                delimiters = "-" . $delimiters;
+                delimiters = "-" . delimiters;
         }
 
         let result = preg_split(

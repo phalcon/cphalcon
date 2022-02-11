@@ -444,7 +444,7 @@ class Crypt implements CryptInterface
     {
         var length;
 
-        let length = $this->phpOpensslCipherIvLength(this->cipher);
+        let length = this->phpOpensslCipherIvLength(this->cipher);
 
         if length === false {
             return false;
