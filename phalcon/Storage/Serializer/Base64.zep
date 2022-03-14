@@ -12,11 +12,6 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 
-/**
- * Class Base64
- *
- * @package Phalcon\Storage\Serializer
- */
 class Base64 extends AbstractSerializer
 {
     /**

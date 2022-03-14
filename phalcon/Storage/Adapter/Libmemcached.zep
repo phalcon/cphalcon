@@ -203,11 +203,15 @@ class Libmemcached extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      * @throws BaseException
@@ -300,9 +304,9 @@ class Libmemcached extends AbstractAdapter
         array map;
 
         let map = [
-            "php"      : \Memcached::SERIALIZER_PHP,
-            "json"     : \Memcached::SERIALIZER_JSON,
-            "igbinary" : \Memcached::SERIALIZER_IGBINARY
+            "memcached_igbinary" : \Memcached::SERIALIZER_IGBINARY,
+            "memcached_json"     : \Memcached::SERIALIZER_JSON,
+            "memcached_php"      : \Memcached::SERIALIZER_PHP
         ];
 
         let serializer = strtolower(this->defaultSerializer);
