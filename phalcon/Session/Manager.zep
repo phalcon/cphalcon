@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,9 +18,10 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Support\Helper\Arr\Get;
 
 /**
- * Phalcon\Session\Manager
- *
- * Session manager class
+ * @property SessionHandlerInterface|null $adapter
+ * @property string                       $name
+ * @property array                        $options
+ * @property string                       $uniqueId
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {

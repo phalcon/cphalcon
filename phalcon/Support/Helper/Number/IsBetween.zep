@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
