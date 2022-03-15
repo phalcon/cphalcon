@@ -88,7 +88,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(var sessionId) -> bool
     {
         return true;
     }
@@ -104,7 +104,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(var sessionId) -> string
     {
         return "";
     }
@@ -120,7 +120,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Write
      */
-    public function write(var id, var data) -> bool
+    public function write(var sessionId, var data) -> bool
     {
         return true;
     }

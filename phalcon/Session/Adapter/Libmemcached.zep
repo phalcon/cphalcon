@@ -18,9 +18,10 @@ use Phalcon\Storage\AdapterFactory;
 class Libmemcached extends AbstractAdapter
 {
     /**
-     * Constructor
+     * Libmemcached constructor.
      *
-     * @param array options = [
+     * @param AdapterFactory $factory
+     * @param array          $options = [
      *     'servers' => [
      *         [
      *             'host' => 'localhost',

@@ -31,10 +31,10 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(var sessionId) -> bool
     {
-        if !empty(id) && this->adapter->has(id) {
-            return this->adapter->delete(id);
+        if !empty(sessionId) && this->adapter->has(sessionId) {
+            return this->adapter->delete(sessionId);
         }
 
         return true;
@@ -51,10 +51,10 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(var sessionId) -> string
     {
         var data;
-        let data = this->adapter->get(id);
+        let data = this->adapter->get(sessionId);
 
         return null === data ? "" : data;
     }
@@ -70,9 +70,9 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Write
      */
-    public function write(var id, var data) -> bool
+    public function write(var sessionId, var data) -> bool
     {
-        return this->adapter->set(id, data);
+        return this->adapter->set(sessionId, data);
     }
 
     /**

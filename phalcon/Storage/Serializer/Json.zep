@@ -45,7 +45,11 @@ class Json extends AbstractSerializer
      */
     public function unserialize(var data) -> void
     {
-        let this->data = this->getDecode(data);
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
+        } else {
+            let this->data = this->getDecode(data);
+        }
     }
 
     /**

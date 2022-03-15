@@ -88,23 +88,6 @@ class Libmemcached extends AbstractAdapter
     }
 
     /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed|null
-     * @throws StorageException
-     */
-    public function get(string! key, var defaultValue = null) -> var
-    {
-        return this->getUnserializedData(
-            this->getAdapter()->get(key),
-            defaultValue
-        );
-    }
-
-    /**
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
      *

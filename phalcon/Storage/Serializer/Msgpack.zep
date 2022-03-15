@@ -10,59 +10,25 @@
 
 namespace Phalcon\Storage\Serializer;
 
-class Msgpack extends AbstractSerializer
+class Msgpack extends Igbinary
 {
     /**
      * Serializes data
      *
-     * @return string|null
+     * @return string
      */
-    public function serialize() -> string | null
-	{
-        if (true !== this->isSerializable(this->data)) {
-            return this->data;
-        }
-
+    protected function doSerialize(var value) -> string
+    {
 		return msgpack_pack(this->data);
 	}
 
     /**
-     * Unserializes data
+     * @param mixed $value
      *
-     * @param string $data
-     *
-     * @return void
+     * @return mixed
      */
-	public function unserialize(var data) -> void
-	{
-	    var version;
-
-        let version = phpversion();
-
-	    globals_set("warning.enable", false);
-
-	    if version_compare(version, "8.0", ">=") {
-	        set_error_handler(
-                function (number, message, file, line) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
-	    } else {
-	        set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
-	    }
-
-        let this->data = msgpack_unpack(data);
-
-        restore_error_handler();
-
-        if unlikely globals_get("warning.enable") {
-            let this->data = null;
-        }
-	}
+    protected function doUnserialize(value)
+    {
+        return msgpack_unpack(value);
+    }
 }

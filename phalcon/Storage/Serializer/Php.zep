@@ -35,18 +35,11 @@ class Php extends AbstractSerializer
      */
     public function unserialize(var data) -> void
     {
-        this->processSerializable(data);
-        this->processNotSerializable(data);
-	}
+        var result, version;
 
-    /**
-     * @param mixed $data
-     */
-    private function processSerializable(var data) -> void
-    {
-        var version;
-
-        if (true === this->isSerializable(data)) {
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
+        } else {
             if typeof data !== "string" {
                 throw new InvalidArgumentException(
                     "Data for the unserializer must of type string"
@@ -73,23 +66,27 @@ class Php extends AbstractSerializer
                 );
             }
 
-            let this->data = unserialize(data);
+            let result = this->phpUnserialize(data);
 
             restore_error_handler();
 
-            if unlikely globals_get("warning.enable") {
-                let this->data = null;
+            if unlikely globals_get("warning.enable")  || result === false {
+                let this->isSuccess = false,
+                    result          = "";
             }
+
+            let this->data = result;
         }
     }
 
     /**
-     * @param mixed $data
+     * @param string $data
+     * @param array  $options
+     *
+     * @return mixed|false
      */
-    private function processNotSerializable(var data) -> void
+    private function phpUnserialize(string data, array options = [])
     {
-        if (true !== this->isSerializable(data)) {
-            let this->data = data;
-        }
+        return unserialize(data, options);
     }
 }
