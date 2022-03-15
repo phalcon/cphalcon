@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Redis;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function uniqid;
 
@@ -26,8 +25,10 @@ class DestroyCest
     /**
      * Tests Phalcon\Session\Adapter\Redis :: destroy()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterRedisDestroy(IntegrationTester $I)
     {
@@ -43,9 +44,8 @@ class DestroyCest
             serialize($value)
         );
 
-        $I->assertTrue(
-            $adapter->destroy('test1')
-        );
+        $actual = $adapter->destroy('test1');
+        $I->assertTrue($actual);
 
         $I->dontSeeInRedis('sess-reds-test1');
     }

@@ -3,10 +3,9 @@ modules:
   enabled:
     - Phalcon5:
         bootstrap: 'tests/_config/bootstrap.php'
-#    - Helper\PhalconLibmemcached:
-#        host: '%DATA_MEMCACHED_HOST%'
-#        port: '%DATA_MEMCACHED_PORT%'
-#        weight: '%DATA_MEMCACHED_WEIGHT%'
+    - Memcache:
+        host: '%DATA_MEMCACHED_HOST%'
+        port: %DATA_MEMCACHED_PORT%
     - Redis:
         database: '%DATA_REDIS_NAME%'
         host: '%DATA_REDIS_HOST%'
@@ -14,5 +13,4 @@ modules:
     - Asserts
     - Filesystem
     - Helper\Integration
-    - Helper\PhalconLibmemcached
     - Helper\Unit

@@ -11,103 +11,90 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Storage\Adapter\Stream;
+namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use IntegrationTester;
+use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
-use stdClass;
 
+use function array_merge;
 use function file_put_contents;
+use function getOptionsRedis;
 use function is_dir;
 use function mkdir;
 use function outputDir;
 use function sleep;
+use function uniqid;
 
-class GetSetCest
+class ExceptionsCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: set()
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - wrong index
      *
      * @param IntegrationTester $I
-     *
-     * @throws HelperException
-     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamSet(IntegrationTester $I)
+    public function storageAdapterRedisGetSetWrongIndex(IntegrationTester $I)
     {
-        $I->wantToTest('Storage\Adapter\Stream - set()');
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - wrong index');
 
-        $serializer = new SerializerFactory();
-        $adapter    = new Stream(
-            $serializer,
-            [
-                'storageDir' => outputDir(),
-            ]
+        $I->checkExtensionIsLoaded('redis');
+
+        $I->expectThrowable(
+            new StorageException('Redis server selected database failed'),
+            function () {
+                $serializer = new SerializerFactory();
+                $adapter    = new Redis(
+                    $serializer,
+                    array_merge(
+                        getOptionsRedis(),
+                        [
+                            'index' => 99,
+                        ]
+                    )
+                );
+
+                $adapter->get('test');
+            }
         );
-
-        $data   = 'Phalcon Framework';
-        $actual = $adapter->set('test-key', $data);
-        $I->assertTrue($actual);
-
-        $target = outputDir() . 'ph-strm/te/st/-k/';
-        $I->amInPath($target);
-        $I->openFile('test-key');
-        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
-
-        $I->seeInThisFile($expected);
-        $I->safeDeleteFile($target . 'test-key');
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: get()
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
      *
      * @param IntegrationTester $I
-     *
-     * @throws HelperException
-     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamGet(IntegrationTester $I)
+    public function storageAdapterRedisGetSetFailedAuth(IntegrationTester $I)
     {
-        $I->wantToTest('Storage\Adapter\Stream - get()');
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - failed auth');
 
-        $serializer = new SerializerFactory();
-        $adapter    = new Stream(
-            $serializer,
-            [
-                'storageDir' => outputDir(),
-            ]
+        $I->checkExtensionIsLoaded('redis');
+
+        $I->expectThrowable(
+            new StorageException('Failed to authenticate with the Redis server'),
+            function () {
+                $serializer = new SerializerFactory();
+                $adapter    = new Redis(
+                    $serializer,
+                    array_merge(
+                        getOptionsRedis(),
+                        [
+                            'auth' => 'something',
+                        ]
+                    )
+                );
+
+                $adapter->get('test');
+            }
         );
-
-        $target = outputDir() . 'ph-strm/te/st/-k/';
-        $data   = 'Phalcon Framework';
-        $actual = $adapter->set('test-key', $data);
-        $I->assertTrue($actual);
-
-        $expected = 'Phalcon Framework';
-        $actual   = $adapter->get('test-key');
-        $I->assertNotNull($actual);
-        $I->assertEquals($expected, $actual);
-
-        $expected        = new stdClass();
-        $expected->one   = 'two';
-        $expected->three = 'four';
-
-        $actual = $adapter->set('test-key', $expected);
-        $I->assertTrue($actual);
-
-        $actual = $adapter->get('test-key');
-        $I->assertEquals($expected, $actual);
-
-        $I->safeDeleteFile($target . 'test-key');
     }
 
     /**
@@ -141,7 +128,7 @@ class GetSetCest
         // Unknown key
         $expected = 'test';
         $actual   = $adapter->get(uniqid(), 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         // Invalid stored object
         $actual = file_put_contents(
@@ -152,7 +139,7 @@ class GetSetCest
 
         $expected = 'test';
         $actual   = $adapter->get('test-key', 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         // Expiry
         $data = 'Phalcon Framework';
@@ -164,7 +151,7 @@ class GetSetCest
 
         $expected = 'test';
         $actual   = $adapter->get('test-key', 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $I->safeDeleteFile($target . 'test-key');
     }

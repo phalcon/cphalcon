@@ -15,19 +15,20 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function uniqid;
 
-class ReadCest
+class ReadWriteCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: write()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterLibmemcachedRead(IntegrationTester $I)
     {
@@ -37,17 +38,14 @@ class ReadCest
 
         $value = uniqid();
 
-        $I->haveInLibmemcached('sess-memc-test1', $value);
+        $adapter->write('test1', $value);
 
-        $I->assertEquals(
-            $value,
-            $adapter->read('test1')
-        );
+        $actual = $adapter->read('test1');
+        $I->assertEquals($value, $actual);
 
-        $I->removeFromLibmemcached('sess-memc-test1');
+        $I->clearMemcache();
 
-        $I->assertNotNull(
-            $adapter->read('test1')
-        );
+        $actual = $adapter->read('test1');
+        $I->assertNotNull($actual);
     }
 }

@@ -13,44 +13,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Session\Manager;
 
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
-class StatusCest
+/**
+ * Class StartCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Manager
+ */
+class StartCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: status()
+     * Tests Phalcon\Session\Manager :: start() - headers sent
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function sessionManagerStatus(IntegrationTester $I)
+    public function sessionManagerStartHeadersSent(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Manager - status()');
+        $I->wantToTest('Session\Manager - start() - headers sent');
         $manager = new Manager();
         $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
-        $expected = $manager::SESSION_NONE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
+        $mock = Stub::make(
+            $manager,
+            [
+                'phpHeadersSent' => true,
+            ]
+        );
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
-
-        $expected = $manager::SESSION_ACTIVE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
+        $actual = $mock->start();
+        $I->assertFalse($actual);
 
         $manager->destroy();
-
-        $expected = $manager::SESSION_NONE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
     }
 }

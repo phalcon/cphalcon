@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 use SessionHandlerInterface;
 
 class ConstructCest
@@ -25,8 +24,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: __construct()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterNoopConstruct(IntegrationTester $I)
     {
@@ -34,9 +35,7 @@ class ConstructCest
 
         $adapter = $this->newService('sessionNoop');
 
-        $I->assertInstanceOf(
-            SessionHandlerInterface::class,
-            $adapter
-        );
+        $class = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

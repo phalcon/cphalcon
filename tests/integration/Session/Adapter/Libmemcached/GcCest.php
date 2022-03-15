@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function sleep;
 use function uniqid;
@@ -27,8 +26,10 @@ class GcCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: gc()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterLibmemcachedGc(IntegrationTester $I)
     {
@@ -38,15 +39,15 @@ class GcCest
         /**
          * Add two session keys
          */
-        $I->haveInLibmemcached('sess-memc-gc_1', uniqid(), 1);
-        $I->haveInLibmemcached('sess-memc-gc_2', uniqid(), 1);
+        $I->haveInMemcached('sess-memc-gc_1', uniqid(), 1);
+        $I->haveInMemcached('sess-memc-gc_2', uniqid(), 1);
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
         $actual = $adapter->gc(1);
         $I->assertTrue($actual);
-        $I->dontSeeInLibmemcached('sess-memc-gc_1');
-        $I->dontSeeInLibmemcached('sess-memc-gc_2');
+        $I->dontSeeInMemcached('sess-memc-gc_1');
+        $I->dontSeeInMemcached('sess-memc-gc_2');
     }
 }

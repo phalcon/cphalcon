@@ -25,12 +25,6 @@ class InjectableCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: clear()
      *
@@ -41,6 +35,9 @@ class InjectableCest
     {
         $I->wantToTest('Session\Bag - injectable');
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+
         /**
          * Set a session bag
          */
@@ -49,7 +46,7 @@ class InjectableCest
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest', $this->container);
+        $collection = new Bag($this->container->get("session"), 'BagTest');
         $collection->init($data);
 
         /**
