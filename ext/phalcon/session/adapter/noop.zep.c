@@ -23,9 +23,9 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -142,19 +142,19 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, close)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, destroy)
 {
-	zval *id, id_sub;
+	zval *sessionId, sessionId_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&sessionId_sub);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(sessionId)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	zephir_fetch_params_without_memory_grow(1, 0, &sessionId);
 
 
 	RETURN_BOOL(1);
@@ -188,19 +188,19 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, gc)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, read)
 {
-	zval *id, id_sub;
+	zval *sessionId, sessionId_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&sessionId_sub);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(sessionId)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	zephir_fetch_params_without_memory_grow(1, 0, &sessionId);
 
 
 	RETURN_STRING("");
@@ -236,21 +236,21 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, open)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, write)
 {
-	zval *id, id_sub, *data, data_sub;
+	zval *sessionId, sessionId_sub, *data, data_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&sessionId_sub);
 	ZVAL_UNDEF(&data_sub);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(sessionId)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(2, 0, &id, &data);
+	zephir_fetch_params_without_memory_grow(2, 0, &sessionId, &data);
 
 
 	RETURN_BOOL(1);

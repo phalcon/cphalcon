@@ -24,11 +24,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-/**
- * Class None
- *
- * @package Phalcon\Storage\Serializer
- */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_None)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage\\Serializer, None, phalcon, storage_serializer_none, phalcon_storage_serializer_abstractserializer_ce, phalcon_storage_serializer_none_method_entry, 0);
