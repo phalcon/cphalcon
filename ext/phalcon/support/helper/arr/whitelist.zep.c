@@ -19,7 +19,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -73,10 +73,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_18__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_16__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &whiteList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 203, &filtered);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 205, &filtered);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 2, &collection, &_1);
 	zephir_check_call_status();

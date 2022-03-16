@@ -60,7 +60,7 @@ class GetPrefixCest
 
         $expected = $example['expected'];
         $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     private function getExamples(): array

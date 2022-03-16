@@ -165,14 +165,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	if (zephir_is_true(&_6)) {
 		ZEPHIR_INIT_VAR(&_7$$5);
 		ZEPHIR_INIT_NVAR(&_7$$5);
-		zephir_create_closure_ex(&_7$$5, NULL, phalcon_5__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_7$$5, NULL, phalcon_7__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$5, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_7$$5, &_8$$5);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_9$$6);
 		ZEPHIR_INIT_NVAR(&_9$$6);
-		zephir_create_closure_ex(&_9$$6, NULL, phalcon_6__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_9$$6, NULL, phalcon_8__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_10$$6, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_9$$6, &_10$$6);
 		zephir_check_call_status();

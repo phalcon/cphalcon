@@ -10,11 +10,6 @@
 
 namespace Phalcon\Storage\Serializer;
 
-/**
- * Class None
- *
- * @package Phalcon\Storage\Serializer
- */
 class None extends AbstractSerializer
 {
     /**

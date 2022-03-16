@@ -17,32 +17,36 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class HasCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class HasCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: has()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagHas(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - has()');
+
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
 
-        $collection = new Bag('BagTest', $this->container);
+        $collection = new Bag($this->container->get("session"), 'BagTest');
         $collection->init($data);
 
         $actual = $collection->has('three');
@@ -51,19 +55,19 @@ class HasCest
         $actual = $collection->has('THREE');
         $I->assertTrue($actual);
 
-        $actual = $collection->has('unknown');
+        $actual = $collection->has(uniqid());
         $I->assertFalse($actual);
 
         $actual = isset($collection['three']);
         $I->assertTrue($actual);
 
-        $actual = isset($collection['unknown']);
+        $actual = isset($collection[uniqid()]);
         $I->assertFalse($actual);
 
         $actual = $collection->offsetExists('three');
         $I->assertTrue($actual);
 
-        $actual = $collection->offsetExists('unknown');
+        $actual = $collection->offsetExists(uniqid());
         $I->assertFalse($actual);
     }
 }

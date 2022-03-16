@@ -51,4 +51,3 @@ PHP_METHOD(phalcon_14__closure, __invoke)
 
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
 }
-

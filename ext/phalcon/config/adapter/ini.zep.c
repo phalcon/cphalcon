@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString)
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_substr(&_3, &path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "parseinistring", NULL, 206, &path, &castValue);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "parseinistring", NULL, 208, &path, &castValue);
 	zephir_check_call_status();
 	zephir_create_array(return_value, 1, 0);
 	zephir_array_update_zval(return_value, &key, &result, PH_COPY);
@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, phpParseIniFile)
 
 	ZVAL_BOOL(&_0, (processSections ? 1 : 0));
 	ZVAL_LONG(&_1, scannerMode);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 207, &filename, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 209, &filename, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

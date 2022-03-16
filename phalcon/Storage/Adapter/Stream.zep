@@ -86,7 +86,7 @@ class Stream extends AbstractAdapter
             iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if file->isFile() && !unlink(file->getPathName()) {
+            if unlikely true === file->isFile() && true !== this->phpUnlink(file->getPathName()) {
                 let result = false;
             }
         }
@@ -104,16 +104,21 @@ class Stream extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var data;
+        var data, result;
 
-        if !this->has(key) {
+        if unlikely true !== this->has(key) {
             return false;
         }
 
         let data = this->get(key),
             data = (int) data - value;
 
-        return this->set(key, data);
+        let result = this->set(key, data);
+        if likely result !== false {
+            let result = data;
+        }
+
+        return result;
     }
 
     /**
@@ -127,7 +132,7 @@ class Stream extends AbstractAdapter
     {
         var filepath;
 
-        if !this->has(key) {
+        if true !== this->has(key) {
             return false;
         }
 
@@ -180,14 +185,14 @@ class Stream extends AbstractAdapter
         let files     = [],
             directory = this->getDir();
 
-        if !file_exists(directory) {
+        if unlikely true !== this->phpFileExists(directory) {
             return [];
         }
 
         let iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if file->isFile() {
+            if true === file->isFile() {
                 let files[] = this->prefix . file->getFilename();
             }
         }
@@ -208,7 +213,7 @@ class Stream extends AbstractAdapter
 
         let filepath = this->getFilepath(key);
 
-        if !file_exists(filepath) {
+        if unlikely true !== this->phpFileExists(filepath) {
             return false;
         }
 
@@ -231,24 +236,33 @@ class Stream extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var data;
+        var data, result;
 
-        if !this->has(key) {
+        if unlikely true !== this->has(key) {
             return false;
         }
 
         let data = this->get(key),
             data = (int) data + value;
 
-        return this->set(key, data);
+        let result = this->set(key, data);
+        if likely result !== false {
+            let result = data;
+        }
+
+        return result;
     }
 
     /**
-     * Stores data in the adapter
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      */
@@ -353,17 +367,17 @@ class Stream extends AbstractAdapter
         var payload, pointer, version;
 
         let payload = false,
-            pointer = fopen(filepath, 'r');
+            pointer = this->phpFopen(filepath, "r");
 
         /**
          * Cannot open file
          */
-        if (false === pointer) {
+        if unlikely false === pointer {
             return [];
         }
 
-        if (flock(pointer, LOCK_SH)) {
-            let payload = file_get_contents(filepath);
+        if likely true === flock(pointer, LOCK_SH) {
+            let payload = this->phpFileGetContents(filepath);
         }
 
         fclose(pointer);
@@ -371,7 +385,7 @@ class Stream extends AbstractAdapter
         /**
          * No results
          */
-        if false === payload {
+        if unlikely false === payload {
             return [];
         }
 
@@ -446,12 +460,43 @@ class Stream extends AbstractAdapter
             mkdir(directory, 0777, true);
         }
 
-        return false !== file_put_contents(directory . key, payload, LOCK_EX);
+        return (
+            false !== this->phpFilePutContents(directory . key, payload, LOCK_EX)
+        );
     }
 
     /**
-     * @todo Remove this when we get traits
+     * @todo Remove the methods below when we get traits
      */
+    protected function phpFileExists(string filename) -> bool
+    {
+        return file_exists(filename);
+    }
+
+    protected function phpFileGetContents(string filename) -> string | bool
+    {
+        return file_get_contents(filename);
+    }
+
+    protected function phpFilePutContents(
+        string filename,
+        var data,
+        int flags = 0,
+        var context = null
+    ) -> int | bool {
+        return file_put_contents(filename, data, flags, context);
+    }
+
+    protected function phpFopen(string filename, string mode) -> var
+    {
+        return fopen(filename, mode);
+    }
+
+    protected function phpUnlink(string filename) -> bool
+    {
+        return unlink(filename);
+    }
+
     private function getDirFromFile(string! file) -> string
     {
         var name, start;
@@ -470,9 +515,6 @@ class Stream extends AbstractAdapter
         return implode("/", str_split(start, 2)) . "/";
     }
 
-    /**
-     * @todo Remove this when we get traits
-     */
     private function getDirSeparator(string! directory) -> string
     {
         return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;

@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function uniqid;
 
@@ -26,8 +25,10 @@ class WriteCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: write()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterNoopWrite(IntegrationTester $I)
     {
@@ -35,9 +36,7 @@ class WriteCest
 
         $adapter = $this->newService('sessionNoop');
 
-        $adapter->write(
-            'test1',
-            uniqid()
-        );
+        $actual = $adapter->write('test1', uniqid());
+        $I->assertTrue($actual);
     }
 }

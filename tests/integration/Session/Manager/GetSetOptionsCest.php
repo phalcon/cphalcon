@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Manager;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class GetSetOptionsCest
 {
@@ -25,8 +24,10 @@ class GetSetOptionsCest
     /**
      * Tests Phalcon\Session\Manager :: getOptions()/setOptions() - constructor
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetSetOptionsConstructor(IntegrationTester $I)
     {
@@ -39,18 +40,17 @@ class GetSetOptionsCest
 
         $manager = new Manager($options);
 
-
-        $I->assertEquals(
-            $options,
-            $manager->getOptions()
-        );
+        $actual = $manager->getOptions();
+        $I->assertEquals($options, $actual);
     }
 
     /**
      * Tests Phalcon\Session\Manager :: getOptions()/setOptions()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetSetOptions(IntegrationTester $I)
     {
@@ -62,7 +62,6 @@ class GetSetOptionsCest
         ];
 
         $manager = new Manager($options);
-
         $options = [
             'test3' => 'option3',
         ];
@@ -70,9 +69,7 @@ class GetSetOptionsCest
 
         $manager->setOptions($options);
 
-        $I->assertEquals(
-            $options,
-            $manager->getOptions()
-        );
+        $actual = $manager->getOptions();
+        $I->assertEquals($options, $actual);
     }
 }

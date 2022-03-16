@@ -1,12 +1,25 @@
 # [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (xxxx-xx-xx)
 
+## Changed
+- Changed `Phalcon\Session\Bag::__construct()` to accept a `Phalcon\Session\Manager` as the first parameter and `name` as the second one [#15904](https://github.com/phalcon/cphalcon/issues/15904)
+
 ## Fixed
 - Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
+- Fixed `Phalcon\Storage\Adapter\*` to correctly store `null` values [#15904](https://github.com/phalcon/cphalcon/issues/15904)
 
 ## Added
 - Added `Phalcon\Encryption\Crypt::isValidDecryptLength($input)` to allow checking for the length of the decryption string [#15879](https://github.com/phalcon/cphalcon/issues/15879)
-- Added `Phalcon\Di\InitializationAwareInterface` to allow auto calling the `initialize` method when accessing service through DIC
- 
+- Added `Phalcon\Di\InitializationAwareInterface` to allow auto calling the `initialize` method when accessing service through DIC [#15916](https://github.com/phalcon/cphalcon/pull/15916)
+- Added
+    - `Phalcon\Storage\Serializer\MemcachedIgbinary`
+    - `Phalcon\Storage\Serializer\MemcachedJson`
+    - `Phalcon\Storage\Serializer\MemcachedPhp`
+    - `Phalcon\Storage\Serializer\RedisIgbinary`
+    - `Phalcon\Storage\Serializer\RedisJson`
+    - `Phalcon\Storage\Serializer\RedisMsgpack`
+    - `Phalcon\Storage\Serializer\RedisNone`
+    - `Phalcon\Storage\Serializer\RedisPhp` to be used if adapter serialization is required [#15904](https://github.com/phalcon/cphalcon/issues/15904)
+
 # [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (2022-02-06)
 
 ## Changed

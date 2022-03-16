@@ -13,11 +13,6 @@ namespace Phalcon\Storage\Serializer;
 use InvalidArgumentException;
 use JsonSerializable;
 
-/**
- * Class Json
- *
- * @package Phalcon\Storage\Serializer
- */
 class Json extends AbstractSerializer
 {
     /**
@@ -34,7 +29,7 @@ class Json extends AbstractSerializer
             );
         }
 
-        if !this->isSerializable(this->data) {
+        if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
@@ -50,7 +45,11 @@ class Json extends AbstractSerializer
      */
     public function unserialize(var data) -> void
     {
-        let this->data = this->getDecode(data);
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
+        } else {
+            let this->data = this->getDecode(data);
+        }
     }
 
     /**
@@ -61,8 +60,7 @@ class Json extends AbstractSerializer
         bool associative = false,
         int depth = 512,
         int options = 0
-    ) -> var
-    {
+    ) -> var {
         var decoded;
 
         let decoded = json_decode(data, associative, depth, options);
@@ -83,8 +81,7 @@ class Json extends AbstractSerializer
         var data,
         int options = 0,
         int depth = 512
-    ) -> string
-    {
+    ) -> string {
         var encoded;
 
         let encoded = json_encode(data, options, depth);
@@ -97,5 +94,4 @@ class Json extends AbstractSerializer
 
         return encoded;
     }
-
 }

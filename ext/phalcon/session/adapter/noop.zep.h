@@ -25,7 +25,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_clo
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_destroy, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_INFO(0, sessionId)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_noop_gc, 0, 0, 1)
@@ -33,7 +33,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_noop_gc, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_read, 0, 1, IS_STRING, 0)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_INFO(0, sessionId)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_open, 0, 2, _IS_BOOL, 0)
@@ -42,7 +42,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_ope
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_write, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_INFO(0, sessionId)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 

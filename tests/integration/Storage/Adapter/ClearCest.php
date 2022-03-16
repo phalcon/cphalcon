@@ -14,13 +14,17 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
+use Codeception\Stub;
 use IntegrationTester;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception;
+use Phalcon\Support\Exception as HelperException;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -29,6 +33,133 @@ use function uniqid;
 
 class ClearCest
 {
+    /**
+     * Tests Phalcon\Storage\Adapter\Apcu :: clear() - iterator error
+     *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterApcuClearIteratorError(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Apcu - clear() - iterator error');
+
+        $I->checkExtensionIsLoaded('apcu');
+
+        $serializer = new SerializerFactory();
+        $adapter    = Stub::construct(
+            Apcu::class,
+            [
+                $serializer,
+            ],
+            [
+                'phpApcuIterator' => false,
+            ]
+        );
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Apcu :: clear() - delete error
+     *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterApcuClearDeleteError(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Apcu - clear() - delete error');
+
+        $I->checkExtensionIsLoaded('apcu');
+
+        $serializer = new SerializerFactory();
+        $adapter    = Stub::construct(
+            Apcu::class,
+            [
+                $serializer,
+            ],
+            [
+                'phpApcuDelete' => false,
+            ]
+        );
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: clear() - cannot delete file
+     *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     * @throws StorageException
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterStreamClearCannotDeleteFile(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - clear() - cannot delete file');
+
+        $serializer = new SerializerFactory();
+        $adapter    = Stub::construct(
+            Stream::class,
+            [
+                $serializer,
+                [
+                    'storageDir' => outputDir(),
+                ],
+            ],
+            [
+                'phpUnlink' => false,
+            ]
+        );
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertFalse($actual);
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
+    }
+
     /**
      * Tests Phalcon\Storage\Adapter\* :: clear()
      *
