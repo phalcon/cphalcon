@@ -9,7 +9,7 @@
 
 ## Added
 - Added `Phalcon\Encryption\Crypt::isValidDecryptLength($input)` to allow checking for the length of the decryption string [#15879](https://github.com/phalcon/cphalcon/issues/15879)
-- Added `Phalcon\Di\InitializationAwareInterface` to allow auto calling the `initialize` method when accessing service through DIC
+- Added `Phalcon\Di\InitializationAwareInterface` to allow auto calling the `initialize` method when accessing service through DIC [#15916](https://github.com/phalcon/cphalcon/pull/15916)
 - Added
     - `Phalcon\Storage\Serializer\MemcachedIgbinary`
     - `Phalcon\Storage\Serializer\MemcachedJson`
