@@ -33,7 +33,7 @@ env:
   TOOLS_DIR: 'C:\tools'
 
   # PHP extensions required by Composer
-  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
+  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis, :memcache
 
 jobs:
   # Configure Workflow for correct run reusable workflow
