@@ -31,38 +31,38 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
-        "phalcon/zephir": "dev-#2341-dynamic-arg-info"
-    },
-    "require-dev": {
-        "ext-apcu": "*",
-        "ext-dom": "*",
-        "ext-gd": "*",
-        "ext-iconv": "*",
-        "ext-igbinary": "*",
-        "ext-imagick": "*",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-libxml": "*",
-        "ext-mbstring": "*",
-        "ext-msgpack": "*",
-        "ext-pdo": "*",
-        "ext-psr": "^1.0",
-        "ext-redis": "*",
-        "ext-sqlite3": "*",
-        "ext-xml": "*",
-        "codeception/codeception": "^4.0",
-        "codeception/module-apc": "^1.0.0",
-        "codeception/module-asserts": "^1.0.0",
-        "codeception/module-cli": "^1.0.0",
-        "codeception/module-db": "^1.0.0",
-        "codeception/module-filesystem": "^1.0.0",
-        "codeception/module-memcache": "^2.0",
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "ext-apcu": "*",
+    "ext-dom": "*",
+    "ext-gd": "*",
+    "ext-iconv": "*",
+    "ext-igbinary": "*",
+    "ext-imagick": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-mbstring": "*",
+    "ext-msgpack": "*",
+    "ext-pdo": "*",
+    "ext-psr": "^1.0",
+    "ext-redis": "*",
+    "ext-sqlite3": "*",
+    "ext-xml": "*",
+    "codeception/codeception": "^4.0",
+    "codeception/module-apc": "^1.0.0",
+    "codeception/module-asserts": "^1.0.0",
+    "codeception/module-cli": "^1.0.0",
+    "codeception/module-db": "^1.0.0",
+    "codeception/module-filesystem": "^1.0.0",
+    "codeception/module-memcache": "^2.0",
     "codeception/module-phalcon5": "^1.0.0",
     "codeception/module-redis": "^1.0.0",
     "friendsofphp/php-cs-fixer": "~3.0",
     "mustache/mustache": "^2.14.1",
     "phalcon/ide-stubs": "^4.1",
+    "phalcon/zephir": "dev-development",
     "phpunit/phpunit": "^8.5",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",
@@ -74,9 +74,9 @@
     "optimize-autoloader": true,
     "preferred-install": "dist",
     "sort-packages": true,
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true
-        }
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   },
   "autoload-dev": {
     "psr-4": {
