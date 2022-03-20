@@ -111,7 +111,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFile)
 	 * @var StreamInterface|string|null
 	 */
 	zend_declare_property_null(phalcon_http_message_uploadedfile_ce, SL("stream"), ZEND_ACC_PRIVATE);
-	zend_class_implements(phalcon_http_message_uploadedfile_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfileinterface")));
+	zend_class_implements(phalcon_http_message_uploadedfile_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\uploadedfileinterface")));
 	return SUCCESS;
 }
 
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream)
 	}
 	ZEPHIR_OBS_VAR(&_5);
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("stream"), PH_NOISY_CC);
-	if (UNEXPECTED(!(zephir_is_instance_of(&_5, SL("Psr\\Http\\Message\\StreamInterface"))))) {
+	if (UNEXPECTED(!(zephir_is_instance_of(&_5, SL("PsrExt\\Http\\Message\\StreamInterface"))))) {
 		ZEPHIR_INIT_VAR(&_6$$5);
 		object_init_ex(&_6$$5, phalcon_http_message_stream_ce);
 		zephir_read_property(&_7$$5, this_ptr, ZEND_STRL("fileName"), PH_NOISY_CC | PH_READONLY);
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream)
 				zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), &_1$$5);
 				break;
 			}
-			if (_0$$3 == (zephir_is_instance_of(stream, SL("Psr\\Http\\Message\\StreamInterface")))) {
+			if (_0$$3 == (zephir_is_instance_of(stream, SL("PsrExt\\Http\\Message\\StreamInterface")))) {
 				zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), stream);
 				break;
 			}

@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_LinkProvider)
 	zend_declare_property_null(phalcon_html_link_linkprovider_ce, SL("links"), ZEND_ACC_PROTECTED);
 	phalcon_html_link_linkprovider_ce->create_object = zephir_init_properties_Phalcon_Html_Link_LinkProvider;
 
-	zend_class_implements(phalcon_html_link_linkprovider_ce, 1, zephir_get_internal_ce(SL("psr\\link\\linkproviderinterface")));
+	zend_class_implements(phalcon_html_link_linkprovider_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\linkproviderinterface")));
 	return SUCCESS;
 }
 
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, __construct)
 		{
 			ZEPHIR_INIT_NVAR(&link);
 			ZVAL_COPY(&link, _0);
-			if (zephir_is_instance_of(&link, SL("Psr\\Link\\LinkInterface"))) {
+			if (zephir_is_instance_of(&link, SL("PsrExt\\Link\\LinkInterface"))) {
 				ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getkey", &_3, 0, &link);
 				zephir_check_call_status();
 				zephir_update_property_array(this_ptr, SL("links"), &_2$$4, &link);
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, __construct)
 			}
 			ZEPHIR_CALL_METHOD(&link, &links, "current", NULL, 0);
 			zephir_check_call_status();
-				if (zephir_is_instance_of(&link, SL("Psr\\Link\\LinkInterface"))) {
+				if (zephir_is_instance_of(&link, SL("PsrExt\\Link\\LinkInterface"))) {
 					ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "getkey", &_3, 0, &link);
 					zephir_check_call_status();
 					zephir_update_property_array(this_ptr, SL("links"), &_4$$6, &link);
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getKey)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psrext\\link\\linkinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

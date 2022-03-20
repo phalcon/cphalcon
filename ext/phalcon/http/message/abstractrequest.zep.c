@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(uri, zephir_get_internal_ce(SL("psr\\http\\message\\uriinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(uri, zephir_get_internal_ce(SL("psrext\\http\\message\\uriinterface")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(preserveHost)
 	ZEND_PARSE_PARAMETERS_END();
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri)
 
 	_0 = Z_TYPE_P(uri) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_is_instance_of(uri, SL("Psr\\Http\\Message\\UriInterface"));
+		_0 = zephir_is_instance_of(uri, SL("PsrExt\\Http\\Message\\UriInterface"));
 	}
 	if (UNEXPECTED(_0)) {
 		RETVAL_ZVAL(uri, 1, 0);

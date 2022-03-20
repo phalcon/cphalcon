@@ -21,7 +21,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseServer);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUri);
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_createserverrequest, 0, 2, Psr\\Http\\Message\\ServerRequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_createserverrequest, 0, 2, PsrExt\\Http\\Message\\ServerRequestInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 	ZEND_ARG_INFO(0, uri)
 #if PHP_VERSION_ID >= 80000

@@ -41,7 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequestFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ServerRequestFactory, phalcon, http_message_serverrequestfactory, phalcon_http_message_serverrequestfactory_method_entry, 0);
 
-	zend_class_implements(phalcon_http_message_serverrequestfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\serverrequestfactoryinterface")));
+	zend_class_implements(phalcon_http_message_serverrequestfactory_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\serverrequestfactoryinterface")));
 	zend_class_implements(phalcon_http_message_serverrequestfactory_ce, 1, phalcon_http_message_requestmethodinterface_ce);
 	return SUCCESS;
 }
@@ -1373,7 +1373,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles)
 			ZEPHIR_CPY_WRT(&key, &_4$$3);
 			_5$$3 = Z_TYPE_P(&file) == IS_OBJECT;
 			if (_5$$3) {
-				_5$$3 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface"));
+				_5$$3 = zephir_is_instance_of(&file, SL("PsrExt\\Http\\Message\\UploadedFileInterface"));
 			}
 			if (UNEXPECTED(_5$$3)) {
 				ZEPHIR_CALL_METHOD(NULL, &collection, "set", &_6, 42, &key, &file);
@@ -1418,7 +1418,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles)
 				ZEPHIR_CPY_WRT(&key, &_12$$7);
 				_13$$7 = Z_TYPE_P(&file) == IS_OBJECT;
 				if (_13$$7) {
-					_13$$7 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface"));
+					_13$$7 = zephir_is_instance_of(&file, SL("PsrExt\\Http\\Message\\UploadedFileInterface"));
 				}
 				if (UNEXPECTED(_13$$7)) {
 					ZEPHIR_CALL_METHOD(NULL, &collection, "set", &_6, 42, &key, &file);

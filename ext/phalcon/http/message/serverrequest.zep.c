@@ -105,7 +105,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest)
 	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uploadedFiles"), ZEND_ACC_PROTECTED);
 	phalcon_http_message_serverrequest_ce->create_object = zephir_init_properties_Phalcon_Http_Message_ServerRequest;
 
-	zend_class_implements(phalcon_http_message_serverrequest_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\serverrequestinterface")));
+	zend_class_implements(phalcon_http_message_serverrequest_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\serverrequestinterface")));
 	return SUCCESS;
 }
 
@@ -801,7 +801,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles)
 			} else {
 				_3$$5 = Z_TYPE_P(&file) == IS_OBJECT;
 				if (_3$$5) {
-					_3$$5 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface"));
+					_3$$5 = zephir_is_instance_of(&file, SL("PsrExt\\Http\\Message\\UploadedFileInterface"));
 				}
 				if (UNEXPECTED(!(_3$$5))) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 350);
@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles)
 				} else {
 					_4$$9 = Z_TYPE_P(&file) == IS_OBJECT;
 					if (_4$$9) {
-						_4$$9 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface"));
+						_4$$9 = zephir_is_instance_of(&file, SL("PsrExt\\Http\\Message\\UploadedFileInterface"));
 					}
 					if (UNEXPECTED(!(_4$$9))) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 350);

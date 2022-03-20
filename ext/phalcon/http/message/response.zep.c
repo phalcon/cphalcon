@@ -65,7 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response)
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_http_message_response_ce, SL("statusCode"), 200, ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_http_message_response_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responseinterface")));
+	zend_class_implements(phalcon_http_message_response_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\responseinterface")));
 	zend_class_implements(phalcon_http_message_response_ce, 1, phalcon_http_message_responsestatuscodeinterface_ce);
 	return SUCCESS;
 }

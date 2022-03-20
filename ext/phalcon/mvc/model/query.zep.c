@@ -100,7 +100,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("bindTypes"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var \Psr\SimpleCache\CacheInterface|null
+	 * @var \PsrExt\SimpleCache\CacheInterface|null
 	 */
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("cache"), ZEND_ACC_PROTECTED);
 	/**
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&cache, &_1$$3, "getshared", NULL, 0, &cacheService);
 		zephir_check_call_status();
-		if (UNEXPECTED(!((zephir_is_instance_of(&cache, SL("Psr\\SimpleCache\\CacheInterface")))))) {
+		if (UNEXPECTED(!((zephir_is_instance_of(&cache, SL("PsrExt\\SimpleCache\\CacheInterface")))))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Cache service must be an object implementing Psr\\SimpleCache\\CacheInterface", "phalcon/Mvc/Model/Query.zep", 301);
 			return;
 		}

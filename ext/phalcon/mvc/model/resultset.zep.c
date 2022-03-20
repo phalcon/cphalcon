@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(result)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, zephir_get_internal_ce(SL("psrext\\simplecache\\cacheinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -679,7 +679,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *index, index_sub, _0;
+	zval index_sub, _0;
+	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -713,7 +714,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists)
 {
-	zval *index, index_sub, _0;
+	zval index_sub, _0;
+	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -741,7 +743,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
 {
-	zval *index, index_sub, *value, value_sub;
+	zval index_sub, value_sub;
+	zval *index, *value;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -767,7 +770,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset)
 {
-	zval *offset, offset_sub;
+	zval offset_sub;
+	zval *offset;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);

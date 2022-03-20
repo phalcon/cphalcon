@@ -49,3 +49,4 @@ PHP_METHOD(phalcon_12__closure, __invoke)
 	zephir_uncamelize(return_value, action, &_0 );
 	RETURN_MM();
 }
+

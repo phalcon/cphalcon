@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Link, EvolvableLinkProvider, phalcon, html_link_evolvablelinkprovider, phalcon_html_link_linkprovider_ce, phalcon_html_link_evolvablelinkprovider_method_entry, 0);
 
-	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, zephir_get_internal_ce(SL("psr\\link\\evolvablelinkproviderinterface")));
+	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\evolvablelinkproviderinterface")));
 	return SUCCESS;
 }
 
@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
  * normally without errors. The link is present if link is === identical
  * to a link object already in the collection.
  *
- * @param LinkInterface link
+ * @param \Psr\Link\LinkInterface link
  *   A link object that should be included in this collection.
  *
  * @return static
@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psrext\\link\\linkinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psrext\\link\\linkinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

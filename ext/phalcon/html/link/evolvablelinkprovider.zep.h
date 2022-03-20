@@ -7,11 +7,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink);
 PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_evolvablelinkprovider_withlink, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, link, Psr\\Link\\LinkInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, link, PsrExt\\Link\\LinkInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_evolvablelinkprovider_withoutlink, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, link, Psr\\Link\\LinkInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, link, PsrExt\\Link\\LinkInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_link_evolvablelinkprovider_method_entry) {

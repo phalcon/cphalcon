@@ -2048,7 +2048,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&order), _2, _3, _0)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_3 != NULL) {
+			if (_3 != NULL) { 
 				ZVAL_STR_COPY(&key, _3);
 			} else {
 				ZVAL_LONG(&key, _2);
@@ -2088,7 +2088,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _6, _7, _4)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_7 != NULL) {
+			if (_7 != NULL) { 
 				ZVAL_STR_COPY(&key, _7);
 			} else {
 				ZVAL_LONG(&key, _6);
@@ -2131,7 +2131,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attrs), _11, _12, _9)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_12 != NULL) {
+			if (_12 != NULL) { 
 				ZVAL_STR_COPY(&key, _12);
 			} else {
 				ZVAL_LONG(&key, _11);
@@ -3487,3 +3487,4 @@ PHP_METHOD(Phalcon_Tag, inputFieldChecked)
 	}
 	RETURN_CCTOR(&code);
 }
+

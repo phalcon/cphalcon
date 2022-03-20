@@ -863,3 +863,4 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore)
 	zephir_check_call_status();
 	RETURN_MM();
 }
+

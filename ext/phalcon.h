@@ -256,6 +256,7 @@
 #include "phalcon/db/result/pdoresult.zep.h"
 #include "phalcon/di/exception/serviceresolutionexception.zep.h"
 #include "phalcon/di/factorydefault/cli.zep.h"
+#include "phalcon/di/initializationawareinterface.zep.h"
 #include "phalcon/di/service.zep.h"
 #include "phalcon/di/service/builder.zep.h"
 #include "phalcon/di/serviceproviderinterface.zep.h"

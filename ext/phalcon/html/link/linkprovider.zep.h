@@ -25,7 +25,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_linkprovider_getlinksbyrel, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_link_linkprovider_getkey, 0, 1, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, link, Psr\\Link\\LinkInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, link, PsrExt\\Link\\LinkInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_linkprovider_zephir_init_properties_phalcon_html_link_linkprovider, 0, 0, 0)

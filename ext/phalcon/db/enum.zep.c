@@ -63,6 +63,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 
 	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_UNIQUE"), 196608);
 
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_DEFAULT"), 0);
+
 	return SUCCESS;
 }
 

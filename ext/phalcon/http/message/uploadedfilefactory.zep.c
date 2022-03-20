@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UploadedFileFactory, phalcon, http_message_uploadedfilefactory, phalcon_http_message_uploadedfilefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_uploadedfilefactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfilefactoryinterface")));
+	zend_class_implements(phalcon_http_message_uploadedfilefactory_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\uploadedfilefactoryinterface")));
 	return SUCCESS;
 }
 
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
-		Z_PARAM_OBJECT_OF_CLASS(stream, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")))
+		Z_PARAM_OBJECT_OF_CLASS(stream, zephir_get_internal_ce(SL("psrext\\http\\message\\streaminterface")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(size, is_null_true)
 		Z_PARAM_LONG(error)

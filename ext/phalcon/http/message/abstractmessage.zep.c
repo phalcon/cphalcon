@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withBody)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(body, zephir_get_internal_ce(SL("psr\\http\\message\\streaminterface")))
+		Z_PARAM_OBJECT_OF_CLASS(body, zephir_get_internal_ce(SL("psrext\\http\\message\\streaminterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getUriHost)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(uri, zephir_get_internal_ce(SL("psr\\http\\message\\uriinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(uri, zephir_get_internal_ce(SL("psrext\\http\\message\\uriinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1127,7 +1127,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processBody)
 
 	_0 = Z_TYPE_P(body) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_is_instance_of(body, SL("Psr\\Http\\Message\\StreamInterface"));
+		_0 = zephir_is_instance_of(body, SL("PsrExt\\Http\\Message\\StreamInterface"));
 	}
 	if (UNEXPECTED(_0)) {
 		RETVAL_ZVAL(body, 1, 0);

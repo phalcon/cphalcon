@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UriFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UriFactory, phalcon, http_message_urifactory, phalcon_http_message_urifactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_urifactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\urifactoryinterface")));
+	zend_class_implements(phalcon_http_message_urifactory_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\urifactoryinterface")));
 	return SUCCESS;
 }
 

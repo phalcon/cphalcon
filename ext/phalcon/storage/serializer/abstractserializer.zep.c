@@ -168,3 +168,36 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 	RETURN_BOOL(!(_1));
 }
 
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
+{
+	zval *this_ptr = getThis();
+
+
+
+	array_init(return_value);
+	return;
+}
+
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *data_param = NULL;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_arrval(&data, data_param);
+
+
+}
+

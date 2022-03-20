@@ -5,8 +5,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory);
 
 PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile);
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_uploadedfilefactory_createuploadedfile, 0, 1, Psr\\Http\\Message\\UploadedFileInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, stream, Psr\\Http\\Message\\StreamInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_uploadedfilefactory_createuploadedfile, 0, 1, PsrExt\\Http\\Message\\UploadedFileInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, stream, PsrExt\\Http\\Message\\StreamInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, size, IS_LONG, 1)
 	ZEND_ARG_TYPE_INFO(0, error, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, clientFilename, IS_STRING, 1)

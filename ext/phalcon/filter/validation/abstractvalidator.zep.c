@@ -489,14 +489,15 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *field_param = NULL, code, _0, _1$$3;
+	zval *field_param = NULL, code, _0, _1, _2$$3;
 	zval field;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -520,11 +521,12 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "code");
-	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
+	ZVAL_LONG(&_1, 0);
+	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/AbstractValidator.zep", 188);
-		ZEPHIR_CPY_WRT(&code, &_1$$3);
+		zephir_array_fetch(&_2$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/AbstractValidator.zep", 188);
+		ZEPHIR_CPY_WRT(&code, &_2$$3);
 	}
 	RETURN_CCTOR(&code);
 }

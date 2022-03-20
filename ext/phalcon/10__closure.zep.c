@@ -56,3 +56,4 @@ PHP_METHOD(phalcon_10__closure, __invoke)
 	}
 	RETURN_MM_BOOL(_1);
 }
+

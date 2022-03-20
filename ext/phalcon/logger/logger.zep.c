@@ -97,7 +97,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
 
 	zephir_declare_class_constant_long(phalcon_logger_logger_ce, SL("WARNING"), 4);
 
-	zend_class_implements(phalcon_logger_logger_ce, 1, zephir_get_internal_ce(SL("psr\\log\\loggerinterface")));
+	zend_class_implements(phalcon_logger_logger_ce, 1, zephir_get_internal_ce(SL("psrext\\log\\loggerinterface")));
 	return SUCCESS;
 }
 

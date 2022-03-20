@@ -76,10 +76,11 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	zend_bool _8$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, __$false, __$true, result, version, _0, _1$$4, _2$$4, _3$$4, _4$$6, _5$$6, _6$$7, _7$$7;
+	zval *data_param = NULL, __$false, __$true, result, version, _0, _1$$4, _2$$4, _3$$4, _4$$6, _5$$6, _6$$7, _7$$7;
+	zval data;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&data);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&result);
@@ -95,21 +96,22 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data);
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_strval(&data, data_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
 	} else {
-		if (Z_TYPE_P(data) != IS_STRING) {
+		if (1 != 1) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 46);
 			return;
 		}
@@ -137,7 +139,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_6$$7, &_7$$7);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);
+		ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, &data);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 91);
 		zephir_check_call_status();

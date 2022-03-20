@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 	ZVAL_LONG(&_0, 16);
 	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 327, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&finfo) != IS_RESOURCE) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&finfo)) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("tmp"), PH_NOISY_CC | PH_READONLY);
