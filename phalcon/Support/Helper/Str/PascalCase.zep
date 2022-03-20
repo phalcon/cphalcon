@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -60,7 +60,7 @@ class PascalCase
          */
         if strpos(delimiters, "\\-") !== false || strpos(delimiters, "-") !== false {
             let delimiters = str_replace(["\\-", "-"], ["", ""], delimiters),
-                delimiters = "-" . $delimiters;
+                delimiters = "-" . delimiters;
         }
 
         let result = preg_split(

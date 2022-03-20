@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function cacheDir;
 use function uniqid;
@@ -44,14 +43,10 @@ class DestroyCest
             uniqid()
         );
 
-        $I->assertTrue(
-            $adapter->destroy('test1')
-        );
+        $actual = $adapter->destroy('test1');
+        $I->assertTrue($actual);
 
-        $I->amInPath(
-            cacheDir('sessions')
-        );
-
+        $I->amInPath(cacheDir('sessions'));
         $I->dontSeeFileFound('test1');
     }
 }

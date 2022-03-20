@@ -21,6 +21,7 @@
 #include "kernel/file.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -184,7 +185,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, __$null, message, _0, _10, _1$$3, _2$$3, _3$$3, _4$$3, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4;
+	zval *item, item_sub, __$null, message, _0, _10, _11, _12, _1$$3, _2$$3, _3$$3, _4$$3, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
@@ -192,6 +193,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
@@ -231,17 +234,21 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 			ZVAL_STRING(&_8$$4, "The file '%s' cannot be opened with mode '%s'");
 			ZEPHIR_CALL_FUNCTION(&_9$$4, "sprintf", NULL, 140, &_8$$4, &_6$$4, &_7$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 479, &_9$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 481, &_9$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$4, "phalcon/Logger/Adapter/Stream.zep", 133);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "getformatteditem", NULL, 0, item);
+	ZEPHIR_CALL_METHOD(&_10, this_ptr, "getformatteditem", NULL, 0, item);
 	zephir_check_call_status();
-	zephir_read_property(&_10, this_ptr, ZEND_STRL("handler"), PH_NOISY_CC | PH_READONLY);
-	zephir_fwrite(NULL, &_10, &message);
+	ZEPHIR_INIT_VAR(&_11);
+	ZEPHIR_GET_CONSTANT(&_11, "PHP_EOL");
+	ZEPHIR_INIT_VAR(&message);
+	ZEPHIR_CONCAT_VV(&message, &_10, &_11);
+	zephir_read_property(&_12, this_ptr, ZEND_STRL("handler"), PH_NOISY_CC | PH_READONLY);
+	zephir_fwrite(NULL, &_12, &message);
 	ZEPHIR_MM_RESTORE();
 }
 

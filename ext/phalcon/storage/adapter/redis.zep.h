@@ -7,7 +7,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, decrement);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, delete);
-PHP_METHOD(Phalcon_Storage_Adapter_Redis, get);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, has);
@@ -38,11 +37,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_delete, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_redis_get, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_redis_getadapter, 0, 0, 0)
@@ -94,7 +88,6 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_redis_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Redis, clear, arginfo_phalcon_storage_adapter_redis_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, decrement, arginfo_phalcon_storage_adapter_redis_decrement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, delete, arginfo_phalcon_storage_adapter_redis_delete, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Redis, get, arginfo_phalcon_storage_adapter_redis_get, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Storage_Adapter_Redis, getAdapter, arginfo_phalcon_storage_adapter_redis_getadapter, ZEND_ACC_PUBLIC)
 #else

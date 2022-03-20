@@ -30,11 +30,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-/**
- * Class Json
- *
- * @package Phalcon\Storage\Serializer
- */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Json)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage\\Serializer, Json, phalcon, storage_serializer_json, phalcon_storage_serializer_abstractserializer_ce, phalcon_storage_serializer_json_method_entry, 0);
@@ -82,14 +77,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 		ZEPHIR_CONCAT_SS(&_4$$3, "Data for the JSON serializer cannot be of type 'object' ", "without implementing 'JsonSerializable'");
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 40, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 34);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 29);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_6, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "isserializable", NULL, 0, &_6);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_5))) {
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_5)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_7, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
@@ -109,11 +104,12 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, _0;
+	zval *data, data_sub, _0, _1$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -126,9 +122,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 	zephir_fetch_params(1, 1, 0, &data);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdecode", NULL, 0, data);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	} else {
+		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "getdecode", NULL, 0, data);
+		zephir_check_call_status();
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_1$$4);
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -198,18 +200,18 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, getDecode)
 	ZVAL_LONG(&_2, options);
 	ZEPHIR_INIT_VAR(&decoded);
 	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 209);
+	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 211);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 210);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 212);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 40, &_6$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Storage/Serializer/Json.zep", 73);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Storage/Serializer/Json.zep", 71);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -263,18 +265,18 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, getEncode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_VAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 209);
+	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 211);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 210);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 212);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 40, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 95);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 92);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

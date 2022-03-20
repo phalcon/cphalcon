@@ -27,8 +27,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Session\Adapter\Redis :: __construct()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterRedisConstruct(IntegrationTester $I)
     {
@@ -36,10 +38,8 @@ class ConstructCest
 
         $adapter = $this->newService('sessionRedis');
 
-        $I->assertInstanceOf(
-            SessionHandlerInterface::class,
-            $adapter
-        );
+        $class = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 
     /**
@@ -60,23 +60,21 @@ class ConstructCest
 
         $redisSession = new Redis($factory, $options);
 
-        $I->assertTrue(
-            $redisSession->write(
-                'my-session-prefixed-key',
-                'test-data'
-            )
+        $actual = $redisSession->write(
+            'my-session-prefixed-key',
+            'test-data'
         );
+
+        $I->assertTrue($actual);
 
         $redisStorage = $factory->newInstance('redis', $options);
 
-        $I->assertEquals(
-            'my-custom-prefix-',
-            $redisStorage->getPrefix()
-        );
+        $expected = 'my-custom-prefix-';
+        $actual   = $redisStorage->getPrefix();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'test-data',
-            $redisStorage->get('my-session-prefixed-key')
-        );
+        $expected = 'test-data';
+        $actual   = $redisStorage->get('my-session-prefixed-key');
+        $I->assertEquals($expected, $actual);
     }
 }

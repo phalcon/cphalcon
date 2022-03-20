@@ -1,7 +1,7 @@
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -9,10 +9,11 @@
 
 namespace Phalcon\Session;
 
-use Phalcon\Support\Collection;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Session\ManagerInterface;
+use Phalcon\Support\Collection;
 
 /**
  * Phalcon\Session\Bag
@@ -27,6 +28,10 @@ use Phalcon\Di\InjectionAwareInterface;
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
  * ```
+ *
+ * @property DiInterface|null $container
+ * @property string           $name
+ * @property ManagerInterface $session;
  */
 class Bag extends Collection implements InjectionAwareInterface
 {
@@ -43,38 +48,25 @@ class Bag extends Collection implements InjectionAwareInterface
     private name;
 
     /**
-     * @var \Phalcon\Session\ManagerInterface
+     * @var ManagerInterface
      */
     private session;
 
     /**
-     * Phalcon\Session\Bag constructor
+     * @param ManagerInterface $session
+     * @param string           $name
      */
-    public function __construct(string! name, <DiInterface> container = null)
+    public function __construct(<ManagerInterface> session, string name)
     {
-        var data, session;
+        var data;
 
-        let this->name = name;
-
-        if unlikely null === container {
-            throw new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            );
-        }
-
-        if unlikely true !== container->has("session") {
-            throw new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            );
-        }
-
-        let session         = container->getShared("session"),
-            this->container = container,
-            this->session   = session;
+        let this->session   = session,
+            this->name      = name,
+            this->container = session->getDI();
 
         let data = session->get(this->name);
 
-        if typeof data != "array" {
+        if typeof data !== "array" {
             let data = [];
         }
 
@@ -106,7 +98,7 @@ class Bag extends Collection implements InjectionAwareInterface
     {
         parent::init(data);
 
-        this->session->set(this->name, this->data);
+        this->session->set(this->name, data);
     }
 
     /**

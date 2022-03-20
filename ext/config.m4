@@ -20,6 +20,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractfactory.zep.c
+	phalcon/storage/serializer/serializerinterface.zep.c
+	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/forms/element/abstractelement.zep.c
@@ -27,15 +29,14 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
+	phalcon/storage/serializer/none.zep.c
 	phalcon/dispatcher/dispatcherinterface.zep.c
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
-	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/assets/assetinterface.zep.c
 	phalcon/config/configinterface.zep.c
 	phalcon/http/message/abstractcommon.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
-	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
@@ -172,6 +173,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/memory.zep.c
 	phalcon/storage/adapter/redis.zep.c
 	phalcon/storage/adapter/stream.zep.c
+	phalcon/storage/serializer/igbinary.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/component.zep.c
 	phalcon/acl/componentawareinterface.zep.c
@@ -256,7 +258,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/profiler/item.zep.c
 	phalcon/db/rawvalue.zep.c
 	phalcon/db/reference.zep.c
-	phalcon/db/result/pdo.zep.c
+	phalcon/db/result/pdoresult.zep.c
 	phalcon/di/exception/serviceresolutionexception.zep.c
 	phalcon/di/factorydefault/cli.zep.c
 	phalcon/di/service.zep.c
@@ -525,11 +527,17 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapterfactory.zep.c
 	phalcon/storage/exception.zep.c
 	phalcon/storage/serializer/base64.zep.c
-	phalcon/storage/serializer/igbinary.zep.c
 	phalcon/storage/serializer/json.zep.c
+	phalcon/storage/serializer/memcachedigbinary.zep.c
+	phalcon/storage/serializer/memcachedjson.zep.c
+	phalcon/storage/serializer/memcachedphp.zep.c
 	phalcon/storage/serializer/msgpack.zep.c
-	phalcon/storage/serializer/none.zep.c
 	phalcon/storage/serializer/php.zep.c
+	phalcon/storage/serializer/redisigbinary.zep.c
+	phalcon/storage/serializer/redisjson.zep.c
+	phalcon/storage/serializer/redismsgpack.zep.c
+	phalcon/storage/serializer/redisnone.zep.c
+	phalcon/storage/serializer/redisphp.zep.c
 	phalcon/storage/serializerfactory.zep.c
 	phalcon/support/collection/exception.zep.c
 	phalcon/support/collection/readonlycollection.zep.c
@@ -626,9 +634,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/13__closure.zep.c
 	phalcon/14__closure.zep.c
 	phalcon/15__closure.zep.c
-	phalcon/16__closure.zep.c
-	phalcon/17__closure.zep.c
-	phalcon/18__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/16__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

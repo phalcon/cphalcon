@@ -1,16 +1,44 @@
-# [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (xxxx-xx-xx)
-
-## Fixed
-- Fixed `Phalcon\Logger\AbstractAdapter::getFormattedItem()` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
-- Fixed PHP8.1 compatibility in `Phalcon\Http\Request\File:getRealType()` method [#15598](https://github.com/phalcon/cphalcon/issues/15598)
-
-## Added
-- Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`) [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+# [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (xxxx-xx-xx)
 
 ## Changed
+- Changed `Phalcon\Session\Bag::__construct()` to accept a `Phalcon\Session\Manager` as the first parameter and `name` as the second one [#15904](https://github.com/phalcon/cphalcon/issues/15904)
 - Replicated `filter_var(input, FILTER_SANITIZE_STRING)` in `Phalcon\Filter\Sanitize\StringVal` to custom solution, due PHP8.1 deprecation [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 - Changed property types, as in original, in `Phalcon\Db\Result\Pdo:fetch()` and `Phalcon\Db\Result\Pdo:fetchAll()` methods [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 
+## Fixed
+- Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
+- Fixed `Phalcon\Storage\Adapter\*` to correctly store `null` values [#15904](https://github.com/phalcon/cphalcon/issues/15904)
+- Fixed PHP8.1 compatibility in `Phalcon\Http\Request\File:getRealType()` method [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+
+## Added
+- Added `Phalcon\Encryption\Crypt::isValidDecryptLength($input)` to allow checking for the length of the decryption string [#15879](https://github.com/phalcon/cphalcon/issues/15879)
+- Added `Phalcon\Di\InitializationAwareInterface` to allow auto calling the `initialize` method when accessing service through DIC [#15916](https://github.com/phalcon/cphalcon/pull/15916)
+- Added
+    - `Phalcon\Storage\Serializer\MemcachedIgbinary`
+    - `Phalcon\Storage\Serializer\MemcachedJson`
+    - `Phalcon\Storage\Serializer\MemcachedPhp`
+    - `Phalcon\Storage\Serializer\RedisIgbinary`
+    - `Phalcon\Storage\Serializer\RedisJson`
+    - `Phalcon\Storage\Serializer\RedisMsgpack`
+    - `Phalcon\Storage\Serializer\RedisNone`
+    - `Phalcon\Storage\Serializer\RedisPhp` to be used if adapter serialization is required [#15904](https://github.com/phalcon/cphalcon/issues/15904)
+- Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`) [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+
+# [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (2022-02-06)
+
+## Changed
+- Renamed `Phalcon\Db\Result\Pdo` to `Phalcon\Db\Result\PdoResult` to avoid collisions with `\PDO` [#15874](https://github.com/phalcon/cphalcon/issues/15854)
+
+## Fixed
+- Fixed `Phalcon\Logger\AbstractAdapter::getFormattedItem()` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
+- Fixed `Phalcon\Html\Helper\Title:__invoke()` to not use the `$separator` as parameter - no need to redefine it in a view [#15866](https://github.com/phalcon/cphalcon/issues/15866)
+- Fixed the delimiters for `Phalcon\Support\Helper\SnakeCase` and `Phalcon\Support\Helper\KamelCase` [#15850](https://github.com/phalcon/cphalcon/issues/15850)
+- Fixed `Phalcon\Mvc\Router\Route::getName()` and `Phalcon\Mvc\Router\Route::getHostname()` to also return `null` [#15880](https://github.com/phalcon/cphalcon/issues/15880)
+- Fixed `Phalcon\Mvc\Router\RouteInterface::getName()` and `Phalcon\Mvc\Router\RouteInterface::getHostname()` to also return `null` [#15880](https://github.com/phalcon/cphalcon/issues/15880)
+- Fixed `Phalcon\Mvc\Model::findFirst()` to return `mixed` or `null` [#15883](https://github.com/phalcon/cphalcon/issues/15883)
+
+## Added
+- Added `Phalcon\Html\Helper\Title:setSeparator` to allow setting the separator independently [#15866](https://github.com/phalcon/cphalcon/issues/15866)
 
 # [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)
 

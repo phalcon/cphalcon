@@ -377,7 +377,7 @@ class Route implements RouteInterface
     /**
      * Returns the hostname restriction if any
      */
-    public function getHostname() -> string
+    public function getHostname() -> string | null
     {
         return this->hostname;
     }
@@ -393,7 +393,7 @@ class Route implements RouteInterface
     /**
      * Returns the route's name
      */
-    public function getName() -> string
+    public function getName() -> string | null
     {
         return this->name;
     }

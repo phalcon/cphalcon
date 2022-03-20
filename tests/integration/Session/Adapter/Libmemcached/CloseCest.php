@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class CloseCest
 {
@@ -24,17 +23,17 @@ class CloseCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: close()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterLibmemcachedClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - close()');
 
         $adapter = $this->newService('sessionLibmemcached');
-
-        $I->assertTrue(
-            $adapter->close()
-        );
+        $actual  = $adapter->close();
+        $I->assertTrue($actual);
     }
 }

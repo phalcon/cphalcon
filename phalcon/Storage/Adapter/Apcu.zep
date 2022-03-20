@@ -52,7 +52,7 @@ class Apcu extends AbstractAdapter
         bool result;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = new APCuIterator(pattern),
+            apc     = this->phpApcuIterator(pattern),
             result  = true;
 
         if typeof apc !== "object" {
@@ -60,7 +60,7 @@ class Apcu extends AbstractAdapter
         }
 
         for item in iterator(apc) {
-            if !apcu_delete(item["key"]) {
+            if (true !== $this->phpApcuDelete(item["key"])) {
                 let result = false;
             }
         }
@@ -78,7 +78,7 @@ class Apcu extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return apcu_dec(this->getPrefixedKey(key), value);
+        return this->phpApcuDec(this->getPrefixedKey(key), value);
     }
 
     /**
@@ -90,24 +90,7 @@ class Apcu extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return apcu_delete(this->getPrefixedKey(key));
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
-     */
-    public function get(string! key, var defaultValue = null) -> var
-    {
-        var content;
-
-        let content = apcu_fetch(this->getPrefixedKey(key));
-
-        return this->getUnserializedData(content, defaultValue);
+        return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
     }
 
     /**
@@ -123,7 +106,7 @@ class Apcu extends AbstractAdapter
         array results;
 
         let pattern = "/^" . this->prefix . prefix . "/",
-            apc     = new APCuIterator(pattern),
+            apc     = this->phpApcuIterator(pattern),
             results = [];
 
         if typeof apc !== "object" {
@@ -148,7 +131,7 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        let result = apcu_exists(this->getPrefixedKey(key));
+        let result = this->phpApcuExists(this->getPrefixedKey(key));
 
         return typeof result === "bool" ? result : false;
     }
@@ -163,15 +146,19 @@ class Apcu extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return apcu_inc(this->getPrefixedKey(key), value);
+        return this->phpApcuInc(this->getPrefixedKey(key), value);
     }
 
     /**
-     * Stores data in the adapter
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      * @throws Exception
@@ -184,7 +171,7 @@ class Apcu extends AbstractAdapter
             return this->delete(key);
         }
 
-        let result = apcu_store(
+        let result = this->phpApcuStore(
             this->getPrefixedKey(key),
             this->getSerializedData(value),
             this->getTtl(ttl)
@@ -206,11 +193,59 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        let result = apcu_store(
+        let result = this->phpApcuStore(
             this->getPrefixedKey(key),
             this->getSerializedData(value)
         );
 
-        return typeof result === "bool" ? result : false;
+        return is_bool(result) ? result : false;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    protected function doGet(string key)
+    {
+        return this->phpApcuFetch(this->getPrefixedKey(key));
+    }
+
+    /**
+     * @todo Remove the below once we get traits
+     */
+    protected function phpApcuDec(var key, int step = 1, var success = null, int ttl = 0) -> bool | int
+    {
+        return apcu_dec(key, step, success, ttl);
+    }
+
+    protected function phpApcuDelete(var key) ->  bool | array
+    {
+        return apcu_delete(key);
+    }
+
+    protected function phpApcuExists(var key) -> bool | array
+    {
+        return apcu_exists(key);
+    }
+
+    protected function phpApcuInc(var key, int step = 1, var success = null, int ttl = 0) -> bool | int
+    {
+        return apcu_inc(key, step, success, ttl);
+    }
+
+    protected function phpApcuFetch(var key, var success = null) -> var
+    {
+        return apcu_fetch(key, success);
+    }
+
+    protected function phpApcuIterator(string pattern) -> <APCuIterator> | bool
+    {
+        return new APCuIterator(pattern);
+    }
+
+    protected function phpApcuStore(var key, var payload, int ttl = 0) -> bool | array
+    {
+        return apcu_store(key, payload, ttl);
     }
 }

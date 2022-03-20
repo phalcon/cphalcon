@@ -37,7 +37,7 @@ class IncrementCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterClear(IntegrationTester $I, Example $example)
+    public function storageAdapterIncrement(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
@@ -63,6 +63,58 @@ class IncrementCest
 
         $expected = 2;
         $actual   = $adapter->increment($key);
+        $I->assertSame($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertSame($expected, $actual);
+
+        $expected = 20;
+        $actual   = $adapter->increment($key, 18);
+        $I->assertSame($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertSame($expected, $actual);
+
+        /**
+         * unknown key
+         */
+        $key      = uniqid();
+        $expected = $example['unknown'];
+        $actual   = $adapter->increment($key);
+        $I->assertSame($expected, $actual);
+
+        if ('Stream' === $example['className']) {
+            $I->safeDeleteDirectory(outputDir('ph-strm'));
+        }
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: increment()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterRedisIncrement(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - increment()');
+
+        $I->checkExtensionIsLoaded('redis');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Redis($serializer, getOptionsRedis());
+
+        $key      = uniqid();
+        $expected = 1;
+        $actual   = $adapter->increment($key, 1);
+        $I->assertEquals($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 2;
+        $actual   = $adapter->increment($key);
         $I->assertEquals($expected, $actual);
 
         $actual = $adapter->get($key);
@@ -79,9 +131,9 @@ class IncrementCest
          * unknown key
          */
         $key      = uniqid();
-        $expected = $example['unknown'];
+        $expected = 1;
         $actual   = $adapter->increment($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -111,13 +163,6 @@ class IncrementCest
                 'extension' => '',
                 'unknown'   => false,
             ],
-//            [
-//                'className' => 'Redis',
-//                'class'     => Redis::class,
-//                'options'   => getOptionsRedis(),
-//                'extension' => 'redis',
-//                'unknown'   => 1,
-//            ],
             [
                 'className' => 'Stream',
                 'class'     => Stream::class,

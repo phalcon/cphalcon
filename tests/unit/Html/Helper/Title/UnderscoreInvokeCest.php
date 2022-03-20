@@ -45,46 +45,67 @@ class UnderscoreInvokeCest
         $escaper = new Escaper();
         $helper  = new Title($escaper);
 
-        $result = $helper($example['separator'], $example['indent'], $example['delimiter']);
+        $indent = $example['indent'];
+        $delimiter = $example['delimiter'];
+        $separator = $example['separator'];
+        $prepend = $example['prepend'];
+        $title    = $example['title'];
+        $titleRaw = $example['titleRaw'];
+        $append   = $example['append'];
 
-        if (!empty($example['prepend'])) {
-            foreach ($example['prepend'] as $text => $raw) {
+        $result = $helper($indent, $delimiter);
+
+        $result->setSeparator($separator);
+
+        if (!empty($prepend)) {
+            foreach ($prepend as $text => $raw) {
                 $result->prepend($text, $raw);
             }
         }
 
-        $result->set($example['title'], $example['titleRaw']);
-
-        if (!empty($example['append'])) {
-            foreach ($example['append'] as $text => $raw) {
+        $result->set($title, $titleRaw);
+        if (!empty($append)) {
+            foreach ($append as $text => $raw) {
                 $result->append($text, $raw);
             }
         }
 
-        $I->assertEquals($example['get'], $result->get());
-        $I->assertEquals($example['render'], (string) $result);
+        $expected = $example['get'];
+        $actual   = $result->get();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $example['render'];
+        $actual   = (string) $result;
+        $I->assertEquals($expected, $actual);
 
         $factory = new TagFactory($escaper);
         $locator = $factory->newInstance('title');
 
-        $result = $locator($example['separator'], $example['indent'], $example['delimiter']);
+        $result = $locator($indent, $delimiter);
 
-        if (!empty($example['prepend'])) {
-            foreach ($example['prepend'] as $text => $raw) {
+        $result->setSeparator($separator);
+        if (!empty($prepend)) {
+            foreach ($prepend as $text => $raw) {
                 $result->prepend($text, $raw);
             }
         }
 
-        $result->set($example['title'], $example['titleRaw']);
+        $result->set($title, $titleRaw);
 
-        if (!empty($example['append'])) {
-            foreach ($example['append'] as $text => $raw) {
+        if (!empty($append)) {
+            foreach ($append as $text => $raw) {
                 $result->append($text, $raw);
             }
         }
 
-        $I->assertEquals($example['get'], $result->get());
-        $I->assertEquals($example['render'], (string) $result);
+
+        $expected = $example['get'];
+        $actual   = $result->get();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $example['render'];
+        $actual   = (string) $result;
+        $I->assertEquals($expected, $actual);
     }
 
     /**

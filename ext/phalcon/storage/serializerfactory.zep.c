@@ -141,13 +141,21 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, getServices)
 
 
 
-	zephir_create_array(return_value, 6, 0);
+	zephir_create_array(return_value, 14, 0);
 	add_assoc_stringl_ex(return_value, SL("base64"), SL("Phalcon\\Storage\\Serializer\\Base64"));
 	add_assoc_stringl_ex(return_value, SL("igbinary"), SL("Phalcon\\Storage\\Serializer\\Igbinary"));
 	add_assoc_stringl_ex(return_value, SL("json"), SL("Phalcon\\Storage\\Serializer\\Json"));
+	add_assoc_stringl_ex(return_value, SL("memcached_igbinary"), SL("Phalcon\\Storage\\Serializer\\MemcachedIgbinary"));
+	add_assoc_stringl_ex(return_value, SL("memcached_json"), SL("Phalcon\\Storage\\Serializer\\MemcachedJson"));
+	add_assoc_stringl_ex(return_value, SL("memcached_php"), SL("Phalcon\\Storage\\Serializer\\MemcachedPhp"));
 	add_assoc_stringl_ex(return_value, SL("msgpack"), SL("Phalcon\\Storage\\Serializer\\Msgpack"));
 	add_assoc_stringl_ex(return_value, SL("none"), SL("Phalcon\\Storage\\Serializer\\None"));
 	add_assoc_stringl_ex(return_value, SL("php"), SL("Phalcon\\Storage\\Serializer\\Php"));
+	add_assoc_stringl_ex(return_value, SL("redis_igbinary"), SL("Phalcon\\Storage\\Serializer\\RedisIgbinary"));
+	add_assoc_stringl_ex(return_value, SL("redis_json"), SL("Phalcon\\Storage\\Serializer\\RedisJson"));
+	add_assoc_stringl_ex(return_value, SL("redis_msgpack"), SL("Phalcon\\Storage\\Serializer\\RedisMsgpack"));
+	add_assoc_stringl_ex(return_value, SL("redis_none"), SL("Phalcon\\Storage\\Serializer\\RedisNone"));
+	add_assoc_stringl_ex(return_value, SL("redis_php"), SL("Phalcon\\Storage\\Serializer\\RedisPhp"));
 	return;
 }
 

@@ -39,6 +39,34 @@ class Base64 extends AbstractSerializer
      */
 	public function unserialize(string data) -> void
 	{
-        let this->data = base64_decode(data);
+	    var result;
+
+	    if typeof data !== "string" {
+	        throw new InvalidArgumentException(
+	        	"Data for the unserializer must of type string"
+	        );
+	    }
+
+        let result = this->phpBase64Decode(data, true);
+
+        if unlikely false === result {
+            let this->isSuccess = false,
+                result          = "";
+        }
+
+        let this->data = result;
+    }
+
+    /**
+     * Wrapper for base64_decode
+     *
+     * @param string $input
+     * @param bool   $strict
+     *
+     * @return string|false
+     */
+    protected function phpBase64Decode(string input, bool strict = false)
+    {
+        return base64_decode(input, strict);
     }
 }

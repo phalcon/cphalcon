@@ -43,4 +43,29 @@ class NewInstanceCest
         $I->assertInstanceOf(Cache::class, $adapter);
         $I->assertInstanceOf(CacheInterface::class, $adapter);
     }
+
+    /**
+     * Tests Phalcon\Cache\CacheFactory :: newInstance() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-03-05
+     */
+    public function cacheCacheFactoryNewInstanceException(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\CacheFactory - newInstance() - exception');
+
+        $name = uniqid();
+        $I->expectThrowable(
+            new Exception('Service ' . $name . ' is not registered'),
+            function () use ($name) {
+                $cacheFactory = new CacheFactory(
+                    new AdapterFactory(
+                        new SerializerFactory()
+                    )
+                );
+
+                $cacheFactory->newInstance($name);
+            }
+        );
+    }
 }

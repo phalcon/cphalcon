@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -29,6 +29,6 @@ class KebabCase extends PascalCase
 
         let output = this->processArray(text, delimiters);
 
-        return implode("_", output);
+        return implode("-", output);
     }
 }

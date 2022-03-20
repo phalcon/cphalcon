@@ -19,6 +19,7 @@ use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\InitializationAwareInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
@@ -239,6 +240,10 @@ class Di implements DiInterface
         if typeof instance == "object" {
             if instance instanceof InjectionAwareInterface {
                 instance->setDI(this);
+            }
+
+            if instance instanceof InitializationAwareInterface {
+                instance->initialize();
             }
         }
 

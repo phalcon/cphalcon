@@ -14,10 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Session\Manager;
 
 use IntegrationTester;
-use InvalidArgumentException;
+use Phalcon\Session\Exception;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 /**
  * Class GetSetNameCest
@@ -29,8 +28,10 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetSetName(IntegrationTester $I)
     {
@@ -52,14 +53,16 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetNameNotValidName(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getName()/setName() - not valid name');
         $I->expectThrowable(
-            new InvalidArgumentException('The name contains non alphanum characters'),
+            new Exception('The name contains non alphanum characters'),
             function () {
                 $manager = new Manager();
                 $files   = $this->newService('sessionStream');
@@ -73,8 +76,10 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - session started
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetNameSessionStarted(IntegrationTester $I)
     {
@@ -87,7 +92,7 @@ class GetSetNameCest
         try {
             $manager->start();
             $manager->setName('%-gga34');
-        } catch (InvalidArgumentException $ex) {
+        } catch (Exception $ex) {
             $manager->destroy();
             $valid    = true;
             $expected = 'Cannot set session name after a session has started';

@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Manager;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class UnderscoreIssetCest
 {
@@ -25,8 +24,10 @@ class UnderscoreIssetCest
     /**
      * Tests Phalcon\Session\Manager :: __isset()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerUnderscoreIsset(IntegrationTester $I)
     {

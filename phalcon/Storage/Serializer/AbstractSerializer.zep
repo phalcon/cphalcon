@@ -12,6 +12,7 @@ namespace Phalcon\Storage\Serializer;
 
 /**
  * @property mixed $data
+ * @property bool  $isSuccess
  */
 abstract class AbstractSerializer implements SerializerInterface
 {
@@ -21,7 +22,12 @@ abstract class AbstractSerializer implements SerializerInterface
     protected data = null;
 
     /**
-     * Constructor.
+     * @var bool
+     */
+    protected isSuccess = true;
+
+    /**
+     * AbstractSerializer constructor.
      *
      * @param mixed|null $data
      */
@@ -31,31 +37,46 @@ abstract class AbstractSerializer implements SerializerInterface
     }
 
     /**
-     * If this returns true, then the data returns back as is
-     *
-     * @param mixed $data
-     *
-     * @return bool
-     */
-	protected function isSerializable(var data) -> bool
-	{
-        return !(empty data || typeof data === "bool" || is_numeric(data));
-	}
-
-    /**
      * @return mixed
      */
-    public function getData() -> var
+    public function getData()
     {
         return this->data;
     }
 
     /**
+     * Returns `true` if the serialize/unserialize operation was successful;
+     * `false` otherwise
+     *
+     * @return bool
+     */
+    public function isSuccess() -> bool
+    {
+        return this->isSuccess;
+    }
+
+    /**
      * @param mixed $data
      */
-    public function setData(var data) -> void
+    public function setData(data) -> void
     {
         let this->data = data;
+    }
+
+    /**
+     * If this returns true, then the data is returned as is
+     *
+     * @param mixed $data
+     *
+     * @return bool
+     */
+    protected function isSerializable(data) -> bool
+    {
+        return !(
+            null === data ||
+            true === is_bool(data) ||
+            true === is_numeric(data)
+        );
     }
 
     public function __serialize() -> array

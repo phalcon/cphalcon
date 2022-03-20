@@ -59,12 +59,12 @@ class GetSetDefaultSerializerCest
 
         $expected = 'php';
         $actual   = $adapter->getDefaultSerializer();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $adapter->setDefaultSerializer('Base64');
         $expected = 'base64';
         $actual   = $adapter->getDefaultSerializer();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,20 +47,17 @@ class Title extends AbstractHelper
     /**
      * Sets the separator and returns the object back
      *
-     * @param string      $separator
      * @param string|null $indent
      * @param string|null $delimiter
      *
      * @return Title
      */
     public function __invoke(
-        string separator = "",
         string indent = null,
         string delimiter = null
     ) -> <Title> {
         let this->delimiter = delimiter,
-            this->indent    = indent,
-            this->separator = separator;
+            this->indent    = indent;
 
         return this;
     }
@@ -138,6 +135,21 @@ class Title extends AbstractHelper
         let text = raw ? text : this->escaper->html(text);
 
         let this->title = text;
+
+        return this;
+    }
+
+    /**
+     * Sets the separator
+     *
+     * @param string $separator
+     * @param bool   $raw
+     *
+     * @return Title
+     */
+    public function setSeparator(string separator, bool raw = false) -> <Title>
+    {
+        let this->separator = raw ? separator : this->escaper->html(separator);
 
         return this;
     }
