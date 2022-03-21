@@ -57,16 +57,16 @@ jobs:
     with:
       standard: ./phpcs.xml
 
-  # Generate stubs and validates with PSALM
+  # Generates stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
       php-version: '8.1'
