@@ -1484,10 +1484,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array|string|int|null parameters = [
-     *     'conditions' => ''
+     *     'conditions' => '',
      *     'columns' => '',
      *     'bind' => [],
-     *     'bindTypes => [],
+     *     'bindTypes' => [],
      *     'order' => '',
      *     'limit' => 10,
      *     'offset' => 5,
@@ -1601,10 +1601,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array|string|int|null parameters = [
-     *     'conditions' => ''
+     *     'conditions' => '',
      *     'columns' => '',
      *     'bind' => [],
-     *     'bindTypes => [],
+     *     'bindTypes' => [],
      *     'order' => '',
      *     'limit' => 10,
      *     'offset' => 5,
@@ -5226,10 +5226,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5338,10 +5338,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5404,10 +5404,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5470,10 +5470,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
