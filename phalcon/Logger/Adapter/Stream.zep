@@ -79,14 +79,9 @@ class Stream extends AbstractAdapter
         /**
          * Mode
          */
-        if fetch mode, options["mode"] {
-            if memstr(mode, "r") {
-                throw new Exception("Adapter cannot be opened in read mode");
-            }
-        }
-
-        if mode === null {
-            let mode = "ab";
+        let mode = true === isset(options["mode"]) ? options["mode"] : "ab";
+        if (false !== mb_strpos(mode, "r")) {
+            throw new Exception("Adapter cannot be opened in read mode");
         }
 
         let this->name = name,
@@ -125,11 +120,11 @@ class Stream extends AbstractAdapter
                 let this->handler = null;
 
                 throw new LogicException(
-                    sprintf(
-                        "The file '%s' cannot be opened with mode '%s'",
-                        this->name,
-                        this->mode
-                    )
+                    "The file '" .
+                    this->name .
+                    "' cannot be opened with mode '" .
+                    this->mode .
+                    "'"
                 );
             }
         }
