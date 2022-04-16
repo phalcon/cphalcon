@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	ZVAL_LONG(&_1, number);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 173, &map, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 177, &map, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

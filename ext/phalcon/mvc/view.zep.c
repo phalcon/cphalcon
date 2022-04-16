@@ -764,11 +764,11 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 461);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 464);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 467);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 470);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2039,7 +2039,7 @@ PHP_METHOD(Phalcon_Mvc_View, start)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 461);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 464);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &__$null);
 	RETURN_THIS();
@@ -2586,7 +2586,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 							ZEPHIR_CALL_CE_STATIC(&_7$$9, _8$$9, "bind", &_9, 0, &engineService, &di);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&engineService, &_7$$9);
-							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 201, &engineService, this_ptr);
+							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 205, &engineService, this_ptr);
 							zephir_check_call_status();
 							zephir_array_update_zval(&engines, &extension, &_7$$9, PH_COPY | PH_SEPARATE);
 						} else {
@@ -2631,7 +2631,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 								ZEPHIR_CALL_CE_STATIC(&_16$$15, _17$$15, "bind", &_9, 0, &engineService, &di);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&engineService, &_16$$15);
-								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 201, &engineService, this_ptr);
+								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 205, &engineService, this_ptr);
 								zephir_check_call_status();
 								zephir_array_update_zval(&engines, &extension, &_16$$15, PH_COPY | PH_SEPARATE);
 							} else {

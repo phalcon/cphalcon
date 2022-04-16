@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 201, method, element);
+		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 205, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
 	}
