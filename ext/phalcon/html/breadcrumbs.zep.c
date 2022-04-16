@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_INIT_VAR(&urls);
 	zephir_array_keys(&urls, &elements);
 	ZEPHIR_MAKE_REF(&urls);
-	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 340, &urls);
+	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 343, &urls);
 	ZEPHIR_UNREF(&urls);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&lastLabel);

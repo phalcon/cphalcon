@@ -144,6 +144,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/cookiesinterface.zep.c
 	phalcon/http/response/headersinterface.zep.c
 	phalcon/http/responseinterface.zep.c
+	phalcon/logger/abstractlogger.zep.c
+	phalcon/logger/loggerinterface.zep.c
 	phalcon/messages/messageinterface.zep.c
 	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
@@ -261,6 +263,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/result/pdoresult.zep.c
 	phalcon/di/exception/serviceresolutionexception.zep.c
 	phalcon/di/factorydefault/cli.zep.c
+	phalcon/di/initializationawareinterface.zep.c
 	phalcon/di/service.zep.c
 	phalcon/di/service/builder.zep.c
 	phalcon/di/serviceproviderinterface.zep.c

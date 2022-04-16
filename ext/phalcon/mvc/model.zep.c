@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set)
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_15, "property_exists", NULL, 306, this_ptr, &property);
+	ZEPHIR_CALL_FUNCTION(&_15, "property_exists", NULL, 309, this_ptr, &property);
 	zephir_check_call_status();
 	if (zephir_is_true(&_15)) {
 		ZEPHIR_CALL_METHOD(&manager, this_ptr, "getmodelsmanager", NULL, 0);
@@ -2514,10 +2514,10 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
  * ```
  *
  * @param array|string|int|null parameters = [
- *     'conditions' => ''
+ *     'conditions' => '',
  *     'columns' => '',
  *     'bind' => [],
- *     'bindTypes => [],
+ *     'bindTypes' => [],
  *     'order' => '',
  *     'limit' => 10,
  *     'offset' => 5,
@@ -2652,10 +2652,10 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
  * ```
  *
  * @param array|string|int|null parameters = [
- *     'conditions' => ''
+ *     'conditions' => '',
  *     'columns' => '',
  *     'bind' => [],
- *     'bindTypes => [],
+ *     'bindTypes' => [],
  *     'order' => '',
  *     'limit' => 10,
  *     'offset' => 5,
@@ -9825,10 +9825,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cancelOperation)
  *         'action' => null
  *     ],
  *     'params' => [
- *         'conditions' => ''
+ *         'conditions' => '',
  *         'columns' => '',
  *         'bind' => [],
- *         'bindTypes => [],
+ *         'bindTypes' => [],
  *         'order' => '',
  *         'limit' => 10,
  *         'offset' => 5,
@@ -10014,10 +10014,10 @@ PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery)
  *         'action' => null
  *     ],
  *     'params' => [
- *         'conditions' => ''
+ *         'conditions' => '',
  *         'columns' => '',
  *         'bind' => [],
- *         'bindTypes => [],
+ *         'bindTypes' => [],
  *         'order' => '',
  *         'limit' => 10,
  *         'offset' => 5,
@@ -10118,10 +10118,10 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany)
  *         'action' => null
  *     ],
  *     'params' => [
- *         'conditions' => ''
+ *         'conditions' => '',
  *         'columns' => '',
  *         'bind' => [],
- *         'bindTypes => [],
+ *         'bindTypes' => [],
  *         'order' => '',
  *         'limit' => 10,
  *         'offset' => 5,
@@ -10226,10 +10226,10 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany)
  *         'action' => null
  *     ],
  *     'params' => [
- *         'conditions' => ''
+ *         'conditions' => '',
  *         'columns' => '',
  *         'bind' => [],
- *         'bindTypes => [],
+ *         'bindTypes' => [],
  *         'order' => '',
  *         'limit' => 10,
  *         'offset' => 5,

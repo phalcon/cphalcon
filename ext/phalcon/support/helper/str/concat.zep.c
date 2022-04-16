@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&arguments);
-	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 340, &arguments);
+	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 343, &arguments);
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&prefix);

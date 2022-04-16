@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray)
 			}
 			ZEPHIR_INIT_NVAR(&optionText);
 			ZVAL_COPY(&optionText, _0);
-			ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 339, &optionValue);
+			ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 342, &optionValue);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(&_5$$4);
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&optionText, &data, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 339, &optionValue);
+				ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 342, &optionValue);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&_16$$12);

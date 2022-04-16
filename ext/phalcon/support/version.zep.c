@@ -270,11 +270,11 @@ PHP_METHOD(Phalcon_Support_Version, getId)
 	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Support/Version.zep", 161);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 140, &_0, &medium);
+	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 144, &_0, &medium);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 140, &_0, &minor);
+	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 144, &_0, &minor);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVVVV(return_value, &major, &_1, &_2, &special, &specialNumber);
 	RETURN_MM();

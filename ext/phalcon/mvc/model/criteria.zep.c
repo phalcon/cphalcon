@@ -1459,11 +1459,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 301, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 304, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 301, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 304, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {

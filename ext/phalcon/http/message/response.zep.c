@@ -161,9 +161,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct)
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 357, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 360, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 355, &headers);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 358, &headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
@@ -373,14 +373,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 358);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 361);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 359, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 362, code);
 	zephir_check_call_status();
 	_0 = zephir_get_intval(code);
 	ZEPHIR_INIT_NVAR(code);
 	ZVAL_LONG(code, _0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 360, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 363, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 225);
@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 	ZVAL_LONG(&_1, code);
 	ZVAL_LONG(&_2, 100);
 	ZVAL_LONG(&_3, 599);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 361, &_1, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isbetween", NULL, 364, &_1, &_2, &_3);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_INIT_VAR(&_4$$3);
