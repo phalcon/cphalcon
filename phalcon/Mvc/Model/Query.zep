@@ -24,7 +24,6 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Mvc\Model\Query\Lang;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -100,7 +99,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected bindTypes = [];
 
     /**
-     * @var \Psr\SimpleCache\CacheInterface|null
+     * @var mixed|null
      */
     protected cache = null;
 
@@ -297,8 +296,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let cache = this->container->getShared(cacheService);
 
-            if unlikely !(cache instanceof CacheInterface) {
-                throw new Exception("Cache service must be an object implementing Psr\SimpleCache\CacheInterface");
+            if unlikely (
+                true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
+                true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
+            ) {
+                throw new Exception(
+                    "Cache service must be an object implementing " .
+                    "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
+                );
             }
 
             let result = cache->get(key);

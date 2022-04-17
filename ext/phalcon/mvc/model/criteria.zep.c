@@ -783,7 +783,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 510, container);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 511, container);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&conditions)) {
 		ZEPHIR_INIT_VAR(&_16$$16);
@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 0, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 511, &modelName);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 0, &modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 }
@@ -1459,11 +1459,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 304, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 305, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 304, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 305, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {

@@ -31,7 +31,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Resultset(zend_class_entry
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, result)
-	ZEND_ARG_OBJ_INFO(0, cache, Psr\\SimpleCache\\CacheInterface, 1)
+	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_count, 0, 0, IS_LONG, 0)
@@ -45,7 +45,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_filt
 	ZEND_ARG_INFO(0, filter)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultset_getcache, 0, 0, Psr\\SimpleCache\\CacheInterface, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultset_getcache, 0, 0, Phalcon\\Mvc\\Model\\CacheInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_getfirst, 0, 0, 0)

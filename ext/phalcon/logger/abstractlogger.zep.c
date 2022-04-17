@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 
 
 	if (Z_TYPE_P(timezone) == IS_NULL) {
-		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 124);
+		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 125);
 		zephir_check_call_status();
 		if (UNEXPECTED(1 == ZEPHIR_IS_EMPTY(&defaultTimezone))) {
 			ZEPHIR_INIT_NVAR(&defaultTimezone);
@@ -560,11 +560,11 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_5$$3, level);
-		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 125, &message, &levelName, &_5$$3, &_2$$3, &context);
+		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 126, &message, &levelName, &_5$$3, &_2$$3, &context);
 		zephir_check_call_status();
 		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("adapters"), PH_NOISY_CC | PH_READONLY);
 		zephir_read_property(&_6$$3, this_ptr, ZEND_STRL("excluded"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 126, &_5$$3, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 127, &_5$$3, &_6$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 305);
 		if (Z_TYPE_P(&collection) == IS_ARRAY) {
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 		zephir_fast_strtoupper(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 127, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 128, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset(&levels, &levelName)) {
 			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 330);

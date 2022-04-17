@@ -1554,7 +1554,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 178, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 179, &className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
@@ -1587,7 +1587,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		if ((zephir_function_exists(&functionName) == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 172, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 173, &functionName);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();

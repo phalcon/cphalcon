@@ -159,11 +159,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_string_fetch(&options, &_1, SL("options"), 0)) {
 		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 303, &value, &_2$$4, &options);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 304, &value, &_2$$4, &options);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_3$$5, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 303, &value, &_3$$5);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 304, &value, &_3$$5);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {
