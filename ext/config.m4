@@ -81,6 +81,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/application/exception.zep.c
 	phalcon/assets/asset.zep.c
 	phalcon/assets/inline.zep.c
+	phalcon/cache/cacheinterface.zep.c
 	phalcon/datamapper/pdo/connection/abstractconnection.zep.c
 	phalcon/datamapper/pdo/exception/exception.zep.c
 	phalcon/di/di.zep.c
@@ -108,6 +109,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/componentinterface.zep.c
 	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
+	phalcon/cache/abstractcache.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/router/routeinterface.zep.c
 	phalcon/cli/taskinterface.zep.c

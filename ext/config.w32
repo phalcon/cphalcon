@@ -52,6 +52,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc", "viewbaseinterface.zep.c entityinterface.zep.c routerinterface.zep.c controllerinterface.zep.c dispatcherinterface.zep.c modelinterface.zep.c router.zep.c viewinterface.zep.c application.zep.c controller.zep.c dispatcher.zep.c micro.zep.c model.zep.c moduledefinitioninterface.zep.c url.zep.c view.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/adapter", "adapterinterface.zep.c abstractadapter.zep.c memory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application", "abstractapplication.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/cache", "cacheinterface.zep.c abstractcache.zep.c adapterfactory.zep.c cache.zep.c cachefactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/pdo/exception", "exception.zep.c cannotdisconnect.zep.c connectionnotfound.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/domain/payload", "readableinterface.zep.c writeableinterface.zep.c payloadinterface.zep.c payload.zep.c payloadfactory.zep.c status.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security/jwt/token", "abstractitem.zep.c enum.zep.c item.zep.c parser.zep.c signature.zep.c token.zep.c", "phalcon");
@@ -89,7 +90,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/filters", "cssmin.zep.c jsmin.zep.c none.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/inline", "css.zep.c js.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/autoload", "exception.zep.c loader.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/cache", "adapterfactory.zep.c cache.zep.c cachefactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache/exception", "exception.zep.c invalidargumentexception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cli/console", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cli/dispatcher", "exception.zep.c", "phalcon");
