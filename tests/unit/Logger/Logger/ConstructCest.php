@@ -30,7 +30,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function loggerConstructImplementPsr(UnitTester $I)
+    public function loggerConstruct(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct()');
 
