@@ -11,25 +11,19 @@
 namespace Phalcon\Cache;
 
 use DateInterval;
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 
 /**
- * This component offers caching capabilities for your application.
- * Phalcon\Cache implements PSR-16.
- *
- * @property AdapterInterface $adapter
+ * Interface for Phalcon\Cache\Cache
  */
-class Cache extends AbstractCache
+interface CacheInterface
 {
     /**
      * Wipes clean the entire cache's keys.
      *
      * @return bool True on success and false on failure.
      */
-    public function clear() -> bool
-    {
-        return this->doClear();
-    }
+    public function clear() -> bool;
 
     /**
      * Delete an item from the cache by its unique key.
@@ -42,15 +36,12 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      *                                  not a legal value.
      */
-    public function delete(string key) -> bool
-    {
-        return this->doDelete(key);
-    }
+    public function delete(string key) -> bool;
 
     /**
      * Deletes multiple cache items in a single operation.
      *
-     * @param iterable $keys A list of string-based keys to be deleted.
+     * @param iterable<mixed, mixed> $keys A list of string-based keys to be deleted.
      *
      * @return bool True if the items were successfully removed. False if there
      *              was an error.
@@ -59,10 +50,7 @@ class Cache extends AbstractCache
      *                                  array nor a Traversable, or if any of
      *                                  the $keys are not a legal value.
      */
-    public function deleteMultiple(keys) -> bool
-    {
-        return this->doDeleteMultiple(keys);
-    }
+    public function deleteMultiple(var keys) -> bool;
 
     /**
      * Fetches a value from the cache.
@@ -76,18 +64,15 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    public function get(string $key, defaultValue = null)
-    {
-        return this->doGet(key, defaultValue);
-    }
+    public function get(string key, var defaultValue = null);
 
     /**
      * Obtains multiple cache items by their unique keys.
      *
-     * @param iterable $keys         A list of keys that can obtained in a
-     *                               single operation.
-     * @param mixed    $defaultValue Default value to return for keys that do
-     *                               not exist.
+     * @param iterable<mixed, mixed> $keys        A list of keys that can obtained
+     *                                            in a single operation.
+     * @param mixed                  defaultValue Default value to return for keys
+     *                                            that do not exist.
      *
      * @return iterable<array-key, mixed> A list of key => value pairs. Cache
      * keys that do not exist or are stale will have $default as value.
@@ -95,10 +80,7 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if $keys is neither an
      * array nor a Traversable, or if any of the $keys are not a legal value.
      */
-    public function getMultiple(keys, defaultValue = null)
-    {
-        return this->doGetMultiple(keys, defaultValue);
-    }
+    public function getMultiple(var keys, var defaultValue = null);
 
     /**
      * Determines whether an item is present in the cache.
@@ -110,10 +92,7 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    public function has(string key) -> bool
-    {
-        return this->doHas(key);
-    }
+    public function has(string key) -> bool;
 
     /**
      * Persists data in the cache, uniquely referenced by a key with an optional
@@ -133,40 +112,24 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if the $key string is not
      * a legal value.
      */
-    public function set(string key, var value, var ttl = null) -> bool
-    {
-        return this->doSet(key, value, ttl);
-    }
+    public function set(string key, var value, var ttl = null) -> bool;
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
      *
-     * @param iterable              $values A list of key => value pairs for a
-     *                                      multiple-set operation.
-     * @param null|int|DateInterval $ttl    Optional. The TTL value of this
-     *                                      item. If no value is sent and the
-     *                                      driver supports TTL then the
-     *                                      library may set a default value for
-     *                                      it or let the driver take care of
-     *                                      that.
+     * @param iterable<mixed, mixed> $values A list of key => value pairs for a
+     *                                       multiple-set operation.
+     * @param null|int|DateInterval  $ttl    Optional. The TTL value of this
+     *                                       item. If no value is sent and the
+     *                                       driver supports TTL then the
+     *                                       library may set a default value for
+     *                                       it or let the driver take care of
+     *                                       that.
      *
      * @return bool True on success and false on failure.
      *
      * @throws InvalidArgumentException MUST be thrown if $values is neither an
      * array nor a Traversable, or if any of the $values are not a legal value.
      */
-    public function setMultiple(var values, var ttl = null) -> bool
-    {
-        return this->doSetMultiple(values, ttl);
-    }
-
-    /**
-     * Returns the exception class that will be used for exceptions thrown
-     *
-     * @return string
-     */
-    protected function getExceptionClass() -> string
-    {
-        return "Phalcon\\Cache\\Exception\\InvalidArgumentException";
-    }
+    public function setMultiple(var values, var ttl = null) -> bool;
 }
