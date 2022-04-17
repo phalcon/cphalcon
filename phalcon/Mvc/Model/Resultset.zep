@@ -20,7 +20,6 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Psr\SimpleCache\CacheInterface;
 use SeekableIterator;
 use Serializable;
 
@@ -129,17 +128,17 @@ abstract class Resultset
     /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
-     * @param ResultInterface|false result
-     * @param CacheInterface|null   cache
+     * @param ResultInterface|false $result
+     * @param mixed|null            $cache
      */
-    public function __construct(result, <CacheInterface> cache = null)
+    public function __construct(var result, var cache = null)
     {
         var prefetchRecords, rowCount, rows;
 
         /**
          * 'false' is given as result for empty result-sets
          */
-        if typeof result != "object" {
+        if typeof result !== "object" {
             let this->count = 0;
             let this->rows = [];
 
@@ -155,6 +154,17 @@ abstract class Resultset
          * Update the related cache if any
          */
         if cache !== null {
+            if unlikely (
+                true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
+                true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
+            ) {
+                throw new Exception(
+                    "Cache service must be an object implementing " .
+                    "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
+                );
+            }
+
+
             let this->cache = cache;
         }
 
