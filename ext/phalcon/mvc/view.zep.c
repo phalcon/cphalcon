@@ -764,11 +764,11 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial)
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 465);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 466);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 471);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 472);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2039,7 +2039,7 @@ PHP_METHOD(Phalcon_Mvc_View, start)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 465);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 466);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &__$null);
 	RETURN_THIS();
