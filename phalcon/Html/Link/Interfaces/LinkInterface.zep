@@ -8,21 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Html\Link;
-
-use Phalcon\Support\Collection;
-use Phalcon\Support\Collection\CollectionInterface;
-use Phalcon\Html\Link\Interfaces\LinkInterface;
+namespace Phalcon\Html\Link\Interfaces;
 
 /**
- * Class Phalcon\Http\Link\Link
- *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * A readable link object.
  */
-class Link extends AbstractLink implements LinkInterface
+interface LinkInterface
 {
     /**
      * Returns a list of attributes that describe the target URI.
@@ -32,10 +23,7 @@ class Link extends AbstractLink implements LinkInterface
      *  is either a PHP primitive or an array of PHP strings. If no values are
      *  found an empty array MUST be returned.
      */
-    public function getAttributes() -> array
-    {
-        return this->doGetAttributes();
-    }
+    public function getAttributes() -> array;
 
     /**
      * Returns the target of the link.
@@ -50,10 +38,7 @@ class Link extends AbstractLink implements LinkInterface
      *
      * @return string
      */
-    public function getHref() -> string
-    {
-        return this->doGetHref();
-    }
+    public function getHref() -> string;
 
     /**
      * Returns the relationship type(s) of the link.
@@ -63,18 +48,13 @@ class Link extends AbstractLink implements LinkInterface
      *
      * @return string[]
      */
-    public function getRels() -> array
-    {
-        return this->doGetRels();
-    }
+    public function getRels() -> array;
 
     /**
-     * Returns whether or not this is a templated link.
+     * Returns whether this is a templated link.
      *
-     * @return bool True if this link object is templated, False otherwise.
+     * @return bool
+     *   True if this link object is templated, False otherwise.
      */
-    public function isTemplated() -> bool
-    {
-        return this->doIsTemplated();
-    }
+    public function isTemplated() -> bool;
 }
