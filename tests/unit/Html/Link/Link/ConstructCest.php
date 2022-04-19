@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Link\Link;
 
 use Phalcon\Html\Link\Link;
-use Psr\Link\LinkInterface;
+use Phalcon\Html\Link\Interfaces\LinkInterface;
 use UnitTester;
 
 /**

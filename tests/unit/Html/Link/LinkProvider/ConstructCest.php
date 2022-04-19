@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\LinkProvider;
 
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\LinkProvider;
-use Psr\Link\LinkProviderInterface;
+use Phalcon\Html\Link\Interfaces\LinkProviderInterface;
 use UnitTester;
 
 /**
