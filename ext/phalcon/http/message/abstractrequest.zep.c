@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withMethod)
 	zephir_fetch_params(1, 1, 0, &method);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processmethod", NULL, 113, method);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processmethod", NULL, 115, method);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "method");
@@ -462,13 +462,13 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri)
 	}
 	if (EXPECTED(Z_TYPE_P(uri) == IS_STRING)) {
 		object_init_ex(return_value, phalcon_http_message_uri_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 114, uri);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 116, uri);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(uri) == IS_NULL) {
 		object_init_ex(return_value, phalcon_http_message_uri_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 114);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 116);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

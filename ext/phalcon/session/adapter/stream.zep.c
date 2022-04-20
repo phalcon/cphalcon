@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIsWritable)
 	zephir_get_strval(&filename, filename_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 401, &filename);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 402, &filename);
 	zephir_check_call_status();
 	RETURN_MM();
 }
