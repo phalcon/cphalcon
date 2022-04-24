@@ -323,4 +323,14 @@ class Simple extends Resultset
             let this->keepSnapshots = keepSnapshots;
         }
     }
+
+    public function __serialize() -> array
+    {
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        // Nothing here
+    }
 }

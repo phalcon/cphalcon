@@ -67,7 +67,7 @@ class Complex extends Resultset implements ResultsetInterface
     /**
      * Returns current row in the resultset
      */
-    final public function current() -> <ModelInterface> | bool
+    final public function current() -> mixed
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
@@ -353,8 +353,7 @@ class Complex extends Resultset implements ResultsetInterface
         let this->disableHydration = true;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -378,5 +377,15 @@ class Complex extends Resultset implements ResultsetInterface
             this->cache       = resultset["cache"],
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
+    }
+
+    public function __serialize() -> array
+    {
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        // Nothing here
     }
 }

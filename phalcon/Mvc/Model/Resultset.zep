@@ -491,7 +491,7 @@ abstract class Resultset
     /**
      * Gets row in a specific position of the resultset
      */
-    public function offsetGet(var index) -> <ModelInterface> | bool
+    public function offsetGet(mixed index) -> mixed
     {
         if unlikely index >= this->count {
             throw new Exception("The index does not exist in the cursor");
