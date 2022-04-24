@@ -180,6 +180,7 @@ class Annotations extends Router
              * Check if the scope has a module associated
              */
             fetch moduleName, scope[2];
+            let moduleName = moduleName !== null ? moduleName : "";
 
             let sufixed = controllerName . controllerSuffix;
 

@@ -26,9 +26,9 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     protected container = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultModule = null;
+    protected defaultModule = "";
 
     /**
      * @var ManagerInterface|null

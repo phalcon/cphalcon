@@ -49,9 +49,9 @@ class Router extends AbstractInjectionAware
     protected defaultAction = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultModule = null;
+    protected defaultModule = "";
 
     /**
      * @var array

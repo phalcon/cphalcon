@@ -74,9 +74,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected defaultController = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultModule = null;
+    protected defaultModule = "";
 
     /**
      * @var string|null
