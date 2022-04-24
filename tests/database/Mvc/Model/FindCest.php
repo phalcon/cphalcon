@@ -226,7 +226,8 @@ class FindCest
 
         $I->expectThrowable(
             new Exception(
-                'Cache service must be an object implementing Psr\SimpleCache\CacheInterface'
+                   "Cache service must be an object implementing " .
+                   "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
             ),
             function () {
                 $options = [

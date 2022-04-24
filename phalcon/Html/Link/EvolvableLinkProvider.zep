@@ -10,8 +10,8 @@
 
 namespace Phalcon\Html\Link;
 
-use PsrExt\Link\EvolvableLinkProviderInterface;
-use PsrExt\Link\LinkInterface;
+use Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface;
+use Phalcon\Html\Link\Interfaces\LinkInterface;
 
 /**
  * Class Phalcon\Http\Link\LinkProvider
@@ -27,21 +27,14 @@ class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProvide
      * normally without errors. The link is present if link is === identical
      * to a link object already in the collection.
      *
-     * @param \Psr\Link\LinkInterface link
+     * @param LinkInterface link
      *   A link object that should be included in this collection.
      *
      * @return static
      */
-    public function withLink(<LinkInterface> link)
+    public function withLink(<LinkInterface> link) -> <EvolvableLinkProviderInterface>
     {
-        var key, newInstance;
-
-        let key         = this->getKey(link),
-            newInstance = clone this;
-
-        let newInstance->links[key] = link;
-
-        return newInstance;
+        return this->doWithLink(link);
     }
 
     /**
@@ -56,18 +49,8 @@ class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProvide
      *
      * @return static
      */
-    public function withoutLink(<LinkInterface> link)
+    public function withoutLink(<LinkInterface> link) -> <EvolvableLinkProviderInterface>
     {
-        var key, links, newInstance;
-
-        let key         = this->getKey(link),
-            newInstance = clone this,
-            links       = this->links;
-
-        unset links[key];
-
-        let newInstance->links = links;
-
-        return newInstance;
+        return this->doWithoutLink(link);
     }
 }

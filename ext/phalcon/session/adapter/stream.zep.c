@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 146, &file);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 151, &file);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				_9$$3 = ZEPHIR_LT(&_10$$3, &time);
 			}
 			if (_9$$3) {
-				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 146, &file);
+				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 151, &file);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 					_14$$5 = ZEPHIR_LT(&_15$$5, &time);
 				}
 				if (_14$$5) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 146, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 151, &file);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 		ZEPHIR_CALL_METHOD(&pointer, this_ptr, "phpfopen", NULL, 0, &name, &_3$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_4$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 154, &pointer, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 159, &pointer, &_4$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$3)) {
 			ZEPHIR_CALL_METHOD(&data, this_ptr, "phpfilegetcontents", NULL, 0, &name);
@@ -640,7 +640,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFilePutContents)
 
 
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 157, &filename, data, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 162, &filename, data, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -751,7 +751,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIsWritable)
 	zephir_get_strval(&filename, filename_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 397, &filename);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 402, &filename);
 	zephir_check_call_status();
 	RETURN_MM();
 }

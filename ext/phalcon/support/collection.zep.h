@@ -27,8 +27,6 @@ PHP_METHOD(Phalcon_Support_Collection, serialize);
 PHP_METHOD(Phalcon_Support_Collection, toArray);
 PHP_METHOD(Phalcon_Support_Collection, toJson);
 PHP_METHOD(Phalcon_Support_Collection, unserialize);
-PHP_METHOD(Phalcon_Support_Collection, __serialize);
-PHP_METHOD(Phalcon_Support_Collection, __unserialize);
 PHP_METHOD(Phalcon_Support_Collection, setData);
 PHP_METHOD(Phalcon_Support_Collection, phpJsonEncode);
 PHP_METHOD(Phalcon_Support_Collection, processKey);
@@ -104,11 +102,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_offse
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 80000
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 1, IS_MIXED, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 1, IS_NULL, 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 0, 1)
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
 
@@ -154,14 +148,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_unser
 ZEND_END_ARG_INFO()
 #endif
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection___serialize, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection___unserialize, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_setdata, 0, 2, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, element, IS_STRING, 0)
@@ -206,8 +192,6 @@ ZEPHIR_INIT_FUNCS(phalcon_support_collection_method_entry) {
 	PHP_ME(Phalcon_Support_Collection, toArray, arginfo_phalcon_support_collection_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Collection, toJson, arginfo_phalcon_support_collection_tojson, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Collection, unserialize, arginfo_phalcon_support_collection_unserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Collection, __serialize, arginfo_phalcon_support_collection___serialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Collection, __unserialize, arginfo_phalcon_support_collection___unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Collection, setData, arginfo_phalcon_support_collection_setdata, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Collection, phpJsonEncode, arginfo_phalcon_support_collection_phpjsonencode, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Collection, processKey, arginfo_phalcon_support_collection_processkey, ZEND_ACC_PROTECTED)

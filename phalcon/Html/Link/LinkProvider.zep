@@ -10,35 +10,14 @@
 
 namespace Phalcon\Html\Link;
 
-use PsrExt\Link\LinkInterface;
-use PsrExt\Link\LinkProviderInterface;
+use Phalcon\Html\Link\Interfaces\LinkInterface;
+use Phalcon\Html\Link\Interfaces\LinkProviderInterface;
 
 /**
  * @property LinkInterface[] links
  */
-class LinkProvider implements LinkProviderInterface
+class LinkProvider extends AbstractLinkProvider implements LinkProviderInterface
 {
-    /**
-     * @var LinkInterface[]
-     */
-    protected links = [];
-
-    /**
-     * LinkProvider constructor.
-     *
-     * @param array links
-     */
-    public function __construct(array links = [])
-    {
-        var link;
-
-        for link in links {
-            if link instanceof LinkInterface {
-                let this->links[this->getKey(link)] = link;
-            }
-        }
-    }
-
     /**
      * Returns an iterable of LinkInterface objects.
      *
@@ -47,9 +26,9 @@ class LinkProvider implements LinkProviderInterface
      *
      * @return LinkInterface[]|\Traversable
      */
-    public function getLinks()
+    public function getLinks() -> array
     {
-        return this->links;
+        return this->doGetLinks();
     }
 
     /**
@@ -62,30 +41,8 @@ class LinkProvider implements LinkProviderInterface
      *
      * @return LinkInterface[]|\Traversable
      */
-    public function getLinksByRel(var rel)
+    public function getLinksByRel(var rel) -> array
     {
-        var link, links, rels;
-
-        let links = [];
-        for link in this->links {
-            let rels = link->getRels();
-            if true === in_array(rel, rels) {
-                let links[] = link;
-            }
-        }
-
-        return links;
-    }
-
-    /**
-     * Returns the object hash key
-     *
-     * @param LinkInterface link
-     *
-     * @return string
-     */
-    protected function getKey(<LinkInterface> link) -> string
-    {
-        return spl_object_hash(link);
+        return this->doGetLinksByRel(rel);
     }
 }

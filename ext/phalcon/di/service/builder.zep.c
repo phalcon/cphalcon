@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 	} else {
 		ZEPHIR_OBS_VAR(&arguments);
 		if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 0)) {
-			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 239, container, &arguments);
+			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 243, container, &arguments);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &className, &_0$$8);
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 					}
 					if (zephir_fast_count_int(&arguments)) {
 						ZEPHIR_INIT_NVAR(&_13$$18);
-						ZEPHIR_CALL_METHOD(&_14$$18, this_ptr, "buildparameters", NULL, 239, container, &arguments);
+						ZEPHIR_CALL_METHOD(&_14$$18, this_ptr, "buildparameters", NULL, 243, container, &arguments);
 						zephir_check_call_status();
 						ZEPHIR_CALL_USER_FUNC_ARRAY(&_13$$18, &methodCall, &_14$$18);
 						zephir_check_call_status();
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 						}
 						if (zephir_fast_count_int(&arguments)) {
 							ZEPHIR_INIT_NVAR(&_24$$24);
-							ZEPHIR_CALL_METHOD(&_25$$24, this_ptr, "buildparameters", NULL, 239, container, &arguments);
+							ZEPHIR_CALL_METHOD(&_25$$24, this_ptr, "buildparameters", NULL, 243, container, &arguments);
 							zephir_check_call_status();
 							ZEPHIR_CALL_USER_FUNC_ARRAY(&_24$$24, &methodCall, &_25$$24);
 							zephir_check_call_status();
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_METHOD(&_37$$28, this_ptr, "buildparameter", &_38, 240, container, &propertyPosition, &propertyValue);
+				ZEPHIR_CALL_METHOD(&_37$$28, this_ptr, "buildparameter", &_38, 244, container, &propertyPosition, &propertyValue);
 				zephir_check_call_status();
 				zephir_update_property_zval_zval(&instance, &propertyName, &_37$$28);
 			} ZEND_HASH_FOREACH_END();
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_CALL_METHOD(&_45$$32, this_ptr, "buildparameter", &_38, 240, container, &propertyPosition, &propertyValue);
+					ZEPHIR_CALL_METHOD(&_45$$32, this_ptr, "buildparameter", &_38, 244, container, &propertyPosition, &propertyValue);
 					zephir_check_call_status();
 					zephir_update_property_zval_zval(&instance, &propertyName, &_45$$32);
 				ZEPHIR_CALL_METHOD(NULL, &paramCalls, "next", NULL, 0);
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters)
 			}
 			ZEPHIR_INIT_NVAR(&argument);
 			ZVAL_COPY(&argument, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "buildparameter", &_5, 240, container, &position, &argument);
+			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "buildparameter", &_5, 244, container, &position, &argument);
 			zephir_check_call_status();
 			zephir_array_append(&buildArguments, &_4$$3, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 320);
 		} ZEND_HASH_FOREACH_END();
@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "buildparameter", &_5, 240, container, &position, &argument);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "buildparameter", &_5, 244, container, &position, &argument);
 				zephir_check_call_status();
 				zephir_array_append(&buildArguments, &_6$$4, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 320);
 			ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);

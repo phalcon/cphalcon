@@ -14,7 +14,7 @@
 #define PHP_PHALCON_VERSION     "5.0.0beta3"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.16.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "0.16.0-4fac47b"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 typedef struct _zephir_struct_db { 

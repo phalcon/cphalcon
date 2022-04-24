@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_html_link_interfaces_linkinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_link_interfaces_linkinterface_getattributes, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_link_interfaces_linkinterface_gethref, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_link_interfaces_linkinterface_getrels, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_link_interfaces_linkinterface_istemplated, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_html_link_interfaces_linkinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Html_Link_Interfaces_LinkInterface, getAttributes, arginfo_phalcon_html_link_interfaces_linkinterface_getattributes)
+	PHP_ABSTRACT_ME(Phalcon_Html_Link_Interfaces_LinkInterface, getHref, arginfo_phalcon_html_link_interfaces_linkinterface_gethref)
+	PHP_ABSTRACT_ME(Phalcon_Html_Link_Interfaces_LinkInterface, getRels, arginfo_phalcon_html_link_interfaces_linkinterface_getrels)
+	PHP_ABSTRACT_ME(Phalcon_Html_Link_Interfaces_LinkInterface, isTemplated, arginfo_phalcon_html_link_interfaces_linkinterface_istemplated)
+	PHP_FE_END
+};

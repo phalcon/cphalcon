@@ -2,13 +2,13 @@
 
 ## Changed
 - Changed `Phalcon\Session\Bag::__construct()` to accept a `Phalcon\Session\Manager` as the first parameter and `name` as the second one [#15904](https://github.com/phalcon/cphalcon/issues/15904)
-- Replicated `filter_var(input, FILTER_SANITIZE_STRING)` in `Phalcon\Filter\Sanitize\StringVal` to custom solution, due PHP8.1 deprecation [#15598](https://github.com/phalcon/cphalcon/issues/15598)
-- Changed property types, as in original, in `Phalcon\Db\Result\Pdo:fetch()` and `Phalcon\Db\Result\Pdo:fetchAll()` methods [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+- Changed `Phalcon\Logger\Logger` to no longer depend on PSR interfaces [#15925](https://github.com/phalcon/cphalcon/issues/15925)
+- Changed `Phalcon\Cache\Cache` to no longer depend on PSR interfaces [#15927](https://github.com/phalcon/cphalcon/issues/15927)
+- Changed `Phalcon\Html\Link` to no longer depend on PSR interfaces [#15930](https://github.com/phalcon/cphalcon/issues/15930)
 
 ## Fixed
 - Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
 - Fixed `Phalcon\Storage\Adapter\*` to correctly store `null` values [#15904](https://github.com/phalcon/cphalcon/issues/15904)
-- Fixed PHP8.1 compatibility in `Phalcon\Http\Request\File:getRealType()` method [#15598](https://github.com/phalcon/cphalcon/issues/15598)
 
 ## Added
 - Added `Phalcon\Encryption\Crypt::isValidDecryptLength($input)` to allow checking for the length of the decryption string [#15879](https://github.com/phalcon/cphalcon/issues/15879)
@@ -22,7 +22,22 @@
     - `Phalcon\Storage\Serializer\RedisMsgpack`
     - `Phalcon\Storage\Serializer\RedisNone`
     - `Phalcon\Storage\Serializer\RedisPhp` to be used if adapter serialization is required [#15904](https://github.com/phalcon/cphalcon/issues/15904)
-- Added missing PDO constant `Phalcon\Db\Enum::FETCH_DEFAULT` (`\Pdo::FETCH_DEFAULT`) [#15598](https://github.com/phalcon/cphalcon/issues/15598)
+- Added
+  - `Phalcon\Logger\LoggerInterface`
+  - `Phalcon\Logger\AbstractLogger` to be used in the logger class but also the proxy-psr3 repo [#15925](https://github.com/phalcon/cphalcon/issues/15925)
+- Added
+  - `Phalcon\Cache\CacheInterface`
+  - `Phalcon\Cache\AbstractCache` to be used in the cache class but also the proxy-psr16 repo [#15927](https://github.com/phalcon/cphalcon/issues/15927)
+- Added
+  - EvolvableLinkInterface.zep
+  - `Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface`
+  - `Phalcon\Html\Link\Interfaces\LinkInterface`
+  - `Phalcon\Html\Link\Interfaces\LinkProviderInterface`
+  - `Phalcon\Html\Link\AbstractLink`
+  - `Phalcon\Html\Link\AbstractLinkProvider` to be used in the link class but also the proxy-psr13 repo [#15930](https://github.com/phalcon/cphalcon/issues/15930)
+
+## Removed
+- Removed `Phalcon\Container\Container` and moved its contents to the `proxy-psr11` repo [#15928](https://github.com/phalcon/cphalcon/issues/15928)
 
 # [5.0.0beta3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta3) (2022-02-06)
 

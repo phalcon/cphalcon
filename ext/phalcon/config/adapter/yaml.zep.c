@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 
 
 	ZEPHIR_MAKE_REF(ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 213, filename, pos, ndocs, callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 217, filename, pos, ndocs, callbacks);
 	ZEPHIR_UNREF(ndocs);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded)
 	zephir_get_strval(&name, name_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 214, &name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 218, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -20,7 +20,6 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use PsrExt\SimpleCache\CacheInterface;
 use SeekableIterator;
 use Serializable;
 
@@ -129,17 +128,17 @@ abstract class Resultset
     /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
-     * @param ResultInterface|false result
-     * @param CacheInterface|null   cache
+     * @param ResultInterface|false $result
+     * @param mixed|null            $cache
      */
-    public function __construct(result, <CacheInterface> cache = null)
+    public function __construct(var result, var cache = null)
     {
         var prefetchRecords, rowCount, rows;
 
         /**
          * 'false' is given as result for empty result-sets
          */
-        if typeof result != "object" {
+        if typeof result !== "object" {
             let this->count = 0;
             let this->rows = [];
 
@@ -155,6 +154,17 @@ abstract class Resultset
          * Update the related cache if any
          */
         if cache !== null {
+            if unlikely (
+                true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
+                true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
+            ) {
+                throw new Exception(
+                    "Cache service must be an object implementing " .
+                    "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
+                );
+            }
+
+
             let this->cache = cache;
         }
 
@@ -481,7 +491,7 @@ abstract class Resultset
     /**
      * Gets row in a specific position of the resultset
      */
-    public function offsetGet(mixed index) -> mixed
+    public function offsetGet(var index) -> <ModelInterface> | bool
     {
         if unlikely index >= this->count {
             throw new Exception("The index does not exist in the cursor");
@@ -498,7 +508,7 @@ abstract class Resultset
     /**
      * Checks whether offset exists in the resultset
      */
-    public function offsetExists(mixed index) -> bool
+    public function offsetExists(var index) -> bool
     {
         return index < this->count;
     }
@@ -509,7 +519,7 @@ abstract class Resultset
      * @param int index
      * @param \Phalcon\Mvc\ModelInterface value
      */
-    public function offsetSet(mixed index, mixed value) -> void
+    public function offsetSet(var index, var value) -> void
     {
         throw new Exception("Cursor is an immutable ArrayAccess object");
     }
@@ -517,7 +527,7 @@ abstract class Resultset
     /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      */
-    public function offsetUnset(mixed offset) -> void
+    public function offsetUnset(var offset) -> void
     {
         throw new Exception("Cursor is an immutable ArrayAccess object");
     }

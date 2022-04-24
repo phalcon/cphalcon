@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	zephir_array_update_string(&_1, SL("eventsManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_5, &filter, "newinstance", NULL, 120);
+	ZEPHIR_CALL_METHOD(&_5, &filter, "newinstance", NULL, 122);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_4, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_5, &_4);

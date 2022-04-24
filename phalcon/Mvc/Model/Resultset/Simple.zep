@@ -18,9 +18,10 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use PsrExt\SimpleCache\CacheInterface;
 
 /**
+ * Phalcon\Mvc\Model\Resultset\Simple
+ *
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  */
@@ -42,17 +43,19 @@ class Simple extends Resultset
     protected keepSnapshots = false;
 
     /**
+     * Phalcon\Mvc\Model\Resultset\Simple constructor
+     *
      * @param array                             columnMap
      * @param ModelInterface|Row                model
      * @param \Phalcon\Db\ResultInterface|false result
-     * @param CacheInterface|null               cache
+     * @param mixed|null                        cache
      * @param bool keepSnapshots                false
      */
     public function __construct(
         var columnMap,
         var model,
         result,
-        <CacheInterface> cache = null,
+        var cache = null,
         bool keepSnapshots = false
     )
     {
@@ -319,16 +322,5 @@ class Simple extends Resultset
         if fetch keepSnapshots, resultset["keepSnapshots"] {
             let this->keepSnapshots = keepSnapshots;
         }
-    }
-
-    public function __serialize() -> array
-    {
-        // Nothing here
-        return [];
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        // Nothing here
     }
 }

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html\Link;
 
-use PsrExt\Link\EvolvableLinkInterface;
+use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
 
 /**
  * Class Phalcon\Http\Link\EvolvableLink
@@ -28,20 +28,12 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified attribute is already present, it will be overwritten
      * with the new value.
      *
-     * @param string attribute The attribute to include.
-     * @param string value     The value of the attribute to set.
-     *
-     * @return static
+     * @param string $attribute The attribute to include.
+     * @param string $value     The value of the attribute to set.
      */
-    public function withAttribute(var attribute, var value)
+    public function withAttribute(var attribute, var value) -> <EvolvableLinkInterface>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->attributes->set(attribute, value);
-
-        return newInstance;
+        return this->doWithAttribute(attribute, value);
     }
 
     /**
@@ -59,17 +51,11 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * An implementing library SHOULD evaluate a passed object to a string
      * immediately rather than waiting for it to be returned later.
      *
-     * @return static
+     * @param string $rel The relationship value to add.
      */
-    public function withHref(var href)
+    public function withHref(string href) -> <EvolvableLinkInterface>
     {
-        var newInstance;
-
-        let newInstance            = clone this,
-            newInstance->href      = href,
-            newInstance->templated = this->hrefIsTemplated(href);
-
-        return newInstance;
+        return this->doWithHref(href);
     }
 
     /**
@@ -78,20 +64,11 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified rel is already present, this method MUST return
      * normally without errors, but without adding the rel a second time.
      *
-     * @param string rel
-     *   The relationship value to add.
-     *
-     * @return static
+     * @param string $rel The relationship value to add.
      */
-    public function withRel(var rel)
+    public function withRel(string rel) -> <EvolvableLinkInterface>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->rels->set(rel, true);
-
-        return newInstance;
+        return this->doWithRel(rel);
     }
 
     /**
@@ -100,20 +77,11 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified attribute is not present, this method MUST return
      * normally without errors.
      *
-     * @param string attribute
-     *   The attribute to remove.
-     *
-     * @return static
+     * @param string $attribute The attribute to remove.
      */
-    public function withoutAttribute(var attribute)
+    public function withoutAttribute(string attribute) -> <EvolvableLinkInterface>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->attributes->remove(attribute);
-
-        return newInstance;
+        return this->doWithoutAttribute(attribute);
     }
 
     /**
@@ -122,19 +90,10 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified rel is not present, this method MUST return
      * normally without errors.
      *
-     * @param string rel
-     *   The relationship value to exclude.
-     *
-     * @return static
+     * @param string $rel The relationship value to exclude.
      */
-    public function withoutRel(var rel)
+    public function withoutRel(string rel) -> <EvolvableLinkInterface>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->rels->remove(rel);
-
-        return newInstance;
+        return this->doWithoutRel(rel);
     }
 }
