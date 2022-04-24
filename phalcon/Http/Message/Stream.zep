@@ -15,7 +15,7 @@
 namespace Phalcon\Http\Message;
 
 use Exception;
-use PsrExt\Http\Message\StreamInterface;
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
 /**

@@ -15,7 +15,7 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
-use PsrExt\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interface to send query profiles to a logger.

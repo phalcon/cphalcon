@@ -16,7 +16,7 @@ namespace Phalcon\Http\Message;
 
 use Phalcon\Http\Message\AbstractMessage;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use PsrExt\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * PSR-7 Response

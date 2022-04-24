@@ -10,9 +10,9 @@
 
 namespace Phalcon\Http\Server;
 
-use PsrExt\Http\Message\ResponseInterface;
-use PsrExt\Http\Message\ServerRequestInterface;
-use PsrExt\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Handles a server request and produces a response.

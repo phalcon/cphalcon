@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html\Link\Serializer;
 
-use PsrExt\Link\EvolvableLinkInterface;
+use Psr\Link\EvolvableLinkInterface;
 
 /**
  * Class Phalcon\Http\Link\Serializer\Header

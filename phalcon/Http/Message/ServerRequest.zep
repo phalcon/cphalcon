@@ -18,10 +18,10 @@ use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream\Input;
-use PsrExt\Http\Message\ServerRequestInterface;
-use PsrExt\Http\Message\StreamInterface;
-use PsrExt\Http\Message\UploadedFileInterface;
-use PsrExt\Http\Message\UriInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UploadedFileInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * PSR-7 ServerRequest

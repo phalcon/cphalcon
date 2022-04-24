@@ -15,7 +15,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use PsrExt\Http\Message\UriInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Request methods

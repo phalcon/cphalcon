@@ -17,10 +17,10 @@ namespace Phalcon\Http\Message;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use PsrExt\Http\Message\ServerRequestFactoryInterface;
-use PsrExt\Http\Message\ServerRequestInterface;
-use PsrExt\Http\Message\UriInterface;
-use PsrExt\Http\Message\UploadedFileInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * PSR-17 ServerRequestFactory
