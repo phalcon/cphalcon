@@ -60,7 +60,7 @@ jobs:
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
