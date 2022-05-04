@@ -74,9 +74,7 @@ jobs:
 
   build-and-test:
     name: tests / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-
     needs: [generate]
-
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
