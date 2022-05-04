@@ -62,6 +62,7 @@
     "friendsofphp/php-cs-fixer": "~3.0",
     "mustache/mustache": "^2.14.1",
     "phalcon/ide-stubs": "^4.1",
+    "phalcon/zephir": "^0.16.0",
     "phpunit/phpunit": "^8.5",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",

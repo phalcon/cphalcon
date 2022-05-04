@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, RequestFactory, phalcon, http_message_requestfactory, phalcon_http_message_requestfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_requestfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestfactoryinterface")));
+	zend_class_implements(phalcon_http_message_requestfactory_ce, 1, zephir_get_internal_ce(SL("psrext\\http\\message\\requestfactoryinterface")));
 	return SUCCESS;
 }
 
