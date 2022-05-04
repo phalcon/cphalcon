@@ -28,19 +28,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_des
 	ZEND_ARG_INFO(0, sessionId)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 80100
-ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_noop_gc, 0, 1, MAY_BE_LONG|MAY_BE_FALSE)
-    ZEND_ARG_TYPE_INFO(0, maxlifetime, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-#elif PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_noop_gc, 0, 0, 1)
-    ZEND_ARG_TYPE_INFO(0, maxlifetime, IS_LONG, 0)
+	ZEND_ARG_INFO(0, maxlifetime)
 ZEND_END_ARG_INFO()
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_noop_gc, 0, 0, 1)
-    ZEND_ARG_INFO(0, maxlifetime)
-ZEND_END_ARG_INFO()
-#endif
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_read, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, sessionId)
