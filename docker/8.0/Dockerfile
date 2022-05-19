@@ -13,7 +13,6 @@ ENV MY_USER="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
 	PHP_VERSION="8.0" \
-	PSR_VERSION="1.1.0" \
 	LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
