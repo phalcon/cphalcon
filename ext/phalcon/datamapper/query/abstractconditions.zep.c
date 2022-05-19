@@ -937,7 +937,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 	}
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &store, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractConditions.zep", 331);
-	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 49, &_6);
+	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 36, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_7, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_8, &_7, &store, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractConditions.zep", 333);
