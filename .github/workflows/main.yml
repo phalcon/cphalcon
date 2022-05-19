@@ -22,7 +22,6 @@ env:
   PHALCON_VERSION: 5.0.0beta3
   ZEPHIR_PARSER_VERSION: 1.5.0
   ZEPHIR_VERSION: 0.16.0
-  PSR_VERSION: 1.2.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -66,7 +65,7 @@ jobs:
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-8.1.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
     secrets:
@@ -79,7 +78,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0' ]
+        php: [ '7.4', '8.0', '8.1' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
@@ -99,6 +98,8 @@ jobs:
           - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
           - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
       - uses: actions/checkout@v2
@@ -254,7 +255,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0' ]
+        php: [ '7.4', '8.0', '8.1' ]
 
     steps:
       - uses: actions/checkout@v2
