@@ -19,7 +19,7 @@ use Phalcon\Support\Collection;
  * code.
  *
  *```php
- * $config = new \Phalcon\Config(
+ * $config = new \Phalcon\Config\Config(
  *     [
  *         "database" => [
  *             "adapter"  => "Mysql",
