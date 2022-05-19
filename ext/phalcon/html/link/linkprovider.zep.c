@@ -41,8 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_LinkProvider)
  *
  * The iterable may be an array or any PHP \Traversable object. If no links
  * are available, an empty array or \Traversable MUST be returned.
- *
- * @return LinkInterface[]|\Traversable
  */
 PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks)
 {
@@ -66,8 +64,6 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks)
  * The iterable may be an array or any PHP \Traversable object. If no links
  * with that relationship are available, an empty array or \Traversable
  * MUST be returned.
- *
- * @return LinkInterface[]|\Traversable
  */
 PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel)
 {

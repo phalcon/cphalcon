@@ -57,6 +57,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/domain/payload", "readableinterface.zep.c writeableinterface.zep.c payloadinterface.zep.c payload.zep.c payloadfactory.zep.c status.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security/jwt/token", "abstractitem.zep.c enum.zep.c item.zep.c parser.zep.c signature.zep.c token.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/link", "abstractlink.zep.c abstractlinkprovider.zep.c link.zep.c linkprovider.zep.c evolvablelink.zep.c evolvablelinkprovider.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "loggerinterface.zep.c abstractlogger.zep.c adapterfactory.zep.c enum.zep.c exception.zep.c item.zep.c logger.zep.c loggerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata/strategy", "strategyinterface.zep.c annotations.zep.c introspection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "abstractadapter.zep.c noop.zep.c libmemcached.zep.c redis.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/interpolator", "interpolatorinterface.zep.c associativearray.zep.c indexedarray.zep.c", "phalcon");
@@ -77,7 +78,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "fileinterface.zep.c exception.zep.c file.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/response", "cookiesinterface.zep.c headersinterface.zep.c cookies.zep.c exception.zep.c headers.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "abstractlogger.zep.c loggerinterface.zep.c adapterfactory.zep.c enum.zep.c exception.zep.c item.zep.c logger.zep.c loggerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/messages", "messageinterface.zep.c exception.zep.c message.zep.c messages.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/micro", "collectioninterface.zep.c collection.zep.c exception.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "builderinterface.zep.c statusinterface.zep.c builder.zep.c lang.zep.c status.zep.c", "phalcon");

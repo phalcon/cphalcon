@@ -102,8 +102,8 @@ abstract class AbstractLogger
             let timezone = new DateTimeZone(defaultTimezone);
         }
 
-        let this->name     = $name,
-            this->timezone = $timezone;
+        let this->name     = name,
+            this->timezone = timezone;
 
         this->setAdapters(adapters);
     }

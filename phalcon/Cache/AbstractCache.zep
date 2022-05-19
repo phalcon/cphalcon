@@ -118,17 +118,8 @@ abstract class AbstractCache implements CacheInterface
 
     /**
      * Deletes multiple cache items in a single operation.
-     *
-     * @param iterable<mixed, mixed> $keys A list of string-based keys to be deleted.
-     *
-     * @return bool True if the items were successfully removed. False if there
-     *              was an error.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     *                                  array nor a Traversable, or if any of
-     *                                  the $keys are not a legal value.
      */
-    protected function doDeleteMultiple(keys) -> bool
+    protected function doDeleteMultiple(var keys) -> bool
     {
         var key, result;
 
@@ -156,7 +147,7 @@ abstract class AbstractCache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    protected function doGet(string key, defaultValue = null)
+    protected function doGet(string key, var defaultValue = null)
     {
         this->checkKey(key);
 
@@ -165,19 +156,8 @@ abstract class AbstractCache implements CacheInterface
 
     /**
      * Obtains multiple cache items by their unique keys.
-     *
-     * @param iterable<mixed, mixed> $keys         A list of keys that can obtained
-     *                                             in a single operation.
-     * @param mixed                  $defaultValue Default value to return for keys
-     *                                             that do not exist.
-     *
-     * @return iterable<array-key, mixed> A list of key => value pairs. Cache
-     * keys that do not exist or are stale will have $default as value.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     * array nor a Traversable, or if any of the $keys are not a legal value.
      */
-    protected function doGetMultiple(keys, defaultValue = null)
+    protected function doGetMultiple(var keys, var defaultValue = null)
     {
         var element, results;
 
@@ -226,7 +206,7 @@ abstract class AbstractCache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is not
      * a legal value.
      */
-    protected function doSet(string key, value, ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         this->checkKey(key);
 
@@ -235,22 +215,8 @@ abstract class AbstractCache implements CacheInterface
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
-     *
-     * @param iterable<mixed, mixed> $values A list of key => value pairs for a
-     *                                       multiple-set operation.
-     * @param null|int|DateInterval  $ttl    Optional. The TTL value of this
-     *                                       item. If no value is sent and the
-     *                                       driver supports TTL then the
-     *                                       library may set a default value for
-     *                                       it or let the driver take care of
-     *                                       that.
-     *
-     * @return bool True on success and false on failure.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $values is neither an
-     * array nor a Traversable, or if any of the $values are not a legal value.
      */
-    protected function doSetMultiple(values, ttl = null) -> bool
+    protected function doSetMultiple(values, var ttl = null) -> bool
     {
         var key, result, value;
 

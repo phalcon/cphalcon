@@ -94,6 +94,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/abstractlinkprovider.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
+	phalcon/logger/loggerinterface.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
 	phalcon/mvc/model/metadata/strategy/strategyinterface.zep.c
@@ -149,7 +150,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/headersinterface.zep.c
 	phalcon/http/responseinterface.zep.c
 	phalcon/logger/abstractlogger.zep.c
-	phalcon/logger/loggerinterface.zep.c
 	phalcon/messages/messageinterface.zep.c
 	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
