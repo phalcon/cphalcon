@@ -100,49 +100,11 @@ runs:
         .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${{ inputs.pecl }}" "${env:TEMP}"
         .\.github\actions\build-phalcon-win\Expand-Item7zip.ps1 "${env:TEMP}\phalcon-pecl.tar" "${{ env.PHP_PECL_PATH }}\phalcon"
 
-    - name: PSR extension | init, phpize
-      shell: powershell
-      run: |
-        git clone https://github.com/jbboehr/php-psr.git ${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}
-        if (-not (Test-Path "${{ env.PHP_DEVPACK }}\include\ext\psr")) {
-          mkdir "${{ env.PHP_DEVPACK }}\include\ext\psr"
-        }
-        Set-Location "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}"
-        phpize
-
-    - name: PSR extension | configure
-      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
-      shell: powershell
-      run: |
-        echo "::group::Configure"
-        .\configure.bat --enable-psr
-        echo "::endgroup::"
-
-    - name: PSR extension | build
-      working-directory: '${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}'
-      shell: powershell
-      run: |
-        nmake
-        nmake install
-
-    - name: PSR extension | Inspecting Extension DLL File
-      shell: powershell
-      run: |
-        php --ri psr
-        Get-PhpExtension "${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}\php_psr.dll"
-
     - name: Phalcon | phpize
       working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
       shell: powershell
       run: |
         phpize
-
-    - name: Phalcon | Configure Project
-      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
-      shell: powershell
-      run: |
-        .\configure.bat --enable-phalcon `
-          --with-extra-libs="${{ env.PHP_PECL_PATH }}\psr\psr-${{ env.PSR_VERSION }}\${{ env.RELEASE_FOLDER }}"
 
     - name: Phalcon | Build Project
       working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
