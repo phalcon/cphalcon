@@ -45,8 +45,7 @@ RUN apt update -y && \
 
 # PECL Packages
 RUN pecl install -o -f redis && \
-    pecl install psr-${PSR_VERSION} \
-      igbinary \
+    pecl install igbinary \
       msgpack \
       apcu \
       yaml \
@@ -85,7 +84,6 @@ RUN docker-php-ext-install \
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
-        psr \
         gettext \
         redis \
         igbinary \

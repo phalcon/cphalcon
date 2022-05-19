@@ -60,7 +60,7 @@ class Apcu extends AbstractAdapter
         }
 
         for item in iterator(apc) {
-            if (true !== $this->phpApcuDelete(item["key"])) {
+            if (true !== this->phpApcuDelete(item["key"])) {
                 let result = false;
             }
         }

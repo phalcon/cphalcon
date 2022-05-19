@@ -15,6 +15,7 @@ use Closure;
 use Countable;
 use Iterator;
 use JsonSerializable;
+use Phalcon\Cache\CacheInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;

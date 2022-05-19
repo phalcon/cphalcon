@@ -113,33 +113,33 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 46);
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 87);
+		ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 127);
 		zephir_check_call_status();
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "8.0");
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZVAL_STRING(&_2$$4, ">=");
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "version_compare", NULL, 88, &version, &_1$$4, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "version_compare", NULL, 128, &version, &_1$$4, &_2$$4);
 		zephir_check_call_status();
 		if (zephir_is_true(&_3$$4)) {
 			ZEPHIR_INIT_VAR(&_4$$6);
 			ZEPHIR_INIT_NVAR(&_4$$6);
-			zephir_create_closure_ex(&_4$$6, NULL, phalcon_13__closure_ce, SL("__invoke"));
+			zephir_create_closure_ex(&_4$$6, NULL, phalcon_11__closure_ce, SL("__invoke"));
 			ZVAL_LONG(&_5$$6, 8);
-			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_4$$6, &_5$$6);
+			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 129, &_4$$6, &_5$$6);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_VAR(&_6$$7);
 			ZEPHIR_INIT_NVAR(&_6$$7);
-			zephir_create_closure_ex(&_6$$7, NULL, phalcon_14__closure_ce, SL("__invoke"));
+			zephir_create_closure_ex(&_6$$7, NULL, phalcon_12__closure_ce, SL("__invoke"));
 			ZVAL_LONG(&_7$$7, 8);
-			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_6$$7, &_7$$7);
+			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 129, &_6$$7, &_7$$7);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 91);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 130);
 		zephir_check_call_status();
 		_8$$4 = ZEPHIR_GLOBAL(warning).enable;
 		if (!(_8$$4)) {

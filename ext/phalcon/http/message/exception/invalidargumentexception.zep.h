@@ -1,5 +1,0 @@
-
-extern zend_class_entry *phalcon_http_message_exception_invalidargumentexception_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Exception_InvalidArgumentException);
-

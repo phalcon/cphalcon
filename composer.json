@@ -6,17 +6,7 @@
     "phalcon",
     "framework",
     "high load",
-    "mvc",
-    "psr-3",
-    "psr-4",
-    "psr-7",
-    "psr-11",
-    "psr-13",
-    "psr-14",
-    "psr-15",
-    "psr-16",
-    "psr-17",
-    "psr-18"
+    "mvc"
   ],
   "license": "BSD-3-Clause",
   "authors": [
@@ -46,7 +36,6 @@
     "ext-mbstring": "*",
     "ext-msgpack": "*",
     "ext-pdo": "*",
-    "ext-psr": "^1.0",
     "ext-redis": "*",
     "ext-sqlite3": "*",
     "ext-xml": "*",

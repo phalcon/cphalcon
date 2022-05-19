@@ -73,11 +73,6 @@
       <pearinstaller>
         <min>1.10</min>
       </pearinstaller>
-      <package>
-        <name>psr</name>
-        <channel>pecl.php.net</channel>
-        <min>1.1.0</min>
-      </package>
     </required>
   </dependencies>
   <providesextension>phalcon</providesextension>

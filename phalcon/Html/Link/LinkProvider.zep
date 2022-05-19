@@ -23,8 +23,6 @@ class LinkProvider extends AbstractLinkProvider implements LinkProviderInterface
      *
      * The iterable may be an array or any PHP \Traversable object. If no links
      * are available, an empty array or \Traversable MUST be returned.
-     *
-     * @return LinkInterface[]|\Traversable
      */
     public function getLinks() -> array
     {
@@ -38,8 +36,6 @@ class LinkProvider extends AbstractLinkProvider implements LinkProviderInterface
      * The iterable may be an array or any PHP \Traversable object. If no links
      * with that relationship are available, an empty array or \Traversable
      * MUST be returned.
-     *
-     * @return LinkInterface[]|\Traversable
      */
     public function getLinksByRel(var rel) -> array
     {

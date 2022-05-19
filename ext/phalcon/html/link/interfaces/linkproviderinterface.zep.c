@@ -32,14 +32,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkProviderInterface)
 
 /**
  * Returns an array of LinkInterface objects.
- *
- * @return LinkInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkProviderInterface, getLinks);
 /**
  * Returns an array of LinkInterface objects that have a specific
  * relationship.
- *
- * @return LinkInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkProviderInterface, getLinksByRel);

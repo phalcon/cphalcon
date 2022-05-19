@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 		ZVAL_LONG(&_0$$3, 3);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_substr(&_1$$3, &method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", NULL, 104, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", NULL, 73, &_1$$3);
 		zephir_check_call_status();
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset(&_2$$3, &possibleService)) {
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 			ZVAL_LONG(&_3$$6, 3);
 			ZEPHIR_INIT_VAR(&_4$$6);
 			zephir_substr(&_4$$6, &method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_FUNCTION(&_5$$6, "lcfirst", NULL, 104, &_4$$6);
+			ZEPHIR_CALL_FUNCTION(&_5$$6, "lcfirst", NULL, 73, &_4$$6);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, &_5$$6, &definition);
 			zephir_check_call_status();
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 	object_init_ex(&_6, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_7);
 	ZEPHIR_CONCAT_SVS(&_7, "Call to undefined method or service '", &method, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 31, &_7);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 29, &_7);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_6, "phalcon/Di/Di.zep", 147);
 	ZEPHIR_MM_RESTORE();
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Di_Di, attempt)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 105, definition, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 74, definition, &_2);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name, &_1);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 					object_init_ex(&_10$$9, phalcon_di_exception_ce);
 					ZEPHIR_INIT_VAR(&_11$$9);
 					ZEPHIR_CONCAT_SVS(&_11$$9, "Service '", &name, "' cannot be resolved");
-					ZEPHIR_CALL_METHOD(NULL, &_10$$9, "__construct", NULL, 31, &_11$$9);
+					ZEPHIR_CALL_METHOD(NULL, &_10$$9, "__construct", NULL, 29, &_11$$9);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_10$$9, "phalcon/Di/Di.zep", 210);
 					ZEPHIR_MM_RESTORE();
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 				object_init_ex(&_12$$12, phalcon_di_exception_ce);
 				ZEPHIR_INIT_VAR(&_13$$12);
 				ZEPHIR_CONCAT_SVS(&_13$$12, "Service '", &name, "' was not found in the dependency injection container");
-				ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", NULL, 31, &_13$$12);
+				ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", NULL, 29, &_13$$12);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_12$$12, "phalcon/Di/Di.zep", 225);
 				ZEPHIR_MM_RESTORE();
@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Di_Di, getRaw)
 		object_init_ex(&_1$$3, phalcon_di_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service '", &name, "' was not found in the dependency injection container");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Di.zep", 295);
 		ZEPHIR_MM_RESTORE();
@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Di_Di, getService)
 		object_init_ex(&_1$$3, phalcon_di_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service '", &name, "' was not found in the dependency injection container");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Di.zep", 311);
 		ZEPHIR_MM_RESTORE();
@@ -813,7 +813,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromPhp)
 
 	ZEPHIR_INIT_VAR(&services);
 	object_init_ex(&services, phalcon_config_adapter_php_ce);
-	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 106, &filePath);
+	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 75, &filePath);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadfromconfig", NULL, 0, &services);
 	zephir_check_call_status();
@@ -895,7 +895,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromYaml)
 
 	ZEPHIR_INIT_VAR(&services);
 	object_init_ex(&services, phalcon_config_adapter_yaml_ce);
-	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 107, &filePath, &callbacks);
+	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 76, &filePath, &callbacks);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadfromconfig", NULL, 0, &services);
 	zephir_check_call_status();
@@ -1223,7 +1223,7 @@ PHP_METHOD(Phalcon_Di_Di, set)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 105, definition, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 74, definition, &_1);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name, &_0);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
