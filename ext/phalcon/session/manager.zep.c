@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Session_Manager, destroy)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "session_destroy", NULL, 0);
+		ZEPHIR_CALL_FUNCTION(NULL, "session_destroy", NULL, 511);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_SESSION);
 		array_init(&_SESSION);

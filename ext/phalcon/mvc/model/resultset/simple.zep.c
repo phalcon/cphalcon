@@ -671,3 +671,36 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize)
 	ZEPHIR_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __serialize)
+{
+	zval *this_ptr = getThis();
+
+
+
+	array_init(return_value);
+	return;
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __unserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *data_param = NULL;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_arrval(&data, data_param);
+
+
+}
+

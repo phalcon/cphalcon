@@ -63,9 +63,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router)
 	 */
 	zend_declare_property_null(phalcon_cli_router_ce, SL("defaultAction"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_cli_router_ce, SL("defaultModule"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_cli_router_ce, SL("defaultModule"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */

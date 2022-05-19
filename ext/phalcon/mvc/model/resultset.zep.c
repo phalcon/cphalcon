@@ -708,7 +708,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *index, index_sub, _0;
+	zval index_sub, _0;
+	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);

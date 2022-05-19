@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 484, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 483, args);
 		zephir_check_call_status();
 		_20$$16 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_20$$16) {

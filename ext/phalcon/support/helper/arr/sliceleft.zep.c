@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_SliceLeft, __invoke)
 
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, elements);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 497, &collection, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 496, &collection, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
