@@ -106,6 +106,12 @@ runs:
       run: |
         phpize
 
+    - name: Phalcon | Configure Project
+      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
+      shell: powershell
+      run: |
+        .\configure.bat --enable-phalcon
+
     - name: Phalcon | Build Project
       working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ env.PHALCON_VERSION }}'
       shell: powershell
