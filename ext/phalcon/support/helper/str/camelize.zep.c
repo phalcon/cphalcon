@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 	ZEPHIR_CALL_PARENT(&result, phalcon_support_helper_str_camelize_ce, getThis(), "__invoke", &_0, 0, &text, &delimiters);
 	zephir_check_call_status();
 	if (lowerFirst == 1) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "lcfirst", NULL, 104, &result);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "lcfirst", NULL, 73, &result);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&result, &_1$$3);
 	}

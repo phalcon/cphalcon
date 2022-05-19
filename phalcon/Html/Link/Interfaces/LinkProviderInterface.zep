@@ -17,16 +17,12 @@ interface LinkProviderInterface
 {
     /**
      * Returns an array of LinkInterface objects.
-     *
-     * @return LinkInterface[]
      */
     public function getLinks() -> array;
 
     /**
      * Returns an array of LinkInterface objects that have a specific
      * relationship.
-     *
-     * @return LinkInterface[]
      */
     public function getLinksByRel(string rel) -> array;
 }

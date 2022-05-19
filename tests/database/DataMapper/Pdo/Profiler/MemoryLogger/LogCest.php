@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\MemoryLogger;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\MemoryLogger;
-use Psr\Log\LogLevel;
+use Phalcon\Logger\LogLevel;
 
 class LogCest
 {

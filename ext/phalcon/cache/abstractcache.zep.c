@@ -279,15 +279,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDelete)
 
 /**
  * Deletes multiple cache items in a single operation.
- *
- * @param iterable<mixed, mixed> $keys A list of string-based keys to be deleted.
- *
- * @return bool True if the items were successfully removed. False if there
- *              was an error.
- *
- * @throws InvalidArgumentException MUST be thrown if $keys is neither an
- *                                  array nor a Traversable, or if any of
- *                                  the $keys are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 {
@@ -319,7 +310,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 144);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 135);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -410,17 +401,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGet)
 
 /**
  * Obtains multiple cache items by their unique keys.
- *
- * @param iterable<mixed, mixed> $keys         A list of keys that can obtained
- *                                             in a single operation.
- * @param mixed                  $defaultValue Default value to return for keys
- *                                             that do not exist.
- *
- * @return iterable<array-key, mixed> A list of key => value pairs. Cache
- * keys that do not exist or are stale will have $default as value.
- *
- * @throws InvalidArgumentException MUST be thrown if $keys is neither an
- * array nor a Traversable, or if any of the $keys are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 {
@@ -460,7 +440,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 191);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 171);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -594,20 +574,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSet)
 
 /**
  * Persists a set of key => value pairs in the cache, with an optional TTL.
- *
- * @param iterable<mixed, mixed> $values A list of key => value pairs for a
- *                                       multiple-set operation.
- * @param null|int|DateInterval  $ttl    Optional. The TTL value of this
- *                                       item. If no value is sent and the
- *                                       driver supports TTL then the
- *                                       library may set a default value for
- *                                       it or let the driver take care of
- *                                       that.
- *
- * @return bool True on success and false on failure.
- *
- * @throws InvalidArgumentException MUST be thrown if $values is neither an
- * array nor a Traversable, or if any of the $values are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 {
@@ -649,7 +615,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 266);
+	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 232);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{

@@ -6,17 +6,7 @@
     "phalcon",
     "framework",
     "high load",
-    "mvc",
-    "psr-3",
-    "psr-4",
-    "psr-7",
-    "psr-11",
-    "psr-13",
-    "psr-14",
-    "psr-15",
-    "psr-16",
-    "psr-17",
-    "psr-18"
+    "mvc"
   ],
   "license": "BSD-3-Clause",
   "authors": [
@@ -46,7 +36,6 @@
     "ext-mbstring": "*",
     "ext-msgpack": "*",
     "ext-pdo": "*",
-    "ext-psr": "^1.0",
     "ext-redis": "*",
     "ext-sqlite3": "*",
     "ext-xml": "*",
@@ -62,13 +51,13 @@
     "friendsofphp/php-cs-fixer": "~3.0",
     "mustache/mustache": "^2.14.1",
     "phalcon/ide-stubs": "^4.1",
-    "phalcon/zephir": "dev-development",
+    "phalcon/zephir": "^0.16.0",
     "phpunit/phpunit": "^8.5",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",
     "twig/twig": "~1.36",
     "vimeo/psalm": "^4.7",
-    "vlucas/phpdotenv": "^5.4"
+    "vlucas/phpdotenv": "^2.5"
   },
   "config": {
     "optimize-autoloader": true,

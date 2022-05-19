@@ -82,8 +82,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_2__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&output, "array_map", NULL, 97, &_0, &exploded);
+	zephir_create_closure_ex(&_0, NULL, phalcon_0__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&output, "array_map", NULL, 66, &_0, &exploded);
 	zephir_check_call_status();
 	zephir_fast_join_str(return_value, SL(""), &output);
 	RETURN_MM();
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 	ZEPHIR_CONCAT_SVS(&_10, "/[", &delimiters, "]+/");
 	ZVAL_LONG(&_11, -1);
 	ZVAL_LONG(&_12, (2 | 1));
-	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 98, &_10, &text, &_11, &_12);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 67, &_10, &text, &_11, &_12);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_13);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {

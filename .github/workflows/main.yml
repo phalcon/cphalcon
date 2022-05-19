@@ -22,7 +22,7 @@ env:
   PHALCON_VERSION: 5.0.0beta3
   ZEPHIR_PARSER_VERSION: 1.5.0
   ZEPHIR_VERSION: 0.16.0
-  PSR_VERSION: 1.1.0
+  PSR_VERSION: 1.2.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -49,7 +49,7 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "::set-output name=extensions::psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
   # PHP CodeSniffer inspection
   phpcs:
@@ -57,10 +57,10 @@ jobs:
     with:
       standard: ./phpcs.xml
 
-  # Generates stubs and validates with PSALM
+  # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
@@ -74,9 +74,7 @@ jobs:
 
   build-and-test:
     name: tests / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-
     needs: [generate]
-
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -116,7 +114,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}, psr-${{ env.PSR_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
           tools: pecl, phpize, php-config
           coverage: xdebug

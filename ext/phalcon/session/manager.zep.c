@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_1$$3, phalcon_session_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SS(&_2$$3, "The session has already been started. ", "To change the id, use regenerateId()");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 271);
 		ZEPHIR_MM_RESTORE();
@@ -868,7 +868,7 @@ PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 440);
+	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 355);
 	zephir_check_call_status();
 	RETURN_MM();
 }

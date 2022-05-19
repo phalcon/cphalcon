@@ -107,16 +107,16 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 	ZVAL_LONG(&_2, options);
 	ZEPHIR_INIT_VAR(&decoded);
 	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 215);
+	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 187);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0)) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 216);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 188);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 40, &_6$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 189, &_6$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Support/Helper/Json/Decode.zep", 45);
 		ZEPHIR_MM_RESTORE();

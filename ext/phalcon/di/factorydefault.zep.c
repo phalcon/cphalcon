@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Annotations\\Adapter\\Memory");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("annotations"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_array_fast_append(&_6, &_7);
 	zephir_array_update_string(&_5, SL("arguments"), &_6, PH_COPY | PH_SEPARATE);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_5, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_5, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("assets"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Encryption\\Crypt");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("crypt"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Http\\Response\\Cookies");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("cookies"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Dispatcher");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("dispatcher"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Html\\Escaper");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("escaper"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Events\\Manager");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("eventsManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Flash\\Direct");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("flash"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -154,15 +154,15 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Flash\\Session");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("flashSession"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_8, &filter, "newinstance", NULL, 122);
+	ZEPHIR_CALL_METHOD(&_8, &filter, "newinstance", NULL, 89);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_8, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_8, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("filter"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Support\\HelperFactory");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("helper"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Model\\Manager");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Model\\MetaData\\Memory");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsMetadata"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Http\\Request");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("request"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Http\\Response");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("response"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Router");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("router"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Encryption\\Security");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("security"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_array_fast_append(&_7, &_9);
 	zephir_array_update_string(&_6, SL("arguments"), &_7, PH_COPY | PH_SEPARATE);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_6, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_6, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("tag"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Model\\Transaction\\Manager");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("transactionManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Phalcon\\Mvc\\Url");
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 105, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("url"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("services"), &_1);

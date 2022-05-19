@@ -12,6 +12,7 @@ namespace Phalcon\Cache;
 
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 
 /**
  * This component offers caching capabilities for your application.
@@ -49,17 +50,8 @@ class Cache extends AbstractCache
 
     /**
      * Deletes multiple cache items in a single operation.
-     *
-     * @param iterable $keys A list of string-based keys to be deleted.
-     *
-     * @return bool True if the items were successfully removed. False if there
-     *              was an error.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     *                                  array nor a Traversable, or if any of
-     *                                  the $keys are not a legal value.
      */
-    public function deleteMultiple(keys) -> bool
+    public function deleteMultiple(var keys) -> bool
     {
         return this->doDeleteMultiple(keys);
     }
@@ -76,26 +68,15 @@ class Cache extends AbstractCache
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    public function get(string $key, defaultValue = null)
+    public function get(string key, var defaultValue = null)
     {
         return this->doGet(key, defaultValue);
     }
 
     /**
      * Obtains multiple cache items by their unique keys.
-     *
-     * @param iterable $keys         A list of keys that can obtained in a
-     *                               single operation.
-     * @param mixed    $defaultValue Default value to return for keys that do
-     *                               not exist.
-     *
-     * @return iterable<array-key, mixed> A list of key => value pairs. Cache
-     * keys that do not exist or are stale will have $default as value.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     * array nor a Traversable, or if any of the $keys are not a legal value.
      */
-    public function getMultiple(keys, defaultValue = null)
+    public function getMultiple(var keys, var defaultValue = null)
     {
         return this->doGetMultiple(keys, defaultValue);
     }
@@ -140,20 +121,6 @@ class Cache extends AbstractCache
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
-     *
-     * @param iterable              $values A list of key => value pairs for a
-     *                                      multiple-set operation.
-     * @param null|int|DateInterval $ttl    Optional. The TTL value of this
-     *                                      item. If no value is sent and the
-     *                                      driver supports TTL then the
-     *                                      library may set a default value for
-     *                                      it or let the driver take care of
-     *                                      that.
-     *
-     * @return bool True on success and false on failure.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $values is neither an
-     * array nor a Traversable, or if any of the $values are not a legal value.
      */
     public function setMultiple(var values, var ttl = null) -> bool
     {
