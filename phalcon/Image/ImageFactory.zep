@@ -14,7 +14,7 @@ use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
 
 /**
- * Phalcon\Image/ImageFactory
+ * Phalcon\Image\ImageFactory
  */
 class ImageFactory extends AbstractFactory
 {
