@@ -62,7 +62,7 @@ class Config extends Collection implements ConfigInterface
      * Merges a configuration into the current one
      *
      *```php
-     * $appConfig = new \Phalcon\Config(
+     * $appConfig = new \Phalcon\Config\Config(
      *     [
      *         "database" => [
      *             "host" => "localhost",
