@@ -13,6 +13,8 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag;
 
 /**
+ * Phalcon\Forms\Element\Submit
+ *
  * Component INPUT[type=submit] for forms
  */
 class Submit extends AbstractElement
