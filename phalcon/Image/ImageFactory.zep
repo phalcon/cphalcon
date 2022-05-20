@@ -13,13 +13,10 @@ namespace Phalcon\Image;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
 
-/**
- * Phalcon\Image\ImageFactory
- */
 class ImageFactory extends AbstractFactory
 {
     /**
-     * TagFactory constructor.
+     * Constructor
      */
     public function __construct(array! services = [])
     {

@@ -29,8 +29,8 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
  * @property \Phalcon\Db\Adapter\AdapterInterface $db
- * @property \Phalcon\Encription\Security $security
- * @property \Phalcon\Encription\Crypt|\Phalcon\Encription\Crypt\CryptInterface $crypt
+ * @property \Phalcon\Encryption\Security $security
+ * @property \Phalcon\Encryption\Crypt|\Phalcon\Encryption\Crypt\CryptInterface $crypt
  * @property \Phalcon\Tag $tag
  * @property \Phalcon\Html\Escaper|\Phalcon\Html\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations

@@ -12,6 +12,9 @@ namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Enum;
 
+/**
+ * Interface for Phalcon\Image\Adapter classes
+ */
 interface AdapterInterface
 {
     public function background(string color, int opacity = 100) -> <AdapterInterface>;

@@ -13,8 +13,6 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag\Select as SelectTag;
 
 /**
- * Phalcon\Forms\Element\Select
- *
  * Component SELECT (choice) for forms
  */
 class Select extends AbstractElement
@@ -25,7 +23,7 @@ class Select extends AbstractElement
     protected optionsValues = null;
 
     /**
-     * Phalcon\Forms\Element\Select constructor
+     * Constructor
      *
      * @param object|array options
      * @param array        attributes

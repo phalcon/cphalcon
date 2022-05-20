@@ -11,8 +11,6 @@
 namespace Phalcon\Forms\Element;
 
 /**
- * Phalcon\Forms\Element\Check
- *
  * Component INPUT[type=check] for forms
  */
 class Check extends AbstractElement

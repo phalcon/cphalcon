@@ -82,7 +82,7 @@ abstract class AbstractElement implements ElementInterface
     protected value = null;
 
     /**
-     * Phalcon\Forms\Element constructor
+     * Constructor
      *
      * @param string name       Attribute name (value of 'name' attribute of HTML element)
      * @param array  attributes Additional HTML element attributes

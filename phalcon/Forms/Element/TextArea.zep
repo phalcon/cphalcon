@@ -13,8 +13,6 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Forms\Element\TextArea
- *
  * Component TEXTAREA for forms
  */
 class TextArea extends AbstractElement

@@ -13,8 +13,6 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Forms\Element\Date
- *
  * Component INPUT[type=date] for forms
  */
 class Date extends AbstractElement
