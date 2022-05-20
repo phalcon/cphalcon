@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Phalcon\Di\DiInterface;
 
 /**
- * PSR-11 Wrapper for `Phalcon\Di`
+ * PSR-11 Wrapper for `Phalcon\Di\Di`
  */
 class Container implements ContainerInterface
 {
@@ -24,7 +24,7 @@ class Container implements ContainerInterface
     protected container;
 
     /**
-     * Phalcon\Container constructor
+     * Phalcon\Container\Container constructor
      */
     public function __construct(<DiInterface> container)
     {
