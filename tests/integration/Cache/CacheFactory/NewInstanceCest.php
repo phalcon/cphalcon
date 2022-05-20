@@ -19,7 +19,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Psr\SimpleCache\CacheInterface;
+use Phalcon\Cache\CacheInterface;
 
 use function uniqid;
 

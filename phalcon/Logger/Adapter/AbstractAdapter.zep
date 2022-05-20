@@ -37,7 +37,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var FormatterInterface|null
      */
-    protected formatter;
+    protected formatter = null;
 
     /**
      * Tells if there is an active transaction or not
@@ -139,7 +139,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getFormatter() -> <FormatterInterface>
     {
-        if typeof this->formatter !== "object" {
+        if null === this->formatter {
             let this->formatter = create_instance(this->defaultFormatter);
         }
 

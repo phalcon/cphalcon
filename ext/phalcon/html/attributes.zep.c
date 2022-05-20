@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 				ZVAL_LONG(&_5$$4, 3);
 				ZEPHIR_INIT_NVAR(&_6$$4);
 				ZVAL_STRING(&_6$$4, "utf-8");
-				ZEPHIR_CALL_FUNCTION(&_7$$4, "htmlspecialchars", &_8, 339, &value, &_5$$4, &_6$$4, &__$true);
+				ZEPHIR_CALL_FUNCTION(&_7$$4, "htmlspecialchars", &_8, 317, &value, &_5$$4, &_6$$4, &__$true);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_VSVS(&_9$$4, &key, "=\"", &_7$$4, "\" ");
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 					ZVAL_LONG(&_11$$6, 3);
 					ZEPHIR_INIT_NVAR(&_12$$6);
 					ZVAL_STRING(&_12$$6, "utf-8");
-					ZEPHIR_CALL_FUNCTION(&_13$$6, "htmlspecialchars", &_8, 339, &value, &_11$$6, &_12$$6, &__$true);
+					ZEPHIR_CALL_FUNCTION(&_13$$6, "htmlspecialchars", &_8, 317, &value, &_11$$6, &_12$$6, &__$true);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_14$$6);
 					ZEPHIR_CONCAT_VSVS(&_14$$6, &key, "=\"", &_13$$6, "\" ");

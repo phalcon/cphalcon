@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, validate)
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 311, &value);
+	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 289, &value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&valid))) {
 		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
@@ -205,11 +205,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 115, &number);
+	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 84, &number);
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
-	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 312, &digits);
+	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 290, &digits);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 109);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
@@ -259,9 +259,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 115, &hash);
+	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 84, &hash);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 313, &_10);
+	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 291, &_10);
 	zephir_check_call_status();
 	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
 }

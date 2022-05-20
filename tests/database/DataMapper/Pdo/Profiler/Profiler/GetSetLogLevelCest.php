@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\Profiler;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
-use Psr\Log\LogLevel;
+use Phalcon\Logger\LogLevel;
 
 class GetSetLogLevelCest
 {

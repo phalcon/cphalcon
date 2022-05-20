@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checktransaction", NULL, 95);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checktransaction", NULL, 64);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "resettransaction", NULL, 96);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "resettransaction", NULL, 65);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -261,9 +261,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("formatter"), PH_NOISY_CC);
-	if (Z_TYPE_P(&_0) != IS_OBJECT) {
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("formatter"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("defaultFormatter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
@@ -311,9 +310,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checktransaction", NULL, 95);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checktransaction", NULL, 64);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "resettransaction", NULL, 96);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "resettransaction", NULL, 65);
 	zephir_check_call_status();
 	RETURN_THIS();
 }

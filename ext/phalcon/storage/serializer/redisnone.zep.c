@@ -31,3 +31,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_RedisNone)
 
 	return SUCCESS;
 }
+

@@ -188,9 +188,9 @@ class Stream extends Noop
      *
      * @link https://php.net/manual/en/function.file-exists.php
      */
-    protected function phpFileExists(string $filename)
+    protected function phpFileExists(string filename)
     {
-        return file_exists($filename);
+        return file_exists(filename);
     }
 
     /**
@@ -200,9 +200,9 @@ class Stream extends Noop
      *
      * @link https://php.net/manual/en/function.file-get-contents.php
      */
-    protected function phpFileGetContents(string $filename)
+    protected function phpFileGetContents(string filename)
     {
-        return file_get_contents($filename);
+        return file_get_contents(filename);
     }
 
     /**
@@ -216,12 +216,12 @@ class Stream extends Noop
      * @link https://php.net/manual/en/function.file-put-contents.php
      */
     protected function phpFilePutContents(
-        string $filename,
-        $data,
-        int $flags = 0,
-        $context = null
+        string filename,
+        var data,
+        int flags = 0,
+        var context = null
     ) {
-        return file_put_contents($filename, $data, $flags, $context);
+        return file_put_contents(filename, data, flags, context);
     }
 
     /**
@@ -232,9 +232,9 @@ class Stream extends Noop
      *
      * @link https://php.net/manual/en/function.fopen.php
      */
-    protected function phpFopen(string $filename, string $mode)
+    protected function phpFopen(string filename, string mode)
     {
-        return fopen($filename, $mode);
+        return fopen(filename, mode);
     }
 
     /**
