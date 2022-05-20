@@ -33,7 +33,7 @@ use Phalcon\Support\Collection;
  * @property string           $name
  * @property ManagerInterface $session;
  */
-class Bag extends Collection implements InjectionAwareInterface
+class Bag extends Collection implements BagInterface, InjectionAwareInterface
 {
     /**
      * @var DiInterface|null
