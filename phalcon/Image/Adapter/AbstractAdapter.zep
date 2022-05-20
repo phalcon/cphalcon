@@ -14,8 +14,6 @@ use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
 
 /**
- * Phalcon\Image\Adapter
- *
  * All image adapters must use this class
  */
 abstract class AbstractAdapter implements AdapterInterface

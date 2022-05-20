@@ -46,7 +46,7 @@ class PaginatorFactory extends AbstractFactory
      * $paginator = (new PaginatorFactory())->load($options);
      *```
      *
-     * @param array|\Phalcon\Config = [
+     * @param array|\Phalcon\Config\Config config = [
      *     'adapter' => 'queryBuilder',
      *     'limit' => 20,
      *     'page' => 1,

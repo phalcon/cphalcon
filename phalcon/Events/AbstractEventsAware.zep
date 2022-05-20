@@ -13,10 +13,7 @@ namespace Phalcon\Events;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Trait EventsAwareTrait
- *
- * @package Phalcon\Events\Traits
- *
+ * This abstract class offers access to the events manager
  * @property ?ManagerInterface $eventsManager
  */
 abstract class AbstractEventsAware

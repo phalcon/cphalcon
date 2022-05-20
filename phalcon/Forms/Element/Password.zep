@@ -13,8 +13,6 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Forms\Element\Password
- *
  * Component INPUT[type=password] for forms
  */
 class Password extends AbstractElement
