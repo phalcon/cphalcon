@@ -19,7 +19,7 @@ use Phalcon\Factory\Exception as FactoryException;
 /**
  * Reads multiple files (or arrays) and merges them all together.
  *
- * See `Phalcon\Config\Factory::load` To load Config Adapter class using 'adapter' option.
+ * See `Phalcon\Config\ConfigFactory::load` To load Config Adapter class using 'adapter' option.
  *
  * ```php
  * use Phalcon\Config\Adapter\Grouped;

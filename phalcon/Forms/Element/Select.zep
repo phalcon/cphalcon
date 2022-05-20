@@ -25,7 +25,7 @@ class Select extends AbstractElement
     protected optionsValues = null;
 
     /**
-     * Phalcon\Forms\Element constructor
+     * Phalcon\Forms\Element\Select constructor
      *
      * @param object|array options
      * @param array        attributes
