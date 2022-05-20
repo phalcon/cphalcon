@@ -23,14 +23,14 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
  * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
  * @property \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface $cookies
- * @property \Phalcon\Filter $filter
+ * @property \Phalcon\Filter\Filter $filter
  * @property \Phalcon\Flash\Direct $flash
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
  * @property \Phalcon\Db\Adapter\AdapterInterface $db
- * @property \Phalcon\Security $security
- * @property \Phalcon\Crypt\Crypt|\Phalcon\Crypt\CryptInterface $crypt
+ * @property \Phalcon\Encription\Security $security
+ * @property \Phalcon\Encription\Crypt|\Phalcon\Encription\Crypt\CryptInterface $crypt
  * @property \Phalcon\Tag $tag
  * @property \Phalcon\Html\Escaper|\Phalcon\Html\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
