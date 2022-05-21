@@ -55,7 +55,8 @@ class HandleCest
                 'task' => 'main',
             ]
         );
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertEquals(

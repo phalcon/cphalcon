@@ -75,9 +75,9 @@ class Router extends AbstractInjectionAware
     protected matches = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected module = null;
+    protected module = "";
 
     /**
      * @var array
