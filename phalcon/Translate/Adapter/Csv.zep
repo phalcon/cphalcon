@@ -151,6 +151,16 @@ class Csv extends AbstractAdapter implements ArrayAccess
     }
 
     /**
+     * Returns the internal array
+     *
+     * @return array
+     */
+    public function toArray() -> array
+    {
+        return this->translate;
+    }
+
+    /**
      * @todo to be removed when we get traits
      */
     protected function phpFopen(string filename, string mode)

@@ -35,7 +35,8 @@
   - `Phalcon\Html\Link\Interfaces\LinkProviderInterface`
   - `Phalcon\Html\Link\AbstractLink`
   - `Phalcon\Html\Link\AbstractLinkProvider` to be used in the link class but also the proxy-psr13 repo [#15930](https://github.com/phalcon/cphalcon/issues/15930)
-
+- Added `Phalcon\Translate\Adapter\Csv::toArray()` and `Phalcon\Translate\Adapter\NativeArray::toArray()` to return the translation array back  [#15902](https://github.com/phalcon/cphalcon/issues/15902)
+- 
 ## Removed
 - Removed `Phalcon\Container\Container` and moved its contents to the `proxy-psr11` repo [#15928](https://github.com/phalcon/cphalcon/issues/15928)
 - Removed `Phalcon\Http\Message\*` and `Phalcon\Http\Server\*` classes. This removes PSR from Phalcon. PSR-7 available in v6 [#15929](https://github.com/phalcon/cphalcon/issues/15929)
