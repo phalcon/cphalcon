@@ -5244,7 +5244,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function belongsTo(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addBelongsTo(
             this,
@@ -5356,7 +5356,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasMany(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasMany(
             this,
@@ -5488,7 +5488,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasOne(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOne(
             this,
@@ -5528,7 +5528,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param    array options
      */
     protected function hasOneThrough(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-        string! referenceModel, var referencedFields, options = null) -> <Relation>
+        string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
             this,
