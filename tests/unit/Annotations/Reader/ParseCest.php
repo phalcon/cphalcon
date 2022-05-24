@@ -197,7 +197,7 @@ class ParseCest
 
         // Constants
         $I->assertTrue(isset($parsing['constants']));
-        $I->assertCount(1, isset($parsing['constants']));
+        $I->assertCount(1, $parsing['constants']);
         $I->assertFalse(isset($parsing['constants']['TEST_CONST2']));
         $I->assertEquals('Simple', $parsing['properties']['TEST_CONST1'][0]['name']);
 
