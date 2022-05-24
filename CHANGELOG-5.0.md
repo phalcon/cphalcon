@@ -53,6 +53,15 @@
 - Fixed `Phalcon\Mvc\Router\Route::getName()` and `Phalcon\Mvc\Router\Route::getHostname()` to also return `null` [#15880](https://github.com/phalcon/cphalcon/issues/15880)
 - Fixed `Phalcon\Mvc\Router\RouteInterface::getName()` and `Phalcon\Mvc\Router\RouteInterface::getHostname()` to also return `null` [#15880](https://github.com/phalcon/cphalcon/issues/15880)
 - Fixed `Phalcon\Mvc\Model::findFirst()` to return `mixed` or `null` [#15883](https://github.com/phalcon/cphalcon/issues/15883)
+- Fixed `Phalcon\Mvc\Model::belongsTo()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model::hasMany()`   parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model::hasOne()`    parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model::hasOneThrough()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasMany()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasManyToMany()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasOne()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasOneThrough()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addBelongsTo()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 
 ## Added
 - Added `Phalcon\Html\Helper\Title:setSeparator` to allow setting the separator independently [#15866](https://github.com/phalcon/cphalcon/issues/15866)
