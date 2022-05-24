@@ -5217,7 +5217,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5329,7 +5329,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5395,7 +5395,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string|array intermediateReferencedFields
      * @param string referenceModel
      * @param string|array referencedFields
-     * @param array options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5429,7 +5429,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var intermediateReferencedFields,
         string! referenceModel,
         var referencedFields,
-        options = []
+        array options = []
     ) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
@@ -5461,7 +5461,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5521,11 +5521,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param    string|array fields
-     * @param    string|array intermediateFields
-     * @param    string|array intermediateReferencedFields
-     * @param    string|array referencedFields
-     * @param    array options
+     * @param    string|array $fields
+     * @param    string|array $intermediateFields
+     * @param    string|array $intermediateReferencedFields
+     * @param    string|array $referencedFields
+     * @param    array $options
      */
     protected function hasOneThrough(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, array options = []) -> <Relation>
