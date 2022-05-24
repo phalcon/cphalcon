@@ -29,6 +29,13 @@ declare(strict_types=1);
 class TestClass
 {
     /**
+     * @Simple
+     */
+    const TEST_CONST1 = 'test-const-with-annotation';
+
+    const TEST_CONST2 = 'test-const-without-annotation';
+
+    /**
      * This is a property string
      *
      * @var string
