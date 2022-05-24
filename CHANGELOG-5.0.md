@@ -57,6 +57,11 @@
 - Fixed `Phalcon\Mvc\Model::hasMany()`   parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 - Fixed `Phalcon\Mvc\Model::hasOne()`    parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 - Fixed `Phalcon\Mvc\Model::hasOneThrough()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasMany()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasManyToMany()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasOne()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addHasOneThrough()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
+- Fixed `Phalcon\Mvc\Model\Manager::addBelongsTo()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 
 ## Added
 - Added `Phalcon\Html\Helper\Title:setSeparator` to allow setting the separator independently [#15866](https://github.com/phalcon/cphalcon/issues/15866)
