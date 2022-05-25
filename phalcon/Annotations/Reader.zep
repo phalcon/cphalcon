@@ -22,10 +22,10 @@ class Reader implements ReaderInterface
      */
     public function parse(string className) -> array
     {
-        var reflection, comment, properties, methods, property, method,
-            classAnnotations, line, annotationsProperties, propertyAnnotations,
-            annotationsMethods, methodAnnotations, constants, constant,
-            constantAnnotations, anotationsConstants, constantReflection;
+        var reflection, comment, line, arrayKeys, classAnnotations,
+            properties,  property, annotationsProperties, propertyAnnotations,
+            methods, method, annotationsMethods, methodAnnotations,
+            constants, constant, anotationsConstants, constantAnnotations, constantReflection;
         array annotations;
 
         let annotations = [];
@@ -64,9 +64,10 @@ class Reader implements ReaderInterface
              * Line declaration for constants isn't available
              */
             let line = 1;
+            let arrayKeys = array_keys(constants);
             let anotationsConstants = [];
 
-            for constant in array_keys(constants) {
+            for constant in arrayKeys {
                 /**
                  * Read comment from constant docblock
                  */
