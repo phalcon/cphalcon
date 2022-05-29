@@ -23,8 +23,8 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Support\Collection;
 use stdClass;
-
 use TypeError;
+
 use function json_encode;
 use function trigger_error;
 
@@ -43,6 +43,7 @@ class ExceptionsCest
     public function storageSerializerBase64SerializeException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - serialize() - exception');
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Data for the serializer must of type string'
@@ -65,6 +66,7 @@ class ExceptionsCest
     public function storageSerializerBase64UnserializeException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - unserialize() - exception');
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Data for the unserializer must of type string'
@@ -137,6 +139,7 @@ class ExceptionsCest
      *
      * @param IntegrationTester $I
      *
+     * @throws \Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -164,8 +167,9 @@ class ExceptionsCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws \Exception
      * @since  2022-02-24
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function storageSerializerIgbinaryUnserializeFailWarning(IntegrationTester $I)
     {

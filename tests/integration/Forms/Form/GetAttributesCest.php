@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Integration\Forms\Form;
 use IntegrationTester;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Attributes\AttributesInterface;
+
 use function method_exists;
 
 class GetAttributesCest
