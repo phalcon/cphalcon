@@ -58,7 +58,6 @@ if (!function_exists('loadDefined')) {
         defineFromEnv('DATA_MYSQL_PORT');
         defineFromEnv('DATA_MYSQL_USER');
 
-//        define('PATH_CACHE');
         if (!defined('PATH_DATA')) {
             define('PATH_DATA', dataDir());
         }
@@ -66,7 +65,6 @@ if (!function_exists('loadDefined')) {
         if (!defined('PATH_OUTPUT')) {
             define('PATH_OUTPUT', outputDir());
         }
-//        define('PATH_FIXTURES');
     }
 }
 
