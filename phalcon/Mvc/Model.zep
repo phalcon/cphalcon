@@ -5817,12 +5817,101 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     public function __serialize() -> array
     {
-        // Nothing here
-        return [];
+        /**
+         * Use the standard serialize function to serialize the array data
+         */
+        var attributes, manager, dirtyState, snapshot = null;
+
+        let attributes = this->toArray(),
+            dirtyState = this->dirtyState,
+            manager = <ManagerInterface> this->getModelsManager();
+
+        if manager->isKeepingSnapshots(this) && this->snapshot !== null && attributes != this->snapshot {
+            let snapshot = this->snapshot;
+        }
+
+        return [
+           "attributes":  attributes,
+           "snapshot":    snapshot,
+           "dirtyState":  dirtyState
+        ];
     }
 
     public function __unserialize(array data) -> void
     {
-        // Nothing here
+        var container, manager, key, value, snapshot, properties, dirtyState;
+
+        if !isset data["attributes"] {
+            let data = [
+                "attributes": data
+            ];
+        }
+
+        /**
+         * Obtain the default DI
+         */
+        let container = Di::getDefault();
+        if container === null {
+            throw new Exception(
+                "A dependency injection container is required to access the services related to the ODM"
+            );
+        }
+
+        /**
+         * Update the dependency injector
+         */
+        let this->container = container;
+
+        /**
+         * Gets the default modelsManager service
+         */
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+        if manager === null {
+            throw new Exception(
+                "The injected service 'modelsManager' is not valid"
+            );
+        }
+
+        /**
+         * Update the models manager
+         */
+        let this->modelsManager = manager;
+
+        /**
+         * Try to initialize the model
+         */
+        manager->initialize(this);
+
+        /**
+         * Fetch serialized props
+         */
+        if fetch properties, data["attributes"] {
+            /**
+             * Update the objects properties
+             */
+            for key, value in properties {
+                let this->{key} = value;
+            }
+        } else {
+            let properties = [];
+        }
+
+        /**
+         * Fetch serialized dirtyState
+         */
+        if fetch dirtyState, data["dirtyState"] {
+            let this->dirtyState = dirtyState;
+        }
+
+        /**
+         * Fetch serialized snapshot when option is active
+         */
+        if manager->isKeepingSnapshots(this) {
+            if fetch snapshot, data["snapshot"] {
+                let this->snapshot = snapshot;
+            } else {
+                let this->snapshot = properties;
+            }
+        }
     }
 }
