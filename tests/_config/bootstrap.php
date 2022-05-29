@@ -1,15 +1,12 @@
 <?php
 
-use Codeception\Lib\Connector\Phalcon\MemorySession as CodeceptionMemorySession;
 use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Autoload\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\View;
-use Phalcon\Tests\Fixtures\MemorySession as PhalconMemorySession;
 use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
 
 $container = new FactoryDefault();
 
@@ -97,7 +94,6 @@ $container->setShared(
 $container->set('dispatcher', Dispatcher::class);
 
 $application = new Application();
-
 $application->setDI($container);
 
 FactoryDefault::setDefault($container);
