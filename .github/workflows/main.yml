@@ -102,7 +102,7 @@ jobs:
           - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -239,7 +239,7 @@ jobs:
       postgres:
         image: postgres:12-alpine
         ports:
-          - "5432:5432"
+          - "5435:5432"
         env:
           POSTGRES_PASSWORD: secret
           POSTGRES_DB: phalcon
@@ -258,7 +258,7 @@ jobs:
         php: [ '7.4', '8.0', '8.1' ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -348,7 +348,7 @@ jobs:
       - name: Run Database Tests (Postgres)
         env:
           DATA_POSTGRES_USER: postgres
-          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5435'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
@@ -368,7 +368,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get the release version
         id: get-version
