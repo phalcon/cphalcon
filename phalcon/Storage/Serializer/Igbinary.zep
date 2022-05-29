@@ -38,11 +38,11 @@ class Igbinary extends AbstractSerializer
     /**
      * Unserializes data
      *
-     * @param string $data
+     * @param mixed $data
      *
      * @return void
      */
-	public function unserialize(string data) -> void
+	public function unserialize(mixed data) -> void
 	{
 	    var result, version;
 

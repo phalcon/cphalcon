@@ -31,61 +31,57 @@ class Php extends AbstractSerializer
     /**
      * Unserializes data
      *
-     * @param string $data
+     * @param mixed $data
      */
-    public function unserialize(string data) -> void
+    public function unserialize(mixed data) -> void
     {
         var result, version;
 
         if (true !== this->isSerializable(data)) {
             let this->data = data;
-        } else {
-            if typeof data !== "string" {
-                throw new InvalidArgumentException(
-                    "Data for the unserializer must of type string"
-                );
-            }
 
-            let version = phpversion();
-
-            globals_set("warning.enable", false);
-
-            if version_compare(version, "8.0", ">=") {
-                set_error_handler(
-                    function (number, message, file, line) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            } else {
-                set_error_handler(
-                    function (number, message, file, line, context) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            }
-
-            let result = this->phpUnserialize(data);
-
-            restore_error_handler();
-
-            if unlikely globals_get("warning.enable")  || result === false {
-                let this->isSuccess = false,
-                    result          = "";
-            }
-
-            let this->data = result;
+            return;
         }
+
+        let version = phpversion();
+
+        globals_set("warning.enable", false);
+
+        if version_compare(version, "8.0", ">=") {
+            set_error_handler(
+                function (number, message, file, line) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        } else {
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        }
+
+        let result = this->phpUnserialize(data);
+
+        restore_error_handler();
+
+        if unlikely globals_get("warning.enable") || result === false {
+            let this->isSuccess = false,
+                result          = "";
+        }
+
+        let this->data = result;
     }
 
     /**
      * @param string $data
      * @param array  $options
      *
-     * @return mixed|false
+     * @return mixed
      */
-    private function phpUnserialize(string data, array options = [])
+    private function phpUnserialize(string data, array options = []) -> mixed
     {
         return unserialize(data, options);
     }

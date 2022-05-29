@@ -39,11 +39,11 @@ class Json extends AbstractSerializer
     /**
      * Unserializes data
      *
-     * @param string $data
+     * @param mixed $data
      *
      * @return void
      */
-    public function unserialize(string data) -> void
+    public function unserialize(mixed data) -> void
     {
         if (true !== this->isSerializable(data)) {
             let this->data = data;
