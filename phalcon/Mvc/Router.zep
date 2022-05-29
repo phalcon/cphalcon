@@ -54,24 +54,24 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     const POSITION_LAST = 1;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected action = null;
+    protected action = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected controller = null;
+    protected controller = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultAction = null;
+    protected defaultAction = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultController = null;
+    protected defaultController = "";
 
     /**
      * @var string
@@ -79,9 +79,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected defaultModule = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultNamespace = null;
+    protected defaultNamespace = "";
 
     /**
      * @var array
@@ -114,14 +114,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected matches = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected module = null;
+    protected module = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected namespaceName = null;
+    protected namespaceName = "";
 
     /**
      * @var array|string|null
@@ -1151,7 +1151,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         // Set a default namespace
         if fetch namespaceName, defaults["namespace"] {
-            let this->defaultNamespace = namespaceName;
+            let this->defaultNamespace = (string)namespaceName;
         }
 
         // Set a default module
