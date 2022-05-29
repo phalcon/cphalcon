@@ -353,7 +353,7 @@ jobs:
       - name: Run Database Tests (Postgres)
         env:
           DATA_POSTGRES_USER: postgres
-          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5435'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
