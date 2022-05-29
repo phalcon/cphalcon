@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Serializer;
 
 use Codeception\Stub;
+use Error;
 use IntegrationTester;
 use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Base64;
@@ -278,10 +279,10 @@ class ExceptionsCest
     {
         $I->wantToTest('Storage\Serializer\Php - unserialize() - error not string');
 
-        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
             $I->expectThrowable(
-                new InvalidArgumentException(
-                    'Data for the unserializer must of type string'
+                new Error(
+                    'Object of class stdClass could not be converted to string'
                 ),
                 function () {
                     $serializer = new Php();
