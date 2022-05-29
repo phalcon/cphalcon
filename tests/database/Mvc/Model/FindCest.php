@@ -227,7 +227,7 @@ class FindCest
         $I->expectThrowable(
             new Exception(
                 "Cache service must be an object implementing " .
-                "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
+                "Phalcon\Cache\CacheInterface"
             ),
             function () {
                 $options = [
@@ -320,7 +320,7 @@ class FindCest
             ]
         );
 
-        $I->assertSame(1, $cached->count());
+        $I->assertCount(1, $cached);
 
         $record = $cached[0];
         $actual = $record->getIsActive();
