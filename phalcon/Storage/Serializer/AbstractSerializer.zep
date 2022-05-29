@@ -81,7 +81,6 @@ abstract class AbstractSerializer implements SerializerInterface
 
     public function __serialize() -> array
     {
-        var_dump(this->data);
         if typeof this->data === "array" {
             return this->data;
         }
