@@ -290,9 +290,9 @@ class Collection implements CollectionInterface
      * @param string|array method
      * @param string routePattern
      * @param callable handler
-     * @param string name
+     * @param string|null name
      */
-    protected function addMap(var method, string! routePattern, callable handler, string name) -> void
+    protected function addMap(var method, string! routePattern, callable handler, string name = null) -> void
     {
         let this->handlers[] = [method, routePattern, handler, name];
     }
