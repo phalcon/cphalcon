@@ -288,21 +288,21 @@ class ValidateCest
             $messages->count()
         );
 
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            $messages = $validation->validate(
+                [
+                    'password'  => null,
+                    'password2' => 'test123',
+                ]
+            );
 
-        $messages = $validation->validate(
-            [
-                'password'  => null,
-                'password2' => 'test123',
-            ]
-        );
+            $I->assertEquals(
+                1,
+                $messages->count()
+            );
 
-        $I->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $I->assertEquals($expected, $messages);
-
+            $I->assertEquals($expected, $messages);
+        }
 
         $validation = new Validation();
 
@@ -328,19 +328,20 @@ class ValidateCest
             $messages->count()
         );
 
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            $messages = $validation->validate(
+                [
+                    'password'  => null,
+                    'password2' => 'test123',
+                ]
+            );
 
-        $messages = $validation->validate(
-            [
-                'password'  => null,
-                'password2' => 'test123',
-            ]
-        );
+            $I->assertEquals(
+                1,
+                $messages->count()
+            );
 
-        $I->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $I->assertEquals($expected, $messages);
+            $I->assertEquals($expected, $messages);
+        }
     }
 }

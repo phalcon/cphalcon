@@ -18,8 +18,6 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tag;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use stdClass;
 
 class RenderCest

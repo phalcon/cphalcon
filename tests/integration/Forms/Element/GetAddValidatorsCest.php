@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Forms\Element;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Filter\Validation\Validator\Alnum;
-use Phalcon\Filter\Validation\Validator\Date as ValidatorDate;
 use Phalcon\Filter\Validation\Validator\Digit;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Forms\Element\Check;
@@ -31,9 +30,6 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Messages;
-
 use function uniqid;
 
 class GetAddValidatorsCest

@@ -136,11 +136,13 @@ class HandleCest
             '/admin/2020/october/21/456'
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getNamespaceName()
         );
 
@@ -183,11 +185,13 @@ class HandleCest
             '/admin/2020/10/21/456'
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getNamespaceName()
         );
 
@@ -227,11 +231,13 @@ class HandleCest
 
         $router->handle('/about');
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getNamespaceName()
         );
 
@@ -269,11 +275,13 @@ class HandleCest
             $router->getMatchedRoute()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getControllerName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getActionName()
         );
 
@@ -290,11 +298,13 @@ class HandleCest
 
         $router->handle('/about');
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getNamespaceName()
         );
 
@@ -331,11 +341,13 @@ class HandleCest
         $router->setDI($di);
         $router->handle('/12/34/56');
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getNamespaceName()
         );
 

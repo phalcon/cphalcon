@@ -24,6 +24,7 @@ use Phalcon\Storage\Serializer\Php;
 use Phalcon\Support\Collection;
 use stdClass;
 
+use TypeError;
 use function json_encode;
 use function trigger_error;
 
@@ -272,17 +273,33 @@ class ExceptionsCest
     public function storageSerializerPhpUnserializeErrorNotString(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Php - unserialize() - error not string');
-        $I->expectThrowable(
-            new InvalidArgumentException(
-                'Data for the unserializer must of type string'
-            ),
-            function () {
-                $serializer = new Php();
 
-                $serialized = new stdClass();
-                $serializer->unserialize($serialized);
-            }
-        );
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            $I->expectThrowable(
+                new InvalidArgumentException(
+                    'Data for the unserializer must of type string'
+                ),
+                function () {
+                    $serializer = new Php();
+
+                    $serialized = new stdClass();
+                    $serializer->unserialize($serialized);
+                }
+            );
+        } else {
+            $I->expectThrowable(
+                new TypeError(
+                    'Phalcon\Storage\Serializer\Php::phpUnserialize(): ' .
+                    'Argument #1 ($data) must be of type string, stdClass given'
+                ),
+                function () {
+                    $serializer = new Php();
+
+                    $serialized = new stdClass();
+                    $serializer->unserialize($serialized);
+                }
+            );
+        }
     }
 
     /**
