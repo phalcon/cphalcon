@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -35,7 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_None)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 {
@@ -49,32 +48,28 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @retrun void
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *data_param = NULL;
-	zval data;
+	zval data_sub;
+	zval *data;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&data_sub);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(data)
+		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data_param);
-	zephir_get_strval(&data, data_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 }
 

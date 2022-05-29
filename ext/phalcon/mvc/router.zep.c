@@ -64,29 +64,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Router, phalcon, mvc_router, phalcon_di_abstractinjectionaware_ce, phalcon_mvc_router_method_entry, 0);
 
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("action"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("action"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("controller"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("controller"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("defaultAction"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("defaultAction"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("defaultController"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("defaultController"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_mvc_router_ce, SL("defaultModule"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("defaultNamespace"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("defaultNamespace"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
@@ -112,13 +112,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router)
 	 */
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("matches"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("module"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("module"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_ce, SL("namespaceName"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_ce, SL("namespaceName"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array|string|null
 	 */
@@ -2704,6 +2704,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace)
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults)
 {
+	zval _0$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *defaults_param = NULL, namespaceName, module, controller, action, params;
 	zval defaults;
@@ -2715,6 +2716,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults)
 	ZVAL_UNDEF(&controller);
 	ZVAL_UNDEF(&action);
 	ZVAL_UNDEF(&params);
+	ZVAL_UNDEF(&_0$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -2729,7 +2731,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults)
 
 
 	if (zephir_array_isset_string_fetch(&namespaceName, &defaults, SL("namespace"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("defaultNamespace"), &namespaceName);
+		zephir_cast_to_string(&_0$$3, &namespaceName);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("defaultNamespace"), &_0$$3);
 	}
 	if (zephir_array_isset_string_fetch(&module, &defaults, SL("module"), 1)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("defaultModule"), &module);

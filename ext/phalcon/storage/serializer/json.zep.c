@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @return void
  */
@@ -104,32 +104,31 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, _0, _1$$4;
-	zval data;
+	zval data_sub, _0, _1$$4;
+	zval *data;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(data)
+		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data_param);
-	zephir_get_strval(&data, data_param);
+	zephir_fetch_params(1, 1, 0, &data);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &data);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	} else {
-		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "getdecode", NULL, 0, &data);
+		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "getdecode", NULL, 0, data);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_1$$4);
 	}
