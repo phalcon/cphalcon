@@ -254,8 +254,7 @@ class Simple extends Resultset
         array data;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -292,8 +291,7 @@ class Simple extends Resultset
         var resultset, keepSnapshots, container, serializer;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -308,7 +306,7 @@ class Simple extends Resultset
             let resultset = unserialize(data);
         }
 
-        if unlikely typeof resultset != "array" {
+        if unlikely typeof resultset !== "array" {
             throw new Exception("Invalid serialization data");
         }
 
@@ -326,11 +324,29 @@ class Simple extends Resultset
 
     public function __serialize() -> array
     {
-        return [];
+        return [
+            "model"         : this->model,
+            "cache"         : this->cache,
+            "rows"          : this->toArray(false),
+            "columnMap"     : this->columnMap,
+            "hydrateMode"   : this->hydrateMode,
+            "keepSnapshots" : this->keepSnapshots
+        ];
     }
 
     public function __unserialize(array data) -> void
     {
-        // Nothing here
+        var keepSnapshots;
+
+        let this->model       = data["model"],
+            this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnMap   = data["columnMap"],
+            this->hydrateMode = data["hydrateMode"];
+
+        if fetch keepSnapshots, data["keepSnapshots"] {
+            let this->keepSnapshots = keepSnapshots;
+        }
     }
 }
