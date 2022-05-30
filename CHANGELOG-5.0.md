@@ -445,3 +445,8 @@
 - Fixed signature of `Phalcon\Assets\Manager::addCss()`
 - Fixed signature of `Phalcon\Assets\Manager::addJs()`
 - Fixed signature of `Phalcon\Db\Adapter\AdapterInterface::execute()`, `Phalcon\Db\Adapter\AdapterInterface::fetchOne()` and `Phalcon\Db\Adapter\AdapterInterface::query()`
+- Fixed `Phalcon\Annotations\Reader::parse()` to return constants annotations [#15919](https://github.com/phalcon/cphalcon/issues/15919)
+- Added `Phalcon\Annotations\Reflection::getConstantsAnnotations()` method that returns constants annotations [#15919](https://github.com/phalcon/cphalcon/issues/15919)
+- Changes to the `Phalcon\Annotations\Adapter\AdapterInterface`:
+    - Added `getConstant()` method that returns class constant annotations collection
+    - Added `getConstants()` method that returns class constants annotations array list
