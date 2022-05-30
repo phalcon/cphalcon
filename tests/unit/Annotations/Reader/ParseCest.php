@@ -195,6 +195,12 @@ class ParseCest
         $I->assertEquals('key3', $parsing['class'][8]['arguments'][0]['expr']['items'][2]['name']);
         $I->assertEquals(308, $parsing['class'][8]['arguments'][0]['expr']['items'][2]['expr']['type']);
 
+        // Constants
+        $I->assertTrue(isset($parsing['constants']));
+        $I->assertCount(1, $parsing['constants']);
+        $I->assertFalse(isset($parsing['constants']['TEST_CONST2']));
+        $I->assertEquals('Simple', $parsing['constants']['TEST_CONST1'][0]['name']);
+
         // Properties
         $I->assertTrue(isset($parsing['properties']));
         $I->assertCount(3, $parsing['properties']);

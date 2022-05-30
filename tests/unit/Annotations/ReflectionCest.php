@@ -45,6 +45,16 @@ class ReflectionCest
             $reader->parse('TestClass')
         );
 
+        $constantsAnnotations = $reflection->getConstantsAnnotations();
+        $I->assertIsArray($constantsAnnotations);
+
+        $annotations = $constantsAnnotations['TEST_CONST1'];
+        $I->assertInstanceOf(
+            Collection::class,
+            $annotations
+        );
+        $I->assertTrue($annotations->has('Simple'));
+
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
         $I->assertIsArray($methodsAnnotations);

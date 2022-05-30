@@ -40,13 +40,19 @@ class Reflection
      * @var array
      * TODO: Make always array
      */
-    protected methodAnnotations;
+    protected constantAnnotations;
 
     /**
      * @var array
      * TODO: Make always array
      */
     protected propertyAnnotations;
+
+    /**
+     * @var array
+     * TODO: Make always array
+     */
+    protected methodAnnotations;
 
     /**
      * @var array
@@ -80,31 +86,31 @@ class Reflection
     }
 
     /**
-     * Returns the annotations found in the methods' docblocks
+     * Returns the annotations found in the constants' docblocks
      */
-    public function getMethodsAnnotations() -> <Collection[]> | bool
+    public function getConstantsAnnotations() -> <Collection[]> | bool
     {
-        var reflectionMethods, methodName, reflectionMethod;
+        var reflectionConstants, constant, reflectionConstant;
 
-        if this->methodAnnotations === null {
-            if fetch reflectionMethods, this->reflectionData["methods"] {
-                if count(reflectionMethods) {
-                    let this->methodAnnotations = [];
+        if this->constantAnnotations === null {
+            if fetch reflectionConstants, this->reflectionData["constants"] {
+                if count(reflectionConstants) {
+                    let this->constantAnnotations = [];
 
-                    for methodName, reflectionMethod in reflectionMethods {
-                        let this->methodAnnotations[methodName] = new Collection(
-                            reflectionMethod
+                    for constant, reflectionConstant in reflectionConstants {
+                        let this->constantAnnotations[constant] = new Collection(
+                            reflectionConstant
                         );
                     }
 
-                    return this->methodAnnotations;
+                    return this->constantAnnotations;
                 }
             }
 
-            let this->methodAnnotations = false;
+            let this->constantAnnotations = false;
         }
 
-        return this->methodAnnotations;
+        return this->constantAnnotations;
     }
 
     /**
@@ -133,6 +139,34 @@ class Reflection
         }
 
         return this->propertyAnnotations;
+    }
+
+    /**
+     * Returns the annotations found in the methods' docblocks
+     */
+    public function getMethodsAnnotations() -> <Collection[]> | bool
+    {
+        var reflectionMethods, methodName, reflectionMethod;
+
+        if this->methodAnnotations === null {
+            if fetch reflectionMethods, this->reflectionData["methods"] {
+                if count(reflectionMethods) {
+                    let this->methodAnnotations = [];
+
+                    for methodName, reflectionMethod in reflectionMethods {
+                        let this->methodAnnotations[methodName] = new Collection(
+                            reflectionMethod
+                        );
+                    }
+
+                    return this->methodAnnotations;
+                }
+            }
+
+            let this->methodAnnotations = false;
+        }
+
+        return this->methodAnnotations;
     }
 
     /**
