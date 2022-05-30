@@ -78,4 +78,18 @@ abstract class AbstractSerializer implements SerializerInterface
             true === is_numeric(data)
         );
     }
+
+    public function __serialize() -> array
+    {
+        if typeof this->data === "array" {
+            return this->data;
+        }
+
+        return [];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        let this->data = data;
+    }
 }

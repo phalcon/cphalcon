@@ -539,7 +539,8 @@ PHP_METHOD(Phalcon_Support_Registry, offsetGet)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element, element_sub;
+	zval element_sub;
+	zval *element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);

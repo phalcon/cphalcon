@@ -6,13 +6,13 @@ namespace Helper;
 // all public methods declared in helper class will be available in $I
 
 use Codeception\Exception\ModuleException;
+use Codeception\Module;
 use Codeception\TestInterface;
 use PDO;
 use Phalcon\DataMapper\Pdo\Connection;
 
 use function date;
 use function env;
-use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsSqlite;
@@ -25,7 +25,7 @@ use function sprintf;
  * @property string $password
  * @property string $username
  */
-class Database extends \Codeception\Module
+class Database extends Module
 {
     /**
      * @var string

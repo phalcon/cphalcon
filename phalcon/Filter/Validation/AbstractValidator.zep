@@ -178,13 +178,13 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * Prepares a validation code.
      */
-    protected function prepareCode(string! field) -> int | null
+    protected function prepareCode(string! field) -> int
     {
         var code;
 
-        let code = this->getOption("code");
+        let code = this->getOption("code", 0);
 
-        if typeof code == "array" {
+        if typeof code === "array" {
             let code = code[field];
         }
 

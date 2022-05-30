@@ -35,7 +35,8 @@ class HandleCest
         $router->handle(
             []
         );
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertNull(
@@ -54,7 +55,8 @@ class HandleCest
                 'task' => 'main',
             ]
         );
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertEquals(
@@ -75,7 +77,8 @@ class HandleCest
                 'task' => 'echo',
             ]
         );
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertEquals(
@@ -96,7 +99,8 @@ class HandleCest
             ]
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertEquals(
@@ -120,7 +124,8 @@ class HandleCest
             ]
         );
 
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertEquals(

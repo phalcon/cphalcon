@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @retrun void
  */
@@ -76,7 +76,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, __$true, __$false, result, _0;
+	zval data_sub, __$true, __$false, result, _0, _1;
+	zval *data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
@@ -84,6 +85,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -96,12 +98,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 	zephir_fetch_params(1, 1, 0, &data);
 
 
-	if (Z_TYPE_P(data) != IS_STRING) {
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_gettype(&_0, data);
+	if (!ZEPHIR_IS_STRING_IDENTICAL(&_0, "string")) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Base64.zep", 47);
 		return;
 	}
-	ZVAL_BOOL(&_0, 1);
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpbase64decode", NULL, 0, data, &_0);
+	ZVAL_BOOL(&_1, 1);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpbase64decode", NULL, 0, data, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&result))) {
 		if (0) {

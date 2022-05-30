@@ -151,7 +151,7 @@ void zephir_fast_count(zval *result, zval *value)
 			}
 		}
 
-		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
 #if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
 #else
@@ -201,7 +201,7 @@ int zephir_fast_count_ev(zval *value)
 			return (int) count > 0;
 		}
 
-		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
 #if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
 #else
@@ -249,7 +249,7 @@ int zephir_fast_count_int(zval *value)
 			return (int) count;
 		}
 
-		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
 #if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
 #else

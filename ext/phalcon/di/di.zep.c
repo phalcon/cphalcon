@@ -950,7 +950,8 @@ PHP_METHOD(Phalcon_Di_Di, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub;
+	zval name_sub;
+	zval *name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
@@ -978,7 +979,8 @@ PHP_METHOD(Phalcon_Di_Di, offsetExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub;
+	zval name_sub;
+	zval *name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
@@ -1010,7 +1012,8 @@ PHP_METHOD(Phalcon_Di_Di, offsetSet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub, *definition, definition_sub;
+	zval name_sub, definition_sub;
+	zval *name, *definition;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
@@ -1040,7 +1043,8 @@ PHP_METHOD(Phalcon_Di_Di, offsetUnset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub;
+	zval name_sub;
+	zval *name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);

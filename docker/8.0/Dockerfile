@@ -13,7 +13,6 @@ ENV MY_USER="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
 	PHP_VERSION="8.0" \
-	PSR_VERSION="1.1.0" \
 	LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
@@ -53,13 +52,6 @@ RUN pecl install -o -f redis && \
       memcached \
       xdebug \
       zephir_parser
-
-# Remove this RUN when imagick will be available via pecl
-RUN cd /opt && \
-    git clone https://github.com/Jeckerson/imagick.git && \
-    cd imagick && \
-    phpize && ./configure && \
-    make && make install
 
 # Locale
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \

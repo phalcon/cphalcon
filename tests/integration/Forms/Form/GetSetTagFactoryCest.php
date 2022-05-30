@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 class GetSetTagFactoryCest
 {

@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Cache\Exception as CacheException;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\Fixtures\Traits\LibmemcachedTrait;
@@ -36,9 +36,8 @@ class GetSetCest
      * @param IntegrationTester $I
      * @param Example           $example
      *
-     * @throws CacheException
      * @throws HelperException
-     *
+     * @throws Exception
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
@@ -67,7 +66,7 @@ class GetSetCest
      *
      * @param IntegrationTester $I
      *
-     * @throws CacheException
+     * @throws Exception
      * @throws HelperException
      *
      * @author Phalcon Team <team@phalcon.io>

@@ -22,11 +22,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2021-11-16</date>
+  <date>2022-05-29</date>
   <time>17:00:00</time>
   <version>
-    <release>5.0.0beta3</release>
-    <api>5.0.0beta3</api>
+    <release>5.0.0RC1</release>
+    <api>5.0.0RC1</api>
   </version>
   <stability>
     <release>beta</release>
@@ -68,7 +68,7 @@
     <required>
       <php>
         <min>7.4.1</min>
-        <max>8.0.99</max>
+        <max>8.1.99</max>
       </php>
       <pearinstaller>
         <min>1.10</min>

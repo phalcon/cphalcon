@@ -67,7 +67,7 @@ class Complex extends Resultset implements ResultsetInterface
     /**
      * Returns current row in the resultset
      */
-    final public function current() -> <ModelInterface> | bool
+    final public function current() -> mixed
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
@@ -165,7 +165,6 @@ class Complex extends Resultset implements ResultsetInterface
                  * Generate the column value according to the hydration type
                  */
                 switch hydrateMode {
-
                     case Resultset::HYDRATE_RECORDS:
                         // Check if the resultset must keep snapshots
                         if !fetch keepSnapshots, column["keepSnapshots"] {
@@ -173,7 +172,6 @@ class Complex extends Resultset implements ResultsetInterface
                         }
 
                         if globals_get("orm.late_state_binding") {
-
                             if column["instance"] instanceof Model {
                                 let modelName = get_class(column["instance"]);
                             } else {
@@ -187,9 +185,7 @@ class Complex extends Resultset implements ResultsetInterface
                                 dirtyState,
                                 keepSnapshots
                             );
-
                         } else {
-
                             /**
                              * Get the base instance. Assign the values to the
                              * attributes using a column map
@@ -220,9 +216,7 @@ class Complex extends Resultset implements ResultsetInterface
                  * The complete object is assigned to an attribute with the name of the alias or the model name
                  */
                 let attribute = column["balias"];
-
             } else {
-
                 /**
                  * Scalar columns are simply assigned to the result object
                  */
@@ -243,7 +237,6 @@ class Complex extends Resultset implements ResultsetInterface
             }
 
             if !fetch eager, column["eager"] {
-
                 /**
                  * Assign the instance according to the hydration type
                  */
@@ -308,8 +301,7 @@ class Complex extends Resultset implements ResultsetInterface
             hydrateMode = this->hydrateMode;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -353,8 +345,64 @@ class Complex extends Resultset implements ResultsetInterface
         let this->disableHydration = true;
 
         let container = Di::getDefault();
+        if container === null {
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
+        }
 
-        if unlikely typeof container != "object" {
+        if container->has("serializer") {
+            let serializer = <SerializerInterface> container->getShared("serializer");
+
+            serializer->unserialize(data);
+            let resultset = serializer->getData();
+        } else {
+            let resultset = unserialize(data);
+        }
+
+        if unlikely typeof resultset != "array" {
+            throw new Exception("Invalid serialization data");
+        }
+
+        let this->rows        = resultset["rows"],
+            this->count       = count(resultset["rows"]),
+            this->cache       = resultset["cache"],
+            this->columnTypes = resultset["columnTypes"],
+            this->hydrateMode = resultset["hydrateMode"];
+    }
+
+    public function __serialize() -> array
+    {
+        var records, cache, columnTypes, hydrateMode;
+
+        /**
+         * Obtain the records as an array
+         */
+        let records = this->toArray();
+
+        let cache       = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
+
+        return [
+           "cache"       : cache,
+           "rows"        : records,
+           "columnTypes" : columnTypes,
+           "hydrateMode" : hydrateMode
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        var resultset, container, serializer;
+
+        /**
+         * Rows are already hydrated
+         */
+        let this->disableHydration = true;
+
+        let container = Di::getDefault();
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );

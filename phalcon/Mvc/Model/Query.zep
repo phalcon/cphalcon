@@ -296,13 +296,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let cache = this->container->getShared(cacheService);
 
-            if unlikely (
-                true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
-                true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
-            ) {
+            if unlikely (true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface")) {
                 throw new Exception(
                     "Cache service must be an object implementing " .
-                    "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
+                    "Phalcon\Cache\CacheInterface"
                 );
             }
 

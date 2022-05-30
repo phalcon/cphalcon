@@ -29,9 +29,9 @@ class SetDefaultModuleCest
         $I->wantToTest('Cli\Router - setDefaultModule()');
 
         $router = new Router(false);
-        $I->assertNull($router->getModuleName());
+        $I->assertSame('', $router->getModuleName());
         $router->handle("");
-        $I->assertNull($router->getModuleName());
+        $I->assertSame('', $router->getModuleName());
         $router->setDefaultModule("test");
         $router->handle("");
         $I->assertEquals("test", $router->getModuleName());

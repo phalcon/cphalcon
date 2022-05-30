@@ -34,7 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_None)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 {
@@ -48,13 +48,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @retrun void
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 {
-	zval *data, data_sub;
+	zval data_sub;
+	zval *data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);

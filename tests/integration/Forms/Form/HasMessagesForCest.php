@@ -14,13 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Filter\Validation\Validator\Regex;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tag;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Filter\Validation\Validator\Regex;
 
 class HasMessagesForCest
 {
@@ -32,9 +30,7 @@ class HasMessagesForCest
      */
     public function testFormHasMessagesFor(IntegrationTester $I)
     {
-        // First element
         $telephone = new Text('telephone');
-
         $telephone->addValidators(
             [
                 new Regex(
@@ -46,7 +42,6 @@ class HasMessagesForCest
             ]
         );
 
-        // Second element
         $address = new Text('address');
         $form    = new Form();
 

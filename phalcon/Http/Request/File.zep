@@ -117,7 +117,7 @@ class File implements FileInterface
 
         let finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        if typeof finfo != "resource" {
+        if finfo === false {
             return "";
         }
 

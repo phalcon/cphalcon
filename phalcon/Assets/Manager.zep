@@ -654,8 +654,7 @@ class Manager extends AbstractInjectionAware
             }
         }
 
-        if (true !== empty(filters) && join)
-        {
+        if (true !== empty(filters) && join) {
             /**
              * Write the file using file_put_contents. This respects the
              * openbase-dir also writes to streams

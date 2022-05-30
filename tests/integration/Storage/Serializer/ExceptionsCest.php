@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Storage\Serializer;
 
 use Codeception\Stub;
+use Error;
 use IntegrationTester;
 use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Base64;
@@ -23,6 +24,7 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Support\Collection;
 use stdClass;
+use TypeError;
 
 use function json_encode;
 use function trigger_error;
@@ -42,6 +44,7 @@ class ExceptionsCest
     public function storageSerializerBase64SerializeException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - serialize() - exception');
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Data for the serializer must of type string'
@@ -64,6 +67,7 @@ class ExceptionsCest
     public function storageSerializerBase64UnserializeException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - unserialize() - exception');
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Data for the unserializer must of type string'
@@ -136,6 +140,7 @@ class ExceptionsCest
      *
      * @param IntegrationTester $I
      *
+     * @throws \Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -163,8 +168,9 @@ class ExceptionsCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws \Exception
      * @since  2022-02-24
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function storageSerializerIgbinaryUnserializeFailWarning(IntegrationTester $I)
     {
@@ -272,17 +278,33 @@ class ExceptionsCest
     public function storageSerializerPhpUnserializeErrorNotString(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Php - unserialize() - error not string');
-        $I->expectThrowable(
-            new InvalidArgumentException(
-                'Data for the unserializer must of type string'
-            ),
-            function () {
-                $serializer = new Php();
 
-                $serialized = new stdClass();
-                $serializer->unserialize($serialized);
-            }
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+            $I->expectThrowable(
+                new Error(
+                    'Object of class stdClass could not be converted to string'
+                ),
+                function () {
+                    $serializer = new Php();
+
+                    $serialized = new stdClass();
+                    $serializer->unserialize($serialized);
+                }
+            );
+        } else {
+            $I->expectThrowable(
+                new TypeError(
+                    'Phalcon\Storage\Serializer\Php::phpUnserialize(): ' .
+                    'Argument #1 ($data) must be of type string, stdClass given'
+                ),
+                function () {
+                    $serializer = new Php();
+
+                    $serialized = new stdClass();
+                    $serializer->unserialize($serialized);
+                }
+            );
+        }
     }
 
     /**

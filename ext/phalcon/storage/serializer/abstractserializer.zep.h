@@ -8,6 +8,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData);
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSuccess);
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData);
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable);
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize);
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
@@ -28,6 +30,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstr
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer___serialize, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer___unserialize, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_storage_serializer_abstractserializer_method_entry) {
 	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, __construct, arginfo_phalcon_storage_serializer_abstractserializer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 #if PHP_VERSION_ID >= 80000
@@ -38,5 +48,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_serializer_abstractserializer_method_entry) {
 	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, isSuccess, arginfo_phalcon_storage_serializer_abstractserializer_issuccess, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, setData, arginfo_phalcon_storage_serializer_abstractserializer_setdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable, arginfo_phalcon_storage_serializer_abstractserializer_isserializable, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, __serialize, arginfo_phalcon_storage_serializer_abstractserializer___serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize, arginfo_phalcon_storage_serializer_abstractserializer___unserialize, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

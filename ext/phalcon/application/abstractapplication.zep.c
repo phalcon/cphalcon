@@ -42,9 +42,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication)
 	 */
 	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("container"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("defaultModule"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_application_abstractapplication_ce, SL("defaultModule"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var ManagerInterface|null
 	 */

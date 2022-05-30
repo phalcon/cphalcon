@@ -183,7 +183,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetget.php
      */
-    final public function offsetGet(var element) -> var
+    final public function offsetGet(mixed element) -> mixed
     {
         return parent::get(element);
     }

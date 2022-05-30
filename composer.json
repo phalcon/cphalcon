@@ -57,7 +57,7 @@
     "squizlabs/php_codesniffer": "^3.4",
     "twig/twig": "~1.36",
     "vimeo/psalm": "^4.7",
-    "vlucas/phpdotenv": "^2.5"
+    "vlucas/phpdotenv": "^v5.4"
   },
   "config": {
     "optimize-autoloader": true,
@@ -70,6 +70,7 @@
   "autoload-dev": {
     "psr-4": {
       "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
+      "Phalcon\\Tests\\Cli\\": "tests/cli/",
       "Phalcon\\Tests\\Unit\\": "tests/unit/",
       "Phalcon\\Tests\\Integration\\": "tests/integration/",
       "Phalcon\\Tests\\Database\\": "tests/database/",

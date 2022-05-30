@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @return void
  */
@@ -104,7 +104,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, _0, _1$$4;
+	zval data_sub, _0, _1$$4;
+	zval *data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);

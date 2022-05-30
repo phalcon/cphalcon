@@ -231,7 +231,7 @@ class Collection implements
      * Whether a offset exists
      * See [offsetExists](https://php.net/manual/en/arrayaccess.offsetexists.php)
      */
-    public function offsetExists(var element) -> bool
+    public function offsetExists(mixed element) -> bool
     {
         let element = (string) element;
 
@@ -242,7 +242,7 @@ class Collection implements
      * Offset to retrieve
      * See [offsetGet](https://php.net/manual/en/arrayaccess.offsetget.php)
      */
-    public function offsetGet(var element)
+    public function offsetGet(mixed element) -> mixed
     {
         let element = (string) element;
 
@@ -253,7 +253,7 @@ class Collection implements
      * Offset to set
      * See [offsetSet](https://php.net/manual/en/arrayaccess.offsetset.php)
      */
-    public function offsetSet(var element, var value) -> void
+    public function offsetSet(mixed element, mixed value) -> void
     {
         let element = (string) element;
 
@@ -264,7 +264,7 @@ class Collection implements
      * Offset to unset
      * See [offsetUnset](https://php.net/manual/en/arrayaccess.offsetunset.php)
      */
-    public function offsetUnset(var element) -> void
+    public function offsetUnset(mixed element) -> void
     {
         let element = (string) element;
 
@@ -345,13 +345,22 @@ class Collection implements
      * Constructs the object
      * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
      */
-    public function unserialize(var serialized) -> void
+    public function unserialize(string serialized) -> void
     {
         var data;
 
-        let serialized = (string) serialized,
-            data       = unserialize(serialized);
+        let data = unserialize(serialized);
 
+        this->init(data);
+    }
+
+    public function __serialize() -> array
+    {
+        return this->toArray();
+    }
+
+    public function __unserialize(array data) -> void
+    {
         this->init(data);
     }
 

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 /**
  * Unserializes data
  *
- * @param string $data
+ * @param mixed $data
  *
  * @return void
  */
@@ -88,7 +88,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	zend_bool _8$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, __$false, __$true, result, version, _0, _1$$4, _2$$4, _3$$4, _4$$5, _5$$5, _6$$6, _7$$6;
+	zval data_sub, __$false, __$true, result, version, _0, _1$$4, _2$$4, _3$$4, _4$$5, _5$$5, _6$$6, _7$$6;
+	zval *data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);

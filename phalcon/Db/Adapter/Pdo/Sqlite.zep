@@ -113,7 +113,6 @@ class Sqlite extends PdoAdapter
         );
 
         for field in fields {
-
             /**
              * By default the bind types is two
              */
@@ -293,7 +292,7 @@ class Sqlite extends PdoAdapter
              * Check if the column is default values
              * When field is empty default value is null
              */
-            if strcasecmp(field[4], "null") != 0 && field[4] != "" {
+            if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
                 let definition["default"] = preg_replace(
                     "/^'|'$/",
                     "",
