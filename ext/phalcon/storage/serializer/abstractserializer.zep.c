@@ -170,12 +170,22 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 {
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_0);
 
 
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) == IS_ARRAY) {
+		RETURN_MM_MEMBER(getThis(), "data");
+	}
 	array_init(return_value);
-	return;
+	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
@@ -199,5 +209,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zephir_get_arrval(&data, data_param);
 
 
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+	ZEPHIR_MM_RESTORE();
 }
 

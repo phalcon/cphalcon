@@ -10981,22 +10981,79 @@ PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap)
 
 PHP_METHOD(Phalcon_Mvc_Model, __serialize)
 {
+	zend_bool _2, _3;
+	zval attributes, manager, dirtyState, snapshot, _0, _1, _4, _5$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&manager);
+	ZVAL_UNDEF(&dirtyState);
+	ZVAL_UNDEF(&snapshot);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5$$3);
 
 
-	array_init(return_value);
-	return;
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(&snapshot);
+	ZVAL_NULL(&snapshot);
+	ZEPHIR_CALL_METHOD(&attributes, this_ptr, "toarray", NULL, 0);
+	zephir_check_call_status();
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("dirtyState"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&dirtyState, &_0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getmodelsmanager", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&manager, &_1);
+	ZEPHIR_CALL_METHOD(&_1, &manager, "iskeepingsnapshots", NULL, 0, this_ptr);
+	zephir_check_call_status();
+	_2 = zephir_is_true(&_1);
+	if (_2) {
+		zephir_read_property(&_0, this_ptr, ZEND_STRL("snapshot"), PH_NOISY_CC | PH_READONLY);
+		_2 = Z_TYPE_P(&_0) != IS_NULL;
+	}
+	_3 = _2;
+	if (_3) {
+		zephir_read_property(&_4, this_ptr, ZEND_STRL("snapshot"), PH_NOISY_CC | PH_READONLY);
+		_3 = !ZEPHIR_IS_EQUAL(&attributes, &_4);
+	}
+	if (_3) {
+		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("snapshot"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CPY_WRT(&snapshot, &_5$$3);
+	}
+	zephir_create_array(return_value, 3, 0);
+	zephir_array_update_string(return_value, SL("attributes"), &attributes, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("snapshot"), &snapshot, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("dirtyState"), &dirtyState, PH_COPY | PH_SEPARATE);
+	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Mvc_Model, __unserialize)
 {
+	zend_string *_7$$6;
+	zend_ulong _6$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *data_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
+	zval *data_param = NULL, container, manager, key, value, snapshot, properties, dirtyState, _2, _3, _0$$3, *_4$$6, _5$$6;
 	zval data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&container);
+	ZVAL_UNDEF(&manager);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&snapshot);
+	ZVAL_UNDEF(&properties);
+	ZVAL_UNDEF(&dirtyState);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_5$$6);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -11010,6 +11067,85 @@ PHP_METHOD(Phalcon_Mvc_Model, __unserialize)
 	zephir_get_arrval(&data, data_param);
 
 
+	if (!(zephir_array_isset_string(&data, SL("attributes")))) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		zephir_create_array(&_0$$3, 1, 0);
+		zephir_array_update_string(&_0$$3, SL("attributes"), &data, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CPY_WRT(&data, &_0$$3);
+	}
+	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", &_1, 0);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&container) == IS_NULL) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection container is required to access the services related to the ODM", "phalcon/Mvc/Model.zep", 5857);
+		return;
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &container);
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "modelsManager");
+	ZEPHIR_CALL_METHOD(&_2, &container, "getshared", NULL, 0, &_3);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&manager, &_2);
+	if (Z_TYPE_P(&manager) == IS_NULL) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid", "phalcon/Mvc/Model.zep", 5872);
+		return;
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("modelsManager"), &manager);
+	ZEPHIR_CALL_METHOD(NULL, &manager, "initialize", NULL, 0, this_ptr);
+	zephir_check_call_status();
+	ZEPHIR_OBS_VAR(&properties);
+	if (zephir_array_isset_string_fetch(&properties, &data, SL("attributes"), 0)) {
+		zephir_is_iterable(&properties, 0, "phalcon/Mvc/Model.zep", 5895);
+		if (Z_TYPE_P(&properties) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&properties), _6$$6, _7$$6, _4$$6)
+			{
+				ZEPHIR_INIT_NVAR(&key);
+				if (_7$$6 != NULL) { 
+					ZVAL_STR_COPY(&key, _7$$6);
+				} else {
+					ZVAL_LONG(&key, _6$$6);
+				}
+				ZEPHIR_INIT_NVAR(&value);
+				ZVAL_COPY(&value, _4$$6);
+				zephir_update_property_zval_zval(this_ptr, &key, &value);
+			} ZEND_HASH_FOREACH_END();
+		} else {
+			ZEPHIR_CALL_METHOD(NULL, &properties, "rewind", NULL, 0);
+			zephir_check_call_status();
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_5$$6, &properties, "valid", NULL, 0);
+				zephir_check_call_status();
+				if (!zend_is_true(&_5$$6)) {
+					break;
+				}
+				ZEPHIR_CALL_METHOD(&key, &properties, "key", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&value, &properties, "current", NULL, 0);
+				zephir_check_call_status();
+					zephir_update_property_zval_zval(this_ptr, &key, &value);
+				ZEPHIR_CALL_METHOD(NULL, &properties, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+		}
+		ZEPHIR_INIT_NVAR(&value);
+		ZEPHIR_INIT_NVAR(&key);
+	} else {
+		ZEPHIR_INIT_NVAR(&properties);
+		array_init(&properties);
+	}
+	ZEPHIR_OBS_VAR(&dirtyState);
+	if (zephir_array_isset_string_fetch(&dirtyState, &data, SL("dirtyState"), 0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("dirtyState"), &dirtyState);
+	}
+	ZEPHIR_CALL_METHOD(&_2, &manager, "iskeepingsnapshots", NULL, 0, this_ptr);
+	zephir_check_call_status();
+	if (zephir_is_true(&_2)) {
+		if (zephir_array_isset_string_fetch(&snapshot, &data, SL("snapshot"), 1)) {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("snapshot"), &snapshot);
+		} else {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("snapshot"), &properties);
+		}
+	}
+	ZEPHIR_MM_RESTORE();
 }
 
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type)
