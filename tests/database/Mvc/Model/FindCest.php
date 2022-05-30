@@ -289,7 +289,7 @@ class FindCest
             ]
         );
 
-        $I->assertSame(1, $original->count());
+        $I->assertCount(1, $original);
 
         $record = $original[0];
         $actual = $record->getIsActive();
@@ -345,7 +345,7 @@ class FindCest
             ]
         );
 
-        $I->assertSame(0, $original->count());
+        $I->assertCount(0, $original);
 
         /**
          * Finally get it back from the cache
@@ -364,7 +364,7 @@ class FindCest
             ]
         );
 
-        $I->assertSame(1, $cached->count());
+        $I->assertCount(1, $cached);
 
         $record = $cached[0];
         $actual = $record->getIsActive();
