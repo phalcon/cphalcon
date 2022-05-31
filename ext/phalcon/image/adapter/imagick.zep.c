@@ -1276,7 +1276,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("mime"), &_3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "gif");
-	ZEPHIR_CALL_FUNCTION(&_5, "strcasecmp", NULL, 34, &extension, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "strcasecmp", NULL, 35, &extension, &_4);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG_IDENTICAL(&_5, 0)) {
 		ZEPHIR_CALL_METHOD(NULL, &image, "optimizeimagelayers", NULL, 0);
@@ -1284,13 +1284,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender)
 	} else {
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZVAL_STRING(&_6$$4, "jpg");
-		ZEPHIR_CALL_FUNCTION(&_7$$4, "strcasecmp", NULL, 34, &extension, &_6$$4);
+		ZEPHIR_CALL_FUNCTION(&_7$$4, "strcasecmp", NULL, 35, &extension, &_6$$4);
 		zephir_check_call_status();
 		_8$$4 = ZEPHIR_IS_LONG_IDENTICAL(&_7$$4, 0);
 		if (!(_8$$4)) {
 			ZEPHIR_INIT_NVAR(&_6$$4);
 			ZVAL_STRING(&_6$$4, "jpeg");
-			ZEPHIR_CALL_FUNCTION(&_9$$4, "strcasecmp", NULL, 34, &extension, &_6$$4);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "strcasecmp", NULL, 35, &extension, &_6$$4);
 			zephir_check_call_status();
 			_8$$4 = ZEPHIR_IS_LONG_IDENTICAL(&_9$$4, 0);
 		}
@@ -1514,7 +1514,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("mime"), &_6);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "gif");
-	ZEPHIR_CALL_FUNCTION(&_8, "strcasecmp", NULL, 34, &ext, &_7);
+	ZEPHIR_CALL_FUNCTION(&_8, "strcasecmp", NULL, 35, &ext, &_7);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_8, 0)) {
 		zephir_read_property(&_9$$3, this_ptr, ZEND_STRL("image"), PH_NOISY_CC | PH_READONLY);
@@ -1532,13 +1532,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 	}
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_STRING(&_7, "jpg");
-	ZEPHIR_CALL_FUNCTION(&_12, "strcasecmp", NULL, 34, &ext, &_7);
+	ZEPHIR_CALL_FUNCTION(&_12, "strcasecmp", NULL, 35, &ext, &_7);
 	zephir_check_call_status();
 	_13 = ZEPHIR_IS_LONG(&_12, 0);
 	if (!(_13)) {
 		ZEPHIR_INIT_NVAR(&_7);
 		ZVAL_STRING(&_7, "jpeg");
-		ZEPHIR_CALL_FUNCTION(&_14, "strcasecmp", NULL, 34, &ext, &_7);
+		ZEPHIR_CALL_FUNCTION(&_14, "strcasecmp", NULL, 35, &ext, &_7);
 		zephir_check_call_status();
 		_13 = ZEPHIR_IS_LONG(&_14, 0);
 	}

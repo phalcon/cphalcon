@@ -88,7 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_AbstractElement)
 }
 
 /**
- * Phalcon\Forms\Element constructor
+ * Constructor
  *
  * @param string name       Attribute name (value of 'name' attribute of HTML element)
  * @param array  attributes Additional HTML element attributes

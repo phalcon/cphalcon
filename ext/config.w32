@@ -86,7 +86,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/url", "urlinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "exception.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "repositoryinterface.zep.c exception.zep.c paginatorfactory.zep.c repository.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/session", "managerinterface.zep.c bag.zep.c exception.zep.c manager.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/session", "baginterface.zep.c managerinterface.zep.c bag.zep.c exception.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/asset", "css.zep.c js.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/filters", "cssmin.zep.c jsmin.zep.c none.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/inline", "css.zep.c js.zep.c", "phalcon");

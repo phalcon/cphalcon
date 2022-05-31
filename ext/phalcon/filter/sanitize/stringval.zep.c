@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 		RETURN_MM_BOOL(0);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 237, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 239, &_0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_2, input);
 	ZEPHIR_INIT_VAR(&_3);

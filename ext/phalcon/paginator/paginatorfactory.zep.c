@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
  * $paginator = (new PaginatorFactory())->load($options);
  *```
  *
- * @param array|\Phalcon\Config = [
+ * @param array|\Phalcon\Config\Config config = [
  *     'adapter' => 'queryBuilder',
  *     'limit' => 20,
  *     'page' => 1,

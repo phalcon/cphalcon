@@ -168,6 +168,7 @@
 #include "phalcon/mvc/viewinterface.zep.h"
 #include "phalcon/paginator/repositoryinterface.zep.h"
 #include "phalcon/session/adapter/noop.zep.h"
+#include "phalcon/session/baginterface.zep.h"
 #include "phalcon/session/managerinterface.zep.h"
 #include "phalcon/storage/adapter/apcu.zep.h"
 #include "phalcon/storage/adapter/libmemcached.zep.h"

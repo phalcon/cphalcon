@@ -30,8 +30,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Events\Event
- *
  * This class offers contextual information of a fired event in the
  * EventsManager
  *
@@ -192,7 +190,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "The source of ", &type, " event must be an object, got ", &_2$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 75);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -325,7 +323,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 137);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 135);
 		return;
 	}
 	if (1) {

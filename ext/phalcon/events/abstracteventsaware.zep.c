@@ -27,10 +27,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Trait EventsAwareTrait
- *
- * @package Phalcon\Events\Traits
- *
+ * This abstract class offers access to the events manager
  * @property ?ManagerInterface $eventsManager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_AbstractEventsAware)
