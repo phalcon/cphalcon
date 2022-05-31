@@ -324,6 +324,20 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 	RETURN_MM();
 }
 
+/**
+ * Returns the internal array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "translate");
+}
+
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type)
 {
 		zval _0, _1$$3;

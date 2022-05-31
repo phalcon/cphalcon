@@ -120,6 +120,7 @@ zend_class_entry *phalcon_mvc_router_routeinterface_ce;
 zend_class_entry *phalcon_mvc_url_urlinterface_ce;
 zend_class_entry *phalcon_mvc_viewinterface_ce;
 zend_class_entry *phalcon_paginator_repositoryinterface_ce;
+zend_class_entry *phalcon_session_baginterface_ce;
 zend_class_entry *phalcon_session_managerinterface_ce;
 zend_class_entry *phalcon_acl_componentawareinterface_ce;
 zend_class_entry *phalcon_acl_roleawareinterface_ce;
@@ -767,6 +768,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Url_UrlInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_ViewInterface);
 	ZEPHIR_INIT(Phalcon_Paginator_RepositoryInterface);
+	ZEPHIR_INIT(Phalcon_Session_BagInterface);
 	ZEPHIR_INIT(Phalcon_Session_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Acl_ComponentAwareInterface);
 	ZEPHIR_INIT(Phalcon_Acl_RoleAwareInterface);

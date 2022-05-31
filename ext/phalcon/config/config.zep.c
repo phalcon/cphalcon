@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Config_Config, getPathDelimiter)
  * Merges a configuration into the current one
  *
  *```php
- * $appConfig = new \Phalcon\Config(
+ * $appConfig = new \Phalcon\Config\Config(
  *     [
  *         "database" => [
  *             "host" => "localhost",

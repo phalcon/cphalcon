@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Forms\Element\Select
- *
  * Component SELECT (choice) for forms
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
@@ -44,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
 }
 
 /**
- * Phalcon\Forms\Element constructor
+ * Constructor
  *
  * @param object|array options
  * @param array        attributes
@@ -126,7 +124,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 53);
+		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 51);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
 			{

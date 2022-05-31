@@ -64,6 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag)
 	 * @var ManagerInterface
 	 */
 	zend_declare_property_null(phalcon_session_bag_ce, SL("session"), ZEND_ACC_PRIVATE);
+	zend_class_implements(phalcon_session_bag_ce, 1, phalcon_session_baginterface_ce);
 	zend_class_implements(phalcon_session_bag_ce, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 }

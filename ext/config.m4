@@ -173,6 +173,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/paginator/repositoryinterface.zep.c
 	phalcon/session/adapter/noop.zep.c
+	phalcon/session/baginterface.zep.c
 	phalcon/session/managerinterface.zep.c
 	phalcon/storage/adapter/apcu.zep.c
 	phalcon/storage/adapter/libmemcached.zep.c

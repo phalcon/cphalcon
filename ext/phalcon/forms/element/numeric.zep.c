@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Forms\Element\Numeric
- *
  * Component INPUT[type=number] for forms
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Numeric)

@@ -362,6 +362,20 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 }
 
 /**
+ * Returns the internal array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "translate");
+}
+
+/**
  * @todo to be removed when we get traits
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)

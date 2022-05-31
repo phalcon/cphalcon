@@ -20,6 +20,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Interface for Phalcon\Image\Adapter classes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_AdapterInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Image\\Adapter, AdapterInterface, phalcon, image_adapter_adapterinterface, phalcon_image_adapter_adapterinterface_method_entry);

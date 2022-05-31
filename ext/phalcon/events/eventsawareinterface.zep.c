@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Events\EventsAwareInterface
- *
  * This interface must for those classes that accept an EventsManager and
  * dispatch events
  */

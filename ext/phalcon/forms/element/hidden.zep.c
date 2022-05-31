@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Forms\Element\Hidden
- *
  * Component INPUT[type=hidden] for forms
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Hidden)
