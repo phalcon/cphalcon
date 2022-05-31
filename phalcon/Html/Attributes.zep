@@ -23,7 +23,7 @@ class Attributes extends Collection implements RenderInterface
      */
     public function render() -> string
     {
-        return $this->renderAttributes(this->toArray());
+        return this->renderAttributes(this->toArray());
     }
 
     /**

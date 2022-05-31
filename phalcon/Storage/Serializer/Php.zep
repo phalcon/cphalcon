@@ -11,7 +11,6 @@
 namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
-use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
 
 class Php extends AbstractSerializer
 {
@@ -22,75 +21,68 @@ class Php extends AbstractSerializer
      */
 	public function serialize() -> string
 	{
-        if !this->isSerializable(this->data) {
+        if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
 		return serialize(this->data);
 	}
 
-	/**
-	 * Unserializes data
-     *
-     * @param string $data
-	 */
-	public function unserialize(var data) -> void
-    {
-        this->processSerializable(data);
-        this->processNotSerializable(data);
-	}
-
     /**
+     * Unserializes data
+     *
      * @param mixed $data
      */
-    private function processSerializable(var data) -> void
+    public function unserialize(mixed data) -> void
     {
-        var version;
+        var result, version;
 
-        if (true === this->isSerializable(data)) {
-            if typeof data !== "string" {
-                throw new InvalidArgumentException(
-                    "Data for the unserializer must of type string"
-                );
-            }
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
 
-            let version = phpversion();
-
-            globals_set("warning.enable", false);
-
-            if version_compare(version, "8.0", ">=") {
-                set_error_handler(
-                    function (number, message, file, line) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            } else {
-                set_error_handler(
-                    function (number, message, file, line, context) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            }
-
-            let this->data = unserialize(data);
-
-            restore_error_handler();
-
-            if unlikely globals_get("warning.enable") {
-                let this->data = null;
-            }
+            return;
         }
+
+        let version = phpversion();
+
+        globals_set("warning.enable", false);
+
+        if version_compare(version, "8.0", ">=") {
+            set_error_handler(
+                function (number, message, file, line) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        } else {
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        }
+
+        let result = this->phpUnserialize(data);
+
+        restore_error_handler();
+
+        if unlikely globals_get("warning.enable") || result === false {
+            let this->isSuccess = false,
+                result          = "";
+        }
+
+        let this->data = result;
     }
 
     /**
-     * @param mixed $data
+     * @param string $data
+     * @param array  $options
+     *
+     * @return mixed
      */
-    private function processNotSerializable(var data) -> void
+    private function phpUnserialize(string data, array options = []) -> mixed
     {
-        if (true !== this->isSerializable(data)) {
-            let this->data = data;
-        }
+        return unserialize(data, options);
     }
 }

@@ -23,7 +23,7 @@
 /**
  * Phalcon\Config\ConfigInterface
  *
- * Interface for Phalcon\Config class
+ * Interface for Phalcon\Config\Config class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
 {

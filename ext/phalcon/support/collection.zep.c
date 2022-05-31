@@ -661,7 +661,8 @@ PHP_METHOD(Phalcon_Support_Collection, offsetExists)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element = NULL, element_sub;
+	zval element_sub;
+	zval *element = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
@@ -676,7 +677,6 @@ PHP_METHOD(Phalcon_Support_Collection, offsetExists)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
-	ZEPHIR_SEPARATE_PARAM(element);
 
 
 	zephir_cast_to_string(&_0, element);
@@ -695,7 +695,8 @@ PHP_METHOD(Phalcon_Support_Collection, offsetGet)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element = NULL, element_sub;
+	zval element_sub;
+	zval *element = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
@@ -710,7 +711,6 @@ PHP_METHOD(Phalcon_Support_Collection, offsetGet)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
-	ZEPHIR_SEPARATE_PARAM(element);
 
 
 	zephir_cast_to_string(&_0, element);
@@ -729,7 +729,8 @@ PHP_METHOD(Phalcon_Support_Collection, offsetSet)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element = NULL, element_sub, *value, value_sub;
+	zval element_sub, value_sub;
+	zval *element = NULL, *value;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
@@ -746,7 +747,6 @@ PHP_METHOD(Phalcon_Support_Collection, offsetSet)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &value);
-	ZEPHIR_SEPARATE_PARAM(element);
 
 
 	zephir_cast_to_string(&_0, element);
@@ -765,7 +765,8 @@ PHP_METHOD(Phalcon_Support_Collection, offsetUnset)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element = NULL, element_sub;
+	zval element_sub;
+	zval *element = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
@@ -780,7 +781,6 @@ PHP_METHOD(Phalcon_Support_Collection, offsetUnset)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
-	ZEPHIR_SEPARATE_PARAM(element);
 
 
 	zephir_cast_to_string(&_0, element);
@@ -965,32 +965,71 @@ PHP_METHOD(Phalcon_Support_Collection, toJson)
  */
 PHP_METHOD(Phalcon_Support_Collection, unserialize)
 {
-	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *serialized = NULL, serialized_sub, data;
+	zval *serialized_param = NULL, data;
+	zval serialized;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&serialized_sub);
+	ZVAL_UNDEF(&serialized);
 	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(serialized)
+		Z_PARAM_STR(serialized)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &serialized);
-	ZEPHIR_SEPARATE_PARAM(serialized);
+	zephir_fetch_params(1, 1, 0, &serialized_param);
+	zephir_get_strval(&serialized, serialized_param);
 
 
-	zephir_cast_to_string(&_0, serialized);
-	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 16, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 16, &serialized);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Support_Collection, __serialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toarray", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_Support_Collection, __unserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *data_param = NULL;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_arrval(&data, data_param);
+
+
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

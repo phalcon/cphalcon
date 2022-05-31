@@ -195,7 +195,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey, translateKey_sub;
+	zval translateKey_sub;
+	zval *translateKey;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&translateKey_sub);

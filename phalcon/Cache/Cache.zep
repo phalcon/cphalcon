@@ -13,8 +13,6 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Psr\SimpleCache\CacheInterface;
-use Traversable;
 
 /**
  * This component offers caching capabilities for your application.
@@ -22,25 +20,8 @@ use Traversable;
  *
  * @property AdapterInterface $adapter
  */
-class Cache implements CacheInterface
+class Cache extends AbstractCache
 {
-    /**
-     * The adapter
-     *
-     * @var AdapterInterface
-     */
-    protected adapter { get };
-
-    /**
-     * Constructor.
-     *
-     * @param AdapterInterface $adapter The cache adapter
-     */
-    public function __construct(<AdapterInterface> adapter)
-    {
-        let this->adapter = adapter;
-    }
-
     /**
      * Wipes clean the entire cache's keys.
      *
@@ -48,7 +29,7 @@ class Cache implements CacheInterface
      */
     public function clear() -> bool
     {
-        return this->adapter->clear();
+        return this->doClear();
     }
 
     /**
@@ -62,50 +43,24 @@ class Cache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      *                                  not a legal value.
      */
-    public function delete(var key) -> bool
+    public function delete(string key) -> bool
     {
-        let key = (string) key;
-
-        this->checkKey(key);
-
-        return this->adapter->delete(key);
+        return this->doDelete(key);
     }
 
     /**
      * Deletes multiple cache items in a single operation.
-     *
-     * @param iterable $keys A list of string-based keys to be deleted.
-     *
-     * @return bool True if the items were successfully removed. False if there
-     *              was an error.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     *                                  array nor a Traversable, or if any of
-     *                                  the $keys are not a legal value.
      */
     public function deleteMultiple(var keys) -> bool
     {
-        var key, result;
-
-        this->checkKeys(keys);
-
-        let result = true;
-
-        for key in keys {
-            if !this->adapter->delete(key) {
-                let result = false;
-            }
-        }
-
-        return result;
+        return this->doDeleteMultiple(keys);
     }
 
     /**
      * Fetches a value from the cache.
      *
      * @param string $key          The unique key of this item in the cache.
-     * @param mixed  $defaultValue Default value to return if the key does
-     *                             not exist.
+     * @param mixed  $defaultValue Default value to return if the key does not exist.
      *
      * @return mixed The value of the item from the cache, or $default in case
      * of cache miss.
@@ -113,42 +68,17 @@ class Cache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    public function get(var key, var defaultValue = null) -> var
+    public function get(string key, var defaultValue = null)
     {
-        let key = (string) key;
-
-        this->checkKey(key);
-
-        return this->adapter->get(key, defaultValue);
+        return this->doGet(key, defaultValue);
     }
 
     /**
      * Obtains multiple cache items by their unique keys.
-     *
-     * @param iterable $keys        A list of keys that can obtained in a
-     *                              single operation.
-     * @param mixed    defaultValue Default value to return for keys that do
-     *                              not exist.
-     *
-     * @return iterable<array-key, mixed> A list of key => value pairs. Cache
-     * keys that do not exist or are stale will have $default as value.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $keys is neither an
-     * array nor a Traversable, or if any of the $keys are not a legal value.
      */
-    public function getMultiple(var keys, var defaultValue = null) -> var
+    public function getMultiple(var keys, var defaultValue = null)
     {
-        var element;
-        array results;
-
-        this->checkKeys(keys);
-
-        let results = [];
-        for element in keys {
-            let results[element] = this->get(element, defaultValue);
-        }
-
-        return results;
+        return this->doGetMultiple(keys, defaultValue);
     }
 
     /**
@@ -161,13 +91,9 @@ class Cache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    public function has(var key) -> bool
+    public function has(string key) -> bool
     {
-        let key = (string) key;
-
-        this->checkKey(key);
-
-        return this->adapter->has(key);
+        return this->doHas(key);
     }
 
     /**
@@ -188,78 +114,26 @@ class Cache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is not
      * a legal value.
      */
-    public function set(var key, var value, var ttl = null) -> bool
+    public function set(string key, var value, var ttl = null) -> bool
     {
-        let key = (string) key;
-
-        this->checkKey(key);
-
-        return this->adapter->set(key, value, ttl);
+        return this->doSet(key, value, ttl);
     }
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
-     *
-     * @param iterable              $values A list of key => value pairs for a
-     *                                      multiple-set operation.
-     * @param null|int|DateInterval $ttl    Optional. The TTL value of this
-     *                                      item. If no value is sent and the
-     *                                      driver supports TTL then the
-     *                                      library may set a default value for
-     *                                      it or let the driver take care of
-     *                                      that.
-     *
-     * @return bool True on success and false on failure.
-     *
-     * @throws InvalidArgumentException MUST be thrown if $values is neither an
-     * array nor a Traversable, or if any of the $values are not a legal value.
      */
     public function setMultiple(var values, var ttl = null) -> bool
     {
-        var key, value;
-        bool result;
-
-        this->checkKeys(values);
-
-        let result = true;
-        for key, value in values {
-            if !this->set(key, value, ttl) {
-                let result = false;
-            }
-        }
-
-        return result;
+        return this->doSetMultiple(values, ttl);
     }
 
     /**
-     * Checks the key. If it contains invalid characters an exception is thrown
+     * Returns the exception class that will be used for exceptions thrown
      *
-     * @param mixed $key
-     *
-     * @throws InvalidArgumentException
+     * @return string
      */
-    protected function checkKey(string key) -> void
+    protected function getExceptionClass() -> string
     {
-        if preg_match("/[^A-Za-z0-9-_.]/", key) {
-            throw new InvalidArgumentException(
-                "The key contains invalid characters"
-            );
-        }
-    }
-
-    /**
-     * Checks the key. If it contains invalid characters an exception is thrown
-     *
-     * @param mixed $keys
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function checkKeys(var keys) -> void
-    {
-        if !(typeof keys === "array" || keys instanceof Traversable) {
-            throw new InvalidArgumentException(
-                "The keys need to be an array or instance of Traversable"
-            );
-        }
+        return "Phalcon\\Cache\\Exception\\InvalidArgumentException";
     }
 }

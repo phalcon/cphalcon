@@ -15,9 +15,9 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Numeric)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Numeric, phalcon, html_helper_input_numeric, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
-	zend_declare_property_string(phalcon_html_helper_input_numeric_ce, SL("type"), "numeric", ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_html_helper_input_numeric_ce, SL("type"), "number", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 

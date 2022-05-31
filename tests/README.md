@@ -220,8 +220,6 @@ After the compilation is completed, you can check if the extension is loaded:
 /app $ php -m | grep phalcon
 ```
 
-Note that Phalcon v4+ requires the [PSR][psr] extension to be loaded before Phalcon. In this environment we have compiled it for you. Once you see `phalcon` in the list, you have the extension compiled and ready to use.
-
 ### Setup databases
 
 First, we need to have a `.env` file in the project root.
@@ -343,4 +341,3 @@ Thanks!
 [composer]: http://getcomposer.org
 [codeception-intro]: http://codeception.com/docs/01-Introduction
 [codeception-cmds]: http://codeception.com/docs/reference/Commands
-[psr]: https://github.com/jbboehr/php-psr

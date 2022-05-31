@@ -19,7 +19,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
-use Psr\SimpleCache\CacheInterface;
+use Phalcon\Cache\CacheInterface;
 
 class LoadCest
 {

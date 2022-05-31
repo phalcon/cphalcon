@@ -19,10 +19,9 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.0.0beta3
-  ZEPHIR_PARSER_VERSION: 1.4.2
-  ZEPHIR_VERSION: 0.15.2
-  PSR_VERSION: 1.1.0
+  PHALCON_VERSION: 5.0.0RC1
+  ZEPHIR_PARSER_VERSION: 1.5.0
+  ZEPHIR_VERSION: 0.16.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -33,7 +32,7 @@ env:
   TOOLS_DIR: 'C:\tools'
 
   # PHP extensions required by Composer
-  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis
+  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis, :memcache
 
 jobs:
   # Configure Workflow for correct run reusable workflow
@@ -49,7 +48,7 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "::set-output name=extensions::psr-${{ env.PSR_VERSION }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
   # PHP CodeSniffer inspection
   phpcs:
@@ -57,16 +56,16 @@ jobs:
     with:
       standard: ./phpcs.xml
 
-  # Generates stubs and validates with PSALM
+  # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-8.1.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
     secrets:
@@ -74,54 +73,36 @@ jobs:
 
   build-and-test:
     name: tests / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-
     needs: [generate]
-
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0' ]
+        php: [ '7.4', '8.0', '8.1' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
         name:
           - ubuntu-gcc
           - macos-clang
-          - windows2016-vc15
-          - windows2019-vs16
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - name: ubuntu-gcc
-            os: ubuntu-18.04
-            compiler: gcc
-
+          - { name: ubuntu-gcc, os: ubuntu-18.04, compiler: gcc }
           # macOS
-          - name: macos-clang
-            os: macos-10.15
-            compiler: clang
-
+          - { name: macos-clang, os: macos-10.15, compiler: clang }
           # Windows
-          - name: windows2016-vc15
-            os: windows-2016
-            compiler: vc15
-
-          - name: windows2019-vs16
-            os: windows-2019
-            compiler: vs16
-
-        exclude:
-          - name: windows2019-vs16
-            php: '7.4'
-
-          - name: windows2016-vc15
-            php: '8.0'
+          - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
+          - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
+          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -134,7 +115,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}, psr-${{ env.PSR_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}
           tools: pecl, phpize, php-config
           coverage: xdebug
@@ -228,6 +209,13 @@ jobs:
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
+      - name: Check Release notes parser
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          echo "-- Creating Release Notes"
+          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
+
   install:
     needs: setup_workflow
     uses: zephir-lang/templates/.github/workflows/phalcon-install-from-build.yml@main
@@ -242,7 +230,7 @@ jobs:
       mysql:
         image: mysql:5.7
         ports:
-          - 3306
+          - "3306:3306"
         env:
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_USER: phalcon
@@ -251,26 +239,32 @@ jobs:
       postgres:
         image: postgres:12-alpine
         ports:
-          - 5432
+          - "5432:5432"
         env:
+          POSTGRES_USER: phalcon
           POSTGRES_PASSWORD: secret
           POSTGRES_DB: phalcon
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       redis:
         image: redis:5-alpine
         ports:
-          - 6379
+          - "6379:6379"
       memcached:
         image: memcached:1.5-alpine
         ports:
-          - 11211
+          - "11211:11211"
 
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0' ]
+        php: [ '7.4', '8.0', '8.1' ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -359,7 +353,8 @@ jobs:
 
       - name: Run Database Tests (Postgres)
         env:
-          DATA_POSTGRES_USER: postgres
+          DATA_POSTGRES_USER: phalcon
+          DATA_POSTGRES_PASS: secret
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
@@ -380,7 +375,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get the release version
         id: get-version
@@ -399,7 +394,7 @@ jobs:
           find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          GITHUB_ACTIONS=false ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1

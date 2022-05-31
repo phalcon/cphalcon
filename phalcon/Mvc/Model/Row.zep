@@ -16,8 +16,6 @@ use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\Row
- *
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
@@ -38,15 +36,13 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      *
      * @return string|ModelInterface
      */
-    public function offsetGet(var index) -> var
+    public function offsetGet(mixed index) -> mixed
     {
-        var value;
-
-        if unlikely !fetch value, this->{index} {
+        if !this->offsetExists(index) {
             throw new Exception("The index does not exist in the row");
         }
 
-        return value;
+        return this->{index};
     }
 
     /**
@@ -54,7 +50,7 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      *
      * @param string|int $index
      */
-    public function offsetExists(var index) -> bool
+    public function offsetExists(mixed index) -> bool
     {
         return isset this->{index};
     }
@@ -65,7 +61,7 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      * @param string|int index
      * @param ModelInterface value
      */
-    public function offsetSet(var index, var value) -> void
+    public function offsetSet(mixed index, mixed value) -> void
     {
         throw new Exception("Row is an immutable ArrayAccess object");
     }
@@ -75,7 +71,7 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      *
      * @param string|int offset
      */
-    public function offsetUnset(var offset) -> void
+    public function offsetUnset(mixed offset) -> void
     {
         throw new Exception("Row is an immutable ArrayAccess object");
     }

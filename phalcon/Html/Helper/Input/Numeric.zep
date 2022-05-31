@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,5 +15,5 @@ namespace Phalcon\Html\Helper\Input;
  */
 class Numeric extends AbstractInput
 {
-    protected type = "numeric";
+    protected type = "number";
 }

@@ -17,44 +17,45 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class ClearCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class ClearCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: clear()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagClear(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - clear()');
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
 
-        $collection = new Bag('BagTest', $this->container);
+        $collection = new Bag($this->container->get("session"), 'BagTest');
 
         $collection->init($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $actual = $collection->toArray();
+        $I->assertEquals($data, $actual);
 
         $collection->clear();
 
-        $expected = 0;
-        $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $actual = $collection->count();
+        $I->assertEquals(0, $actual);
     }
 }

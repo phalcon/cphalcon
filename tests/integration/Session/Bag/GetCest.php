@@ -17,32 +17,35 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GetCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class GetCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: get()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagGet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - get()');
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
         $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest', $this->container);
+        $collection = new Bag($this->container->get("session"), 'BagTest');
         $collection->init($data);
 
         $expected = 'four';

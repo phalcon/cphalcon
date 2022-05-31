@@ -196,7 +196,7 @@ class UnderscoreInvokeCest
             'hidden'         => ['inputHidden', Hidden::class],
             'image'          => ['inputImage', Image::class],
             'month'          => ['inputMonth', Month::class],
-            'numeric'        => ['inputNumeric', Numeric::class],
+            'number'         => ['inputNumeric', Numeric::class],
             'password'       => ['inputPassword', Password::class],
             'range'          => ['inputRange', Range::class],
             'search'         => ['inputSearch', Search::class],

@@ -12,11 +12,6 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 
-/**
- * Class Base64
- *
- * @package Phalcon\Storage\Serializer
- */
 class Base64 extends AbstractSerializer
 {
     /**
@@ -38,18 +33,40 @@ class Base64 extends AbstractSerializer
     /**
      * Unserializes data
      *
-     * @param string $data
+     * @param mixed $data
      *
      * @retrun void
      */
-	public function unserialize(var data) -> void
+	public function unserialize(mixed data) -> void
 	{
+	    var result;
+
 	    if typeof data !== "string" {
 	        throw new InvalidArgumentException(
 	        	"Data for the unserializer must of type string"
 	        );
 	    }
 
-        let this->data = base64_decode(data);
+        let result = this->phpBase64Decode(data, true);
+
+        if unlikely false === result {
+            let this->isSuccess = false,
+                result          = "";
+        }
+
+        let this->data = result;
+    }
+
+    /**
+     * Wrapper for base64_decode
+     *
+     * @param string $input
+     * @param bool   $strict
+     *
+     * @return string|false
+     */
+    protected function phpBase64Decode(string input, bool strict = false)
+    {
+        return base64_decode(input, strict);
     }
 }

@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Libmemcached;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class OpenCest
 {
@@ -24,8 +23,10 @@ class OpenCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: open()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterLibmemcachedOpen(IntegrationTester $I)
     {
@@ -33,8 +34,7 @@ class OpenCest
 
         $adapter = $this->newService('sessionLibmemcached');
 
-        $I->assertTrue(
-            $adapter->open('test', 'test1')
-        );
+        $actual = $adapter->open('test', 'test1');
+        $I->assertTrue($actual);
     }
 }

@@ -17,8 +17,8 @@ namespace Phalcon\DataMapper\Pdo\Profiler;
 
 use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\DataMapper\Pdo\Exception\Exception;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Phalcon\Logger\Enum;
+use Phalcon\Logger\LoggerInterface;
 
 /**
  * Sends query profiles to a logger.
@@ -68,7 +68,7 @@ class Profiler implements ProfilerInterface
         }
 
         let this->logFormat = "{method} ({duration}s): {statement} {backtrace}",
-            this->logLevel  = LogLevel::DEBUG,
+            this->logLevel  = Enum::DEBUG,
             this->logger    = logger;
     }
 

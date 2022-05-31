@@ -264,7 +264,7 @@ class Asset implements AssetInterface
      */
     public function isAutoVersion() -> bool
     {
-        return $this->isAutoVersion;
+        return this->isAutoVersion;
     }
 
     /**

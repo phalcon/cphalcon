@@ -121,9 +121,9 @@ class RenderCest
             [
                 "Numeric",
                 Numeric::class,
-                '<input type="numeric" id=":name:" name=":name:" />',
+                '<input type="number" id=":name:" name=":name:" />',
                 ['class' => 'alert alert-warning'],
-                '<input type="numeric" id=":name:" name=":name:" class="alert alert-warning" />',
+                '<input type="number" id=":name:" name=":name:" class="alert alert-warning" />',
             ],
             [
                 "Password",

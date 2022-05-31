@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -103,7 +103,7 @@ interface ManagerInterface
     /**
      * Set session Id
      */
-    public function setId(string id) -> <ManagerInterface>;
+    public function setId(string sessionId) -> <ManagerInterface>;
 
     /**
      * Set the session name. Throw exception if the session has started
@@ -132,5 +132,5 @@ interface ManagerInterface
     /**
      * Regenerates the session id using the adapter.
      */
-    public function regenerateId(deleteOldSession = true) -> <ManagerInterface>;
+    public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>;
 }

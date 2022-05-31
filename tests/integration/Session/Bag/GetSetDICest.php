@@ -18,33 +18,40 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GetSetDICest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class GetSetDICest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: getDI()/setDI()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - getDI()/setDI()");
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+        $session   = $this->container->get("session");
+        $container = $this->container;
+
+        $bag    = new Bag($session, 'DiTest');
+        $actual = $bag->getDI();
+        $I->assertSame($container, $actual);
+
         $container = new FactoryDefault();
-        $sessionBag = new Bag('DiTest', $this->container);
+        $bag->setDI($container);
 
-        $sessionBag->setDI($container);
-
-        $expected = $container;
-        $actual   = $sessionBag->getDI();
-        $I->assertEquals($expected, $actual);
+        $actual = $bag->getDI();
+        $I->assertSame($container, $actual);
     }
 }

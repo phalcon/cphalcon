@@ -56,12 +56,20 @@ class SerializerFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "base64"   : "Phalcon\\Storage\\Serializer\\Base64",
-            "igbinary" : "Phalcon\\Storage\\Serializer\\Igbinary",
-            "json"     : "Phalcon\\Storage\\Serializer\\Json",
-            "msgpack"  : "Phalcon\\Storage\\Serializer\\Msgpack",
-            "none"     : "Phalcon\\Storage\\Serializer\\None",
-            "php"      : "Phalcon\\Storage\\Serializer\\Php"
+            "base64"             : "Phalcon\\Storage\\Serializer\\Base64",
+            "igbinary"           : "Phalcon\\Storage\\Serializer\\Igbinary",
+            "json"               : "Phalcon\\Storage\\Serializer\\Json",
+            "memcached_igbinary" : "Phalcon\\Storage\\Serializer\\MemcachedIgbinary",
+            "memcached_json"     : "Phalcon\\Storage\\Serializer\\MemcachedJson",
+            "memcached_php"      : "Phalcon\\Storage\\Serializer\\MemcachedPhp",
+            "msgpack"            : "Phalcon\\Storage\\Serializer\\Msgpack",
+            "none"               : "Phalcon\\Storage\\Serializer\\None",
+            "php"                : "Phalcon\\Storage\\Serializer\\Php",
+            "redis_igbinary"     : "Phalcon\\Storage\\Serializer\\RedisIgbinary",
+            "redis_json"         : "Phalcon\\Storage\\Serializer\\RedisJson",
+            "redis_msgpack"      : "Phalcon\\Storage\\Serializer\\RedisMsgpack",
+            "redis_none"         : "Phalcon\\Storage\\Serializer\\RedisNone",
+            "redis_php"          : "Phalcon\\Storage\\Serializer\\RedisPhp"
         ];
     }
 }

@@ -43,6 +43,7 @@ ext/run-tests.php
 *.la
 *.log
 *.loT
+*.dep
 *.gch
 *.h.ghc
 *.phc

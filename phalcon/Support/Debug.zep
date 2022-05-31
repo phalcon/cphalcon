@@ -141,7 +141,7 @@ class Debug
             link    = "https://docs.phalcon.io/"
             . version->getPart(Version::VERSION_MAJOR)
             . "."
-            . $version->getPart(Version::VERSION_MEDIUM)
+            . version->getPart(Version::VERSION_MEDIUM)
             . "/en/";
 
         return "<div class=\"version\">Phalcon Framework "

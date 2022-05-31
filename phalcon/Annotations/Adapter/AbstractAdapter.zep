@@ -72,6 +72,79 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * Returns the annotations found in a specific constant
+     */
+    public function getConstant(string className, string constantName) -> <Collection>
+    {
+        var constants, constant;
+
+        let constants = this->getConstants(className);
+
+        if !fetch constant, constants[constantName] {
+            /**
+             * Returns a collection anyways
+             */
+            return new Collection();
+        }
+
+        return constant;
+    }
+
+    /**
+     * Returns the annotations found in all the class' constants
+     */
+    public function getConstants(string className) -> array
+    {
+        var classAnnotations;
+
+        /**
+         * Get the full annotations from the class
+         */
+        let classAnnotations = this->get(className);
+
+        return classAnnotations->getConstantsAnnotations();
+    }
+
+    /**
+     * Returns the annotations found in a specific property
+     */
+    public function getProperty(string className, string propertyName) -> <Collection>
+    {
+        var classAnnotations, properties, property;
+
+        /**
+         * Get the full annotations from the class
+         */
+        let classAnnotations = this->get(className);
+
+        let properties = classAnnotations->getPropertiesAnnotations();
+
+        if !fetch property, properties[propertyName] {
+            /**
+             * Returns a collection anyways
+             */
+            return new Collection();
+        }
+
+        return property;
+    }
+
+    /**
+     * Returns the annotations found in all the class' properties
+     */
+    public function getProperties(string className) -> array
+    {
+        var classAnnotations;
+
+        /**
+         * Get the full annotations from the class
+         */
+        let classAnnotations = this->get(className);
+
+        return classAnnotations->getPropertiesAnnotations();
+    }
+
+    /**
      * Returns the annotations found in a specific method
      */
     public function getMethod(string className, string methodName) -> <Collection>
@@ -112,45 +185,6 @@ abstract class AbstractAdapter implements AdapterInterface
         let classAnnotations = this->get(className);
 
         return classAnnotations->getMethodsAnnotations();
-    }
-
-    /**
-     * Returns the annotations found in a specific property
-     */
-    public function getProperty(string className, string propertyName) -> <Collection>
-    {
-        var classAnnotations, properties, property;
-
-        /**
-         * Get the full annotations from the class
-         */
-        let classAnnotations = this->get(className);
-
-        let properties = classAnnotations->getPropertiesAnnotations();
-
-        if !fetch property, properties[propertyName] {
-            /**
-             * Returns a collection anyways
-             */
-            return new Collection();
-        }
-
-        return property;
-    }
-
-    /**
-     * Returns the annotations found in all the class' methods
-     */
-    public function getProperties(string className) -> array
-    {
-        var classAnnotations;
-
-        /**
-         * Get the full annotations from the class
-         */
-        let classAnnotations = this->get(className);
-
-        return classAnnotations->getPropertiesAnnotations();
     }
 
     /**

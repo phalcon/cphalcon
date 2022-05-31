@@ -21,9 +21,9 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,14 +41,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis)
 /**
  * Constructor
  *
- * @param array options = [
- *     'prefix' => 'sess-reds-',
- *     'host' => '127.0.0.1',
- *     'port' => 6379,
- *     'index' => 0,
- *     'persistent' => false,
- *     'auth' => '',
- *     'socket' => ''
+ * @param AdapterFactory $factory
+ * @param array          $options = [
+ *                                'prefix'     => 'sess-reds-',
+ *                                'host'       => '127.0.0.1',
+ *                                'port'       => 6379,
+ *                                'index'      => 0,
+ *                                'persistent' => false,
+ *                                'auth'       => '',
+ *                                'socket'     => '',
  * ]
  */
 PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)

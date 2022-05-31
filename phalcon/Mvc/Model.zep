@@ -1484,10 +1484,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array|string|int|null parameters = [
-     *     'conditions' => ''
+     *     'conditions' => '',
      *     'columns' => '',
      *     'bind' => [],
-     *     'bindTypes => [],
+     *     'bindTypes' => [],
      *     'order' => '',
      *     'limit' => 10,
      *     'offset' => 5,
@@ -1601,10 +1601,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array|string|int|null parameters = [
-     *     'conditions' => ''
+     *     'conditions' => '',
      *     'columns' => '',
      *     'bind' => [],
-     *     'bindTypes => [],
+     *     'bindTypes' => [],
      *     'order' => '',
      *     'limit' => 10,
      *     'offset' => 5,
@@ -5217,7 +5217,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5226,10 +5226,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5244,7 +5244,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function belongsTo(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addBelongsTo(
             this,
@@ -5329,7 +5329,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5338,10 +5338,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5356,7 +5356,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasMany(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasMany(
             this,
@@ -5395,7 +5395,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string|array intermediateReferencedFields
      * @param string referenceModel
      * @param string|array referencedFields
-     * @param array options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5404,10 +5404,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5429,7 +5429,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var intermediateReferencedFields,
         string! referenceModel,
         var referencedFields,
-        options = []
+        array options = []
     ) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
@@ -5461,7 +5461,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param array|null options = [
+     * @param array $options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5470,10 +5470,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'action' => null
      *     ],
      *     'params' => [
-     *         'conditions' => ''
+     *         'conditions' => '',
      *         'columns' => '',
      *         'bind' => [],
-     *         'bindTypes => [],
+     *         'bindTypes' => [],
      *         'order' => '',
      *         'limit' => 10,
      *         'offset' => 5,
@@ -5488,7 +5488,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasOne(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOne(
             this,
@@ -5521,14 +5521,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param    string|array fields
-     * @param    string|array intermediateFields
-     * @param    string|array intermediateReferencedFields
-     * @param    string|array referencedFields
-     * @param    array options
+     * @param    string|array $fields
+     * @param    string|array $intermediateFields
+     * @param    string|array $intermediateReferencedFields
+     * @param    string|array $referencedFields
+     * @param    array $options
      */
     protected function hasOneThrough(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-        string! referenceModel, var referencedFields, options = null) -> <Relation>
+        string! referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
             this,
@@ -5813,5 +5813,105 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return key;
+    }
+
+    public function __serialize() -> array
+    {
+        /**
+         * Use the standard serialize function to serialize the array data
+         */
+        var attributes, manager, dirtyState, snapshot = null;
+
+        let attributes = this->toArray(),
+            dirtyState = this->dirtyState,
+            manager = <ManagerInterface> this->getModelsManager();
+
+        if manager->isKeepingSnapshots(this) && this->snapshot !== null && attributes != this->snapshot {
+            let snapshot = this->snapshot;
+        }
+
+        return [
+           "attributes":  attributes,
+           "snapshot":    snapshot,
+           "dirtyState":  dirtyState
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        var container, manager, key, value, snapshot, properties, dirtyState;
+
+        if !isset data["attributes"] {
+            let data = [
+                "attributes": data
+            ];
+        }
+
+        /**
+         * Obtain the default DI
+         */
+        let container = Di::getDefault();
+        if container === null {
+            throw new Exception(
+                "A dependency injection container is required to access the services related to the ODM"
+            );
+        }
+
+        /**
+         * Update the dependency injector
+         */
+        let this->container = container;
+
+        /**
+         * Gets the default modelsManager service
+         */
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+        if manager === null {
+            throw new Exception(
+                "The injected service 'modelsManager' is not valid"
+            );
+        }
+
+        /**
+         * Update the models manager
+         */
+        let this->modelsManager = manager;
+
+        /**
+         * Try to initialize the model
+         */
+        manager->initialize(this);
+
+        /**
+         * Fetch serialized props
+         */
+        if fetch properties, data["attributes"] {
+            /**
+             * Update the objects properties
+             */
+            for key, value in properties {
+                let this->{key} = value;
+            }
+        } else {
+            let properties = [];
+        }
+
+        /**
+         * Fetch serialized dirtyState
+         */
+        if fetch dirtyState, data["dirtyState"] {
+            let this->dirtyState = dirtyState;
+        }
+
+        /**
+         * Fetch serialized snapshot when option is active
+         */
+        if manager->isKeepingSnapshots(this) {
+            if fetch snapshot, data["snapshot"] {
+                let this->snapshot = snapshot;
+            } else {
+                let this->snapshot = properties;
+            }
+        }
     }
 }

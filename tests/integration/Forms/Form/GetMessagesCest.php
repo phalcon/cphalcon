@@ -14,15 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\Regex;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tag;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Validator\PresenceOf;
-use Phalcon\Filter\Validation\Validator\Regex;
 
 class GetMessagesCest
 {
@@ -34,9 +32,7 @@ class GetMessagesCest
      */
     public function testGetElementMessagesFromForm(IntegrationTester $I)
     {
-        // First element
         $telephone = new Text('telephone');
-
         $telephone->addValidators(
             [
                 new PresenceOf(
@@ -48,7 +44,6 @@ class GetMessagesCest
         );
 
         $customValidation = new Validation();
-
         $customValidation->add(
             'telephone',
             new Regex(

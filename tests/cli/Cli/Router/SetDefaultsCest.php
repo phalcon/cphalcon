@@ -32,7 +32,8 @@ class SetDefaultsCest
         $router->handle(
             []
         );
-        $I->assertNull(
+        $I->assertSame(
+            '',
             $router->getModuleName()
         );
         $I->assertNull(

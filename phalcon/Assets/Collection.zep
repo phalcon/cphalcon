@@ -241,7 +241,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
      */
-    public function getIterator()
+    public function getIterator() -> <\Traversable>
     {
         return new ArrayIterator(this->assets);
     }

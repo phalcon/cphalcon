@@ -17,40 +17,40 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GetIteratorCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class GetIteratorCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: getIterator()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagGetIterator(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - getIterator()');
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
 
-        $collection = new Bag('BagTest', $this->container);
-
+        $collection = new Bag($this->container->get("session"), 'BagTest');
         $collection->init($data);
 
         foreach ($collection as $key => $value) {
-            $expected = $data[$key];
-            $actual   = $collection[$key];
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals($data[$key], $collection[$key]);
         }
     }
 }

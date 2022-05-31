@@ -25,14 +25,14 @@ interface AdapterInterface
     public function get(string className) -> <Reflection>;
 
     /**
-     * Returns the annotations found in a specific method
+     * Returns the annotations found in a specific constant
      */
-    public function getMethod(string className, string methodName) -> <Collection>;
+    public function getConstant(string className, string constantName) -> <Collection>;
 
     /**
-     * Returns the annotations found in all the class' methods
+     * Returns the annotations found in all the class' constants
      */
-    public function getMethods(string className) -> array;
+    public function getConstants(string className) -> array;
 
     /**
      * Returns the annotations found in a specific property
@@ -43,6 +43,16 @@ interface AdapterInterface
      * Returns the annotations found in all the class' methods
      */
     public function getProperties(string className) -> array;
+
+    /**
+     * Returns the annotations found in a specific method
+     */
+    public function getMethod(string className, string methodName) -> <Collection>;
+
+    /**
+     * Returns the annotations found in all the class' methods
+     */
+    public function getMethods(string className) -> array;
 
     /**
      * Returns the annotation reader

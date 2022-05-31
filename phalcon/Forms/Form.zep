@@ -319,7 +319,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns the current element in the iterator
      */
-    public function current() -> <ElementInterface> | bool
+    public function current() -> mixed
     {
         var element;
 

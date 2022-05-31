@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class OpenCest
 {
@@ -24,8 +23,10 @@ class OpenCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: open()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterNoopOpen(IntegrationTester $I)
     {

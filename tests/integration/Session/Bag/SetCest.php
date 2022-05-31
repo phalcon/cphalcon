@@ -17,49 +17,48 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class SetCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class SetCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: set()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagSet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - set()');
 
-        $collection = new Bag('BagTest', $this->container);
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+        $collection = new Bag($this->container->get("session"), 'BagTest');
 
         $collection->set('three', 'two');
-
         $expected = 'two';
         $actual   = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
         $collection->three = 'Phalcon';
-
-        $expected = 'Phalcon';
-        $actual   = $collection->get('three');
+        $expected          = 'Phalcon';
+        $actual            = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
         $collection->offsetSet('three', 123);
-
         $expected = 123;
         $actual   = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
         $collection['three'] = true;
-
-        $actual = $collection->get('three');
+        $actual              = $collection->get('three');
         $I->assertTrue($actual);
     }
 }

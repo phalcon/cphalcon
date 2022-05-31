@@ -24,8 +24,6 @@ Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform indepen
 As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and macOS.
 You can either download a binary package for the system of your choice or build it from source.
 
-**NOTE:** Phalcon requires the [PSR PHP extension](https://github.com/jbboehr/php-psr) to be installed and enabled.
-
 ## Installation
 
 For detailed installation instructions you can check our [installation](https://docs.phalcon.io/4.0/en/installation) page in the docs.
@@ -64,10 +62,10 @@ Steps:
 
 ## Sponsors
 
-Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
+Become a sponsor and get your logo on our README on GitHub with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
 
 <a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/sponsors.svg?avatarHeight=48&width=800">
+<img src="https://opencollective.com/phalcon/tiers/sponsors.svg?avatarHeight=48&width=800" alt="OpenCollective Contributors">
 </a>
 
 ## Backers
@@ -75,7 +73,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/phalcon#backer)]
 
 <a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/backers.svg?avatarHeight=48&width=800&height=200">
+<img src="https://opencollective.com/phalcon/tiers/backers.svg?avatarHeight=48&width=800&height=200" alt="OpenCollective Contributors">
 </a>
 
 ## License

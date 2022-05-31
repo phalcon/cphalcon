@@ -10,19 +10,14 @@
 
 namespace Phalcon\Storage\Serializer;
 
-/**
- * Class None
- *
- * @package Phalcon\Storage\Serializer
- */
 class None extends AbstractSerializer
 {
     /**
      * Serializes data
      *
-     * @return string
+     * @return mixed
      */
-	public function serialize() -> string
+	public function serialize() -> mixed
 	{
 		return this->data;
 	}
@@ -30,11 +25,11 @@ class None extends AbstractSerializer
     /**
      * Unserializes data
      *
-     * @param string $data
+     * @param mixed $data
      *
      * @retrun void
      */
-	public function unserialize(var data) -> void
+	public function unserialize(mixed data) -> void
 	{
 		let this->data = data;
 	}

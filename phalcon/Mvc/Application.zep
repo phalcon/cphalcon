@@ -94,7 +94,7 @@ class Application extends AbstractApplication
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "A dependency injection container is required to access internal services"
             );
@@ -106,10 +106,8 @@ class Application extends AbstractApplication
          * Call boot event, this allow the developer to perform initialization
          * actions
          */
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("application:boot", this) === false {
-                return false;
-            }
+        if eventsManager !== null && eventsManager->fire("application:boot", this) === false {
+            return false;
         }
 
         let router = <RouterInterface> container->getShared("router");

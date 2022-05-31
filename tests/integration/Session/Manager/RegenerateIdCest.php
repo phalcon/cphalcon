@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Manager;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class RegenerateIdCest
 {
@@ -25,8 +24,10 @@ class RegenerateIdCest
     /**
      * Tests Phalcon\Session\Manager :: regenerateId()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerRegenerateId(IntegrationTester $I)
     {

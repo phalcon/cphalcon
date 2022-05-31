@@ -15,63 +15,34 @@ namespace Phalcon\Tests\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
-use Phalcon\Session\Exception;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class ConstructCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class ConstructCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: __construct()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - __construct()');
 
+        $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        $collection = new Bag('BagTest', $this->container);
+        $collection = new Bag($this->container->get("session"), 'BagTest');
 
         $class = Bag::class;
         $I->assertInstanceOf($class, $collection);
-    }
-
-    /**
-     * Tests Phalcon\Session\Bag :: __construct() - exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-02
-     */
-    public function sessionBagConstructException(IntegrationTester $I)
-    {
-        $I->wantToTest('Session\Bag - __construct() - exception');
-
-        $I->expectThrowable(
-            new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            ),
-            function () {
-                $collection = new Bag('BagTest');
-            }
-        );
-
-        $container = $this->container;
-
-        $I->expectThrowable(
-            new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            ),
-            function () use ($container) {
-                $collection = new Bag('BagTest', $container);
-            }
-        );
     }
 }

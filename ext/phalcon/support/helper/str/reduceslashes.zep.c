@@ -19,7 +19,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_ReduceSlashes, __invoke)
 	ZVAL_STRING(&_0, "#(?<!:)//+#");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "/");
-	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 50, &_0, &_1, &text);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 37, &_0, &_1, &text);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	if (Z_TYPE_P(&result) == IS_NULL) {

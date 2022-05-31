@@ -95,23 +95,6 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed|null
-     * @throws StorageException
-     */
-    public function get(string! key, var defaultValue = null) -> var
-    {
-        return this->getUnserializedData(
-            this->getAdapter()->get(key),
-            defaultValue
-        );
-    }
-
-    /**
      * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
@@ -184,11 +167,15 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      * @throws BaseException
@@ -340,8 +327,8 @@ class Redis extends AbstractAdapter
         array map;
 
         let map = [
-            "none" : \Redis::SERIALIZER_NONE,
-            "php"  : \Redis::SERIALIZER_PHP
+            "redis_none" : \Redis::SERIALIZER_NONE,
+            "redis_php"  : \Redis::SERIALIZER_PHP
         ];
 
         /**
@@ -349,15 +336,15 @@ class Redis extends AbstractAdapter
          * of Redis
          */
         if (defined("\\Redis::SERIALIZER_IGBINARY")) {
-            let map["igbinary"] = constant("\\Redis::SERIALIZER_IGBINARY");
+            let map["redis_igbinary"] = constant("\\Redis::SERIALIZER_IGBINARY");
         }
 
         if (defined("\\Redis::SERIALIZER_MSGPACK")) {
-            let map["msgpack"] = constant("\\Redis::SERIALIZER_MSGPACK");
+            let map["redis_msgpack"] = constant("\\Redis::SERIALIZER_MSGPACK");
         }
 
         if (defined("\\Redis::SERIALIZER_JSON")) {
-            let map["json"] = constant("\\Redis::SERIALIZER_JSON");
+            let map["redis_json"] = constant("\\Redis::SERIALIZER_JSON");
         }
 
         let serializer = strtolower(this->defaultSerializer);

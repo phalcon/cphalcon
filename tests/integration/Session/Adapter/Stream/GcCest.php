@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function cacheDir;
 use function file_put_contents;
@@ -29,8 +28,10 @@ class GcCest
     /**
      * Tests Phalcon\Session\Adapter\Stream :: gc()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterStreamGc(IntegrationTester $I)
     {
@@ -41,28 +42,19 @@ class GcCest
         /**
          * Add two session files
          */
-        $I->assertNotFalse(
-            file_put_contents(
-                cacheDir('sessions/gc_1'),
-                uniqid()
-            )
-        );
+        $actual = file_put_contents(cacheDir('sessions/gc_1'), uniqid());
+        $I->assertNotFalse($actual);
 
-        $I->assertNotFalse(
-            file_put_contents(
-                cacheDir('sessions/gc_2'),
-                uniqid()
-            )
-        );
+        $actual = file_put_contents(cacheDir('sessions/gc_2'), uniqid());
+        $I->assertNotFalse($actual);
 
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
 
-        $I->assertTrue(
-            $adapter->gc(1)
-        );
+        $actual = $adapter->gc(1);
+        $I->assertTrue($actual);
 
         $I->dontSeeFileFound('gc_1', cacheDir('sessions'));
         $I->dontSeeFileFound('gc_2', cacheDir('sessions'));

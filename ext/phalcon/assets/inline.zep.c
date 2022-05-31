@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sha256");
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 99, &_2, &key);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 68, &_2, &key);
 	zephir_check_call_status();
 	RETURN_MM();
 }

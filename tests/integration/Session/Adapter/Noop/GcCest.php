@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Integration\Session\Adapter\Noop;
 
 use IntegrationTester;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class GcCest
 {
@@ -24,8 +23,10 @@ class GcCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: gc()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterNoopGc(IntegrationTester $I)
     {
@@ -33,8 +34,7 @@ class GcCest
 
         $adapter = $this->newService('sessionNoop');
 
-        $I->assertTrue(
-            $adapter->gc(1)
-        );
+        $actual = $adapter->gc(1);
+        $I->assertTrue($actual);
     }
 }

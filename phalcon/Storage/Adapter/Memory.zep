@@ -63,16 +63,18 @@ class Memory extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var current, prefixedKey, result;
+        var current, newValue, prefixedKey, result;
 
-        let prefixedKey = this->getPrefixedKey(key);
+        let prefixedKey = this->getPrefixedKey(key),
+            result      = array_key_exists(prefixedKey, this->data);
 
-        if unlikely !fetch current, this->data[prefixedKey] {
-            return false;
+        if likely true === result {
+            let current  = this->data[prefixedKey],
+                newValue = (int) current - value,
+                result   = newValue;
+
+            let this->data[prefixedKey] = newValue;
         }
-
-        let result = (int) current - value,
-            this->data[prefixedKey] = result;
 
         return result;
     }
@@ -89,29 +91,11 @@ class Memory extends AbstractAdapter
         var exists, prefixedKey;
 
         let prefixedKey = this->getPrefixedKey(key),
-            exists      = isset(this->data[prefixedKey]);
+            exists      = array_key_exists(prefixedKey, this->data);
 
         unset(this->data[prefixedKey]);
 
         return exists;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
-     */
-    public function get(string key, defaultValue = null)
-    {
-        var content, prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key),
-            content     = this->data[prefixedKey];
-
-        return this->getUnserializedData(content, defaultValue);
     }
 
     /**
@@ -139,7 +123,7 @@ class Memory extends AbstractAdapter
 
         let prefixedKey = this->getPrefixedKey(key);
 
-        return isset(this->data[prefixedKey]);
+        return array_key_exists(prefixedKey, this->data);
     }
 
     /**
@@ -152,26 +136,32 @@ class Memory extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var current, prefixedKey, result;
+        var current, newValue, prefixedKey, result;
 
-        let prefixedKey = this->getPrefixedKey(key);
+        let prefixedKey = this->getPrefixedKey(key),
+            result      = array_key_exists(prefixedKey, this->data);
 
-        if unlikely !fetch current, this->data[prefixedKey] {
-            return false;
+        if likely true === result {
+            let current  = this->data[prefixedKey],
+                newValue = (int) current + value,
+                result   = newValue;
+
+            let this->data[prefixedKey] = newValue;
         }
-
-        let result = (int) current + value,
-            this->data[prefixedKey] = result;
 
         return result;
     }
 
     /**
-     * Stores data in the adapter
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      * @throws BaseException
@@ -204,5 +194,15 @@ class Memory extends AbstractAdapter
     public function setForever(string! key, var value) -> bool
     {
         return this->set(key, value);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    protected function doGet(string key)
+    {
+        return this->data[this->getPrefixedKey(key)];
     }
 }

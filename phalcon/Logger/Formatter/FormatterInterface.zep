@@ -26,5 +26,5 @@ interface FormatterInterface
      *
      * @return string
      */
-    public function format(<Item> item) -> string | array;
+    public function format(<Item> item) -> string;
 }

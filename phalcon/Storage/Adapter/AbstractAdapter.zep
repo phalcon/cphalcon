@@ -141,7 +141,18 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return mixed
      */
-    abstract public function get(string! key, var defaultValue = null) -> var;
+    public function get(string key, defaultValue = null) -> var
+    {
+        var content;
+
+        if (true !== this->has(key)) {
+            return defaultValue;
+        }
+
+        let content  = this->doGet(key);
+
+        return this->getUnserializedData(content, defaultValue);
+    }
 
     /**
      * Returns the adapter - connects to the storage if not connected
@@ -211,6 +222,16 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    protected function doGet(string key)
+    {
+        return this->getAdapter()->get(key);
+    }
+
+    /**
      * Filters the keys array based on global and passed prefix
      *
      * @param mixed  $keys
@@ -259,7 +280,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function getSerializedData(var content) -> var
     {
-        if true !== empty(this->defaultSerializer) {
+        if (null !== this->serializer) {
             this->serializer->setData(content);
             let content = this->serializer->serialize();
         }
@@ -301,12 +322,13 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function getUnserializedData(var content, var defaultValue = null) -> var
     {
-        if !content {
-            return defaultValue;
-        }
-
-        if true !== empty(this->defaultSerializer) {
+        if (null !== this->serializer) {
             this->serializer->unserialize(content);
+
+            if unlikely true !== this->serializer->isSuccess() {
+                return defaultValue;
+            }
+
             let content = this->serializer->getData();
         }
 

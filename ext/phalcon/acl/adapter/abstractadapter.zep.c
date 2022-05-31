@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 }
 
 /**
- * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+ * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 {

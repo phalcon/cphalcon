@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Events\ManagerInterface
- *
  * Interface for Phalcon\Events managers.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_ManagerInterface)

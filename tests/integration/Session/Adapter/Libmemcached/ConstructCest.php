@@ -27,8 +27,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: __construct()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionAdapterLibmemcachedConstruct(IntegrationTester $I)
     {
@@ -36,10 +38,8 @@ class ConstructCest
 
         $adapter = $this->newService('sessionLibmemcached');
 
-        $I->assertInstanceOf(
-            SessionHandlerInterface::class,
-            $adapter
-        );
+        $class = SessionHandlerInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 
     /**
@@ -60,23 +60,21 @@ class ConstructCest
 
         $memcachedSession = new Libmemcached($factory, $options);
 
-        $I->assertTrue(
-            $memcachedSession->write(
-                'my-session-prefixed-key',
-                'test-data'
-            )
+        $actual = $memcachedSession->write(
+            'my-session-prefixed-key',
+            'test-data'
         );
+
+        $I->assertTrue($actual);
 
         $memcachedStorage = $factory->newInstance('libmemcached', $options);
 
-        $I->assertEquals(
-            'my-custom-prefix-',
-            $memcachedStorage->getPrefix()
-        );
+        $expected = 'my-custom-prefix-';
+        $actual   = $memcachedStorage->getPrefix();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'test-data',
-            $memcachedStorage->get('my-session-prefixed-key')
-        );
+        $expected = 'test-data';
+        $actual   = $memcachedStorage->get('my-session-prefixed-key');
+        $I->assertEquals($expected, $actual);
     }
 }

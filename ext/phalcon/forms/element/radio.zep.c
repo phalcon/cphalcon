@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Forms\Element\Radio
- *
  * Component INPUT[type=radio] for forms
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio)

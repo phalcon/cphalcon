@@ -61,10 +61,10 @@ class ConstructCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws SupportException
      * @since  2020-09-09
      *
-     * @throws SupportException
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function storageAdapterLibmemcachedConstructEmptyOptions(IntegrationTester $I)
     {
@@ -84,7 +84,7 @@ class ConstructCest
             ],
         ];
         $actual   = $adapter->getOptions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -111,16 +111,16 @@ class ConstructCest
 
         $expected = 3600;
         $actual   = $adapter->getTtl(null);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 20;
         $actual   = $adapter->getTtl(20);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $time     = new DateInterval('PT5S');
         $expected = 5;
         $actual   = $adapter->getTtl($time);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

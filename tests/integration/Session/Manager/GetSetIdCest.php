@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Session\Manager;
 
 use IntegrationTester;
+use Phalcon\Session\Exception;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 use function uniqid;
 
@@ -27,34 +27,58 @@ class GetSetIdCest
     /**
      * Tests Phalcon\Session\Manager :: getId()/setId()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetSetId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getId()/setId()');
 
         $manager = new Manager();
-
-        $files = $this->newService('sessionStream');
-
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
-        $I->assertEquals(
-            '',
-            $manager->getId()
-        );
-
+        $actual = $manager->getId();
+        $I->assertEquals('', $actual);
 
         $id = uniqid();
-
         $manager->setId($id);
 
-        $I->assertEquals(
-            $id,
-            $manager->getId()
-        );
+        $actual = $manager->getId();
+        $I->assertEquals($id, $actual);
 
         $manager->destroy();
+    }
+
+    /**
+     * Tests Phalcon\Session\Manager :: setId() - exception
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function sessionManagerSetIdException(IntegrationTester $I)
+    {
+        $I->wantToTest('Session\Manager - setId() - exception');
+
+        $I->expectThrowable(
+            new Exception(
+                'The session has already been started. ' .
+                'To change the id, use regenerateId()'
+            ),
+            function () {
+                $manager = new Manager();
+                $files   = $this->newService('sessionStream');
+                $manager->setAdapter($files);
+
+                $manager->start();
+
+                $id = uniqid();
+                $manager->setId($id);
+            }
+        );
     }
 }

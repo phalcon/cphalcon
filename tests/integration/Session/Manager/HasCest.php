@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Integration\Session\Manager;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Fixtures\Traits\SessionTrait;
 
 class HasCest
 {
@@ -25,8 +24,10 @@ class HasCest
     /**
      * Tests Phalcon\Session\Manager :: has()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerHas(IntegrationTester $I)
     {
@@ -38,24 +39,23 @@ class HasCest
 
         $manager->setAdapter($files);
 
-        $I->assertTrue(
-            $manager->start()
-        );
+        $actual = $manager->has('test');
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $manager->has('test')
-        );
+        $actual = $manager->start();
+        $I->assertTrue($actual);
+
+        $actual = $manager->has('test');
+        $I->assertFalse($actual);
 
         $manager->set('test', 'myval');
 
-        $I->assertTrue(
-            $manager->has('test')
-        );
+        $actual = $manager->has('test');
+        $I->assertTrue($actual);
 
         $manager->destroy();
 
-        $I->assertFalse(
-            $manager->exists()
-        );
+        $actual = $manager->exists();
+        $I->assertFalse($actual);
     }
 }

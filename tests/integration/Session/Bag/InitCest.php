@@ -17,43 +17,56 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
-use function var_dump;
+use function uniqid;
 
+/**
+ * Class InitCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class InitCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: init()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagInit(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - init()');
+
+        $store = $_SESSION ?? [];
+
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+
+        $name = uniqid();
+        $_SESSION[$name] = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
 
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest', $this->container);
 
-        $expected = 0;
+        $collection = new Bag($this->container->get("session"), $name);
+
+        $expected = 2;
         $actual   = $collection->count();
         $I->assertEquals($expected, $actual);
 
         $collection->init($data);
+        $actual = $collection->toArray();
+        $I->assertEquals($data, $actual);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $_SESSION = $store;
     }
 }

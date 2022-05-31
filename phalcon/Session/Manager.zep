@@ -1,10 +1,10 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
@@ -18,9 +18,10 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Support\Helper\Arr\Get;
 
 /**
- * Phalcon\Session\Manager
- *
- * Session manager class
+ * @property SessionHandlerInterface|null $adapter
+ * @property string                       $name
+ * @property array                        $options
+ * @property string                       $uniqueId
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
@@ -47,7 +48,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Manager constructor.
      *
-     * @param array options = [
+     * @param array $options = [
      *     'uniqueId' => null
      * ]
      */
@@ -58,6 +59,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Gets a session variable from an application context
+     *
+     * @param string $key
+     *
+     * @return mixed
      */
     public function __get(string key) -> var
     {
@@ -66,6 +71,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Check whether a session variable is set in an application context
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function __isset(string key) -> bool
     {
@@ -74,14 +83,19 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Sets a session variable in an application context
+     *
+     * @param string $key
+     * @param mixed  $value
      */
-    public function __set(string key, value) -> void
+    public function __set(string key, var value) -> void
     {
         this->set(key, value);
     }
 
     /**
      * Alias: Removes a session variable from an application context
+     *
+     * @param string $key
      */
     public function __unset(string key) -> void
     {
@@ -93,7 +107,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function destroy() -> void
     {
-        if true === this->exists() {
+        if (true === this->exists()) {
             session_destroy();
 
             let _SESSION = [];
@@ -102,6 +116,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Check whether the session has been started
+     *
+     * @return bool
      */
     public function exists() -> bool
     {
@@ -110,12 +126,20 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Gets a session variable from an application context
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     * @param bool       $remove
+     *
+     * @return mixed|null
      */
     public function get(string key, var defaultValue = null, bool remove = false) -> var
     {
-        var uniqueKey, value = null;
+        var value, uniqueKey;
 
-        if false === this->exists() {
+        let value = null;
+
+        if (false === this->exists()) {
             // To use $_SESSION variable we need to start session first
             return value;
         }
@@ -186,14 +210,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Regenerates the session id using the adapter.
      */
-    public function regenerateId(deleteOldSession = true) -> <ManagerInterface>
+    public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>
     {
-        var delete;
-
-        let delete = (bool) deleteOldSession;
-
         if true === this->exists() {
-            session_regenerate_id(delete);
+            session_regenerate_id(deleteOldSession);
         }
 
         return this;
@@ -204,32 +224,29 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function remove(string key) -> void
     {
-        if false === this->exists() {
-            // To use $_SESSION variable we need to start session first
-            return;
-        }
-
         var uniqueKey;
 
-        let uniqueKey = this->getUniqueKey(key);
+        // To use $_SESSION variable we need to start session first
+        if true === this->exists() {
+            let uniqueKey = this->getUniqueKey(key);
 
-        unset(_SESSION[uniqueKey]);
+            unset _SESSION[uniqueKey];
+        }
     }
 
     /**
      * Sets a session variable in an application context
      */
-    public function set(string key, value) -> void
+    public function set(string key, var value) -> void
     {
         var uniqueKey;
 
-        if false === this->exists() {
-            // To use $_SESSION variable we need to start session first
-            return;
-        }
+        // To use $_SESSION variable we need to start session first
+        if true === this->exists() {
+            let uniqueKey = this->getUniqueKey(key);
 
-         let uniqueKey          = this->getUniqueKey(key),
-            _SESSION[uniqueKey] = value;
+            let _SESSION[uniqueKey] = value;
+        }
     }
 
     /**
@@ -245,16 +262,16 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Set session Id
      */
-    public function setId(string id) -> <ManagerInterface>
+    public function setId(string sessionId) -> <ManagerInterface>
     {
         if unlikely (true === this->exists()) {
-            throw new RuntimeException(
+            throw new Exception(
                 "The session has already been started. " .
                 "To change the id, use regenerateId()"
             );
         }
 
-        session_id(id);
+        session_id(sessionId);
 
         return this;
     }
@@ -263,7 +280,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      * Set the session name. Throw exception if the session has started
      * and do not allow poop names
      *
-     * @param  string name
+     * @param string $name
      *
      * @throws InvalidArgumentException
      *
@@ -271,14 +288,14 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function setName(string name) -> <ManagerInterface>
     {
-        if unlikely this->exists() {
-            throw new InvalidArgumentException(
+        if unlikely true === this->exists() {
+            throw new Exception(
                 "Cannot set session name after a session has started"
             );
         }
 
         if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
-            throw new InvalidArgumentException(
+            throw new Exception(
                 "The name contains non alphanum characters"
             );
         }
@@ -319,7 +336,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         /**
          * Cannot start this - headers already sent
          */
-        if true === headers_sent() {
+        if (true === this->phpHeadersSent()) {
             return false;
         }
 
@@ -369,19 +386,31 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
+     * Checks if or where headers have been sent
+     *
+     * @return bool
+     *
+     * @link https://php.net/manual/en/function.headers-sent.php
+     */
+    protected function phpHeadersSent() -> bool
+    {
+        return headers_sent();
+    }
+
+    /**
      * Returns the key prefixed
+     *
+     * @param string $key
+     *
+     * @return string
      */
     private function getUniqueKey(string key) -> string
     {
-        var uniqueId;
+        var prefix;
 
-        let uniqueId = this->uniqueId;
+        let prefix = (true !== empty(this->uniqueId)) ? this->uniqueId . "#" : "";
 
-        if !empty uniqueId {
-            return this->uniqueId . "#" . key;
-        } else {
-            return key;
-        }
+        return prefix . key;
     }
 
     /**

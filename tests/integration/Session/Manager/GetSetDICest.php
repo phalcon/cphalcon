@@ -17,16 +17,15 @@ use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Manager;
 
-/**
- * Class GetDICest
- */
 class GetSetDICest
 {
     /**
      * Tests Phalcon\Session\Manager :: getDI()/setDI()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionManagerGetSetDI(IntegrationTester $I)
     {
@@ -37,9 +36,7 @@ class GetSetDICest
 
         $session->setDI($container);
 
-        $I->assertEquals(
-            $container,
-            $session->getDI()
-        );
+        $actual = $session->getDI();
+        $I->assertEquals($container, $actual);
     }
 }

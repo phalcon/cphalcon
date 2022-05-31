@@ -17,37 +17,38 @@ use IntegrationTester;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+/**
+ * Class JsonSerializeCest
+ *
+ * @package Phalcon\Tests\Integration\Session\Bag
+ */
 class JsonSerializeCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');
-    }
-
     /**
      * Tests Phalcon\Session\Bag :: jsonSerialize()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-09-09
      */
     public function sessionBagJsonSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - jsonSerialize()');
 
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new Bag('BagTest', $this->container);
+
+        $collection = new Bag($this->container->get("session"), 'BagTest');
 
         $collection->init($data);
-
-        $expected = $data;
-        $actual   = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($data, $collection->jsonSerialize());
     }
 }

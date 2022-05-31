@@ -13,8 +13,6 @@ namespace Phalcon\Forms\Element;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Forms\Element\Numeric
- *
  * Component INPUT[type=number] for forms
  */
 class Numeric extends AbstractElement

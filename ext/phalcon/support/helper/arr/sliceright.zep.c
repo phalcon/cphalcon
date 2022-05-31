@@ -19,7 +19,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_SliceRight, __invoke)
 
 
 	ZVAL_LONG(&_0, elements);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 0, &collection, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 498, &collection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

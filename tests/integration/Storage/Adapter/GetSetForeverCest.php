@@ -29,7 +29,6 @@ use function getOptionsRedis;
 use function outputDir;
 use function sprintf;
 use function uniqid;
-use function usleep;
 
 class GetSetForeverCest
 {

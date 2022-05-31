@@ -30,8 +30,6 @@ class ExistsDestroyCest
      * @param IntegrationTester $I
      * @param Example           $example
      *
-     * @throws \Phalcon\Storage\Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -93,7 +91,7 @@ class ExistsDestroyCest
 
         $manager->set('test1', __METHOD__);
         $I->assertArrayHasKey('test1', $_SESSION);
-        $I->assertContains(__METHOD__, $_SESSION['test1']);
+        $I->assertStringContainsString(__METHOD__, $_SESSION['test1']);
 
         $manager->destroy();
         $I->assertArrayNotHasKey('test1', $_SESSION);
@@ -115,7 +113,7 @@ class ExistsDestroyCest
      * @throws \Phalcon\Storage\Exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-06
+     * @since  2020-09-09
      */
     public function sessionManagerDestroySuperGlobalUniquid(IntegrationTester $I, Example $example)
     {
@@ -142,7 +140,7 @@ class ExistsDestroyCest
         $manager->set('test1', __METHOD__);
 
         $I->assertArrayHasKey('aaa#test1', $_SESSION);
-        $I->assertContains(__METHOD__, $_SESSION['aaa#test1']);
+        $I->assertStringContainsString(__METHOD__, $_SESSION['aaa#test1']);
 
         $manager->destroy();
         $I->assertArrayNotHasKey('aaa#test1', $_SESSION);

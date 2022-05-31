@@ -18,8 +18,8 @@ use Phalcon\Logger\AdapterFactory;
 use Phalcon\Logger\Exception as LoggerException;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
+use Phalcon\Logger\LoggerInterface;
 use Phalcon\Tests\Fixtures\Traits\FactoryTrait;
-use Psr\Log\LoggerInterface;
 use UnitTester;
 
 class LoadCest

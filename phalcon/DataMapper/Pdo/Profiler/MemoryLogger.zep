@@ -15,19 +15,97 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
-use Psr\Log\AbstractLogger;
+use Phalcon\Logger\Enum;
+use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\LoggerInterface;
 
 /**
- * A naive memory-based logger.
+ * A memory-based logger.
  *
  * @property array $messages
  */
-class MemoryLogger extends AbstractLogger
+class MemoryLogger implements LoggerInterface
 {
     /**
      * @var array
      */
     protected messages = [];
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function alert(string message, array context = []) -> void
+    {
+        this->log(Enum::ALERT, message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function critical(string message, array context = []) -> void
+    {
+        this->log(Enum::CRITICAL, message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function debug(string message, array context = []) -> void
+    {
+        this->log(Enum::DEBUG, message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function emergency(string message, array context = []) -> void
+    {
+        this->log(Enum::EMERGENCY, message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function error(string message, array context = []) -> void
+    {
+        this->log(Enum::ERROR, message, context);
+    }
+
+    /**
+     * Returns an adapter from the stack
+     *
+     * @param string $name The name of the adapter
+     *
+     * @return AdapterInterface
+     */
+    public function getAdapter(string name) -> <AdapterInterface>
+    {
+        return new Noop();
+    }
+
+    /**
+     * Returns the adapter stack array
+     *
+     * @return AdapterInterface[]
+     */
+    public function getAdapters() -> array
+    {
+        return [];
+    }
+
+    /**
+     * Returns the log level
+     */
+    public function getLogLevel() -> int
+    {
+        return Enum::CUSTOM;
+    }
 
     /**
      * Returns the logged messages.
@@ -40,75 +118,39 @@ class MemoryLogger extends AbstractLogger
     }
 
     /**
-     * @param string message
-     * @param mixed[] context
+     * Returns the name of the logger
      */
-    public function emergency(var message, array context = [])
+    public function getName() -> string
     {
-        parent::emergency(message, context);
+        return "memory logger";
     }
 
     /**
      * @param string message
      * @param mixed[] context
      */
-    public function alert(var message, array context = [])
+    public function info(string message, array context = []) -> void
     {
-        parent::alert(message, context);
+        this->log(Enum::INFO, message, context);
     }
 
     /**
      * @param string message
      * @param mixed[] context
      */
-    public function critical(var message, array context = [])
+    public function notice(string message, array context = []) -> void
     {
-        parent::critical(message, context);
+        this->log(Enum::NOTICE, message, context);
     }
+
 
     /**
      * @param string message
      * @param mixed[] context
      */
-    public function error(var message, array context = [])
+    public function warning(string message, array context = []) -> void
     {
-        parent::error(message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function warning(var message, array context = [])
-    {
-        parent::warning(message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function notice(var message, array context = [])
-    {
-        parent::notice(message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function info(var message, array context = [])
-    {
-        parent::info(message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function debug(var message, array context = [])
-    {
-        parent::debug(message, context);
+        this->log(Enum::WARNING, message, context);
     }
 
     /**
@@ -118,7 +160,7 @@ class MemoryLogger extends AbstractLogger
      * @param string $message
      * @param array  $context
      */
-    public function log(var level, var message, array context = [])
+    public function log(var level, string message, array context = []) -> void
     {
         var key, value;
         array replace = [];

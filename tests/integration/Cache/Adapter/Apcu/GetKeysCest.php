@@ -71,4 +71,44 @@ class GetKeysCest
         sort($actual);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Apcu :: getKeys() - iterator error
+     *
+     * @param IntegrationTester $I
+     *
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterApcuGetKeysIteratorError(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Apcu - getKeys() - iterator error');
+
+        $serializer = new SerializerFactory();
+        $adapter    = Stub::construct(
+            Apcu::class,
+            [
+                $serializer,
+            ],
+            [
+                'phpApcuIterator' => false,
+            ]
+        );
+
+        $adapter->set('key-1', 'test');
+        $adapter->set('key-2', 'test');
+        $adapter->set('one-1', 'test');
+        $adapter->set('one-2', 'test');
+
+        $I->assertTrue($adapter->has('key-1'));
+        $I->assertTrue($adapter->has('key-2'));
+        $I->assertTrue($adapter->has('one-1'));
+        $I->assertTrue($adapter->has('one-2'));
+
+        $actual = $adapter->getKeys();
+        $I->assertIsArray($actual);
+        $I->assertEmpty($actual);
+    }
 }

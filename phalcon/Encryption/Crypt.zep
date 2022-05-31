@@ -433,6 +433,27 @@ class Crypt implements CryptInterface
     }
 
     /**
+     * Returns if the input length for decryption is valid or not
+     * (number of bytes required by the cipher).
+     *
+     * @param string $input
+     *
+     * @return bool
+     */
+    public function isValidDecryptLength(string input) -> bool
+    {
+        var length;
+
+        let length = this->phpOpensslCipherIvLength(this->cipher);
+
+        if length === false {
+            return false;
+        }
+
+        return length <= mb_strlen(input);
+    }
+
+    /**
      * @param string $data
      *
      * @return CryptInterface
@@ -965,6 +986,11 @@ class Crypt implements CryptInterface
     protected function phpFunctionExists(string name) -> bool
     {
         return function_exists(name);
+    }
+
+    protected function phpOpensslCipherIvLength(string cipher) -> int|bool
+    {
+        return openssl_cipher_iv_length(cipher);
     }
 
     protected function phpOpensslRandomPseudoBytes(int length)

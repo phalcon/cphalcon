@@ -13,9 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -35,7 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Link, EvolvableLinkProvider, phalcon, html_link_evolvablelinkprovider, phalcon_html_link_linkprovider_ce, phalcon_html_link_evolvablelinkprovider_method_entry, 0);
 
-	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, zephir_get_internal_ce(SL("psr\\link\\evolvablelinkproviderinterface")));
+	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, phalcon_html_link_interfaces_evolvablelinkproviderinterface_ce);
 	return SUCCESS;
 }
 
@@ -55,16 +54,14 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *link, link_sub, key, newInstance;
+	zval *link, link_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&newInstance);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -73,14 +70,9 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 	zephir_fetch_params(1, 1, 0, &link);
 
 
-	ZEPHIR_CALL_METHOD(&key, this_ptr, "getkey", NULL, 0, link);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithlink", NULL, 0, link);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&newInstance);
-	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
-		RETURN_MM();
-	}
-	zephir_update_property_array(&newInstance, SL("links"), &key, link);
-	RETURN_CCTOR(&newInstance);
+	RETURN_MM();
 }
 
 /**
@@ -99,18 +91,14 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *link, link_sub, key, links, newInstance, _0;
+	zval *link, link_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&links);
-	ZVAL_UNDEF(&newInstance);
-	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("psr\\link\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -119,16 +107,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 	zephir_fetch_params(1, 1, 0, &link);
 
 
-	ZEPHIR_CALL_METHOD(&key, this_ptr, "getkey", NULL, 0, link);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithoutlink", NULL, 0, link);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&newInstance);
-	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
-		RETURN_MM();
-	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&links, &_0);
-	zephir_array_unset(&links, &key, PH_SEPARATE);
-	zephir_update_property_zval(&newInstance, ZEND_STRL("links"), &links);
-	RETURN_CCTOR(&newInstance);
+	RETURN_MM();
 }
 

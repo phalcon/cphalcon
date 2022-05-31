@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Cannot find translation key: ", &index);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 31, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 107);
 		ZEPHIR_MM_RESTORE();
@@ -322,6 +322,20 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Returns the internal array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "translate");
 }
 
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type)

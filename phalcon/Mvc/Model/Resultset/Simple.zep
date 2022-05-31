@@ -18,7 +18,6 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -49,14 +48,14 @@ class Simple extends Resultset
      * @param array                             columnMap
      * @param ModelInterface|Row                model
      * @param \Phalcon\Db\ResultInterface|false result
-     * @param CacheInterface|null               cache
+     * @param mixed|null                        cache
      * @param bool keepSnapshots                false
      */
     public function __construct(
         var columnMap,
         var model,
         result,
-        <CacheInterface> cache = null,
+        var cache = null,
         bool keepSnapshots = false
     )
     {
@@ -255,8 +254,7 @@ class Simple extends Resultset
         array data;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -293,8 +291,7 @@ class Simple extends Resultset
         var resultset, keepSnapshots, container, serializer;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -309,7 +306,7 @@ class Simple extends Resultset
             let resultset = unserialize(data);
         }
 
-        if unlikely typeof resultset != "array" {
+        if unlikely typeof resultset !== "array" {
             throw new Exception("Invalid serialization data");
         }
 
@@ -321,6 +318,34 @@ class Simple extends Resultset
             this->hydrateMode = resultset["hydrateMode"];
 
         if fetch keepSnapshots, resultset["keepSnapshots"] {
+            let this->keepSnapshots = keepSnapshots;
+        }
+    }
+
+    public function __serialize() -> array
+    {
+        return [
+            "model"         : this->model,
+            "cache"         : this->cache,
+            "rows"          : this->toArray(false),
+            "columnMap"     : this->columnMap,
+            "hydrateMode"   : this->hydrateMode,
+            "keepSnapshots" : this->keepSnapshots
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        var keepSnapshots;
+
+        let this->model       = data["model"],
+            this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnMap   = data["columnMap"],
+            this->hydrateMode = data["hydrateMode"];
+
+        if fetch keepSnapshots, data["keepSnapshots"] {
             let this->keepSnapshots = keepSnapshots;
         }
     }

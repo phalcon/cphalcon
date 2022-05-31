@@ -995,10 +995,12 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Check if a service is registered in the internal services container using
      * the array syntax
+     *
+     * @param mixed offset
      */
-    public function offsetExists(var alias) -> bool
+    public function offsetExists(mixed offset) -> bool
     {
-        return this->hasService(alias);
+        return this->hasService(offset);
     }
 
     /**
@@ -1010,10 +1012,12 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *     $app["request"]
      * );
      *```
+     *
+     * @param mixed offset
      */
-    public function offsetGet(var alias) -> var
+    public function offsetGet(mixed offset) -> mixed
     {
-        return this->getService(alias);
+        return this->getService(offset);
     }
 
     /**
@@ -1024,28 +1028,22 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *    $app["request"] = new \Phalcon\Http\Request();
      *```
      */
-    public function offsetSet(var alias, var definition) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
-        this->setService(alias, definition);
+        this->setService(offset, value);
     }
 
     /**
      * Removes a service from the internal services container using the array
      * syntax
      */
-    public function offsetUnset(var alias) -> void
+    public function offsetUnset(mixed offset) -> void
     {
-        var container;
-
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
+        if this->container === null {
+            let this->container = new FactoryDefault();
         }
 
-        container->remove(alias);
+        this->container->remove(offset);
     }
 
     /**

@@ -17,7 +17,7 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Logger;
-use Psr\Log\LoggerInterface;
+use Phalcon\Logger\LoggerInterface;
 use UnitTester;
 
 class ConstructCest
@@ -30,9 +30,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function loggerConstructImplementPsr(UnitTester $I)
+    public function loggerConstruct(UnitTester $I)
     {
-        $I->wantToTest('Logger - __construct() - implement PSR');
+        $I->wantToTest('Logger - __construct()');
 
         $logger = new Logger('my-logger');
         $I->assertInstanceOf(LoggerInterface::class, $logger);
