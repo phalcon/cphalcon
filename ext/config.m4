@@ -320,6 +320,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/sanitize/special.zep.c
 	phalcon/filter/sanitize/specialfull.zep.c
 	phalcon/filter/sanitize/stringval.zep.c
+	phalcon/filter/sanitize/stringvallegacy.zep.c
 	phalcon/filter/sanitize/striptags.zep.c
 	phalcon/filter/sanitize/trim.zep.c
 	phalcon/filter/sanitize/upper.zep.c

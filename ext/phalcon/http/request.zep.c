@@ -1045,7 +1045,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 				ZVAL_STRING(&_9$$4, " ");
 				zephir_fast_str_replace(&_5$$4, &_8$$4, &_9$$4, &_7$$4);
 				zephir_fast_strtolower(&_4$$4, &_5$$4);
-				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 284, &_4$$4);
+				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 285, &_4$$4);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				ZEPHIR_INIT_NVAR(&_12$$4);
@@ -1069,7 +1069,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 				ZVAL_STRING(&_18$$5, " ");
 				zephir_fast_str_replace(&_16$$5, &_17$$5, &_18$$5, &name);
 				zephir_fast_strtolower(&_15$$5, &_16$$5);
-				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 284, &_15$$5);
+				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 285, &_15$$5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_19$$5);
 				ZEPHIR_INIT_NVAR(&_20$$5);
@@ -1106,7 +1106,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 					ZVAL_STRING(&_27$$7, " ");
 					zephir_fast_str_replace(&_23$$7, &_26$$7, &_27$$7, &_25$$7);
 					zephir_fast_strtolower(&_22$$7, &_23$$7);
-					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 284, &_22$$7);
+					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 285, &_22$$7);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_28$$7);
 					ZEPHIR_INIT_NVAR(&_29$$7);
@@ -1130,7 +1130,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 					ZVAL_STRING(&_35$$8, " ");
 					zephir_fast_str_replace(&_33$$8, &_34$$8, &_35$$8, &name);
 					zephir_fast_strtolower(&_32$$8, &_33$$8);
-					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 284, &_32$$8);
+					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_10, 285, &_32$$8);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_36$$8);
 					ZEPHIR_INIT_NVAR(&_37$$8);

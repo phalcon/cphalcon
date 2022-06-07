@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct)
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("realpath"), &_3$$4);
 		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&imageinfo, "getimagesize", NULL, 310, &_4$$4);
+		ZEPHIR_CALL_FUNCTION(&imageinfo, "getimagesize", NULL, 311, &_4$$4);
 		zephir_check_call_status();
 		if (zephir_is_true(&imageinfo)) {
 			zephir_array_fetch_long(&_5$$5, &imageinfo, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 38);
@@ -1072,31 +1072,31 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processRender)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "gif");
-	ZEPHIR_CALL_FUNCTION(&_2, "strcmp", NULL, 290, &ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strcmp", NULL, 291, &ext, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "jpg");
-	ZEPHIR_CALL_FUNCTION(&_3, "strcmp", NULL, 290, &ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_3, "strcmp", NULL, 291, &ext, &_1);
 	zephir_check_call_status();
 	_4 = ZEPHIR_IS_LONG(&_3, 0);
 	if (!(_4)) {
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_STRING(&_1, "jpeg");
-		ZEPHIR_CALL_FUNCTION(&_5, "strcmp", NULL, 290, &ext, &_1);
+		ZEPHIR_CALL_FUNCTION(&_5, "strcmp", NULL, 291, &ext, &_1);
 		zephir_check_call_status();
 		_4 = ZEPHIR_IS_LONG(&_5, 0);
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "png");
-	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 290, &ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 291, &ext, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "wbmp");
-	ZEPHIR_CALL_FUNCTION(&_7, "strcmp", NULL, 290, &ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_7, "strcmp", NULL, 291, &ext, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "xbm");
-	ZEPHIR_CALL_FUNCTION(&_8, "strcmp", NULL, 290, &ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_8, "strcmp", NULL, 291, &ext, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_2, 0)) {
 		zephir_read_property(&_9$$3, this_ptr, ZEND_STRL("image"), PH_NOISY_CC | PH_READONLY);
@@ -1320,7 +1320,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	ZEPHIR_CPY_WRT(&ext, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "gif");
-	ZEPHIR_CALL_FUNCTION(&_3, "strcmp", NULL, 290, &ext, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "strcmp", NULL, 291, &ext, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_3, 0)) {
 		ZEPHIR_INIT_ZVAL_NREF(_4$$4);
@@ -1337,13 +1337,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "jpg");
-	ZEPHIR_CALL_FUNCTION(&_7, "strcmp", NULL, 290, &ext, &_2);
+	ZEPHIR_CALL_FUNCTION(&_7, "strcmp", NULL, 291, &ext, &_2);
 	zephir_check_call_status();
 	_8 = ZEPHIR_IS_LONG(&_7, 0);
 	if (!(_8)) {
 		ZEPHIR_INIT_NVAR(&_2);
 		ZVAL_STRING(&_2, "jpeg");
-		ZEPHIR_CALL_FUNCTION(&_9, "strcmp", NULL, 290, &ext, &_2);
+		ZEPHIR_CALL_FUNCTION(&_9, "strcmp", NULL, 291, &ext, &_2);
 		zephir_check_call_status();
 		_8 = ZEPHIR_IS_LONG(&_9, 0);
 	}
@@ -1374,7 +1374,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "png");
-	ZEPHIR_CALL_FUNCTION(&_15, "strcmp", NULL, 290, &ext, &_2);
+	ZEPHIR_CALL_FUNCTION(&_15, "strcmp", NULL, 291, &ext, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_15, 0)) {
 		ZEPHIR_INIT_ZVAL_NREF(_16$$10);
@@ -1391,7 +1391,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "wbmp");
-	ZEPHIR_CALL_FUNCTION(&_19, "strcmp", NULL, 290, &ext, &_2);
+	ZEPHIR_CALL_FUNCTION(&_19, "strcmp", NULL, 291, &ext, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_19, 0)) {
 		ZEPHIR_INIT_ZVAL_NREF(_20$$11);
@@ -1408,7 +1408,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "xbm");
-	ZEPHIR_CALL_FUNCTION(&_23, "strcmp", NULL, 290, &ext, &_2);
+	ZEPHIR_CALL_FUNCTION(&_23, "strcmp", NULL, 291, &ext, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_23, 0)) {
 		ZEPHIR_INIT_ZVAL_NREF(_24$$12);
