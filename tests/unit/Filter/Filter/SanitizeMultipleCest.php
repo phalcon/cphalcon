@@ -112,7 +112,7 @@ class SanitizeMultipleCest
                     'string',
                     'trim',
                 ],
-                'expected' => 'lol',
+                'expected' => 'lol&lt;&lt;&lt;',
             ],
             [
                 'label' => 'array with filters',
