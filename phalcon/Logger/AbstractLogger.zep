@@ -19,13 +19,11 @@ use Phalcon\Logger\Adapter\AdapterInterface;
 /**
  * Abstract Logger Class
  *
- * A PSR compatible logger, with various adapters and formatters. A formatter
- * interface is available as well as an adapter one. Adapters can be created
- * easily using the built in AdapterFactory. A LoggerFactory is also available
- * that allows developers to create new instances of the Logger or load them
- * from config files (see Phalcon\Config\Config object).
- *
- * @package Phalcon\Logger
+ * Abstract logger class, providing common functionality. A formatter interface
+ * is available as well as an adapter one. Adapters can be created easily using
+ * the built in AdapterFactory. A LoggerFactory is also available that allows
+ * developers to create new instances of the Logger or load them from config
+ * files (see Phalcon\Config\Config object).
  *
  * @property AdapterInterface[] $adapters
  * @property array              $excluded
