@@ -20,6 +20,8 @@ use UnitTester;
 use function call_user_func_array;
 use function implode;
 use function is_array;
+use function phpversion;
+use function version_compare;
 
 class SanitizeCest
 {
@@ -63,7 +65,14 @@ class SanitizeCest
             $actual = call_user_func_array([$filter, $method], $source);
         }
 
-        $expected = $example['expected'];
+        if (
+            version_compare(phpversion(), "8.1", "<") &&
+            'stringlegacy' === $class
+        ) {
+            $expected = $example['expected'];
+        } else {
+            $expected = $source;
+        }
         $I->assertEquals($expected, $actual);
     }
 
