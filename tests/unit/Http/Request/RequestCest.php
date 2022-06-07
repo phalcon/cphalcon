@@ -92,21 +92,21 @@ class RequestCest extends HttpBase
         $I->assertEquals('hello', $request->get('string', 'string', null, true, true));
 
         $I->assertEquals(['string' => 'world'], $request->get('array', 'string'));
-        $I->assertEquals(null, $request->get('array', 'string', null, true, true));
+        $I->assertEquals(false, $request->get('array', 'stringlegacy', null, true, true));
 
         // getQuery
         $I->assertEquals('hello', $request->getQuery('string', 'string'));
-        $I->assertEquals('hello', $request->getQuery('string', 'string', null, true, true));
+        $I->assertEquals(false, $request->getQuery('array', 'stringlegacy', null, true, true));
 
         $I->assertEquals(['string' => 'world'], $request->getQuery('array', 'string'));
-        $I->assertEquals(null, $request->getQuery('array', 'string', null, true, true));
+        $I->assertEquals(false, $request->getQuery('array', 'stringlegacy', null, true, true));
 
         // getPost
         $I->assertEquals('hello', $request->getPost('string', 'string'));
-        $I->assertEquals('hello', $request->getPost('string', 'string', null, true, true));
+        $I->assertEquals(false, $request->getPost('array', 'stringlegacy', null, true, true));
 
         $I->assertEquals(['string' => 'world'], $request->getPost('array', 'string'));
-        $I->assertEquals(null, $request->getPost('array', 'string', null, true, true));
+        $I->assertEquals(false, $request->getPost('array', 'stringlegacy', null, true, true));
     }
 
     public function testRequestGetQuery(UnitTester $I)
