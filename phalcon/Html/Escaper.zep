@@ -292,7 +292,7 @@ class Escaper implements EscaperInterface
      *
      * @param int $flags
      */
-    public function setFlags(int flags) -> <Escaper>
+    public function setFlags(int flags) -> <EscaperInterface>
     {
         let this->flags = flags;
 
