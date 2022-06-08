@@ -21,7 +21,7 @@ class StringValLegacy
     /**
      * @param string $input The text to sanitize
      *
-     * @return string
+     * @return string|false
      */
     public function __invoke(mixed input)
     {

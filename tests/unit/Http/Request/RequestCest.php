@@ -93,15 +93,27 @@ class RequestCest extends HttpBase
         $I->assertSame($expected, $actual);
 
         $expected = 'hello';
-        $actual   = $request->get('string-key', 'string', null, true, true);
+        $actual   = $request->get(
+            'string-key',
+            'string',
+            null,
+            true,
+            true
+        );
         $I->assertSame($expected, $actual);
 
         $expected = ['string' => 'world'];
         $actual   = $request->get('array-key', 'string');
         $I->assertSame($expected, $actual);
 
-        $expected = ['string' => 'world'];
-        $actual   = $request->get('array-key', 'stringlegacy', null, true, true);
+        $expected = null;
+        $actual   = $request->get(
+            'array-key',
+            'stringlegacy',
+            null,
+            true,
+            true
+        );
         $I->assertSame($expected, $actual);
 
         // getQuery
@@ -110,9 +122,14 @@ class RequestCest extends HttpBase
         $I->assertSame($expected, $actual);
 
         $expected = 'hello';
-        $actual   = $request->getQuery('string-key', 'string', null, true, true);
+        $actual   = $request->getQuery(
+            'string-key',
+            'string',
+            null,
+            true,
+            true
+        );
         $I->assertSame($expected, $actual);
-
 
         // getPost
         $expected = 'hello';
@@ -120,7 +137,13 @@ class RequestCest extends HttpBase
         $I->assertSame($expected, $actual);
 
         $expected = null;
-        $actual   = $request->getPost('unknown-key', 'string', null, true, true);
+        $actual   = $request->getPost(
+            'unknown-key',
+            'string',
+            null,
+            true,
+            true
+        );
         $I->assertSame($expected, $actual);
 
         $expected = ['string' => 'world'];
@@ -128,7 +151,13 @@ class RequestCest extends HttpBase
         $I->assertSame($expected, $actual);
 
         $expected = null;
-        $actual   = $request->getPost('unknown-key', 'stringlegacy', null, true, true);
+        $actual   = $request->getPost(
+            'unknown-key',
+            'stringlegacy',
+            null,
+            true,
+            true
+        );
         $I->assertSame($expected, $actual);
     }
 

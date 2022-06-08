@@ -1358,6 +1358,14 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if filters !== null {
             let filterService = this->getFilterService(),
                 value         = filterService->sanitize(value, filters, noRecursive);
+
+            /**
+             * @todo Leave this here for PHP 7.4/8.0. Remove when appropriate.
+             * Some filters use filter_var which can return `false`
+             */
+            if value === false {
+                return defaultValue;
+            }
         }
 
         return value;
