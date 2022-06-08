@@ -106,13 +106,13 @@ class RequestCest extends HttpBase
         $actual   = $request->get('array-key', 'string');
         $I->assertSame($expected, $actual);
 
-        $expected = null;
+        $expected = ['string' => 'world'];
         $actual   = $request->get(
             'array-key',
-            'stringlegacy',
+            'string',
             null,
             true,
-            true
+            false
         );
         $I->assertSame($expected, $actual);
 
