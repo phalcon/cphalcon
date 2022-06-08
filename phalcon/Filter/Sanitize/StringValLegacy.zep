@@ -21,17 +21,17 @@ class StringValLegacy
     /**
      * @param string $input The text to sanitize
      *
-     * @return string | false
+     * @return string
      */
     public function __invoke(mixed input)
     {
         var version;
 
         let version = phpversion();
-        if version_compare(version, "8.0", ">") || typeof input === "array" {
-            return false;
+        if version_compare(version, "8.1", "<") {
+            return filter_var(input, 513);
         }
 
-        return filter_var(input, FILTER_SANITIZE_STRING);
+        return input;
     }
 }
