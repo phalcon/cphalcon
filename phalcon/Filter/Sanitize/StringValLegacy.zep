@@ -27,15 +27,11 @@ class StringValLegacy
     {
         var version;
 
-        if typeof input !== "string" {
+        let version = phpversion();
+        if version_compare(version, "8.0", ">") || typeof input === "array" {
             return false;
         }
 
-        let version = phpversion();
-        if version_compare(version, "8.1", "<") {
-            let input = filter_var(input, FILTER_SANITIZE_STRING);
-        }
-
-        return input;
+        return filter_var(input, FILTER_SANITIZE_STRING);
     }
 }

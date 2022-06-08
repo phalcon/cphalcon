@@ -65,14 +65,15 @@ class SanitizeCest
             $actual = call_user_func_array([$filter, $method], $source);
         }
 
-        if (
-            version_compare(phpversion(), "8.1", "<") &&
-            'stringlegacy' === $class
-        ) {
+//        if (
+//            version_compare(phpversion(), "8.1", "<") &&
+//            'stringlegacy' === $class
+//        ) {
             $expected = $example['expected'];
-        } else {
-            $expected = $source;
-        }
+//        } else {
+//            $expected = $source;
+//        }
+
         $I->assertEquals($expected, $actual);
     }
 
