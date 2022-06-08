@@ -354,6 +354,7 @@ zend_class_entry *phalcon_filter_sanitize_replace_ce;
 zend_class_entry *phalcon_filter_sanitize_special_ce;
 zend_class_entry *phalcon_filter_sanitize_specialfull_ce;
 zend_class_entry *phalcon_filter_sanitize_stringval_ce;
+zend_class_entry *phalcon_filter_sanitize_stringvallegacy_ce;
 zend_class_entry *phalcon_filter_sanitize_striptags_ce;
 zend_class_entry *phalcon_filter_sanitize_trim_ce;
 zend_class_entry *phalcon_filter_sanitize_upper_ce;
@@ -987,6 +988,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Special);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_SpecialFull);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_StringVal);
+	ZEPHIR_INIT(Phalcon_Filter_Sanitize_StringValLegacy);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Striptags);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Trim);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Upper);

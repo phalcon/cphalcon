@@ -161,7 +161,7 @@ class HttpBase
         $unMethod = "un{$method}";
 
         $this->$method('test', 'lol<');
-        $expected = 'lol';
+        $expected = 'lol&lt;';
         $actual   = $request->$function('test', 'string');
         $this->$unMethod('test');
 
@@ -182,7 +182,7 @@ class HttpBase
         $unMethod = "un{$method}";
 
         $this->$method('test', 'lol<');
-        $expected = 'lol';
+        $expected = 'lol&lt;';
         $actual   = $request->$function('test', $filter);
         $this->$unMethod('test');
 

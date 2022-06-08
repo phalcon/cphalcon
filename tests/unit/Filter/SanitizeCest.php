@@ -20,6 +20,8 @@ use UnitTester;
 use function call_user_func_array;
 use function implode;
 use function is_array;
+use function phpversion;
+use function version_compare;
 
 class SanitizeCest
 {
@@ -63,7 +65,17 @@ class SanitizeCest
             $actual = call_user_func_array([$filter, $method], $source);
         }
 
+        /**
+         * @todo This stays here for until 7.4/8.0 are deprecated.
+         */
         $expected = $example['expected'];
+        if (
+            'stringlegacy' === $class &&
+            version_compare(phpversion(), "8.1", ">=")
+        ) {
+            $expected = is_array($source) ? $source[0] : $source;
+        }
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -654,14 +666,14 @@ class SanitizeCest
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+<>',
-                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
+                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&amp;*()_ `~=+&lt;&gt;',
             ],
             [
                 'class'    => 'string',
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => '{[<within french quotes>]}',
-                'expected' => '{[]}',
+                'expected' => '{[&lt;within french quotes&gt;]}',
             ],
             [
                 'class'    => 'string',
@@ -675,28 +687,28 @@ class SanitizeCest
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>',
-                'expected' => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+',
+                'expected' => 'buenos días123καλημέρα!@#$%^&amp;*早安()_ `~=+&lt;&gt;',
             ],
             [
                 'class'    => 'string',
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => '{[<buenos días 123 καλημέρα! 早安>]}',
-                'expected' => '{[]}',
+                'expected' => '{[&lt;buenos días 123 καλημέρα! 早安&gt;]}',
             ],
             [
                 'class'    => 'string',
                 'label'    => 'string()',
                 'method'   => 'string',
                 'source'   => ['abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+<>'],
-                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
+                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&amp;*()_ `~=+&lt;&gt;',
             ],
             [
                 'class'    => 'string',
                 'label'    => 'string()',
                 'method'   => 'string',
                 'source'   => ['{[<within french quotes>]}'],
-                'expected' => '{[]}',
+                'expected' => '{[&lt;within french quotes&gt;]}',
             ],
             [
                 'class'    => 'string',
@@ -710,12 +722,82 @@ class SanitizeCest
                 'label'    => 'string()',
                 'method'   => 'string',
                 'source'   => ['buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>'],
-                'expected' => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+',
+                'expected' => 'buenos días123καλημέρα!@#$%^&amp;*早安()_ `~=+&lt;&gt;',
             ],
             [
                 'class'    => 'string',
                 'label'    => 'string()',
                 'method'   => 'string',
+                'source'   => ['{[<buenos días 123 καλημέρα! 早安>]}'],
+                'expected' => '{[&lt;buenos días 123 καλημέρα! 早安&gt;]}',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+<>',
+                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => '{[<within french quotes>]}',
+                'expected' => '{[]}',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => '',
+                'expected' => '',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>',
+                'expected' => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => '{[<buenos días 123 καλημέρα! 早安>]}',
+                'expected' => '{[]}',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => 'stringlegacy()',
+                'method'   => 'stringlegacy',
+                'source'   => ['abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+<>'],
+                'expected' => 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => 'stringlegacy()',
+                'method'   => 'stringlegacy',
+                'source'   => ['{[<within french quotes>]}'],
+                'expected' => '{[]}',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => 'stringlegacy()',
+                'method'   => 'stringlegacy',
+                'source'   => [''],
+                'expected' => '',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => 'stringlegacy()',
+                'method'   => 'stringlegacy',
+                'source'   => ['buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>'],
+                'expected' => 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+',
+            ],
+            [
+                'class'    => 'stringlegacy',
+                'label'    => 'stringlegacy()',
+                'method'   => 'stringlegacy',
                 'source'   => ['{[<buenos días 123 καλημέρα! 早安>]}'],
                 'expected' => '{[]}',
             ],

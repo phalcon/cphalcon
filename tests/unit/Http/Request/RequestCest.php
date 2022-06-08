@@ -83,30 +83,82 @@ class RequestCest extends HttpBase
         $request = $this->getRequestObject();
 
         $_REQUEST = $_GET = $_POST = [
-            'string' => 'hello',
-            'array'  => ['string' => 'world'],
+            'string-key' => 'hello',
+            'array-key'  => ['string' => 'world'],
         ];
 
         // get
-        $I->assertEquals('hello', $request->get('string', 'string'));
-        $I->assertEquals('hello', $request->get('string', 'string', null, true, true));
+        $expected = 'hello';
+        $actual   = $request->get('string-key', 'string');
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(['string' => 'world'], $request->get('array', 'string'));
-        $I->assertEquals(null, $request->get('array', 'string', null, true, true));
+        $expected = 'hello';
+        $actual   = $request->get(
+            'string-key',
+            'string',
+            null,
+            true,
+            true
+        );
+        $I->assertSame($expected, $actual);
+
+        $expected = ['string' => 'world'];
+        $actual   = $request->get('array-key', 'string');
+        $I->assertSame($expected, $actual);
+
+        $expected = ['string' => 'world'];
+        $actual   = $request->get(
+            'array-key',
+            'string',
+            null,
+            true,
+            false
+        );
+        $I->assertSame($expected, $actual);
 
         // getQuery
-        $I->assertEquals('hello', $request->getQuery('string', 'string'));
-        $I->assertEquals('hello', $request->getQuery('string', 'string', null, true, true));
+        $expected = 'hello';
+        $actual   = $request->getQuery('string-key', 'string');
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(['string' => 'world'], $request->getQuery('array', 'string'));
-        $I->assertEquals(null, $request->getQuery('array', 'string', null, true, true));
+        $expected = 'hello';
+        $actual   = $request->getQuery(
+            'string-key',
+            'string',
+            null,
+            true,
+            true
+        );
+        $I->assertSame($expected, $actual);
 
         // getPost
-        $I->assertEquals('hello', $request->getPost('string', 'string'));
-        $I->assertEquals('hello', $request->getPost('string', 'string', null, true, true));
+        $expected = 'hello';
+        $actual   = $request->getPost('string-key', 'string');
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(['string' => 'world'], $request->getPost('array', 'string'));
-        $I->assertEquals(null, $request->getPost('array', 'string', null, true, true));
+        $expected = null;
+        $actual   = $request->getPost(
+            'unknown-key',
+            'string',
+            null,
+            true,
+            true
+        );
+        $I->assertSame($expected, $actual);
+
+        $expected = ['string' => 'world'];
+        $actual   = $request->getPost('array-key', 'stringlegacy');
+        $I->assertSame($expected, $actual);
+
+        $expected = null;
+        $actual   = $request->getPost(
+            'unknown-key',
+            'stringlegacy',
+            null,
+            true,
+            true
+        );
+        $I->assertSame($expected, $actual);
     }
 
     public function testRequestGetQuery(UnitTester $I)

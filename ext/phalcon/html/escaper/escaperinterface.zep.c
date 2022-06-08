@@ -81,7 +81,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, setEncoding);
  *
  * @param int $flags
  */
-ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, setHtmlQuoteType);
+ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, setFlags);
 /**
  * Escapes a URL. Internally uses rawurlencode
  *
