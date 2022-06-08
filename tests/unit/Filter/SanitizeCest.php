@@ -68,13 +68,12 @@ class SanitizeCest
         /**
          * @todo This stays here for until 7.4/8.0 are deprecated.
          */
+        $expected = $example['expected'];
         if (
             'stringlegacy' === $class &&
-            version_compare(phpversion(), "8.0", ">")
+            version_compare(phpversion(), "8.1", ">=")
         ) {
-            $expected = $source;
-        } else {
-            $expected = $example['expected'];
+            $expected = is_array($source) ? $source[0] : $source;
         }
 
         $I->assertEquals($expected, $actual);
