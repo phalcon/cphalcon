@@ -25,10 +25,15 @@ class StringValLegacy
      */
     public function __invoke(mixed input)
     {
-        var version;
+        var major, minor;
 
-        let version = phpversion();
-        if version_compare(version, "8.1", "<") {
+        let major = PHP_MAJOR_VERSION,
+            minor = PHP_MINOR_VERSION;
+
+        if (
+            major < 8 ||
+            (major === 8 && minor === 0)
+        ) {
             return filter_var(input, 513);
         }
 
