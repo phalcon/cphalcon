@@ -102,7 +102,6 @@ Thanks for the support
 <a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/yannux"><img src="https://avatars.githubusercontent.com/u/533125?s=460&u=4f1e888783d1faafaa76282e5c388501c2b2df83&v=4" title="Yann" width="60" height="60"></a>
-<a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
 <a href="https://github.com/Ultimater"><img src="https://avatars.githubusercontent.com/u/1922199?v=4" title="Kevin Yarmak" width="60" height="60"></a>
 <a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
