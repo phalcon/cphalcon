@@ -1403,21 +1403,25 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     final protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
-        var returnedParts, parts, part, headerParts, headerPart, split;
+        var headerPart, headerParts, headerSplit, part, parts, returnedParts, serverValue, split;
 
-        let returnedParts = [];
+        let returnedParts = [],
+            serverValue   = this->getServer(serverIndex);
+
+        let serverValue = (null === serverValue) ? "" : serverValue;
 
         let parts = preg_split(
             "/,\\s*/",
-            this->getServer(serverIndex),
+            serverValue,
             -1,
             PREG_SPLIT_NO_EMPTY
         );
 
         for part in parts {
-            let headerParts = [];
+            let headerParts = [],
+                headerSplit = preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY);
 
-            for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
+            for headerPart in headerSplit {
                 if strpos(headerPart, "=") !== false {
                     let split = explode("=", headerPart, 2);
 
