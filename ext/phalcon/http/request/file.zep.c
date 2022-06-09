@@ -238,15 +238,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 	ZEPHIR_MM_GROW();
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 307, &_0);
+	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 308, &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&finfo)) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("tmp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 308, &finfo, &_0);
+	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 309, &finfo, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 309, &finfo);
+	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 310, &finfo);
 	zephir_check_call_status();
 	RETURN_CCTOR(&mime);
 }

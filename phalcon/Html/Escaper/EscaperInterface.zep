@@ -72,7 +72,7 @@ interface EscaperInterface
      *
      * @param int $flags
      */
-    public function setHtmlQuoteType(int flags) -> <EscaperInterface>;
+    public function setFlags(int flags) -> <EscaperInterface>;
 
     /**
      * Escapes a URL. Internally uses rawurlencode

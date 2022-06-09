@@ -315,6 +315,7 @@
 #include "phalcon/filter/sanitize/special.zep.h"
 #include "phalcon/filter/sanitize/specialfull.zep.h"
 #include "phalcon/filter/sanitize/stringval.zep.h"
+#include "phalcon/filter/sanitize/stringvallegacy.zep.h"
 #include "phalcon/filter/sanitize/striptags.zep.h"
 #include "phalcon/filter/sanitize/trim.zep.h"
 #include "phalcon/filter/sanitize/upper.zep.h"

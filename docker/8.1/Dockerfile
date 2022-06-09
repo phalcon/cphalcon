@@ -1,10 +1,6 @@
 FROM composer:latest as composer
 FROM php:8.1-fpm
 
-# Compilation parameters
-RUN CPU_CORES="$(getconf _NPROCESSORS_ONLN)";
-ENV MAKEFLAGS="-j${CPU_CORES}"
-
 ADD ./extra.ini /usr/local/etc/php/conf.d/
 
 # User/Group globals

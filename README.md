@@ -54,7 +54,7 @@ Steps:
 ### Social Media
 * [Telegram](https://phalcon.io/telegram)
 * [Gab](https://phalcon.io/gab)
-* [Parler](https://phalcon.io/parler)
+* [LinkedIn](https://phalcon.io/linkedin)
 * [MeWe](https://phalcon.io/mewe)
 * [Facebook](https://phalcon.io/fb)
 * [Twitter](https://phalcon.io/t)

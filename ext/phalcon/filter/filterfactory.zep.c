@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 
 
 
-	zephir_create_array(return_value, 21, 0);
+	zephir_create_array(return_value, 22, 0);
 	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
 	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
 	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("special"), SL("Phalcon\\Filter\\Sanitize\\Special"));
 	add_assoc_stringl_ex(return_value, SL("specialfull"), SL("Phalcon\\Filter\\Sanitize\\SpecialFull"));
 	add_assoc_stringl_ex(return_value, SL("string"), SL("Phalcon\\Filter\\Sanitize\\StringVal"));
+	add_assoc_stringl_ex(return_value, SL("stringlegacy"), SL("Phalcon\\Filter\\Sanitize\\StringValLegacy"));
 	add_assoc_stringl_ex(return_value, SL("striptags"), SL("Phalcon\\Filter\\Sanitize\\Striptags"));
 	add_assoc_stringl_ex(return_value, SL("trim"), SL("Phalcon\\Filter\\Sanitize\\Trim"));
 	add_assoc_stringl_ex(return_value, SL("upper"), SL("Phalcon\\Filter\\Sanitize\\Upper"));

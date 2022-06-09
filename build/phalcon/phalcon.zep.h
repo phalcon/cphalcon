@@ -8920,7 +8920,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_escaperinter
 	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_escaperinterface_sethtmlquotetype, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_escaperinterface_setflags, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -8935,7 +8935,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_escaper_escaperinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, html, arginfo_phalcon_html_escaper_escaperinterface_html)
 	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, js, arginfo_phalcon_html_escaper_escaperinterface_js)
 	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, setEncoding, arginfo_phalcon_html_escaper_escaperinterface_setencoding)
-	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, setHtmlQuoteType, arginfo_phalcon_html_escaper_escaperinterface_sethtmlquotetype)
+	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, setFlags, arginfo_phalcon_html_escaper_escaperinterface_setflags)
 	PHP_ABSTRACT_ME(Phalcon_Html_Escaper_EscaperInterface, url, arginfo_phalcon_html_escaper_escaperinterface_url)
 	PHP_FE_END
 };
@@ -19510,12 +19510,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal);
 
 static PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_stringval___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, input)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_sanitize_stringval___invoke, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_stringval_method_entry) {
 	PHP_ME(Phalcon_Filter_Sanitize_StringVal, __invoke, arginfo_phalcon_filter_sanitize_stringval___invoke, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_filter_sanitize_stringvallegacy_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringValLegacy);
+
+static PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_stringvallegacy___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, input)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_stringvallegacy_method_entry) {
+	PHP_ME(Phalcon_Filter_Sanitize_StringValLegacy, __invoke, arginfo_phalcon_filter_sanitize_stringvallegacy___invoke, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -21268,7 +21283,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setencoding,
 	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setflags, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setflags, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
