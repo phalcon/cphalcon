@@ -1,4 +1,4 @@
-# [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC1) (xxxx-xx-xx)
+# [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (2022-06-09)
 
 ## Changed
 - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978) 
