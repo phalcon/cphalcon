@@ -42,24 +42,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringValLegacy)
 /**
  * @param string $input The text to sanitize
  *
- * @return string | false
+ * @return string|false
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 {
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_sub, version, _0, _1, _2, _3, _4$$4, _5$$4;
-	zval *input = NULL;
+	zval input_sub, major, minor, _2$$3;
+	zval *input;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_sub);
-	ZVAL_UNDEF(&version);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&major);
+	ZVAL_UNDEF(&minor);
+	ZVAL_UNDEF(&_2$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -72,24 +69,23 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	zephir_fetch_params(1, 1, 0, &input);
 
 
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_gettype(&_0, input);
-	if (!ZEPHIR_IS_STRING_IDENTICAL(&_0, "string")) {
-		RETURN_MM_BOOL(0);
+	ZEPHIR_INIT_VAR(&major);
+	ZEPHIR_GET_CONSTANT(&major, "PHP_MAJOR_VERSION");
+	ZEPHIR_INIT_VAR(&minor);
+	ZEPHIR_GET_CONSTANT(&minor, "PHP_MINOR_VERSION");
+	_0 = ZEPHIR_LT_LONG(&major, 8);
+	if (!(_0)) {
+		_1 = ZEPHIR_IS_LONG_IDENTICAL(&major, 8);
+		if (_1) {
+			_1 = ZEPHIR_IS_LONG_IDENTICAL(&minor, 0);
+		}
+		_0 = _1;
 	}
-	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 127);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "8.1");
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "<");
-	ZEPHIR_CALL_FUNCTION(&_3, "version_compare", NULL, 128, &version, &_1, &_2);
-	zephir_check_call_status();
-	if (zephir_is_true(&_3)) {
-		ZVAL_LONG(&_4$$4, 513);
-		ZEPHIR_CALL_FUNCTION(&_5$$4, "filter_var", NULL, 280, input, &_4$$4);
+	if (_0) {
+		ZVAL_LONG(&_2$$3, 513);
+		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 280, input, &_2$$3);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(input, &_5$$4);
+		RETURN_MM();
 	}
 	RETVAL_ZVAL(input, 1, 0);
 	RETURN_MM();
