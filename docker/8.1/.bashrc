@@ -74,6 +74,9 @@ alias untar='tar xvf'
 # Zephir related
 alias untar='tar xvf'
 
+NB_CORES=$(grep -c '^processor' /proc/cpuinfo)
+export MAKEFLAGS="-j$((NB_CORES)) -l${NB_CORES}"
+
 if [ ! -f ./zephir ]; then
     wget --no-clobber -O ./zephir https://github.com/phalcon/zephir/releases/download/$ZEPHIR_VERSION/zephir.phar
     chmod +x ./zephir
