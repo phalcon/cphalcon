@@ -31,6 +31,8 @@ RUN apt update -y && \
         libpng-dev \
         libpq-dev \
         libyaml-dev \
+        libwebp-dev \
+        libxpm-dev \
         libzip-dev \
         locales \
         nano \
@@ -59,7 +61,11 @@ RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     update-locale LANG=en_US.UTF-8
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg=/usr/include/ --enable-gd
+RUN docker-php-ext-configure gd --with-freetype  \
+    --with-jpeg=/usr/include/  \
+    --with-xpm \
+    --with-webp \
+    --enable-gd
 
 RUN docker-php-ext-install \
         gd \
