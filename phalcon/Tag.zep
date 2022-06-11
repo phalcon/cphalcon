@@ -1302,6 +1302,13 @@ class Tag
             let content = self::getValue(id, params);
         }
 
+        /**
+         * PHP 8.x does not allow null to string conversion for internal methods
+         */
+        if unlikely null === content {
+            let content = "";
+        }
+
         let code = self::renderAttributes("<textarea", params),
             code .= ">" . htmlspecialchars(content) . "</textarea>";
 
