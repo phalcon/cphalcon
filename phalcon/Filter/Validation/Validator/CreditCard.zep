@@ -78,7 +78,7 @@ class CreditCard extends AbstractValidator
             return true;
         }
 
-        let valid = this->verifyByLuhnAlgorithm(value);
+        let valid = this->verifyByLuhnAlgorithm((string) value);
 
         if !valid {
             validation->appendMessage(
