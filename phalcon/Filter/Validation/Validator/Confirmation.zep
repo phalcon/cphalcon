@@ -90,7 +90,7 @@ class Confirmation extends AbstractValidator
         let value = validation->getValue(field),
             valueWith = validation->getValue(fieldWith);
 
-        if !this->compare(value, valueWith) {
+        if !this->compare((string) value, (string) valueWith) {
             let labelWith = this->getOption("labelWith");
 
             if typeof labelWith == "array" {
