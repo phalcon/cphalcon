@@ -730,6 +730,9 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 }
             }
         } catch Throwable, e {
+            /**
+             * Calling beforeNotFound event
+             */
             if this->eventsManager !== null {
                 let returnedValue = this->eventsManager->fire(
                     "micro:beforeException",
