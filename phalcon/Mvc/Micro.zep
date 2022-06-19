@@ -657,6 +657,9 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                     }
                 }
             } else {
+                 /**
+                  * Calling beforeNotFound event
+                  */
                 if this->eventsManager !== null {
                     if this->eventsManager->fire("micro:beforeNotFound", this) === false {
                         return false;
