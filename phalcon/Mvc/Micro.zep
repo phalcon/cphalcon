@@ -404,7 +404,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function handle(string! uri)
     {
-        var container, eventsManager, status = null, router, matchedRoute,
+        var container, status = null, router, matchedRoute,
             handler, beforeHandlers, params, returnedValue, e, errorHandler,
             afterHandlers, notFoundHandler, finishHandlers, finish, before,
             after, response, modelBinder, routeName, realHandler = null,
@@ -425,10 +425,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             /**
              * Calling beforeHandle routing
              */
-            let eventsManager = this->eventsManager;
-
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("micro:beforeHandleRoute", this) === false {
+            if this->eventsManager !== null {
+                if this->eventsManager->fire("micro:beforeHandleRoute", this) === false {
                     return false;
                 }
             }
@@ -463,8 +461,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 /**
                  * Calling beforeExecuteRoute event
                  */
-                if typeof eventsManager == "object" {
-                    if eventsManager->fire("micro:beforeExecuteRoute", this) === false {
+                if this->eventsManager !== null {
+                    if this->eventsManager->fire("micro:beforeExecuteRoute", this) === false {
                         return false;
                     }
 
@@ -576,8 +574,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 /**
                  * Calling afterBinding event
                  */
-                if typeof eventsManager == "object" {
-                    if eventsManager->fire("micro:afterBinding", this) === false {
+                if this->eventsManager !== null {
+                    if this->eventsManager->fire("micro:afterBinding", this) === false {
                         return false;
                     }
                 }
@@ -624,8 +622,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 /**
                  * Calling afterExecuteRoute event
                  */
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("micro:afterExecuteRoute", this);
+                if this->eventsManager !== null {
+                    this->eventsManager->fire("micro:afterExecuteRoute", this);
                 }
 
                 let afterHandlers = this->afterHandlers;
@@ -659,13 +657,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                     }
                 }
             } else {
-                /**
-                 * Calling beforeNotFound event
-                 */
-                let eventsManager = this->eventsManager;
-
-                if typeof eventsManager == "object" {
-                    if eventsManager->fire("micro:beforeNotFound", this) === false {
+                if this->eventsManager !== null {
+                    if this->eventsManager->fire("micro:beforeNotFound", this) === false {
                         return false;
                     }
                 }
@@ -690,8 +683,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             /**
              * Calling afterHandleRoute event
              */
-            if typeof eventsManager == "object" {
-                eventsManager->fire("micro:afterHandleRoute", this, returnedValue);
+            if this->eventsManager !== null {
+                this->eventsManager->fire("micro:afterHandleRoute", this, returnedValue);
             }
 
             let finishHandlers = this->finishHandlers;
@@ -734,13 +727,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 }
             }
         } catch Throwable, e {
-            /**
-             * Calling beforeNotFound event
-             */
-            let eventsManager = this->eventsManager;
-
-            if typeof eventsManager == "object" {
-                let returnedValue = eventsManager->fire(
+            if this->eventsManager !== null {
+                let returnedValue = this->eventsManager->fire(
                     "micro:beforeException",
                     this,
                     e
