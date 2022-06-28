@@ -588,7 +588,6 @@ class SaveCest
         $source->source   = 'test_source';
         $result           = $source->create();
         $I->assertTrue($result);
-
     }
 
     /**
