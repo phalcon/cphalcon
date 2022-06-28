@@ -47,7 +47,7 @@ class Title extends AbstractHelper
     /**
      * Sets the separator and returns the object back
      *
-     * @param string|null $indent
+     * @param string      $indent
      * @param string|null $delimiter
      *
      * @return Title
