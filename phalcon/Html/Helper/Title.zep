@@ -53,10 +53,10 @@ class Title extends AbstractHelper
      * @return Title
      */
     public function __invoke(
-        string indent = null,
+        string indent = "    ",
         string delimiter = null
     ) -> <Title> {
-        let this->delimiter = delimiter,
+        let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent;
 
         return this;
@@ -77,9 +77,6 @@ class Title extends AbstractHelper
             [this->title],
             this->append
         );
-
-        let indent    = this->indent ? this->indent : "";
-        let delimiter = this->delimiter ? this->delimiter : "";
 
         let this->append  = [],
             this->prepend = [],

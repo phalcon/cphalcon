@@ -80,8 +80,8 @@ interface CollectionInterface
     /**
      * Sets the main handler
      *
-     * @param mixed handler
-     * @param bool lazy
+     * @param mixed $handler
+     * @param bool  $lazy
      *
      * @return CollectionInterface
      */
