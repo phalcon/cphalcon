@@ -70,7 +70,7 @@ class Title extends AbstractHelper
      */
     public function __toString()
     {
-        var delimiter, indent, items;
+        var items;
 
         let items = array_merge(
             this->prepend,
@@ -82,14 +82,14 @@ class Title extends AbstractHelper
             this->prepend = [],
             this->title   = "";
 
-        return indent
+        return this->indent
             . this->renderFullElement(
                 "title",
                 implode(this->separator, items),
                 [],
                 true
             )
-            . delimiter;
+            . this->delimiter;
     }
 
     /**
