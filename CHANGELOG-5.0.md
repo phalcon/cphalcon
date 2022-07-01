@@ -9,6 +9,8 @@
   - `Phalcon/Filter/Validation/Validator/CreditCard`
   - `Phalcon/Filter/Validation/Validator/StringLength/Max`
   - `Phalcon/Filter/Validation/Validator/StringLength/Min` to check if the value is `null` before calling internal PHP methods [#15992](https://github.com/phalcon/cphalcon/issues/15992)
+- Fixed `Phalcon\Html\Helper\Title` to properly use indent and delimiter [#15984](https://github.com/phalcon/cphalcon/issues/15984) 
+- Fixed `Phalcon\Mvc\View\Engine\Volt::isIncluded` and `Phalcon\Mvc\View\Engine\Volt::length` to check for null values before calls to php methods [#15984](https://github.com/phalcon/cphalcon/issues/15984) 
 
 ## Added
 - Added support for `webp` images for `Phalcon\Image\Adapter\Gd` [#15977](https://github.com/phalcon/cphalcon/issues/15977)
