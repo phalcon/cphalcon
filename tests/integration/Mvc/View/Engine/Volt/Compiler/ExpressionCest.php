@@ -67,5 +67,6 @@ class ExpressionCest
         $actual   = $volt->expression($source);
 
         $I->assertEquals($expected, $actual);
+
     }
 }
