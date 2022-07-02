@@ -1467,8 +1467,7 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_STRING:
-                    let exprCode = "\"" . expr["value"] . "\"";
-                    //let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
+                    let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
                     break;
 
                 case PHVOLT_T_NULL:
