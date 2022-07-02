@@ -19,9 +19,11 @@ use PDO;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
+use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Models\Customers;
 use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\InvoicesExtended;
 use Phalcon\Tests\Models\InvoicesMap;
@@ -344,6 +346,101 @@ class FindFirstCest
         $model = ModelWithStringPrimary::findFirst($example['params']);
 
         $I->assertSame($example['found'], $model instanceof Model);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find() - found/not found and getRelated
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-06-14
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindFirstFoundNotFoundGetRelated(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - found/not found and getRelated');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $invoicesMigration = new InvoicesMigration($connection);
+        $customersMigration->insert(
+            1,
+            1,
+            uniqid('cust-', true),
+            uniqid('cust-', true)
+        );
+        $invoicesMigration->insert(
+            1,
+            1,
+            1,
+            uniqid('inv-', true),
+            100
+        );
+        $invoicesMigration->insert(
+            2,
+            2,
+            1,
+            uniqid('inv-', true),
+            100
+        );
+
+        // Find record
+        $invoice = Invoices::findFirst(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+            ]
+        );
+
+        $I->assertNotNull($invoice);
+        $I->assertInstanceOf(Invoices::class, $invoice);
+
+        // Not found
+        $invoice = Invoices::findFirst(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 4,
+                ],
+            ]
+        );
+
+        $I->assertNull($invoice);
+
+        // Relationship found
+        $invoice = Invoices::findFirst(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 1,
+                ],
+            ]
+        );
+
+        $customer = $invoice->getRelated('customer');
+
+        $I->assertNotNull($customer);
+        $I->assertInstanceOf(Customers::class, $customer);
+
+        // Relationship not found
+        $invoice = Invoices::findFirst(
+            [
+                'conditions' => 'inv_id = :inv_id:',
+                'bind'       => [
+                    'inv_id' => 2,
+                ],
+            ]
+        );
+
+        $customer = $invoice->getRelated('customer');
+
+        $I->assertNull($customer);
     }
 
     /**

@@ -126,7 +126,26 @@ class CountCest
                 ],
             ]
         );
-        $I->assertEquals(12, $total);
+
+        $actual   = $total;
+        $expected = 12;
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Checking the countable
+         */
+        $total = Invoices::find(
+            [
+                'conditions' => 'inv_cst_id IN ({ids:array})',
+                'bind' => [
+                    'ids' => [2],
+                ],
+            ]
+        );
+
+        $actual   = count($total);
+        $expected = 12;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -193,7 +212,12 @@ class CountCest
         $I->assertEquals(20, (int) $results[2]->rowcount);
     }
 
-    private function seed(string $invId)
+    /**
+     * @param string $invId
+     *
+     * @return void
+     */
+    private function seed(string $invId): void
     {
         $this->insertDataInvoices($this->invoiceMigration, 7, $invId, 2, 'ccc');
         $this->insertDataInvoices($this->invoiceMigration, 1, $invId, 3, 'aaa');

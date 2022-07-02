@@ -94,8 +94,7 @@ class UnderscoreGetCest
 
         $I->expectThrowable(
             new Exception(
-                'Access to undefined property unknown at ' .
-                'tests/unit/Di/Injectable/UnderscoreGetCest.php:102',
+                'Access to undefined property unknown',
                 1024
             ),
             function () use ($component) {

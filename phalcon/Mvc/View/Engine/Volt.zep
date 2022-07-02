@@ -166,6 +166,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function isIncluded(var needle, var haystack) -> bool
     {
+        if unlikely null === needle {
+            let needle = "";
+        }
+
         if typeof haystack == "array" {
             return in_array(needle, haystack);
         }
@@ -190,6 +194,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function length(var item) -> int
     {
+        if unlikely null === item {
+            let item = "";
+        }
+
         if typeof item == "object" || typeof item == "array" {
             return count(item);
         }

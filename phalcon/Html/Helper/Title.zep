@@ -47,16 +47,16 @@ class Title extends AbstractHelper
     /**
      * Sets the separator and returns the object back
      *
-     * @param string|null $indent
+     * @param string      $indent
      * @param string|null $delimiter
      *
      * @return Title
      */
     public function __invoke(
-        string indent = null,
+        string indent = "    ",
         string delimiter = null
     ) -> <Title> {
-        let this->delimiter = delimiter,
+        let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent;
 
         return this;
@@ -70,7 +70,7 @@ class Title extends AbstractHelper
      */
     public function __toString()
     {
-        var delimiter, indent, items;
+        var items;
 
         let items = array_merge(
             this->prepend,
@@ -78,21 +78,18 @@ class Title extends AbstractHelper
             this->append
         );
 
-        let indent    = this->indent ? this->indent : "";
-        let delimiter = this->delimiter ? this->delimiter : "";
-
         let this->append  = [],
             this->prepend = [],
             this->title   = "";
 
-        return indent
+        return this->indent
             . this->renderFullElement(
                 "title",
                 implode(this->separator, items),
                 [],
                 true
             )
-            . delimiter;
+            . this->delimiter;
     }
 
     /**
