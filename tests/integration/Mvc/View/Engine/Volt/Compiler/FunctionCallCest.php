@@ -48,8 +48,8 @@ class FunctionCallCest
         $volt = new Compiler();
         $volt->setDI($this->container);
 
-        $expected = $example['source'];
-        $actual   = $volt->compileString($example['expected']);
+        $expected = $example['expected'];
+        $actual   = $volt->compileString($example['source']);
 
         $I->assertSame($expected, $actual);
     }
