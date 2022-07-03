@@ -33,9 +33,9 @@ class GetSetAuthDataCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetAuthData(UnitTester $I)
+    public function encryptionCryptGetSetAuthData(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAuthData()/setAuthData()');
+        $I->wantToTest('Encryption\Crypt - getAuthData()/setAuthData()');
 
         $crypt = new Crypt();
 
@@ -44,6 +44,6 @@ class GetSetAuthDataCest
 
         $expected = $data;
         $actual   = $crypt->getAuthData();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

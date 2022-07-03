@@ -35,9 +35,9 @@ class GetTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetToken(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetToken(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getToken()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getToken()');
 
         $token = $this->newToken();
 
@@ -55,9 +55,9 @@ class GetTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetTokenException(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetTokenException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getToken() - exception');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getToken() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

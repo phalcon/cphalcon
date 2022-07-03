@@ -40,7 +40,7 @@ class GlobalsCest
         $I->assertNotFalse($actual);
 
         $expected = $example['value'];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

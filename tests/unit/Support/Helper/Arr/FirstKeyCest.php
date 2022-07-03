@@ -43,7 +43,7 @@ class FirstKeyCest
 
         $expected = 1;
         $actual   = $object($collection);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -71,6 +71,6 @@ class FirstKeyCest
                 return strlen($element) > 8;
             }
         );
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

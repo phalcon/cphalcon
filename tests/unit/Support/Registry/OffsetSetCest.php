@@ -33,7 +33,7 @@ class OffsetSetCest
 
         $registry->offsetSet('three', 123);
 
-        $I->assertEquals(
+        $I->assertSame(
             123,
             $registry->get('three')
         );
@@ -41,7 +41,7 @@ class OffsetSetCest
 
         $registry['three'] = 456;
 
-        $I->assertEquals(
+        $I->assertSame(
             456,
             $registry->get('three')
         );

@@ -39,6 +39,6 @@ class ToStringCest
 
         $expected = "<!DOCTYPE html>" . PHP_EOL;
         $actual   = (string) $helper;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

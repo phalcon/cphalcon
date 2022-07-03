@@ -38,12 +38,12 @@ class OffsetGetCest
 
         $expected = 'four';
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $registry['three']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $registry->offsetGet('three')
         );

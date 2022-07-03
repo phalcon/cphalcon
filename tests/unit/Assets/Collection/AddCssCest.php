@@ -42,7 +42,7 @@ class AddCssCest
         $expected = 'css';
         foreach ($collection as $asset) {
             $actual = $asset->getType();
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
 
         $I->assertCount(2, $collection);

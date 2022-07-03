@@ -35,9 +35,9 @@ class SetPaddingCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-18
      */
-    public function cryptSetPadding(UnitTester $I, Example $example)
+    public function encryptionCryptSetPadding(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Crypt - setPadding() - ' . $example['label']);
+        $I->wantToTest('Encryption\Crypt - setPadding() - ' . $example['label']);
 
         $texts = [
             '',
@@ -61,7 +61,7 @@ class SetPaddingCest
             $encrypted = $crypt->encrypt($source);
             $expected  = $source;
             $actual    = $crypt->decrypt($encrypted);
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
     }
 

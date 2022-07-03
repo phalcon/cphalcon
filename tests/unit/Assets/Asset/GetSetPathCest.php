@@ -46,12 +46,12 @@ class GetSetPathCest
 
         $expected = $path;
         $actual   = $asset->getPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = $example['path'];
         $asset->setPath($example['path']);
         $actual = $asset->getPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

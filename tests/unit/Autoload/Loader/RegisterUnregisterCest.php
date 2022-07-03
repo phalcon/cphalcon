@@ -46,7 +46,7 @@ class RegisterUnregisterCest
         $item      = array_pop($functions);
 
         $I->assertSame($loader, $item[0]);
-        $I->assertEquals('autoload', $item[1]);
+        $I->assertSame('autoload', $item[1]);
 
         $loader->unregister();
     }
@@ -120,7 +120,7 @@ class RegisterUnregisterCest
             ],
         ];
 
-        $I->assertEquals($expected, $trace);
+        $I->assertSame($expected, $trace);
 
         $loader->unregister();
     }

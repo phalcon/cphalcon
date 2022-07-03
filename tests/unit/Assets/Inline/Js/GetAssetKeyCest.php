@@ -42,6 +42,6 @@ class GetAssetKeyCest
 
         $expected = hash("sha256", 'js:' . $content);
         $actual   = $asset->getAssetKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -67,7 +67,7 @@ class OutputCest
         }
 
         $expected = $example['expected'];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -93,7 +93,7 @@ class OutputCest
         ob_clean();
         $expected = '<div class="successMessage">hello</div>' . PHP_EOL .
             '<div class="warningMessage">goodbye</div>' . PHP_EOL;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * remove them
@@ -104,14 +104,14 @@ class OutputCest
         ob_clean();
         $expected = '<div class="successMessage">hello</div>' . PHP_EOL .
             '<div class="warningMessage">goodbye</div>' . PHP_EOL;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_clean();
         $expected = '';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

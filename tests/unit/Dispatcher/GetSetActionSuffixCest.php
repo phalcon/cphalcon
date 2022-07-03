@@ -32,12 +32,12 @@ class GetSetActionSuffixCest
 
         $expected = 'Action';
         $actual   = $dispatcher->getActionSuffix();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $dispatcher->setActionSuffix('two');
 
         $expected = 'two';
         $actual   = $dispatcher->getActionSuffix();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -60,7 +60,7 @@ class InterpolatorCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'Привет, John D. Doe!',
             $actual
         );

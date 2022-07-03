@@ -30,15 +30,15 @@ class InitCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderInit(UnitTester $I)
+    public function encryptionSecurityJWTBuilderInit(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - init()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - init()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
 
         $builder->setSubject('abcdef');
-        $I->assertEquals('abcdef', $builder->getSubject());
+        $I->assertSame('abcdef', $builder->getSubject());
 
         $builder->init();
 

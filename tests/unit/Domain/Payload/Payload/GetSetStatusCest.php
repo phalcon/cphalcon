@@ -33,6 +33,6 @@ class GetSetStatusCest
         $payload->setStatus(Status::ACCEPTED);
 
         $actual = $payload->getStatus();
-        $I->assertEquals(Status::ACCEPTED, $actual);
+        $I->assertSame(Status::ACCEPTED, $actual);
     }
 }

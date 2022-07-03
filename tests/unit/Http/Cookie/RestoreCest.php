@@ -55,22 +55,22 @@ class RestoreCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($name, $cookie->getName());
-        $I->assertEquals($value, $cookie->getValue());
-        $I->assertEquals($expire, $cookie->getExpiration());
-        $I->assertEquals($path, $cookie->getPath());
-        $I->assertEquals($secure, $cookie->getSecure());
-        $I->assertEquals($domain, $cookie->getDomain());
-        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
+        $I->assertSame($name, $cookie->getName());
+        $I->assertSame($value, $cookie->getValue());
+        $I->assertSame($expire, $cookie->getExpiration());
+        $I->assertSame($path, $cookie->getPath());
+        $I->assertSame($secure, $cookie->getSecure());
+        $I->assertSame($domain, $cookie->getDomain());
+        $I->assertSame($httpOnly, $cookie->getHttpOnly());
 
         $cookie->restore();
 
-        $I->assertEquals($name, $cookie->getName());
-        $I->assertEquals($value, $cookie->getValue());
-        $I->assertEquals($expire, $cookie->getExpiration());
-        $I->assertEquals($path, $cookie->getPath());
-        $I->assertEquals($secure, $cookie->getSecure());
-        $I->assertEquals($domain, $cookie->getDomain());
-        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
+        $I->assertSame($name, $cookie->getName());
+        $I->assertSame($value, $cookie->getValue());
+        $I->assertSame($expire, $cookie->getExpiration());
+        $I->assertSame($path, $cookie->getPath());
+        $I->assertSame($secure, $cookie->getSecure());
+        $I->assertSame($domain, $cookie->getDomain());
+        $I->assertSame($httpOnly, $cookie->getHttpOnly());
     }
 }

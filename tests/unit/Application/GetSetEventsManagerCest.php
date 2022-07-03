@@ -46,6 +46,6 @@ class GetSetEventsManagerCest
 
         $application->setEventsManager($manager);
         $actual = $application->getEventsManager();
-        $I->assertEquals(spl_object_hash($manager), spl_object_hash($actual));
+        $I->assertSame(spl_object_hash($manager), spl_object_hash($actual));
     }
 }

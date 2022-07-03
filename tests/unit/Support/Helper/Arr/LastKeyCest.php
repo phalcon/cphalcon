@@ -45,7 +45,7 @@ class LastKeyCest
 
         $expected = 3;
         $actual   = $object($collection);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -73,6 +73,6 @@ class LastKeyCest
                 return strlen($element) < 8;
             }
         );
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

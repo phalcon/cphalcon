@@ -39,6 +39,6 @@ class GetSetTargetUriCest
         $targetUri  = 'dist';
         $collection->setTargetUri($targetUri);
 
-        $I->assertEquals($targetUri, $collection->getTargetUri());
+        $I->assertSame($targetUri, $collection->getTargetUri());
     }
 }

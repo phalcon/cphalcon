@@ -30,9 +30,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacConstruct(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - __construct()');
 
         $signer = new Hmac();
         $I->assertInstanceOf(Hmac::class, $signer);
@@ -46,9 +46,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacConstructException(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacConstructException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - __construct() - exception');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - __construct() - exception');
 
         $I->expectThrowable(
             new UnsupportedAlgorithmException(

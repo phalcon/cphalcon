@@ -42,7 +42,7 @@ class UncamelizeCest
         $delimiter = $example[2];
         $actual    = $object($value, $delimiter);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

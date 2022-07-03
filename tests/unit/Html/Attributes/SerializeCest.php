@@ -37,7 +37,7 @@ class SerializeCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             serialize($data),
             $attributes->serialize()
         );

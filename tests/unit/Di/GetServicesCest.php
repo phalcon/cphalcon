@@ -35,7 +35,7 @@ class GetServicesCest
 
         $expected = [];
         $actual   = $container->getServices();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $container->set('service', stdClass::class);
 
@@ -47,6 +47,6 @@ class GetServicesCest
 
         $expected = [];
         $actual   = $container->getServices();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

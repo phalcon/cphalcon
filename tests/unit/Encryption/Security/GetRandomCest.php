@@ -27,9 +27,9 @@ class GetRandomCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetRandom(UnitTester $I)
+    public function encryptionSecurityGetRandom(UnitTester $I)
     {
-        $I->wantToTest('Security - getRandom()');
+        $I->wantToTest('Encryption\Security - getRandom()');
 
         $security = new Security();
         $random   = $security->getRandom();

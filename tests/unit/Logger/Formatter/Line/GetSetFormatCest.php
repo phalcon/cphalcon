@@ -39,7 +39,7 @@ class GetSetFormatCest
 
         $expected = '[%date%][%level%] %message%';
         $actual   = $formatter->getFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Set with constructor
@@ -48,7 +48,7 @@ class GetSetFormatCest
 
         $expected = $newFormat;
         $actual   = $formatter->getFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Set with setFormat()
@@ -58,6 +58,6 @@ class GetSetFormatCest
 
         $expected = $newFormat;
         $actual   = $formatter->getFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

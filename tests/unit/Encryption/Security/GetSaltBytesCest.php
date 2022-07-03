@@ -26,9 +26,9 @@ class GetSaltBytesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetSaltBytes(UnitTester $I)
+    public function encryptionSecurityGetSaltBytes(UnitTester $I)
     {
-        $I->wantToTest('Security - getSaltBytes()');
+        $I->wantToTest('Encryption\Security - getSaltBytes()');
 
         $security = new Security();
 

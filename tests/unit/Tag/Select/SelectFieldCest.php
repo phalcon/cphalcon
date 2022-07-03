@@ -35,7 +35,7 @@ class SelectFieldCest extends TagSetup
             "<option value=\"0\">Lyon</option>" . PHP_EOL . "\t<option value=\"1\">" .
             "Miramas</option>" . PHP_EOL . "</select>";
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $sSelect
         );

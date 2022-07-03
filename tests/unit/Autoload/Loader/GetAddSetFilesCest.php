@@ -39,7 +39,7 @@ class GetAddSetFilesCest
 
         $expected = [];
         $actual   = $loader->getFiles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader->setFiles(
             [
@@ -50,7 +50,7 @@ class GetAddSetFilesCest
         );
         $expected = [hash("sha256", 'classOne.php') => 'classOne.php'];
         $actual   = $loader->getFiles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Clear
@@ -59,7 +59,7 @@ class GetAddSetFilesCest
 
         $expected = [];
         $actual   = $loader->getFiles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader
             ->addFile('classOne.php')
@@ -72,6 +72,6 @@ class GetAddSetFilesCest
             hash("sha256", 'classTwo.php') => 'classTwo.php',
         ];
         $actual   = $loader->getFiles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

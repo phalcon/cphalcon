@@ -64,7 +64,7 @@ class OutputCssCest
 
         $manager->useImplicitOutput(false);
 
-        $I->assertEquals($expected, $manager->outputCss());
+        $I->assertSame($expected, $manager->outputCss());
     }
 
     /**
@@ -91,7 +91,7 @@ class OutputCssCest
         $manager->outputCss();
         $actual = ob_get_clean();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

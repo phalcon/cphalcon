@@ -38,7 +38,7 @@ class RemoveCest
 
         $expected = $data;
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->remove('five');
         $expected = [
@@ -46,7 +46,7 @@ class RemoveCest
             'three' => 'four',
         ];
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->remove('FIVE');
         $expected = [
@@ -54,7 +54,7 @@ class RemoveCest
             'three' => 'four',
         ];
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->init($data);
         unset($collection['five']);
@@ -63,7 +63,7 @@ class RemoveCest
             'three' => 'four',
         ];
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->init($data);
         $collection->__unset('five');
@@ -72,7 +72,7 @@ class RemoveCest
             'three' => 'four',
         ];
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->init($data);
         $collection->offsetUnset('five');
@@ -81,6 +81,6 @@ class RemoveCest
             'three' => 'four',
         ];
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

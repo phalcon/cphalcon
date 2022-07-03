@@ -34,20 +34,20 @@ class ZeroCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingZero(UnitTester $I)
+    public function encryptionCryptPaddingZero(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Zero - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Zero - pad()/unpad()');
 
         $object = new Zero();
 
         $padding  = str_repeat(chr(0), 16);
         $expected = $padding;
         $actual   = $object->pad(16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $actual;
         $expected = 16;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

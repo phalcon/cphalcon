@@ -39,6 +39,6 @@ class GetSetTargetPathCest
         $targetPath = '/assets';
         $collection->setTargetPath($targetPath);
 
-        $I->assertEquals($targetPath, $collection->getTargetPath());
+        $I->assertSame($targetPath, $collection->getTargetPath());
     }
 }

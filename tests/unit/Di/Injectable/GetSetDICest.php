@@ -42,7 +42,7 @@ class GetSetDICest
         $component->setDI($container);
 
         $actual = $component->getDI();
-        $I->assertEquals($container, $actual);
+        $I->assertSame($container, $actual);
     }
 
     /**
@@ -62,6 +62,6 @@ class GetSetDICest
         $container->set('component', InjectableComponent::class);
         $component = $container->get('component');
         $actual    = $component->getDI();
-        $I->assertEquals($container, $actual);
+        $I->assertSame($container, $actual);
     }
 }

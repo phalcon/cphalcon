@@ -40,7 +40,7 @@ class GetTempNameCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             dataDir('/assets/images/phalconphp.jpg'),
             $file->getTempName()
         );

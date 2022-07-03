@@ -41,6 +41,6 @@ class GetSetVersionCest
         $asset->setVersion($version);
         $actual = $asset->getVersion();
 
-        $I->assertEquals($version, $actual);
+        $I->assertSame($version, $actual);
     }
 }

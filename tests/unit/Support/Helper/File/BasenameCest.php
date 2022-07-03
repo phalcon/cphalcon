@@ -47,7 +47,7 @@ class BasenameCest
 
         $expected = basename($path, $suffix);
         $actual   = $object($path, $suffix);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -73,7 +73,7 @@ class BasenameCest
         $path     = $example[0];
         $expected = $example[1];
         $actual   = $object($path);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

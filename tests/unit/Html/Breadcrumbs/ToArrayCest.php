@@ -49,7 +49,7 @@ class ToArrayCest
             ''       => 'Phalcon Team',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $breadcrumbs->toArray()
         );

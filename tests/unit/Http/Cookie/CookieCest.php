@@ -126,7 +126,7 @@ class CookieCest extends HttpBase
 
         $_COOKIE[$cookieName] = $rawValue;
 
-        $I->assertEquals($cookieValue, $cookie->getValue());
+        $I->assertSame($cookieValue, $cookie->getValue());
 
         $_COOKIE = $cookies;
     }
@@ -154,7 +154,7 @@ class CookieCest extends HttpBase
         $cookie->setDI($container);
         $cookie->useEncryption(true);
 
-        $I->assertEquals('test', $cookie->getValue());
+        $I->assertSame('test', $cookie->getValue());
     }
 
     /**

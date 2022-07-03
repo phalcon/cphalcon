@@ -66,6 +66,6 @@ class GetActiveRoleCest
 
         $expected = 'Guests';
         $actual   = $acl->getActiveRole();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

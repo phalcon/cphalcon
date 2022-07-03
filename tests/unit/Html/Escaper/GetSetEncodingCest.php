@@ -41,6 +41,6 @@ class GetSetEncodingCest
 
         $expected = 'UTF-8';
         $actual   = $escaper->getEncoding();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

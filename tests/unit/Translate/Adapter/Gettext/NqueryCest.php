@@ -44,6 +44,6 @@ class NqueryCest
 
         $expected = 'two files';
         $actual   = $translator->nquery('file', 'files', 2);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

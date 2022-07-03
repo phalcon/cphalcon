@@ -37,6 +37,6 @@ class GetSetReturnedValueCest
 
         $expected = 'two';
         $actual   = $dispatcher->getReturnedValue();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

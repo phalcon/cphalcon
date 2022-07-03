@@ -75,16 +75,16 @@ class FilterCest
         /** @var Message $message2 */
         [$message1, $message2] = $actual;
 
-        $I->assertEquals('Password: no number present', $message1->getMessage());
-        $I->assertEquals('Password', $message1->getField());
-        $I->assertEquals('Password', $message1->getField());
-        $I->assertEquals(111, $message1->getCode());
-        $I->assertEquals(['My1' => 'Metadata1'], $message1->getMetaData());
+        $I->assertSame('Password: no number present', $message1->getMessage());
+        $I->assertSame('Password', $message1->getField());
+        $I->assertSame('Password', $message1->getField());
+        $I->assertSame(111, $message1->getCode());
+        $I->assertSame(['My1' => 'Metadata1'], $message1->getMetaData());
 
-        $I->assertEquals('Password: no uppercase letter present', $message2->getMessage());
-        $I->assertEquals('Password', $message2->getField());
-        $I->assertEquals('Password', $message2->getField());
-        $I->assertEquals(222, $message2->getCode());
-        $I->assertEquals(['My2' => 'Metadata2'], $message2->getMetaData());
+        $I->assertSame('Password: no uppercase letter present', $message2->getMessage());
+        $I->assertSame('Password', $message2->getField());
+        $I->assertSame('Password', $message2->getField());
+        $I->assertSame(222, $message2->getCode());
+        $I->assertSame(['My2' => 'Metadata2'], $message2->getMetaData());
     }
 }

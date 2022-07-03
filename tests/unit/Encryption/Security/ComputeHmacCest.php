@@ -28,11 +28,11 @@ class ComputeHmacCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      *
-     * @dataProvider securityComputeHmacProvider
+     * @dataProvider hmacProvider
      */
-    public function securityComputeHmac(UnitTester $I, Example $example)
+    public function encryptionSecurityComputeHmac(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Security - computeHmac()');
+        $I->wantToTest('Encryption\Security - computeHmac()');
 
         $security = new Security();
 
@@ -44,17 +44,17 @@ class ComputeHmacCest
 
         $text = $example[0];
 
-        $I->assertEquals(
+        $I->assertSame(
             hash_hmac('md5', $text, $keys[0]),
             $security->computeHmac($text, $keys[0], 'md5')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             hash_hmac('md5', $text, $keys[1]),
             $security->computeHmac($text, $keys[1], 'md5')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             hash_hmac('md5', $text, $keys[2]),
             $security->computeHmac($text, $keys[2], 'md5')
         );
@@ -63,7 +63,7 @@ class ComputeHmacCest
     /**
      * @return array
      */
-    private function securityComputeHmacProvider(): array
+    private function hmacProvider(): array
     {
         $data = [];
 

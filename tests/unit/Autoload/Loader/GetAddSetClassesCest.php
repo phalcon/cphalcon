@@ -37,7 +37,7 @@ class GetAddSetClassesCest
 
         $expected = [];
         $actual   = $loader->getClasses();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source = [
             'one' => 'classOne.php',
@@ -47,7 +47,7 @@ class GetAddSetClassesCest
 
         $expected = $source;
         $actual   = $loader->getClasses();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Clear
@@ -56,7 +56,7 @@ class GetAddSetClassesCest
 
         $expected = [];
         $actual   = $loader->getClasses();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader
             ->addClass('one', 'classOne.php')
@@ -65,6 +65,6 @@ class GetAddSetClassesCest
         ;
         $expected = $source;
         $actual   = $loader->getClasses();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

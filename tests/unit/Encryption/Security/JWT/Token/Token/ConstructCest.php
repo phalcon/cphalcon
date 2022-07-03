@@ -31,9 +31,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenTokenConstruct(UnitTester $I)
+    public function encryptionSecurityJWTTokenTokenConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Token - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Token - __construct()');
 
         $headers   = new Item(["typ" => "JWT"], "header-encoded");
         $claims    = new Item(["sub" => "subject"], "claim-encoded");

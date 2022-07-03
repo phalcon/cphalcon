@@ -37,6 +37,6 @@ class GetNameCest
 
         $role = new Role('Administrators');
 
-        $I->assertEquals('Administrators', $role->getName());
+        $I->assertSame('Administrators', $role->getName());
     }
 }

@@ -44,7 +44,7 @@ class GetSetLocaleCest
 
         $expected = 'en_US.utf8';
         $actual   = $translator->getLocale();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $translator->setLocale(1, ['ru']);
 
@@ -56,6 +56,6 @@ class GetSetLocaleCest
 
         $expected = 'ru_RU.utf8';
         $actual   = $translator->getLocale();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

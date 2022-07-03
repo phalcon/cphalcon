@@ -56,6 +56,6 @@ class GetCookiesCest extends HttpBase
 
         $I->assertEquals($sValue, $aCookies[$sName]);
 
-        $I->assertEquals(1, count($aCookies));
+        $I->assertSame(1, count($aCookies));
     }
 }

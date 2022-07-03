@@ -39,6 +39,6 @@ class GetSetVersionCest
         $version    = '1.0';
         $collection->setVersion($version);
 
-        $I->assertEquals($version, $collection->getVersion());
+        $I->assertSame($version, $collection->getVersion());
     }
 }

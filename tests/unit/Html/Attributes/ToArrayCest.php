@@ -37,7 +37,7 @@ class ToArrayCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $attributes->toArray()
         );

@@ -26,20 +26,20 @@ class GetSetWorkFactorCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetSetWorkFactor(UnitTester $I)
+    public function encryptionSecurityGetSetWorkFactor(UnitTester $I)
     {
-        $I->wantToTest('Security - getWorkFactor()/setWorkFactor()');
+        $I->wantToTest('Encryption\Security - getWorkFactor()/setWorkFactor()');
 
         $security = new Security();
 
         $expected = 10;
         $actual   = $security->getWorkFactor();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 31;
         $security->setWorkFactor($expected);
 
         $actual = $security->getWorkFactor();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

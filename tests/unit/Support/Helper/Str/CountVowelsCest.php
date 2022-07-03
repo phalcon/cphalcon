@@ -40,11 +40,11 @@ class CountVowelsCest
         $source   = 'Luke, I am your father!';
         $expected = 9;
         $actual   = $object($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = '';
         $expected = 0;
         $actual   = $object($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

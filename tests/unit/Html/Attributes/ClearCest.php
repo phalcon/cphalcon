@@ -37,14 +37,14 @@ class ClearCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $attributes->toArray()
         );
 
         $attributes->clear();
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $attributes->count()
         );

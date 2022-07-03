@@ -42,7 +42,7 @@ class GetSetDICest
         $application = new ApplicationFixture($container);
 
         $actual = $application->getDI();
-        $I->assertEquals(spl_object_hash($container), spl_object_hash($actual));
+        $I->assertSame(spl_object_hash($container), spl_object_hash($actual));
     }
 
     /**
@@ -62,6 +62,6 @@ class GetSetDICest
 
         $application->setDI($container);
         $actual = $application->getDI();
-        $I->assertEquals(spl_object_hash($container), spl_object_hash($actual));
+        $I->assertSame(spl_object_hash($container), spl_object_hash($actual));
     }
 }

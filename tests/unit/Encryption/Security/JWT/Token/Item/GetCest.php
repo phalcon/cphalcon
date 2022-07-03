@@ -29,13 +29,13 @@ class GetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenItemGet(UnitTester $I)
+    public function encryptionSecurityJWTTokenItemGet(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Item - get()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Item - get()');
 
         $item = new Item(['sub' => 'subject'], 'encoded-string-here');
 
-        $I->assertEquals('subject', $item->get('sub'));
-        $I->assertEquals('default', $item->get('jti', 'default'));
+        $I->assertSame('subject', $item->get('sub'));
+        $I->assertSame('default', $item->get('jti', 'default'));
     }
 }

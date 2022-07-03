@@ -36,7 +36,7 @@ class JsonSerializeCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->jsonSerialize()
         );

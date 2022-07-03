@@ -26,9 +26,9 @@ class GetSetAuthTagLengthCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetAuthTagLength(UnitTester $I)
+    public function encryptionCryptGetSetAuthTagLength(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAuthTagLength()/setAuthTagLength()');
+        $I->wantToTest('Encryption\Crypt - getAuthTagLength()/setAuthTagLength()');
 
         $crypt = new Crypt();
 
@@ -37,6 +37,6 @@ class GetSetAuthTagLengthCest
 
         $expected = $data;
         $actual   = $crypt->getAuthTagLength();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

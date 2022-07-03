@@ -45,7 +45,7 @@ class SetStylesCest
 
         $expected = 'color:blue';
         $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $dump->setStyles(
             [
@@ -55,7 +55,7 @@ class SetStylesCest
 
         $expected = 'color:indigo';
         $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -79,10 +79,10 @@ class SetStylesCest
 
         $expected = 'color:gray';
         $actual   = $I->callProtectedMethod($dump, 'getStyle', 'unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'color:blue';
         $actual   = $I->callProtectedMethod($dump, 'getStyle', 'int');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

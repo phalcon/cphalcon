@@ -46,7 +46,7 @@ class ConcatCest
             'folder_3/'
         );
         $expected = '/tmp/folder_1/folder_2/folder_3/';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         // Test 2
         $actual   = $object(
@@ -57,6 +57,6 @@ class ConcatCest
             '.34'
         );
         $expected = '@test.test2.test.34';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

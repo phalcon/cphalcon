@@ -146,7 +146,7 @@ class HttpBase
         $actual = $request->$function('test');
         $this->$unMethod('test');
 
-        $I->assertEquals(1, $actual);
+        $I->assertSame(1, $actual);
     }
 
     /**
@@ -165,7 +165,7 @@ class HttpBase
         $actual   = $request->$function('test', 'string');
         $this->$unMethod('test');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -186,7 +186,7 @@ class HttpBase
         $actual   = $request->$function('test', $filter);
         $this->$unMethod('test');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

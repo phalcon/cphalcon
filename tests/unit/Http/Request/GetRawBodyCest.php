@@ -55,7 +55,7 @@ class GetRawBodyCest
         $data = $request->getRawBody();
         parse_str($data, $actual);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         stream_wrapper_restore('php');
     }

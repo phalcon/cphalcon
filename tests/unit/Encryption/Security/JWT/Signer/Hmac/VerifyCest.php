@@ -31,9 +31,9 @@ class VerifyCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacVerify(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacVerify(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - verify()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - verify()');
 
         $signer = new Hmac();
 

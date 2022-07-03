@@ -47,7 +47,7 @@ class SliceLeftCest
             'Phalcon',
         ];
         $actual   = $object($collection, 1);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'Phalcon',
@@ -55,6 +55,6 @@ class SliceLeftCest
             'for',
         ];
         $actual   = $object($collection, 3);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

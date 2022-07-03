@@ -48,7 +48,7 @@ class GetClientCharsetsCest
             ],
         ];
         $actual   = $request->getClientCharsets();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

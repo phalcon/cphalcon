@@ -42,14 +42,14 @@ class SetDomainCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals('Hello', $translator->_('hi'));
+        $I->assertSame('Hello', $translator->_('hi'));
 
         //Check with a domain which doesn't exist
         $translator->setDomain('no_exist');
-        $I->assertEquals('hi', $translator->_('hi'));
+        $I->assertSame('hi', $translator->_('hi'));
 
         //Put the good one
         $translator->setDomain('messages');
-        $I->assertEquals('Hello', $translator->_('hi'));
+        $I->assertSame('Hello', $translator->_('hi'));
     }
 }

@@ -53,6 +53,6 @@ class WithoutLinkCest
 
         $expected = [spl_object_hash($link2) => $link2];
 
-        $I->assertEquals($expected, $newInstance->getLinks());
+        $I->assertSame($expected, $newInstance->getLinks());
     }
 }

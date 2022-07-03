@@ -47,7 +47,7 @@ class GetSetAttributesCest
         $asset->setAttributes($expected);
         $actual = $asset->getAttributes();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

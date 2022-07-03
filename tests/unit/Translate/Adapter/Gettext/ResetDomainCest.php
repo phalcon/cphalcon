@@ -44,15 +44,15 @@ class ResetDomainCest
 
         //Put the good one to get the return textdomain
         $oTextDomainMessage = $translator->setDomain('messages');
-        $I->assertEquals('Hello', $translator->_('hi'));
+        $I->assertSame('Hello', $translator->_('hi'));
 
         //Check with a domain which doesn't exist
         $oTextDomainNoExist = $translator->setDomain('no_exist');
-        $I->assertEquals('hi', $translator->_('hi'));
+        $I->assertSame('hi', $translator->_('hi'));
 
         $oTextDomainReset = $translator->resetDomain();
-        $I->assertEquals('Hello', $translator->_('hi'));
+        $I->assertSame('Hello', $translator->_('hi'));
         $I->assertNotEquals($oTextDomainNoExist, $oTextDomainReset);
-        $I->assertEquals($oTextDomainMessage, $oTextDomainReset);
+        $I->assertSame($oTextDomainMessage, $oTextDomainReset);
     }
 }

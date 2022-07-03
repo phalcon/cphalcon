@@ -49,12 +49,12 @@ class GetSetDefaultCest
 
         $expected = spl_object_hash($one);
         $actual   = spl_object_hash(Di::getDefault());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         Di::setDefault($two);
 
         $expected = spl_object_hash($two);
         $actual   = spl_object_hash(Di::getDefault());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

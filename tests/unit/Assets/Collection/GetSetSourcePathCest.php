@@ -41,6 +41,6 @@ class GetSetSourcePathCest
         $sourcePath = dataDir('assets');
         $collection->setSourcePath($sourcePath);
 
-        $I->assertEquals($sourcePath, $collection->getSourcePath());
+        $I->assertSame($sourcePath, $collection->getSourcePath());
     }
 }

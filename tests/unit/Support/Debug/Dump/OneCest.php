@@ -44,7 +44,7 @@ class OneCest
             . '(<span style="color:teal">5</span>) "'
             . '<span style="color:teal">value</span>"</pre>';
         $actual   = $dump->one($test);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -68,6 +68,6 @@ class OneCest
             . '(<span style="color:teal">5</span>) "'
             . '<span style="color:teal">value</span>"</pre>';
         $actual   = $dump->one($test, 'super');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

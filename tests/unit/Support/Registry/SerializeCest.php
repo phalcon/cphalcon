@@ -36,7 +36,7 @@ class SerializeCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             serialize($data),
             $registry->serialize()
         );

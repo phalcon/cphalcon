@@ -54,7 +54,7 @@ class UnderscoreInvokeCest
 
         $expected = $example['result'];
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
         $locator = $factory->newInstance('script');
@@ -65,7 +65,7 @@ class UnderscoreInvokeCest
         }
 
         $actual = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

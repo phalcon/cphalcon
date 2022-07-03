@@ -32,11 +32,11 @@ class Base64SafeCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      *
-     * @dataProvider securityRandomBase64SafeProvider
+     * @dataProvider base64SafeProvider
      */
-    public function securityRandomBase64Safe(UnitTester $I, Example $example)
+    public function encryptionSecurityRandomBase64Safe(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Security\Random - base64Safe()");
+        $I->wantToTest("Encryption\Security\Random - base64Safe()");
 
         $len     = $example[0];
         $padding = $example[1];
@@ -53,7 +53,7 @@ class Base64SafeCest
     /**
      * @return array[]
      */
-    private function securityRandomBase64SafeProvider(): array
+    private function base64SafeProvider(): array
     {
         return [
             [

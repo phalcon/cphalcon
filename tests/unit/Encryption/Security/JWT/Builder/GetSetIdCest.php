@@ -30,9 +30,9 @@ class GetSetIdCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetId(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetId(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getId()/setId()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getId()/setId()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -42,6 +42,6 @@ class GetSetIdCest
         $return = $builder->setId('id');
         $I->assertInstanceOf(Builder::class, $return);
 
-        $I->assertEquals('id', $builder->getId());
+        $I->assertSame('id', $builder->getId());
     }
 }

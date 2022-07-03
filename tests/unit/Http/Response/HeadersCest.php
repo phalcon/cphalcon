@@ -47,7 +47,7 @@ class HeadersCest extends HttpBase
 
         $headers->set('Content-Type', 'text/html');
 
-        $I->assertEquals(
+        $I->assertSame(
             'text/html',
             $headers->get('Content-Type')
         );
@@ -132,7 +132,7 @@ class HeadersCest extends HttpBase
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $example['code'],
             $headers->get('Status')
         );
@@ -209,7 +209,7 @@ class HeadersCest extends HttpBase
             'Content-Type' => 'text/html',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $headers->toArray()
         );
@@ -270,7 +270,7 @@ class HeadersCest extends HttpBase
 
         $actual = ob_get_clean();
 
-        $I->assertEquals('some content', $actual);
+        $I->assertSame('some content', $actual);
     }
 
     private function statusHeaderProvider(): array

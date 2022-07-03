@@ -38,7 +38,7 @@ class CountCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );

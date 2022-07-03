@@ -29,9 +29,9 @@ class IsValidDecryptLengthCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-09
      */
-    public function cryptGetSetKey(UnitTester $I)
+    public function encryptionCryptGetSetKey(UnitTester $I)
     {
-        $I->wantToTest('Crypt - isValidDecryptLength()');
+        $I->wantToTest('Encryption\Crypt - isValidDecryptLength()');
 
         $crypt = new Crypt();
         $crypt->setKey('1234');
@@ -54,9 +54,9 @@ class IsValidDecryptLengthCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-09
      */
-    public function cryptGetSetKeyFalseLength(UnitTester $I)
+    public function encryptionCryptGetSetKeyFalseLength(UnitTester $I)
     {
-        $I->wantToTest('Crypt - isValidDecryptLength()');
+        $I->wantToTest('Encryption\Crypt - isValidDecryptLength()');
 
         $crypt = Stub::make(
             Crypt::class,

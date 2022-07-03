@@ -72,13 +72,13 @@ class OutputMessageCest
         $expected = '<div class="' . $type . 'Message">'
             . 'sample &lt;phalcon&gt; message</div>' . PHP_EOL;
         $actual   = $flash->outputMessage($type, $source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $flash->message($type, $source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $flash->$type($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -75,7 +75,7 @@ class UnderscoreInvokeCest
 
             $expected = sprintf($example['render'], $name);
             $actual   = (string) $result;
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
 
             $factory = new TagFactory($escaper);
             $locator = $factory->newInstance($class[0]);
@@ -86,7 +86,7 @@ class UnderscoreInvokeCest
             }
 
             $actual = (string) $result;
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
     }
 
@@ -117,7 +117,7 @@ class UnderscoreInvokeCest
         $expected = '<textarea id="x_name" name="x_name" cols="10" rows="5">' .
             'test text area</textarea>';
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
         $locator = $factory->newInstance('inputTextarea');
@@ -131,7 +131,7 @@ class UnderscoreInvokeCest
         );
 
         $actual = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

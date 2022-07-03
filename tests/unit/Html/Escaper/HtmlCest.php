@@ -34,10 +34,10 @@ class HtmlCest
 
         $expected = '&lt;h1&gt;&lt;/h1&gt;';
         $actual   = $escaper->html('<h1></h1>');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $escaper->escapeHtml('<h1></h1>');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -57,6 +57,6 @@ class HtmlCest
         $escaper  = new Escaper();
         $expected = '';
         $actual   = $escaper->html(null);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -37,11 +37,11 @@ class IsStrictHostCheckCest extends HttpBase
         $request = new Request();
         $request->setStrictHostCheck(true);
 
-        $I->assertEquals('localhost', $request->getHttpHost());
+        $I->assertSame('localhost', $request->getHttpHost());
         $I->assertTrue($request->isStrictHostCheck());
 
         $request->setStrictHostCheck(false);
-        $I->assertEquals('LOCALHOST:80', $request->getHttpHost());
+        $I->assertSame('LOCALHOST:80', $request->getHttpHost());
 
         $I->assertFalse($request->isStrictHostCheck());
 

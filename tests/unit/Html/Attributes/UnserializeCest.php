@@ -41,7 +41,7 @@ class UnserializeCest
 
         $attributes->unserialize($serialized);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $attributes->toArray()
         );

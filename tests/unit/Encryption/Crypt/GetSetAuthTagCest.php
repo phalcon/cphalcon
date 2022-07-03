@@ -33,9 +33,9 @@ class GetSetAuthTagCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetAuthTag(UnitTester $I)
+    public function encryptionCryptGetSetAuthTag(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAuthTag()/setAuthTag()');
+        $I->wantToTest('Encryption\Crypt - getAuthTag()/setAuthTag()');
 
         $crypt = new Crypt();
 
@@ -44,6 +44,6 @@ class GetSetAuthTagCest
 
         $expected = $data;
         $actual   = $crypt->getAuthTag();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -31,19 +31,19 @@ class NoopCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingNoop(UnitTester $I)
+    public function encryptionCryptPaddingNoop(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Noop - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Noop - pad()/unpad()');
 
         $object = new Noop();
 
         $expected = "";
         $actual   = $object->pad(16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $actual;
         $expected = 0;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

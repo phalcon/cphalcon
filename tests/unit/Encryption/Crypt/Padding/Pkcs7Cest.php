@@ -34,9 +34,9 @@ class Pkcs7Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingPkcs7(UnitTester $I)
+    public function encryptionCryptPaddingPkcs7(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Pkcs7 - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Pkcs7 - pad()/unpad()');
 
         $object = new Pkcs7();
 
@@ -44,12 +44,12 @@ class Pkcs7Cest
         $padding     = str_repeat(chr($paddingSize), $paddingSize);
         $expected    = $padding;
         $actual      = $object->pad($paddingSize);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected = 32;
         $actual   = $object->unpad($source, 32);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Invalid padding results in 0
@@ -58,6 +58,6 @@ class Pkcs7Cest
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected = 0;
         $actual   = $object->unpad($source, 32);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

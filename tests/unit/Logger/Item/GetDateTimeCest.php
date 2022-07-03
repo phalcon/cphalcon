@@ -46,8 +46,8 @@ class GetDateTimeCest
 
         $expected = $datetime;
         $actual   = $item->getDateTime();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
         $actual = $item->getDateTime();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

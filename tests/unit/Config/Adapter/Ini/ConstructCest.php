@@ -86,7 +86,7 @@ class ConstructCest
         ];
 
         $actual = $config->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

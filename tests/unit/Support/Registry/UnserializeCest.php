@@ -40,7 +40,7 @@ class UnserializeCest
 
         $registry->unserialize($serialized);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );

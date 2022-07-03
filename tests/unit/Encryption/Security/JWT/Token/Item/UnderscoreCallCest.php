@@ -29,13 +29,13 @@ class UnderscoreCallCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenItemUnderscoreCall(UnitTester $I)
+    public function encryptionSecurityJWTTokenItemUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Item - __call()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Item - __call()');
 
         $item = new Item(['sub' => 'subject'], 'encoded-string-here');
 
-        $I->assertEquals('encoded-string-here', $item->getEncoded());
-        $I->assertEquals(['sub' => 'subject'], $item->getPayload());
+        $I->assertSame('encoded-string-here', $item->getEncoded());
+        $I->assertSame(['sub' => 'subject'], $item->getPayload());
     }
 }

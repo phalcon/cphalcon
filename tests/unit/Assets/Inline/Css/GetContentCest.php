@@ -39,6 +39,6 @@ class GetContentCest
         $asset   = new Css($content);
 
         $actual = $asset->getContent();
-        $I->assertEquals($content, $actual);
+        $I->assertSame($content, $actual);
     }
 }

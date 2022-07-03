@@ -35,7 +35,7 @@ class GetNameCest
 
         $expected = $outputPath . $fileName;
         $actual   = $adapter->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);

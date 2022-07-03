@@ -37,7 +37,7 @@ class UnderscoreGetCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             'form-control',
             $attributes->class
         );

@@ -60,7 +60,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get('HTTP/1.1 404 Not Found')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '404 Not Found',
             $actual->get('Status')
         );
@@ -86,7 +86,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get('HTTP/1.1 409 Conflict')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '409 Conflict',
             $actual->get('Status')
         );
@@ -102,7 +102,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get('HTTP/1.1 103 Early Hints')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '103 Early Hints',
             $actual->get('Status')
         );
@@ -112,7 +112,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get('HTTP/1.1 200 OK')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '200 OK',
             $actual->get('Status')
         );
@@ -122,7 +122,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get("HTTP/1.1 418 I'm a teapot")
         );
-        $I->assertEquals(
+        $I->assertSame(
             "418 I'm a teapot",
             $actual->get('Status')
         );
@@ -132,7 +132,7 @@ class GetSetStatusCodeCest extends HttpBase
             '',
             $actual->get('HTTP/1.1 418 My own message')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '418 My own message',
             $actual->get('Status')
         );

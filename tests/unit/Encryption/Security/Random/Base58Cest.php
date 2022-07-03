@@ -31,9 +31,9 @@ class Base58Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityRandomBase58(UnitTester $I)
+    public function encryptionSecurityRandomBase58(UnitTester $I)
     {
-        $I->wantToTest("Security\Random - base58()");
+        $I->wantToTest("Encryption\Security\Random - base58()");
 
         $random = new Random();
 
@@ -44,7 +44,7 @@ class Base58Cest
         $I->assertRegExp('/^[1-9A-Za-z][^OIl0]+$/', $base58);
 
         // Default length is 16 bytes
-        $I->assertEquals(16, strlen($base58));
+        $I->assertSame(16, strlen($base58));
 
 
         $differentString = $random->base58();
@@ -54,6 +54,6 @@ class Base58Cest
 
         $expectedLength = 30;
         $base58         = $random->base58($expectedLength);
-        $I->assertEquals($expectedLength, strlen($base58));
+        $I->assertSame($expectedLength, strlen($base58));
     }
 }

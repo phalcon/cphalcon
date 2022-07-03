@@ -37,7 +37,7 @@ class OffsetGetCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             'text',
             $attributes['type']
         );

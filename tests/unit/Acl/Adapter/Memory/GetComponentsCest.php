@@ -48,6 +48,6 @@ class GetComponentsCest
             'Tags'  => $component2,
         ];
         $actual   = $acl->getComponents();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

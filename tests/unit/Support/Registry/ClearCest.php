@@ -36,14 +36,14 @@ class ClearCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );
 
         $registry->clear();
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $registry->count()
         );

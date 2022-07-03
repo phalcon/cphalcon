@@ -32,6 +32,6 @@ class GetSetInputCest
         $payload->setInput('input');
 
         $actual = $payload->getInput();
-        $I->assertEquals('input', $actual);
+        $I->assertSame('input', $actual);
     }
 }

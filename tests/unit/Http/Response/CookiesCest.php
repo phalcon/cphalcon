@@ -104,7 +104,7 @@ class CookiesCest extends HttpBase
             $cookieArray['x-token']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $cookieArray['x-user-id']->getValue()
         );

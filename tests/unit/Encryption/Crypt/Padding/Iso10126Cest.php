@@ -31,9 +31,9 @@ class Iso10126Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingIso10126(UnitTester $I)
+    public function encryptionCryptPaddingIso10126(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Iso10126 - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Iso10126 - pad()/unpad()');
 
         $object = new Iso10126();
 
@@ -41,6 +41,6 @@ class Iso10126Cest
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected = 16;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

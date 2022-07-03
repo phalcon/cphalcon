@@ -74,11 +74,11 @@ class ClearHasCest
 
         $expected = [$message1];
         $actual   = $flash->getMessages('success', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [$message2];
         $actual   = $flash->getMessages('error', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $flash->clear();
 

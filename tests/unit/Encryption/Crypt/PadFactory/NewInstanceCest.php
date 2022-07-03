@@ -45,9 +45,9 @@ class NewInstanceCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-18
      */
-    public function cryptPadFactoryNewInstance(UnitTester $I, Example $example)
+    public function encryptionCryptPadFactoryNewInstance(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Crypt\PadFactory - newInstance() ' . $example[0]);
+        $I->wantToTest('Encryption\Crypt\PadFactory - newInstance() ' . $example[0]);
 
         $factory = new PadFactory();
         $adapter = $factory->newInstance($example[0]);
@@ -65,9 +65,9 @@ class NewInstanceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptPadFactoryNewInstanceException(UnitTester $I)
+    public function encryptionCryptPadFactoryNewInstanceException(UnitTester $I)
     {
-        $I->wantToTest('Crypt\PadFactory - newInstance() - exception');
+        $I->wantToTest('Encryption\Crypt\PadFactory - newInstance() - exception');
 
         $I->expectThrowable(
             new Exception("Service unknown is not registered"),
@@ -89,15 +89,15 @@ class NewInstanceCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-18
      */
-    public function cryptPadNumberToService(UnitTester $I, Example $example)
+    public function encryptionCryptPadNumberToService(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Crypt\PadFactory - padNumberToService() ' . $example[0]);
+        $I->wantToTest('Encryption\Crypt\PadFactory - padNumberToService() ' . $example[0]);
 
         $factory = new PadFactory();
 
         $expected = $example[1];
         $actual   = $factory->padNumberToService($example[0]);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

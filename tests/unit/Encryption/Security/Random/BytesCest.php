@@ -33,16 +33,16 @@ class BytesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityRandomBytes(UnitTester $I)
+    public function encryptionSecurityRandomBytes(UnitTester $I)
     {
-        $I->wantToTest("Security\Random - bytes()");
+        $I->wantToTest("Encryption\Security\Random - bytes()");
 
         $random = new Random();
 
         $bytes = $random->bytes();
-        $I->assertEquals(16, strlen($bytes));
+        $I->assertSame(16, strlen($bytes));
 
         $bytes = $random->bytes(32);
-        $I->assertEquals(32, strlen($bytes));
+        $I->assertSame(32, strlen($bytes));
     }
 }

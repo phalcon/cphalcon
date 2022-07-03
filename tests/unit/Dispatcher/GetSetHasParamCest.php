@@ -40,6 +40,6 @@ class GetSetHasParamCest
 
         $expected = 'two';
         $actual   = $dispatcher->getParam('one');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

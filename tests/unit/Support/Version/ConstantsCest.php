@@ -28,10 +28,10 @@ class ConstantsCest
     {
         $I->wantToTest('Version - constants');
 
-        $I->assertEquals(0, Version::VERSION_MAJOR);
-        $I->assertEquals(1, Version::VERSION_MEDIUM);
-        $I->assertEquals(2, Version::VERSION_MINOR);
-        $I->assertEquals(3, Version::VERSION_SPECIAL);
-        $I->assertEquals(4, Version::VERSION_SPECIAL_NUMBER);
+        $I->assertSame(0, Version::VERSION_MAJOR);
+        $I->assertSame(1, Version::VERSION_MEDIUM);
+        $I->assertSame(2, Version::VERSION_MINOR);
+        $I->assertSame(3, Version::VERSION_SPECIAL);
+        $I->assertSame(4, Version::VERSION_SPECIAL_NUMBER);
     }
 }

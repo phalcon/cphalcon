@@ -55,10 +55,10 @@ class GetSetSecureCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($secure, $cookie->getSecure());
+        $I->assertSame($secure, $cookie->getSecure());
 
         $secure = false;
         $cookie->setSecure($secure);
-        $I->assertEquals($secure, $cookie->getSecure());
+        $I->assertSame($secure, $cookie->getSecure());
     }
 }

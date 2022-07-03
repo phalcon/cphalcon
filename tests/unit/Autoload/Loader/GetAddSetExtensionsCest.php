@@ -40,7 +40,7 @@ class GetAddSetExtensionsCest
 
         $expected = [hash("sha256", 'php') => 'php'];
         $actual   = $loader->getExtensions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader->setExtensions(
             [
@@ -55,7 +55,7 @@ class GetAddSetExtensionsCest
             hash("sha256", 'inc') => 'inc',
         ];
         $actual   = $loader->getExtensions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Clear
@@ -63,7 +63,7 @@ class GetAddSetExtensionsCest
         $loader->setExtensions([]);
         $expected = [hash("sha256", 'php') => 'php'];
         $actual   = $loader->getExtensions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
 
         $loader
@@ -77,6 +77,6 @@ class GetAddSetExtensionsCest
             hash("sha256", 'phpt') => 'phpt',
         ];
         $actual   = $loader->getExtensions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

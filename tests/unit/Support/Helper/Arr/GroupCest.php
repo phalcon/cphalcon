@@ -74,7 +74,7 @@ class GroupCest
         ];
 
         $actual = $object($collection, 'age');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -109,7 +109,7 @@ class GroupCest
             'Paul'  => [$paul],
         ];
         $actual   = $object($collection, 'name');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -132,6 +132,6 @@ class GroupCest
             5 => ['three'],
         ];
         $actual   = $object($collection, 'strlen');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

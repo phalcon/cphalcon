@@ -32,10 +32,9 @@ class SetContentLengthCest extends HttpBase
 
         $response->setContentLength(100);
 
-        $actual = $response->getHeaders();
-        $I->assertEquals(
-            100,
-            $actual->get('Content-Length')
-        );
+        $headers = $response->getHeaders();
+        $expected = 100;
+        $actual   = (int) $headers->get('Content-Length');
+        $I->assertSame($expected, $actual);
     }
 }

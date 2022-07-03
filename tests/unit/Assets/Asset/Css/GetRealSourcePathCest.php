@@ -56,6 +56,6 @@ class GetRealSourcePathCest
         $asset = new Css($path, false);
 
         $actual = $asset->getRealSourcePath();
-        $I->assertEquals($path, $actual);
+        $I->assertSame($path, $actual);
     }
 }

@@ -37,7 +37,7 @@ class ToStringCest
 
         $role = new Role('Administrator');
 
-        $I->assertEquals('Administrator', $role->__toString());
-        $I->assertEquals('Administrator', (string) $role);
+        $I->assertSame('Administrator', $role->__toString());
+        $I->assertSame('Administrator', (string) $role);
     }
 }

@@ -42,6 +42,6 @@ class GetKeyCest
             'abcde'
         );
 
-        $I->assertEquals('abcde', $file->getKey());
+        $I->assertSame('abcde', $file->getKey());
     }
 }

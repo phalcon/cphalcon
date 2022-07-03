@@ -39,7 +39,7 @@ class AddCest
 
         $breadcrumbs->add('Home', '/');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 '/' => 'Home',
             ],

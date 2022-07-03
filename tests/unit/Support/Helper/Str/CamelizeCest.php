@@ -41,7 +41,7 @@ class CamelizeCest
         $lowercase = $example[3];
 
         $actual = $object($value, $delimiter, $lowercase);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

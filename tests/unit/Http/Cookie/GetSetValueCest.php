@@ -55,10 +55,10 @@ class GetSetValueCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($value, $cookie->getValue());
+        $I->assertSame($value, $cookie->getValue());
 
         $value = 'framework';
         $cookie->setValue($value);
-        $I->assertEquals($value, $cookie->getValue());
+        $I->assertSame($value, $cookie->getValue());
     }
 }

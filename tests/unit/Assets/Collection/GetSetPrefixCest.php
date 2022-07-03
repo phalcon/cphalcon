@@ -39,6 +39,6 @@ class GetSetPrefixCest
         $prefix     = 'phly_';
         $collection->setPrefix($prefix);
 
-        $I->assertEquals($prefix, $collection->getPrefix());
+        $I->assertSame($prefix, $collection->getPrefix());
     }
 }

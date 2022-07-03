@@ -39,7 +39,7 @@ class ConstructCest
 
         $expected = 'js';
         $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -94,7 +94,7 @@ class ConstructCest
             'type' => 'application/javascript',
         ];
         $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -119,6 +119,6 @@ class ConstructCest
             $attributes
         );
         $actual = $asset->getAttributes();
-        $I->assertEquals($attributes, $actual);
+        $I->assertSame($attributes, $actual);
     }
 }

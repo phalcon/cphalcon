@@ -33,20 +33,20 @@ class SpaceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingSpace(UnitTester $I)
+    public function encryptionCryptPaddingSpace(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Space - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Space - pad()/unpad()');
 
         $object = new Space();
 
         $padding  = str_repeat(" ", 16);
         $expected = $padding;
         $actual   = $object->pad(16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected = 16;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

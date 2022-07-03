@@ -38,6 +38,6 @@ class InitializationAwareCest
 
         $di = new Di();
 
-        $I->assertEquals(true, $di->get(InitializationAwareComponent::class)->isInitialized());
+        $I->assertSame(true, $di->get(InitializationAwareComponent::class)->isInitialized());
     }
 }

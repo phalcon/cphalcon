@@ -43,7 +43,7 @@ class IsSharedCest
         $service  = $example[0];
         $expected = $example[1];
         $actual   = $service->isShared();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

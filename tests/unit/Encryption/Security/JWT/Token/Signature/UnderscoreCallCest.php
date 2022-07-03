@@ -29,13 +29,13 @@ class UnderscoreCallCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenSignatureUnderscoreCall(UnitTester $I)
+    public function encryptionSecurityJWTTokenSignatureUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Signature - __call()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Signature - __call()');
 
         $signature = new Signature('sig-hash', 'encoded-string-here');
 
-        $I->assertEquals('encoded-string-here', $signature->getEncoded());
-        $I->assertEquals('sig-hash', $signature->getHash());
+        $I->assertSame('encoded-string-here', $signature->getEncoded());
+        $I->assertSame('sig-hash', $signature->getHash());
     }
 }

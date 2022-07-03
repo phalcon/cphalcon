@@ -55,10 +55,10 @@ class GetSetDomainCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($domain, $cookie->getDomain());
+        $I->assertSame($domain, $cookie->getDomain());
 
         $domain = 'phalcon.io';
         $cookie->setDomain($domain);
-        $I->assertEquals($domain, $cookie->getDomain());
+        $I->assertSame($domain, $cookie->getDomain());
     }
 }

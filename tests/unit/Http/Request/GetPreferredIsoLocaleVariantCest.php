@@ -45,7 +45,7 @@ class GetPreferredIsoLocaleVariantCest
             'HTTP_ACCEPT_LANGUAGE' => $example['header'],
             'REQUEST_TIME_FLOAT'   => $time,
         ];
-        $I->assertEquals($example['result'], $request->getPreferredIsoLocaleVariant());
+        $I->assertSame($example['result'], $request->getPreferredIsoLocaleVariant());
 
         $_SERVER = $store;
     }

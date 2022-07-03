@@ -29,9 +29,9 @@ class VerifyCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerNoneVerify(UnitTester $I)
+    public function encryptionSecurityJWTSignerNoneVerify(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - verify()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\None - verify()');
 
         $signer = new None();
 

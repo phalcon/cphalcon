@@ -45,7 +45,7 @@ class GetAssetKeyCest
 
         $assetKey = hash("sha256", $example['type'] . ':' . $example['path']);
         $actual   = $asset->getAssetKey();
-        $I->assertEquals($assetKey, $actual);
+        $I->assertSame($assetKey, $actual);
     }
 
     /**

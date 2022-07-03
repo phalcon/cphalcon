@@ -46,7 +46,7 @@ class SanitizeMultipleCest
         $expected = $example['expected'];
         $filters  = $example['filters'];
         $actual   = $filter->sanitize($source, $filters);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -83,8 +83,8 @@ class SanitizeMultipleCest
         $actual = $filter->sanitize($value, $filters);
         restore_error_handler();
 
-        $I->assertEquals(E_USER_NOTICE, $error['number']);
-        $I->assertEquals(
+        $I->assertSame(E_USER_NOTICE, $error['number']);
+        $I->assertSame(
             "Sanitizer 'something' is not registered",
             $error['message']
         );

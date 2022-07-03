@@ -58,7 +58,7 @@ class GetBasicAuthCest
             'password' => 'vader',
         ];
         $actual   = $request->getBasicAuth();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

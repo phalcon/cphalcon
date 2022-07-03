@@ -36,14 +36,14 @@ class InitCest
 
         $registry = new Registry();
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $registry->count()
         );
 
         $registry->init($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );

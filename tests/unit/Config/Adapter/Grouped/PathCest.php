@@ -39,7 +39,7 @@ class PathCest
 
         $expected = 'something-else';
         $actual   = $config->path('test.property2');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

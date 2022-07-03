@@ -39,11 +39,11 @@ class DecapitalizeCest
         $source   = 'BeetleJuice';
         $expected = 'beetleJuice';
         $actual   = $object($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = 'BeetleJuice';
         $expected = 'bEETLEJUICE';
         $actual   = $object($source, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

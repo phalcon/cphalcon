@@ -47,7 +47,7 @@ class GetIdCest
         $expected = $example[2];
         $actual   = $version->getId();
         $I->assertTrue(is_string($actual));
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

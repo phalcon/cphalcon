@@ -74,11 +74,11 @@ class OffsetGetSetCest
         $I->assertInstanceOf(Message::class, $message);
 
 
-        $I->assertEquals('This is a message #3', $message->getMessage());
-        $I->assertEquals('MyField3', $message->getField());
-        $I->assertEquals('MyType3', $message->getType());
-        $I->assertEquals(777, $message->getCode());
-        $I->assertEquals(['My3' => 'Metadata3'], $message->getMetaData());
+        $I->assertSame('This is a message #3', $message->getMessage());
+        $I->assertSame('MyField3', $message->getField());
+        $I->assertSame('MyType3', $message->getType());
+        $I->assertSame(777, $message->getCode());
+        $I->assertSame(['My3' => 'Metadata3'], $message->getMetaData());
     }
 
     /**

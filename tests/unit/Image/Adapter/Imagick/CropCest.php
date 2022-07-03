@@ -49,11 +49,11 @@ class CropCest
 
         $I->seeFileFound('crop.jpg');
 
-        $I->assertEquals(
+        $I->assertSame(
             200,
             $image->getWidth()
         );
-        $I->assertEquals(
+        $I->assertSame(
             200,
             $image->getHeight()
         );

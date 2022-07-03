@@ -45,11 +45,11 @@ class DirSeparatorCest
 
         $expected = '/home/phalcon/';
         $actual   = $object('/home/phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = '/home/phalcon/';
         $actual   = $object('/home/phalcon//');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -72,6 +72,6 @@ class DirSeparatorCest
 
         $expected = "/";
         $actual   = $object($fileName);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

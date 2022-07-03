@@ -45,7 +45,7 @@ class GetSetMetaDataCest
             'My1' => 'Metadata1',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $message->getMetaData()
         );
@@ -57,7 +57,7 @@ class GetSetMetaDataCest
 
         $message->setMetaData($expected);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $message->getMetaData()
         );

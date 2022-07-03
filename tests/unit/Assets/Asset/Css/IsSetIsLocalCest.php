@@ -39,7 +39,7 @@ class IsSetIsLocalCest
         $asset->setIsLocal($example['newLocal']);
         $expected = $example['newLocal'];
         $actual   = $asset->isLocal();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

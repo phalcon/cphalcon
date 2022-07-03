@@ -55,10 +55,10 @@ class GetSetExpirationCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($expire, $cookie->getExpiration());
+        $I->assertSame($expire, $cookie->getExpiration());
 
         $expire = time() - 200;
         $cookie->setExpiration($expire);
-        $I->assertEquals($expire, $cookie->getExpiration());
+        $I->assertSame($expire, $cookie->getExpiration());
     }
 }

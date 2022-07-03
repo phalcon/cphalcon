@@ -41,6 +41,6 @@ class ToJsonCest
 
         $expected = "{\n    \"key\": \"value\"\n}";
         $actual   = $dump->toJson($test);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

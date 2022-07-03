@@ -36,7 +36,7 @@ class ToArrayCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );

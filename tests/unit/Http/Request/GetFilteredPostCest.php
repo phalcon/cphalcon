@@ -56,7 +56,7 @@ class GetFilteredPostCest
         $method   = 'getFiltered' . ucfirst($example[0]);
         $expected = $example[5];
         $actual   = $request->$method($example[1]);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -79,11 +79,11 @@ class GetFilteredPostCest
 
         $expected = 24;
         $actual   = $request->getFilteredQuery('id', 24);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 24;
         $actual   = $request->getFilteredPost('id', 24);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     private function getExamples(): array

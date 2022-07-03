@@ -51,7 +51,7 @@ class GetHeaderCest
 
         $expected = 'zup';
         $actual   = $request->getHeader('LOL');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

@@ -33,7 +33,7 @@ class DecryptBase64Cest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptBase64UnsignedKeyMismatchNoException(UnitTester $I)
+    public function encryptionCryptDecryptBase64UnsignedKeyMismatchNoException(UnitTester $I)
     {
         $I->wantToTest(
             'Crypt - decryptBase64() unsigned key mismatch no exception'
@@ -58,7 +58,7 @@ class DecryptBase64Cest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptBase64SignedKeyMismatchThrowsException(UnitTester $I)
+    public function encryptionCryptDecryptBase64SignedKeyMismatchThrowsException(UnitTester $I)
     {
         $I->wantToTest(
             'Crypt - decryptBase64() signed key mismatch throws exception'
@@ -85,7 +85,7 @@ class DecryptBase64Cest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptBase64DecryptSignedString(UnitTester $I)
+    public function encryptionCryptDecryptBase64DecryptSignedString(UnitTester $I)
     {
         $crypt = new Crypt();
         $crypt
@@ -97,6 +97,6 @@ class DecryptBase64Cest
         $encrypted = $crypt->encryptBase64($expected);
         $actual    = $crypt->decryptBase64($encrypted);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

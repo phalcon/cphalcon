@@ -40,6 +40,6 @@ class GetSizeCest
             ]
         );
 
-        $I->assertEquals(1, $file->getSize());
+        $I->assertSame(1, $file->getSize());
     }
 }
