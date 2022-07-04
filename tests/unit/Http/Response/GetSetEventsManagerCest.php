@@ -42,6 +42,6 @@ class GetSetEventsManagerCest
             $oActual
         );
 
-        $I->assertEquals($oManager, $oActual);
+        $I->assertSame($oManager, $oActual);
     }
 }

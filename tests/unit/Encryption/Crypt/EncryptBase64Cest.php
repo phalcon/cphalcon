@@ -35,9 +35,9 @@ class EncryptBase64Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptBase64(UnitTester $I)
+    public function encryptionCryptEncryptBase64(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encryptBase64()');
+        $I->wantToTest('Encryption\Crypt - encryptBase64()');
 
         $tests = [
             md5(uniqid())            => str_repeat('x', mt_rand(1, 255)),
@@ -62,7 +62,7 @@ class EncryptBase64Cest
 
                 $encryption = $crypt->encryptBase64($test);
                 $actual     = rtrim($crypt->decryptBase64($encryption), "\0");
-                $I->assertEquals($test, $actual);
+                $I->assertSame($test, $actual);
             }
 
             foreach ($tests as $key => $test) {
@@ -79,7 +79,7 @@ class EncryptBase64Cest
                     "\0"
                 );
 
-                $I->assertEquals($test, $actual);
+                $I->assertSame($test, $actual);
             }
         }
     }
@@ -92,9 +92,9 @@ class EncryptBase64Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptBase64Safe(UnitTester $I)
+    public function encryptionCryptEncryptBase64Safe(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encryptBase64() - safe');
+        $I->wantToTest('Encryption\Crypt - encryptBase64() - safe');
 
         $key    = substr(md5(uniqid()), 0, 16);
         $source = 'BvQrk+D^b&saR/L#mQig+8V9v^W&S/&moY7';
@@ -103,6 +103,6 @@ class EncryptBase64Cest
 
         $encrypted = $crypt->encryptBase64($source, $key, true);
         $decrypted = $crypt->decryptBase64($encrypted, $key, true);
-        $I->assertEquals($source, $decrypted);
+        $I->assertSame($source, $decrypted);
     }
 }

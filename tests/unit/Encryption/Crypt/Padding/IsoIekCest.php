@@ -34,9 +34,9 @@ class IsoIekCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingIsoIek(UnitTester $I)
+    public function encryptionCryptPaddingIsoIek(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\IsoIek - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\IsoIek - pad()/unpad()');
 
         $object = new IsoIek();
 
@@ -44,18 +44,18 @@ class IsoIekCest
         $padding     = chr(0x80) . str_repeat(chr(0), $paddingSize - 1);
         $expected    = $padding;
         $actual      = $object->pad(16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $actual;
         $expected = 16;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $paddingSize = 16;
         $padding     = chr(0x80) . str_repeat(chr(0), $paddingSize + 1);
         $source      = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected    = 0;
         $actual      = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

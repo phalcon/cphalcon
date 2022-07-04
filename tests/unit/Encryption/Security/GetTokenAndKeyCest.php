@@ -43,9 +43,9 @@ class GetTokenAndKeyCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetToken(UnitTester $I)
+    public function encryptionSecurityGetToken(UnitTester $I)
     {
-        $I->wantToTest('Security - getToken()');
+        $I->wantToTest('Encryption\Security - getToken()');
 
         /** @var Manager $session */
         $session = $this->container->getShared('session');
@@ -59,9 +59,9 @@ class GetTokenAndKeyCest
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
 
-        $I->assertEquals($tokenKey, $security->getTokenKey());
-        $I->assertEquals($token, $security->getToken());
-        $I->assertEquals($token, $security->getSessionToken());
+        $I->assertSame($tokenKey, $security->getTokenKey());
+        $I->assertSame($token, $security->getToken());
+        $I->assertSame($token, $security->getSessionToken());
 
         $security->destroyToken();
 

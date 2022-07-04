@@ -55,10 +55,10 @@ class GetCheckedPathCest
             'Directories: ' . $directory . 'Integer.php',
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = $directory . 'Integer.php';
         $actual   = $loader->getCheckedPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -40,6 +40,6 @@ class GetNameCest
             ]
         );
 
-        $I->assertEquals('test', $file->getName());
+        $I->assertSame('test', $file->getName());
     }
 }

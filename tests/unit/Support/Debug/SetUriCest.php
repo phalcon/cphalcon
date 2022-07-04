@@ -50,7 +50,7 @@ class SetUriCest
 
         $debug->setUri($uri);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $debug->getCssSources()
         );

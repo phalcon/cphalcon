@@ -57,6 +57,6 @@ class GetSetCssIconClassesCest
 
         $expected = $newClasses;
         $actual   = $flash->getCssIconClasses();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

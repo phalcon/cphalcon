@@ -56,6 +56,6 @@ class ArrayAccessCest
 
         $expected = $language['Hello!'];
         $actual   = $translator['Hello!'];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

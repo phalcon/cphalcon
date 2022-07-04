@@ -46,7 +46,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -80,7 +80,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -116,7 +116,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -152,7 +152,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -187,7 +187,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -224,7 +224,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -261,7 +261,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -299,7 +299,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -337,7 +337,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -375,7 +375,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -417,7 +417,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -460,7 +460,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -501,7 +501,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -544,7 +544,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -587,7 +587,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -631,7 +631,7 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -675,6 +675,6 @@ class SelectStaticCest extends TagSetup
 
         Tag::resetInput();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

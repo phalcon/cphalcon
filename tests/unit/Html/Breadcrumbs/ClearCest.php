@@ -43,7 +43,7 @@ class ClearCest
             ->add('Phalcon Team')
         ;
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 '/'      => 'Home',
                 '/users' => 'Users',
@@ -54,7 +54,7 @@ class ClearCest
 
         $breadcrumbs->clear();
 
-        $I->assertEquals(
+        $I->assertSame(
             [],
             $breadcrumbs->toArray()
         );

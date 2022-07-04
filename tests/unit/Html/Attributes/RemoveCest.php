@@ -37,7 +37,7 @@ class RemoveCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $attributes->toArray()
         );
@@ -51,7 +51,7 @@ class RemoveCest
             'value' => '',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $attributes->toArray()
         );

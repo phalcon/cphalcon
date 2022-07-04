@@ -36,19 +36,19 @@ class SetCest
 
         $expected = 'two';
         $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->three = 'Phalcon';
 
         $expected = 'Phalcon';
         $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->offsetSet('three', 123);
 
         $expected = 123;
         $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection['three'] = true;
 

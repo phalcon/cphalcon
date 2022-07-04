@@ -49,6 +49,6 @@ class GetLinksCest
             spl_object_hash($links[1]) => $links[1],
         ];
 
-        $I->assertEquals($expected, $link->getLinks());
+        $I->assertSame($expected, $link->getLinks());
     }
 }

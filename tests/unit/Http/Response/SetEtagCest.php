@@ -38,7 +38,7 @@ class SetEtagCest
 
         $headers = $response->getHeaders();
 
-        $I->assertEquals(
+        $I->assertSame(
             $etag,
             $headers->get('Etag')
         );

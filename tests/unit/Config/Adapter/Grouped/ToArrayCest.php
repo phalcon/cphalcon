@@ -35,6 +35,6 @@ class ToArrayCest
 
         $expected = $options;
         $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

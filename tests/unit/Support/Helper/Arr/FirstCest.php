@@ -44,7 +44,7 @@ class FirstCest
         ];
         $expected   = 'Phalcon';
         $actual     = $object($collection);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -71,6 +71,6 @@ class FirstCest
                 return strlen($element) > 8;
             }
         );
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

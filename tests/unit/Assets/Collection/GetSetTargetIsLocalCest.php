@@ -36,9 +36,9 @@ class GetSetTargetIsLocalCest
         $I->wantToTest('Assets\Collection - getTargetIsLocal()/setTargetIsLocal()');
 
         $collection = new Collection();
-        $I->assertEquals(true, $collection->getTargetIsLocal());
+        $I->assertSame(true, $collection->getTargetIsLocal());
 
         $collection->setTargetIsLocal(false);
-        $I->assertEquals(false, $collection->getTargetIsLocal());
+        $I->assertSame(false, $collection->getTargetIsLocal());
     }
 }

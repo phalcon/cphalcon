@@ -31,9 +31,9 @@ class Base62Cest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityRandomBase62(UnitTester $I)
+    public function encryptionSecurityRandomBase62(UnitTester $I)
     {
-        $I->wantToTest("Security\Random - base62()");
+        $I->wantToTest("Encryption\Security\Random - base62()");
 
         $random = new Random();
 
@@ -47,7 +47,7 @@ class Base62Cest
         );
 
         // Default length is 16 bytes
-        $I->assertEquals(
+        $I->assertSame(
             16,
             strlen($base62)
         );
@@ -62,7 +62,7 @@ class Base62Cest
         $expectedLength = 30;
         $base62         = $random->base62($expectedLength);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expectedLength,
             strlen($base62)
         );

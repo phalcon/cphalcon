@@ -32,6 +32,6 @@ class GetSetExtrasCest
         $payload->setExtras('extras');
 
         $actual = $payload->getExtras();
-        $I->assertEquals('extras', $actual);
+        $I->assertSame('extras', $actual);
     }
 }

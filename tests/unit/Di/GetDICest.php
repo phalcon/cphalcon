@@ -61,7 +61,7 @@ final class GetDICest
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
 
-        $I->assertEquals($di, $prop->getValue($ic));
+        $I->assertSame($di, $prop->getValue($ic));
     }
 
     /**
@@ -105,7 +105,7 @@ final class GetDICest
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
 
-        $I->assertEquals($other, $prop->getValue($ic));
+        $I->assertSame($other, $prop->getValue($ic));
         $I->assertNotEquals($di, $prop->getValue($ic));
     }
 }

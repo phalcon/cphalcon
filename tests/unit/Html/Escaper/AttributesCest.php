@@ -48,10 +48,10 @@ class AttributesCest
 
         $expected = $example['expected'];
         $actual   = $escaper->attributes($text);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $escaper->escapeHtmlAttr($text);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

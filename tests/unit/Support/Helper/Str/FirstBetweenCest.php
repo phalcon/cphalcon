@@ -39,6 +39,6 @@ class FirstBetweenCest
         $source   = 'This is a [custom] string';
         $expected = 'custom';
         $actual   = $object($source, '[', ']');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

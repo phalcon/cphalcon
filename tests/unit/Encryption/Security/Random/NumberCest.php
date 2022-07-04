@@ -32,9 +32,9 @@ class NumberCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityRandomNumber(UnitTester $I)
+    public function encryptionSecurityRandomNumber(UnitTester $I)
     {
-        $I->wantToTest("Security\Random - number()");
+        $I->wantToTest("Encryption\Security\Random - number()");
 
         $I->expectThrowable(
             new Exception('Input number must be a positive integer'),

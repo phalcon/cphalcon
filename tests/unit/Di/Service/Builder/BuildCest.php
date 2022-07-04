@@ -154,11 +154,11 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $component->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 2;
         $actual   = $component->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $component->getEscaper();
         $I->assertNull($actual);
@@ -206,11 +206,11 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $component->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 2;
         $actual   = $component->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $class  = Escaper::class;
         $actual = $component->getEscaper();
@@ -268,11 +268,11 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $component->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 2;
         $actual   = $component->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $class  = Escaper::class;
         $actual = $component->getEscaper();
@@ -284,11 +284,11 @@ class BuildCest
 
         $expected = 'two';
         $actual   = $service->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 3;
         $actual   = $service->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -528,19 +528,19 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $instance->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 2;
         $actual   = $instance->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'set-one';
         $actual   = $instance->propertyName;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 100;
         $actual   = $instance->propertyType;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -776,11 +776,11 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $instance->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 444;
         $actual   = $instance->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -827,10 +827,10 @@ class BuildCest
 
         $expected = 'one';
         $actual   = $instance->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 555;
         $actual   = $instance->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

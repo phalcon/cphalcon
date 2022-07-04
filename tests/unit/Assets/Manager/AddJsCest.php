@@ -54,7 +54,7 @@ class AddJsCest
         $collection = $manager->get('js');
 
         foreach ($collection as $resource) {
-            $I->assertEquals('js', $resource->getType());
+            $I->assertSame('js', $resource->getType());
         }
 
         $I->assertCount(2, $collection);
@@ -114,6 +114,6 @@ class AddJsCest
             . "src=\"{$pathData}assets/assets-version-3.js\"></script>"
         );
 
-        $I->assertEquals($expected, $manager->outputJs());
+        $I->assertSame($expected, $manager->outputJs());
     }
 }

@@ -48,6 +48,6 @@ class GetRolesCest
             'Guest' => $role2,
         ];
         $actual   = $acl->getRoles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

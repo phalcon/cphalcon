@@ -67,7 +67,7 @@ class GetAcceptableContentCest
             ],
         ];
         $actual   = $request->getAcceptableContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

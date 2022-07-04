@@ -49,9 +49,9 @@ class GetRequestTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetTokensWithoutSessionInitialization(UnitTester $I)
+    public function encryptionSecurityGetTokensWithoutSessionInitialization(UnitTester $I)
     {
-        $I->wantToTest('Security - getRequestToken() and getSessionToken() without session initialization');
+        $I->wantToTest('Encryption\Security - getRequestToken() and getSessionToken() without session initialization');
 
         /** @var Manager $session */
         $session = $this->container->getShared('session');
@@ -75,9 +75,9 @@ class GetRequestTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetRequestTokenAndGetSessionToken(UnitTester $I)
+    public function encryptionSecurityGetRequestTokenAndGetSessionToken(UnitTester $I)
     {
-        $I->wantToTest('Security - getRequestToken() and getSessionToken()');
+        $I->wantToTest('Encryption\Security - getRequestToken() and getSessionToken()');
         $I->skipTest('TODO: Enable when Request is done');
 
         $store = $_POST ?? [];
@@ -102,9 +102,9 @@ class GetRequestTokenCest
         $tokenKey     = $security->getTokenKey();
         $token        = $security->getToken();
 
-        $I->assertEquals($sessionToken, $requestToken);
+        $I->assertSame($sessionToken, $requestToken);
         $I->assertNotEquals($token, $sessionToken);
-        $I->assertEquals($requestToken, $security->getRequestToken());
+        $I->assertSame($requestToken, $security->getRequestToken());
         $I->assertNotEquals($token, $security->getRequestToken());
 
         $_POST = [

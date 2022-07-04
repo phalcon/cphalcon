@@ -43,7 +43,7 @@ class CaseCest
         $object    = new $class();
 
         $actual = $object($value, $delimiter);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -42,7 +42,7 @@ class UpperCest
         $object   = new Upper();
         $expected = $example['expected'];
         $actual   = $object($example['text']);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -63,7 +63,7 @@ class UpperCest
         $object   = new Upper();
         $expected = $example['expected'];
         $actual   = $object($example['text']);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

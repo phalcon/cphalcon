@@ -31,14 +31,14 @@ class GetSetLogLevelCest
         $I->wantToTest('Logger - getLogLevel()/setLogLevel()');
         $logger = new Logger('my-name');
 
-        $I->assertEquals(Logger::CUSTOM, $logger->getLogLevel());
+        $I->assertSame(Logger::CUSTOM, $logger->getLogLevel());
 
         $object = $logger->setLogLevel(Logger::INFO);
         $I->assertInstanceOf(Logger::class, $object);
 
-        $I->assertEquals(Logger::INFO, $logger->getLogLevel());
+        $I->assertSame(Logger::INFO, $logger->getLogLevel());
 
         $logger->setLogLevel(99);
-        $I->assertEquals(Logger::CUSTOM, $logger->getLogLevel());
+        $I->assertSame(Logger::CUSTOM, $logger->getLogLevel());
     }
 }

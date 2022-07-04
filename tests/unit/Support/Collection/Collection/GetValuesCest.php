@@ -45,6 +45,6 @@ class GetValuesCest
         ];
 
         $actual = $collection->getValues();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

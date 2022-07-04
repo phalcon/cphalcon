@@ -15,13 +15,24 @@ namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
+use function ob_clean;
+use function ob_end_clean;
+use function ob_get_clean;
+use function ob_start;
+use function substr;
+
+use const PHP_EOL;
+
 class CompileStringCest
 {
     use DiTrait;
+
+    private TagFactory $tag;
 
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString()
@@ -72,6 +83,130 @@ class CompileStringCest
         );
     }
 
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - executed
+     * error
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2022-07-02
+     */
+    public function mvcViewEngineVoltCompilerCompileStringExecuted(IntegrationTester $I)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString() - executed");
+
+        $this->setNewFactoryDefault();
+        $volt = new Compiler();
+        $volt->setDI($this->container);
+
+        /**
+         * Pass the DI TagFactory here so that it can compile
+         */
+        $this->tag = $this->container->getShared('tag');
+
+        // ---------------------------------------------------------------------
+        // Doctype
+        // ---------------------------------------------------------------------
+        $source   = "{{ tag.doctype(5, '-') }}";
+        $expected = '<?= $this->tag->doctype(5, "-") ?>';
+        $actual   = $volt->compileString($source);
+        $I->assertSame($expected, $actual);
+
+        // Doctype executed in code
+        $expected = "<!DOCTYPE html>-";
+        $actual   = (string) $this->tag->doctype(5, '-');
+        $I->assertSame($expected, $actual);
+
+        // Doctype after volt parsing
+        $code     = 'echo $this->tag->doctype(5, "-");';
+        $expected = "<!DOCTYPE html>-";
+
+        ob_start();
+        eval($code);
+        $actual = ob_get_clean();
+        $I->assertSame($expected, $actual);
+
+        // ---------------------------------------------------------------------
+        // Title
+        // ---------------------------------------------------------------------
+        $source   = "{{ tag.title('\t', '\n\n') }}";
+        $expected = "<?= \$this->tag->title(\"\t\", \"\n\n\") ?>";
+        $actual   = $volt->compileString($source);
+        $I->assertSame($expected, $actual);
+
+        // Title executed in code
+        $expected = "+<title>test</title>-";
+        $actual   = (string) $this->tag->title("+", "-")->set('test');
+        $I->assertSame($expected, $actual);
+
+        // Title after volt parsing
+        $code     = 'echo $this->tag->title("+", "-")->set("test");';
+        $expected = "+<title>test</title>-";
+
+        ob_start();
+        eval($code);
+        $actual = ob_get_clean();
+        $I->assertSame($expected, $actual);
+
+        // ---------------------------------------------------------------------
+        // Style
+        // ---------------------------------------------------------------------
+        $source   = "{{ tag.style().add('/css/some.css') }}";
+        $expected = "<?= \$this->tag->style()->add(\"/css/some.css\") ?>";
+        $actual   = $volt->compileString($source);
+        $I->assertSame($expected, $actual);
+
+        // Style executed in code
+        $expected = '+<link rel="stylesheet" type="text/css" href="/css/some.css" media="screen" />'
+            . PHP_EOL
+            . '+<link rel="stylesheet" type="text/css" href="/css/other.css" media="screen" />'
+            . PHP_EOL;
+        $actual   = (string) $this->tag->style('+')->add('/css/some.css')->add('/css/other.css');
+        $I->assertSame($expected, $actual);
+
+        // Style after volt parsing
+        $code     = 'echo $this->tag->style("+")->add("/css/some.css")->add("/css/other.css");';
+        $expected = '+<link rel="stylesheet" type="text/css" href="/css/some.css" media="screen" />'
+            . PHP_EOL
+            . '+<link rel="stylesheet" type="text/css" href="/css/other.css" media="screen" />'
+            . PHP_EOL;
+
+        ob_start();
+        eval($code);
+        $actual = ob_get_clean();
+        $I->assertSame($expected, $actual);
+
+        // ---------------------------------------------------------------------
+        // Script
+        // ---------------------------------------------------------------------
+        $source   = "{{ tag.script().add('/js/some.js') }}";
+        $expected = "<?= \$this->tag->script()->add(\"/js/some.js\") ?>";
+        $actual   = $volt->compileString($source);
+        $I->assertSame($expected, $actual);
+
+        // Script executed in code
+        $expected = '+<script type="application/javascript" src="/js/some.js"></script>'
+            . PHP_EOL
+            . '+<script type="application/javascript" src="/js/other.js"></script>'
+            . PHP_EOL;
+        $actual   = (string) $this->tag->script('+')->add('/js/some.js')->add('/js/other.js');
+        $I->assertSame($expected, $actual);
+
+        // Script after volt parsing
+        $code     = 'echo $this->tag->script("+")->add("/js/some.js")->add("/js/other.js");';
+        $expected = '+<script type="application/javascript" src="/js/some.js"></script>'
+            . PHP_EOL
+            . '+<script type="application/javascript" src="/js/other.js"></script>'
+            . PHP_EOL;
+
+        ob_start();
+        eval($code);
+        $actual = ob_get_clean();
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return \string[][]
+     */
     private function getVoltCompileString(): array
     {
         return [
@@ -95,23 +230,23 @@ class CompileStringCest
             ],
             [
                 '{{ "hello" }}',
-                "<?= 'hello' ?>",
+                '<?= "hello" ?>',
             ],
             [
                 '{{ "hello" }}{{ "hello" }}',
-                "<?= 'hello' ?><?= 'hello' ?>",
+                '<?= "hello" ?><?= "hello" ?>',
             ],
             [
                 '{{ "hello" }}-{{ "hello" }}',
-                "<?= 'hello' ?>-<?= 'hello' ?>",
+                '<?= "hello" ?>-<?= "hello" ?>',
             ],
             [
                 '-{{ "hello" }}{{ "hello" }}-',
-                "-<?= 'hello' ?><?= 'hello' ?>-",
+                '-<?= "hello" ?><?= "hello" ?>-',
             ],
             [
                 '-{{ "hello" }}-{{ "hello" }}-',
-                "-<?= 'hello' ?>-<?= 'hello' ?>-",
+                '-<?= "hello" ?>-<?= "hello" ?>-',
             ],
             [
                 'Some = {{ 100+50 }}',
@@ -161,11 +296,11 @@ class CompileStringCest
             ],
             [
                 '{% set a = ["hello", 2, 1.3, false, true, null] %}',
-                '<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>',
+                '<?php $a = ["hello", 2, 1.3, false, true, null]; ?>',
             ],
             [
                 '{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}',
-                '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>',
+                '<?php $a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]]; ?>',
             ],
             [
                 "{% set a = ['first': 1, 'second': 2, 'third': 3] %}",
@@ -182,7 +317,7 @@ class CompileStringCest
             ],
             [
                 '{{ a[0]  [ "hello"] }}',
-                '<?= $a[0][\'hello\'] ?>',
+                '<?= $a[0]["hello"] ?>',
             ],
             [
                 '{{ a[0] [1.2] [false] [true] }}',
@@ -204,15 +339,15 @@ class CompileStringCest
             ],
             [
                 '{{ "Z".."A" }}',
-                '<?= range(\'Z\', \'A\') ?>',
+                '<?= range("Z", "A") ?>',
             ],
             [
                 "{{ 'a'..'z' }}",
-                '<?= range(\'a\', \'z\') ?>',
+                '<?= range("a", "z") ?>',
             ],
             [
                 "{{ 'a' .. 'z' }}",
-                '<?= range(\'a\', \'z\') ?>',
+                '<?= range("a", "z") ?>',
             ],
             //Calling functions
             [
@@ -225,7 +360,7 @@ class CompileStringCest
             ],
             [
                 "{{ partial('hello/x') }}",
-                '<?= $this->partial(\'hello/x\') ?>',
+                '<?= $this->partial("hello/x") ?>',
             ],
             [
                 '{{ dump(a) }}',
@@ -233,7 +368,7 @@ class CompileStringCest
             ],
             [
                 "{{ date('Y-m-d', time()) }}",
-                '<?= date(\'Y-m-d\', time()) ?>',
+                '<?= date("Y-m-d", time()) ?>',
             ],
             [
                 '{{ robots.getPart(a) }}',
@@ -242,11 +377,11 @@ class CompileStringCest
             //Phalcon\Tag helpers
             [
                 "{{ link_to('hello', 'some-link') }}",
-                '<?= \Phalcon\Tag::linkTo([\'hello\', \'some-link\']) ?>',
+                '<?= \Phalcon\Tag::linkTo(["hello", "some-link"]) ?>',
             ],
             [
                 "{{ form('action': 'save/products', 'method': 'post') }}",
-                '<?= \Phalcon\Tag::form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
+                '<?= \Phalcon\Tag::form([\'action\' => "save/products", \'method\' => "post"]) ?>',
             ],
             [
                 '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',
@@ -254,62 +389,62 @@ class CompileStringCest
             ],
             [
                 "{{ javascript_include('js/some.js') }}",
-                '<?= \Phalcon\Tag::javascriptInclude(\'js/some.js\') ?>',
+                '<?= \Phalcon\Tag::javascriptInclude("js/some.js") ?>',
             ],
             [
                 "{{ image('img/logo.png', 'width': 80) }}",
-                "<?= \\Phalcon\Tag::image(['img/logo.png', 'width' => 80]) ?>",
+                '<?= \\Phalcon\Tag::image(["img/logo.png", \'width\' => 80]) ?>',
             ],
             [
                 "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \\Phalcon\Tag::emailField(['email', 'class' => 'form-control', " .
-                "'placeholder' => 'Email Address']) ?>",
+                "<?= \\Phalcon\Tag::emailField([\"email\", 'class' => \"form-control\", " .
+                "'placeholder' => \"Email Address\"]) ?>",
             ],
             //Filters
             [
                 '{{ "hello"|e }}',
-                '<?= $this->escaper->html(\'hello\') ?>',
+                '<?= $this->escaper->html("hello") ?>',
             ],
             [
                 '{{ "hello"|escape }}',
-                '<?= $this->escaper->html(\'hello\') ?>',
+                '<?= $this->escaper->html("hello") ?>',
             ],
             [
                 '{{ "hello"|trim }}',
-                '<?= trim(\'hello\') ?>',
+                '<?= trim("hello") ?>',
             ],
             [
                 '{{ "hello"|striptags }}',
-                '<?= strip_tags(\'hello\') ?>',
+                '<?= strip_tags("hello") ?>',
             ],
             [
                 '{{ "hello"|json_encode }}',
-                '<?= json_encode(\'hello\') ?>',
+                '<?= json_encode("hello") ?>',
             ],
             [
                 '{{ "hello"|url_encode }}',
-                '<?= urlencode(\'hello\') ?>',
+                '<?= urlencode("hello") ?>',
             ],
             [
                 '{{ "hello"|uppercase }}',
-                '<?= strtoupper(\'hello\') ?>',
+                '<?= strtoupper("hello") ?>',
             ],
             [
                 '{{ "hello"|lowercase }}',
-                '<?= strtolower(\'hello\') ?>',
+                '<?= strtolower("hello") ?>',
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',
-                '<?= $this->length($this->escaper->html((\'hello\' . \'lol\'))) ?>',
+                '<?= $this->length($this->escaper->html(("hello" . "lol"))) ?>',
             ],
             //Filters with parameters
             [
                 '{{ "My name is %s, %s"|format(name, "thanks") }}',
-                "<?= sprintf('My name is %s, %s', \$name, 'thanks') ?>",
+                "<?= sprintf(\"My name is %s, %s\", \$name, \"thanks\") ?>",
             ],
             [
                 '{{ "some name"|convert_encoding("utf-8", "latin1") }}',
-                "<?= \$this->convertEncoding('some name', 'utf-8', 'latin1') ?>",
+                "<?= \$this->convertEncoding(\"some name\", \"utf-8\", \"latin1\") ?>",
             ],
             //if statement
             [
@@ -512,13 +647,13 @@ class CompileStringCest
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .
                 '{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?>" .
-                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?><?= 'hello' ?>",
+                "<?= \"hello\" ?><?= \$this->escaper->html(\"hello\") ?>" .
+                "<?= \"hello\" ?><?= \$this->escaper->html(\"hello\") ?><?= \"hello\" ?>",
             ],
             //Mixed
             [
                 '{# some comment #}{{ "hello" }}{# other comment }}',
-                "<?= 'hello' ?>",
+                '<?= "hello" ?>',
             ],
             // join filter
             [
@@ -528,6 +663,9 @@ class CompileStringCest
         ];
     }
 
+    /**
+     * @return \string[][]
+     */
     private function getVoltCompileStringErrors(): array
     {
         return [

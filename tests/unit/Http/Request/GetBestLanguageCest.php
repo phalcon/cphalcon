@@ -35,7 +35,9 @@ class GetBestLanguageCest
         $this->setNewFactoryDefault();
         $request = $this->container->get('request');
 
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
             'HTTP_ACCEPT_LANGUAGE' => 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9',
         ];
 
@@ -44,41 +46,41 @@ class GetBestLanguageCest
 
 
         $firstAccept = $accept[0];
-        $I->assertEquals(
+        $I->assertSame(
             'es',
             $firstAccept['language']
         );
 
-        $I->assertEquals(
-            1,
+        $I->assertSame(
+            1.0,
             $firstAccept['quality']
         );
 
 
         $fourthAccept = $accept[3];
-        $I->assertEquals(
+        $I->assertSame(
             'en-us',
             $fourthAccept['language']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0.3,
             $fourthAccept['quality']
         );
 
 
         $lastAccept = $accept[4];
-        $I->assertEquals(
+        $I->assertSame(
             'de-de',
             $lastAccept['language']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0.9,
             $lastAccept['quality']
         );
 
-        $I->assertEquals('es', $request->getBestLanguage());
+        $I->assertSame('es', $request->getBestLanguage());
 
         $_SERVER = $store;
     }

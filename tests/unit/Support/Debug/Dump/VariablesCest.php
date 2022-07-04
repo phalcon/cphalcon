@@ -55,6 +55,6 @@ class VariablesCest
             )
         );
         $actual   = $dump->variables($test1, $test2, $test3);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

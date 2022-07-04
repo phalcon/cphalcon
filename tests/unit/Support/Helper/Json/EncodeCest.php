@@ -40,7 +40,7 @@ class EncodeCest
         ];
         $expected = '{"one":"two","0":"three"}';
         $actual   = $object($data);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

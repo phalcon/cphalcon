@@ -43,7 +43,7 @@ class UcwordsCest
         $expected = $example['expected'];
         $actual   = $object($example['text']);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

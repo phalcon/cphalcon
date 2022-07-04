@@ -33,12 +33,12 @@ class SetNotModifiedCest extends HttpBase
 
         $response->setNotModified();
 
-        $I->assertEquals(
+        $I->assertSame(
             304,
             $response->getStatusCode()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'Not modified',
             $response->getReasonPhrase()
         );
@@ -62,7 +62,7 @@ class SetNotModifiedCest extends HttpBase
             false,
             $actual->get('HTTP/1.1 304 Not modified')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '304 Not modified',
             $actual->get('Status')
         );

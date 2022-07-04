@@ -33,7 +33,7 @@ class UnderscoreSetCest
 
         $registry->three = 'Phalcon';
 
-        $I->assertEquals(
+        $I->assertSame(
             'Phalcon',
             $registry->get('three')
         );

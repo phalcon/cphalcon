@@ -87,7 +87,7 @@ class RenderHtmlCest
             . '</body></html>';
 
         $actual = $debug->renderHtml($exception);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

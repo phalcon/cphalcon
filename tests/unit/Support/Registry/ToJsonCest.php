@@ -36,12 +36,12 @@ class ToJsonCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             json_encode($data),
             $registry->toJson()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             json_encode($data, JSON_PRETTY_PRINT),
             $registry->toJson(JSON_PRETTY_PRINT)
         );

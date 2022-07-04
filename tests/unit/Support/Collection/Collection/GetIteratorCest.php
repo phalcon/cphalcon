@@ -41,7 +41,7 @@ class GetIteratorCest
         foreach ($collection as $key => $value) {
             $expected = $data[$key];
             $actual   = $collection[$key];
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
     }
 }

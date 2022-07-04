@@ -43,8 +43,8 @@ class ConstructCest
     {
         $I->wantToTest('Acl\Adapter\Memory - __construct() - constants');
 
-        $I->assertEquals(1, Enum::ALLOW);
-        $I->assertEquals(0, Enum::DENY);
+        $I->assertSame(1, Enum::ALLOW);
+        $I->assertSame(0, Enum::DENY);
     }
 
     /**

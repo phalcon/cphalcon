@@ -46,7 +46,7 @@ class GetLinksByRelCest
             $links[1],
         ];
 
-        $I->assertEquals($expected, $link->getLinksByRel('cite-as'));
-        $I->assertEquals([], $link->getLinksByRel('unknown'));
+        $I->assertSame($expected, $link->getLinksByRel('cite-as'));
+        $I->assertSame([], $link->getLinksByRel('unknown'));
     }
 }

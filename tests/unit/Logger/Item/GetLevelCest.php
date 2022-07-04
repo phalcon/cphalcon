@@ -46,6 +46,6 @@ class GetLevelCest
 
         $expected = Logger::DEBUG;
         $actual   = $item->getLevel();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -51,12 +51,12 @@ class LiquidRescaleCest
 
         $I->seeFileFound('liquidRescale.jpg');
 
-        $I->assertEquals(
+        $I->assertSame(
             200,
             $image->getWidth()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             200,
             $image->getHeight()
         );

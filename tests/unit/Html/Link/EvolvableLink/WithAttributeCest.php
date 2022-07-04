@@ -49,6 +49,6 @@ class WithAttributeCest
             'two' => 'three',
         ];
 
-        $I->assertEquals($expected, $newInstance->getAttributes());
+        $I->assertSame($expected, $newInstance->getAttributes());
     }
 }

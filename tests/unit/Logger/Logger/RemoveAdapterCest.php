@@ -92,7 +92,7 @@ class RemoveAdapterCest
         } catch (Exception $ex) {
             $expected = 'Adapter does not exist for this logger';
             $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
 
         $I->safeDeleteFile($outputPath . $fileName1);

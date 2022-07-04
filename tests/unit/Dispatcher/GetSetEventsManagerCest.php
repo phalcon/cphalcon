@@ -35,7 +35,7 @@ class GetSetEventsManagerCest
         $dispatcher->setEventsManager($manager);
 
         $actual = $dispatcher->getEventsManager();
-        $I->assertEquals($manager, $actual);
+        $I->assertSame($manager, $actual);
 
         $class  = Manager::class;
         $I->assertInstanceOf($class, $actual);

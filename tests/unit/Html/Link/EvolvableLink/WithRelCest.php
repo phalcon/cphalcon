@@ -38,7 +38,7 @@ class WithRelCest
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
-        $I->assertEquals(['payment'], $link->getRels());
+        $I->assertSame(['payment'], $link->getRels());
 
         $newInstance = $link->withRel('citation');
 
@@ -48,6 +48,6 @@ class WithRelCest
             'payment',
             'citation',
         ];
-        $I->assertEquals($rels, $newInstance->getRels());
+        $I->assertSame($rels, $newInstance->getRels());
     }
 }

@@ -67,11 +67,11 @@ class ConstructCest
 
         $expected = PATH_DATA . '/app/controllers/';
         $actual   = $config->application->controllersDir;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223';
         $actual   = $config->database->password;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

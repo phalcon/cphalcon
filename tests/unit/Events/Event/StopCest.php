@@ -41,6 +41,6 @@ class StopCest
 
         $eventsManager->fire('some-type:beforeSome', $this);
 
-        $I->assertEquals(1, $number);
+        $I->assertSame(1, $number);
     }
 }

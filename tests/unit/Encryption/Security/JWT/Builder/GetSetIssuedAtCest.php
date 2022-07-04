@@ -30,9 +30,9 @@ class GetSetIssuedAtCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetIssuedAt(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetIssuedAt(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getIssuedAt()/setIssuedAt()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getIssuedAt()/setIssuedAt()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -42,6 +42,6 @@ class GetSetIssuedAtCest
         $return = $builder->setIssuedAt(4);
         $I->assertInstanceOf(Builder::class, $return);
 
-        $I->assertEquals(4, $builder->getIssuedAt());
+        $I->assertSame(4, $builder->getIssuedAt());
     }
 }

@@ -43,6 +43,6 @@ class UnserializeCest
 
         $expected = $data;
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

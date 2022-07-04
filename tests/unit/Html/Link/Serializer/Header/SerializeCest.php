@@ -41,7 +41,7 @@ class SerializeCest
         $link     = new EvolvableLink('prefetch', '/images/apple-icon-114.png');
         $expected = '</images/apple-icon-114.png>; rel="prefetch"';
         $actual   = $serializer->serialize([$link]);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $links = [
             (new EvolvableLink('preload', '/1'))
@@ -57,7 +57,7 @@ class SerializeCest
         $expected = '</1>; rel="preload"; as="image"; nopush,'
             . '</2>; rel="alternate next"; hreflang="en"; hreflang="es"';
         $actual   = $serializer->serialize($links);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

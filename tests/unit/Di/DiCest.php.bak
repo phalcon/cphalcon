@@ -153,7 +153,7 @@ class DiCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             100,
             $someComponent1->someProperty
         );
@@ -166,7 +166,7 @@ class DiCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             500,
             $someComponent2->someProperty
         );
@@ -182,7 +182,7 @@ class DiCest
     {
         $this->phDi->set('service1', 'some-service');
 
-        $I->assertEquals(
+        $I->assertSame(
             'some-service',
             $this->phDi->getRaw('service1')
         );
@@ -321,7 +321,7 @@ class DiCest
 
         $I->assertTrue(is_string($component->getResponse()));
 
-        $I->assertEquals(
+        $I->assertSame(
             'response',
             $component->getResponse()
         );
@@ -331,7 +331,7 @@ class DiCest
 
         $I->assertTrue(is_string($component->getResponse()));
 
-        $I->assertEquals(
+        $I->assertSame(
             'response',
             $component->getResponse()
         );
@@ -340,25 +340,25 @@ class DiCest
         $component = $this->phDi->get('simpleProperties');
 
         $I->assertTrue(is_string($component->getResponse()));
-        $I->assertEquals('response', $component->getResponse());
+        $I->assertSame('response', $component->getResponse());
 
 
         $component = $this->phDi->get('complexConstructor');
 
         $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($response, $component->getResponse());
+        $I->assertSame($response, $component->getResponse());
 
 
         $component = $this->phDi->get('complexSetters');
 
         $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($response, $component->getResponse());
+        $I->assertSame($response, $component->getResponse());
 
 
         $component = $this->phDi->get('complexProperties');
 
         $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($response, $component->getResponse());
+        $I->assertSame($response, $component->getResponse());
     }
 
     /**
@@ -371,7 +371,7 @@ class DiCest
     {
         $this->phDi->register(new SomeServiceProvider());
 
-        $I->assertEquals(
+        $I->assertSame(
             'bar',
             $this->phDi['foo']
         );

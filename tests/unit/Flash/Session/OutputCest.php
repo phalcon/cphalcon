@@ -98,14 +98,14 @@ class OutputCest
         ob_end_clean();
         $expected = '<div class="successMessage">' . $message1 . '</div>' . PHP_EOL
             . '<div class="errorMessage">' . $message2 . '</div>' . PHP_EOL;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_end_clean();
         $expected = '';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }
@@ -152,14 +152,14 @@ class OutputCest
     </button>
     {$message1}
 </div>";
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_end_clean();
         $expected = '';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }

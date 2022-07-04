@@ -51,7 +51,7 @@ class CustomCest
         $sanitizer = (new Filter(['ipv4' => IPv4::class]))->get('ipv4');
 
         $I->assertInstanceOf(IPv4::class, $sanitizer);
-        $I->assertEquals('127.0.0.1', $sanitizer('127.0.0.1'));
+        $I->assertSame('127.0.0.1', $sanitizer('127.0.0.1'));
         $I->assertFalse($sanitizer('127.0.0'));
     }
 }

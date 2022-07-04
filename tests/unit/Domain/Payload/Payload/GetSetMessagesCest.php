@@ -32,6 +32,6 @@ class GetSetMessagesCest
         $payload->setMessages('messages');
 
         $actual = $payload->getMessages();
-        $I->assertEquals('messages', $actual);
+        $I->assertSame('messages', $actual);
     }
 }

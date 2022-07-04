@@ -49,6 +49,6 @@ class GetAssetsCest
 
         $I->assertCount(2, $assets);
         $expected = [$key1 => $asset1, $key2 => $asset2];
-        $I->assertEquals($expected, $assets);
+        $I->assertSame($expected, $assets);
     }
 }

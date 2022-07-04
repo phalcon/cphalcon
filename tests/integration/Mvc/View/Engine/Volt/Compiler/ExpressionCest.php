@@ -14,21 +14,58 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 /**
  * Class ExpressionCest
  */
 class ExpressionCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: expression()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2022-07-01
      */
     public function mvcViewEngineVoltCompilerExpression(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Engine\Volt\Compiler - expression()');
-        $I->skipTest('Need implementation');
+
+        $this->setNewFactoryDefault();
+
+        $volt = new Compiler();
+        $volt->setDI($this->container);
+
+        // title("\r\n", "\n\n")
+        $source   = [
+            [
+                'expr' => [
+                    'type' => 260,
+                    'value' => "\t",
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+            [
+                'expr' => [
+                    'type' => 260,
+                    'value' => "\n\n",
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ]
+        ];
+
+        $expected = "\"\t\", \"\n\n\"";
+        $actual   = $volt->expression($source);
+
+        $I->assertEquals($expected, $actual);
     }
 }

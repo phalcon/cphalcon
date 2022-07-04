@@ -37,6 +37,6 @@ class GetNameCest
 
         $component = new Component('Customers');
 
-        $I->assertEquals('Customers', $component->getName());
+        $I->assertSame('Customers', $component->getName());
     }
 }

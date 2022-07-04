@@ -54,6 +54,6 @@ class ToStringCest
             $options
         );
 
-        $I->assertEquals('phalcon', (string) $cookie);
+        $I->assertSame('phalcon', (string) $cookie);
     }
 }

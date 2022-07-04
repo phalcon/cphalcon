@@ -32,9 +32,9 @@ class GetSetExpirationTimeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetExpirationTime(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetExpirationTime(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getExpirationTime()/setExpirationTime()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getExpirationTime()/setExpirationTime()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -45,7 +45,7 @@ class GetSetExpirationTimeCest
         $return = $builder->setExpirationTime($future);
         $I->assertInstanceOf(Builder::class, $return);
 
-        $I->assertEquals($future, $builder->getExpirationTime());
+        $I->assertSame($future, $builder->getExpirationTime());
     }
 
     /**
@@ -57,9 +57,9 @@ class GetSetExpirationTimeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetExpirationTimeException(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetExpirationTimeException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getExpirationTime()/setExpirationTime() - exception');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getExpirationTime()/setExpirationTime() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

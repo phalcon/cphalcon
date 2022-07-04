@@ -38,7 +38,7 @@ class GetIteratorCest
         $attributes = new Attributes($data);
 
         foreach ($attributes as $key => $value) {
-            $I->assertEquals(
+            $I->assertSame(
                 $data[$key],
                 $attributes[$key]
             );

@@ -53,6 +53,6 @@ class GetFoundPathCest
 
         $expected = $file;
         $actual   = $loader->getFoundPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

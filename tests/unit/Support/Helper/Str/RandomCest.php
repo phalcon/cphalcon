@@ -38,12 +38,12 @@ class RandomCest
     {
         $I->wantToTest('Support\Helper\Str - random() - constants');
 
-        $I->assertEquals(0, Random::RANDOM_ALNUM);
-        $I->assertEquals(1, Random::RANDOM_ALPHA);
-        $I->assertEquals(2, Random::RANDOM_HEXDEC);
-        $I->assertEquals(3, Random::RANDOM_NUMERIC);
-        $I->assertEquals(4, Random::RANDOM_NOZERO);
-        $I->assertEquals(5, Random::RANDOM_DISTINCT);
+        $I->assertSame(0, Random::RANDOM_ALNUM);
+        $I->assertSame(1, Random::RANDOM_ALPHA);
+        $I->assertSame(2, Random::RANDOM_HEXDEC);
+        $I->assertSame(3, Random::RANDOM_NUMERIC);
+        $I->assertSame(4, Random::RANDOM_NOZERO);
+        $I->assertSame(5, Random::RANDOM_DISTINCT);
     }
 
     /**
@@ -65,13 +65,13 @@ class RandomCest
         $i      = $example[0];
         $source = $object(Random::RANDOM_ALNUM, $i);
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             preg_match('/[a-zA-Z0-9]+/', $source, $matches)
         );
 
-        $I->assertEquals($source, $matches[0]);
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($source, $matches[0]);
+        $I->assertSame($i, strlen($source));
     }
 
     /**
@@ -93,13 +93,13 @@ class RandomCest
         $i      = $example[0];
         $source = $object(Random::RANDOM_ALPHA, $i);
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             preg_match('/[a-zA-Z]+/', $source, $matches)
         );
 
-        $I->assertEquals($source, $matches[0]);
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($source, $matches[0]);
+        $I->assertSame($i, strlen($source));
     }
 
     /**
@@ -121,13 +121,13 @@ class RandomCest
         $i      = $example[0];
         $source = $object(Random::RANDOM_HEXDEC, $i);
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             preg_match('/[a-f0-9]+/', $source, $matches)
         );
 
-        $I->assertEquals($source, $matches[0]);
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($source, $matches[0]);
+        $I->assertSame($i, strlen($source));
     }
 
     /**
@@ -149,13 +149,13 @@ class RandomCest
         $i      = $example[0];
         $source = $object(Random::RANDOM_NUMERIC, $i);
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             preg_match('/[0-9]+/', $source, $matches)
         );
 
-        $I->assertEquals($source, $matches[0]);
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($source, $matches[0]);
+        $I->assertSame($i, strlen($source));
     }
 
     /**
@@ -177,13 +177,13 @@ class RandomCest
         $i      = $example[0];
         $source = $object(Random::RANDOM_NOZERO, $i);
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             preg_match('/[1-9]+/', $source, $matches)
         );
 
-        $I->assertEquals($source, $matches[0]);
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($source, $matches[0]);
+        $I->assertSame($i, strlen($source));
     }
 
     /**
@@ -210,7 +210,7 @@ class RandomCest
             $source
         );
 
-        $I->assertEquals($i, strlen($source));
+        $I->assertSame($i, strlen($source));
     }
 
     /**

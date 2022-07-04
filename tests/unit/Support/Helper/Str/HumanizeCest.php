@@ -38,18 +38,18 @@ class HumanizeCest
         $object   = new Humanize();
         $expected = 'start a horse';
         $actual   = $object('start_a_horse');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'five cats';
         $actual   = $object('five-cats');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'kittens are cats';
         $actual   = $object('kittens-are_cats');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'Awesome Phalcon';
         $actual   = $object(" \t Awesome-Phalcon \t ");
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

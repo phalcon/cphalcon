@@ -33,7 +33,7 @@ class SetHeaderCest extends HttpBase
         $response->setHeader('Content-Type', 'text/html');
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
+        $I->assertSame(
             'text/html',
             $actual->get('Content-Type')
         );
@@ -41,11 +41,11 @@ class SetHeaderCest extends HttpBase
         $response->setHeader('Content-Length', '1234');
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
+        $I->assertSame(
             'text/html',
             $actual->get('Content-Type')
         );
-        $I->assertEquals(
+        $I->assertSame(
             '1234',
             $actual->get('Content-Length')
         );
@@ -71,12 +71,12 @@ class SetHeaderCest extends HttpBase
         $I->assertArrayHasKey('Content-Type', $headers);
         $I->assertArrayHasKey('Content-Length', $headers);
 
-        $I->assertEquals(
+        $I->assertSame(
             'text/html',
             $headers['Content-Type']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             '1234',
             $headers['Content-Length']
         );

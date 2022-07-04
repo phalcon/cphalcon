@@ -57,7 +57,7 @@ class GetJsonRawBodyCest
 
         $expected = json_decode($input, true);
         $actual   = $request->getJsonRawBody(true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         stream_wrapper_restore('php');
     }

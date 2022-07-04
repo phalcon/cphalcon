@@ -42,35 +42,32 @@ class GetPartCest
         $id      = $version->getId();
 
         // The major version is the first digit
-        $I->assertEquals(
-            intval($id[0]),
-            $version->getPart(Version::VERSION_MAJOR)
-        );
+        $expected = (string) $id[0];
+        $actual   = $version->getPart(Version::VERSION_MAJOR);
+        $I->assertSame($expected, $actual);
 
         // The medium version is the second and third digits
-        $I->assertEquals(
-            intval($id[1] . $id[2]),
-            $version->getPart(Version::VERSION_MEDIUM)
-        );
+        // This is int to string because we might end up with "00"
+        $expected = (string) intval($id[1] . $id[2]);
+        $actual   = $version->getPart(Version::VERSION_MEDIUM);
+        $I->assertSame($expected, $actual);
 
         // The minor version is the fourth and fifth digits
-        $I->assertEquals(
-            intval($id[3] . $id[4]),
-            $version->getPart(Version::VERSION_MINOR)
-        );
+        $expected = (string) intval($id[3] . $id[4]);
+        $actual   = $version->getPart(Version::VERSION_MINOR);
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            $this->numberToSpecial($id[5]),
-            $version->getPart(Version::VERSION_SPECIAL)
-        );
+        $expected = $this->numberToSpecial($id[5]);
+        $actual   = $version->getPart(Version::VERSION_SPECIAL);
+        $I->assertSame($expected, $actual);
 
         $special  = $this->numberToSpecial($id[5]);
-        $expected = ($special) ? $id[6] : 0;
-        $I->assertEquals(
-            $expected,
-            $version->getPart(Version::VERSION_SPECIAL_NUMBER)
-        );
+        $expected = (string) (($special) ? $id[6] : 0);
+        $actual   = $version->getPart(Version::VERSION_SPECIAL_NUMBER);
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals($version->get(), $version->getPart(7));
+        $expected = $version->get();
+        $actual   = $version->getPart(7);
+        $I->assertSame($expected, $actual);
     }
 }

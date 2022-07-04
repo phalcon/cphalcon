@@ -29,9 +29,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenSignatureConstruct(UnitTester $I)
+    public function encryptionSecurityJWTTokenSignatureConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Signature - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Signature - __construct()');
 
         $signature = new Signature('sig-hash', 'encoded-string-here');
 

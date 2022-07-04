@@ -33,9 +33,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptConstruct(UnitTester $I)
+    public function encryptionCryptConstruct(UnitTester $I)
     {
-        $I->wantToTest('Crypt - __construct()');
+        $I->wantToTest('Encryption\Crypt - __construct()');
 
         $crypt = new Crypt();
         $I->assertInstanceOf(Crypt::class, $crypt);
@@ -52,15 +52,15 @@ class ConstructCest
      */
     public function testCryptConstants(UnitTester $I)
     {
-        $I->wantToTest('Crypt - Constants');
+        $I->wantToTest('Encryption\Crypt - Constants');
 
-        $I->assertEquals(0, Crypt::PADDING_DEFAULT);
-        $I->assertEquals(1, Crypt::PADDING_ANSI_X_923);
-        $I->assertEquals(2, Crypt::PADDING_PKCS7);
-        $I->assertEquals(3, Crypt::PADDING_ISO_10126);
-        $I->assertEquals(4, Crypt::PADDING_ISO_IEC_7816_4);
-        $I->assertEquals(5, Crypt::PADDING_ZERO);
-        $I->assertEquals(6, Crypt::PADDING_SPACE);
+        $I->assertSame(0, Crypt::PADDING_DEFAULT);
+        $I->assertSame(1, Crypt::PADDING_ANSI_X_923);
+        $I->assertSame(2, Crypt::PADDING_PKCS7);
+        $I->assertSame(3, Crypt::PADDING_ISO_10126);
+        $I->assertSame(4, Crypt::PADDING_ISO_IEC_7816_4);
+        $I->assertSame(5, Crypt::PADDING_ZERO);
+        $I->assertSame(6, Crypt::PADDING_SPACE);
     }
 
     /**
@@ -71,9 +71,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptConstructNoOpensslException(UnitTester $I)
+    public function encryptionCryptConstructNoOpensslException(UnitTester $I)
     {
-        $I->wantToTest('Crypt - __construct() - no openssl exception');
+        $I->wantToTest('Encryption\Crypt - __construct() - no openssl exception');
 
         $I->expectThrowable(
             new Exception('This class requires the openssl extension for PHP'),

@@ -37,9 +37,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncrypt(UnitTester $I)
+    public function encryptionCryptEncrypt(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt()');
+        $I->wantToTest('Encryption\Crypt - encrypt()');
 
         $tests = [
             md5(uniqid())            => str_repeat('x', mt_rand(1, 255)),
@@ -71,7 +71,7 @@ class EncryptCest
                     "\0"
                 );
 
-                $I->assertEquals($test, $actual);
+                $I->assertSame($test, $actual);
             }
 
             foreach ($tests as $key => $test) {
@@ -88,7 +88,7 @@ class EncryptCest
                     "\0"
                 );
 
-                $I->assertEquals($test, $actual);
+                $I->assertSame($test, $actual);
             }
         }
     }
@@ -101,9 +101,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptExceptionEmptyKey(UnitTester $I)
+    public function encryptionCryptEncryptExceptionEmptyKey(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - exception empty key');
+        $I->wantToTest('Encryption\Crypt - encrypt() - exception empty key');
 
         $I->expectThrowable(
             new Exception(
@@ -124,9 +124,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptExceptionUnsupportedAlgo(UnitTester $I)
+    public function encryptionCryptEncryptExceptionUnsupportedAlgo(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - exception unsupported algo');
+        $I->wantToTest('Encryption\Crypt - encrypt() - exception unsupported algo');
 
         $I->expectThrowable(
             new Exception(
@@ -148,9 +148,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptGcmCcmWithData(UnitTester $I)
+    public function encryptionCryptEncryptGcmCcmWithData(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - gcm/ccm with data');
+        $I->wantToTest('Encryption\Crypt - encrypt() - gcm/ccm with data');
 
         $ciphers = [
             'aes-128-gcm',
@@ -179,7 +179,7 @@ class EncryptCest
             ;
 
             $actual = $crypt->decrypt($encryption);
-            $I->assertEquals('phalcon', $actual);
+            $I->assertSame('phalcon', $actual);
         }
     }
 
@@ -191,9 +191,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptGcmCcmExceptionWithoutData(UnitTester $I)
+    public function encryptionCryptEncryptGcmCcmExceptionWithoutData(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - gcm/ccm exception without data');
+        $I->wantToTest('Encryption\Crypt - encrypt() - gcm/ccm exception without data');
 
         $ciphers = [
             'aes-128-gcm',
@@ -229,9 +229,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptCryptPadExceptionInvalidPaddingSize(UnitTester $I)
+    public function encryptionCryptEncryptCryptPadExceptionInvalidPaddingSize(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - cryptPadText() - exception invalid padding size');
+        $I->wantToTest('Encryption\Crypt - encrypt() - cryptPadText() - exception invalid padding size');
 
         $I->expectThrowable(
             new Exception("Padding size cannot be less than 0 or greater than 256"),
@@ -268,9 +268,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptCryptPadZeroPaddingReturnsInput(UnitTester $I)
+    public function encryptionCryptEncryptCryptPadZeroPaddingReturnsInput(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - cryptPadText() - zero padding returns input');
+        $I->wantToTest('Encryption\Crypt - encrypt() - cryptPadText() - zero padding returns input');
 
         $crypt       = new CryptFixture();
         $input       = str_repeat("A", 32);
@@ -280,7 +280,7 @@ class EncryptCest
 
         $expected = $input;
         $actual   = $crypt->cryptPadText($input, $mode, $blockSize, $paddingType);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -291,9 +291,9 @@ class EncryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptEncryptCannotCalculateRandomPseudoBytes(UnitTester $I)
+    public function encryptionCryptEncryptCannotCalculateRandomPseudoBytes(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt() - cannot calculate Random Pseudo Bytes');
+        $I->wantToTest('Encryption\Crypt - encrypt() - cannot calculate Random Pseudo Bytes');
 
         $I->expectThrowable(
             new Exception("Cannot calculate Random Pseudo Bytes"),

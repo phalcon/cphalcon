@@ -48,7 +48,7 @@ class GetSetDataCest
         $event    = new Event('some-type:beforeSome', $this, $data);
         $expected = $data;
         $actual   = $event->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -65,13 +65,13 @@ class GetSetDataCest
         $event    = new Event('some-type:beforeSome', $this, $data);
         $expected = $data;
         $actual   = $event->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $newData = [4, 5, 6];
         $event->setData($newData);
         $expected = $newData;
         $actual   = $event->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -88,7 +88,7 @@ class GetSetDataCest
         $event    = new Event('some-type:beforeSome', $this, $data);
         $expected = $data;
         $actual   = $event->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $event->setData();
         $actual = $event->getData();

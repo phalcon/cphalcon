@@ -45,7 +45,7 @@ class GetSetSourcePathCest
         $asset->setSourcePath($expected);
         $actual = $asset->getSourcePath();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

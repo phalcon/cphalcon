@@ -31,9 +31,9 @@ class IsLegacyHashCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityIsLegacyHash(UnitTester $I)
+    public function encryptionSecurityIsLegacyHash(UnitTester $I)
     {
-        $I->wantToTest('Security - isLegacyHash()');
+        $I->wantToTest('Encryption\Security - isLegacyHash()');
 
         $oldHash  = '$2a$10$JnD9Za73U2dIIjd.Uvn1IuNVQhXNQpHIu13WzlL70q.WhfKT9Yuc2';
         $security = new Security();

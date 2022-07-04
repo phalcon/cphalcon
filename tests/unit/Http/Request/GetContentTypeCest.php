@@ -39,7 +39,7 @@ class GetContentTypeCest
 
         $expected = 'application/xhtml+xml';
         $actual   = $request->getContentType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

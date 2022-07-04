@@ -55,10 +55,10 @@ class GetSetHttpOnlyCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
+        $I->assertSame($httpOnly, $cookie->getHttpOnly());
 
         $httpOnly = false;
         $cookie->setHttpOnly($httpOnly);
-        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
+        $I->assertSame($httpOnly, $cookie->getHttpOnly());
     }
 }

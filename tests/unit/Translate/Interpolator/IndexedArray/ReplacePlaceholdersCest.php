@@ -47,7 +47,7 @@ class ReplacePlaceholdersCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'Hello, John D. Doe!',
             $actual
         );
@@ -71,6 +71,6 @@ class ReplacePlaceholdersCest
         $source   = 'Hello, %s %s %s!';
         $expected = $source;
         $actual   = $interpolator->replacePlaceholders('Hello, %s %s %s!', []);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

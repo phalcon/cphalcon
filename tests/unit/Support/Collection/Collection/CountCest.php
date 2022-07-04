@@ -44,6 +44,6 @@ class CountCest
 
         $expected = 3;
         $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

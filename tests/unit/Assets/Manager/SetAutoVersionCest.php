@@ -92,6 +92,6 @@ class SetAutoVersionCest
             "<script type=\"application/javascript\" " .
             "src=\"{$pathData}assets/assets-version-3.js\"></script>"
         );
-        $I->assertEquals($expected, $manager->outputJs());
+        $I->assertSame($expected, $manager->outputJs());
     }
 }

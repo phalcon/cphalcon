@@ -44,6 +44,6 @@ class OffsetGetCest
 
         $expected = 'Hello';
         $actual   = $translator->offsetGet('hi');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -36,7 +36,7 @@ class UnderscoreGetCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             'four',
             $registry->three
         );

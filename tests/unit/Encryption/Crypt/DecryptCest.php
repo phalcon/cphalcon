@@ -37,7 +37,7 @@ class DecryptCest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptUnsignedKeyMismatchNoException(UnitTester $I)
+    public function encryptionCryptDecryptUnsignedKeyMismatchNoException(UnitTester $I)
     {
         $I->wantToTest(
             'Crypt - decrypt() unsigned key mismatch no exception'
@@ -62,7 +62,7 @@ class DecryptCest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptSignedKeyMismatchThrowsException(UnitTester $I)
+    public function encryptionCryptDecryptSignedKeyMismatchThrowsException(UnitTester $I)
     {
         $I->wantToTest(
             'Crypt - decrypt() signed key mismatch throws exception'
@@ -90,9 +90,9 @@ class DecryptCest
      * @since  2021-10-18
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
-    public function cryptDecryptSignedString(UnitTester $I)
+    public function encryptionCryptDecryptSignedString(UnitTester $I)
     {
-        $I->wantToTest('Crypt - decrypt() - signed key');
+        $I->wantToTest('Encryption\Crypt - decrypt() - signed key');
         $crypt = new Crypt();
 
         $crypt->useSigning(true);
@@ -102,7 +102,7 @@ class DecryptCest
         $encrypted = $crypt->encrypt($expected);
         $actual    = $crypt->decrypt($encrypted);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -113,9 +113,9 @@ class DecryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptDecryptExceptionEmptyKey(UnitTester $I)
+    public function encryptionCryptDecryptExceptionEmptyKey(UnitTester $I)
     {
-        $I->wantToTest('Crypt - decrypt() - exception empty key');
+        $I->wantToTest('Encryption\Crypt - decrypt() - exception empty key');
 
         $I->expectThrowable(
             new Exception(
@@ -136,9 +136,9 @@ class DecryptCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptDecryptCryptUnpadZeroPaddingReturnsInput(UnitTester $I)
+    public function encryptionCryptDecryptCryptUnpadZeroPaddingReturnsInput(UnitTester $I)
     {
-        $I->wantToTest('Crypt - decrypt() - cryptUnpadText() - zero padding returns input');
+        $I->wantToTest('Encryption\Crypt - decrypt() - cryptUnpadText() - zero padding returns input');
 
         $crypt       = new CryptFixture();
         $input       = str_repeat("A", 32);
@@ -148,6 +148,6 @@ class DecryptCest
 
         $expected = $input;
         $actual   = $crypt->cryptUnpadText($input, $mode, $blockSize, $paddingType);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -26,9 +26,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityConstruct(UnitTester $I)
+    public function encryptionSecurityConstruct(UnitTester $I)
     {
-        $I->wantToTest('Security - __construct()');
+        $I->wantToTest('Encryption\Security - __construct()');
 
         $security = new Security();
         $I->assertInstanceOf(Security::class, $security);
@@ -44,13 +44,13 @@ class ConstructCest
      */
     public function testSecurityConstants(UnitTester $I)
     {
-        $I->assertEquals(0, Security::CRYPT_DEFAULT);
-        $I->assertEquals(3, Security::CRYPT_MD5);
-        $I->assertEquals(4, Security::CRYPT_BLOWFISH);
-        $I->assertEquals(5, Security::CRYPT_BLOWFISH_A);
-        $I->assertEquals(6, Security::CRYPT_BLOWFISH_X);
-        $I->assertEquals(7, Security::CRYPT_BLOWFISH_Y);
-        $I->assertEquals(8, Security::CRYPT_SHA256);
-        $I->assertEquals(9, Security::CRYPT_SHA512);
+        $I->assertSame(0, Security::CRYPT_DEFAULT);
+        $I->assertSame(3, Security::CRYPT_MD5);
+        $I->assertSame(4, Security::CRYPT_BLOWFISH);
+        $I->assertSame(5, Security::CRYPT_BLOWFISH_A);
+        $I->assertSame(6, Security::CRYPT_BLOWFISH_X);
+        $I->assertSame(7, Security::CRYPT_BLOWFISH_Y);
+        $I->assertSame(8, Security::CRYPT_SHA256);
+        $I->assertSame(9, Security::CRYPT_SHA512);
     }
 }

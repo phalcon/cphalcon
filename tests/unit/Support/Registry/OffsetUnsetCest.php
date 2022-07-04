@@ -39,7 +39,7 @@ class OffsetUnsetCest
 
         unset($registry['five']);
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',
@@ -50,7 +50,7 @@ class OffsetUnsetCest
 
         $registry->offsetUnset('one');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'three' => 'four',
             ],

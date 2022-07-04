@@ -40,7 +40,7 @@ class GetActiveMethodCest
             $example['actionName']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $example['expected'],
             $dispatcher->getActiveMethod()
         );

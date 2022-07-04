@@ -48,6 +48,6 @@ class GetNameCest
             $options
         );
 
-        $I->assertEquals($name, $cookie->getName());
+        $I->assertSame($name, $cookie->getName());
     }
 }

@@ -35,7 +35,7 @@ class GetServerNameCest
         ];
 
         $request = new Request();
-        $I->assertEquals('localhost', $request->getServerName());
+        $I->assertSame('localhost', $request->getServerName());
 
         $_SERVER = $store;
 
@@ -47,7 +47,7 @@ class GetServerNameCest
         ];
 
         $request = new Request();
-        $I->assertEquals('dev.phalcon.io', $request->getServerName());
+        $I->assertSame('dev.phalcon.io', $request->getServerName());
 
         $_SERVER = $store;
     }

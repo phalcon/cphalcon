@@ -47,11 +47,11 @@ class GetSetSharedCest
 
         $expected = spl_object_hash($class);
         $actual   = spl_object_hash($object);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $objectTwo = $container->getShared('escaper');
         $actual    = spl_object_hash($objectTwo);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -75,10 +75,10 @@ class GetSetSharedCest
 
         $expected = spl_object_hash($class);
         $actual   = spl_object_hash($object);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $objectTwo = $container->getShared('escaper');
         $actual    = spl_object_hash($objectTwo);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

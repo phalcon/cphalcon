@@ -87,7 +87,7 @@ class ManagerCest
         $session->start();
 
         // Check if session value has been sanitized
-        $I->assertEquals(
+        $I->assertSame(
             $example["expected"],
             isset($_COOKIE[$name])
         );

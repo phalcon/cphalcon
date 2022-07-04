@@ -35,40 +35,36 @@ class GetBestCharsetCest
         $this->setNewFactoryDefault();
         $request = $this->container->get('request');
 
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
             'HTTP_ACCEPT_CHARSET' => 'iso-8859-5,unicode-1-1;q=0.8',
         ];
 
-        $accept = $request->getClientCharsets();
-        $I->assertCount(2, $accept);
+        $accept   = $request->getClientCharsets();
+        $expected = 2;
+        $I->assertCount($expected, $accept);
 
 
-        $firstAccept = $accept[0];
-        $I->assertEquals(
-            'iso-8859-5',
-            $firstAccept['charset']
-        );
+        $expected = 'iso-8859-5';
+        $actual   = $accept[0]['charset'];
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            1,
-            $firstAccept['quality']
-        );
+        $expected = 1.0;
+        $actual   = $accept[0]['quality'];
+        $I->assertSame($expected, $actual);
 
-        $lastAccept = $accept[1];
-        $I->assertEquals(
-            'unicode-1-1',
-            $lastAccept['charset']
-        );
+        $expected = 'unicode-1-1';
+        $actual   = $accept[1]['charset'];
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            0.8,
-            $lastAccept['quality']
-        );
+        $expected = 0.8;
+        $actual   = $accept[1]['quality'];
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'iso-8859-5',
-            $request->getBestCharset()
-        );
+        $expected = 'iso-8859-5';
+        $actual   = $request->getBestCharset();
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

@@ -39,7 +39,7 @@ class GetActiveFunctionCest
         $I->wantToTest('Acl\Adapter\Memory - getActiveFunction()');
 
         $function = function ($a) {
-            return true;
+            return $a;
         };
 
         $acl = new Memory();
@@ -69,10 +69,10 @@ class GetActiveFunctionCest
 
         $expected = 1;
         $actual   = $function(1);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 1;
         $actual   = $acl->getActiveFunctionCustomArgumentsCount();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

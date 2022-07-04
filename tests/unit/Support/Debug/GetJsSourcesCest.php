@@ -52,6 +52,6 @@ class GetJsSourcesCest
         );
 
         $actual = $debug->getJsSources();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

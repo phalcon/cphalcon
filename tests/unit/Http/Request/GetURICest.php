@@ -52,7 +52,7 @@ class GetURICest
 
         $expected = 'https://dev.phalcon.io?a=b';
         $actual   = $request->getURI();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
 
@@ -68,7 +68,7 @@ class GetURICest
 
         $expected = 'https://dev.phalcon.io';
         $actual   = $request->getURI(true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

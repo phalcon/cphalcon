@@ -45,7 +45,7 @@ class GetSetParamsCest
 
         $expected = $params;
         $actual   = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -82,6 +82,6 @@ class GetSetParamsCest
             ],
         ];
         $actual   = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

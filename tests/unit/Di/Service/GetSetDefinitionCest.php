@@ -41,12 +41,12 @@ class GetSetDefinitionCest
 
         $expected = Escaper::class;
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $service->setDefinition(Collection::class);
 
         $expected = Collection::class;
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

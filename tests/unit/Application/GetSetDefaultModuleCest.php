@@ -43,6 +43,6 @@ class GetSetDefaultModuleCest
         $application->setDefaultModule('admin');
         $expected = 'admin';
         $actual   = $application->getDefaultModule();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

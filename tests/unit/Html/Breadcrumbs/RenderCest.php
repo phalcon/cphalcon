@@ -48,7 +48,7 @@ class RenderCest
             . '<dt>Phalcon Team</dt>'
             . '</dl>';
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $breadcrumbs->render()
         );
@@ -76,7 +76,7 @@ class RenderCest
             . '<dt><a href="/">Home</a></dt>'
             . '</dl>';
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $breadcrumbs->render()
         );

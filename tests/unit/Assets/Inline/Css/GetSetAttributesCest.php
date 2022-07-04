@@ -42,7 +42,7 @@ class GetSetAttributesCest
 
         $asset->setAttributes($expected);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $asset->getAttributes()
         );

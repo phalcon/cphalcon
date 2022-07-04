@@ -39,15 +39,15 @@ class LowerCest
 
         $expected = 'hello';
         $actual   = $object('hello');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'hello';
         $actual   = $object('HELLO');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = '1234';
         $actual   = $object('1234');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -66,27 +66,27 @@ class LowerCest
 
         $expected = 'привет мир!';
         $actual   = $object('привет мир!');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'привет мир!';
         $actual   = $object('ПриВЕт Мир!');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'привет мир!';
         $actual   = $object('ПРИВЕТ МИР!');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
 
         $expected = 'männer';
         $actual   = $object('männer');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'männer';
         $actual   = $object('mÄnnER');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'männer';
         $actual   = $object('MÄNNER');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -44,6 +44,6 @@ class ToArrayCest
 
         $expected = $this->config;
         $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

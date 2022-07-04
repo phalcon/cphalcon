@@ -44,7 +44,7 @@ class NewInstanceCest
             $image
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $file,
             $image->getRealpath()
         );

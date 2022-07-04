@@ -40,7 +40,7 @@ class ConstructCest
 
         $expected = 'css';
         $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -96,7 +96,7 @@ class ConstructCest
 
         $expected = [];
         $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -124,7 +124,7 @@ class ConstructCest
         );
 
         $actual = $asset->getAttributes();
-        $I->assertEquals($attributes, $actual);
+        $I->assertSame($attributes, $actual);
     }
 
     /**
@@ -144,7 +144,7 @@ class ConstructCest
 
         $expected = 'js';
         $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -200,7 +200,7 @@ class ConstructCest
 
         $expected = [];
         $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -222,6 +222,6 @@ class ConstructCest
         $asset      = new Inline('js', $content, true, $attributes);
 
         $actual = $asset->getAttributes();
-        $I->assertEquals($attributes, $actual);
+        $I->assertSame($attributes, $actual);
     }
 }

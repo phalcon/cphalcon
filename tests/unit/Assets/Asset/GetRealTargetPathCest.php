@@ -46,7 +46,7 @@ class GetRealTargetPathCest
 
         $expected = $example['path'];
         $actual   = $asset->getRealTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -80,7 +80,7 @@ class GetRealTargetPathCest
 
         $expected = dataDir($file);
         $actual   = $asset->getRealTargetPath(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

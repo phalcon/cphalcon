@@ -39,7 +39,7 @@ class GetClientAddressCest
 
         $expected = '10.4.6.1';
         $actual   = $request->getClientAddress(true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
         $store   = $_SERVER ?? [];
@@ -53,7 +53,7 @@ class GetClientAddressCest
 
         $expected = '10.4.6.2';
         $actual   = $request->getClientAddress(true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }
@@ -79,7 +79,7 @@ class GetClientAddressCest
 
         $expected = '10.4.6.3';
         $actual   = $request->getClientAddress();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }
@@ -130,7 +130,7 @@ class GetClientAddressCest
 
         $expected = '10.4.6.4';
         $actual   = $request->getClientAddress();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }
@@ -156,7 +156,7 @@ class GetClientAddressCest
 
         $expected = '2a00:8640:1::224:36ff:feef:1d89';
         $actual   = $request->getClientAddress();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

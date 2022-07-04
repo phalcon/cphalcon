@@ -39,17 +39,17 @@ class GetCest
 
         $expected = 'form-control';
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $attributes->get('class')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $attributes->get('CLASS')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $attributes->get('unknown', 'form-control')
         );

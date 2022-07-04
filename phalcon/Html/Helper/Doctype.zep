@@ -50,9 +50,11 @@ class Doctype
     public function __invoke(
         int flag = self::HTML5,
         string delimiter = "\n"
-    ) -> void {
+    ) -> <Doctype> {
         let this->flag      = flag,
             this->delimiter = delimiter;
+
+        return this;
     }
 
     /**

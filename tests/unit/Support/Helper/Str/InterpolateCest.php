@@ -38,7 +38,7 @@ class InterpolateCest
         $format   = $example[2];
         $context  = $example[3];
         $actual   = (new Interpolate())($format, $context);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

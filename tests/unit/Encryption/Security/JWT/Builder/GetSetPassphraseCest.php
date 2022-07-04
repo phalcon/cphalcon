@@ -35,9 +35,9 @@ class GetSetPassphraseCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetPassphrase(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetPassphrase(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getPassphrase()/setPassphrase()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getPassphrase()/setPassphrase()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -45,7 +45,7 @@ class GetSetPassphraseCest
         $passphrase = '6U#5xK!uFmUtwRZ3SCLjC*K%i8f@4MNE';
         $return     = $builder->setPassphrase($passphrase);
         $I->assertInstanceOf(Builder::class, $return);
-        $I->assertEquals($passphrase, $builder->getPassphrase());
+        $I->assertSame($passphrase, $builder->getPassphrase());
     }
 
     /**
@@ -56,9 +56,9 @@ class GetSetPassphraseCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderSetPassphraseException(UnitTester $I)
+    public function encryptionSecurityJWTBuilderSetPassphraseException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - setPassphrase() - exception');
+        $I->wantToTest('Encryption\Security\JWT\Builder - setPassphrase() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

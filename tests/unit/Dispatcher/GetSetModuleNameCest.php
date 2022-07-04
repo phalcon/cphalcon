@@ -37,6 +37,6 @@ class GetSetModuleNameCest
 
         $expected = 'two';
         $actual   = $dispatcher->getModuleName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

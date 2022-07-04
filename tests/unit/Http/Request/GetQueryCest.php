@@ -43,7 +43,7 @@ class GetQueryCest
 
         $expected = ' Active ';
         $actual   = $request->getQuery('status');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_GET = $store;
     }
@@ -68,11 +68,11 @@ class GetQueryCest
 
         $expected = 'Active';
         $actual   = $request->getQuery('status', 'trim');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'active';
         $actual   = $request->getQuery('status', ['trim', 'lower']);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_GET = $store;
     }
@@ -96,7 +96,7 @@ class GetQueryCest
 
         $expected = 'default';
         $actual   = $request->getQuery('status', null, 'default');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_GET = $store;
     }
@@ -121,7 +121,7 @@ class GetQueryCest
 
         $expected = '0';
         $actual   = $request->getQuery('status', 'trim', 'zero value', true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_GET = $store;
     }

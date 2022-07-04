@@ -38,7 +38,7 @@ class DecodeCest
             'three',
         ];
         $actual   = $object($data, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -65,9 +65,9 @@ class GetPutCest
 
         parse_str($data, $actual);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->getPut()
         );
@@ -116,9 +116,9 @@ class GetPutCest
             true
         );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->getPut()
         );

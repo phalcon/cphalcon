@@ -46,7 +46,7 @@ class GetRegisterModulesCest
 
         $expected = $modules;
         $actual   = $application->getModules();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -77,13 +77,13 @@ class GetRegisterModulesCest
 
         $expected = $modules2;
         $actual   = $application->getModules();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $application->registerModules($modules1, true);
 
         $expected = array_merge($modules2, $modules1);
         $actual   = $application->getModules();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -108,7 +108,7 @@ class GetRegisterModulesCest
 
         $expected = [1];
         $actual   = $application->getModule('admin');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

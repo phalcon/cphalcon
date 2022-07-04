@@ -34,12 +34,12 @@ class GetSetTypeCest
 
         $expected = $type;
         $actual   = $event->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $event->setType($newType);
 
         $expected = $newType;
         $actual   = $event->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

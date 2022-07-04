@@ -37,12 +37,12 @@ class ToJsonCest
 
         $attributes = new Attributes($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             json_encode($data),
             $attributes->toJson()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             json_encode($data, JSON_PRETTY_PRINT),
             $attributes->toJson(JSON_PRETTY_PRINT)
         );

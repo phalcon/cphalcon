@@ -43,7 +43,7 @@ class ConstructCest
 
         $expected = $example['local'];
         $actual   = $asset->isLocal();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -96,7 +96,7 @@ class ConstructCest
 
         $expected = [];
         $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -123,7 +123,7 @@ class ConstructCest
         );
 
         $actual = $asset->getAttributes();
-        $I->assertEquals($attributes, $actual);
+        $I->assertSame($attributes, $actual);
     }
 
     /**

@@ -96,6 +96,6 @@ class JsonSerializeCest
 
         $actual   = $messages->jsonSerialize();
         $expected = [$fixture];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

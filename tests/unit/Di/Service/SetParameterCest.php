@@ -49,7 +49,7 @@ class SetParameterCest
             'className' => Escaper::class,
         ];
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = $service->setParameter(1, ['one']);
 
@@ -64,7 +64,7 @@ class SetParameterCest
             'arguments' => [1 => ['one']],
         ];
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -96,7 +96,7 @@ class SetParameterCest
             ],
         ];
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $service->setParameter(0, ['seven']);
 
@@ -105,7 +105,7 @@ class SetParameterCest
             'arguments' => [0 => ['seven']],
         ];
         $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

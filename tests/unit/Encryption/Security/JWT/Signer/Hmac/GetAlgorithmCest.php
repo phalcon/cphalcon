@@ -29,20 +29,20 @@ class GetAlgorithmCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacGetAlgorithm(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacGetAlgorithm(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - getAlgorithm()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - getAlgorithm()');
 
         $signer = new Hmac();
-        $I->assertEquals('sha512', $signer->getAlgorithm());
+        $I->assertSame('sha512', $signer->getAlgorithm());
 
         $signer = new Hmac('sha512');
-        $I->assertEquals('sha512', $signer->getAlgorithm());
+        $I->assertSame('sha512', $signer->getAlgorithm());
 
         $signer = new Hmac('sha384');
-        $I->assertEquals('sha384', $signer->getAlgorithm());
+        $I->assertSame('sha384', $signer->getAlgorithm());
 
         $signer = new Hmac('sha256');
-        $I->assertEquals('sha256', $signer->getAlgorithm());
+        $I->assertSame('sha256', $signer->getAlgorithm());
     }
 }

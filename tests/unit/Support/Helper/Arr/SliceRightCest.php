@@ -49,12 +49,12 @@ class SliceRightCest
             'PHP',
         ];
         $actual   = $object($collection, 1);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'PHP',
         ];
         $actual   = $object($collection, 3);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

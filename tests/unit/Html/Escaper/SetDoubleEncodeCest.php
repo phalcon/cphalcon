@@ -41,12 +41,12 @@ class SetDoubleEncodeCest
 
         $expected = '&lt;h1&gt;&amp;amp;&lt;/h1&gt;';
         $actual   = $escaper->html($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $escaper->setDoubleEncode(false);
 
         $expected = '&lt;h1&gt;&amp;&lt;/h1&gt;';
         $actual   = $escaper->html($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

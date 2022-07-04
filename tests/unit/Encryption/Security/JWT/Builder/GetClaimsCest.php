@@ -30,9 +30,9 @@ class GetClaimsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetClaims(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetClaims(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getClaims()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getClaims()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

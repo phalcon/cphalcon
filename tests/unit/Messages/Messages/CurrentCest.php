@@ -62,10 +62,10 @@ class CurrentCest
         );
 
 
-        $I->assertEquals('This is a message #1', $message->getMessage());
-        $I->assertEquals('MyField1', $message->getField());
-        $I->assertEquals('MyType1', $message->getType());
-        $I->assertEquals(111, $message->getCode());
-        $I->assertEquals(['My1' => 'Metadata1'], $message->getMetaData());
+        $I->assertSame('This is a message #1', $message->getMessage());
+        $I->assertSame('MyField1', $message->getField());
+        $I->assertSame('MyType1', $message->getType());
+        $I->assertSame(111, $message->getCode());
+        $I->assertSame(['My1' => 'Metadata1'], $message->getMetaData());
     }
 }

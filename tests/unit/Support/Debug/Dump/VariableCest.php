@@ -44,7 +44,7 @@ class VariableCest
             )
         );
         $actual   = $dump->variable($test);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -69,6 +69,6 @@ class VariableCest
         );
 
         $actual = $dump->variable($test, 'super');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -59,14 +59,14 @@ class GetInheritedRolesCest
 
         $expected = [];
         $actual   = $acl->getInheritedRoles('unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'memberOne',
             'memberTwo',
         ];
         $actual   = $acl->getInheritedRoles('administrator');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'administrator' => [
@@ -79,6 +79,6 @@ class GetInheritedRolesCest
             ],
         ];
         $actual   = $acl->getInheritedRoles();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

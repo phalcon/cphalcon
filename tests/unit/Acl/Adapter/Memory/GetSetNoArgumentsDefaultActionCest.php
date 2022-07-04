@@ -44,7 +44,7 @@ class GetSetNoArgumentsDefaultActionCest
 
         $expected = Enum::ALLOW;
         $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -66,6 +66,6 @@ class GetSetNoArgumentsDefaultActionCest
 
         $expected = Enum::DENY;
         $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

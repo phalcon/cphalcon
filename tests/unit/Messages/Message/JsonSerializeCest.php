@@ -54,6 +54,6 @@ class JsonSerializeCest
             ],
         ];
         $actual   = $message->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

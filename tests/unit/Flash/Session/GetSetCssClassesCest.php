@@ -17,6 +17,8 @@ use Phalcon\Flash\Session;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
+use function ksort;
+
 /**
  * Class GetSetCssClassesCest
  *
@@ -52,25 +54,27 @@ class GetSetCssClassesCest
 
         $expected   = [
             'error'   => 'errorMessage',
-            'success' => 'successMessage',
             'notice'  => 'noticeMessage',
+            'success' => 'successMessage',
             'warning' => 'warningMessage',
         ];
         $newClasses = [
             'error'   => 'alert alert-error',
-            'success' => 'alert alert-success',
             'notice'  => 'alert alert-notice',
+            'success' => 'alert alert-success',
             'warning' => 'alert alert-warning',
         ];
 
         $actual = $flash->getCssClasses();
-        $I->assertEquals($expected, $actual);
+        ksort($actual);
+        $I->assertSame($expected, $actual);
 
         $flash->setCssClasses($newClasses);
 
         $expected = $newClasses;
         $actual   = $flash->getCssClasses();
-        $I->assertEquals($expected, $actual);
+        ksort($actual);
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }

@@ -45,7 +45,7 @@ class GetCest
 
         $expected = 'Phalcon';
         $actual   = $object($collection, 1, 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -68,7 +68,7 @@ class GetCest
 
         $expected = 'Framework';
         $actual   = $object($collection, 'suffix', 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -91,7 +91,7 @@ class GetCest
 
         $expected = 'Error';
         $actual   = $object($collection, uniqid(), 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

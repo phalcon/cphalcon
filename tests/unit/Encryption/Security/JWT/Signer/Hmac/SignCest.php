@@ -31,9 +31,9 @@ class SignCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacSign(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacSign(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - sign()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - sign()');
 
         $signer = new Hmac();
 
@@ -42,6 +42,6 @@ class SignCest
 
         $expected = hash_hmac('sha512', $payload, $passphrase, true);
         $actual   = $signer->sign($payload, $passphrase);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

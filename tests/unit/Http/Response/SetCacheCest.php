@@ -41,11 +41,11 @@ class SetCacheCest extends HttpBase
         $response->setCache(60);
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
+        $I->assertSame(
             $expiry->format('D, d M Y H:i:s') . ' GMT',
             $actual->get('Expires')
         );
-        $I->assertEquals(
+        $I->assertSame(
             'max-age=3600',
             $actual->get('Cache-Control')
         );

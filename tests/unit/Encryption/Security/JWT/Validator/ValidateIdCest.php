@@ -33,9 +33,9 @@ class ValidateIdCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorValidateId(UnitTester $I)
+    public function encryptionSecurityJWTValidatorValidateId(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateId()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - validateId()');
 
         $token = $this->newToken();
         $I->expectThrowable(

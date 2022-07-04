@@ -38,6 +38,6 @@ class GetHrefCest
         $href = 'https://dev.phalcon.ld';
         $link = new Link('payment', $href);
 
-        $I->assertEquals($href, $link->getHref());
+        $I->assertSame($href, $link->getHref());
     }
 }

@@ -76,7 +76,7 @@ class SelectUnderscoreInvokeCest
 
         $expected = $example['result'];
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
         $locator = $factory->newInstance('inputSelect');
@@ -109,7 +109,7 @@ class SelectUnderscoreInvokeCest
         }
 
         $actual = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

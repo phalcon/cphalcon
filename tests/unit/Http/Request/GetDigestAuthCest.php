@@ -45,7 +45,7 @@ class GetDigestAuthCest
             'opaque' => '123456789',
         ];
         $actual   = $request->getDigestAuth();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

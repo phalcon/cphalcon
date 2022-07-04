@@ -329,6 +329,6 @@ class AllowCest
         }
 
         $I->assertStringContainsString($errorMessage, $actual);
-        $I->assertEquals(1024, $code);
+        $I->assertSame(1024, $code);
     }
 }

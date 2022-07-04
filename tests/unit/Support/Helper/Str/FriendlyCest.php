@@ -49,7 +49,7 @@ class FriendlyCest
             $example['replace']
         );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

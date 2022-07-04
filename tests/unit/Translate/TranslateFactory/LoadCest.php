@@ -56,10 +56,10 @@ class LoadCest
             $locale       = $options->options->locale[0];
 
             $I->assertInstanceOf(Gettext::class, $adapter);
-            $I->assertEquals($options->options->category, $adapter->getCategory());
-            $I->assertEquals($locale, $adapter->getLocale());
-            $I->assertEquals($options->options->defaultDomain, $adapter->getDefaultDomain());
-            $I->assertEquals($options->options->directory, $adapter->getDirectory());
+            $I->assertSame($options->options->category, $adapter->getCategory());
+            $I->assertSame($locale, $adapter->getLocale());
+            $I->assertSame($options->options->defaultDomain, $adapter->getDefaultDomain());
+            $I->assertSame($options->options->directory, $adapter->getDirectory());
         }
     }
 
@@ -85,10 +85,10 @@ class LoadCest
             $locale       = $options['options']['locale'][0];
 
             $I->assertInstanceOf(Gettext::class, $adapter);
-            $I->assertEquals($options['options']['category'], $adapter->getCategory());
-            $I->assertEquals($locale, $adapter->getLocale());
-            $I->assertEquals($options['options']['defaultDomain'], $adapter->getDefaultDomain());
-            $I->assertEquals($options['options']['directory'], $adapter->getDirectory());
+            $I->assertSame($options['options']['category'], $adapter->getCategory());
+            $I->assertSame($locale, $adapter->getLocale());
+            $I->assertSame($options['options']['defaultDomain'], $adapter->getDefaultDomain());
+            $I->assertSame($options['options']['directory'], $adapter->getDirectory());
         }
     }
 }

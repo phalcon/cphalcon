@@ -42,7 +42,7 @@ class DecrementCest
         $object   = new Decrement();
         $expected = $example['expected'];
         $actual   = $object($example['source'], $example['separator']);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

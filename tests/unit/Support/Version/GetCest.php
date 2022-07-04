@@ -44,7 +44,7 @@ class GetCest
         $expected = $example[2];
         $actual   = $version->get();
         $I->assertTrue(is_string($actual));
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -94,7 +94,7 @@ class GetCest
 
         $expected = spl_object_hash($escaper);
         $actual   = spl_object_hash($actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

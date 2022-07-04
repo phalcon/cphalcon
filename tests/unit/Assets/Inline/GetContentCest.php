@@ -43,7 +43,7 @@ class GetContentCest
 
         $expected = $example['content'];
         $actual   = $asset->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

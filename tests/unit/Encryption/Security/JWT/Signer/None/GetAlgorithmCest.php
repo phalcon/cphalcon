@@ -29,11 +29,11 @@ class GetAlgorithmCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerNoneGetAlgorithm(UnitTester $I)
+    public function encryptionSecurityJWTSignerNoneGetAlgorithm(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - getAlgorithm()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\None - getAlgorithm()');
 
         $signer = new None();
-        $I->assertEquals('None', $signer->getAlgorithm());
+        $I->assertSame('None', $signer->getAlgorithm());
     }
 }

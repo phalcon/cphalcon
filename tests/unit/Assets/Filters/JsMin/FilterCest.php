@@ -34,6 +34,6 @@ class FilterCest
 
         $expected = '{}}';
         $actual   = $jsmin->filter('{}}');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

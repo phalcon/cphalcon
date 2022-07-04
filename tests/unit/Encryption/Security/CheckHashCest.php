@@ -35,9 +35,9 @@ class CheckHashCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function securityCheckHash(UnitTester $I, Example $example)
+    public function encryptionSecurityCheckHash(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Security - checkHash() ' . $example[0]);
+        $I->wantToTest('Encryption\Security - checkHash() ' . $example[0]);
 
         $security = new Security();
         $password = 'PhalconROCKS!';
@@ -56,9 +56,9 @@ class CheckHashCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityCheckHashFalse(UnitTester $I)
+    public function encryptionSecurityCheckHashFalse(UnitTester $I)
     {
-        $I->wantToTest('Security - checkHash() - false');
+        $I->wantToTest('Encryption\Security - checkHash() - false');
 
         $security = new Security();
         $password = 'PhalconROCKS!';

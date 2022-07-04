@@ -47,12 +47,12 @@ class WithoutAttributeCest
         ];
         $link       = new EvolvableLink('payment', $href, $attributes);
 
-        $I->assertEquals($attributes, $link->getAttributes());
+        $I->assertSame($attributes, $link->getAttributes());
 
         $newInstance = $link->withoutAttribute('five');
 
         unset($attributes['five']);
 
-        $I->assertEquals($attributes, $newInstance->getAttributes());
+        $I->assertSame($attributes, $newInstance->getAttributes());
     }
 }

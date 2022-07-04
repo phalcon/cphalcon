@@ -57,7 +57,7 @@ class GetFilteredPutCest
 
         $expected = 24;
         $actual   = $request->getFilteredPut('id', 24);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         stream_wrapper_restore('php');
 

@@ -33,7 +33,7 @@ class GetSetContentCest
         $sData = '<h1>Phalcon book 2020</h1>';
 
         $oResponse = new Response();
-        $I->assertEquals('', $oResponse->getContent());
+        $I->assertSame('', $oResponse->getContent());
 
         $oResponse->setContent($sData);
         $I->assertSame(

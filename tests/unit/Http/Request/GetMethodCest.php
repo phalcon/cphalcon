@@ -39,7 +39,7 @@ class GetMethodCest
 
         $request = new Request();
 
-        $I->assertEquals('GET', $request->getMethod());
+        $I->assertSame('GET', $request->getMethod());
 
         $_SERVER = $store;
 
@@ -53,7 +53,7 @@ class GetMethodCest
 
         $request = new Request();
 
-        $I->assertEquals('POST', $request->getMethod());
+        $I->assertSame('POST', $request->getMethod());
 
         $_SERVER = $store;
 
@@ -67,7 +67,7 @@ class GetMethodCest
         ];
 
         $request = new Request();
-        $I->assertEquals('TRACE', $request->getMethod());
+        $I->assertSame('TRACE', $request->getMethod());
 
         $_SERVER = $store;
 
@@ -85,7 +85,7 @@ class GetMethodCest
 
         $request = new Request();
         $request->setHttpMethodParameterOverride(true);
-        $I->assertEquals('CONNECT', $request->getMethod());
+        $I->assertSame('CONNECT', $request->getMethod());
 
         $_SERVER  = $store1;
         $_REQUEST = $store2;
@@ -99,7 +99,7 @@ class GetMethodCest
         ];
 
         $request = new Request();
-        $I->assertEquals('GET', $request->getMethod());
+        $I->assertSame('GET', $request->getMethod());
 
         $_SERVER = $store;
     }

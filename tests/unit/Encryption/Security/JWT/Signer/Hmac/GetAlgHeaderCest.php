@@ -29,20 +29,20 @@ class GetAlgHeaderCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerHmacGetAlgHeader(UnitTester $I)
+    public function encryptionSecurityJWTSignerHmacGetAlgHeader(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - getAlgHeader()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\Hmac - getAlgHeader()');
 
         $signer = new Hmac();
-        $I->assertEquals('HS512', $signer->getAlgHeader());
+        $I->assertSame('HS512', $signer->getAlgHeader());
 
         $signer = new Hmac('sha512');
-        $I->assertEquals('HS512', $signer->getAlgHeader());
+        $I->assertSame('HS512', $signer->getAlgHeader());
 
         $signer = new Hmac('sha384');
-        $I->assertEquals('HS384', $signer->getAlgHeader());
+        $I->assertSame('HS384', $signer->getAlgHeader());
 
         $signer = new Hmac('sha256');
-        $I->assertEquals('HS256', $signer->getAlgHeader());
+        $I->assertSame('HS256', $signer->getAlgHeader());
     }
 }

@@ -55,10 +55,10 @@ class GetSetPathCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($path, $cookie->getPath());
+        $I->assertSame($path, $cookie->getPath());
 
         $path = '/accounting';
         $cookie->setPath($path);
-        $I->assertEquals($path, $cookie->getPath());
+        $I->assertSame($path, $cookie->getPath());
     }
 }
