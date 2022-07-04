@@ -159,6 +159,11 @@ interface ManagerInterface
     ) -> <ResultsetInterface> | bool;
 
     /**
+     * Returns the newly created Phalcon\Mvc\Model\Query\Builder or null
+     */
+    public function getBuilder() -> <BuilderInterface> | null;
+
+    /**
      * Gets hasMany relations defined on a model
      */
     public function getHasMany(<ModelInterface> model) -> <RelationInterface[]> | array;
