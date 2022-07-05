@@ -105,33 +105,4 @@ class EncryptBase64Cest
         $decrypted = $crypt->decryptBase64($encrypted, $key, true);
         $I->assertSame($source, $decrypted);
     }
-
-    /**
-     * Tests Phalcon\Encryption\Crypt :: encryptBase64() - safe
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2022-07-05
-     */
-    public function encryptionCryptEncryptBase64PhpVersions(UnitTester $I)
-    {
-        $I->wantToTest('Encryption\Crypt - encryptBase64() - php versions');
-
-        $key    = substr(md5(uniqid()), 0, 16);
-        $source = 'BvQrk+D^b&saR/L#mQig+8V9v^W&S/&moY7';
-
-        $crypt = new Crypt();
-        $crypt->setKey($key);
-
-        $encrypted = $crypt->encryptBase64($source);
-
-        $expected = 'wwj9F2tFQPF81WXtEEZxymsv+QxnqCJc7yc1nUz8YB+vpj/b5BoTWQmazy2FxWAroiJJfA==';
-        $actual   = $expected;
-        $I->assertSame($expected, $actual);
-
-        $expected = $source;
-        $actual   = $crypt->decryptBase64($encrypted);
-        $I->assertSame($expected, $actual);
-    }
 }
