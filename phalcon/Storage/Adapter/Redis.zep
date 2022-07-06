@@ -32,7 +32,19 @@ class Redis extends AbstractAdapter
      * Redis constructor.
      *
      * @param SerializerFactory $factory
-     * @param array             $options
+     * @param array             $options = [
+     *     "host"           => "127.0.0.1",
+     *     "port"           => 6379,
+     *     "index"          => 0,
+     *     "timeout"        => 0,
+     *     "persistent"     => false,
+     *     "persistentId"   => "",
+     *     "auth"           => "",
+     *     "socket"         => "",
+     *     "connectTimeout" => 0,
+     *     "retryInterval"  => 0,
+     *     "readTimeout"    => 0,
+     * ]
      *
      * @throws SupportException
      */
