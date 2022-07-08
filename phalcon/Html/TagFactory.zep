@@ -65,7 +65,7 @@ use Phalcon\Factory\AbstractFactory;
  * @method ol(string $text, array $attributes = [], bool $raw = false): string
  * @method script(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method style(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method title(string $indent = '', string $delimiter = PHP_EOL): string
+ * @method title(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method ul(string $text, array $attributes = [], bool $raw = false): string
  */
 class TagFactory extends AbstractFactory
