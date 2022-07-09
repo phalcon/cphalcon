@@ -98,7 +98,7 @@ interface DispatcherInterface
     /**
      * Sets the module name which the application belongs to
      */
-    public function setModuleName(string moduleName) -> void;
+    public function setModuleName(string moduleName = null) -> void;
 
     /**
      * Sets the namespace which the controller belongs to
