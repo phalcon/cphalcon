@@ -83,6 +83,57 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 }
 
 /**
+ * Serialize data
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) == IS_ARRAY) {
+		RETURN_MM_MEMBER(getThis(), "data");
+	}
+	array_init(return_value);
+	RETURN_MM();
+}
+
+/**
+ * Unserialize data
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *data_param = NULL;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_arrval(&data, data_param);
+
+
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
  * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData)
@@ -166,50 +217,5 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 		_1 = 1 == zephir_is_numeric(data);
 	}
 	RETURN_BOOL(!(_1));
-}
-
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		RETURN_MM_MEMBER(getThis(), "data");
-	}
-	array_init(return_value);
-	RETURN_MM();
-}
-
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *data_param = NULL;
-	zval data;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(data)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data_param);
-	zephir_get_arrval(&data, data_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
-	ZEPHIR_MM_RESTORE();
 }
 

@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	if (ZEPHIR_IS_EMPTY(&delimiter)) {
+	if (Z_TYPE_P(&delimiter) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZEPHIR_GET_CONSTANT(&_0, "PHP_EOL");
 	} else {

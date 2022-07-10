@@ -41,15 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_RouterInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, add);
 /**
- * Attach Route object to the routes stack.
- *
- * @param RouteInterface route
- * @param int position
- *
- * @return RouterInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, attach);
-/**
  * Adds a route to the router that only match if the HTTP method is CONNECT
  *
  * @param string pattern
@@ -140,6 +131,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPut);
  * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addTrace);
+/**
+ * Attach Route object to the routes stack.
+ *
+ * @param RouteInterface route
+ * @param int position
+ *
+ * @return RouterInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, attach);
 /**
  * Removes all the defined routes
  */
