@@ -74,13 +74,13 @@
  * @method inputTime(string $name, string $value = null, array $attributes = []): string
  * @method inputUrl(string $name, string $value = null, array $attributes = []): string
  * @method inputWeek(string $name, string $value = null, array $attributes = []): string
- * @method label(array $attributes = []): string
+ * @method label(string $label, array $attributes = [], bool $raw = false): string
  * @method link(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method meta(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method ol(string $text, array $attributes = [], bool $raw = false): string
  * @method script(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method style(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method title(string $separator = '', string $indent = '', string $delimiter = PHP_EOL): string
+ * @method title(string $indent = '    ', string $delimiter = PHP_EOL): string
  * @method ul(string $text, array $attributes = [], bool $raw = false): string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)

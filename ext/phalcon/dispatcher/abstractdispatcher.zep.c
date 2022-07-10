@@ -1716,15 +1716,20 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModuleName)
 	ZVAL_UNDEF(&moduleName);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(moduleName)
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(moduleName)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &moduleName_param);
-	zephir_get_strval(&moduleName, moduleName_param);
+	zephir_fetch_params(1, 0, 1, &moduleName_param);
+	if (!moduleName_param) {
+		ZEPHIR_INIT_VAR(&moduleName);
+	} else {
+		zephir_get_strval(&moduleName, moduleName_param);
+	}
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("moduleName"), &moduleName);

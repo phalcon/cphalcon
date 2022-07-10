@@ -1,4 +1,6 @@
-# [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (xxxx-xx-xx)
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+
+# [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-10)
 
 ## Fixed
 - Fixed `Phalcon\Tag::textArea()` to check if the value is `null` before calling `htmlspecialchars` [#15992](https://github.com/phalcon/cphalcon/issues/15992)

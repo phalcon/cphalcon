@@ -81,7 +81,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getmodelbinder, 0, 0, Phalcon\\Mvc\\Model\\BinderInterface, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getmodulename, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getmodulename, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getnamespacename, 0, 0, IS_STRING, 0)
@@ -157,9 +157,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_dispatcher_abstractdispat
 	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setmodulename, 0, 1, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setmodulename, 0, 0, IS_VOID, 0)
 
-	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setnamespacename, 0, 1, IS_VOID, 0)

@@ -83,8 +83,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
 /**
  * Sets the main handler
  *
- * @param mixed handler
- * @param bool lazy
+ * @param mixed $handler
+ * @param bool  $lazy
  *
  * @return CollectionInterface
  */

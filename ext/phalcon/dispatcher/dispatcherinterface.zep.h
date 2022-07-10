@@ -63,9 +63,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_dispatcherint
 	ZEND_ARG_TYPE_INFO(0, handlerSuffix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_dispatcherinterface_setmodulename, 0, 1, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_dispatcherinterface_setmodulename, 0, 0, IS_VOID, 0)
 
-	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_dispatcherinterface_setnamespacename, 0, 1, IS_VOID, 0)

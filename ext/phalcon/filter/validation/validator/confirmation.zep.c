@@ -126,9 +126,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 {
+	zval _3, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, fieldWith, value, valueWith, labelWith, replacePairs, _0, _2, _1$$3, _3$$4, _5$$4, _4$$5;
+	zval *validation, validation_sub, *field, field_sub, fieldWith, value, valueWith, labelWith, replacePairs, _0, _2, _1$$3, _5$$4, _7$$4, _6$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -141,9 +142,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -169,16 +172,18 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&valueWith, validation, "getvalue", NULL, 0, &fieldWith);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 290, &value, &valueWith);
+	zephir_cast_to_string(&_3, &value);
+	zephir_cast_to_string(&_4, &valueWith);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 290, &_3, &_4);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_INIT_VAR(&_3$$4);
-		ZVAL_STRING(&_3$$4, "labelWith");
-		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_3$$4);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "labelWith");
+		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_5$$4);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$5, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 97);
-			ZEPHIR_CPY_WRT(&labelWith, &_4$$5);
+			zephir_array_fetch(&_6$$5, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 97);
+			ZEPHIR_CPY_WRT(&labelWith, &_6$$5);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {
 			ZEPHIR_CALL_METHOD(&labelWith, validation, "getlabel", NULL, 0, &fieldWith);
@@ -187,9 +192,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":with"), &labelWith, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_7$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

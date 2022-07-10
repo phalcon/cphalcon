@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct)
 	ZEPHIR_CALL_METHOD(&storageDir, this_ptr, "getarrval", NULL, 0, &options, &_0, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&storageDir)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 63);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 60);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getdirseparator", NULL, 115, &storageDir);
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 116, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 94);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 91);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _1)
 		{
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 	}
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 116, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 200);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 197);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _1)
 		{
@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_6$$5);
 				ZEPHIR_CONCAT_VV(&_6$$5, &_4$$5, &_5$$5);
-				zephir_array_append(&files, &_6$$5, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 196);
+				zephir_array_append(&files, &_6$$5, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 193);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_10$$7);
 					ZEPHIR_CONCAT_VV(&_10$$7, &_8$$7, &_9$$7);
-					zephir_array_append(&files, &_10$$7, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 196);
+					zephir_array_append(&files, &_10$$7, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 193);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &iterator, "next", NULL, 0);
 			zephir_check_call_status();
