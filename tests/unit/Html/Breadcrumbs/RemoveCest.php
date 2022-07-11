@@ -43,7 +43,7 @@ class RemoveCest
             ->add('Phalcon Team')
         ;
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 '/'      => 'Home',
                 '/users' => 'Users',
@@ -54,7 +54,7 @@ class RemoveCest
 
         $breadcrumbs->remove('/');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 '/users' => 'Users',
                 ''       => 'Phalcon Team',

@@ -46,7 +46,7 @@ class GetRealSourcePathCest
 
         $expected = $file;
         $actual   = $asset->getRealSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -84,6 +84,6 @@ class GetRealSourcePathCest
 
         $expected = $path;
         $actual   = $asset->getRealSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

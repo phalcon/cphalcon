@@ -57,10 +57,10 @@ class ResetCest extends HttpBase
 
         $I->assertEquals($sValue, $aCookies[$sName]);
 
-        $I->assertEquals(1, count($aCookies));
+        $I->assertSame(1, count($aCookies));
 
         $oCookie->reset();
 
-        $I->assertEquals([], $oCookie->getCookies());
+        $I->assertSame([], $oCookie->getCookies());
     }
 }

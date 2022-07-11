@@ -84,6 +84,6 @@ class CallCest
         $source   = 'Phalcon';
         $expected = 7;
         $actual   = $factory->len($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

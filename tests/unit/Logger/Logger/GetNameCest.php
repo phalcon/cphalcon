@@ -33,6 +33,6 @@ class GetNameCest
 
         $expected = 'my-name';
         $actual   = $logger->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

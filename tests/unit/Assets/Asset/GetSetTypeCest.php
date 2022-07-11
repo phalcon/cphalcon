@@ -44,7 +44,7 @@ class GetSetTypeCest
         $asset->setType($example['newType']);
         $expected = $example['newType'];
         $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

@@ -38,7 +38,7 @@ class IsValidHandlerCest
         $handler  = $example[2];
         $expected = $example[1];
         $actual   = $manager->isValidHandler($handler);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

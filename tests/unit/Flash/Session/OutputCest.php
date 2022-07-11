@@ -98,14 +98,68 @@ class OutputCest
         ob_end_clean();
         $expected = '<div class="successMessage">' . $message1 . '</div>' . PHP_EOL
             . '<div class="errorMessage">' . $message2 . '</div>' . PHP_EOL;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_end_clean();
         $expected = '';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
+
+        $session->destroy();
+    }
+
+    /**
+     * Tests Phalcon\Flash\Session :: output() - with custom template
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-06-21
+     */
+    public function flashSessionOutputWithCustomTemplate(UnitTester $I)
+    {
+        $I->wantToTest('Flash\Session - output() - types');
+
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $flash = new Session();
+        $flash->setDI($this->container);
+
+        $message1 = uniqid('m-');
+        $customTemplate = "
+<div class='%cssClass%' role='alert'>
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+        <span aria-hidden='true'>&times;</span>
+    </button>
+    %message%
+</div>";
+
+        $flash->setCustomTemplate($customTemplate);
+
+        $flash->success($message1);
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+        $expected = "
+<div class='successMessage' role='alert'>
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+        <span aria-hidden='true'>&times;</span>
+    </button>
+    {$message1}
+</div>";
+        $I->assertSame($expected, $actual);
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+        $expected = '';
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }

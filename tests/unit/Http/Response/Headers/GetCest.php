@@ -34,13 +34,13 @@ class GetCest
         $expected = 'text/html';
         $actual   = $headers->get('Content-Type');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $headers->set('Content-Type', 'text/plain');
 
         $expected = 'text/plain';
         $actual   = $headers->get('Content-Type');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -39,7 +39,7 @@ class GetHttpHostCest extends HttpBase
         $request = new Request();
 
         foreach ($example[1] as $expected) {
-            $I->assertEquals($expected, $request->getHttpHost());
+            $I->assertSame($expected, $request->getHttpHost());
         }
 
         $_SERVER = $store;

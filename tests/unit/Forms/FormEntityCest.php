@@ -49,6 +49,6 @@ class FormEntityCest
          * validate and sets the same entity as the form
          */
         $I->assertNotNull($validator->getEntity());
-        $I->assertEquals($product->prd_name, $validator->getEntity()->prd_name);
+        $I->assertSame($product->prd_name, $validator->getEntity()->prd_name);
     }
 }

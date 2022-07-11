@@ -46,6 +46,6 @@ class GetMessageCest
 
         $expected = 'log message';
         $actual   = $item->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

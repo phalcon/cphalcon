@@ -37,6 +37,26 @@ abstract class AbstractSerializer implements SerializerInterface
     }
 
     /**
+     * Serialize data
+     */
+    public function __serialize() -> array
+    {
+        if typeof this->data === "array" {
+            return this->data;
+        }
+
+        return [];
+    }
+
+    /**
+     * Unserialize data
+     */
+    public function __unserialize(array data) -> void
+    {
+        let this->data = data;
+    }
+
+    /**
      * @return mixed
      */
     public function getData()
@@ -77,19 +97,5 @@ abstract class AbstractSerializer implements SerializerInterface
             true === is_bool(data) ||
             true === is_numeric(data)
         );
-    }
-
-    public function __serialize() -> array
-    {
-        if typeof this->data === "array" {
-            return this->data;
-        }
-
-        return [];
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        let this->data = data;
     }
 }

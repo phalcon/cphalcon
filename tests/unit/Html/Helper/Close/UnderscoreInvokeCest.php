@@ -39,12 +39,12 @@ class UnderscoreInvokeCest
 
         $expected = "</image>";
         $actual   = $helper("image");
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $factory  = new TagFactory($escaper);
         $locator  = $factory->newInstance('close');
         $expected = "</image>";
         $actual   = $locator("image");
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

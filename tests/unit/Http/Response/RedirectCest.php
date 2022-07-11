@@ -33,9 +33,9 @@ class RedirectCest extends HttpBase
         $response->redirect('some/local/uri');
 
         $actual = $response->getHeaders();
-        $I->assertEquals('302 Found', $actual->get('Status'));
-        $I->assertEquals('/some/local/uri', $actual->get('Location'));
-        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
+        $I->assertSame('302 Found', $actual->get('Status'));
+        $I->assertSame('/some/local/uri', $actual->get('Location'));
+        $I->assertSame(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -53,9 +53,9 @@ class RedirectCest extends HttpBase
         $response->redirect('http://google.com', true);
 
         $actual = $response->getHeaders();
-        $I->assertEquals('302 Found', $actual->get('Status'));
-        $I->assertEquals('http://google.com', $actual->get('Location'));
-        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
+        $I->assertSame('302 Found', $actual->get('Status'));
+        $I->assertSame('http://google.com', $actual->get('Location'));
+        $I->assertSame(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -74,9 +74,9 @@ class RedirectCest extends HttpBase
         $response->redirect('new/place/', false, 309);
 
         $actual = $response->getHeaders();
-        $I->assertEquals('302 Found', $actual->get('Status'));
-        $I->assertEquals('/new/place/', $actual->get('Location'));
-        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
+        $I->assertSame('302 Found', $actual->get('Status'));
+        $I->assertSame('/new/place/', $actual->get('Location'));
+        $I->assertSame(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -95,8 +95,8 @@ class RedirectCest extends HttpBase
         $response->redirect('http://google.com', true, 301);
 
         $actual = $response->getHeaders();
-        $I->assertEquals('301 Moved Permanently', $actual->get('Status'));
-        $I->assertEquals('http://google.com', $actual->get('Location'));
+        $I->assertSame('301 Moved Permanently', $actual->get('Status'));
+        $I->assertSame('http://google.com', $actual->get('Location'));
         $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
     }
 }

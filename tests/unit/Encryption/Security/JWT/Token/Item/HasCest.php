@@ -29,9 +29,9 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenItemHas(UnitTester $I)
+    public function encryptionSecurityJWTTokenItemHas(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Item - has()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Item - has()');
 
         $item = new Item(['sub' => 'subject'], 'encoded-string-here');
 

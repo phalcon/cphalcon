@@ -41,7 +41,7 @@ class CountCest
             $registry->toArray()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             3,
             $registry->count()
         );

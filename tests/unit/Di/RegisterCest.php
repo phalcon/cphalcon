@@ -42,7 +42,7 @@ class RegisterCest
 
         $expected = 'bar';
         $actual   = $container->get('foo');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = SomeComponent::class;
         $actual   = $container->get('fooAction');

@@ -68,6 +68,6 @@ class GetActiveComponentCest
 
         $expected = 'Login';
         $actual   = $acl->getActiveComponent();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

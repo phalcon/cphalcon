@@ -175,12 +175,12 @@ class RequestCest extends HttpBase
         foreach ($functions as $function) {
             $request = $this->getRequestObject();
 
-            $I->assertEquals(
+            $I->assertSame(
                 1,
                 $request->$function('id', 'int', 100)
             );
 
-            $I->assertEquals(
+            $I->assertSame(
                 1,
                 $request->$function('num', 'int', 100)
             );
@@ -193,7 +193,7 @@ class RequestCest extends HttpBase
                 $request->$function('phone', 'int', 100)
             );
 
-            $I->assertEquals(
+            $I->assertSame(
                 100,
                 $request->$function('phone', 'int', 100, true)
             );

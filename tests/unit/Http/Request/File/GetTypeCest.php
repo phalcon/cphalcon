@@ -40,6 +40,6 @@ class GetTypeCest
             ]
         );
 
-        $I->assertEquals('text/plain', $file->getType());
+        $I->assertSame('text/plain', $file->getType());
     }
 }

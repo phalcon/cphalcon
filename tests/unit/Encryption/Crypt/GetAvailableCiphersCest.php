@@ -35,9 +35,9 @@ class GetAvailableCiphersCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetAvailableCiphers(UnitTester $I)
+    public function encryptionCryptGetAvailableCiphers(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getAvailableCiphers()');
+        $I->wantToTest('Encryption\Crypt - getAvailableCiphers()');
 
         $crypt = new Crypt();
 
@@ -46,6 +46,6 @@ class GetAvailableCiphersCest
         $actual   = $crypt->getAvailableCiphers();
         $values   = array_values($actual);
         $actual   = sort($values);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

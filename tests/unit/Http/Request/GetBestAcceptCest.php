@@ -43,7 +43,7 @@ class GetBestAcceptCest
 
         $expected = 'text/html';
         $actual   = $request->getBestAccept();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

@@ -188,7 +188,7 @@ class IsAllowedCest
 
         $errorMessage = "Number of parameters in array is higher than the "
             . "number of parameters in defined function when checking if "
-            . "'Members' can 'update' 'Post'. Extra parameters will be ignored. ";
+            . "'Members' can 'update' 'Post'. Extra parameters will be ignored.";
 
         $code   = 0;
         $actual = '';
@@ -227,7 +227,7 @@ class IsAllowedCest
         }
 
         $I->assertStringContainsString($errorMessage, $actual);
-        $I->assertEquals(512, $code);
+        $I->assertSame(512, $code);
     }
 
     /**

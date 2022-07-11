@@ -53,6 +53,6 @@ class ConstructCest
 
         // Remove a trailing newline
         $expected = trim($expected);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

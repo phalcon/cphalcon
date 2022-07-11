@@ -38,10 +38,9 @@ class GetCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
-            'four',
-            $registry->get('three')
-        );
+        $expected = 'four';
+        $actual   = $registry->get('three');
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -61,10 +60,9 @@ class GetCest
             ]
         );
 
-        $I->assertEquals(
-            $example[2],
-            $collection->get('value', null, $example[0])
-        );
+        $expected = $example[2];
+        $actual   = $collection->get('value', null, $example[0]);
+        $I->assertEquals($expected, $actual);
     }
 
     /**

@@ -40,7 +40,7 @@ class FlattenCest
 
         $expected = [1, 2, [3], 4, 5];
         $actual   = $object($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -60,6 +60,6 @@ class FlattenCest
 
         $expected = [1, 2, 3, 4, 5];
         $actual   = $object($source, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

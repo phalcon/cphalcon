@@ -30,7 +30,9 @@ class GetHeadersCest
         $I->wantToTest('Http\Request - getHeaders()');
 
         $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
             'HTTP_FOO'     => 'Bar',
             'HTTP_BLA_BLA' => 'boo',
             'HTTP_AUTH'    => true,
@@ -41,10 +43,10 @@ class GetHeadersCest
         $expected = [
             'Foo'     => 'Bar',
             'Bla-Bla' => 'boo',
-            'Auth'    => 1,
+            'Auth'    => true,
         ];
 
-        $I->assertEquals($expected, $request->getHeaders());
+        $I->assertSame($expected, $request->getHeaders());
 
         $_SERVER = $store;
     }

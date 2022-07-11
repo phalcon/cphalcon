@@ -39,6 +39,6 @@ class GetSetCodeCest
 
         $expected = 111;
         $actual   = $message->getCode();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

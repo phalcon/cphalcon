@@ -40,7 +40,7 @@ class UnderscoreInvokeCest
 
         $expected = $example['expected'];
         $actual   = (string) $helper;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

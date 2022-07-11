@@ -37,10 +37,10 @@ class LenCest
 
         $object = new Len();
         $actual = $object('hello');
-        $I->assertEquals(5, $actual);
+        $I->assertSame(5, $actual);
 
         $actual = $object('1234');
-        $I->assertEquals(4, $actual);
+        $I->assertSame(4, $actual);
     }
 
     /**
@@ -57,9 +57,9 @@ class LenCest
 
         $object = new Len();
         $actual = $object('привет мир!');
-        $I->assertEquals(11, $actual);
+        $I->assertSame(11, $actual);
 
         $actual = $object('männer');
-        $I->assertEquals(6, $actual);
+        $I->assertSame(6, $actual);
     }
 }

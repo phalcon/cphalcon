@@ -37,14 +37,14 @@ class InitCest
 
         $attributes = new Attributes();
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $attributes->count()
         );
 
         $attributes->init($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $attributes->toArray()
         );

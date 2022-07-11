@@ -32,7 +32,7 @@ class UnderscoreSetCest
 
         $attributes->class = 'form-control';
 
-        $I->assertEquals(
+        $I->assertSame(
             'form-control',
             $attributes->get('class')
         );

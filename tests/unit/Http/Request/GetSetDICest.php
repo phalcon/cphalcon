@@ -38,6 +38,6 @@ class GetSetDICest
         $I->assertInstanceOf($class, $actual);
 
         $expected = $container;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

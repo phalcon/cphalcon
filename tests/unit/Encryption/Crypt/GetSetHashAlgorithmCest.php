@@ -32,9 +32,9 @@ class GetSetHashAlgorithmCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetHashAlgo(UnitTester $I)
+    public function encryptionCryptGetSetHashAlgo(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getHashAlgorithm() / setHashAlgorithm()');
+        $I->wantToTest('Encryption\Crypt - getHashAlgorithm() / setHashAlgorithm()');
 
         $cipher = 'blowfish';
         $crypt  = new Crypt();
@@ -42,7 +42,7 @@ class GetSetHashAlgorithmCest
 
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -53,9 +53,9 @@ class GetSetHashAlgorithmCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetHashAlgoUnknown(UnitTester $I)
+    public function encryptionCryptGetSetHashAlgoUnknown(UnitTester $I)
     {
-        $I->wantToTest('Crypt - setHashAlgorithm() - unknown');
+        $I->wantToTest('Encryption\Crypt - setHashAlgorithm() - unknown');
         $I->expectThrowable(
             new Exception(
                 "The hash algorithm 'xxx-yyy-zzz' is not supported on this system."

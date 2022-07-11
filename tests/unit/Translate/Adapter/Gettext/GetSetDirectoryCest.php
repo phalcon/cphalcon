@@ -47,12 +47,12 @@ class GetSetDirectoryCest
 
         $expected = dataDir('assets/translation/gettext');
         $actual   = $translator->getDirectory();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $translator->setDirectory(dataDir());
 
         $expected = dataDir();
         $actual   = $translator->getDirectory();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -31,9 +31,9 @@ class HexCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityRandomHex(UnitTester $I)
+    public function encryptionSecurityRandomHex(UnitTester $I)
     {
-        $I->wantToTest("Security\Random - hex()");
+        $I->wantToTest("Encryption\Security\Random - hex()");
 
         $random = new Random();
         $hex    = $random->hex();
@@ -42,7 +42,7 @@ class HexCest
         $I->assertRegExp('/^[0-9a-f]+$/', $hex);
 
         // Default length is 16 bytes
-        $I->assertEquals(16, strlen($hex) / 2); // Hex is 2 characters
+        $I->assertSame(16, strlen($hex) / 2); // Hex is 2 characters
 
 
         $differentString = $random->hex();
@@ -54,6 +54,6 @@ class HexCest
         $expectedLength = 30;
         $hex            = $random->hex($expectedLength);
 
-        $I->assertEquals($expectedLength, strlen($hex) / 2); // Hex is 2 characters
+        $I->assertSame($expectedLength, strlen($hex) / 2); // Hex is 2 characters
     }
 }

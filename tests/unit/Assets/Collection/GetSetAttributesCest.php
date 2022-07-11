@@ -41,9 +41,9 @@ class GetSetAttributesCest
             'data-type' => 'book',
         ];
 
-        $I->assertEquals([], $collection->getAttributes());
+        $I->assertSame([], $collection->getAttributes());
         $collection->setAttributes($attributes);
 
-        $I->assertEquals($attributes, $collection->getAttributes());
+        $I->assertSame($attributes, $collection->getAttributes());
     }
 }

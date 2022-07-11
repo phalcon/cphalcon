@@ -32,6 +32,6 @@ class GetSetOutputCest
         $payload->setOutput('output');
 
         $actual = $payload->getOutput();
-        $I->assertEquals('output', $actual);
+        $I->assertSame('output', $actual);
     }
 }

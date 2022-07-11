@@ -51,7 +51,7 @@ class UseImplicitOutputCest
 
         $manager->useImplicitOutput(false);
 
-        $I->assertEquals($expected, $manager->outputCss('footer'));
+        $I->assertSame($expected, $manager->outputCss('footer'));
     }
 
     /**
@@ -81,6 +81,6 @@ class UseImplicitOutputCest
             '<script type="application/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
         );
 
-        $I->assertEquals($expected, $manager->outputJs('header'));
+        $I->assertSame($expected, $manager->outputJs('header'));
     }
 }

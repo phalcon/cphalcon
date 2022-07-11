@@ -37,7 +37,7 @@ class ToStringCest
 
         $component = new Component('Customers');
 
-        $I->assertEquals('Customers', $component->__toString());
-        $I->assertEquals('Customers', (string) $component);
+        $I->assertSame('Customers', $component->__toString());
+        $I->assertSame('Customers', (string) $component);
     }
 }

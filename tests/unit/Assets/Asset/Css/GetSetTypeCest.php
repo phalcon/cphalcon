@@ -43,7 +43,7 @@ class GetSetTypeCest
 
         $expected = 'css';
         $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

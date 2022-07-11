@@ -39,6 +39,6 @@ class SuffixCest
 
         $expected = 'ClassConstants';
         $actual   = $object('Class', 'Constants');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

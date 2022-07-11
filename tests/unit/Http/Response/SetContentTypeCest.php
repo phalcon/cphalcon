@@ -33,7 +33,7 @@ class SetContentTypeCest extends HttpBase
         $response->setContentType('application/json');
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
+        $I->assertSame(
             'application/json',
             $actual->get('Content-Type')
         );
@@ -54,7 +54,7 @@ class SetContentTypeCest extends HttpBase
         $response->setContentType('application/json', 'utf-8');
 
         $actual = $response->getHeaders();
-        $I->assertEquals(
+        $I->assertSame(
             'application/json; charset=utf-8',
             $actual->get('Content-Type')
         );

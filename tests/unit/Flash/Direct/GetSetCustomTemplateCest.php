@@ -45,6 +45,6 @@ class GetSetCustomTemplateCest
         $I->assertInstanceOf(Direct::class, $actual);
 
         $actual = $flash->getCustomTemplate();
-        $I->assertEquals($template, $actual);
+        $I->assertSame($template, $actual);
     }
 }

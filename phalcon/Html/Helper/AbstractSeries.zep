@@ -36,7 +36,7 @@ abstract class AbstractSeries extends AbstractHelper
         string indent = "    ",
         string delimiter = null
     ) -> <AbstractSeries> {
-        let this->delimiter = empty(delimiter) ? PHP_EOL : delimiter,
+        let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent,
             this->store     = [];
 

@@ -47,6 +47,6 @@ class GetRealTypeCest
             ]
         );
 
-        $I->assertEquals('image/jpeg', $file->getRealType());
+        $I->assertSame('image/jpeg', $file->getRealType());
     }
 }

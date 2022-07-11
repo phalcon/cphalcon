@@ -22,11 +22,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2022-05-31</date>
+  <date>2022-07-10</date>
   <time>17:00:00</time>
   <version>
-    <release>5.0.0RC2</release>
-    <api>5.0.0RC2</api>
+    <release>5.0.0RC3</release>
+    <api>5.0.0RC3</api>
   </version>
   <stability>
     <release>beta</release>
@@ -36,14 +36,27 @@
   <notes>
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
-    ## Changed
-    - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978)
-
     ## Fixed
-    - Fixed `Phalcon\Http\Response::getQualityHeader()` to check if the server variable is `null` before performing `preg_split` [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+    - Fixed `Phalcon\Tag::textArea()` to check if the value is `null` before calling `htmlspecialchars` [#15992](https://github.com/phalcon/cphalcon/issues/15992)
+    - Fixed
+      - `Phalcon/Filter/Validation/Validator/Alnum`
+      - `Phalcon/Filter/Validation/Validator/Alpha`
+      - `Phalcon/Filter/Validation/Validator/Confirmation`
+      - `Phalcon/Filter/Validation/Validator/CreditCard`
+      - `Phalcon/Filter/Validation/Validator/StringLength/Max`
+      - `Phalcon/Filter/Validation/Validator/StringLength/Min` to check if the value is `null` before calling internal PHP methods [#15992](https://github.com/phalcon/cphalcon/issues/15992)
+    - Fixed `Phalcon\Html\Helper\Title` to properly use indent and delimiter [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+    - Fixed `Phalcon\Mvc\View\Engine\Volt::isIncluded()` and `Phalcon\Mvc\View\Engine\Volt::length()` to check for null values before calls to php methods [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+    - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::expression()` to use double quotes instead of single ones [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+    - Fixed `Phalcon\Support\Version::getPart()` to always return string values [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+    - Fixed `Phalcon\Dispatcher\DispatcherInterface::setModuleName()` to accept `null` [#15997](https://github.com/phalcon/cphalcon/issues/15997)
+    - Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModuleName()` to accept `null` [#15997](https://github.com/phalcon/cphalcon/issues/15997)
+    - Fixed `Phalcon\Dispatcher\AbstractDispatcher::getModuleName()` to also return `null` [#15997](https://github.com/phalcon/cphalcon/issues/15997)
 
     ## Added
-    - Added `StringValLegacy` filter using `filter_var()` for PHP less than 8.1 [#15978](https://github.com/phalcon/cphalcon/issues/15978)
+    - Added support for `webp` images for `Phalcon\Image\Adapter\Gd` [#15977](https://github.com/phalcon/cphalcon/issues/15977)
+    - Added `Phalcon\Mvc\Model\ManagerInterface::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
+    - Added `Phalcon\Mvc\Model\Manager::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
 
   </notes>
   <contents>

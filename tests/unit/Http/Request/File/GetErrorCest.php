@@ -40,6 +40,6 @@ class GetErrorCest
             ]
         );
 
-        $I->assertEquals(0, $file->getError());
+        $I->assertSame(0, $file->getError());
     }
 }

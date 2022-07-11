@@ -88,11 +88,11 @@ class GetSetHasCest
         /** @var object $service */
         $expected = 'Hello Phalcon [count: 1]';
         $actual   = $locator->get('helloFilter')('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'Hello Phalcon [count: 2]';
         $actual   = $locator->get('helloFilter')('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -148,6 +148,6 @@ class GetSetHasCest
         $actual = $locator->sanitize($value, 'testappend');
 
         $expected = $value . 'test';
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -49,7 +49,7 @@ class GetRealTargetUriCest
         $asset->setTargetUri($targetUri);
 
         $actual = $asset->getRealTargetUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

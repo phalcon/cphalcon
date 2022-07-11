@@ -68,7 +68,7 @@ class CommitCest
         } catch (Exception $ex) {
             $expected = 'There is no active transaction';
             $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
 
         $I->safeDeleteFile($outputPath . $fileName);

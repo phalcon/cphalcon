@@ -33,9 +33,9 @@ class ValidateIssuerCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorValidateIssuer(UnitTester $I)
+    public function encryptionSecurityJWTValidatorValidateIssuer(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateIssuer()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - validateIssuer()');
 
         $token = $this->newToken();
         $I->expectThrowable(

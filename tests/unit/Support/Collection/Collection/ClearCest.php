@@ -40,12 +40,12 @@ class ClearCest
 
         $expected = $data;
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->clear();
 
         $expected = 0;
         $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

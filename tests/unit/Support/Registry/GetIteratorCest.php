@@ -37,7 +37,7 @@ class GetIteratorCest
         $registry = new Registry($data);
 
         foreach ($registry as $key => $value) {
-            $I->assertEquals(
+            $I->assertSame(
                 $data[$key],
                 $registry[$key]
             );

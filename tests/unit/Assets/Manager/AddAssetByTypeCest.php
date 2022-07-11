@@ -51,7 +51,7 @@ class AddAssetByTypeCest
         $expected   = 'css';
         foreach ($collection as $resource) {
             $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
+            $I->assertSame($expected, $actual);
         }
 
         $I->assertCount(2, $collection);

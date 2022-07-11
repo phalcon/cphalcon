@@ -38,9 +38,9 @@ class CssCest
             . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
 
         $actual   = $escaper->css($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual   = $escaper->escapeCss($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

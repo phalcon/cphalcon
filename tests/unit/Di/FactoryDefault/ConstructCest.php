@@ -56,7 +56,7 @@ class ConstructCest
 
         $expected = count($services);
         $actual   = count($container->getServices());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

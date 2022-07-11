@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 	ZVAL_LONG(&_0, flag);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("flag"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &delimiter);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**

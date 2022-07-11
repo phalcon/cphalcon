@@ -46,7 +46,7 @@ class GetKeysCest
 
         $expected = $keys;
         $actual   = $collection->getKeys();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $data = [
             'one'   => 'two',
@@ -57,10 +57,10 @@ class GetKeysCest
         $collection = new ReadOnlyCollection($data);
         $expected   = $keys;
         $actual     = $collection->getKeys();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = array_keys($data);
         $actual   = $collection->getKeys(false);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

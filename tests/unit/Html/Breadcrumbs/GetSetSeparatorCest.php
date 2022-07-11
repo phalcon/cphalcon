@@ -41,7 +41,7 @@ class GetSetSeparatorCest
 
         $breadcrumbs->setSeparator($expected);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $breadcrumbs->getSeparator()
         );

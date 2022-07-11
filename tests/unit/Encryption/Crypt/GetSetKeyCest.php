@@ -26,17 +26,17 @@ class GetSetKeyCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
-    public function cryptGetSetKey(UnitTester $I)
+    public function encryptionCryptGetSetKey(UnitTester $I)
     {
-        $I->wantToTest('Crypt - getKey()/setKey()');
+        $I->wantToTest('Encryption\Crypt - getKey()/setKey()');
 
         $crypt = new Crypt();
 
-        $I->assertEquals('', $crypt->getKey());
+        $I->assertSame('', $crypt->getKey());
 
         $crypt->setKey('123456');
 
-        $I->assertEquals(
+        $I->assertSame(
             '123456',
             $crypt->getKey()
         );

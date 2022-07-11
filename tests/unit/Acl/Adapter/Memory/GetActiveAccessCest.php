@@ -62,6 +62,6 @@ class GetActiveAccessCest
         $actual = $acl->isAllowed('Guests', 'Login', 'index');
         $I->assertTrue($actual);
 
-        $I->assertEquals('index', $acl->getActiveAccess());
+        $I->assertSame('index', $acl->getActiveAccess());
     }
 }

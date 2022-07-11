@@ -64,10 +64,10 @@ class NextCest
         );
 
 
-        $I->assertEquals('This is a message #2', $message->getMessage());
-        $I->assertEquals('MyField2', $message->getField());
-        $I->assertEquals('MyType2', $message->getType());
-        $I->assertEquals(222, $message->getCode());
-        $I->assertEquals(['My2' => 'Metadata2'], $message->getMetaData());
+        $I->assertSame('This is a message #2', $message->getMessage());
+        $I->assertSame('MyField2', $message->getField());
+        $I->assertSame('MyType2', $message->getType());
+        $I->assertSame(222, $message->getCode());
+        $I->assertSame(['My2' => 'Metadata2'], $message->getMetaData());
     }
 }

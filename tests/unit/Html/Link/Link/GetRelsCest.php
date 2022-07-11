@@ -39,6 +39,6 @@ class GetRelsCest
         $link = new Link('payment', $href);
 
         $expected = ['payment'];
-        $I->assertEquals($expected, $link->getRels());
+        $I->assertSame($expected, $link->getRels());
     }
 }

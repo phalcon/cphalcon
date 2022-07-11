@@ -31,9 +31,9 @@ class GetSetNotBeforeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetSetNotBefore(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetSetNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getNotBefore()/setNotBefore()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getNotBefore()/setNotBefore()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -43,7 +43,7 @@ class GetSetNotBeforeCest
         $return = $builder->setNotBefore(4);
         $I->assertInstanceOf(Builder::class, $return);
 
-        $I->assertEquals(4, $builder->getNotBefore());
+        $I->assertSame(4, $builder->getNotBefore());
     }
 
     /**
@@ -54,9 +54,9 @@ class GetSetNotBeforeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderSetNotBefore(UnitTester $I)
+    public function encryptionSecurityJWTBuilderSetNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - setNotBefore() - exception');
+        $I->wantToTest('Encryption\Security\JWT\Builder - setNotBefore() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

@@ -53,6 +53,6 @@ class WithLinkCest
             spl_object_hash($link)     => $link,
         ];
 
-        $I->assertEquals($expected, $newInstance->getLinks());
+        $I->assertSame($expected, $newInstance->getLinks());
     }
 }

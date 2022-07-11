@@ -45,7 +45,7 @@ class GetSetTargetPathCest
         $asset->setTargetPath($targetPath);
         $actual = $asset->getTargetPath();
 
-        $I->assertEquals($targetPath, $actual);
+        $I->assertSame($targetPath, $actual);
     }
 
     /**

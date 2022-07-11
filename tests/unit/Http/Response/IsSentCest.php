@@ -36,7 +36,7 @@ class IsSentCest
         $oResponse->send();
         $sResult = ob_get_clean();
 
-        $I->assertEquals($sData, $sResult);
+        $I->assertSame($sData, $sResult);
 
         $I->assertTrue($oResponse->isSent());
     }

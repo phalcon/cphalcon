@@ -42,7 +42,7 @@ class CountCest
             $attributes->toArray()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             4,
             $attributes->count()
         );

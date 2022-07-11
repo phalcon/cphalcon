@@ -34,26 +34,26 @@ class AnsiCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */
-    public function cryptPaddingAnsi(UnitTester $I)
+    public function encryptionCryptPaddingAnsi(UnitTester $I)
     {
-        $I->wantToTest('Crypt\Padding\Ansi - pad()/unpad()');
+        $I->wantToTest('Encryption\Crypt\Padding\Ansi - pad()/unpad()');
 
         $object = new Ansi();
 
         $padding  = str_repeat(chr(0), 15) . chr(16);
         $expected = $padding;
         $actual   = $object->pad(16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $actual;
         $expected = 16;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $padding  = chr(0);
         $source   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . $padding;
         $expected = 0;
         $actual   = $object->unpad($source, 16);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

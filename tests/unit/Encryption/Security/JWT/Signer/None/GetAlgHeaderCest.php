@@ -29,11 +29,11 @@ class GetAlgHeaderCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerNoneGetAlgHeader(UnitTester $I)
+    public function encryptionSecurityJWTSignerNoneGetAlgHeader(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - getAlgHeader()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\None - getAlgHeader()');
 
         $signer = new None();
-        $I->assertEquals('none', $signer->getAlgHeader());
+        $I->assertSame('none', $signer->getAlgHeader());
     }
 }

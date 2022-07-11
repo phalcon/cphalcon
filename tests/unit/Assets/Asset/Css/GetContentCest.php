@@ -46,6 +46,6 @@ class GetContentCest
 
         $expected = file_get_contents(dataDir('assets/assets/1198.css'));
         $actual   = $asset->getContent(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

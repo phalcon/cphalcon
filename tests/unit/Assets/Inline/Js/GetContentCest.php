@@ -39,6 +39,6 @@ class GetContentCest
         $asset   = new Js($content);
 
         $actual = $asset->getContent();
-        $I->assertEquals($content, $actual);
+        $I->assertSame($content, $actual);
     }
 }

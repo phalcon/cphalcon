@@ -63,7 +63,7 @@ class RewindCest
             $actual
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'This is a message #2',
             $actual->__toString()
         );
@@ -77,10 +77,10 @@ class RewindCest
             $actual
         );
 
-        $I->assertEquals('This is a message #1', $actual->getMessage());
-        $I->assertEquals('MyField1', $actual->getField());
-        $I->assertEquals('MyType1', $actual->getType());
-        $I->assertEquals(111, $actual->getCode());
-        $I->assertEquals(['My1' => 'Metadata1'], $actual->getMetaData());
+        $I->assertSame('This is a message #1', $actual->getMessage());
+        $I->assertSame('MyField1', $actual->getField());
+        $I->assertSame('MyType1', $actual->getType());
+        $I->assertSame(111, $actual->getCode());
+        $I->assertSame(['My1' => 'Metadata1'], $actual->getMetaData());
     }
 }

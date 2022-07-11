@@ -39,6 +39,6 @@ class FilterCest
 
         $expected = ' ';
         $actual   = $filter->filter(' ');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

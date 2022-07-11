@@ -62,7 +62,7 @@ class GetMessagesCest
             'error'   => [$message2],
         ];
         $actual   = $flash->getMessages();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $message1 = uniqid('m-');
         $message2 = uniqid('m-');
@@ -73,22 +73,22 @@ class GetMessagesCest
 
         $expected = [$message1];
         $actual   = $flash->getMessages('success', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [$message2];
         $actual   = $flash->getMessages('error', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [$message3];
         $actual   = $flash->getMessages('warning', true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'success' => [$message1],
             'error'   => [$message2],
         ];
         $actual   = $flash->getMessages();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }

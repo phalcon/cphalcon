@@ -28,25 +28,25 @@ class StatusCest
     {
         $I->wantToTest('Domain\Payload\Status - constants');
 
-        $I->assertEquals('ACCEPTED', Status::ACCEPTED);
-        $I->assertEquals('AUTHENTICATED', Status::AUTHENTICATED);
-        $I->assertEquals('AUTHORIZED', Status::AUTHORIZED);
-        $I->assertEquals('CREATED', Status::CREATED);
-        $I->assertEquals('DELETED', Status::DELETED);
-        $I->assertEquals('ERROR', Status::ERROR);
-        $I->assertEquals('FAILURE', Status::FAILURE);
-        $I->assertEquals('FOUND', Status::FOUND);
-        $I->assertEquals('NOT_ACCEPTED', Status::NOT_ACCEPTED);
-        $I->assertEquals('NOT_AUTHENTICATED', Status::NOT_AUTHENTICATED);
-        $I->assertEquals('NOT_AUTHORIZED', Status::NOT_AUTHORIZED);
-        $I->assertEquals('NOT_CREATED', Status::NOT_CREATED);
-        $I->assertEquals('NOT_DELETED', Status::NOT_DELETED);
-        $I->assertEquals('NOT_FOUND', Status::NOT_FOUND);
-        $I->assertEquals('NOT_UPDATED', Status::NOT_UPDATED);
-        $I->assertEquals('NOT_VALID', Status::NOT_VALID);
-        $I->assertEquals('PROCESSING', Status::PROCESSING);
-        $I->assertEquals('SUCCESS', Status::SUCCESS);
-        $I->assertEquals('UPDATED', Status::UPDATED);
-        $I->assertEquals('VALID', Status::VALID);
+        $I->assertSame('ACCEPTED', Status::ACCEPTED);
+        $I->assertSame('AUTHENTICATED', Status::AUTHENTICATED);
+        $I->assertSame('AUTHORIZED', Status::AUTHORIZED);
+        $I->assertSame('CREATED', Status::CREATED);
+        $I->assertSame('DELETED', Status::DELETED);
+        $I->assertSame('ERROR', Status::ERROR);
+        $I->assertSame('FAILURE', Status::FAILURE);
+        $I->assertSame('FOUND', Status::FOUND);
+        $I->assertSame('NOT_ACCEPTED', Status::NOT_ACCEPTED);
+        $I->assertSame('NOT_AUTHENTICATED', Status::NOT_AUTHENTICATED);
+        $I->assertSame('NOT_AUTHORIZED', Status::NOT_AUTHORIZED);
+        $I->assertSame('NOT_CREATED', Status::NOT_CREATED);
+        $I->assertSame('NOT_DELETED', Status::NOT_DELETED);
+        $I->assertSame('NOT_FOUND', Status::NOT_FOUND);
+        $I->assertSame('NOT_UPDATED', Status::NOT_UPDATED);
+        $I->assertSame('NOT_VALID', Status::NOT_VALID);
+        $I->assertSame('PROCESSING', Status::PROCESSING);
+        $I->assertSame('SUCCESS', Status::SUCCESS);
+        $I->assertSame('UPDATED', Status::UPDATED);
+        $I->assertSame('VALID', Status::VALID);
     }
 }

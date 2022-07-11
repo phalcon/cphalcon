@@ -51,6 +51,6 @@ class GetActiveKeyCest
 
         $expected = 'Guests!Post!create';
         $actual   = $acl->getActiveKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

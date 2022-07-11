@@ -37,7 +37,7 @@ class GetSetFieldCest
             111
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyField',
             $message->getField()
         );

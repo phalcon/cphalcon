@@ -50,9 +50,9 @@ class JsCest
             . 'l.appendChild(h);'
             . '}}';
         $actual   = $escaper->js($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual   = $escaper->escapeJs($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

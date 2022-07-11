@@ -46,6 +46,6 @@ class GetContentCest
 
         $expected = file_get_contents(dataDir('assets/assets/signup.js'));
         $actual   = $asset->getContent(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

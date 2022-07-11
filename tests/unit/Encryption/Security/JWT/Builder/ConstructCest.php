@@ -30,9 +30,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderConstruct(UnitTester $I)
+    public function encryptionSecurityJWTBuilderConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - __construct()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

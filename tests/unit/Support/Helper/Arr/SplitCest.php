@@ -46,6 +46,6 @@ class SplitCest
             ['Phalcon', 'Framework'],
         ];
         $actual   = $object($collection);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

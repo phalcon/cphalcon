@@ -34,9 +34,9 @@ class SetTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorSetToken(UnitTester $I)
+    public function encryptionSecurityJWTValidatorSetToken(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - setToken()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - setToken()');
 
         $token1    = $this->newToken();
         $token2    = $this->newToken(Hmac::class, 5);

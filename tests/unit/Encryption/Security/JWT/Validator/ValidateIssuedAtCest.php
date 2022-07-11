@@ -33,9 +33,9 @@ class ValidateIssuedAtCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorValidateIssuedAt(UnitTester $I)
+    public function encryptionSecurityJWTValidatorValidateIssuedAt(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateIssuedAt()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - validateIssuedAt()');
 
         $token = $this->newToken();
         $I->expectThrowable(

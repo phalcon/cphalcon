@@ -33,9 +33,9 @@ class ValidateNotBeforeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorValidateNotBefore(UnitTester $I)
+    public function encryptionSecurityJWTValidatorValidateNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateNotBefore()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - validateNotBefore()');
 
         $token = $this->newToken();
         $I->expectThrowable(

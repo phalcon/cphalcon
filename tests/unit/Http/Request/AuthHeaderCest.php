@@ -42,7 +42,7 @@ class AuthHeaderCest extends HttpBase
         ksort($actual);
         ksort($expected);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -58,7 +58,7 @@ class AuthHeaderCest extends HttpBase
 
         $_SERVER = $server;
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->$function()
         );
@@ -95,7 +95,7 @@ class AuthHeaderCest extends HttpBase
             'Fired-After'  => 'afterAuthorizationResolve',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->getHeaders()
         );
@@ -128,7 +128,7 @@ class AuthHeaderCest extends HttpBase
             'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->getHeaders()
         );
@@ -152,7 +152,7 @@ class AuthHeaderCest extends HttpBase
             'Authorization' => 'Enigma Secret',
         ];
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $request->getHeaders()
         );

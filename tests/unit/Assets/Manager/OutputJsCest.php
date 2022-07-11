@@ -69,7 +69,7 @@ class OutputJsCest
             . '<script type="application/javascript" src="/js/script2.js"></script>' . PHP_EOL
             . '<script type="application/javascript" src="/js/script3.js"></script>' . PHP_EOL;
 
-        $I->assertEquals($expected, $manager->outputJs());
+        $I->assertSame($expected, $manager->outputJs());
     }
 
     /**
@@ -102,7 +102,7 @@ class OutputJsCest
         $manager->outputJs();
         $actual = ob_get_clean();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -131,7 +131,7 @@ class OutputJsCest
             PHP_EOL
         );
 
-        $I->assertEquals($expected, $manager->outputJs('js'));
+        $I->assertSame($expected, $manager->outputJs('js'));
     }
 
     /**
@@ -161,7 +161,7 @@ class OutputJsCest
             PHP_EOL
         );
 
-        $I->assertEquals($expected, $manager->outputJs('js'));
+        $I->assertSame($expected, $manager->outputJs('js'));
     }
 
     /**
@@ -190,7 +190,7 @@ class OutputJsCest
             PHP_EOL
         );
 
-        $I->assertEquals($expected, $manager->outputJs('js'));
+        $I->assertSame($expected, $manager->outputJs('js'));
     }
 
     /**
@@ -226,7 +226,7 @@ class OutputJsCest
             PHP_EOL
         );
 
-        $I->assertEquals($expected, $manager->outputJs('js'));
+        $I->assertSame($expected, $manager->outputJs('js'));
     }
 
     /**
@@ -259,7 +259,7 @@ class OutputJsCest
             . 'src="http:://cdn.example.com/js/script2.js"></script>'
         );
 
-        $I->assertEquals($expectedJS, $manager->outputJs('header'));
+        $I->assertSame($expectedJS, $manager->outputJs('header'));
 
 
         $expectedCSS = sprintf(
@@ -270,7 +270,7 @@ class OutputJsCest
             'href="http:://cdn.example.com/css/styles2.css" />'
         );
 
-        $I->assertEquals($expectedCSS, $manager->outputCss('header'));
+        $I->assertSame($expectedCSS, $manager->outputCss('header'));
     }
 
     /**
@@ -301,7 +301,7 @@ class OutputJsCest
                 ->setTargetUri('js/jquery.js')
         ;
 
-        $I->assertEquals(
+        $I->assertSame(
             '<script type="application/javascript" '
             . 'src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
             $manager->outputJs('js')

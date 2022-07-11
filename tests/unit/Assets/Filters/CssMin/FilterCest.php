@@ -39,6 +39,6 @@ class FilterCest
 
         $expected = '{}}';
         $actual   = $cssmin->filter('{}}');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

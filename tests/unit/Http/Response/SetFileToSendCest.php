@@ -37,7 +37,7 @@ class SetFileToSendCest extends HttpBase
 
         $expected = file_get_contents($filename);
         $actual   = ob_get_clean();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $I->assertTrue(
             $response->isSent()

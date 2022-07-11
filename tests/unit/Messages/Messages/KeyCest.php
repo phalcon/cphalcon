@@ -50,7 +50,7 @@ class KeyCest
 
         $messages->next();
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->key()
         );

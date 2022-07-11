@@ -29,9 +29,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerNoneConstruct(UnitTester $I)
+    public function encryptionSecurityJWTSignerNoneConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\None - __construct()');
 
         $signer = new None();
         $I->assertInstanceOf(None::class, $signer);

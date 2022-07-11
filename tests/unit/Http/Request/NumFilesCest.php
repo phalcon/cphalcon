@@ -36,12 +36,12 @@ class NumFilesCest extends HttpBase
         $request = $this->getRequestObject();
         $_FILES  = $files;
 
-        $I->assertEquals(
+        $I->assertSame(
             $all,
             $request->numFiles(false)
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $onlySuccessful,
             $request->numFiles(true)
         );

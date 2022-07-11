@@ -58,7 +58,7 @@ class AutoloadCest
             'Class: load: ' . dataDir('fixtures/Loader/Example/Classes/One.php'),
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader->autoload('Two');
 
@@ -68,7 +68,7 @@ class AutoloadCest
             'Class: load: ' . dataDir('fixtures/Loader/Example/Classes/Two.php'),
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader->autoload('Three');
 
@@ -79,7 +79,7 @@ class AutoloadCest
             'Directories: 404: Three',
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -127,7 +127,7 @@ class AutoloadCest
             'Mongo.php',
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -184,7 +184,7 @@ class AutoloadCest
             dataDir('fixtures/Loader/Example/Namespaces/Plugin/Another.php'),
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -216,7 +216,7 @@ class AutoloadCest
             'Directories: 404: Example\Namespaces\Adapter\Mongo',
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -254,7 +254,7 @@ class AutoloadCest
             'Directories: 404: Example\Namespaces\Adapter\Unknown',
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -302,6 +302,6 @@ class AutoloadCest
             dataDir('fixtures/Loader/Example/Namespaces/Engines/Alcohol.inc'),
         ];
         $actual   = $loader->getDebug();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

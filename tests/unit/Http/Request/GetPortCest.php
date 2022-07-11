@@ -31,7 +31,7 @@ class GetPortCest extends HttpBase
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com');
 
-        $I->assertEquals(
+        $I->assertSame(
             443,
             $request->getPort()
         );
@@ -42,7 +42,7 @@ class GetPortCest extends HttpBase
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com');
 
-        $I->assertEquals(
+        $I->assertSame(
             80,
             $request->getPort()
         );
@@ -53,7 +53,7 @@ class GetPortCest extends HttpBase
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com:8080');
 
-        $I->assertEquals(
+        $I->assertSame(
             8080,
             $request->getPort()
         );
@@ -62,7 +62,7 @@ class GetPortCest extends HttpBase
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com:8081');
 
-        $I->assertEquals(
+        $I->assertSame(
             8081,
             $request->getPort()
         );
@@ -73,7 +73,7 @@ class GetPortCest extends HttpBase
 
         $this->setServerVar('HTTP_HOST', 'example.com:8082');
 
-        $I->assertEquals(
+        $I->assertSame(
             8082,
             $request->getPort()
         );

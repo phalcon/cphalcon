@@ -55,7 +55,7 @@ class UnderscoreInvokeCest
 
         $expected = $example['result'];
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Try the TagFactory
@@ -70,7 +70,7 @@ class UnderscoreInvokeCest
         }
 
         $actual = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

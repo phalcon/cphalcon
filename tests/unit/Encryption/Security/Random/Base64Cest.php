@@ -34,11 +34,11 @@ class Base64Cest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      *
-     * @dataProvider securityRandomBase64Provider
+     * @dataProvider base64Provider
      */
-    public function securityRandomBase64(UnitTester $I, Example $example)
+    public function encryptionSecurityRandomBase64(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Security\Random - base64()");
+        $I->wantToTest("Encryption\Security\Random - base64()");
 
         $len = $example[0];
 
@@ -78,7 +78,7 @@ class Base64Cest
     /**
      * @return int[][]
      */
-    private function securityRandomBase64Provider(): array
+    private function base64Provider(): array
     {
         return [
             [2],

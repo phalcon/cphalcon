@@ -39,6 +39,6 @@ class SetSharedInstanceCest
 
         $expected = spl_object_hash($escaper);
         $actual   = spl_object_hash($service->resolve());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

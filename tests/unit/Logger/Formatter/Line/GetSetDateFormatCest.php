@@ -40,7 +40,7 @@ class GetSetDateFormatCest
 
         $expected = 'c';
         $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Set in constructor
@@ -49,7 +49,7 @@ class GetSetDateFormatCest
 
         $expected = $newFormat;
         $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Set in setDateFormat
@@ -59,6 +59,6 @@ class GetSetDateFormatCest
 
         $expected = $newFormat;
         $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -37,7 +37,7 @@ class GetServerCest
 
         $I->assertTrue($request->hasServer('one'));
         $I->assertFalse($request->hasServer('unknown'));
-        $I->assertEquals('two', $request->getServer('one'));
+        $I->assertSame('two', $request->getServer('one'));
 
         $_SERVER = $store;
     }

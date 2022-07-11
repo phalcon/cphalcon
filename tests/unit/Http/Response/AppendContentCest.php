@@ -31,7 +31,7 @@ class AppendContentCest extends HttpBase
         $response->setContent('<h1>Hello');
         $response->appendContent('</h1>');
 
-        $I->assertEquals(
+        $I->assertSame(
             '<h1>Hello</h1>',
             $response->getContent()
         );

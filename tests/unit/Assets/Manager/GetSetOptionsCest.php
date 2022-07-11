@@ -50,7 +50,7 @@ class GetSetOptionsCest
 
         $expected = $example['expected'];
         $actual   = $manager->getOptions();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

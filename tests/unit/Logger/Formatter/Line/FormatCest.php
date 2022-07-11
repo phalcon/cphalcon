@@ -53,7 +53,7 @@ class FormatCest
             $datetime->format('c')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $formatter->format($item)
         );
@@ -87,7 +87,7 @@ class FormatCest
             $datetime->format('c')
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $formatter->format($item)
         );

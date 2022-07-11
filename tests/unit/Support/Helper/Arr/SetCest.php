@@ -42,7 +42,7 @@ class SetCest
             1 => 'Phalcon',
         ];
         $actual   = $object($collection, 'Phalcon', 1);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -64,7 +64,7 @@ class SetCest
             'suffix' => 'Framework',
         ];
         $actual   = $object($collection, 'Framework', 'suffix');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -86,7 +86,7 @@ class SetCest
             0 => 'Phalcon',
         ];
         $actual   = $object($collection, 'Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -110,6 +110,6 @@ class SetCest
             1 => 'Framework',
         ];
         $actual   = $object($collection, 'Framework', 1);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -34,7 +34,7 @@ class DeleteCest
         $cookie = new Cookie($name);
         $I->assertNull($cookie->getValue());
         $cookie->setValue($value);
-        $I->assertEquals($value, $cookie->getValue());
+        $I->assertSame($value, $cookie->getValue());
         $cookie->delete();
         $I->assertNull($cookie->getValue());
     }

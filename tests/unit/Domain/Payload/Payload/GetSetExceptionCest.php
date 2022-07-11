@@ -35,6 +35,6 @@ class GetSetExceptionCest
         $payload->setException($exception);
 
         $actual = $payload->getException();
-        $I->assertEquals($exception, $actual);
+        $I->assertSame($exception, $actual);
     }
 }

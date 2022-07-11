@@ -26,15 +26,15 @@ class GetSetDefaultHashCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetSetDefaultHash(UnitTester $I)
+    public function encryptionSecurityGetSetDefaultHash(UnitTester $I)
     {
-        $I->wantToTest('Security - getDefaultHash()');
+        $I->wantToTest('Encryption\Security - getDefaultHash()');
 
         $security = new Security();
 
-        $I->assertEquals(Security::CRYPT_DEFAULT, $security->getDefaultHash());
+        $I->assertSame(Security::CRYPT_DEFAULT, $security->getDefaultHash());
 
         $security->setDefaultHash(1);
-        $I->assertEquals(1, $security->getDefaultHash());
+        $I->assertSame(1, $security->getDefaultHash());
     }
 }

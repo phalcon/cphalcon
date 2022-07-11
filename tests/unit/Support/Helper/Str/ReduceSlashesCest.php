@@ -39,18 +39,18 @@ class ReduceSlashesCest
 
         $expected = 'app/controllers/IndexController';
         $actual   = $object('app/controllers//IndexController');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'http://foo/bar/baz/buz';
         $actual   = $object('http://foo//bar/baz/buz');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'php://memory';
         $actual   = $object('php://memory');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'http/https';
         $actual   = $object('http//https');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

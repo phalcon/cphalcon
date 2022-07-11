@@ -37,7 +37,7 @@ class GetDescriptionCest
 
         $component = new Component('Customers', 'Customer management');
 
-        $I->assertEquals(
+        $I->assertSame(
             'Customer management',
             $component->getDescription()
         );

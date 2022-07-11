@@ -50,6 +50,6 @@ class GetCssSourcesCest
         );
 
         $actual = $debug->getCssSources();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

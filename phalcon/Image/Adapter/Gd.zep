@@ -35,30 +35,35 @@ class Gd extends AbstractAdapter
             let imageinfo = getimagesize(this->file);
 
             if imageinfo {
-                let this->width = imageinfo[0];
+                let this->width  = imageinfo[0];
                 let this->height = imageinfo[1];
-                let this->type = imageinfo[2];
-                let this->mime = imageinfo["mime"];
+                let this->type   = imageinfo[2];
+                let this->mime   = imageinfo["mime"];
             }
 
             switch this->type {
-                case 1:
+                case IMAGETYPE_GIF:
                     let this->image = imagecreatefromgif(this->file);
                     break;
 
-                case 2:
+                case IMAGETYPE_JPEG:
+                case IMAGETYPE_JPEG2000:
                     let this->image = imagecreatefromjpeg(this->file);
                     break;
 
-                case 3:
+                case IMAGETYPE_PNG:
                     let this->image = imagecreatefrompng(this->file);
                     break;
 
-                case 15:
+                case IMAGETYPE_WEBP:
+                    let this->image = imagecreatefromwebp(this->file);
+                    break;
+
+                case IMAGETYPE_WBMP:
                     let this->image = imagecreatefromwbmp(this->file);
                     break;
 
-                case 16:
+                case IMAGETYPE_XBM:
                     let this->image = imagecreatefromxbm(this->file);
                     break;
 

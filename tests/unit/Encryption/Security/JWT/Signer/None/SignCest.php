@@ -29,9 +29,9 @@ class SignCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTSignerNoneSign(UnitTester $I)
+    public function encryptionSecurityJWTSignerNoneSign(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - sign()');
+        $I->wantToTest('Encryption\Security\JWT\Signer\None - sign()');
 
         $signer = new None();
 

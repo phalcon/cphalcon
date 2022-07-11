@@ -40,6 +40,6 @@ class GetSetFiltersCest
         $filters    = [new None(), new None(),];
 
         $collection->setFilters($filters);
-        $I->assertEquals($filters, $collection->getFilters());
+        $I->assertSame($filters, $collection->getFilters());
     }
 }

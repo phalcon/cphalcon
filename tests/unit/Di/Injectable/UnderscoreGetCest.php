@@ -47,7 +47,7 @@ class UnderscoreGetCest
 
         $component = $container->get('component');
         $actual    = $component->getDI();
-        $I->assertEquals($container, $actual);
+        $I->assertSame($container, $actual);
 
         $class  = stdClass::class;
         $actual = $component->std;
@@ -55,7 +55,7 @@ class UnderscoreGetCest
 
         $expected = spl_object_hash($container);
         $actual   = spl_object_hash($component->di);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $actual = isset($component->di);
         $I->assertTrue($actual);
@@ -94,8 +94,7 @@ class UnderscoreGetCest
 
         $I->expectThrowable(
             new Exception(
-                'Access to undefined property unknown at ' .
-                'tests/unit/Di/Injectable/UnderscoreGetCest.php:102',
+                'Access to undefined property unknown',
                 1024
             ),
             function () use ($component) {

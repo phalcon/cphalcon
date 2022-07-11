@@ -35,6 +35,6 @@ class UnderscoreCallCest
 
         $expected = '<body>';
         $actual   = $factory->body();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

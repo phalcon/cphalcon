@@ -31,9 +31,9 @@ class GetSignatureCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTTokenTokenGetSignature(UnitTester $I)
+    public function encryptionSecurityJWTTokenTokenGetSignature(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Token - getSignature()');
+        $I->wantToTest('Encryption\Security\JWT\Token\Token - getSignature()');
 
         $headers   = new Item(["typ" => "JWT"], "header-encoded");
         $claims    = new Item(["aud" => ["valid-audience"]], "claim-encoded");
@@ -42,7 +42,7 @@ class GetSignatureCest
         $token = new Token($headers, $claims, $signature);
 
         $I->assertInstanceOf(Signature::class, $token->getSignature());
-        $I->assertEquals("signature-encoded", $token->getSignature()
+        $I->assertSame("signature-encoded", $token->getSignature()
                                                     ->getEncoded());
     }
 }

@@ -49,7 +49,7 @@ class ReplacePlaceholdersCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'Hello, John D. Doe!',
             $actual
         );

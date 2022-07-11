@@ -40,7 +40,7 @@ class GetHandlerClassCest
 
         $expected = $example[3];
         $actual   = $dispatcher->getHandlerClass();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     private function getTestCases(): array

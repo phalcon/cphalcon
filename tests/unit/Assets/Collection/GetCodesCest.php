@@ -43,6 +43,6 @@ class GetCodesCest
         $codes = $collection->getCodes();
 
         $I->assertCount(1, $collection->getCodes());
-        $I->assertEquals(end($codes), $inline);
+        $I->assertSame(end($codes), $inline);
     }
 }

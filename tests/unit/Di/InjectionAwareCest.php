@@ -46,6 +46,6 @@ class InjectionAwareCest
 
         $expected = spl_object_hash($container);
         $actual   = spl_object_hash($actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

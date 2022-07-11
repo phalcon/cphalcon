@@ -35,7 +35,7 @@ class RemoveHeaderCest extends HttpBase
 
         $I->assertArrayHasKey('Content-Type', $headers);
 
-        $I->assertEquals(
+        $I->assertSame(
             'text/html',
             $headers['Content-Type']
         );

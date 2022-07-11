@@ -36,7 +36,7 @@ class RemoveCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );
@@ -44,7 +44,7 @@ class RemoveCest
 
         $registry->remove('five');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',
@@ -55,7 +55,7 @@ class RemoveCest
 
         $registry->remove('FIVE');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',
@@ -68,7 +68,7 @@ class RemoveCest
 
         unset($registry['five']);
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',
@@ -81,7 +81,7 @@ class RemoveCest
 
         $registry->offsetUnset('five');
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',

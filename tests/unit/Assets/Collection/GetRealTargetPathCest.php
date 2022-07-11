@@ -46,7 +46,7 @@ class GetRealTargetPathCest
         $collection->setTargetPath($targetPath);
         $realBasePath = $collection->getRealTargetPath($basePath);
 
-        $I->assertEquals($constructRealPath, $realBasePath);
+        $I->assertSame($constructRealPath, $realBasePath);
     }
 
     /**
@@ -78,6 +78,6 @@ class GetRealTargetPathCest
         $collection->setTargetPath($targetPath);
         $realBasePath = $collection->getRealTargetPath($basePath);
 
-        $I->assertEquals($constructRealPath, $realBasePath);
+        $I->assertSame($constructRealPath, $realBasePath);
     }
 }

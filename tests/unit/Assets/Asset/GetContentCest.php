@@ -51,7 +51,7 @@ class GetContentCest
         $expected = file_get_contents(dataDir($example['path']));
         $expected = str_replace("\r\n", PHP_EOL, $expected);
         $actual   = $asset->getContent(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

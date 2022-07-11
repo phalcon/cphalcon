@@ -38,6 +38,6 @@ class ToArrayCest
         ];
         $actual   = $headers->toArray();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

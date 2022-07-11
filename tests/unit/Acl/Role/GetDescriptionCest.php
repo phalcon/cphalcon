@@ -37,7 +37,7 @@ class GetDescriptionCest
 
         $role = new Role('Administrators', 'The admin unit');
 
-        $I->assertEquals('The admin unit', $role->getDescription());
+        $I->assertSame('The admin unit', $role->getDescription());
     }
 
     /**

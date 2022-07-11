@@ -58,7 +58,7 @@ class GetExpressionCest
         $getExpression = $reflection->getMethod('getExpression');
         $getExpression->setAccessible(true);
 
-        $I->assertEquals($getExpression->invokeArgs($query, [$oneExpr, false]), $valueOne);
-        $I->assertEquals($getExpression->invokeArgs($query, [$twoExpr, false]), $valueTwo);
+        $I->assertSame($getExpression->invokeArgs($query, [$oneExpr, false]), $valueOne);
+        $I->assertSame($getExpression->invokeArgs($query, [$twoExpr, false]), $valueTwo);
     }
 }

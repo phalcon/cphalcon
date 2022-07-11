@@ -44,6 +44,6 @@ class GetSetEventsManagerCest
         $class  = Manager::class;
         $actual = $acl->getEventsManager();
         $I->assertInstanceOf($class, $actual);
-        $I->assertEquals($manager, $actual);
+        $I->assertSame($manager, $actual);
     }
 }

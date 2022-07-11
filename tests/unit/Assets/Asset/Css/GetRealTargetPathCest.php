@@ -43,7 +43,7 @@ class GetRealTargetPathCest
 
         $expected = $example['path'];
         $actual   = $asset->getRealTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

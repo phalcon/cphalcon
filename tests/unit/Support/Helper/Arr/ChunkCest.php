@@ -51,7 +51,7 @@ class ChunkCest
             [5, 6],
         ];
         $actual   = $object($source, 2);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -91,6 +91,6 @@ class ChunkCest
             ],
         ];
         $actual   = $object($source, 2, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

@@ -57,11 +57,11 @@ class TextCest
 
         $I->seeFileFound('text.jpg');
 
-        $I->assertEquals(
+        $I->assertSame(
             1820,
             $image->getWidth()
         );
-        $I->assertEquals(
+        $I->assertSame(
             694,
             $image->getHeight()
         );

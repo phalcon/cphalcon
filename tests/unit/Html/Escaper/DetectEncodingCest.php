@@ -44,7 +44,7 @@ class DetectEncodingCest
         $source   = $example['source'];
         $expected = $example['expected'];
         $actual   = $escaper->detectEncoding($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

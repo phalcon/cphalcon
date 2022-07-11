@@ -43,7 +43,7 @@ class GetAssetKeyCest
             $example['type'] . ':' . $example['content']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $asset->getAssetKey()
         );

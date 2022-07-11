@@ -35,7 +35,7 @@ class GetSetMessageCest
 
         $message = new Message($expected);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $message->getMessage()
         );
@@ -45,7 +45,7 @@ class GetSetMessageCest
 
         $message->setMessage($expected);
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $message->getMessage()
         );

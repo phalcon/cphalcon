@@ -45,6 +45,6 @@ class GetCategoryCest
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
         $actual = $translator->getCategory();
-        $I->assertEquals(LC_MESSAGES, $actual);
+        $I->assertSame(LC_MESSAGES, $actual);
     }
 }

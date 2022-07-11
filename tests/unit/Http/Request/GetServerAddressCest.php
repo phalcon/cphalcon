@@ -28,7 +28,7 @@ class GetServerAddressCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
-        $I->assertEquals(
+        $I->assertSame(
             gethostbyname('localhost'),
             $request->getServerAddress()
         );
@@ -48,7 +48,7 @@ class GetServerAddressCest extends HttpBase
         $actual = $request->getServerAddress();
         $this->unsetServerVar('SERVER_ADDR');
 
-        $I->assertEquals(
+        $I->assertSame(
             '192.168.4.1',
             $actual
         );

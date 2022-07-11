@@ -39,7 +39,7 @@ class DirFromFileCest
 
         $expected = 'ab/cd/ef/12/3/';
         $actual   = $object($fileName);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -58,6 +58,6 @@ class DirFromFileCest
 
         $expected = '/';
         $actual   = $object($fileName);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

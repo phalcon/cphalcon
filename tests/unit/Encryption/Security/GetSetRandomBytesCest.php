@@ -26,16 +26,16 @@ class GetSetRandomBytesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityGetRandomBytes(UnitTester $I)
+    public function encryptionSecurityGetRandomBytes(UnitTester $I)
     {
-        $I->wantToTest('Security - getRandomBytes()');
+        $I->wantToTest('Encryption\Security - getRandomBytes()');
 
         $security = new Security();
 
-        $I->assertEquals(16, $security->getRandomBytes());
+        $I->assertSame(16, $security->getRandomBytes());
 
         $expected = 22;
         $security->setRandomBytes($expected);
-        $I->assertEquals($expected, $security->getRandomBytes());
+        $I->assertSame($expected, $security->getRandomBytes());
     }
 }

@@ -46,7 +46,7 @@ class GetAddSetNamespacesCest
 
         $expected = [];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader->setNamespaces(
             [
@@ -68,7 +68,7 @@ class GetAddSetNamespacesCest
             ],
         ];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Clear
@@ -77,7 +77,7 @@ class GetAddSetNamespacesCest
 
         $expected = [];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader
             ->addNamespace(
@@ -107,7 +107,7 @@ class GetAddSetNamespacesCest
             ],
         ];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         /**
          * Clear - prepend
@@ -116,7 +116,7 @@ class GetAddSetNamespacesCest
 
         $expected = [];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $loader
             ->addNamespace(
@@ -146,7 +146,7 @@ class GetAddSetNamespacesCest
             ],
         ];
         $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

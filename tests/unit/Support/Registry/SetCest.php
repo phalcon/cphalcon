@@ -33,7 +33,7 @@ class SetCest
 
         $registry->set('three', 'two');
 
-        $I->assertEquals(
+        $I->assertSame(
             'two',
             $registry->get('three')
         );

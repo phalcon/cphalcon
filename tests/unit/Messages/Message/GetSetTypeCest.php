@@ -37,7 +37,7 @@ class GetSetTypeCest
             111
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyType',
             $message->getType()
         );

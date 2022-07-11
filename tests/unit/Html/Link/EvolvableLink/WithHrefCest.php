@@ -38,13 +38,13 @@ class WithHrefCest
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
-        $I->assertEquals($href, $link->getHref());
+        $I->assertSame($href, $link->getHref());
 
         $href        = 'https://test.phalcon.ld';
         $newInstance = $link->withHref($href);
 
         $I->assertNotSame($link, $newInstance);
 
-        $I->assertEquals($href, $newInstance->getHref());
+        $I->assertSame($href, $newInstance->getHref());
     }
 }

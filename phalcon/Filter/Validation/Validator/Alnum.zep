@@ -77,7 +77,7 @@ class Alnum extends AbstractValidator
             return true;
         }
 
-        if !ctype_alnum(value) {
+        if !ctype_alnum((string) value) {
             validation->appendMessage(
                 this->messageFactory(validation, field)
             );

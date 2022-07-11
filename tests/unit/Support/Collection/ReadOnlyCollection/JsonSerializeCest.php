@@ -41,7 +41,7 @@ class JsonSerializeCest
 
         $expected = $data;
         $actual   = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $data = [
             'one'    => 'two',
@@ -62,6 +62,6 @@ class JsonSerializeCest
         $collection = new ReadOnlyCollection($data);
 
         $actual = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

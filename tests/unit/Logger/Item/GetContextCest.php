@@ -48,6 +48,6 @@ class GetContextCest
 
         $expected = $context;
         $actual   = $item->getContext();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

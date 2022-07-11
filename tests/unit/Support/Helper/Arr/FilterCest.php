@@ -57,6 +57,6 @@ class FilterCest
                 return $element & 1;
             }
         );
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

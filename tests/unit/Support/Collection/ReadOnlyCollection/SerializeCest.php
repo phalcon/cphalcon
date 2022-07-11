@@ -40,6 +40,6 @@ class SerializeCest
 
         $expected = serialize($data);
         $actual   = $collection->serialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

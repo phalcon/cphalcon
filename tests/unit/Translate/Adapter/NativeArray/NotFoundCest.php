@@ -52,7 +52,7 @@ class NotFoundCest
 
         $expected = 'unknown';
         $actual   = $translator->query($expected);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -139,6 +139,6 @@ class NotFoundCest
 
         $expected = '';
         $actual   = $translator->query('unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

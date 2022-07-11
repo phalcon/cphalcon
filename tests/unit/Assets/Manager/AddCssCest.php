@@ -38,7 +38,7 @@ class AddCssCest
         $collection = $manager->get('css');
 
         foreach ($collection as $resource) {
-            $I->assertEquals('css', $resource->getType());
+            $I->assertSame('css', $resource->getType());
         }
 
         $I->assertCount(2, $collection);

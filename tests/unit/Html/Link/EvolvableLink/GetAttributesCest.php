@@ -47,6 +47,6 @@ class GetAttributesCest
         ];
         $link       = new EvolvableLink('payment', $href, $attributes);
 
-        $I->assertEquals($attributes, $link->getAttributes());
+        $I->assertSame($attributes, $link->getAttributes());
     }
 }

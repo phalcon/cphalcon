@@ -56,7 +56,7 @@ class GetVersionCest
             . $version->getPart(Version::VERSION_MEDIUM) . '/en/"';
         $version = $version->get();
 
-        $I->assertEquals(
+        $I->assertSame(
             "<div class=\"version\">Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>",
             $debug->getVersion()
         );

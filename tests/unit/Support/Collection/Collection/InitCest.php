@@ -40,12 +40,12 @@ class InitCest
 
         $expected = 0;
         $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $collection->init($data);
 
         $expected = $data;
         $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

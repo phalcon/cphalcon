@@ -15,6 +15,8 @@ use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use UnitTester;
 
+use function ksort;
+
 /**
  * Class GetHeadersCest
  *
@@ -30,9 +32,9 @@ class GetHeadersCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTBuilderGetHeaders(UnitTester $I)
+    public function encryptionSecurityJWTBuilderGetHeaders(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getHeaders()');
+        $I->wantToTest('Encryption\Security\JWT\Builder - getHeaders()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -41,6 +43,8 @@ class GetHeadersCest
             'alg' => $signer->getAlgHeader(),
             'typ' => 'JWT',
         ];
-        $I->assertEquals($expected, $builder->getHeaders());
+        $actual = $builder->getHeaders();
+        ksort($actual);
+        $I->assertSame($expected, $actual);
     }
 }

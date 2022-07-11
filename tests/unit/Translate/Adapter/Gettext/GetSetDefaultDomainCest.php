@@ -43,10 +43,10 @@ class GetSetDefaultDomainCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals('messages', $translator->getDefaultDomain());
+        $I->assertSame('messages', $translator->getDefaultDomain());
 
         $translator->setDefaultDomain('options');
 
-        $I->assertEquals('options', $translator->getDefaultDomain());
+        $I->assertSame('options', $translator->getDefaultDomain());
     }
 }

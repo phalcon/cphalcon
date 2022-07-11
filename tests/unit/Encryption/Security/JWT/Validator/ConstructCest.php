@@ -32,9 +32,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorConstruct(UnitTester $I)
+    public function encryptionSecurityJWTValidatorConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - __construct()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - __construct()');
 
         $token     = $this->newToken();
         $now       = strtotime("now");

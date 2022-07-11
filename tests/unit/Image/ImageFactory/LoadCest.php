@@ -55,7 +55,7 @@ class LoadCest
             $options->file
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $image->getRealpath()
         );
@@ -87,7 +87,7 @@ class LoadCest
             $options['file']
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $image->getRealpath()
         );

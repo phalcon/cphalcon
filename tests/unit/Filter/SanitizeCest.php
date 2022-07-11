@@ -132,14 +132,14 @@ class SanitizeCest
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => '0',
-                'expected' => 0,
+                'expected' => '0',
             ],
             [
                 'class'    => 'alnum',
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => '',
-                'expected' => null,
+                'expected' => '',
             ],
             [
                 'class'    => 'alnum',
@@ -153,14 +153,14 @@ class SanitizeCest
                 'label'    => 'alnum()',
                 'method'   => 'alnum',
                 'source'   => ['0'],
-                'expected' => 0,
+                'expected' => '0',
             ],
             [
                 'class'    => 'alnum',
                 'label'    => 'alnum()',
                 'method'   => 'alnum',
                 'source'   => [''],
-                'expected' => null,
+                'expected' => '',
             ],
             [
                 'class'    => 'alnum',
@@ -181,7 +181,7 @@ class SanitizeCest
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => '',
-                'expected' => null,
+                'expected' => '',
             ],
             [
                 'class'    => 'alpha',
@@ -202,7 +202,7 @@ class SanitizeCest
                 'label'    => 'alpha()',
                 'method'   => 'alpha',
                 'source'   => [''],
-                'expected' => null,
+                'expected' => '',
             ],
             [
                 'class'    => 'alpha',
@@ -442,7 +442,7 @@ class SanitizeCest
                 'label'    => '__invoke()',
                 'method'   => '',
                 'source'   => "lol",
-                'expected' => 0.0,
+                'expected' => 0,
             ],
             [
                 'class'    => 'int',

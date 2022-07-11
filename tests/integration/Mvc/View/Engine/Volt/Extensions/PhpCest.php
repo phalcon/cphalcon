@@ -30,10 +30,11 @@ class PhpCest
 
         $compiler  = new Compiler();
 
+        $source   = '{{ str_replace("a", "b", "aabb") }}';
         $expected = "<?= \$this->callMacro("
-            . "'str_replace', ['a', 'b', 'aabb']) ?>";
-        $actual   = $compiler->compileString('{{ str_replace("a", "b", "aabb") }}');
-        $I->assertEquals($expected, $actual);
+            . "'str_replace', [\"a\", \"b\", \"aabb\"]) ?>";
+        $actual   = $compiler->compileString($source);
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -48,9 +49,9 @@ class PhpCest
 
         $compiler  = new Compiler();
 
-        $expected = "<?= \$this->callMacro("
-            . "'myfunction', ['a']) ?>";
-        $actual   = $compiler->compileString('{{ myfunction("a") }}');
-        $I->assertEquals($expected, $actual);
+        $source   = '{{ myfunction("a") }}';
+        $expected = "<?= \$this->callMacro('myfunction', [\"a\"]) ?>";
+        $actual   = $compiler->compileString($source);
+        $I->assertSame($expected, $actual);
     }
 }

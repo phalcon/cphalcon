@@ -45,13 +45,13 @@ class UnderscoreInvokeCest
         $escaper = new Escaper();
         $helper  = new Title($escaper);
 
-        $indent = $example['indent'];
+        $indent    = $example['indent'];
         $delimiter = $example['delimiter'];
         $separator = $example['separator'];
-        $prepend = $example['prepend'];
-        $title    = $example['title'];
-        $titleRaw = $example['titleRaw'];
-        $append   = $example['append'];
+        $prepend   = $example['prepend'];
+        $title     = $example['title'];
+        $titleRaw  = $example['titleRaw'];
+        $append    = $example['append'];
 
         $result = $helper($indent, $delimiter);
 
@@ -72,11 +72,11 @@ class UnderscoreInvokeCest
 
         $expected = $example['get'];
         $actual   = $result->get();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = $example['render'];
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
         $locator = $factory->newInstance('title');
@@ -101,11 +101,11 @@ class UnderscoreInvokeCest
 
         $expected = $example['get'];
         $actual   = $result->get();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = $example['render'];
         $actual   = (string) $result;
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

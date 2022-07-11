@@ -77,7 +77,7 @@ class LevelsCest
             $content,
             $matches
         );
-        $I->assertEquals(count($matches), 2);
+        $I->assertSame(count($matches), 2);
 
         // Get Extract time
         $date             = end($matches);

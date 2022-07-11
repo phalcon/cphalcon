@@ -39,7 +39,7 @@ class ConstructCest
         $adapter  = new Syslog($streamName, $example['options']);
         $property = $I->getProtectedProperty($adapter, $example['property']);
 
-        $I->assertEquals(
+        $I->assertSame(
             $example['expected'],
             $property
         );

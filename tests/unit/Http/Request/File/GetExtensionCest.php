@@ -41,6 +41,6 @@ class GetExtensionCest
             ]
         );
 
-        $I->assertEquals('php', $file->getExtension());
+        $I->assertSame('php', $file->getExtension());
     }
 }

@@ -37,6 +37,6 @@ class GetSetNamespaceNameCest
 
         $expected = 'two';
         $actual   = $dispatcher->getNamespaceName();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

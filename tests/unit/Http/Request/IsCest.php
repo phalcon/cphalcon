@@ -45,7 +45,7 @@ class IsCest
         $class    = $example[3];
         $actual   = $request->$class();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_SERVER = $store;
     }

@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Support_Version, getVersion)
 	ZVAL_LONG(&_0, 3);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 2);
+	ZVAL_LONG(&_0, 3);
 	zephir_array_fast_append(return_value, &_0);
 	RETURN_MM();
 }
@@ -290,14 +290,16 @@ PHP_METHOD(Phalcon_Support_Version, getId)
  */
 PHP_METHOD(Phalcon_Support_Version, getPart)
 {
+	zval _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *part_param = NULL, version, _0$$3, _1$$4;
+	zval *part_param = NULL, version, _0$$3, _2$$4;
 	zend_long part, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_1$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -315,12 +317,14 @@ PHP_METHOD(Phalcon_Support_Version, getPart)
 	zephir_check_call_status();
 	do {
 		if (part == 0 || part == 1 || part == 2 || part == 4) {
-			zephir_array_fetch_long(&_0$$3, &version, part, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 189);
-			RETURN_CTOR(&_0$$3);
+			ZEPHIR_OBS_VAR(&_0$$3);
+			zephir_array_fetch_long(&_0$$3, &version, part, PH_NOISY, "phalcon/Support/Version.zep", 189);
+			zephir_cast_to_string(&_1$$3, &_0$$3);
+			RETURN_CTOR(&_1$$3);
 		}
 		if (part == 3) {
-			zephir_array_fetch_long(&_1$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 192);
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getspecial", NULL, 0, &_1$$4);
+			zephir_array_fetch_long(&_2$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 192);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getspecial", NULL, 0, &_2$$4);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

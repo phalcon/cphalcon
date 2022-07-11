@@ -36,7 +36,7 @@ class UnderscoreUnsetCest
 
         $registry = new Registry($data);
 
-        $I->assertEquals(
+        $I->assertSame(
             $data,
             $registry->toArray()
         );
@@ -44,7 +44,7 @@ class UnderscoreUnsetCest
 
         unset($registry->five);
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',
@@ -55,7 +55,7 @@ class UnderscoreUnsetCest
 
         unset($registry->FIVE);
 
-        $I->assertEquals(
+        $I->assertSame(
             [
                 'one'   => 'two',
                 'three' => 'four',

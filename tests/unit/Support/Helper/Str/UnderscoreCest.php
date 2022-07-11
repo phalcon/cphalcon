@@ -43,7 +43,7 @@ class UnderscoreCest
 
         $expected = $example[2];
         $actual   = $object($example[1]);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

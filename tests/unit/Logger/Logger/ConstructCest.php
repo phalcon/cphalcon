@@ -50,15 +50,15 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - constants');
 
-        $I->assertEquals(2, Logger::ALERT);
-        $I->assertEquals(1, Logger::CRITICAL);
-        $I->assertEquals(7, Logger::DEBUG);
-        $I->assertEquals(0, Logger::EMERGENCY);
-        $I->assertEquals(3, Logger::ERROR);
-        $I->assertEquals(6, Logger::INFO);
-        $I->assertEquals(5, Logger::NOTICE);
-        $I->assertEquals(4, Logger::WARNING);
-        $I->assertEquals(8, Logger::CUSTOM);
+        $I->assertSame(2, Logger::ALERT);
+        $I->assertSame(1, Logger::CRITICAL);
+        $I->assertSame(7, Logger::DEBUG);
+        $I->assertSame(0, Logger::EMERGENCY);
+        $I->assertSame(3, Logger::ERROR);
+        $I->assertSame(6, Logger::INFO);
+        $I->assertSame(5, Logger::NOTICE);
+        $I->assertSame(4, Logger::WARNING);
+        $I->assertSame(8, Logger::CUSTOM);
     }
 
     /**

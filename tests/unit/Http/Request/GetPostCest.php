@@ -41,7 +41,7 @@ class GetPostCest //extends HttpBase
 
         $I->assertTrue($request->hasPost('one'));
         $I->assertFalse($request->hasPost('unknown'));
-        $I->assertEquals('two', $request->getPost('one'));
+        $I->assertSame('two', $request->getPost('one'));
 
         $_POST = $store;
     }
@@ -67,11 +67,11 @@ class GetPostCest //extends HttpBase
 
         $expected = 'Active';
         $actual   = $request->getPost('status', 'trim');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $expected = 'active';
         $actual   = $request->getPost('status', ['trim', 'lower']);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_POST = $store;
     }
@@ -96,7 +96,7 @@ class GetPostCest //extends HttpBase
 
         $expected = 'default';
         $actual   = $request->getPost('status', null, 'default');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_POST = $store;
     }
@@ -122,7 +122,7 @@ class GetPostCest //extends HttpBase
 
         $expected = '0';
         $actual   = $request->getPost('status', 'trim', 'zero value', true);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $_POST = $store;
     }

@@ -44,6 +44,6 @@ class GetLevelNameCest
             $datetime
         );
 
-        $I->assertEquals('debug', $item->getLevelName());
+        $I->assertSame('debug', $item->getLevelName());
     }
 }

@@ -95,7 +95,7 @@ class AddFunctionCest
                 'strtotime',
                 'strtotime',
                 '{{ strtotime("now") }}',
-                "<?= strtotime('now') ?>",
+                '<?= strtotime("now") ?>',
             ],
         ];
     }
@@ -107,7 +107,7 @@ class AddFunctionCest
                 'shuffle',
                 'str_shuffle',
                 '{{ shuffle("hello") }}',
-                '<?= str_shuffle(\'hello\') ?>',
+                '<?= str_shuffle("hello") ?>',
             ],
         ];
     }

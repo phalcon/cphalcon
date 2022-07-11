@@ -37,22 +37,22 @@ class ConstructCest
             111
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'This is a message #1',
             $message->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyField',
             $message->getField()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyType',
             $message->getType()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             111,
             $message->getCode()
         );
@@ -78,22 +78,22 @@ class ConstructCest
             ->setCode(111)
         ;
 
-        $I->assertEquals(
+        $I->assertSame(
             'This is a message #1',
             $message->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyField',
             $message->getField()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'MyType',
             $message->getType()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             111,
             $message->getCode()
         );

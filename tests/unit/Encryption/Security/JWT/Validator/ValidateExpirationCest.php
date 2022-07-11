@@ -33,9 +33,9 @@ class ValidateExpirationCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function httpJWTValidatorValidateExpiration(UnitTester $I)
+    public function encryptionSecurityJWTValidatorValidateExpiration(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateExpiration()');
+        $I->wantToTest('Encryption\Security\JWT\Validator - validateExpiration()');
 
         $token = $this->newToken();
         $I->expectThrowable(

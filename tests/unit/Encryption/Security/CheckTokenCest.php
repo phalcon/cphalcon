@@ -46,9 +46,9 @@ class CheckTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityCheckToken(UnitTester $I)
+    public function encryptionSecurityCheckToken(UnitTester $I)
     {
-        $I->wantToTest('Security - checkToken()');
+        $I->wantToTest('Encryption\Security - checkToken()');
 
         $tokenSessionId      = '$PHALCON/CSRF/KEY$';
         $tokenValueSessionId = '$PHALCON/CSRF$';
@@ -90,7 +90,7 @@ class CheckTokenCest
 
         $expected = $token;
         $actual   = $session->get($tokenValueSessionId);
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $session->destroy();
     }
@@ -103,9 +103,9 @@ class CheckTokenCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function securityCheckTokenWithRequest(UnitTester $I)
+    public function encryptionSecurityCheckTokenWithRequest(UnitTester $I)
     {
-        $I->wantToTest('Security - checkToken() - with Request');
+        $I->wantToTest('Encryption\Security - checkToken() - with Request');
         $I->skipTest("Enable when Request is ready");
 
         $store = $_POST ?? [];

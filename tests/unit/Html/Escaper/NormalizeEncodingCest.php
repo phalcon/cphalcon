@@ -41,6 +41,6 @@ class NormalizeEncodingCest
 
         $expected = mb_convert_encoding('Hello', 'UTF-32', 'UTF-8');
         $actual   = $escaper->normalizeEncoding('Hello');
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }
