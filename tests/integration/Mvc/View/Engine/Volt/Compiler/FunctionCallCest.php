@@ -75,6 +75,7 @@ class FunctionCallCest
                 'source'   => '{{ partial("abc.volt") }}',
                 'expected' => '<?= $this->partial(\'abc.volt\') ?>',
             ],
+            // Phalcon\Tag
             [
                 'label'    => 'link_to',
                 'source'   => '{{ link_to(\'abc\') }}',
@@ -86,8 +87,8 @@ class FunctionCallCest
                 'expected' => '<?= \Phalcon\Tag::image([\'abc\']) ?>',
             ],
             [
-                'label'    => 'form',
-                'source'   => '{{ form(\'abc\') }}',
+                'label'    => 'formLegacy',
+                'source'   => '{{ formLegacy(\'abc\') }}',
                 'expected' => '<?= \Phalcon\Tag::form([\'abc\']) ?>',
             ],
             [

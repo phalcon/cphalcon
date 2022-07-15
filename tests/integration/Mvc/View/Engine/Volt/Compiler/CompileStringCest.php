@@ -401,7 +401,7 @@ class CompileStringCest
                 '<?= \Phalcon\Tag::linkTo([\'hello\', \'some-link\']) ?>',
             ],
             [
-                "{{ form('action': 'save/products', 'method': 'post') }}",
+                "{{ formLegacy('action': 'save/products', 'method': 'post') }}",
                 '<?= \Phalcon\Tag::form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
             ],
             [
