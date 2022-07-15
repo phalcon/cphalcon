@@ -1,4 +1,9 @@
-# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+
+## Fixed 
+- Reverted to single quotes when volt code generates PHP code.
+- Any `tag` helpers only accept parameters with double quotes
+- Renamed `Phalcon\Tag::form()` to `Phalcon\Tag::formLegacy` (helper `form_legacy`) [#16019](https://github.com/phalcon/cphalcon/issues/16019)
 
 # [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
 
