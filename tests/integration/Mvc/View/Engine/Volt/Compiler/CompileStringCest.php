@@ -401,8 +401,8 @@ class CompileStringCest
                 '<?= \Phalcon\Tag::linkTo([\'hello\', \'some-link\']) ?>',
             ],
             [
-                "{{ formLegacy('action': 'save/products', 'method': 'post') }}",
-                '<?= \Phalcon\Tag::form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
+                "{{ form_legacy('action': 'save/products', 'method': 'post') }}",
+                '<?= \Phalcon\Tag::formLegacy([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
             ],
             [
                 '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',

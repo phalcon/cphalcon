@@ -88,8 +88,8 @@ class FunctionCallCest
             ],
             [
                 'label'    => 'formLegacy',
-                'source'   => '{{ formLegacy(\'abc\') }}',
-                'expected' => '<?= \Phalcon\Tag::form([\'abc\']) ?>',
+                'source'   => '{{ form_legacy(\'abc\') }}',
+                'expected' => '<?= \Phalcon\Tag::formLegacy([\'abc\']) ?>',
             ],
             [
                 'label'    => 'submit_button',
