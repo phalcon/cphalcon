@@ -33,7 +33,7 @@ class CallMacroCest
 
         $source   = '{{ str_replace("a", "b", "aabb") }}';
         $expected = "<?= \$this->callMacro("
-            . "'str_replace', [\"a\", \"b\", \"aabb\"]) ?>";
+            . "'str_replace', ['a', 'b', 'aabb']) ?>";
         $actual   = $compiler->compileString($source);
         $I->assertEquals($expected, $actual);
     }
@@ -52,7 +52,7 @@ class CallMacroCest
         $compiler  = new Compiler();
 
         $source   = '{{ myfunction("a") }}';
-        $expected = "<?= \$this->callMacro('myfunction', [\"a\"]) ?>";
+        $expected = "<?= \$this->callMacro('myfunction', ['a']) ?>";
         $actual   = $compiler->compileString($source);
         $I->assertEquals($expected, $actual);
     }
