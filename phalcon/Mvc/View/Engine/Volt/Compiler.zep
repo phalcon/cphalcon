@@ -1846,14 +1846,23 @@ class Compiler implements InjectionAwareInterface
                 return "''";
             }
 
-            let method = lcfirst(
-                camelize(name)
-            );
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            if name === "preload" {
+                return "$this->preload(" . arguments . ")";
+            }
 
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            let method = lcfirst(camelize(name));
             let arrayHelpers = [
                 "link_to":        true,
                 "image":          true,
-                "form":           true,
+                "form_legacy":    true,
                 "submit_button":  true,
                 "radio_field":    true,
                 "check_field":    true,
@@ -1869,18 +1878,6 @@ class Compiler implements InjectionAwareInterface
                 "image_input":    true
             ];
 
-            /**
-             * Check if it's a method in Phalcon\Tag
-             * @todo This needs a lot of refactoring and will break a lot of applications if removed
-             */
-            if name === "preload" {
-                return "$this->preload(" . arguments . ")";
-            }
-
-            /**
-             * Check if it's a method in Phalcon\Tag
-             * @todo This needs a lot of refactoring and will break a lot of applications if removed
-             */
             if method_exists("Phalcon\\Tag", method) {
                 if isset arrayHelpers[name] {
                     return "\Phalcon\Tag::" . method . "([" . arguments . "])";
