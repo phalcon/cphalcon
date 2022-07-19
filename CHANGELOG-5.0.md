@@ -1,6 +1,11 @@
-# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
 
-# [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-10)
+## Fixed 
+- Reverted to single quotes when volt code generates PHP code.
+- Any `tag` helpers only accept parameters with double quotes
+- Renamed `Phalcon\Tag::form()` to `Phalcon\Tag::formLegacy` (helper `form_legacy`) [#16019](https://github.com/phalcon/cphalcon/issues/16019)
+
+# [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
 
 ## Fixed
 - Fixed `Phalcon\Tag::textArea()` to check if the value is `null` before calling `htmlspecialchars` [#15992](https://github.com/phalcon/cphalcon/issues/15992)
@@ -12,6 +17,7 @@
   - `Phalcon/Filter/Validation/Validator/StringLength/Max`
   - `Phalcon/Filter/Validation/Validator/StringLength/Min` to check if the value is `null` before calling internal PHP methods [#15992](https://github.com/phalcon/cphalcon/issues/15992)
 - Fixed `Phalcon\Html\Helper\Title` to properly use indent and delimiter [#15984](https://github.com/phalcon/cphalcon/issues/15984)
+- Fixed `Phalcon\Html\Helper\Doctype` to properly use indent and delimiter [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 - Fixed `Phalcon\Mvc\View\Engine\Volt::isIncluded()` and `Phalcon\Mvc\View\Engine\Volt::length()` to check for null values before calls to php methods [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::expression()` to use double quotes instead of single ones [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 - Fixed `Phalcon\Support\Version::getPart()` to always return string values [#15984](https://github.com/phalcon/cphalcon/issues/15984)

@@ -87,7 +87,7 @@ class AddFilterCest
                 'reverse',
                 'strrev',
                 '{{ "hello"|reverse }}',
-                '<?= strrev("hello") ?>',
+                '<?= strrev(\'hello\') ?>',
             ],
         ];
     }
@@ -99,7 +99,7 @@ class AddFilterCest
                 'separate',
                 'explode',
                 '{{ "1,2,3,4"|separate }}',
-                '<?= explode(",", "1,2,3,4") ?>',
+                '<?= explode(",", \'1,2,3,4\') ?>',
             ],
         ];
     }

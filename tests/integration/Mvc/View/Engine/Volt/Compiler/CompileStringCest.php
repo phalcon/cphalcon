@@ -126,10 +126,10 @@ class CompileStringCest
         $I->assertSame($expected, $actual);
 
         // ---------------------------------------------------------------------
-        // Title
+        // Title with custom line endings
         // ---------------------------------------------------------------------
-        $source   = "{{ tag.title('\t', '\n\n') }}";
-        $expected = "<?= \$this->tag->title(\"\t\", \"\n\n\") ?>";
+        $source   = "{{ tag.title('+', '-') }}";
+        $expected = "<?= \$this->tag->title(\"+\", \"-\") ?>";
         $actual   = $volt->compileString($source);
         $I->assertSame($expected, $actual);
 
@@ -141,6 +141,28 @@ class CompileStringCest
         // Title after volt parsing
         $code     = 'echo $this->tag->title("+", "-")->set("test");';
         $expected = "+<title>test</title>-";
+
+        ob_start();
+        eval($code);
+        $actual = ob_get_clean();
+        $I->assertSame($expected, $actual);
+
+        // ---------------------------------------------------------------------
+        // Title with custom line endings
+        // ---------------------------------------------------------------------
+        $source   = "{{ tag.title('\t', '\n\n') }}";
+        $expected = "<?= \$this->tag->title(\"\t\", \"\n\n\") ?>";
+        $actual   = $volt->compileString($source);
+        $I->assertSame($expected, $actual);
+
+        // Title executed in code
+        $expected = "\t<title>test</title>\n\n";
+        $actual   = (string) $this->tag->title("\t", "\n\n")->set('test');
+        $I->assertSame($expected, $actual);
+
+        // Title after volt parsing
+        $code     = 'echo $this->tag->title("\t", "\n\n")->set("test");';
+        $expected = "\t<title>test</title>\n\n";
 
         ob_start();
         eval($code);
@@ -223,30 +245,29 @@ class CompileStringCest
                 '{# hello #}{# other comment #}',
                 '',
             ],
-            //Common Expressions
             [
                 'hello',
                 'hello',
             ],
             [
                 '{{ "hello" }}',
-                '<?= "hello" ?>',
+                "<?= 'hello' ?>",
             ],
             [
                 '{{ "hello" }}{{ "hello" }}',
-                '<?= "hello" ?><?= "hello" ?>',
+                "<?= 'hello' ?><?= 'hello' ?>",
             ],
             [
                 '{{ "hello" }}-{{ "hello" }}',
-                '<?= "hello" ?>-<?= "hello" ?>',
+                "<?= 'hello' ?>-<?= 'hello' ?>",
             ],
             [
                 '-{{ "hello" }}{{ "hello" }}-',
-                '-<?= "hello" ?><?= "hello" ?>-',
+                "-<?= 'hello' ?><?= 'hello' ?>-",
             ],
             [
                 '-{{ "hello" }}-{{ "hello" }}-',
-                '-<?= "hello" ?>-<?= "hello" ?>-',
+                "-<?= 'hello' ?>-<?= 'hello' ?>-",
             ],
             [
                 'Some = {{ 100+50 }}',
@@ -296,11 +317,11 @@ class CompileStringCest
             ],
             [
                 '{% set a = ["hello", 2, 1.3, false, true, null] %}',
-                '<?php $a = ["hello", 2, 1.3, false, true, null]; ?>',
+                '<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>',
             ],
             [
                 '{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}',
-                '<?php $a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]]; ?>',
+                '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>',
             ],
             [
                 "{% set a = ['first': 1, 'second': 2, 'third': 3] %}",
@@ -317,7 +338,7 @@ class CompileStringCest
             ],
             [
                 '{{ a[0]  [ "hello"] }}',
-                '<?= $a[0]["hello"] ?>',
+                '<?= $a[0][\'hello\'] ?>',
             ],
             [
                 '{{ a[0] [1.2] [false] [true] }}',
@@ -339,15 +360,15 @@ class CompileStringCest
             ],
             [
                 '{{ "Z".."A" }}',
-                '<?= range("Z", "A") ?>',
+                '<?= range(\'Z\', \'A\') ?>',
             ],
             [
                 "{{ 'a'..'z' }}",
-                '<?= range("a", "z") ?>',
+                '<?= range(\'a\', \'z\') ?>',
             ],
             [
                 "{{ 'a' .. 'z' }}",
-                '<?= range("a", "z") ?>',
+                '<?= range(\'a\', \'z\') ?>',
             ],
             //Calling functions
             [
@@ -360,7 +381,7 @@ class CompileStringCest
             ],
             [
                 "{{ partial('hello/x') }}",
-                '<?= $this->partial("hello/x") ?>',
+                '<?= $this->partial(\'hello/x\') ?>',
             ],
             [
                 '{{ dump(a) }}',
@@ -368,7 +389,7 @@ class CompileStringCest
             ],
             [
                 "{{ date('Y-m-d', time()) }}",
-                '<?= date("Y-m-d", time()) ?>',
+                '<?= date(\'Y-m-d\', time()) ?>',
             ],
             [
                 '{{ robots.getPart(a) }}',
@@ -377,11 +398,11 @@ class CompileStringCest
             //Phalcon\Tag helpers
             [
                 "{{ link_to('hello', 'some-link') }}",
-                '<?= \Phalcon\Tag::linkTo(["hello", "some-link"]) ?>',
+                '<?= \Phalcon\Tag::linkTo([\'hello\', \'some-link\']) ?>',
             ],
             [
-                "{{ form('action': 'save/products', 'method': 'post') }}",
-                '<?= \Phalcon\Tag::form([\'action\' => "save/products", \'method\' => "post"]) ?>',
+                "{{ form_legacy('action': 'save/products', 'method': 'post') }}",
+                '<?= \Phalcon\Tag::formLegacy([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
             ],
             [
                 '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',
@@ -389,62 +410,62 @@ class CompileStringCest
             ],
             [
                 "{{ javascript_include('js/some.js') }}",
-                '<?= \Phalcon\Tag::javascriptInclude("js/some.js") ?>',
+                '<?= \Phalcon\Tag::javascriptInclude(\'js/some.js\') ?>',
             ],
             [
                 "{{ image('img/logo.png', 'width': 80) }}",
-                '<?= \\Phalcon\Tag::image(["img/logo.png", \'width\' => 80]) ?>',
+                "<?= \\Phalcon\Tag::image(['img/logo.png', 'width' => 80]) ?>",
             ],
             [
                 "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \\Phalcon\Tag::emailField([\"email\", 'class' => \"form-control\", " .
-                "'placeholder' => \"Email Address\"]) ?>",
+                "<?= \\Phalcon\Tag::emailField(['email', 'class' => 'form-control', " .
+                "'placeholder' => 'Email Address']) ?>",
             ],
             //Filters
             [
                 '{{ "hello"|e }}',
-                '<?= $this->escaper->html("hello") ?>',
+                '<?= $this->escaper->html(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|escape }}',
-                '<?= $this->escaper->html("hello") ?>',
+                '<?= $this->escaper->html(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|trim }}',
-                '<?= trim("hello") ?>',
+                '<?= trim(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|striptags }}',
-                '<?= strip_tags("hello") ?>',
+                '<?= strip_tags(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|json_encode }}',
-                '<?= json_encode("hello") ?>',
+                '<?= json_encode(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|url_encode }}',
-                '<?= urlencode("hello") ?>',
+                '<?= urlencode(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|uppercase }}',
-                '<?= strtoupper("hello") ?>',
+                '<?= strtoupper(\'hello\') ?>',
             ],
             [
                 '{{ "hello"|lowercase }}',
-                '<?= strtolower("hello") ?>',
+                '<?= strtolower(\'hello\') ?>',
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',
-                '<?= $this->length($this->escaper->html(("hello" . "lol"))) ?>',
+                '<?= $this->length($this->escaper->html((\'hello\' . \'lol\'))) ?>',
             ],
             //Filters with parameters
             [
                 '{{ "My name is %s, %s"|format(name, "thanks") }}',
-                "<?= sprintf(\"My name is %s, %s\", \$name, \"thanks\") ?>",
+                "<?= sprintf('My name is %s, %s', \$name, 'thanks') ?>",
             ],
             [
                 '{{ "some name"|convert_encoding("utf-8", "latin1") }}',
-                "<?= \$this->convertEncoding(\"some name\", \"utf-8\", \"latin1\") ?>",
+                "<?= \$this->convertEncoding('some name', 'utf-8', 'latin1') ?>",
             ],
             //if statement
             [
@@ -647,13 +668,13 @@ class CompileStringCest
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .
                 '{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= \"hello\" ?><?= \$this->escaper->html(\"hello\") ?>" .
-                "<?= \"hello\" ?><?= \$this->escaper->html(\"hello\") ?><?= \"hello\" ?>",
+                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?>" .
+                "<?= 'hello' ?><?= \$this->escaper->html('hello') ?><?= 'hello' ?>",
             ],
             //Mixed
             [
                 '{# some comment #}{{ "hello" }}{# other comment }}',
-                '<?= "hello" ?>',
+                "<?= 'hello' ?>",
             ],
             // join filter
             [
