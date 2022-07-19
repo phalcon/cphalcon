@@ -203,11 +203,13 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml unit
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
 
       - name: Run CLI Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml cli
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
       - name: Check Release notes parser
         if: runner.os == 'Linux'
