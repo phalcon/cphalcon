@@ -35,13 +35,15 @@ class ResizeCest
         $I->wantToTest('Image\Adapter\Imagick - resize()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->resize(200, 200)->save(outputDir('tests/image/imagick/resize.jpg'));
+        $image->resize(200, 200)
+              ->save(outputDir('tests/image/imagick/resize.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

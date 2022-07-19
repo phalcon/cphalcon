@@ -35,17 +35,19 @@ class MaskCest
         $I->wantToTest('Image\Adapter\Imagick - mask()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         $mask = new Imagick(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
 
         // Add a watermark to the bottom right of the image
-        $image->mask($mask)->save(outputDir('tests/image/imagick/mask.jpg'));
+        $image->mask($mask)
+              ->save(outputDir('tests/image/imagick/mask.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

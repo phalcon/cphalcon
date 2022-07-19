@@ -34,15 +34,35 @@ class BlurCest
         $this->checkJpegSupport($I);
 
         $params = [
-            'jpg' => [
+            'gif'  => [
+                [1, 'ffffffffffffffff'],
+                [2, 'ffffffffffffffff'],
+                [5, 'ffffffffffffffff'],
+            ],
+            'jpg'  => [
                 [1, 'fbf9f3e3c3c18183'],
                 [2, 'fbf9f3e3c3c18183'],
                 [5, 'fbf9f3e3c3c18183'],
             ],
-            'png' => [
+            'png'  => [
                 [1, '30787c3c1e1c1818'],
                 [2, '30787c3c3e181818'],
                 [5, '30787c3c3e181818'],
+            ],
+            'wbmp' => [
+                [1, 'cffffffc182f8201'],
+                [2, 'cffffffc182f8201'],
+                [5, 'cffffffc182f8201'],
+            ],
+            'webp' => [
+                [1, '070600183c3c7c7c'],
+                [2, '070200183c3c3c7c'],
+                [5, '070200183c3c3c7c'],
+            ],
+            'xbm'  => [
+                [1, '070600183c3c7c7c'],
+                [2, '070200183c3c3c7c'],
+                [5, '070200183c3c3c7c'],
             ],
         ];
 
@@ -55,17 +75,14 @@ class BlurCest
 
                 $image = new Gd($imagePath);
 
-                $image->blur($level)->save($output);
-
-                $I->amInPath(
-                    outputDir($outputDir)
-                );
-
+                $image->blur($level)
+                      ->save($output)
+                ;
+                $I->amInPath(outputDir($outputDir));
                 $I->seeFileFound($resultImage);
 
-                $I->assertTrue(
-                    $this->checkImageHash($output, $hash)
-                );
+                $actual = $this->checkImageHash($output, $hash);
+                $I->assertTrue($actual);
 
                 $I->safeDeleteFile($output);
             }

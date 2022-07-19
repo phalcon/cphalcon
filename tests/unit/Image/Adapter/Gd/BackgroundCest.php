@@ -43,9 +43,7 @@ class BackgroundCest
             $resultImage = $color . 'bg.png';
             $output      = outputDir($outputDir . '/' . $resultImage);
 
-            $image = new Gd(
-                dataDir('assets/images/logo.png')
-            );
+            $image = new Gd(dataDir('assets/images/example-png.png'));
 
             $image->background($color, $opacity)
                   ->resize($width, $height, $master)

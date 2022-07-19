@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
+use Codeception\Example;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Tests\Fixtures\Traits\GdTrait;
 use UnitTester;
+
+use function dataDir;
 
 class ResizeCest
 {
@@ -24,94 +27,74 @@ class ResizeCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: resize()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @return void
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
-    public function imageAdapterGdResizeJpg(UnitTester $I)
+    public function imageAdapterGdResize(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Image\Adapter\Gd - resize() - jpg image');
+        $I->wantToTest('Image\Adapter\Gd - resize() - ' . $example['label']);
 
         $this->checkJpegSupport($I);
 
-        $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
-        );
+        $file   = $example['file'];
+        $source = $example['source'];
+        $width  = $example['width'];
+        $height = $example['height'];
+        $hash   = $example['hash'];
 
         $outputDir = 'tests/image/gd';
-        $output    = outputDir($outputDir . '/resize.jpg');
-        $width     = 200;
-        $height    = 76;
-        $hash      = 'fbf9f3e3c3c1c183';
+        $output    = outputDir($outputDir . '/' . $file);
 
-        // Resize to 200 pixels on the shortest side
-        $image->resize($width, $height)->save($output);
+        $image = new Gd($source);
 
-        $I->amInPath(
-            outputDir($outputDir)
-        );
+        $image->resize($width, $height)
+              ->save($output)
+        ;
 
+        $I->amInPath(outputDir($outputDir));
         $I->seeFileFound('resize.jpg');
 
-        $I->assertSame(
-            $width,
-            $image->getWidth()
-        );
+        $actual = $image->getWidth();
+        $I->assertSame($width, $actual);
 
-        $I->assertSame(
-            $height,
-            $image->getHeight()
-        );
+        $actual = $image->getHeight();
+        $I->assertSame($height, $actual);
 
-        $I->assertTrue(
-            $this->checkImageHash($output, $hash)
-        );
+        $actual = $this->checkImageHash($output, $hash);
+        $I->assertTrue($actual);
 
-        $I->safeDeleteFile('resize.jpg');
+        $I->safeDeleteFile($file);
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: resize()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array[]
      */
-    public function imageAdapterGdResizePng(UnitTester $I)
+    private function getExamples(): array
     {
-        $I->wantToTest('Image\Adapter\Gd - resize() - png image');
-
-        $image = new Gd(
-            dataDir('assets/images/logo.png')
-        );
-
-        $outputDir = 'tests/image/gd';
-        $output    = outputDir($outputDir . '/resize.png');
-        $width     = 50;
-        $height    = 50;
-        $hash      = 'bf9f8fc5bf9bc0d0';
-
-        // Resize to 50 pixels on the shortest side
-        $image->resize($width, $height)->save($output);
-
-        $I->amInPath(
-            outputDir($outputDir)
-        );
-
-        $I->seeFileFound('resize.png');
-
-        $I->assertSame(
-            $width,
-            $image->getWidth()
-        );
-
-        $I->assertSame(
-            $height,
-            $image->getHeight()
-        );
-
-        $I->assertTrue(
-            $this->checkImageHash($output, $hash)
-        );
-
-        $I->safeDeleteFile('resize.png');
+        return [
+            [
+                'label'  => 'jpg',
+                'source' => dataDir('assets/images/example-jpg.jpg'),
+                'file'   => 'resize.jpg',
+                'height' => 76,
+                'width'  => 200,
+                'hash'   => 'fbf9f3e3c3c1c183',
+            ],
+            [
+                'label'  => 'png',
+                'source' => dataDir('assets/images/example-png.png'),
+                'file'   => 'resize.jpg',
+                'height' => 50,
+                'width'  => 50,
+                'hash'   => 'bf9f8fc5bf9bc0d0',
+            ],
+        ];
     }
 }

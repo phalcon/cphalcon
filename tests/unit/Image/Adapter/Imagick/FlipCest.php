@@ -36,13 +36,15 @@ class FlipCest
         $I->wantToTest('Image\Adapter\Imagick - flip()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Flip the image from top to bottom
-        $image->flip(Enum::HORIZONTAL)->save(outputDir('tests/image/imagick/flip.jpg'));
+        $image->flip(Enum::HORIZONTAL)
+              ->save(outputDir('tests/image/imagick/flip.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

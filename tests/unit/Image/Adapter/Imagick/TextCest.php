@@ -35,7 +35,7 @@ class TextCest
         $I->wantToTest('Image\Adapter\Imagick - text()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
@@ -48,7 +48,8 @@ class TextCest
             '000099',
             12,
             dataDir('assets/fonts/Roboto-Thin.ttf')
-        )->save(outputDir('tests/image/imagick/text.jpg'))
+        )
+              ->save(outputDir('tests/image/imagick/text.jpg'))
         ;
 
         $I->amInPath(

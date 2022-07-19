@@ -59,19 +59,34 @@ class GetMimeCest
     {
         return [
             [
+                'label'    => 'GIF',
+                'source'   => dataDir('assets/images/example-gif.gif'),
+                'expected' => 'image/gif',
+            ],
+            [
                 'label'    => 'JPEG',
-                'source'   => dataDir('assets/images/phalconphp.jpg'),
+                'source'   => dataDir('assets/images/example-jpg.jpg'),
                 'expected' => 'image/jpeg',
             ],
             [
                 'label'    => 'PNG',
-                'source'   => dataDir('assets/images/logo.png'),
+                'source'   => dataDir('assets/images/example-png.png'),
                 'expected' => 'image/png',
             ],
             [
+                'label'    => 'WBMP',
+                'source'   => dataDir('assets/images/example-wbmp.wbmp'),
+                'expected' => 'image/vnd.wap.wbmp',
+            ],
+            [
                 'label'    => 'WEBP',
-                'source'   => dataDir('assets/images/house.webp'),
+                'source'   => dataDir('assets/images/example-webp.webp'),
                 'expected' => 'image/webp',
+            ],
+            [
+                'label'    => 'XBM',
+                'source'   => dataDir('assets/images/example-xbm.xbm'),
+                'expected' => 'image/xbm',
             ],
         ];
     }

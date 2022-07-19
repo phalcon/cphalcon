@@ -33,33 +33,26 @@ class MaskCest
 
         $this->checkJpegSupport($I);
 
-        $image = new Gd(
-            dataDir('assets/images/logo.png')
-        );
-
-        $mask = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
-        );
+        $image = new Gd(dataDir('assets/images/example-png.png'));
+        $mask  = new Gd(dataDir('assets/images/example-jpg.jpg'));
 
         $outputDir   = 'tests/image/gd';
         $outputImage = 'mask.png';
         $output      = outputDir($outputDir . '/' . $outputImage);
 
-        $hash = '30787c3c3f191800';
+        $hash = 'fbf9f3e3c3c1c183';
 
         // Resize to 200 pixels on the shortest side
-        $mask->mask($image)->save($output);
+        $mask->mask($image)
+             ->save($output)
+        ;
 
-        $I->amInPath(
-            outputDir($outputDir)
-        );
-
+        $I->amInPath(outputDir($outputDir));
         $I->seeFileFound($outputImage);
 
-        $I->assertTrue(
-            $this->checkImageHash($output, $hash)
-        );
+        $actual = $this->checkImageHash($output, $hash);
+        $I->assertTrue($actual);
 
-        $I->safeDeleteFile($outputImage);
+        $I->safeDeleteFile($output);
     }
 }

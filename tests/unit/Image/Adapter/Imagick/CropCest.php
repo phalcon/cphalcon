@@ -35,13 +35,15 @@ class CropCest
         $I->wantToTest('Image\Adapter\Imagick - crop()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Crop the image to 200x200 pixels, from the center
-        $image->crop(200, 200)->save(outputDir('tests/image/imagick/crop.jpg'));
+        $image->crop(200, 200)
+              ->save(outputDir('tests/image/imagick/crop.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

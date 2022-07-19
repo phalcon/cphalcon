@@ -37,20 +37,13 @@ class SaveCest
         $resultImage = 'save.';
 
         foreach ($this->getImages() as $type => $imagePath) {
-            $image = new Gd(
-                $imagePath
-            );
+            $image = new Gd($imagePath);
 
             $output = outputDir($outputDir . '/' . $resultImage . $type);
-
             $actual = $image->save($output);
-
             $I->assertInstanceOf(Gd::class, $actual);
 
-            $I->amInPath(
-                outputDir($outputDir)
-            );
-
+            $I->amInPath(outputDir($outputDir));
             $I->seeFileFound($resultImage . $type);
 
             $I->safeDeleteFile($resultImage . $type);
