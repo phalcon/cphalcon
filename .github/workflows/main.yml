@@ -314,18 +314,21 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml unit
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter unit
 
       - name: Run CLI Tests
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml cli
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter integration
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml integration
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter integration
 
       - name: Run Database Tests (Common)
         env:
@@ -333,7 +336,8 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database -g common
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml database -g common
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
         env:
@@ -342,14 +346,16 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml database --env mysql -g mysql
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml  database --env sqlite -g sqlite
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
         env:
@@ -359,7 +365,8 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml database --env pgsql -g pgsql
+#        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
       #   env:
