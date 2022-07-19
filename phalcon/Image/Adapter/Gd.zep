@@ -80,7 +80,6 @@ class Gd extends AbstractAdapter
             }
 
             imagesavealpha(this->image, true);
-
         } else {
             if unlikely !width || !height {
                 throw new Exception(
@@ -451,6 +450,8 @@ class Gd extends AbstractAdapter
             imagepng(this->image);
         } elseif strcmp(ext, "wbmp") == 0 {
             imagewbmp(this->image);
+        } elseif strcmp(ext, "webp") == 0 {
+            imagewebp(this->image);
         } elseif strcmp(ext, "xbm") == 0 {
             imagexbm(this->image, null);
         } else {
@@ -510,75 +511,119 @@ class Gd extends AbstractAdapter
 
     protected function processSave(string file, int quality)
     {
-        var ext;
+//        var ext;
+//
+//        let ext = pathinfo(file, PATHINFO_EXTENSION);
+//
+//        // If no extension is given, revert to the original type.
+//        if !ext {
+//            let ext = image_type_to_extension(this->type, false);
+//        }
+//
+//        let ext = strtolower(ext);
+//
+//        if strcmp(ext, "gif") == 0 {
+//            let this->type = 1;
+//            let this->mime = image_type_to_mime_type(this->type);
+//
+//            imagegif(this->image, file);
+//
+//            return true;
+//        }
+//
+//        if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+//            let this->type = 2;
+//            let this->mime = image_type_to_mime_type(this->type);
+//
+//            if quality >= 0 {
+//                if quality < 1 {
+//                    let quality = 1;
+//                } elseif quality > 100 {
+//                    let quality = 100;
+//                }
+//
+//                imagejpeg(this->image, file, quality);
+//            } else {
+//                imagejpeg(this->image, file);
+//            }
+//
+//            return true;
+//        }
+//
+//        if strcmp(ext, "png") == 0 {
+//            let this->type = 3;
+//            let this->mime = image_type_to_mime_type(this->type);
+//
+//            imagepng(this->image, file);
+//
+//            return true;
+//        }
+//
+//        if strcmp(ext, "wbmp") == 0 {
+//            let this->type = 15;
+//            let this->mime = image_type_to_mime_type(this->type);
+//
+//            imagewbmp(this->image, file);
+//
+//            return true;
+//        }
+//
+//        if strcmp(ext, "xbm") == 0 {
+//            let this->type = 16;
+//            let this->mime = image_type_to_mime_type(this->type);
+//
+//            imagexbm(this->image, file);
+//
+//            return true;
+//        }
+//
+//        throw new Exception(
+//            "Installed GD does not support '" . ext . "' images"
+//        );
 
-        let ext = pathinfo(file, PATHINFO_EXTENSION);
+        switch this->type {
+            case IMAGETYPE_GIF:
+                imagegif(this->image, file);
+                break;
 
-        // If no extension is given, revert to the original type.
-        if !ext {
-            let ext = image_type_to_extension(this->type, false);
-        }
+            case IMAGETYPE_JPEG:
+            case IMAGETYPE_JPEG2000:
+                if quality >= 0 {
+                    if quality < 1 {
+                        let quality = 1;
+                    } elseif quality > 100 {
+                        let quality = 100;
+                    }
 
-        let ext = strtolower(ext);
-
-        if strcmp(ext, "gif") == 0 {
-            let this->type = 1;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagegif(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
-            let this->type = 2;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            if quality >= 0 {
-                if quality < 1 {
-                    let quality = 1;
-                } elseif quality > 100 {
-                    let quality = 100;
+                    imagejpeg(this->image, file, quality);
+                } else {
+                    imagejpeg(this->image, file);
                 }
+                break;
 
-                imagejpeg(this->image, file, quality);
-            } else {
-                imagejpeg(this->image, file);
-            }
+            case IMAGETYPE_PNG:
+                imagepng(this->image, file);
+                break;
 
-            return true;
+            case IMAGETYPE_WEBP:
+                imagewebp(this->image, file);
+                break;
+
+            case IMAGETYPE_WBMP:
+                imagewbmp(this->image, file);
+                break;
+
+            case IMAGETYPE_XBM:
+                imagexbm(this->image, file);
+                break;
+
+            default:
+                throw new Exception(
+                    "Installed GD does not support " . this->mime . " images"
+                );
         }
 
-        if strcmp(ext, "png") == 0 {
-            let this->type = 3;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagepng(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "wbmp") == 0 {
-            let this->type = 15;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagewbmp(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "xbm") == 0 {
-            let this->type = 16;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagexbm(this->image, file);
-
-            return true;
-        }
-
-        throw new Exception(
-            "Installed GD does not support '" . ext . "' images"
-        );
+        return true;
     }
 
     protected function processSharpen(int amount)
