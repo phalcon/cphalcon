@@ -29,7 +29,6 @@ class RenderCest
      */
     public function imageAdapterGdRender(UnitTester $I)
     {
-        $I->skipTest('TODO: There is a segfault coming from this test');
         $I->wantToTest('Image\Adapter\Gd - render()');
 
         $params = [

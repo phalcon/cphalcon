@@ -59,7 +59,7 @@ class ResizeCest
         ;
 
         $I->amInPath(outputDir($outputDir));
-        $I->seeFileFound('resize.jpg');
+        $I->seeFileFound($file);
 
         $actual = $image->getWidth();
         $I->assertSame($width, $actual);
