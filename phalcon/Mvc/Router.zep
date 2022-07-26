@@ -497,7 +497,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns the route that matches the handled URI
      */
-    public function getMatchedRoute() -> <RouteInterface>
+    public function getMatchedRoute() -> <RouteInterface> | null
     {
         return this->matchedRoute;
     }

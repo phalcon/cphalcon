@@ -162,7 +162,7 @@ class Router extends AbstractInjectionAware
     /**
      * Returns the route that matches the handled URI
      */
-    public function getMatchedRoute() -> <RouteInterface>
+    public function getMatchedRoute() -> <RouteInterface> | null
     {
         return this->matchedRoute;
     }
