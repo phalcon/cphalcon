@@ -354,4 +354,25 @@ class Complex extends Resultset implements ResultsetInterface
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
     }
+
+    public function __serialize() -> array
+    {
+        var records, cache, columnTypes, hydrateMode;
+
+        /**
+         * Obtain the records as an array
+         */
+        let records = this->toArray();
+
+        let cache       = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
+
+        return [
+           "cache"       : cache,
+           "rows"        : records,
+           "columnTypes" : columnTypes,
+           "hydrateMode" : hydrateMode
+        ];
+    }
 }
