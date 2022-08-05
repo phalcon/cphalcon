@@ -35,13 +35,15 @@ class SharpenCest
         $I->wantToTest('Image\Adapter\Imagick - sharpen()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Sharpen the image by 20%
-        $image->sharpen(20)->save(outputDir('tests/image/imagick/sharpen.jpg'));
+        $image->sharpen(20)
+              ->save(outputDir('tests/image/imagick/sharpen.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

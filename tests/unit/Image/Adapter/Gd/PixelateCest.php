@@ -40,25 +40,21 @@ class PixelateCest
             [60, 'fbfbf3e3c3c3c383'],
         ];
         foreach ($params as [$amount, $hash]) {
-            $image = new Gd(
-                dataDir('assets/images/phalconphp.jpg')
-            );
+            $image = new Gd(dataDir('assets/images/example-jpg.jpg'));
 
             $outputDir   = 'tests/image/gd';
             $outputImage = $amount . '-pixelate.jpg';
             $output      = outputDir($outputDir . '/' . $outputImage);
 
-            $image->pixelate($amount)->save($output);
+            $image->pixelate($amount)
+                  ->save($output)
+            ;
 
-            $I->amInPath(
-                outputDir($outputDir)
-            );
-
+            $I->amInPath(outputDir($outputDir));
             $I->seeFileFound($outputImage);
 
-            $I->assertTrue(
-                $this->checkImageHash($output, $hash)
-            );
+            $actual = $this->checkImageHash($output, $hash);
+            $I->assertTrue($actual);
 
             $I->safeDeleteFile($outputImage);
         }

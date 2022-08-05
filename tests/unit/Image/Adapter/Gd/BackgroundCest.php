@@ -42,25 +42,19 @@ class BackgroundCest
         foreach ($params as [$width, $height, $master, $color, $opacity, $hash]) {
             $resultImage = $color . 'bg.png';
             $output      = outputDir($outputDir . '/' . $resultImage);
-
-            $image = new Gd(
-                dataDir('assets/images/logo.png')
-            );
+            $image       = new Gd(dataDir('assets/images/example-png.png'));
 
             $image->background($color, $opacity)
                   ->resize($width, $height, $master)
                   ->save($output)
             ;
 
-            $I->amInPath(
-                outputDir($outputDir)
-            );
+            $I->amInPath(outputDir($outputDir));
 
             $I->seeFileFound($resultImage);
 
-            $I->assertTrue(
-                $this->checkImageHash($output, $hash)
-            );
+            $actual = $this->checkImageHash($output, $hash);
+            $I->assertTrue($actual);
 
             $I->safeDeleteFile($resultImage);
         }

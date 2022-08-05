@@ -33,11 +33,10 @@ class GetVersionCest
 
         $this->checkJpegSupport($I);
 
-        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+        $gd = new Gd(dataDir('assets/images/example-jpg.jpg'));
 
-        $I->assertRegExp(
-            '/^2.[0-9].[0-9]/',
-            $gd->getVersion()
-        );
+        $expected = '/^2.[0-9].[0-9]/';
+        $actual   = $gd->getVersion();
+        $I->assertRegExp($expected, $actual);
     }
 }

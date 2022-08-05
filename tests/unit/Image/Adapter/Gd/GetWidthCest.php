@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
+use Codeception\Example;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Tests\Fixtures\Traits\GdTrait;
 use UnitTester;
+
+use function dataDir;
 
 class GetWidthCest
 {
@@ -24,38 +27,67 @@ class GetWidthCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getWidth()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @return void
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
-    public function imageAdapterGdGetWidthJpg(UnitTester $I)
+    public function imageAdapterGdGetWidth(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Image\Adapter\Gd - getWidth() - from jpg image');
+        $I->wantToTest('Image\Adapter\Gd - getWidth() - ' . $example['label']);
 
         $this->checkJpegSupport($I);
 
-        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+        $source   = $example['source'];
+        $expected = $example['expected'];
 
-        $I->assertSame(
-            1820,
-            $gd->getWidth()
-        );
+        $gd = new Gd($source);
+
+        $actual = $gd->getWidth();
+        $I->assertSame($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: getWidth()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array[]
      */
-    public function imageAdapterGdGetWidthPng(UnitTester $I)
+    private function getExamples(): array
     {
-        $I->wantToTest('Image\Adapter\Gd - getWidth() - from png image');
-
-        $gd = new Gd(dataDir('assets/images/logo.png'));
-
-        $I->assertSame(
-            82,
-            $gd->getWidth()
-        );
+        return [
+            [
+                'label'    => 'gif',
+                'source'   => dataDir('assets/images/example-gif.gif'),
+                'expected' => 960,
+            ],
+            [
+                'label'    => 'jpg',
+                'source'   => dataDir('assets/images/example-jpg.jpg'),
+                'expected' => 1820,
+            ],
+            [
+                'label'    => 'png',
+                'source'   => dataDir('assets/images/example-png.png'),
+                'expected' => 82,
+            ],
+            [
+                'label'    => 'wbmp',
+                'source'   => dataDir('assets/images/example-wbmp.wbmp'),
+                'expected' => 640,
+            ],
+            [
+                'label'    => 'webp',
+                'source'   => dataDir('assets/images/example-webp.webp'),
+                'expected' => 1536,
+            ],
+            [
+                'label'    => 'xbm',
+                'source'   => dataDir('assets/images/example-xbm.xbm'),
+                'expected' => 206,
+            ],
+        ];
     }
 }
