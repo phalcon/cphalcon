@@ -89,7 +89,8 @@ class Model extends AbstractAdapter
      */
     public function paginate() -> <RepositoryInterface>
     {
-        var config, modelClass, parameters, pageItems = [];
+        var config, modelClass, parameters, rowCountResult,
+         pageItems = [];
         int pageNumber, limit, rowcount, next, totalPages,
             previous;
 
@@ -111,7 +112,14 @@ class Model extends AbstractAdapter
             let pageNumber = 1;
         }
 
-        let rowcount = (int) call_user_func([modelClass, "count"], parameters);
+        // This can return int or ResultsetInterface if it's grouped
+        let rowCountResult = call_user_func([modelClass, "count"], parameters);
+
+        if typeof rowCountResult == "object" {
+            let rowcount = (int) rowCountResult->count();
+        } else {
+            let rowcount = (int) rowCountResult;
+        }
 
         if rowcount % limit != 0 {
             let totalPages = (int) (rowcount / limit + 1);
