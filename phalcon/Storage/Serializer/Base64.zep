@@ -52,6 +52,8 @@ class Base64 extends AbstractSerializer
         if unlikely false === result {
             let this->isSuccess = false,
                 result          = "";
+        } else {
+            let this->isSuccess = true;
         }
 
         let this->data = result;

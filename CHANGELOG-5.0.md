@@ -9,6 +9,11 @@
   - `Phalcon\Cli\RouterInterface::getMatchedRoute()`
   - `Phalcon\Mvc\Router::getMatchedRoute()`
   - `Phalcon\Mvc\RouterInterface::getMatchedRoute()` to return `RouterInterface` or `null` [#16030](https://github.com/phalcon/cphalcon/issues/16030)
+- Fixed 
+  - `Phalcon/Storage/Serializer/Base64::unserialize()`
+  - `Phalcon/Storage/Serializer/Igbinary::unserialize()`
+  - `Phalcon/Storage/Serializer/Igbinary::serialize()`
+  - `Phalcon/Storage/Serializer/Php::unserialize()` to reset isSuccess value [#16040](https://github.com/phalcon/cphalcon/issues/16040)
 - Fixed `Phalcon\Paginator\Adapter\Model::paginate()` fix group parameter breaking total items [#16042](https://github.com/phalcon/cphalcon/issues/16042)
 - Fixed `Phalcon\Mvc\Model::doLowUpdate()` prevent RawValue getting overwritten [#16037](https://github.com/phalcon/cphalcon/issues/16037)
 

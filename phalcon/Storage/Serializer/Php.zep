@@ -70,6 +70,8 @@ class Php extends AbstractSerializer
         if unlikely globals_get("warning.enable") || result === false {
             let this->isSuccess = false,
                 result          = "";
+        } else {
+            let this->isSuccess = true;
         }
 
         let this->data = result;
