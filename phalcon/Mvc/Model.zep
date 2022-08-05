@@ -3919,7 +3919,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var automaticAttributes, attributeField, bindSkip, bindDataTypes,
             bindType, bindTypes, columnMap, dataType, dataTypes, field, fields,
             manager, nonPrimary, newSnapshot, success, primaryKeys, snapshot,
-            snapshotValue, uniqueKey, uniqueParams, uniqueTypes, value, values;
+            snapshotValue, uniqueKey, uniqueParams, uniqueTypes, value, values,
+            updateValue;
         bool changed, useDynamicUpdate;
 
         let bindSkip    = Column::BIND_SKIP,
@@ -4027,19 +4028,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                     if is_object(snapshotValue) && snapshotValue instanceof RawValue {
                                         let snapshotValue = snapshotValue->getValue();
                                     }
+
+                                    let updateValue = value;
                                     if is_object(value) && value instanceof RawValue {
-                                        let value = value->getValue();
+                                        let updateValue = value->getValue();
                                     }
 
                                     switch dataType {
 
                                         case Column::TYPE_BOOLEAN:
-                                            let changed = (bool) snapshotValue !== (bool) value;
+                                            let changed = (bool) snapshotValue !== (bool) updateValue;
                                             break;
 
                                         case Column::TYPE_DECIMAL:
                                         case Column::TYPE_FLOAT:
-                                            let changed = floatval(snapshotValue) !== floatval(value);
+                                            let changed = floatval(snapshotValue) !== floatval(updateValue);
                                             break;
 
                                         case Column::TYPE_INTEGER:
@@ -4050,14 +4053,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         case Column::TYPE_TEXT:
                                         case Column::TYPE_VARCHAR:
                                         case Column::TYPE_BIGINTEGER:
-                                            let changed = (string) snapshotValue !== (string) value;
+                                            let changed = (string) snapshotValue !== (string) updateValue;
                                             break;
 
                                         /**
                                          * Any other type is not really supported...
                                          */
                                         default:
-                                            let changed = value != snapshotValue;
+                                            let changed = updateValue != snapshotValue;
                                     }
                                 }
                             }

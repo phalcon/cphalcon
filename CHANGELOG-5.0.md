@@ -9,6 +9,7 @@
   - `Phalcon\Cli\RouterInterface::getMatchedRoute()`
   - `Phalcon\Mvc\Router::getMatchedRoute()`
   - `Phalcon\Mvc\RouterInterface::getMatchedRoute()` to return `RouterInterface` or `null` [#16030](https://github.com/phalcon/cphalcon/issues/16030)
+- Fixed `Phalcon\Mvc\Model::doLowUpdate()` prevent RawValue getting overwritten [#16037](https://github.com/phalcon/cphalcon/issues/16037)
 
 # [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
 
