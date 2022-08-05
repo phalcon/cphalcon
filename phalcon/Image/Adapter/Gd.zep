@@ -16,32 +16,36 @@ use Phalcon\Image\Exception;
 class Gd extends AbstractAdapter
 {
     /**
-     * @var bool
+     * @param string   $file
+     * @param int|null $width
+     * @param int|null $height
+     *
+     * @throws Exception
      */
-    protected static checked = false;
+    public function __construct(
+        string file,
+        int width = null,
+        int height = null
+    ) {
+        var imageInfo;
 
-    public function __construct(string! file, int width = null, int height = null)
-    {
-        var imageinfo;
-
-        if !self::checked {
-            self::check();
-        }
+        this->check();
 
         let this->file = file;
+        let this->type = 0;
 
-        if file_exists(this->file) {
+        if (true === file_exists(this->file)) {
             let this->realpath = realpath(this->file);
-            let imageinfo = getimagesize(this->file);
+            let imageInfo      = getimagesize(this->file);
 
-            if imageinfo {
-                let this->width  = imageinfo[0];
-                let this->height = imageinfo[1];
-                let this->type   = imageinfo[2];
-                let this->mime   = imageinfo["mime"];
+            if (false !== imageInfo) {
+                let this->width  = imageInfo[0];
+                let this->height = imageInfo[1];
+                let this->type   = imageInfo[2];
+                let this->mime   = imageInfo["mime"];
             }
 
-            switch this->type {
+            switch (this->type) {
                 case IMAGETYPE_GIF:
                     let this->image = imagecreatefromgif(this->file);
                     break;
@@ -68,7 +72,7 @@ class Gd extends AbstractAdapter
                     break;
 
                 default:
-                    if this->mime {
+                    if (this->mime) {
                         throw new Exception(
                             "Installed GD does not support " . this->mime . " images"
                         );
@@ -80,9 +84,8 @@ class Gd extends AbstractAdapter
             }
 
             imagesavealpha(this->image, true);
-
         } else {
-            if unlikely !width || !height {
+            if (null === width || null === height) {
                 throw new Exception(
                     "Failed to create image from file " . this->file
                 );
@@ -101,49 +104,31 @@ class Gd extends AbstractAdapter
         }
     }
 
+    /**
+     * Destructor
+     */
     public function __destruct()
     {
         var image;
 
         let image = this->image;
 
-        if typeof image  == "resource" {
+        if (null !== image) {
             imagedestroy(image);
         }
+
+        let this->image = null;
     }
 
-    public static function check() -> bool
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getVersion() -> string
     {
-        var version;
+        var info, matches, version;
 
-        if self::checked {
-            return true;
-        }
-
-        if unlikely !function_exists("gd_info") {
-            throw new Exception(
-                "GD is either not installed or not enabled, check your configuration"
-            );
-        }
-
-        let version = self::getVersion();
-
-        if unlikely !version_compare(version, "2.0.1", ">=") {
-            throw new Exception(
-                "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
-            );
-        }
-
-        let self::checked = true;
-
-        return self::checked;
-    }
-
-    public static function getVersion() -> string
-    {
-        var version, info, matches;
-
-        if unlikely !function_exists("gd_info") {
+        if (true !== function_exists("gd_info")) {
             throw new Exception(
                 "GD is either not installed or not enabled, check your configuration"
             );
@@ -151,13 +136,19 @@ class Gd extends AbstractAdapter
 
         let version = null;
 
-        if defined("GD_VERSION") {
+        if (defined("GD_VERSION")) {
             let version = GD_VERSION;
         } else {
-            let info = gd_info(),
-                matches = null;
+            let info    = gd_info();
+            let matches = null;
 
-            if preg_match("/\\d+\\.\\d+(?:\\.\\d+)?/", info["GD Version"], matches) {
+            if (
+                preg_match(
+                    "/\\d+\\.\\d+(?:\\.\\d+)?/",
+                    info["GD Version"],
+                    matches
+                )
+            ) {
                 let version = matches[0];
             }
         }
@@ -165,38 +156,76 @@ class Gd extends AbstractAdapter
         return version;
     }
 
-    protected function processBackground(int r, int g, int b, int opacity)
-    {
-        var background, color;
+    /**
+     * @param int $red
+     * @param int $green
+     * @param int $blue
+     * @param int $opacity
+     *
+     * @return void
+     */
+    protected function processBackground(
+        int red,
+        int green,
+        int blue,
+        int opacity
+    ) -> void {
+        var background, color, copy, image;
 
-        let opacity = (int) round(abs((opacity * 127 / 100) - 127));
-
+        let opacity    = (int) round(abs((opacity * 127 / 100) - 127));
+        let image      = this->image;
         let background = this->processCreate(this->width, this->height);
 
-        let color = imagecolorallocatealpha(background, r, g, b, opacity);
+        let color = imagecolorallocatealpha(
+            background,
+            red,
+            green,
+            blue,
+            opacity
+        );
 
         imagealphablending(background, true);
 
-        if imagecopy(background, this->image, 0, 0, 0, 0, this->width, this->height) {
-            imagedestroy(this->image);
+        let copy = imagecopy(
+            background,
+            image,
+            0,
+            0,
+            0,
+            0,
+            this->width,
+            this->height
+        );
+        if (false !== copy) {
+            imagedestroy(image);
 
             let this->image = background;
         }
     }
 
-    protected function processBlur(int radius)
+    /**
+     * @param int $radius
+     *
+     * @return void
+     */
+    protected function processBlur(int radius) -> void
     {
-        int i;
+        var counter;
 
-        let i = 0;
-
-        while i < radius {
+        let counter = 0;
+        while (counter < radius) {
             imagefilter(this->image, IMG_FILTER_GAUSSIAN_BLUR);
 
-            let i++;
+            let counter++;
         }
     }
 
+    /**
+     * @param int $width
+     * @param int $height
+     *
+     * @return false|GdImage|resource
+     */
     protected function processCreate(int width, int height)
     {
         var image;
@@ -209,60 +238,85 @@ class Gd extends AbstractAdapter
         return image;
     }
 
-    protected function processCrop(int width, int height, int offsetX, int offsetY)
-    {
-        var image, rect;
+    /**
+     * @param int $width
+     * @param int $height
+     * @param int $offsetX
+     * @param int $offsetY
+     *
+     * @return void
+     */
+    protected function processCrop(
+        int width,
+        int height,
+        int offsetX,
+        int offsetY
+    ) -> void {
+        var image;
+        array rect;
 
         let rect = [
-            "x": offsetX,
-            "y": offsetY,
-
-            "width":  width,
-            "height": height
+            "x"      : offsetX,
+            "y"      : offsetY,
+            "width"  : width,
+            "height" : height
         ];
 
         let image = imagecrop(this->image, rect);
 
         imagedestroy(this->image);
 
-        let this->image = image;
+        let this->image  = image;
         let this->width  = imagesx(image);
         let this->height = imagesy(image);
     }
 
-    protected function processFlip(int direction)
+    /**
+     * @param int $direction
+     *
+     * @return void
+     */
+    protected function processFlip(int direction) -> void
     {
-        if direction == Enum::HORIZONTAL {
+        if (direction === Enum::HORIZONTAL) {
             imageflip(this->image, IMG_FLIP_HORIZONTAL);
         } else {
             imageflip(this->image, IMG_FLIP_VERTICAL);
         }
     }
 
+    /**
+     * @param AdapterInterface $mask
+     *
+     * @return void
+     */
     protected function processMask(<AdapterInterface> mask)
     {
-        var maskImage, newimage, tempImage, color, index, r, g, b;
-        int mask_width, mask_height, x, y, alpha;
+        var alpha, blue, color, index, green, maskHeight, maskImage,
+            maskWidth, newImage, red, tempImage, x, y;
 
-        let maskImage = imagecreatefromstring(
-            mask->render()
-        );
-
-        let mask_width  = (int) imagesx(maskImage);
-        let mask_height = (int) imagesy(maskImage);
-        let alpha = 127;
+        let maskImage  = imagecreatefromstring(mask->render());
+        let maskWidth  = (int) imagesx(maskImage);
+        let maskHeight = (int) imagesy(maskImage);
+        let alpha      = 127;
 
         imagesavealpha(maskImage, true);
 
-        let newimage = this->processCreate(this->width, this->height);
+        let newImage = this->processCreate(this->width, this->height);
 
-        imagesavealpha(newimage, true);
+        imagesavealpha(newImage, true);
 
-        let color = imagecolorallocatealpha(newimage, 0, 0, 0, alpha);
+        let color = imagecolorallocatealpha(
+            newImage,
+            0,
+            0,
+            0,
+            alpha
+        );
 
-        imagefill(newimage, 0, 0, color);
+        imagefill(newImage, 0, 0, color);
 
-        if this->width != mask_width || this->height != mask_height {
+        if (this->width !== maskWidth || this->height !== maskHeight) {
             let tempImage = imagecreatetruecolor(this->width, this->height);
 
             imagecopyresampled(
@@ -274,8 +328,8 @@ class Gd extends AbstractAdapter
                 0,
                 this->width,
                 this->height,
-                mask_width,
-                mask_height
+                maskWidth,
+                maskHeight
             );
 
             imagedestroy(maskImage);
@@ -284,26 +338,30 @@ class Gd extends AbstractAdapter
         }
 
         let x = 0;
-
-        while x < this->width {
+        while (x < this->width) {
             let y = 0;
+            while (y < this->height) {
+                let index = imagecolorat(maskImage, x, y);
+                let color = imagecolorsforindex(maskImage, index);
 
-            while y < this->height {
-                let index = imagecolorat(maskImage, x, y),
-                    color = imagecolorsforindex(maskImage, index);
-
-                if isset color["red"] {
+                if (true === isset(color["red"])) {
                     let alpha = 127 - intval(color["red"] / 2);
                 }
 
-                let index = imagecolorat(this->image, x, y),
-                    color = imagecolorsforindex(this->image, index),
-                    r = color["red"],
-                    g = color["green"],
-                    b = color["blue"],
-                    color = imagecolorallocatealpha(newimage, r, g, b, alpha);
+                let index = imagecolorat(this->image, x, y);
+                let color = imagecolorsforindex(this->image, index);
+                let red   = color["red"];
+                let green = color["green"];
+                let blue  = color["blue"];
+                let color = imagecolorallocatealpha(
+                    newImage,
+                    red,
+                    green,
+                    blue,
+                    alpha
+                );
 
-                imagesetpixel(newimage, x, y, color);
+                imagesetpixel(newImage, x, y, color);
 
                 let y++;
             }
@@ -314,33 +372,43 @@ class Gd extends AbstractAdapter
         imagedestroy(this->image);
         imagedestroy(maskImage);
 
-        let this->image = newimage;
+        let this->image = newImage;
     }
 
-    protected function processPixelate(int amount)
+    /**
+     * @param int $amount
+     *
+     * @return void
+     */
+    protected function processPixelate(int amount) -> void
     {
-        var color;
-        int x, y, x1, y1, x2, y2;
+        var color, x, x1, x2, y, y1, y2;
 
         let x = 0;
 
-        while x < this->width {
+        while (x < this->width) {
             let y = 0;
 
-            while y < this->height {
-                let x1 = x + amount/2;
-                let y1 = y + amount/2;
+            while (y < this->height) {
+                let x1 = (int) (x + (amount / 2));
+                let y1 = (int) (y + (amount / 2));
 
                 if (x1 >= this->width || y1 >= this->height) {
                     break;
                 }
 
                 let color = imagecolorat(this->image, x1, y1);
+                let x2    = x + amount;
+                let y2    = y + amount;
 
-                let x2 = x + amount;
-                let y2 = y + amount;
-
-                imagefilledrectangle(this->image, x, y, x2, y2, color);
+                imagefilledrectangle(
+                    this->image,
+                    x,
+                    y,
+                    x2,
+                    y2,
+                    color
+                );
 
                 let y += amount;
             }
@@ -349,14 +417,24 @@ class Gd extends AbstractAdapter
         }
     }
 
-    protected function processReflection(int height, int opacity, bool fadeIn)
-    {
-        var reflection, line;
-        int stepping, offset, src_y, dst_y, dst_opacity;
+    /**
+     * @param int  $height
+     * @param int  $opacity
+     * @param bool $fadeIn
+     *
+     * @return void
+     */
+    protected function processReflection(
+        int height,
+        int opacity,
+        bool fadeIn
+    ) -> void {
+        var line, reflection;
+        int destinationY, destinationOpacity, offset, stepping, sourceY;
 
         let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
-        if opacity < 127 {
+        if (opacity < 127) {
             let stepping = (127 - opacity) / height;
         } else {
             let stepping = 127 / height;
@@ -379,17 +457,16 @@ class Gd extends AbstractAdapter
         );
 
         let offset = 0;
+        while (height >= offset) {
+            let sourceY      = this->height - offset - 1;
+            let destinationY = this->height + offset;
 
-        while height >= offset {
-            let src_y = this->height - offset - 1;
-            let dst_y = this->height + offset;
-
-            if fadeIn {
-                let dst_opacity = (int) round(
+            if (fadeIn) {
+                let destinationOpacity = (int) round(
                     opacity + (stepping * (height - offset))
                 );
             } else {
-                let dst_opacity = (int) round(
+                let destinationOpacity = (int) round(
                     opacity + (stepping * offset)
                 );
             }
@@ -402,7 +479,7 @@ class Gd extends AbstractAdapter
                 0,
                 0,
                 0,
-                src_y,
+                sourceY,
                 this->width,
                 1
             );
@@ -413,14 +490,14 @@ class Gd extends AbstractAdapter
                 0,
                 0,
                 0,
-                dst_opacity
+                destinationOpacity
             );
 
             imagecopy(
                 reflection,
                 line,
                 0,
-                dst_y,
+                destinationY,
                 0,
                 0,
                 this->width,
@@ -432,37 +509,59 @@ class Gd extends AbstractAdapter
 
         imagedestroy(this->image);
 
-        let this->image = reflection;
+        let this->image  = reflection;
         let this->width  = imagesx(reflection);
         let this->height = imagesy(reflection);
     }
 
-    protected function processRender(string ext, int quality)
+    /**
+     * @param string $extension
+     * @param int    $quality
+     *
+     * @return false|string
+     * @throws Exception
+     */
+    protected function processRender(string extension, int quality)
     {
-        let ext = strtolower(ext);
+        let extension = strtolower(extension);
 
         ob_start();
-
-        if strcmp(ext, "gif") == 0 {
-            imagegif(this->image);
-        } elseif strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
-            imagejpeg(this->image, null, quality);
-        } elseif strcmp(ext, "png") == 0 {
-            imagepng(this->image);
-        } elseif strcmp(ext, "wbmp") == 0 {
-            imagewbmp(this->image);
-        } elseif strcmp(ext, "xbm") == 0 {
-            imagexbm(this->image, null);
-        } else {
-            throw new Exception(
-                "Installed GD does not support '" . ext . "' images"
-            );
+        switch (extension) {
+            case "gif":
+                imagegif(this->image);
+                break;
+            case "jpg":
+            case "jpeg":
+                imagejpeg(this->image, null, quality);
+                break;
+            case "png":
+                imagepng(this->image);
+                break;
+            case "wbmp":
+                imagewbmp(this->image);
+                break;
+            case "webp":
+                imagewebp(this->image);
+                break;
+            case "xbm":
+                imagexbm(this->image, null);
+                break;
+            default:
+                throw new Exception(
+                    "Installed GD does not support '" . extension . "' images"
+                );
         }
 
         return ob_get_clean();
     }
 
-    protected function processResize(int width, int height)
+    /**
+     * @param int $width
+     * @param int $height
+     *
+     * @return void
+     */
+    protected function processResize(int width, int height) -> void
     {
         var image;
 
@@ -470,14 +569,19 @@ class Gd extends AbstractAdapter
 
         imagedestroy(this->image);
 
-        let this->image = image;
+        let this->image  = image;
         let this->width  = imagesx(image);
         let this->height = imagesy(image);
     }
 
-    protected function processRotate(int degrees)
+    /**
+     * @param int $degrees
+     *
+     * @return void
+     */
+    protected function processRotate(int degrees) -> void
     {
-        var image, transparent, width, height;
+        var copy, height, image, transparent, width;
 
         let transparent = imagecolorallocatealpha(
             this->image,
@@ -490,161 +594,197 @@ class Gd extends AbstractAdapter
         let image = imagerotate(
             this->image,
             360 - degrees,
-            transparent,
-            1
+            transparent
         );
 
-        imagesavealpha(image, TRUE);
+        imagesavealpha(image, true);
 
         let width  = imagesx(image);
         let height = imagesy(image);
 
-        if imagecopymerge(this->image, image, 0, 0, 0, 0, width, height, 100) {
+        let copy = imagecopymerge(
+            this->image,
+            image,
+            0,
+            0,
+            0,
+            0,
+            width,
+            height,
+            100
+        );
+        if (false !== copy) {
             imagedestroy(this->image);
 
-            let this->image = image;
+            let this->image  = image;
             let this->width  = width;
             let this->height = height;
         }
     }
 
-    protected function processSave(string file, int quality)
+    /**
+     * @param string $file
+     * @param int    $quality
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function processSave(string file, int quality) -> bool
     {
-        var ext;
+        var extension;
 
-        let ext = pathinfo(file, PATHINFO_EXTENSION);
+        let extension = pathinfo(file, PATHINFO_EXTENSION);
 
         // If no extension is given, revert to the original type.
-        if !ext {
-            let ext = image_type_to_extension(this->type, false);
+        if (true === empty(extension)) {
+            let extension = image_type_to_extension(this->type, false);
         }
 
-        let ext = strtolower(ext);
+        let extension = strtolower(extension);
+        switch (extension) {
+            case "gif":
+                let this->type = IMAGETYPE_GIF;
+                imagegif(this->image, file);
+                break;
+            case "jpg":
+            case "jpeg":
+                let this->type = IMAGETYPE_JPEG;
 
-        if strcmp(ext, "gif") == 0 {
-            let this->type = 1;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagegif(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
-            let this->type = 2;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            if quality >= 0 {
-                if quality < 1 {
-                    let quality = 1;
-                } elseif quality > 100 {
-                    let quality = 100;
+                if (quality >= 0) {
+                    let quality = this->checkHighLow(quality, 1);
+                    imagejpeg(this->image, file, quality);
+                } else {
+                    imagejpeg(this->image, file);
                 }
-
-                imagejpeg(this->image, file, quality);
-            } else {
-                imagejpeg(this->image, file);
-            }
-
-            return true;
+                break;
+            case "png":
+                let this->type = IMAGETYPE_PNG;
+                imagepng(this->image, file);
+                break;
+            case "wbmp":
+                let this->type = IMAGETYPE_WBMP;
+                imagewbmp(this->image, file);
+                break;
+            case "webp":
+                let this->type = IMAGETYPE_WEBP;
+                imagewebp(this->image, file);
+                break;
+            case "xbm":
+                let this->type = IMAGETYPE_XBM;
+                imagexbm(this->image, file);
+                break;
+            default:
+                throw new Exception(
+                    "Installed GD does not support '" . extension . "' images"
+                );
         }
 
-        if strcmp(ext, "png") == 0 {
-            let this->type = 3;
-            let this->mime = image_type_to_mime_type(this->type);
+        let this->mime = image_type_to_mime_type(this->type);
 
-            imagepng(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "wbmp") == 0 {
-            let this->type = 15;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagewbmp(this->image, file);
-
-            return true;
-        }
-
-        if strcmp(ext, "xbm") == 0 {
-            let this->type = 16;
-            let this->mime = image_type_to_mime_type(this->type);
-
-            imagexbm(this->image, file);
-
-            return true;
-        }
-
-        throw new Exception(
-            "Installed GD does not support '" . ext . "' images"
-        );
+        return true;
     }
 
-    protected function processSharpen(int amount)
+    /**
+     * @param int $amount
+     *
+     * @return void
+     */
+    protected function processSharpen(int amount) -> void
     {
-        var matrix;
+        var result;
+        array matrix;
 
         let amount = (int) round(abs(-18 + (amount * 0.08)), 2);
 
         let matrix = [
-            [-1,   -1,    -1],
+            [-1, -1, -1],
             [-1, amount, -1],
-            [-1,   -1,    -1]
+            [-1, -1, -1]
         ];
 
-        if imageconvolution(this->image, matrix, amount - 8, 0) {
+        let result = imageconvolution(
+            this->image,
+            matrix,
+            amount - 8,
+            0
+        );
+        if (true === result) {
             let this->width  = imagesx(this->image);
             let this->height = imagesy(this->image);
         }
     }
 
+    /**
+     * @param string      $text
+     * @param mixed       $offsetX
+     * @param mixed       $offsetY
+     * @param int         $opacity
+     * @param int         $red
+     * @param int         $green
+     * @param int         $blue
+     * @param int         $size
+     * @param string|null $fontFile
+     *
+     * @return void
+     * @throws Exception
+     */
     protected function processText(
         string text,
-        int offsetX,
-        int offsetY,
+        offsetX,
+        offsetY,
         int opacity,
-        int r,
-        int g,
-        int b,
+        int red,
+        int green,
+        int blue,
         int size,
-        string fontfile
-    ) {
-        var space, color, angle;
-        int bottomLeftX = 0, bottomLeftY = 0, topRightX = 0, topRightY = 0,
-        width, height;
+        string fontFile = null
+    ) -> void {
+        var angle, bottomLeftX, bottomLeftY, color, height, space,
+            topRightX, topRightY, width;
+
+        let bottomLeftX = 0;
+        let bottomLeftY = 0;
+        let topRightX   = 0;
+        let topRightY   = 0;
+        let offsetX     = (int) offsetX;
+        let offsetY     = (int) offsetY;
 
         let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
-        if fontfile {
-            let space = imagettfbbox(size, 0, fontfile, text);
+        if (true !== empty(fontFile)) {
+            let space = imagettfbbox(size, 0, fontFile, text);
 
-            if false === space {
+            if (false === space) {
                 throw new Exception("Call to imagettfbbox() failed");
             }
 
-            if isset space[0] {
-                let bottomLeftX = (int) space[0],
-                    bottomLeftY = (int) space[1],
-                    topRightX   = (int) space[4],
-                    topRightY   = (int) space[5];
+            if (true === isset(space[0])) {
+                let bottomLeftX = (int) space[0];
+                let bottomLeftY = (int) space[1];
+                let topRightX   = (int) space[4];
+                let topRightY   = (int) space[5];
             }
 
             let width  = abs(topRightX - bottomLeftX) + 10;
             let height = abs(topRightY - bottomLeftY) + 10;
 
-            if offsetX < 0 {
+            if (offsetX < 0) {
                 let offsetX = this->width - width + offsetX;
             }
 
-            if offsetY < 0 {
+            if (offsetY < 0) {
                 let offsetY = this->height - height + offsetY;
             }
 
-            let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
+            let color = imagecolorallocatealpha(
+                this->image,
+                red,
+                green,
+                blue,
+                opacity
+            );
 
             let angle = 0;
-
             imagettftext(
                 this->image,
                 size,
@@ -652,42 +792,57 @@ class Gd extends AbstractAdapter
                 offsetX,
                 offsetY,
                 color,
-                fontfile,
+                fontFile,
                 text
             );
         } else {
-            let width  = (int) imagefontwidth(size) * strlen(text);
-            let height = (int) imagefontheight(size);
+            let width  = imagefontwidth(size) * strlen(text);
+            let height = imagefontheight(size);
 
-            if offsetX < 0 {
+            if (offsetX < 0) {
                 let offsetX = this->width - width + offsetX;
             }
 
-            if offsetY < 0 {
+            if (offsetY < 0) {
                 let offsetY = this->height - height + offsetY;
             }
 
-            let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
+            let color = imagecolorallocatealpha(
+                this->image,
+                red,
+                green,
+                blue,
+                opacity
+            );
 
-            imagestring(this->image, size, offsetX, offsetY, text, color);
+            imagestring(
+                this->image,
+                size,
+                offsetX,
+                offsetY,
+                text,
+                color
+            );
         }
     }
 
-    protected function processWatermark(<AdapterInterface> watermark, int offsetX, int offsetY, int opacity)
-    {
-        var overlay, color;
-        int width, height;
+    protected function processWatermark(
+        <AdapterInterface> watermark,
+        int offsetX,
+        int offsetY,
+        int opacity
+    ) -> void {
+        var color, copy, overlay;
+        int height, width;
 
-        let overlay = imagecreatefromstring(
-            watermark->render()
-        );
+        let overlay = imagecreatefromstring(watermark->render());
 
         imagesavealpha(overlay, true);
 
         let width  = (int) imagesx(overlay);
         let height = (int) imagesy(overlay);
 
-        if opacity < 100 {
+        if (opacity < 100) {
             let opacity = (int) round(
                 abs(
                     (opacity * 127 / 100) - 127
@@ -709,8 +864,38 @@ class Gd extends AbstractAdapter
 
         imagealphablending(this->image, true);
 
-        if imagecopy(this->image, overlay, offsetX, offsetY, 0, 0, width, height) {
+        let copy = imagecopy(
+            this->image,
+            overlay,
+            offsetX,
+            offsetY,
+            0,
+            0,
+            width,
+            height
+        );
+        if (true === copy) {
             imagedestroy(overlay);
+        }
+    }
+
+    /**
+     * Checks the installed version of GD
+     *
+     * @return void
+     * @throws Exception
+     */
+    private function check() -> void
+    {
+        var version;
+
+        let version = this->getVersion();
+
+        if (true !== version_compare(version, "2.0.1", ">=")) {
+            throw new Exception(
+                "Phalcon\\Image\\Adapter\\GD requires GD " .
+                "version '2.0.1' or greater, you have " . version
+            );
         }
     }
 }
