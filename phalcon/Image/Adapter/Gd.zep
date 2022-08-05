@@ -224,7 +224,7 @@ class Gd extends AbstractAdapter
      * @param int $width
      * @param int $height
      *
-     * @return false|GdImage|resource
+     * @return false|resource
      */
     protected function processCreate(int width, int height)
     {

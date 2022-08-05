@@ -137,7 +137,7 @@ class Imagick extends AbstractAdapter
      * @param int $rigidity Introduces a bias for non-straight seams. This
      *                      parameter is typically 0.
      *
-     * @return void
+     * @return AbstractAdapter
      * @throws Exception
      * @throws ImagickException
      */
