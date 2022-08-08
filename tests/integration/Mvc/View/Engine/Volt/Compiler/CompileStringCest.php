@@ -681,6 +681,11 @@ class CompileStringCest
                 "{{ [1, 2]|join(',') }}",
                 "<?= join(',', [1, 2]) ?>",
             ],
+            // Issue: 16019
+            [
+                "{{ readonly|default(false) ? 'readonly=\"readonly\"' : '' }}",
+                '<?= ((empty($readonly) ? (false) : ($readonly)) ? \'readonly="readonly"\' : \'\') ?>',
+            ],
         ];
     }
 

@@ -1,4 +1,4 @@
-# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
 ## Fixed 
 - Reverted to single quotes when volt code generates PHP code.

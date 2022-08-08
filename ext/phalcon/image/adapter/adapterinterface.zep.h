@@ -24,7 +24,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinte
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_mask, 0, 1, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, watermark, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, mask, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_pixelate, 0, 1, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
@@ -38,7 +38,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinte
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_render, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, ext, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, extension, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, quality, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -68,7 +68,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinte
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, color, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, size, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, fontfile, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, fontFile, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_watermark, 0, 1, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
