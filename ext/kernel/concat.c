@@ -355,6 +355,52 @@ void zephir_concat_sssvsvsvsvsvs(zval *result, const char *op1, uint32_t op1_len
 
 }
 
+void zephir_concat_ssv(zval *result, const char *op1, uint32_t op1_len, const char *op2, uint32_t op2_len, zval *op3, int self_var){
+
+	zval result_copy, op3_copy;
+	int use_copy = 0, use_copy3 = 0;
+	size_t offset = 0, length;
+
+	if (Z_TYPE_P(op3) != IS_STRING) {
+	   use_copy3 = zend_make_printable_zval(op3, &op3_copy);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
+	}
+
+	length = op1_len + op2_len + Z_STRLEN_P(op3);
+	if (self_var) {
+
+		if (Z_TYPE_P(result) != IS_STRING) {
+			use_copy = zend_make_printable_zval(result, &result_copy);
+			if (use_copy) {
+				ZEPHIR_CPY_WRT_CTOR(result, (&result_copy));
+			}
+		}
+
+		offset = Z_STRLEN_P(result);
+		length += offset;
+		Z_STR_P(result) = zend_string_realloc(Z_STR_P(result), length, 0);
+
+	} else {
+		ZVAL_STR(result, zend_string_alloc(length, 0));
+	}
+
+	memcpy(Z_STRVAL_P(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len, op2, op2_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	Z_STRVAL_P(result)[length] = 0;
+	zend_string_forget_hash_val(Z_STR_P(result));
+	if (use_copy3) {
+	   zval_dtor(op3);
+	}
+
+	if (use_copy) {
+	   zval_dtor(&result_copy);
+	}
+
+}
+
 void zephir_concat_ssvsvs(zval *result, const char *op1, uint32_t op1_len, const char *op2, uint32_t op2_len, zval *op3, const char *op4, uint32_t op4_len, zval *op5, const char *op6, uint32_t op6_len, int self_var){
 
 	zval result_copy, op3_copy, op5_copy;
