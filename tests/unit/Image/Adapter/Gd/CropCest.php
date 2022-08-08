@@ -33,39 +33,32 @@ class CropCest
 
         $this->checkJpegSupport($I);
 
-        $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
-        );
+        $image = new Gd(dataDir('assets/images/example-jpg.jpg'));
 
         $outputDir = 'tests/image/gd';
         $width     = 200;
         $height    = 200;
         $cropImage = 'crop.jpg';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $hash      = '7f7f7b571f1f1f7f';
+        $hash      = 'ffffffb803402030';
 
         // Resize to 200 pixels on the shortest side
-        $image->crop($width, $height)->save(outputDir($outputDir . '/' . $cropImage));
+        $image->crop($width, $height)
+              ->save(outputDir($outputDir . '/' . $cropImage))
+        ;
 
-        $I->amInPath(
-            outputDir($outputDir)
-        );
+        $I->amInPath(outputDir($outputDir));
 
         $I->seeFileFound($cropImage);
 
-        $I->assertSame(
-            $width,
-            $image->getWidth()
-        );
+        $actual = $image->getWidth();
+        $I->assertSame($width, $actual);
 
-        $I->assertSame(
-            $height,
-            $image->getHeight()
-        );
+        $actual = $image->getHeight();
+        $I->assertSame($height, $actual);
 
-        $I->assertTrue(
-            $this->checkImageHash($output, $hash)
-        );
+        $actual = $this->checkImageHash($output, $hash);
+        $I->assertTrue($actual);
 
         $I->safeDeleteFile($cropImage);
     }
@@ -82,9 +75,7 @@ class CropCest
 
         $this->checkJpegSupport($I);
 
-        $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
-        );
+        $image = new Gd(dataDir('assets/images/example-jpg.jpg'));
 
         $outputDir = 'tests/image/gd';
         $width     = 200;
@@ -96,29 +87,22 @@ class CropCest
         $hash      = 'fffff00000000000';
 
         // Resize to 200 pixels on the shortest side
-        $image->crop($width, $height, $offsetX, $offsetY)->save($output);
+        $image->crop($width, $height, $offsetX, $offsetY)
+              ->save($output)
+        ;
 
-        $I->amInPath(
-            outputDir($outputDir)
-        );
+        $I->amInPath(outputDir($outputDir));
 
         $I->seeFileFound($cropImage);
 
-        $I->assertSame(
-            $width,
-            $image->getWidth(),
-            'Checking width'
-        );
+        $actual = $image->getWidth();
+        $I->assertSame($width, $actual);
 
-        $I->assertSame(
-            $height,
-            $image->getHeight(),
-            'Checking height'
-        );
+        $actual = $image->getHeight();
+        $I->assertSame($height, $actual);
 
-        $I->assertTrue(
-            $this->checkImageHash($output, $hash)
-        );
+        $actual = $this->checkImageHash($output, $hash);
+        $I->assertTrue($actual);
 
         $I->safeDeleteFile($cropImage);
     }

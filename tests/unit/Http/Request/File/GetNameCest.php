@@ -34,7 +34,7 @@ class GetNameCest
             [
                 'name'     => 'test',
                 'type'     => 'text/plain',
-                'tmp_name' => dataDir('/assets/images/phalconphp.jpg'),
+                'tmp_name' => dataDir('/assets/images/example-jpg.jpg'),
                 'size'     => 1,
                 'error'    => 0,
             ]

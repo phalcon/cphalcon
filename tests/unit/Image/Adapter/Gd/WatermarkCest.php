@@ -35,11 +35,11 @@ class WatermarkCest
         $this->checkJpegSupport($I);
 
         $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $watermark = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
         $watermark->resize(250, null, Enum::WIDTH);
 
@@ -53,7 +53,9 @@ class WatermarkCest
         $hash = 'fbf9f3e3c3c18183';
 
         // Resize to 200 pixels on the shortest side
-        $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
+        $image->watermark($watermark, $offsetX, $offsetY, $opacity)
+              ->save($output)
+        ;
 
         $I->amInPath(
             outputDir($outputDir)
@@ -81,11 +83,11 @@ class WatermarkCest
         $this->checkJpegSupport($I);
 
         $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $watermark = new Gd(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
 
         $outputDir   = 'tests/image/gd';
@@ -96,7 +98,9 @@ class WatermarkCest
 
         $hash = 'fbf9f3e3c3c18183';
 
-        $image->watermark($watermark, $offsetX, $offsetY)->save($output);
+        $image->watermark($watermark, $offsetX, $offsetY)
+              ->save($output)
+        ;
 
         $I->amInPath(
             outputDir($outputDir)
@@ -124,11 +128,11 @@ class WatermarkCest
         $this->checkJpegSupport($I);
 
         $image = new Gd(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
 
         $watermark = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
         $watermark->resize(50, 50, Enum::NONE);
 
@@ -142,7 +146,9 @@ class WatermarkCest
         $hash = '107c7c7c7e1c1818';
 
         // Resize to 200 pixels on the shortest side
-        $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
+        $image->watermark($watermark, $offsetX, $offsetY, $opacity)
+              ->save($output)
+        ;
 
         $I->amInPath(
             outputDir($outputDir)
@@ -168,11 +174,11 @@ class WatermarkCest
         $I->wantToTest('Image\Adapter\Gd - watermark() - png inside png');
 
         $image = new Gd(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
 
         $watermark = new Gd(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
         $watermark->resize(null, 30, Enum::HEIGHT);
 
@@ -185,7 +191,9 @@ class WatermarkCest
 
         $hash = '10787c3c3e181818';
 
-        $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
+        $image->watermark($watermark, $offsetX, $offsetY, $opacity)
+              ->save($output)
+        ;
 
         $I->amInPath(
             outputDir($outputDir)

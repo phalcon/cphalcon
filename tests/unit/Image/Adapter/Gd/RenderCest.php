@@ -33,22 +33,23 @@ class RenderCest
         $I->wantToTest('Image\Adapter\Gd - render()');
 
         $params = [
-            'jpg' => [130699, 'fbf9f3e3c3c18183'],
-            'png' => [8802, '30787c3c1e181818'],
+            'gif'  => [8087, 'fffffffffbffffff'],
+            'jpg'  => [130699, 'fbf9f3e3c3c18183'],
+            'png'  => [8802, '30787c3c1e181818'],
+            'wbmp' => [31761, '00c78ffe78030200'],
+            'webp' => [483066, '270640183c3c7c7c'],
+            'xyz'  => [8802, '30787c3c1e181818'] // unknown defaults to png,
         ];
 
         foreach ($this->getImages() as $type => $imagePath) {
-            $image = new Gd(
-                $imagePath
-            );
+            $image = new Gd($imagePath);
 
-            [$lenght, $hash] = $params[$type];
+            [$length, $hash] = $params[$type];
 
-            $I->assertSame($lenght, mb_strlen($image->render()));
+            $I->assertSame($length, mb_strlen($image->render()));
 
-            $I->assertTrue(
-                $this->checkImageHash($imagePath, $hash)
-            );
+            $actual = $this->checkImageHash($imagePath, $hash);
+            $I->assertTrue($actual);
         }
     }
 }

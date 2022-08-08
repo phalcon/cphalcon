@@ -37,10 +37,8 @@ class GetRealpathCest
             $image = str_replace("/", DIRECTORY_SEPARATOR, $image);
             $gd    = new Gd($image);
 
-            $I->assertSame(
-                $image,
-                $gd->getRealpath()
-            );
+            $actual = $gd->getRealpath();
+            $I->assertSame($image, $actual);
         }
     }
 }

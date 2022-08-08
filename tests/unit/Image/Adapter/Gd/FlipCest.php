@@ -33,13 +33,30 @@ class FlipCest
         $I->wantToTest('Image\Adapter\Gd - flip()');
 
         $params = [
-            'jpg' => [
+            'gif'  => [
+                [4, 'ffffffffdfffffff'], // Unknown direction: revert to HORIZONTAL
+                [Enum::HORIZONTAL, 'ffffffffdfffffff'],
+                [Enum::VERTICAL, 'fffffffbffffffff'],
+            ],
+            'jpg'  => [
                 [Enum::HORIZONTAL, 'df9fcfc7c38381c1'],
                 [Enum::VERTICAL, '8381c1c3e3f3f9fb'],
             ],
-            'png' => [
+            'png'  => [
                 [Enum::HORIZONTAL, '0c1e3e3c78181818'],
                 [Enum::VERTICAL, '1818181e3c7c7830'],
+            ],
+            'wbmp' => [
+                [Enum::HORIZONTAL, '02e3f17f1ec04000'],
+                [Enum::VERTICAL, '00020378fe8fc700'],
+            ],
+            'webp' => [
+                [Enum::HORIZONTAL, 'e46002183c3c3e3f'],
+                [Enum::VERTICAL, 'fc7c3c3c18400627'],
+            ],
+            'xmb'  => [
+                [Enum::HORIZONTAL, 'e46002183c3c3e3f'],
+                [Enum::VERTICAL, 'fc7c3c3c18400627'],
             ],
         ];
 
@@ -52,17 +69,15 @@ class FlipCest
 
                 $image = new Gd($imagePath);
 
-                $image->flip($direction)->save($output);
+                $image->flip($direction)
+                      ->save($output)
+                ;
 
-                $I->amInPath(
-                    outputDir($outputDir)
-                );
-
+                $I->amInPath(outputDir($outputDir));
                 $I->seeFileFound($resultImage);
 
-                $I->assertTrue(
-                    $this->checkImageHash($output, $hash)
-                );
+                $actual = $this->checkImageHash($output, $hash);
+                $I->assertTrue($actual);
 
                 $I->safeDeleteFile($output);
             }
