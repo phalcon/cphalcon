@@ -64,7 +64,7 @@ class ExpressionCest
         ];
 
         $expected = "\"\t\", \"\n\n\"";
-        $actual   = $volt->expression($source);
+        $actual   = $volt->expression($source, true);
 
         $I->assertEquals($expected, $actual);
     }

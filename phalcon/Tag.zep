@@ -246,7 +246,7 @@ class Tag
      *     'id' => ''
      * ]
      */
-    public static function form(var parameters) -> string
+    public static function formLegacy(var parameters) -> string
     {
         var params, paramsAction, action, code;
 

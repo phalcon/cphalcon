@@ -273,7 +273,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     {
         var elements, element, data, field;
 
-        let data = this->data,
+        let data     = this->data,
             elements = this->elements;
 
         /**

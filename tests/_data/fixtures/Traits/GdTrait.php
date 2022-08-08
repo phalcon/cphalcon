@@ -33,7 +33,7 @@ trait GdTrait
      */
     private function checkJpegSupport(UnitTester $I): void
     {
-        if (!$this->hasJpegSupport()) {
+        if (true !== $this->hasJpegSupport()) {
             $I->skipTest(
                 "Extension 'gd' is compiled without JPEG support."
             );
@@ -47,7 +47,7 @@ trait GdTrait
     {
         $gdInfo = gd_info();
 
-        return !empty($gdInfo['JPEG Support']);
+        return true !== empty($gdInfo['JPEG Support']);
     }
 
     /**
@@ -56,11 +56,14 @@ trait GdTrait
     private function getImages(): array
     {
         $images = [
-            'png' => dataDir('assets/images/logo.png'),
+            'gif' => dataDir('assets/images/example-gif.gif'),
+            'png' => dataDir('assets/images/example-png.png'),
         ];
 
         if (true === $this->hasJpegSupport()) {
-            $images['jpg'] = dataDir('assets/images/phalconphp.jpg');
+            $images['jpg']  = dataDir('assets/images/example-jpg.jpg');
+            $images['wbmp'] = dataDir('assets/images/example-wbmp.wbmp');
+            $images['webp'] = dataDir('assets/images/example-webp.webp');
         }
 
         return $images;
@@ -227,17 +230,17 @@ trait GdTrait
             return $result;
         }
 
-        return implode(null, $hash);
+        return implode("", $hash);
     }
 
     /**
      * @author https://github.com/xwiz/phash
      *
      * @param $img
-     * @param $thumbwidth
-     * @param $thumbheight
-     * @param $width
-     * @param $height
+     * @param int $thumbwidth
+     * @param int $thumbheight
+     * @param int $width
+     * @param int $height
      *
      * @return false|resource
      */
@@ -247,7 +250,18 @@ trait GdTrait
         $finalimg = imagecreatetruecolor($thumbwidth, $thumbheight);
 
         // Fast copy and resize old image into new image.
-        $this->fastimagecopyresampled($finalimg, $img, 0, 0, 0, 0, $thumbwidth, $thumbheight, $width, $height);
+        $this->fastimagecopyresampled(
+            $finalimg,
+            $img,
+            0,
+            0,
+            0,
+            0,
+            $thumbwidth,
+            $thumbheight,
+            $width,
+            $height
+        );
 
         // release the source object
         imagedestroy($img);

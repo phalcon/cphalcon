@@ -30,10 +30,7 @@ class GetSetOptionsCest
         $I->wantToTest('Mvc\View\Engine\Volt - getOptions() / setOptions()');
 
         $view = new View();
-
         $volt = new Volt($view);
-
-
         $options = [
             'path'      => '../app/compiled-templates/',
             'extension' => '.compiled',
@@ -41,9 +38,8 @@ class GetSetOptionsCest
 
         $volt->setOptions($options);
 
-        $I->assertEquals(
-            $options,
-            $volt->getOptions()
-        );
+        $expected = $options;
+        $actual   = $volt->getOptions();
+        $I->assertSame($expected, $actual);
     }
 }

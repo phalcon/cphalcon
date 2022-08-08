@@ -240,7 +240,8 @@ class Compiler implements InjectionAwareInterface
                 }
             }
         } else {
-            let leftCode = this->expression(left), leftType = left["type"];
+            let leftCode = this->expression(left),
+                leftType = left["type"];
 
             if leftType != PHVOLT_T_DOT && leftType != PHVOLT_T_FCALL {
                 let exprCode .= leftCode;
@@ -621,8 +622,11 @@ class Compiler implements InjectionAwareInterface
         let exprCode = this->expression(expr);
 
         if expr["type"] == PHVOLT_T_FCALL  {
-            let name = expr["name"];
+            if this->isTagFactory(expr) === true {
+                let exprCode = this->expression(expr, true);
+            }
 
+            let name = expr["name"];
             if name["type"] == PHVOLT_T_IDENTIFIER {
                 /**
                  * super() is a function however the return of this function
@@ -1303,14 +1307,15 @@ class Compiler implements InjectionAwareInterface
     /**
      * Resolves an expression node in an AST volt tree
      *
-     * @param array expr
+     * @param array $expr
+     * @param bool  $doubleQuotes
      *
      * @return string
      */
-    final public function expression(array! expr) -> string
+    final public function expression(array! expr, bool doubleQuotes = false) -> string
     {
-        var exprCode, extensions, items, singleExpr, singleExprCode, name, left,
-            leftCode, right, rightCode, type, startCode, endCode, start, end;
+        var end, endCode, exprCode, extensions, items, left, leftCode, name,
+            right, rightCode, singleExpr, singleExprCode, start, startCode, type;
 
         let exprCode = null, this->exprLevel++;
 
@@ -1340,7 +1345,8 @@ class Compiler implements InjectionAwareInterface
 
                 for singleExpr in expr {
                     let singleExprCode = this->expression(
-                        singleExpr["expr"]
+                        singleExpr["expr"],
+                        doubleQuotes
                     );
 
                     if fetch name, singleExpr["name"] {
@@ -1368,7 +1374,7 @@ class Compiler implements InjectionAwareInterface
              * Left part of expression is always resolved
              */
             if fetch left, expr["left"] {
-                let leftCode = this->expression(left);
+                let leftCode = this->expression(left, doubleQuotes);
             }
 
             /**
@@ -1399,7 +1405,7 @@ class Compiler implements InjectionAwareInterface
              * From here, right part of expression is always resolved
              */
             if fetch right, expr["right"] {
-                let rightCode = this->expression(right);
+                let rightCode = this->expression(right, doubleQuotes);
             }
 
             let exprCode = null;
@@ -1467,8 +1473,11 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_STRING:
-                    let exprCode = "\"" . expr["value"] . "\"";
-                    //let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
+                    if likely doubleQuotes === false {
+                        let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
+                    } else {
+                        let exprCode = "\"" . expr["value"] . "\"";
+                    }
                     break;
 
                 case PHVOLT_T_NULL:
@@ -1524,7 +1533,7 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_FCALL:
-                    let exprCode = this->functionCall(expr);
+                    let exprCode = this->functionCall(expr, doubleQuotes);
                     break;
 
                 case PHVOLT_T_ENCLOSED:
@@ -1541,7 +1550,7 @@ class Compiler implements InjectionAwareInterface
                      * Evaluate the start part of the slice
                      */
                     if fetch start, expr["start"] {
-                        let startCode = this->expression(start);
+                        let startCode = this->expression(start, doubleQuotes);
                     } else {
                         let startCode = "null";
                     }
@@ -1550,7 +1559,7 @@ class Compiler implements InjectionAwareInterface
                      * Evaluate the end part of the slice
                      */
                     if fetch end, expr["end"] {
-                        let endCode = this->expression(end);
+                        let endCode = this->expression(end, doubleQuotes);
                     } else {
                         let endCode = "null";
                     }
@@ -1623,7 +1632,7 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_TERNARY:
-                    let exprCode = "(" . this->expression(expr["ternary"]) . " ? " . leftCode . " : " . rightCode . ")";
+                    let exprCode = "(" . this->expression(expr["ternary"], doubleQuotes) . " ? " . leftCode . " : " . rightCode . ")";
                     break;
 
                 case PHVOLT_T_MINUS:
@@ -1694,29 +1703,33 @@ class Compiler implements InjectionAwareInterface
     /**
      * Resolves function intermediate code into PHP function calls
      *
-     * @param array expr
+     * @param array $expr
+     * @param bool  $doubleQuotes
      *
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function functionCall(array! expr) -> string
+    public function functionCall(array! expr, bool doubleQuotes = false) -> string
     {
-        var code, funcArguments, arguments, nameExpr, nameType, name,
-            extensions, functions, definition, extendedBlocks, block,
-            currentBlock, exprLevel, escapedCode, method, arrayHelpers, tagService;
+        var arguments, arrayHelpers, block, code, currentBlock, definition,
+            escapedCode, exprLevel, extendedBlocks, extensions, funcArguments,
+            functions, method, name, nameExpr, nameType, tagService;
 
-        let code = null;
+        let code          = null,
+            funcArguments = null,
+            nameExpr      = expr["name"],
+            nameType      = nameExpr["type"];
 
-        let funcArguments = null;
-
+        /**
+         * The TagFactory helpers sometimes receive line endings
+         * as parameters. Using single quotes is not going to make
+         * that work. As such we need to recalculate the arguments
+         */
         if fetch funcArguments, expr["arguments"] {
-            let arguments = this->expression(funcArguments);
+            let arguments = this->expression(funcArguments, doubleQuotes);
         } else {
             let arguments = "";
         }
-
-        let nameExpr = expr["name"],
-            nameType = nameExpr["type"];
 
         /**
          * Check if it's a single function
@@ -1833,14 +1846,23 @@ class Compiler implements InjectionAwareInterface
                 return "''";
             }
 
-            let method = lcfirst(
-                camelize(name)
-            );
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            if name === "preload" {
+                return "$this->preload(" . arguments . ")";
+            }
 
+            /**
+             * Check if it's a method in Phalcon\Tag
+             * @todo This needs a lot of refactoring and will break a lot of applications if removed
+             */
+            let method = lcfirst(camelize(name));
             let arrayHelpers = [
                 "link_to":        true,
                 "image":          true,
-                "form":           true,
+                "form_legacy":    true,
                 "submit_button":  true,
                 "radio_field":    true,
                 "check_field":    true,
@@ -1856,18 +1878,6 @@ class Compiler implements InjectionAwareInterface
                 "image_input":    true
             ];
 
-            /**
-             * Check if it's a method in Phalcon\Tag
-             * @todo This needs a lot of refactoring and will break a lot of applications if removed
-             */
-            if name === "preload" {
-                return "$this->preload(" . arguments . ")";
-            }
-
-            /**
-             * Check if it's a method in Phalcon\Tag
-             * @todo This needs a lot of refactoring and will break a lot of applications if removed
-             */
             if method_exists("Phalcon\\Tag", method) {
                 if isset arrayHelpers[name] {
                     return "\Phalcon\Tag::" . method . "([" . arguments . "])";
@@ -1882,6 +1892,17 @@ class Compiler implements InjectionAwareInterface
             if this->container !== null && true === this->container->has("tag") {
                 let tagService = this->container->get("tag");
                 if true === tagService->has(name) {
+                    /**
+                     * recalculate the arguments because we need them double
+                     * quoted
+                     */
+                    let funcArguments = null;
+                    if fetch funcArguments, expr["arguments"] {
+                        let arguments = this->expression(funcArguments, true);
+                    } else {
+                        let arguments = "";
+                    }
+
                     return "$this->tag->" . name . "(" . arguments . ")";
                 }
             }
@@ -1937,7 +1958,7 @@ class Compiler implements InjectionAwareInterface
             return "$this->callMacro('" . name . "', [" . arguments . "])";
         }
 
-        return this->expression(nameExpr) . "(" . arguments . ")";
+        return this->expression(nameExpr, doubleQuotes) . "(" . arguments . ")";
     }
 
     /**
@@ -2803,7 +2824,6 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_BLOCK:
-
                     /**
                      * Block statement
                      */
@@ -2844,7 +2864,6 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 case PHVOLT_T_EXTENDS:
-
                     /**
                      * Extends statement
                      */
@@ -3025,5 +3044,37 @@ class Compiler implements InjectionAwareInterface
          * Is an array but not a statement list?
          */
         return statements;
+    }
+
+    private function isTagFactory(array expression) -> bool
+    {
+        var left, leftValue, name;
+
+        /**
+         * This will check recursively:
+         * - If we have a "name" array.
+         * - If the "name" has a "left" sub-array
+         * - If the "left" sub-array has a "value" of "tag"
+         * - If the "left" has another sub-array then recurse
+         */
+        if fetch name, expression["name"] {
+            if fetch left, name["left"] {
+                /**
+                 * There is a value, get it and check it
+                 */
+                if fetch leftValue, left["value"] {
+                    return (leftValue === "tag");
+                } else {
+                    /**
+                     * There is a "name" so that is nested, recursion
+                     */
+                    if typeof left["name"] === "array" {
+                        return this->isTagFactory(left);
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

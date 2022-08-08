@@ -35,17 +35,19 @@ class WatermarkCest
         $I->wantToTest('Image\Adapter\Imagick - watermark()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         $mark = new Imagick(
-            dataDir('assets/images/logo.png')
+            dataDir('assets/images/example-png.png')
         );
 
         // Add a watermark to the bottom right of the image
-        $image->watermark($mark, 10, 10)->save(outputDir('tests/image/imagick/watermark.jpg'));
+        $image->watermark($mark, 10, 10)
+              ->save(outputDir('tests/image/imagick/watermark.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

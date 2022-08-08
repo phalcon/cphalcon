@@ -33,8 +33,8 @@ class TextCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
     public function imageAdapterGdText(UnitTester $I, Example $example)
     {
@@ -43,7 +43,7 @@ class TextCest
         $this->checkJpegSupport($I);
 
         $outputDir   = 'tests/image/gd';
-        $image       = new Gd(dataDir('assets/images/phalconphp.jpg'));
+        $image       = new Gd(dataDir('assets/images/example-jpg.jpg'));
         $index       = $example['index'];
         $outputImage = $index . 'text.jpg';
         $output      = outputDir($outputDir . '/' . $outputImage);
@@ -58,7 +58,7 @@ class TextCest
                 $example['size'],
                 $example['font']
             )
-              ->save($output)
+            ->save($output)
         ;
 
         $I->amInPath(outputDir($outputDir));
@@ -84,7 +84,7 @@ class TextCest
         $outputDir = 'tests/image/gd';
 
 
-        $image       = dataDir('assets/images/phalconphp.jpg');
+        $image       = dataDir('assets/images/example-jpg.jpg');
         $outputImage = '15188-text.jpg';
         $output      = outputDir($outputDir . '/' . $outputImage);
         $text        = 'Hello Phalcon!';

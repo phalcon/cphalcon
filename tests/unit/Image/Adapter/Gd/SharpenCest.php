@@ -43,7 +43,7 @@ class SharpenCest
 
         foreach ($params as [$amount, $hash]) {
             $image = new Gd(
-                dataDir('assets/images/phalconphp.jpg')
+                dataDir('assets/images/example-jpg.jpg')
             );
 
             $outputImage = $i++ . 'sharpen.jpg';
@@ -53,16 +53,11 @@ class SharpenCest
                   ->save($output)
             ;
 
-            $I->amInPath(
-                outputDir($outputDir)
-            );
-
+            $I->amInPath(outputDir($outputDir));
             $I->seeFileFound($outputImage);
 
-            $I->assertTrue(
-                $this->checkImageHash($output, $hash)
-            );
-
+            $actual = $this->checkImageHash($output, $hash);
+            $I->assertTrue($actual);
             $I->safeDeleteFile($outputImage);
         }
     }

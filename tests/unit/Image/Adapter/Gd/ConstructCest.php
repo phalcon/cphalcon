@@ -34,10 +34,8 @@ class ConstructCest
         foreach ($this->getImages() as $image) {
             $gd = new Gd($image);
 
-            $I->assertInstanceOf(
-                Gd::class,
-                $gd
-            );
+            $class = Gd::class;
+            $I->assertInstanceOf($class, $gd);
         }
     }
 }

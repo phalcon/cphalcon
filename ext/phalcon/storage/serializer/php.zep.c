@@ -109,33 +109,33 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 127);
+	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 128);
 	zephir_check_call_status();
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "8.0");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, ">=");
-	ZEPHIR_CALL_FUNCTION(&_3, "version_compare", NULL, 128, &version, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "version_compare", NULL, 129, &version, &_1, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZEPHIR_INIT_NVAR(&_4$$4);
 		zephir_create_closure_ex(&_4$$4, NULL, phalcon_11__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_5$$4, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 129, &_4$$4, &_5$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 130, &_4$$4, &_5$$4);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_6$$5);
 		ZEPHIR_INIT_NVAR(&_6$$5);
 		zephir_create_closure_ex(&_6$$5, NULL, phalcon_12__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_7$$5, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 129, &_6$$5, &_7$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 130, &_6$$5, &_7$$5);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 130);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 131);
 	zephir_check_call_status();
 	_8 = ZEPHIR_GLOBAL(warning).enable;
 	if (!(_8)) {
@@ -149,6 +149,12 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 		}
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_STRING(&result, "");
+	} else {
+		if (1) {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
+		} else {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$false);
+		}
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &result);
 	ZEPHIR_MM_RESTORE();

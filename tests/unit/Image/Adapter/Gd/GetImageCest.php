@@ -35,14 +35,12 @@ class GetImageCest
             $gd = new Gd($image);
 
             if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-                $expected = is_object($gd->getImage());
+                $actual = is_object($gd->getImage());
             } else {
-                $expected = is_resource($gd->getImage());
+                $actual = is_resource($gd->getImage());
             }
 
-            $I->assertTrue(
-                $expected
-            );
+            $I->assertTrue($actual);
         }
     }
 }

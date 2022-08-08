@@ -86,9 +86,9 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 282, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 283, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 285, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 286, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
