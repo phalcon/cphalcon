@@ -19,11 +19,6 @@ use Phalcon\Image\Exception;
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * @var bool
-     */
-    protected static checked = false;
-
-    /**
      * @var string
      */
     protected file;
@@ -33,24 +28,24 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var int
      */
-    protected height { get };
+    protected height;
 
     /**
-     * @var object|null
+     * @var mixed|null
      */
-    protected image = null { get };
+    protected image = null;
 
     /**
      * Image mime type
      *
      * @var string
      */
-    protected mime { get };
+    protected mime;
 
     /**
      * @var string
      */
-    protected realpath { get };
+    protected realpath;
 
     /**
      * Image type
@@ -59,27 +54,37 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var int
      */
-    protected type { get };
+    protected type;
 
     /**
      * Image width
      *
      * @var int
      */
-    protected width { get };
+    protected width;
 
     /**
      * Set the background color of an image
+     *
+     * @param string $color
+     * @param int    $opacity
+     *
+     * @return AdapterInterface
      */
-    public function background(string color, int opacity = 100) -> <AdapterInterface>
-    {
+    public function background(
+        string color,
+        int opacity = 100
+    ) -> <AdapterInterface> {
         var colors;
 
-        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
+        if (
+            strlen(color) > 1 &&
+            substr(color, 0, 1) === "#"
+        ) {
             let color = substr(color, 1);
         }
 
-        if strlen(color) === 3 {
+        if (strlen(color) === 3) {
             let color = preg_replace("/./", "$0$0", color);
         }
 
@@ -95,14 +100,14 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Blur image
+     *
+     * @param int $radius
+     *
+     * @return AdapterInterface
      */
     public function blur(int radius) -> <AdapterInterface>
     {
-        if radius < 1 {
-            let radius = 1;
-        } elseif radius > 100 {
-            let radius = 100;
-        }
+        let radius = this->checkHighLow(radius, 1);
 
         this->{"processBlur"}(radius);
 
@@ -111,6 +116,13 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Crop an image to the given size
+     *
+     * @param int      $width
+     * @param int      $height
+     * @param int|null $offsetX
+     * @param int|null $offsetY
+     *
+     * @return AdapterInterface
      */
     public function crop(
         int width,
@@ -118,35 +130,25 @@ abstract class AbstractAdapter implements AdapterInterface
         int offsetX = null,
         int offsetY = null
     ) -> <AdapterInterface> {
-        if is_null(offsetX) {
+        if (null === offsetX) {
             let offsetX = ((this->width - width) / 2);
         } else {
-            if offsetX < 0 {
-                let offsetX = this->width - width + offsetX;
-            }
-
-            if offsetX > this->width {
-                let offsetX = (int) this->width;
-            }
+            let offsetX = (offsetX < 0) ? this->width - width + offsetX : offsetX;
+            let offsetX = (offsetX > this->width) ? this->width : offsetX;
         }
 
-        if is_null(offsetY) {
+        if (null === offsetY) {
             let offsetY = ((this->height - height) / 2);
         } else {
-            if offsetY < 0 {
-                let offsetY = this->height - height + offsetY;
-            }
-
-            if offsetY > this->height {
-                let offsetY = (int) this->height;
-            }
+            let offsetY = (offsetY < 0) ? this->height - height + offsetY : offsetY;
+            let offsetY = (offsetY > this->height) ? this->height : offsetY;
         }
 
-        if width > (this->width - offsetX) {
+        if (width > (this->width - offsetX)) {
             let width = this->width - offsetX;
         }
 
-        if height > (this->height - offsetY) {
+        if (height > (this->height - offsetY)) {
             let height = this->height - offsetY;
         }
 
@@ -157,10 +159,14 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Flip the image along the horizontal or vertical axis
+     *
+     * @param int $direction
+     *
+     * @return AdapterInterface
      */
     public function flip(int direction) -> <AdapterInterface>
     {
-        if direction != Enum::HORIZONTAL && direction != Enum::VERTICAL {
+        if (direction != Enum::HORIZONTAL && direction != Enum::VERTICAL) {
             let direction = Enum::HORIZONTAL;
         }
 
@@ -169,43 +175,78 @@ abstract class AbstractAdapter implements AdapterInterface
         return this;
     }
 
+    /**
+     * @return int
+     */
+    public function getHeight() -> int
+    {
+        return this->height;
+    }
 
     /**
-     * This method scales the images using liquid rescaling method. Only support
-     * Imagick
-     *
-     * @param int $width   new width
-     * @param int $height  new height
-     * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
-     * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
+     * @return object|null
      */
-    public function liquidRescale(
-        int width,
-        int height,
-        int deltaX = 0,
-        int rigidity = 0
-    ) -> <AbstractAdapter> {
-        this->{"processLiquidRescale"}(width, height, deltaX, rigidity);
+    public function getImage()
+    {
+        return this->image;
+    }
 
-        return this;
+    /**
+     * @return string
+     */
+    public function getMime() -> string
+    {
+        return this->mime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRealpath() -> string
+    {
+        return this->realpath;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType() -> int
+    {
+        return this->type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth() -> int
+    {
+        return this->width;
     }
 
     /**
      * Composite one image onto another
+     *
+     * @param AdapterInterface $mask
+     *
+     * @return AdapterInterface
      */
-    public function mask(<AdapterInterface> watermark) -> <AdapterInterface>
+    public function mask(<AdapterInterface> mask) -> <AdapterInterface>
     {
-        this->{"processMask"}(watermark);
+        this->{"processMask"}(mask);
 
         return this;
     }
 
     /**
      * Pixelate image
+     *
+     * @param int $amount
+     *
+     * @return AdapterInterface
      */
     public function pixelate(int amount) -> <AdapterInterface>
     {
-        if amount < 2 {
+        if (amount < 2) {
             let amount = 2;
         }
 
@@ -216,21 +257,23 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Add a reflection to an image
+     *
+     * @param int  $height
+     * @param int  $opacity
+     * @param bool $fadeIn
+     *
+     * @return AdapterInterface
      */
     public function reflection(
         int height,
         int opacity = 100,
         bool fadeIn = false
     ) -> <AdapterInterface> {
-        if height <= 0 || height > this->height {
-            let height = (int) this->height;
+        if (height <= 0 || height > this->height) {
+            let height = this->height;
         }
 
-        if opacity < 0 {
-            let opacity = 0;
-        } elseif opacity > 100 {
-            let opacity = 100;
-        }
+        let opacity = this->checkHighLow(opacity);
 
         this->{"processReflection"}(height, opacity, fadeIn);
 
@@ -239,28 +282,36 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Render the image and return the binary string
+     *
+     * @param string|null $extension
+     * @param int         $quality
+     *
+     * @return string
      */
-    public function render(string ext = null, int quality = 100) -> string
+    public function render(string extension = null, int quality = 100) -> string
     {
-        if empty ext {
-            let ext = (string) pathinfo(this->file, PATHINFO_EXTENSION);
+        if (null === extension) {
+            let extension = (string) pathinfo(this->file, PATHINFO_EXTENSION);
         }
 
-        if empty ext {
-            let ext = "png";
+        if (true === empty(extension)) {
+            let extension = "png";
         }
 
-        if quality < 1 {
-            let quality = 1;
-        } elseif quality > 100 {
-            let quality = 100;
-        }
+        let quality = this->checkHighLow(quality, 1);
 
-        return this->{"processRender"}(ext, quality);
+        return this->{"processRender"}(extension, quality);
     }
 
     /**
      * Resize the image to the given size
+     *
+     * @param int|null $width
+     * @param int|null $height
+     * @param int      $master
+     *
+     * @return AdapterInterface
+     * @throws Exception
      */
     public function resize(
         int width = null,
@@ -269,77 +320,58 @@ abstract class AbstractAdapter implements AdapterInterface
     ) -> <AdapterInterface> {
         var ratio;
 
-        if master == Enum::TENSILE {
-
-            if unlikely (!width || !height) {
-                throw new Exception("width and height must be specified");
-            }
-
-        } else {
-            if master == Enum::AUTO {
-
-                if unlikely (!width || !height) {
+        switch (master) {
+            case Enum::TENSILE:
+            case Enum::AUTO:
+            case Enum::INVERSE:
+            case Enum::PRECISE:
+                if (null === width || null === height) {
                     throw new Exception("width and height must be specified");
                 }
+                break;
+            case Enum::WIDTH:
+                if (null === width) {
+                    throw new Exception("width must be specified");
+                }
+                break;
+            case Enum::HEIGHT:
+                if (null === height) {
+                    throw new Exception("height must be specified");
+                }
+                break;
+        }
 
+        if (master !== Enum::TENSILE) {
+            if (master === Enum::AUTO) {
                 let master = (this->width / width) > (this->height / height) ? Enum::WIDTH : Enum::HEIGHT;
             }
 
-            if master == Enum::INVERSE {
-
-                if unlikely (!width || !height) {
-                    throw new Exception("width and height must be specified");
-                }
-
+            if (master === Enum::INVERSE) {
                 let master = (this->width / width) > (this->height / height) ? Enum::HEIGHT : Enum::WIDTH;
             }
 
-            switch master {
-
+            switch (master) {
                 case Enum::WIDTH:
-                    if unlikely !width {
-                        throw new Exception("width must be specified");
-                    }
-
                     let height = this->height * width / this->width;
-
                     break;
 
                 case Enum::HEIGHT:
-                    if unlikely !height {
-                        throw new Exception("height must be specified");
-                    }
-
                     let width = this->width * height / this->height;
-
                     break;
 
                 case Enum::PRECISE:
-                    if unlikely (!width || !height) {
-                        throw new Exception(
-                            "width and height must be specified"
-                        );
-                    }
-
                     let ratio = this->width / this->height;
 
-                    if (width / height) > ratio {
+                    if ((width / height) > ratio) {
                         let height = this->height * width / this->width;
                     } else {
                         let width = this->width * height / this->height;
                     }
-
                     break;
 
                 case Enum::NONE:
-                    if !width {
-                        let width = (int) this->width;
-                    }
-
-                    if !height {
-                        let width = (int) this->height;
-                    }
-
+                    let width  = (null === width) ? this->width : width;
+                    let height = (null === height) ? this->height : height;
                     break;
             }
         }
@@ -354,17 +386,21 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Rotate the image by a given amount
+     *
+     * @param int $degrees
+     *
+     * @return AdapterInterface
      */
     public function rotate(int degrees) -> <AdapterInterface>
     {
-        if degrees > 180 {
+        if (degrees > 180) {
             let degrees %= 360;
 
-            if degrees > 180 {
+            if (degrees > 180) {
                 let degrees -= 360;
             }
         } else {
-            while degrees < -180 {
+            while (degrees < -180) {
                 let degrees += 360;
             }
         }
@@ -376,10 +412,15 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Save the image
+     *
+     * @param string|null $file
+     * @param int         $quality
+     *
+     * @return AdapterInterface
      */
     public function save(string file = null, int quality = -1) -> <AdapterInterface>
     {
-        if !file {
+        if (null === file) {
             let file = (string) this->realpath;
         }
 
@@ -390,14 +431,14 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Sharpen the image by a given amount
+     *
+     * @param int $amount
+     *
+     * @return AdapterInterface
      */
     public function sharpen(int amount) -> <AdapterInterface>
     {
-        if amount > 100 {
-            let amount = 100;
-        } elseif amount < 1 {
-            let amount = 1;
-        }
+        let amount = this->checkHighLow(amount, 1);
 
         this->{"processSharpen"}(amount);
 
@@ -406,31 +447,38 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Add a text to an image with a specified opacity
+     *
+     * @param string      $text
+     * @param mixed       $offsetX
+     * @param mixed       $offsetY
+     * @param int         $opacity
+     * @param string      $color
+     * @param int         $size
+     * @param string|null $fontFile
+     *
+     * @return AdapterInterface
      */
     public function text(
         string text,
-        var offsetX = false,
-        var offsetY = false,
+        offsetX = false,
+        offsetY = false,
         int opacity = 100,
         string color = "000000",
         int size = 12,
-        string fontfile = null
-        ) -> <AdapterInterface> {
+        string fontFile = null
+    ) -> <AdapterInterface> {
         var colors;
 
-        if opacity < 0 {
-            let opacity = 0;
-        } else {
-            if opacity > 100 {
-                let opacity = 100;
-            }
-        }
+        let opacity = this->checkHighLow(opacity);
 
-        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
+        if (
+            strlen(color) > 1 &&
+            substr(color, 0, 1) === "#"
+        ) {
             let color = substr(color, 1);
         }
 
-        if strlen(color) === 3 {
+        if (strlen(color) === 3) {
             let color = preg_replace("/./", "$0$0", color);
         }
 
@@ -448,7 +496,7 @@ abstract class AbstractAdapter implements AdapterInterface
             colors[1],
             colors[2],
             size,
-            fontfile
+            fontFile
         );
 
         return this;
@@ -456,39 +504,50 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Add a watermark to an image with the specified opacity
+     *
+     * @param AdapterInterface $watermark
+     * @param int              $offsetX
+     * @param int              $offsetY
+     * @param int              $opacity
+     *
+     * @return AdapterInterface
      */
     public function watermark(
         <AdapterInterface> watermark,
         int offsetX = 0,
         int offsetY = 0,
         int opacity = 100
-        ) -> <AdapterInterface> {
-        int tmp;
+    ) -> <AdapterInterface> {
+        var op, x, y;
 
-        let tmp = this->width - watermark->getWidth();
+        let x    = this->checkHighLow(
+            offsetX,
+            0,
+            this->width - watermark->getWidth()
+        );
 
-        if offsetX < 0 {
-            let offsetX = 0;
-        } elseif offsetX > tmp {
-            let offsetX = tmp;
-        }
+        let y    = this->checkHighLow(
+            offsetX,
+            0,
+            this->height - watermark->getHeight()
+        );
 
-        let tmp = this->height - watermark->getHeight();
+        let op = this->checkHighLow(opacity);
 
-        if offsetY < 0 {
-            let offsetY = 0;
-        } elseif offsetY > tmp {
-            let offsetY = tmp;
-        }
-
-        if opacity < 0 {
-            let opacity = 0;
-        } elseif opacity > 100 {
-            let opacity = 100;
-        }
-
-        this->{"processWatermark"}(watermark, offsetX, offsetY, opacity);
+        this->{"processWatermark"}(watermark, x, y, opacity);
 
         return this;
+    }
+
+    /**
+     * @param int $value
+     * @param int $min
+     * @param int $max
+     *
+     * @return int
+     */
+    protected function checkHighLow(int value, int min = 0, int max = 100) -> int
+    {
+        return min(max, max(value, min));
     }
 }

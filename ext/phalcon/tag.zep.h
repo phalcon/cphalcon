@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Tag, displayTo);
 PHP_METHOD(Phalcon_Tag, emailField);
 PHP_METHOD(Phalcon_Tag, endForm);
 PHP_METHOD(Phalcon_Tag, fileField);
-PHP_METHOD(Phalcon_Tag, form);
+PHP_METHOD(Phalcon_Tag, formLegacy);
 PHP_METHOD(Phalcon_Tag, friendlyTitle);
 PHP_METHOD(Phalcon_Tag, getDocType);
 PHP_METHOD(Phalcon_Tag, getEscaper);
@@ -104,7 +104,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_filefield, 0, 1, IS_
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_form, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_formlegacy, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -337,7 +337,7 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, emailField, arginfo_phalcon_tag_emailfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, endForm, arginfo_phalcon_tag_endform, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, fileField, arginfo_phalcon_tag_filefield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Tag, form, arginfo_phalcon_tag_form, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, formLegacy, arginfo_phalcon_tag_formlegacy, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, friendlyTitle, arginfo_phalcon_tag_friendlytitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getDocType, arginfo_phalcon_tag_getdoctype, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getEscaper, arginfo_phalcon_tag_getescaper, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

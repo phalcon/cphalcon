@@ -45,20 +45,12 @@ class LoadCest
         /** @var Imagick $image */
         $image = $factory->load($options);
 
-        $I->assertInstanceOf(
-            Imagick::class,
-            $image
-        );
+        $class = Imagick::class;
+        $I->assertInstanceOf($class, $image);
 
-
-        $expected = realpath(
-            $options->file
-        );
-
-        $I->assertSame(
-            $expected,
-            $image->getRealpath()
-        );
+        $expected = realpath($options->file);
+        $actual   = $image->getRealpath();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -77,19 +69,11 @@ class LoadCest
         /** @var Imagick $image */
         $image = $factory->load($options);
 
-        $I->assertInstanceOf(
-            Imagick::class,
-            $image
-        );
+        $class = Imagick::class;
+        $I->assertInstanceOf($class, $image);
 
-
-        $expected = realpath(
-            $options['file']
-        );
-
-        $I->assertSame(
-            $expected,
-            $image->getRealpath()
-        );
+        $expected = realpath($options['file']);
+        $actual   = $image->getRealpath();
+        $I->assertSame($expected, $actual);
     }
 }

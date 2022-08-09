@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
+use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Tests\Fixtures\Traits\ImagickTrait;
 use UnitTester;
+
+use function dataDir;
 
 class GetImageCest
 {
@@ -30,6 +33,12 @@ class GetImageCest
     {
         $I->wantToTest('Image\Adapter\Imagick - getImage()');
 
-        $I->skipTest('Need implementation');
+        $image = new Imagick(
+            dataDir('assets/images/example-jpg.jpg')
+        );
+
+        $class = \Imagick::class;
+        $actual = $image->getImage();
+        $I->assertInstanceOf($class, $actual);
     }
 }

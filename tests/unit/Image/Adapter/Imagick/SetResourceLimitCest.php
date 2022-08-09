@@ -13,20 +13,32 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
+use Phalcon\Image\Adapter\Imagick;
+use Phalcon\Image\Exception;
 use UnitTester;
+
+use function dataDir;
 
 class SetResourceLimitCest
 {
     /**
-     * Unit Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit()
+     * Unit Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-25
+     * @since  2022-08-02
      */
-    public function imageAdapterImagickSetResourceLimit(UnitTester $I)
+    public function imageAdapterImagickSetResourceLimitException(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Imagick - setResourceLimit()');
+        $I->wantToTest('Image\Adapter\Imagick - setResourceLimit() - exception');
 
-        $I->skipTest('Need implementation');
+        $I->expectThrowable(
+            new Exception('Cannot set the Resource Type for this image'),
+            function () {
+                $source = dataDir('assets/images/example-jpg.jpg');
+                $image  = new Imagick($source);
+
+                $image->setResourceLimit(100, 1);
+            }
+        );
     }
 }

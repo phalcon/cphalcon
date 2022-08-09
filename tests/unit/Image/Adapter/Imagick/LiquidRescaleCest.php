@@ -37,13 +37,15 @@ class LiquidRescaleCest
         $I->skipTest('Check library support');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->liquidRescale(200, 200)->save(outputDir('tests/image/imagick/liquidRescale.jpg'));
+        $image->liquidRescale(200, 200)
+              ->save(outputDir('tests/image/imagick/liquidRescale.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')

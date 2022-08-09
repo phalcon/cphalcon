@@ -1,4 +1,9 @@
-# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (xxxx-xx-xx)
+# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC5) (xxxx-xx-xx)
+
+## Fixed 
+- Fixed `Phalcon\Mvc\Model\Resultset\Complex::_unserialize()` removed to prevent double unserializing [#16035](https://github.com/phalcon/cphalcon/issues/16035)
+
+# [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
 ## Fixed 
 - Reverted to single quotes when volt code generates PHP code.
@@ -9,7 +14,18 @@
   - `Phalcon\Cli\RouterInterface::getMatchedRoute()`
   - `Phalcon\Mvc\Router::getMatchedRoute()`
   - `Phalcon\Mvc\RouterInterface::getMatchedRoute()` to return `RouterInterface` or `null` [#16030](https://github.com/phalcon/cphalcon/issues/16030)
-- Fixed `Phalcon\Mvc\Model\Resultset\Complex::_unserialize()` removed to prevent double unserializing [#16035](https://github.com/phalcon/cphalcon/issues/16035)
+- Fixed 
+  - `Phalcon/Storage/Serializer/Base64::unserialize()`
+  - `Phalcon/Storage/Serializer/Igbinary::unserialize()`
+  - `Phalcon/Storage/Serializer/Igbinary::serialize()`
+  - `Phalcon/Storage/Serializer/Php::unserialize()` to reset isSuccess value [#16040](https://github.com/phalcon/cphalcon/issues/16040)
+- Fixed `Phalcon\Paginator\Adapter\Model::paginate()` fix group parameter breaking total items [#16042](https://github.com/phalcon/cphalcon/issues/16042)
+- Fixed `Phalcon\Mvc\Model::doLowUpdate()` prevent RawValue getting overwritten [#16037](https://github.com/phalcon/cphalcon/issues/16037)
+- Refactored `Phalcon\Image\*`
+  - Reorganized code in the image adapters
+  - Simplified various areas, speeding up processing
+  - Removed `getInternalImImage()` (same as `getImage()`) for `Phalcon\Image\Adapter\Imagick`
+  - Added better support for webm images [#15977](https://github.com/phalcon/cphalcon/issues/15977)
 
 # [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
 

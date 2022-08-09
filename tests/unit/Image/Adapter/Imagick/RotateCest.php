@@ -35,13 +35,15 @@ class RotateCest
         $I->wantToTest('Image\Adapter\Imagick - rotate()');
 
         $image = new Imagick(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Rotate 45 degrees clockwise
-        $image->rotate(45)->save(outputDir('tests/image/imagick/rotate.jpg'));
+        $image->rotate(45)
+              ->save(outputDir('tests/image/imagick/rotate.jpg'))
+        ;
 
         $I->amInPath(
             outputDir('tests/image/imagick/')
