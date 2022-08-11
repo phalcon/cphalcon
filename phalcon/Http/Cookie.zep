@@ -157,7 +157,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             options["secure"]   = this->getArrVal(options, "secure", secure),
             options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
 
-        setcookie(name, null, options);
+        setcookie(name, "", options);
     }
 
     /**
