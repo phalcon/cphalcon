@@ -1,3 +1,8 @@
+# [x.x.x](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (xxxx-xx-xx)
+
+## Fixed
+- Fixed and improved return type of `object` & `?object` [#16023](https://github.com/phalcon/cphalcon/issues/16023)
+
 # [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
 ## Fixed 
