@@ -44,7 +44,7 @@ class Event implements EventInterface
      *
      * @var object|null
      */
-    protected source { get };
+    protected source = null;
 
     /**
      * Is event propagation stopped?
@@ -67,7 +67,7 @@ class Event implements EventInterface
      */
     public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
     {
-        if unlikely null !== source && typeof source != "object" {
+        if unlikely null !== source && typeof source !== "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );
@@ -98,6 +98,11 @@ class Event implements EventInterface
     public function isStopped() -> bool
     {
         return this->stopped;
+    }
+
+    public function getSource() -> object | null
+    {
+        return this->source;
     }
 
     /**

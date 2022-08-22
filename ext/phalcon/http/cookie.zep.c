@@ -334,7 +334,9 @@ PHP_METHOD(Phalcon_Http_Cookie, delete)
 	ZEPHIR_CALL_METHOD(&_12, this_ptr, "getarrval", NULL, 332, &options, &_8, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_12, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 333, &name, &__$null, &options);
+	ZEPHIR_INIT_NVAR(&_8);
+	ZVAL_STRING(&_8, "");
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 333, &name, &_8, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

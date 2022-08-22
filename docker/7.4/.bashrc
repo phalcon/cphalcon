@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ZEPHIR_VERSION="0.16.0"
+ZEPHIR_VERSION="0.16.2"
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."

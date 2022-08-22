@@ -93,18 +93,6 @@ PHP_METHOD(Phalcon_Events_Event, getData)
 }
 
 /**
- * Event source
- */
-PHP_METHOD(Phalcon_Events_Event, getSource)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "source");
-}
-
-/**
  * Event type
  */
 PHP_METHOD(Phalcon_Events_Event, getType)
@@ -235,6 +223,15 @@ PHP_METHOD(Phalcon_Events_Event, isStopped)
 	RETURN_MEMBER(getThis(), "stopped");
 }
 
+PHP_METHOD(Phalcon_Events_Event, getSource)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "source");
+}
+
 /**
  * Sets event data.
  */
@@ -323,7 +320,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 135);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 140);
 		return;
 	}
 	if (1) {
