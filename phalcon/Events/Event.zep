@@ -44,7 +44,7 @@ class Event implements EventInterface
      *
      * @var object|null
      */
-    protected source { get };
+    protected source = null;
 
     /**
      * Is event propagation stopped?
@@ -98,6 +98,11 @@ class Event implements EventInterface
     public function isStopped() -> bool
     {
         return this->stopped;
+    }
+
+    public function getSource() -> object | null
+    {
+        return this->source;
     }
 
     /**
