@@ -1477,8 +1477,8 @@ class Tag
         }
 
         /**
-        * Automatically assign the id if the name is not an array
-        */
+         * Automatically assign the id if the name is not an array
+         */
         if !strpos(id, "[") {
             if !isset params["id"] {
                 let params["id"] = id;
@@ -1502,15 +1502,15 @@ class Tag
             let value = self::getValue(id, params);
 
             /**
-            * Evaluate the value in POST
-            */
+             * Evaluate the value in POST
+             */
             if value != null {
                 let params["checked"] = "checked";
             }
 
             /**
-            * Update the value anyways
-            */
+             * Update the value anyways
+             */
             let params["value"] = value;
         }
 
