@@ -26,47 +26,47 @@ use Phalcon\Factory\AbstractFactory;
  * @property EscaperInterface $escaper
  * @property array            $services
  *
- * @method a(string $href, string $text, array $attributes = [], bool $raw = false): string
- * @method base(string $href, array $attributes = []): string
- * @method body(array $attributes = []): string
- * @method button(string $text, array $attributes = [], bool $raw = false): string
- * @method close(string $tag, bool $raw = false): string
- * @method doctype(int $flag, string $delimiter): string
- * @method element(string $tag, string $text, array $attributes = [], bool $raw = false): string
- * @method form(array $attributes = []): string
- * @method img(string $src, array $attributes = []): string
- * @method inputCheckbox(string $name, string $value = null, array $attributes = []): string
- * @method inputColor(string $name, string $value = null, array $attributes = []): string
- * @method inputDate(string $name, string $value = null, array $attributes = []): string
- * @method inputDateTime(string $name, string $value = null, array $attributes = []): string
- * @method inputDateTimeLocal(string $name, string $value = null, array $attributes = []): string
- * @method inputEmail(string $name, string $value = null, array $attributes = []): string
- * @method inputFile(string $name, string $value = null, array $attributes = []): string
- * @method inputHidden(string $name, string $value = null, array $attributes = []): string
- * @method inputImage(string $name, string $value = null, array $attributes = []): string
- * @method inputInput(string $name, string $value = null, array $attributes = []): string
- * @method inputMonth(string $name, string $value = null, array $attributes = []): string
- * @method inputNumeric(string $name, string $value = null, array $attributes = []): string
- * @method inputPassword(string $name, string $value = null, array $attributes = []): string
- * @method inputRadio(string $name, string $value = null, array $attributes = []): string
- * @method inputRange(string $name, string $value = null, array $attributes = []): string
- * @method inputSearch(string $name, string $value = null, array $attributes = []): string
- * @method inputSelect(string $name, string $value = null, array $attributes = []): string
- * @method inputSubmit(string $name, string $value = null, array $attributes = []): string
- * @method inputTel(string $name, string $value = null, array $attributes = []): string
- * @method inputText(string $name, string $value = null, array $attributes = []): string
- * @method inputTextarea(string $name, string $value = null, array $attributes = []): string
- * @method inputTime(string $name, string $value = null, array $attributes = []): string
- * @method inputUrl(string $name, string $value = null, array $attributes = []): string
- * @method inputWeek(string $name, string $value = null, array $attributes = []): string
- * @method label(string $label, array $attributes = [], bool $raw = false): string
- * @method link(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method meta(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method ol(string $text, array $attributes = [], bool $raw = false): string
- * @method script(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method style(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method title(string $indent = '    ', string $delimiter = PHP_EOL): string
- * @method ul(string $text, array $attributes = [], bool $raw = false): string
+ * @method string a(string $href, string $text, array $attributes = [], bool $raw = false)
+ * @method string base(string $href, array $attributes = [])
+ * @method string body(array $attributes = [])
+ * @method string button(string $text, array $attributes = [], bool $raw = false)
+ * @method string close(string $tag, bool $raw = false)
+ * @method string doctype(int $flag, string $delimiter)
+ * @method string element(string $tag, string $text, array $attributes = [], bool $raw = false)
+ * @method string form(array $attributes = [])
+ * @method string img(string $src, array $attributes = [])
+ * @method string inputCheckbox(string $name, string $value = null, array $attributes = [])
+ * @method string inputColor(string $name, string $value = null, array $attributes = [])
+ * @method string inputDate(string $name, string $value = null, array $attributes = [])
+ * @method string inputDateTime(string $name, string $value = null, array $attributes = [])
+ * @method string inputDateTimeLocal(string $name, string $value = null, array $attributes = [])
+ * @method string inputEmail(string $name, string $value = null, array $attributes = [])
+ * @method string inputFile(string $name, string $value = null, array $attributes = [])
+ * @method string inputHidden(string $name, string $value = null, array $attributes = [])
+ * @method string inputImage(string $name, string $value = null, array $attributes = [])
+ * @method string inputInput(string $name, string $value = null, array $attributes = [])
+ * @method string inputMonth(string $name, string $value = null, array $attributes = [])
+ * @method string inputNumeric(string $name, string $value = null, array $attributes = [])
+ * @method string inputPassword(string $name, string $value = null, array $attributes = [])
+ * @method string inputRadio(string $name, string $value = null, array $attributes = [])
+ * @method string inputRange(string $name, string $value = null, array $attributes = [])
+ * @method string inputSearch(string $name, string $value = null, array $attributes = [])
+ * @method string inputSelect(string $name, string $value = null, array $attributes = [])
+ * @method string inputSubmit(string $name, string $value = null, array $attributes = [])
+ * @method string inputTel(string $name, string $value = null, array $attributes = [])
+ * @method string inputText(string $name, string $value = null, array $attributes = [])
+ * @method string inputTextarea(string $name, string $value = null, array $attributes = [])
+ * @method string inputTime(string $name, string $value = null, array $attributes = [])
+ * @method string inputUrl(string $name, string $value = null, array $attributes = [])
+ * @method string inputWeek(string $name, string $value = null, array $attributes = [])
+ * @method string label(string $label, array $attributes = [], bool $raw = false)
+ * @method string link(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method string meta(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method string ol(string $text, array $attributes = [], bool $raw = false)
+ * @method string script(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method string style(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method string title(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method string ul(string $text, array $attributes = [], bool $raw = false)
  */
 class TagFactory extends AbstractFactory
 {
