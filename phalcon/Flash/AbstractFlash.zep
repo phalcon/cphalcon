@@ -314,14 +314,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         }
 
         /**
-         * We return the message as a string if the implicitFlush is turned
-         * off
+         * If we are here then implicitFlush is off - otherwise it has been
+         * echoed back during the loop. Return the string back.
          */
-        if (true !== this->implicitFlush) {
-            return content;
-        }
-
-        return null;
+        return content;
     }
 
     /**
