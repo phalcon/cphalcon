@@ -78,7 +78,7 @@ class Numericality extends AbstractValidator
         let value   = validation->getValue(field),
             value   = (string) value,
             value   = str_replace(" ", "", value),
-            pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
+            pattern = "/((^[-]?[0-9,]+(\\.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
         if this->allowEmpty(field, value) {
             return true;
