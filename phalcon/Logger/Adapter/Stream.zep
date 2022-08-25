@@ -29,20 +29,12 @@ use Phalcon\Logger\Item;
  * $logger->close();
  *```
  *
- * @property resource|null $handler
  * @property string        $mode
  * @property string        $name
  * @property array         $options
  */
 class Stream extends AbstractAdapter
 {
-    /**
-     * Stream handler resource
-     *
-     * @var resource|null
-     */
-    protected handler = null;
-
     /**
      * The file open mode. Defaults to 'ab'
      *
@@ -93,15 +85,7 @@ class Stream extends AbstractAdapter
      */
     public function close() -> bool
     {
-        bool result = true;
-
-        if is_resource(this->handler) {
-            let result = fclose(this->handler);
-        }
-
-        let this->handler = null;
-
-        return result;
+        return true;
     }
 
     /**
@@ -111,27 +95,28 @@ class Stream extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var message;
+        var handler, message;
 
-        if !is_resource(this->handler) {
-            let this->handler = this->phpFopen(this->name, this->mode);
+        let handler = this->phpFopen(this->name, this->mode);
 
-            if !is_resource(this->handler) {
-                let this->handler = null;
-
-                throw new LogicException(
-                    "The file '" .
-                    this->name .
-                    "' cannot be opened with mode '" .
-                    this->mode .
-                    "'"
-                );
-            }
+        if !is_resource(handler) {
+            throw new LogicException(
+                "The file '" .
+                this->name .
+                "' cannot be opened with mode '" .
+                this->mode .
+                "'"
+            );
         }
 
+        /**
+         * Not much we can do about locking
+         */
+        flock(handler, LOCK_EX);
         let message = this->getFormattedItem(item) . PHP_EOL;
+        fwrite(handler, message);
 
-        fwrite(this->handler, message);
+        fclose(handler);
     }
 
     /**

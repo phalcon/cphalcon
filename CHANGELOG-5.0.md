@@ -1,5 +1,8 @@
 # [x.x.x](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (xxxx-xx-xx)
 
+## Changed
+- Changed `Phalcon\Logger\Adapter\Stream::process` to open the log file, check for locks, write contents and close the stream [#16072](https://github.com/phalcon/cphalcon/issues/16072) 
+
 ## Fixed
 - Fixed and improved return type of `object` & `?object` [#16023](https://github.com/phalcon/cphalcon/issues/16023)
 - Fixed `Phalcon\Filter\Validation\Validator\Digit` to use only strings for `ctype_*` calls [#16064](https://github.com/phalcon/cphalcon/issues/16064)
