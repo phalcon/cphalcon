@@ -109,10 +109,12 @@ class Stream extends AbstractAdapter
             );
         }
 
-        if (flock(handler, LOCK_SH)) {
-            let message = this->getFormattedItem(item) . PHP_EOL;
-            fwrite(handler, message);
-        }
+        /**
+         * Not much we can do about locking
+         */
+        flock(handler, LOCK_EX);
+        let message = this->getFormattedItem(item) . PHP_EOL;
+        fwrite(handler, message);
 
         fclose(handler);
     }
