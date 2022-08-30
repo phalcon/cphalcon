@@ -33,7 +33,7 @@ class AddBehaviorCest
 
     public function testIssue10371(IntegrationTester $I)
     {
-        $I->assertContains(
+        $I->assertStringContainsString(
             'addBehavior',
             get_class_methods(
                 Model::class

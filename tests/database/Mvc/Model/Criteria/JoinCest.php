@@ -104,7 +104,7 @@ class JoinCest
         $query    = $builder->getQuery();
         $request  = $query->getSql();
 
-        $I->assertContains($expected, $request['sql']);
+        $I->assertStringContainsString($expected, $request['sql']);
 
         $I->assertInstanceOf(Simple::class, $query->execute());
     }

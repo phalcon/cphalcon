@@ -394,7 +394,7 @@ class DbCest
         // Gets the list of all views.
         $views = $connection->listViews();
         $I->assertTrue(is_array($views));
-        $I->assertContains('phalcon_test_view', $views);
+        $I->assertStringContainsString('phalcon_test_view', $views);
 
         // Execute created view
         $row = $connection->fetchOne('SELECT * FROM phalcon_test_view');
