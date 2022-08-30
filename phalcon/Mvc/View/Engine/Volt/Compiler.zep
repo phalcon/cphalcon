@@ -2122,46 +2122,19 @@ class Compiler implements InjectionAwareInterface
         if type == PHVOLT_T_IDENTIFIER {
             let name = test["value"];
 
-            /**
-             * Empty uses the PHP's empty operator
-             */
-            if name == "empty" {
-                return "empty(" . left . ")";
-            }
-
-            /**
-             * Check if a value is even
-             */
-            if name == "even" {
-                return "(((" . left . ") % 2) == 0)";
-            }
-
-            /**
-             * Check if a value is odd
-             */
-            if name == "odd" {
-                return "(((" . left . ") % 2) != 0)";
-            }
-
-            /**
-             * Check if a value is numeric
-             */
-            if name == "numeric" {
-                return "is_numeric(" . left . ")";
-            }
-
-            /**
-             * Check if a value is scalar
-             */
-            if name == "scalar" {
-                return "is_scalar(" . left . ")";
-            }
-
-            /**
-             * Check if a value is iterable
-             */
-            if name == "iterable" {
-                return "(is_array(" . left . ") || (" . left . ") instanceof Traversable)";
+            switch (name) {
+                case "empty":
+                    return "empty(" . left . ")";
+                case "even":
+                    return "(((" . left . ") % 2) == 0)";
+                case "odd":
+                    return "(((" . left . ") % 2) != 0)";
+                case "numeric":
+                    return "is_numeric(" . left . ")";
+                case "scalar":
+                    return "is_scalar(" . left . ")";
+                case "iterable":
+                    return "(is_array(" . left . ") || (" . left . ") instanceof Traversable)";
             }
 
         }
@@ -2173,22 +2146,13 @@ class Compiler implements InjectionAwareInterface
             let testName = test["name"];
 
             if fetch name, testName["value"] {
-                if name == "divisibleby" {
-                    return "(((" . left . ") % (" . this->expression(test["arguments"]) . ")) == 0)";
-                }
-
-                /**
-                 * Checks if a value is equals to other
-                 */
-                if name == "sameas" {
-                    return "(" . left . ") === (" . this->expression(test["arguments"]) . ")";
-                }
-
-                /**
-                 * Checks if a variable match a type
-                 */
-                if name == "type" {
-                    return "gettype(" . left . ") === (" . this->expression(test["arguments"]) . ")";
+                switch (name) {
+                    case "divisibleby":
+                        return "(((" . left . ") % (" . this->expression(test["arguments"]) . ")) == 0)";
+                    case "sameas":
+                        return "(" . left . ") === (" . this->expression(test["arguments"]) . ")";
+                    case "type":
+                        return "gettype(" . left . ") === (" . this->expression(test["arguments"]) . ")";
                 }
             }
         }
@@ -2505,197 +2469,70 @@ class Compiler implements InjectionAwareInterface
             );
         }
 
-        /**
-         * "length" uses the length method implemented in the Volt adapter
-         */
-        if name == "length" {
-            return "$this->length(" . arguments . ")";
+        switch (name) {
+            case "abs":
+                return "abs(" . arguments . ")";
+            case "capitalize":
+                return "ucwords(" . arguments . ")";
+            case "convert_encoding":
+                return "$this->convertEncoding(" . arguments . ")";
+            case "default":
+                return "(empty(" . left . ") ? ("
+                    . arguments . ") : ("
+                    . left . "))";
+            case "e":
+            case "escape":
+                return "$this->escaper->html(" . arguments . ")";
+            case "escape_attr":
+                return "$this->escaper->attributes(" . arguments . ")";
+            case "escape_css":
+                return "$this->escaper->css(" . arguments . ")";
+            case "escape_js":
+                return "$this->escaper->js(" . arguments . ")";
+            case "format":
+                return "sprintf(" . arguments . ")";
+            case "join":
+                return "join('" . funcArguments[1]["expr"]["value"]
+                    . "', " . funcArguments[0]["expr"]["value"] . ")";
+            case "json_encode":
+                return "json_encode(" . arguments . ")";
+            case "json_decode":
+                return "json_decode(" . arguments . ")";
+            case "keys":
+                return "array_keys(" . arguments . ")";
+            case "left_trim":
+                return "ltrim(" . arguments . ")";
+            case "length":
+                return "$this->length(" . arguments . ")";
+            case "lower":
+            case "lowercase":
+                return "strtolower(" . arguments . ")";
+            case "right_trim":
+                return "rtrim(" . arguments . ")";
+            case "nl2br":
+                return "nl2br(" . arguments . ")";
+            case "slashes":
+                return "addslashes(" . arguments . ")";
+            case "slice":
+                return "$this->slice(" . arguments . ")";
+            case "sort":
+                return "$this->sort(" . arguments . ")";
+            case "stripslashes":
+                return "stripslashes(" . arguments . ")";
+            case "striptags":
+                return "strip_tags(" . arguments . ")";
+            case "trim":
+                return "trim(" . arguments . ")";
+            case "upper":
+            case "uppercase":
+                return "strtoupper(" . arguments . ")";
+            case "url_encode":
+                return "urlencode(" . arguments . ")";
         }
 
-        /**
-         * "e"/"escape" filter uses the escaper component
-         */
-        if name == "e" || name == "escape" {
-            return "$this->escaper->html(" . arguments . ")";
-        }
-
-        /**
-         * "escape_css" filter uses the escaper component to filter CSS
-         */
-        if name == "escape_css" {
-            return "$this->escaper->css(" . arguments . ")";
-        }
-
-        /**
-         * "escape_js" filter uses the escaper component to escape JavaScript
-         */
-        if name == "escape_js" {
-            return "$this->escaper->js(" . arguments . ")";
-        }
-
-        /**
-         * "escape_attr" filter uses the escaper component to escape HTML
-         * attributes
-         */
-        if name == "escape_attr" {
-            return "$this->escaper->attributes(" . arguments . ")";
-        }
-
-        /**
-         * "trim" calls the "trim" function in the PHP userland
-         */
-        if name == "trim" {
-            return "trim(" . arguments . ")";
-        }
-
-        /**
-         * "left_trim" calls the "ltrim" function in the PHP userland
-         */
-        if name == "left_trim" {
-            return "ltrim(" . arguments . ")";
-        }
-
-        /**
-         * "right_trim" calls the "rtrim" function in the PHP userland
-         */
-        if name == "right_trim" {
-            return "rtrim(" . arguments . ")";
-        }
-
-        /**
-         * "striptags" calls the "strip_tags" function in the PHP userland
-         */
-        if name == "striptags" {
-            return "strip_tags(" . arguments . ")";
-        }
-
-        /**
-         * "url_encode" calls the "urlencode" function in the PHP userland
-         */
-        if name == "url_encode" {
-            return "urlencode(" . arguments . ")";
-        }
-
-        /**
-         * "slashes" calls the "addslashes" function in the PHP userland
-         */
-        if name == "slashes" {
-            return "addslashes(" . arguments . ")";
-        }
-
-        /**
-         * "stripslashes" calls the "stripslashes" function in the PHP userland
-         */
-        if name == "stripslashes" {
-            return "stripslashes(" . arguments . ")";
-        }
-
-        /**
-         * "nl2br" calls the "nl2br" function in the PHP userland
-         */
-        if name == "nl2br" {
-            return "nl2br(" . arguments . ")";
-        }
-
-        /**
-         * "keys" uses calls the "array_keys" function in the PHP userland
-         */
-        if name == "keys" {
-            return "array_keys(" . arguments . ")";
-        }
-
-        /**
-         * "join" uses calls the "join" function in the PHP userland
-         */
-        if name == "join" {
-            return "join('" . funcArguments[1]["expr"]["value"] . "', " . funcArguments[0]["expr"]["value"] . ")";
-        }
-
-        /**
-         * "lower"/"lowercase" calls the "strtolower" function or
-         * "mb_strtolower" if the mbstring extension is loaded
-         */
-        if name == "lower" || name == "lowercase" {
-            return "strtolower(" . arguments . ")";
-        }
-
-        /**
-         * "upper"/"uppercase" calls the "strtoupper" function or
-         * "mb_strtoupper" if the mbstring extension is loaded
-         */
-        if name == "upper" || name == "uppercase" {
-            return "strtoupper(" . arguments . ")";
-        }
-
-        /**
-         * "capitalize" filter calls "ucwords"
-         */
-        if name == "capitalize" {
-            return "ucwords(" . arguments . ")";
-        }
-
-        /**
-         * "sort" calls "sort" method in the engine adapter
-         */
-        if name == "sort" {
-            return "$this->sort(" . arguments . ")";
-        }
-
-        /**
-         * "json_encode" calls the "json_encode" function in the PHP userland
-         */
-        if name == "json_encode" {
-            return "json_encode(" . arguments . ")";
-        }
-
-        /**
-         * "json_decode" calls the "json_decode" function in the PHP userland
-         */
-        if name == "json_decode" {
-            return "json_decode(" . arguments . ")";
-        }
-
-        /**
-         * "format" calls the "sprintf" function in the PHP userland
-         */
-        if name == "format" {
-            return "sprintf(" . arguments . ")";
-        }
-
-        /**
-         * "abs" calls the "abs" function in the PHP userland
-         */
-        if name == "abs" {
-            return "abs(" . arguments . ")";
-        }
-
-        /**
-         * "slice" slices string/arrays/traversable objects
-         */
-        if name == "slice" {
-            return "$this->slice(" . arguments . ")";
-        }
-
-        /**
-         * "default" checks if a variable is empty
-         */
-        if name == "default" {
-            return "(empty(" . left . ") ? (" . arguments . ") : (" . left . "))";
-        }
-
-        /**
-         * This function uses mbstring or iconv to convert strings from one
-         * charset to another
-         */
-        if name == "convert_encoding" {
-            return "$this->convertEncoding(" . arguments . ")";
-        }
-
-        /**
-         * Unknown filter throw an exception
-         */
         throw new Exception(
-            "Unknown filter \"" . name . "\" in " . filter["file"] . " on line " . filter["line"]
+            "Unknown filter \"" . name . "\" in "
+                . filter["file"] . " on line " . filter["line"]
         );
     }
 
