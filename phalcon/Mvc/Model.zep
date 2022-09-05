@@ -144,7 +144,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * @var TransactionInterface|null
      */
-    protected transaction = null { get };
+    protected transaction = null;
 
     /**
      * @var string|null
@@ -3058,6 +3058,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let this->transaction = transaction;
 
         return this;
+    }
+
+    public function getTransaction() -> <TransactionInterface> | null
+    {
+        return this->transaction;
     }
 
     /**
