@@ -5720,7 +5720,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function skipAttributes(array! attributes)
+    protected function skipAttributes(array! attributes) -> void
     {
         this->skipAttributesOnCreate(attributes);
         this->skipAttributesOnUpdate(attributes);
