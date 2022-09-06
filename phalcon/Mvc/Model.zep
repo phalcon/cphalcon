@@ -144,7 +144,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * @var TransactionInterface|null
      */
-    protected transaction = null { get };
+    protected transaction = null;
 
     /**
      * @var string|null
@@ -173,11 +173,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We use a default DI if the user doesn't define one
          */
-        if typeof container != "object" {
+        if container === null {
             let container = Di::getDefault();
         }
 
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "A dependency injection container is required to access the services related to the ODM"
             );
@@ -188,10 +188,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Inject the manager service from the DI
          */
-        if typeof modelsManager != "object" {
+        if modelsManager === null {
             let modelsManager = <ManagerInterface> container->getShared("modelsManager");
-
-            if unlikely typeof modelsManager != "object" {
+            if modelsManager === null {
                 throw new Exception(
                     "The injected service 'modelsManager' is not valid"
                 );
@@ -3060,6 +3059,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         return this;
     }
 
+    public function getTransaction() -> <TransactionInterface> | null
+    {
+        return this->transaction;
+    }
+
     /**
      * Enables/disables options in the ORM
      */
@@ -5715,7 +5719,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function skipAttributes(array! attributes)
+    protected function skipAttributes(array! attributes) -> void
     {
         this->skipAttributesOnCreate(attributes);
         this->skipAttributesOnUpdate(attributes);
