@@ -12,14 +12,17 @@
 namespace Phalcon\Encryption\Security\JWT\Signer;
 
 /**
- * Class AbstractSigner
- *
- * @property string $algo
+ * Abstract class helping with the signer classes
  */
 abstract class AbstractSigner implements SignerInterface
 {
     /**
      * @var string
      */
-    protected algorithm { get };
+    protected algorithm = "";
+
+    public function getAlgorithm() -> string
+    {
+        return this->algorithm;
+    }
 }

@@ -11,7 +11,7 @@
 namespace Phalcon\Encryption\Security\JWT\Signer;
 
 /**
- * Class None
+ * No signing class
  */
 class None implements SignerInterface
 {
@@ -57,8 +57,11 @@ class None implements SignerInterface
      *
      * @return bool
      */
-    public function verify(string! source, string! payload, string! passphrase) -> bool
-    {
-        return "" === source;
+    public function verify(
+        string source,
+        string payload,
+        string passphrase
+    ) -> bool {
+        return "" === $source;
     }
 }

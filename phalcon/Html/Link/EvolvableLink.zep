@@ -28,8 +28,8 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified attribute is already present, it will be overwritten
      * with the new value.
      *
-     * @param string $attribute The attribute to include.
-     * @param string $value     The value of the attribute to set.
+     * @param string       $attribute The attribute to include.
+     * @param string|array $value     The value of the attribute to set.
      */
     public function withAttribute(var attribute, var value) -> <EvolvableLinkInterface>
     {

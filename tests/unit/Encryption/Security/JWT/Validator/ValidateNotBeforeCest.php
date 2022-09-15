@@ -38,16 +38,14 @@ class ValidateNotBeforeCest
         $I->wantToTest('Encryption\Security\JWT\Validator - validateNotBefore()');
 
         $token = $this->newToken();
-        $I->expectThrowable(
-            new ValidatorException(
-                "Validation: the token cannot be used yet (not before)"
-            ),
-            function () use ($token, $I) {
-                $timestamp = strtotime(("-2 days"));
-                $validator = new Validator($token);
-                $I->assertInstanceOf(Validator::class, $validator);
-                $validator->validateNotBefore($timestamp);
-            }
-        );
+        $timestamp = strtotime(("-2 days"));
+        $validator = new Validator($token);
+        $I->assertInstanceOf(Validator::class, $validator);
+
+        $validator->validateNotBefore($timestamp);
+
+        $expected = ["Validation: the token cannot be used yet (not before)"];
+        $actual   = $validator->getErrors();
+        $I->assertSame($expected, $actual);
     }
 }
