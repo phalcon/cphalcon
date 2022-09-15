@@ -68,7 +68,7 @@ class Validator
     }
 
     /**
-     * @param string|arrat $audience
+     * @param string|array $audience
      *
      * @return Validator
      * @throws ValidatorException
