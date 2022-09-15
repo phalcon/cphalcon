@@ -11,7 +11,7 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 /**
- * Class AbstractItem
+ * Abstract helper class for Tokens
  *
  * @property array $data
  */

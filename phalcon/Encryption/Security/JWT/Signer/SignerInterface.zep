@@ -10,6 +10,9 @@
 
 namespace Phalcon\Encryption\Security\JWT\Signer;
 
+/**
+ * Interface for JWT Signer classes
+ */
 interface SignerInterface
 {
     /**
@@ -45,5 +48,9 @@ interface SignerInterface
      *
      * @return bool
      */
-    public function verify(string! source, string! payload, string! passphrase) -> bool;
+    public function verify(
+        string source,
+        string payload,
+        string passphrase
+    ) -> bool;
 }
