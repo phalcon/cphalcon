@@ -1,4 +1,4 @@
-# [x.x.x](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (xxxx-xx-xx)
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (xxxx-xx-xx)
 
 ## Changed
 - Changed `Phalcon\Logger\Adapter\Stream::process` to open the log file, check for locks, write contents and close the stream [#16072](https://github.com/phalcon/cphalcon/issues/16072) 
@@ -8,6 +8,11 @@
 - Fixed `Phalcon\Filter\Validation\Validator\Digit` to use only strings for `ctype_*` calls [#16064](https://github.com/phalcon/cphalcon/issues/16064)
 - Fixed `Phalcon\Flash\AbstractFlash::outputMessage` to return the message (implicitFlush) [#16063](https://github.com/phalcon/cphalcon/issues/16063)
 - Fixed `Phalcon\Filter\Validation\Validator\Numericality` to correctly detect illegal characters within string numbers [#16070](https://github.com/phalcon/cphalcon/issues/16070)
+
+## Added
+- Added `Phalcon\Encryption\Security\JWT\Token::validate()` to validate a token's claims [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Token::verify()` to verify a token's signature [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Validator::getErrors()` to return any errors with the validation as an array [#16094](https://github.com/phalcon/cphalcon/issues/16094)
 
 # [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
