@@ -59,7 +59,7 @@ class Reference implements ReferenceInterface
      *
      * @var string
      */
-    protected referencedSchema { get };
+    protected referencedSchema = "" { get };
 
     /**
      * Referenced Table
@@ -73,21 +73,21 @@ class Reference implements ReferenceInterface
      *
      * @var string
      */
-    protected schemaName { get };
+    protected schemaName = "" { get };
 
     /**
      * ON DELETE
      *
      * @var string
      */
-    protected onDelete { get };
+    protected onDelete = "" { get };
 
     /**
      * ON UPDATE
      *
      * @var string
      */
-    protected onUpdate { get };
+    protected onUpdate = "" { get };
 
     /**
      * Phalcon\Db\Reference constructor
