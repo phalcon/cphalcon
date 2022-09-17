@@ -22,7 +22,7 @@ class MassMockCest extends TestCase
     public function testSegFaults(): void
     {
         $classes = array_filter(get_declared_classes(), function ($var) {
-            return preg_match('/^Phalcon/', $var) === 1;
+            return preg_match('/^Phalcon/', $var) === 1 && preg_match('/^Phalcon\\\\Test/', $var) === 0;
         });
         sort($classes);
 
