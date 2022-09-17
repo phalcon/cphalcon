@@ -44,7 +44,7 @@ class MassMockCest extends TestCase
             $mockBuilder = $this->getMockBuilder($class)->disableOriginalConstructor();
             $this->assertInstanceOf(MockObject::class, $mockBuilder->getMock());
 
-            unset($mockBuilder);
+            unset($reflector, $mockBuilder);
         }
     }
 }
