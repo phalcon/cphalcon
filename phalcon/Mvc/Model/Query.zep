@@ -201,7 +201,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @var TransactionInterface|null
      */
-    protected transaction { get };
+    protected transaction = null;
 
     /**
      * @var array|null
@@ -516,6 +516,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
     /**
      * Gets the type of PHQL statement executed
+     *
+     * @return int
      */
     public function getType() -> int
     {
@@ -525,10 +527,20 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Check if the query is programmed to get only the first row in the
      * resultset
+     *
+     * @return bool
      */
     public function getUniqueRow() -> bool
     {
         return this->uniqueRow;
+    }
+
+    /**
+     * @return TransactionInterface|null
+     */
+    public function getTransaction() -> <TransactionInterface> | null
+    {
+        return this->transaction;
     }
 
     /**
