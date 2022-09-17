@@ -82,12 +82,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * @var ValidationInterface|null
      */
-    protected validation = null { get };
+    protected validation = null;
 
     /**
      * @var array
      */
-    protected whitelist = [] { get };
+    protected whitelist = [];
 
     /**
      * Phalcon\Forms\Form constructor
@@ -584,6 +584,22 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         return null;
+    }
+
+    /**
+     * return ValidationInterface|null
+     */
+    public function getValidation() -> <ValidationInterface> | null
+    {
+        return this->validation;
+    }
+
+    /**
+     * return array
+     */
+    public function getWhitelist() -> array
+    {
+        return this->whitelist;
     }
 
     /**
