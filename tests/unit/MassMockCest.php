@@ -41,8 +41,8 @@ class MassMockCest extends TestCase
             //printf($class . PHP_EOL);
             //ob_flush();
 
-            $mockBuilder = $this->getMockBuilder($class)->disableOriginalConstructor();
-            $this->assertInstanceOf(MockObject::class, $mockBuilder->getMock());
+            $mockBuilder = $this->createMock($class);
+            $this->assertInstanceOf(MockObject::class, $this->createMock($class));
 
             unset($reflector, $mockBuilder);
         }
