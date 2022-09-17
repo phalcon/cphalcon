@@ -21,6 +21,8 @@ class MassMockCest extends TestCase
 {
     public function testSegFaults(): void
     {
+        $this->markTestSkipped('Skip during CI execution.');
+
         $classes = array_filter(get_declared_classes(), function ($var) {
             return preg_match('/^Phalcon/', $var) === 1 && preg_match('/^Phalcon\\\\Test/', $var) === 0;
         });
@@ -35,11 +37,8 @@ class MassMockCest extends TestCase
                 continue;
             }
 
-            /**
-             * Enable this for debug in case of segmentation faults.
-             */
-            //printf($class . PHP_EOL);
-            //ob_flush();
+            printf($class . PHP_EOL);
+            ob_flush();
 
             $mockBuilder = $this->createMock($class);
             $this->assertInstanceOf(MockObject::class, $this->createMock($class));
