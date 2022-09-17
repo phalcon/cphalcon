@@ -35,10 +35,16 @@ class MassMockCest extends TestCase
                 continue;
             }
 
-            printf($class . PHP_EOL);
-            ob_flush();
+            /**
+             * Enable this for debug in case of segmentation faults.
+             */
+            //printf($class . PHP_EOL);
+            //ob_flush();
+
             $mockBuilder = $this->getMockBuilder($class)->disableOriginalConstructor();
             $this->assertInstanceOf(MockObject::class, $mockBuilder->getMock());
+
+            unset($mockBuilder);
         }
     }
 }
