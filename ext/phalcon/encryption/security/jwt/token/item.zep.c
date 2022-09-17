@@ -30,7 +30,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Item
+ * Storage class for a Token Item
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Item)
 {

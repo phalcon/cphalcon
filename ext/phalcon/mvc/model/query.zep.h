@@ -3,7 +3,6 @@ extern zend_class_entry *phalcon_mvc_model_query_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query);
 
-PHP_METHOD(Phalcon_Mvc_Model_Query, getTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
 PHP_METHOD(Phalcon_Mvc_Model_Query, clean);
@@ -18,6 +17,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSql);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getType);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
@@ -54,9 +54,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Query(zend_class_entry *class_type);
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_gettransaction, 0, 0, IS_NULL, 1)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO(0, phql, IS_STRING, 1)
@@ -126,6 +123,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_gettype,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getuniquerow, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_gettransaction, 0, 0, Phalcon\\Mvc\\Model\\TransactionInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_parse, 0, 0, IS_ARRAY, 0)
@@ -325,7 +325,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_zephir_init_properties_ph
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
-	PHP_ME(Phalcon_Mvc_Model_Query, getTransaction, arginfo_phalcon_mvc_model_query_gettransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, __construct, arginfo_phalcon_mvc_model_query___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query, cache, arginfo_phalcon_mvc_model_query_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, clean, arginfo_phalcon_mvc_model_query_clean, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -340,6 +339,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getSql, arginfo_phalcon_mvc_model_query_getsql, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getType, arginfo_phalcon_mvc_model_query_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getUniqueRow, arginfo_phalcon_mvc_model_query_getuniquerow, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, getTransaction, arginfo_phalcon_mvc_model_query_gettransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, parse, arginfo_phalcon_mvc_model_query_parse, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setBindParams, arginfo_phalcon_mvc_model_query_setbindparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setBindTypes, arginfo_phalcon_mvc_model_query_setbindtypes, ZEND_ACC_PUBLIC)

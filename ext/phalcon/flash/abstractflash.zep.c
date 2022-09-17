@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *message = NULL, message_sub, content, html, item, prepared, *_2, _3, _8, _1$$4, _6$$5, _7$$8;
+	zval *type_param = NULL, *message = NULL, message_sub, content, html, item, prepared, *_2, _3, _1$$4, _6$$5, _7$$8;
 	zval type;
 	zval *this_ptr = getThis();
 
@@ -649,7 +649,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&prepared);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_7$$8);
@@ -729,11 +728,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
-	zephir_read_property(&_8, this_ptr, ZEND_STRL("implicitFlush"), PH_NOISY_CC | PH_READONLY);
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_8)) {
-		RETURN_CCTOR(&content);
-	}
-	RETURN_MM_NULL();
+	RETURN_CCTOR(&content);
 }
 
 /**
@@ -1000,7 +995,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses)
 	ZVAL_STRING(&content, "");
 	if (zephir_array_isset(&collection, &type)) {
 		ZEPHIR_OBS_NVAR(&content);
-		zephir_array_fetch(&content, &collection, &type, PH_NOISY, "phalcon/Flash/AbstractFlash.zep", 448);
+		zephir_array_fetch(&content, &collection, &type, PH_NOISY, "phalcon/Flash/AbstractFlash.zep", 444);
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&content)) {
 		if (Z_TYPE_P(&content) != IS_ARRAY) {

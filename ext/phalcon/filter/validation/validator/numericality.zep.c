@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Numericality, validate)
 	zephir_fast_str_replace(&_1, &_2, &_3, &value);
 	ZEPHIR_CPY_WRT(&value, &_1);
 	ZEPHIR_INIT_VAR(&pattern);
-	ZVAL_STRING(&pattern, "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/");
+	ZVAL_STRING(&pattern, "/((^[-]?[0-9,]+(\\.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/");
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "allowempty", NULL, 0, field, &value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
