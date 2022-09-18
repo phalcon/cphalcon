@@ -27,7 +27,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class AbstractItem
+ * Abstract helper class for Tokens
  *
  * @property array $data
  */

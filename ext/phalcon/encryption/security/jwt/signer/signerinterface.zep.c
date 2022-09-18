@@ -20,6 +20,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Interface for JWT Signer classes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_SignerInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Security\\JWT\\Signer, SignerInterface, phalcon, encryption_security_jwt_signer_signerinterface, phalcon_encryption_security_jwt_signer_signerinterface_method_entry);
