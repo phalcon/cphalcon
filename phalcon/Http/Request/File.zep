@@ -101,7 +101,7 @@ class File implements FileInterface
     }
 
     /**
-     * @var string|null
+     * @return string|null
      */
     public function getError() -> string | null
     {
@@ -109,7 +109,7 @@ class File implements FileInterface
     }
 
     /**
-     * @var string
+     * @return string
      */
     public function getExtension() -> string
     {
@@ -117,7 +117,7 @@ class File implements FileInterface
     }
 
     /**
-     * @var string|null
+     * @return string|null
      */
     public function getKey() -> string | null
     {

@@ -16,8 +16,6 @@ use Phalcon\Support\Helper\Str\AbstractStr;
 
 /**
  * Class AbstractFormatter
- *
- * @property string $dateFormat
  */
 abstract class AbstractFormatter extends AbstractStr implements FormatterInterface
 {
@@ -31,7 +29,7 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
     /**
      * Return the default date format
      *
-     * @var string
+     * @return string
      */
     public function getDateFormat() -> string
     {
