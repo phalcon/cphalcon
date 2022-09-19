@@ -37,7 +37,7 @@ class Event implements EventInterface
      *
      * @var mixed
      */
-    protected data { get };
+    protected data;
 
     /**
      * Event source
@@ -58,7 +58,7 @@ class Event implements EventInterface
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Events\Event constructor
@@ -76,6 +76,21 @@ class Event implements EventInterface
             this->source     = source,
             this->data       = data,
             this->cancelable = cancelable;
+    }
+
+    public function getData() -> var
+    {
+        return this->data;
+    }
+
+    public function getSource() -> object | null
+    {
+        return this->source;
+    }
+
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**
@@ -98,11 +113,6 @@ class Event implements EventInterface
     public function isStopped() -> bool
     {
         return this->stopped;
-    }
-
-    public function getSource() -> object | null
-    {
-        return this->source;
     }
 
     /**

@@ -38,56 +38,56 @@ class Reference implements ReferenceInterface
      *
      * @var array
      */
-    protected columns { get };
+    protected columns;
 
     /**
      * Constraint name
      *
      * @var string
      */
-    protected name { get };
+    protected name;
 
     /**
      * Referenced Columns
      *
      * @var array
      */
-    protected referencedColumns { get };
+    protected referencedColumns;
 
     /**
      * Referenced Schema
      *
      * @var string
      */
-    protected referencedSchema { get };
+    protected referencedSchema;
 
     /**
      * Referenced Table
      *
      * @var string
      */
-    protected referencedTable { get };
+    protected referencedTable;
 
     /**
      * Schema name
      *
      * @var string
      */
-    protected schemaName { get };
+    protected schemaName;
 
     /**
      * ON DELETE
      *
      * @var string
      */
-    protected onDelete { get };
+    protected onDelete;
 
     /**
      * ON UPDATE
      *
      * @var string
      */
-    protected onUpdate { get };
+    protected onUpdate;
 
     /**
      * Phalcon\Db\Reference constructor
@@ -140,5 +140,69 @@ class Reference implements ReferenceInterface
                 "Number of columns is not equals than the number of columns referenced"
             );
         }
+    }
+
+    /**
+     * Local reference columns
+     */
+    public function getColumns() -> array
+    {
+        return this->columns;
+    }
+
+    /**
+     * Constraint name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Referenced Columns
+     */
+    public function getReferencedColumns() -> array
+    {
+        return this->referencedColumns;
+    }
+
+    /**
+     * Referenced Schema
+     */
+    public function getReferencedSchema() -> string
+    {
+        return this->referencedSchema;
+    }
+
+    /**
+     * Referenced Table
+     */
+    public function getReferencedTable() -> string
+    {
+        return this->referencedTable;
+    }
+
+    /**
+     * Schema name
+     */
+    public function getSchemaName() -> string
+    {
+        return this->schemaName;
+    }
+
+    /**
+     * ON DELETE
+     */
+    public function getOnDelete() -> string
+    {
+        return this->onDelete;
+    }
+
+    /**
+     * ON UPDATE
+     */
+    public function getOnUpdate() -> string
+    {
+        return this->onUpdate;
     }
 }

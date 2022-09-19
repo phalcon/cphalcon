@@ -104,7 +104,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var int
      */
-    protected currentRenderLevel = 0 { get };
+    protected currentRenderLevel = 0;
 
     /**
      * @var bool
@@ -164,12 +164,12 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var array
      */
-    protected registeredEngines = [] { get };
+    protected registeredEngines = [];
 
     /**
      * @var int
      */
-    protected renderLevel = 5 { get };
+    protected renderLevel = 5;
 
     /**
      * @var array
@@ -369,6 +369,30 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getControllerName() -> string
     {
         return this->controllerName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentRenderLevel() -> int
+    {
+        return this->currentRenderLevel;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegisteredEngines() -> array
+    {
+        return this->registeredEngines;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRenderLevel() -> int
+    {
+        return this->renderLevel;
     }
 
     /**

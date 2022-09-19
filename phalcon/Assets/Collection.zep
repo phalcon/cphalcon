@@ -36,12 +36,12 @@ class Collection implements Countable, IteratorAggregate
     /**
      * @var array
      */
-    protected assets = [] { get };
+    protected assets = [];
 
     /**
      * @var array
      */
-    protected attributes = [] { get };
+    protected attributes = [];
 
     /**
      * Should version be determined from file modification time
@@ -53,17 +53,12 @@ class Collection implements Countable, IteratorAggregate
     /**
      * @var array
      */
-    protected codes = [] { get };
+    protected codes = [];
 
     /**
      * @var array
      */
-    protected filters = [] { get };
-
-    /**
-     * @var bool
-     */
-    protected join = true { get };
+    protected filters = [];
 
     /**
      * @var bool
@@ -71,34 +66,39 @@ class Collection implements Countable, IteratorAggregate
     protected isLocal = true;
 
     /**
-     * @var string
+     * @var bool
      */
-    protected prefix = "" { get };
+    protected join = true;
 
     /**
      * @var string
      */
-    protected sourcePath = "" { get };
+    protected prefix = "";
+
+    /**
+     * @var string
+     */
+    protected sourcePath = "";
 
     /**
      * @var bool
      */
-    protected targetIsLocal = true { get };
+    protected targetIsLocal = true;
 
     /**
      * @var string
      */
-    protected targetPath = "" { get };
+    protected targetPath = "";
 
     /**
      * @var string
      */
-    protected targetUri = "" { get };
+    protected targetUri = "";
 
     /**
      * @var string
      */
-    protected version = "" { get };
+    protected version = "";
 
     /**
      * Adds an asset to the collection
@@ -237,6 +237,38 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * @return array
+     */
+    public function getAssets() -> array
+    {
+        return this->assets;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCodes() -> array
+    {
+        return this->codes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilters() -> array
+    {
+        return this->filters;
+    }
+
+    /**
      * Returns the generator of the class
      *
      * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -244,6 +276,22 @@ class Collection implements Countable, IteratorAggregate
     public function getIterator() -> <\Traversable>
     {
         return new ArrayIterator(this->assets);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getJoin() -> bool
+    {
+        return this->join;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix() -> string
+    {
+        return this->prefix;
     }
 
     /**
@@ -272,6 +320,46 @@ class Collection implements Countable, IteratorAggregate
         }
 
         return completePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourcePath() -> string
+    {
+        return this->sourcePath;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTargetIsLocal() -> bool
+    {
+        return this->targetIsLocal;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetPath() -> string
+    {
+        return this->targetPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetUri() -> string
+    {
+        return this->targetUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion() -> string
+    {
+        return this->version;
     }
 
     /**

@@ -22,27 +22,27 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * @var int
      */
-    protected code { get };
+    protected code;
 
     /**
      * @var string
      */
-    protected field { get };
+    protected field;
 
     /**
      * @var string
      */
-    protected message { get };
+    protected message;
 
     /**
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * @var array
      */
-    protected metaData = [] { get };
+    protected metaData = [];
 
     /**
      * Phalcon\Messages\Message constructor
@@ -62,6 +62,46 @@ class Message implements MessageInterface, JsonSerializable
     public function __toString() -> string
     {
         return this->message;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCode() -> int
+    {
+        return this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getField() -> string
+    {
+        return this->field;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage() -> string
+    {
+        return this->message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaData() -> array
+    {
+        return this->metaData;
     }
 
     /**

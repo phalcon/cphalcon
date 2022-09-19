@@ -20,33 +20,33 @@ namespace Phalcon\Assets;
 class $Inline implements AssetInterface
 {
     /**
-     * @var array | null
+     * @var array
      */
-    protected attributes { get };
+    protected attributes;
 
     /**
      * @var string
      */
-    protected content { get };
+    protected content;
 
     /**
      * @var bool
      */
-    protected filter { get };
+    protected filter;
 
     /**
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Assets\Inline constructor
      */
     public function __construct(string type, string content, bool filter = true, array attributes = [])
     {
-        let this->type = type,
-            this->content = content,
-            this->filter = filter,
+        let this->type       = type,
+            this->content    = content,
+            this->filter     = filter,
             this->attributes = attributes;
     }
 
@@ -60,6 +60,38 @@ class $Inline implements AssetInterface
         let key = this->getType() . ":" . this->getContent();
 
         return hash("sha256", key);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent() -> string
+    {
+        return this->content;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFilter() -> bool
+    {
+        return this->filter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**

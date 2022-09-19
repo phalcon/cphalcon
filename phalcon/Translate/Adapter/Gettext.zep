@@ -42,22 +42,22 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * @var int
      */
-    protected category { get };
+    protected category;
 
     /**
      * @var string
      */
-    protected defaultDomain { get };
+    protected defaultDomain;
 
     /**
      * @var string|array
      */
-    protected directory { get };
+    protected directory;
 
     /**
      * @var string
      */
-    protected locale { get };
+    protected locale;
 
     /**
      * Gettext constructor.
@@ -96,6 +96,38 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     public function exists(string! index) -> bool
     {
         return this->has(index);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCategory() -> int
+    {
+        return this->category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultDomain() -> string
+    {
+        return this->defaultDomain;
+    }
+
+    /**
+     * @return string|array
+     */
+    public function getDirectory() -> array | string
+    {
+        return this->directory;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale() -> string
+    {
+        return this->locale;
     }
 
     /**

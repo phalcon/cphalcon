@@ -93,7 +93,7 @@ class Security extends AbstractInjectionAware
     /**
      * @var int
      */
-    protected workFactor = 10 { get };
+    protected workFactor = 10;
 
     /**
      * @var SessionInterface|null
@@ -392,6 +392,14 @@ class Security extends AbstractInjectionAware
         }
 
         return this->tokenKey;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWorkFactor() -> int
+    {
+        return this->workFactor;
     }
 
     /**

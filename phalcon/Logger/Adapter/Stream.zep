@@ -47,7 +47,7 @@ class Stream extends AbstractAdapter
      *
      * @var string
      */
-    protected name { get };
+    protected name;
 
     /**
      * Path options
@@ -86,6 +86,16 @@ class Stream extends AbstractAdapter
     public function close() -> bool
     {
         return true;
+    }
+
+    /**
+     * Stream name
+     *
+     * @return string
+     */
+    public function getName() -> string
+    {
+        return this->name;
     }
 
     /**
