@@ -82,7 +82,7 @@ class Grouped extends Config
             let configInstance = configName;
 
             // Set to default adapter if passed as string
-            if typeof configName === "object" && configName instanceof ConfigInterface {
+            if configName instanceof ConfigInterface {
                 this->merge(configInstance);
                 continue;
             } elseif typeof configName === "string" {

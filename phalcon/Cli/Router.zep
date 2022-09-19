@@ -259,7 +259,7 @@ class Router extends AbstractInjectionAware
             this->wasMatched = false,
             this->matchedRoute = null;
 
-        if typeof arguments != "array" {
+        if typeof arguments !== "array" {
             if unlikely (typeof arguments != "string" && arguments !== null) {
                 throw new Exception("Arguments must be an array or string");
             }

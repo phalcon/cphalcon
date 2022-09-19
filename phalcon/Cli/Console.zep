@@ -41,7 +41,7 @@ class Console extends AbstractApplication
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "A dependency injection container is required to access internal services"
             );
@@ -53,7 +53,7 @@ class Console extends AbstractApplication
          * Call boot event, this allows the developer to perform initialization
          * actions
          */
-        if typeof eventsManager == "object" {
+        if eventsManager !== null {
             if eventsManager->fire("console:boot", this) === false {
                 return false;
             }
@@ -165,7 +165,7 @@ class Console extends AbstractApplication
         }
 
         for arg in arguments {
-            if typeof arg == "string" {
+            if typeof arg === "string" {
                 if strncmp(arg, "--", 2) == 0 {
                     let pos = strpos(arg, "=");
 

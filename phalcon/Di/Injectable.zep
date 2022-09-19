@@ -60,7 +60,7 @@ abstract class Injectable implements InjectionAwareInterface
 
         let container = <DiInterface> this->getDI();
 
-        if propertyName == "di" {
+        if propertyName === "di" {
             let this->{"di"} = container;
 
             return container;
@@ -69,7 +69,7 @@ abstract class Injectable implements InjectionAwareInterface
         /**
          * Accessing the persistent property will create a session bag on any class
          */
-        if propertyName == "persistent" {
+        if propertyName === "persistent" {
             let this->{"persistent"} = <BagInterface> container->get(
                 "sessionBag",
                 [
@@ -116,7 +116,7 @@ abstract class Injectable implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if container === null {
             let container = Di::getDefault();
 
             if unlikely typeof container != "object" {

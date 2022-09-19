@@ -132,10 +132,10 @@ class PdoResult implements ResultInterface
          * PDO doesn't support scrollable cursors, so we need to re-execute the
          * statement
          */
-        if typeof bindParams == "array" {
+        if typeof bindParams === "array" {
             let statement = pdo->prepare(sqlStatement);
 
-            if typeof statement == "object" {
+            if typeof statement === "object" {
                 let statement = connection->executePrepared(
                     statement,
                     bindParams,
@@ -284,7 +284,7 @@ class PdoResult implements ResultInterface
             /**
              * MySQL and PostgreSQL properly returns the number of records
              */
-            if type == "mysql" || type == "pgsql" {
+            if type === "mysql" || type === "pgsql" {
                 let pdoStatement = this->pdoStatement,
                     rowCount = pdoStatement->rowCount();
             }

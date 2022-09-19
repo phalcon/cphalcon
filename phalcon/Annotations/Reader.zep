@@ -49,7 +49,7 @@ class Reader implements ReaderInterface
             /**
              * Append the class annotations to the annotations var
              */
-            if typeof classAnnotations == "array" {
+            if typeof classAnnotations === "array" {
                 let annotations["class"] = classAnnotations;
             }
         }
@@ -74,7 +74,7 @@ class Reader implements ReaderInterface
                 let constantReflection = reflection->getReflectionConstant(constant);
                 let comment = constantReflection->getDocComment();
 
-                if typeof comment == "string" {
+                if typeof comment === "string" {
                     /**
                      * Parse constant docblock comment
                      */
@@ -113,7 +113,7 @@ class Reader implements ReaderInterface
                  */
                 let comment = property->getDocComment();
 
-                if typeof comment == "string" {
+                if typeof comment === "string" {
                     /**
                      * Parse property docblock comment
                      */
@@ -123,7 +123,7 @@ class Reader implements ReaderInterface
                         line
                     );
 
-                    if typeof propertyAnnotations == "array" {
+                    if typeof propertyAnnotations === "array" {
                         let annotationsProperties[property->name] = propertyAnnotations;
                     }
                 }
@@ -177,7 +177,7 @@ class Reader implements ReaderInterface
      */
     public static function parseDocBlock(string docBlock, file = null, line = null) -> array
     {
-        if typeof file != "string" {
+        if typeof file !== "string" {
             let file = "eval code";
         }
 

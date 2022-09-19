@@ -305,7 +305,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         if this->registered === false {
             let container = this->container;
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'response' service"
                 );

@@ -162,7 +162,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Two routes are added by default to match /:controller/:action and
              * /:controller/:action/:params
              */
-
             let routes[] = new Route(
                 "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
                 [
@@ -692,7 +691,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         /**
          * Remove extra slashes in the route
          */
-        if this->removeExtraSlashes && uri != "/" {
+        if this->removeExtraSlashes && uri !== "/" {
             let handledUri = rtrim(uri, "/");
         } else {
             let handledUri = uri;
@@ -713,7 +712,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         let eventsManager = this->eventsManager;
 
-        if typeof eventsManager == "object" {
+        if eventsManager !== null {
             eventsManager->fire("router:beforeCheckRoutes", this);
         }
 
@@ -728,15 +727,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Look for HTTP method constraints
              */
             let methods = route->getHttpMethods();
-
             if methods !== null {
                 /**
                  * Retrieve the request service from the container
                  */
                 if request === null {
                     let container = <DiInterface> this->container;
-
-                    if unlikely typeof container != "object" {
+                    if container === null {
                         throw new Exception(
                             "A dependency injection container is required to access the 'request' service"
                         );
@@ -757,15 +754,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Look for hostname constraints
              */
             let hostname = route->getHostName();
-
             if hostname !== null {
                 /**
                  * Retrieve the request service from the container
                  */
                 if request === null {
                     let container = <DiInterface> this->container;
-
-                    if unlikely typeof container != "object" {
+                    if container === null {
                         throw new Exception(
                             "A dependency injection container is required to access the 'request' service"
                         );
@@ -839,7 +834,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 }
 
                 let beforeMatch = route->getBeforeMatch();
-
                 if beforeMatch !== null {
                     /**
                      * Check first if the callback is callable
@@ -1037,7 +1031,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
         }
 
-        if typeof eventsManager == "object" {
+        if typeof eventsManager === "object" {
             eventsManager->fire("router:afterCheckRoutes", this);
         }
     }
@@ -1112,7 +1106,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function notFound(var paths) -> <RouterInterface>
     {
-        if unlikely (typeof paths != "array" && typeof paths != "string") {
+        if unlikely (typeof paths !== "array" && typeof paths !== "string") {
             throw new Exception(
                 "The not-found paths must be an array or string"
             );

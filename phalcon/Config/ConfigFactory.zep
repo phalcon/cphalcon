@@ -167,7 +167,7 @@ class ConfigFactory extends AbstractFactory
             ];
         }
 
-        if typeof config === "object" && config instanceof ConfigInterface {
+        if config instanceof ConfigInterface {
             let config = config->toArray();
         }
 

@@ -768,9 +768,7 @@ class Compiler implements InjectionAwareInterface
             forElse = null;
 
         let this->foreachLevel++;
-
         let prefix = this->getUniquePrefix();
-
         let level = this->foreachLevel;
 
         /**
@@ -782,14 +780,12 @@ class Compiler implements InjectionAwareInterface
          * Evaluate common expressions
          */
         let expr = statement["expr"];
-
         let exprCode = this->expression(expr);
 
         /**
          * Process the block statements
          */
         let blockStatements = statement["block_statements"];
-
         let forElse = false;
 
         if typeof blockStatements == "array" {
@@ -815,7 +811,6 @@ class Compiler implements InjectionAwareInterface
          * Process statements block
          */
         let code = this->statementList(blockStatements, extendsMode);
-
         let loopContext = this->loopPointers;
 
         /**
@@ -1072,9 +1067,7 @@ class Compiler implements InjectionAwareInterface
          * Register the macro
          */
         let this->macros[name] = name;
-
         let macroName = "$this->macros['" . name . "']";
-
         let code = "<?php ";
 
         if !fetch parameters, statement["parameters"] {
@@ -1326,7 +1319,7 @@ class Compiler implements InjectionAwareInterface
         let extensions = this->extensions;
 
         loop {
-            if typeof extensions == "array" {
+            if typeof extensions === "array" {
                 /**
                  * Notify the extensions about being resolving an expression
                  */
@@ -1335,7 +1328,7 @@ class Compiler implements InjectionAwareInterface
                     [expr]
                 );
 
-                if typeof exprCode == "string" {
+                if typeof exprCode === "string" {
                     break;
                 }
             }

@@ -180,7 +180,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if container === null {
             this->{"throwDispatchException"}(
                 "A dependency injection container is required to access related dispatching services",
                 PhalconException::EXCEPTION_NO_DI
@@ -276,14 +276,13 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              * Handlers are retrieved as shared instances from the Service
              * Container
              */
-            let hasService = (bool) container->has(handlerClass);
-
+            let hasService = container->has(handlerClass);
             if !hasService {
                 /**
                  * DI doesn't have a service with that name, try to load it
                  * using an autoloader
                  */
-                let hasService = (bool) class_exists(handlerClass);
+                let hasService = class_exists(handlerClass);
             }
 
             // If the service can be loaded we throw an exception
@@ -334,7 +333,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             /**
              * Check if the params is an array
              */
-            if unlikely typeof this->params != "array" {
+            if unlikely typeof this->params !== "array" {
                 /**
                  * An invalid parameter variable was passed throw an exception
                  */
@@ -748,15 +747,11 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     public function getBoundModels() -> array
     {
-        var modelBinder;
-
-        let modelBinder = this->modelBinder;
-
-        if modelBinder == null {
+        if this->modelBinder === null {
             return [];
         }
 
-        return modelBinder->getBoundModels();
+        return this->modelBinder->getBoundModels();
     }
 
     /**
@@ -817,7 +812,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     public function getParam(var param, filters = null, defaultValue = null) -> var
     {
-        var params, filter, paramValue, container;
+        var params, filter, paramValue;
 
         let params = this->params;
 
@@ -829,16 +824,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             return paramValue;
         }
 
-        let container = this->container;
-
-        if typeof container != "object" {
+        if this->container === null {
             this->{"throwDispatchException"}(
                 "A dependency injection container is required to access the 'filter' service",
                 PhalconException::EXCEPTION_NO_DI
             );
         }
 
-        let filter = <FilterInterface> container->getShared("filter");
+        let filter = <FilterInterface> this->container->getShared("filter");
 
         return filter->sanitize(paramValue, filters);
     }
@@ -999,7 +992,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     {
         var container;
 
-        if typeof cache == "string" {
+        if typeof cache === "string" {
             let container = this->container;
 
             let cache = container->get(cache);

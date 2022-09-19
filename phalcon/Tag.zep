@@ -378,7 +378,7 @@ class Tag
 
         let di = self::container;
 
-        if typeof di != "object" {
+        if di === null {
             let di = Di::getDefault();
         }
 
@@ -397,7 +397,7 @@ class Tag
         if typeof escaper != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'escaper' service"
                 );
@@ -492,7 +492,7 @@ class Tag
         if typeof url != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'url' service"
                 );

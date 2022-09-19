@@ -34,7 +34,7 @@ class Component implements ComponentInterface
      */
     public function __construct(string! name, string description = null)
     {
-        if unlikely name == "*" {
+        if unlikely name === "*" {
             throw new Exception("Component name cannot be '*'");
         }
 
