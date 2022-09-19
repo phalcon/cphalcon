@@ -249,7 +249,7 @@ class Column implements ColumnInterface
      *
      * @var mixed|null
      */
-    protected _default = null;
+    protected defaultValue = null;
 
     /**
      * Position is first
@@ -403,7 +403,7 @@ class Column implements ColumnInterface
          * Check if the column is default value
          */
         if fetch defaultValue, definition["default"] {
-            let this->_default = defaultValue;
+            let this->defaultValue = defaultValue;
         }
 
         /**
@@ -502,7 +502,7 @@ class Column implements ColumnInterface
      */
     public function getDefault() -> var
     {
-        return this->_default;
+        return this->defaultValue;
     }
 
     /**
@@ -562,7 +562,7 @@ class Column implements ColumnInterface
             return false;
         }
 
-        return this->_default !== null;
+        return this->defaultValue !== null;
     }
 
     /**

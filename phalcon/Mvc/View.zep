@@ -382,7 +382,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @return array
      */
-    public function getRegisteredEngines() -> array | null
+    public function getRegisteredEngines() -> array
     {
         return this->registeredEngines;
     }
