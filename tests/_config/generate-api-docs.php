@@ -49,8 +49,6 @@ foreach ($documents as $document) {
     echo 'Processing: ' . $document['title'] . PHP_EOL;
     $output = "---
 layout: default
-language: 'en'
-version: '4.0'
 title: '{$document['title']}'
 ---
 ";
@@ -88,7 +86,7 @@ title: '{$document['title']}'
 
 <h1 id=\"{$href}\">{$signature}</h1>
 
-[Source on GitHub](https://github.com/phalcon/cphalcon/blob/v{{ page.version }}.0/phalcon/{$github})
+[Source on GitHub](https://github.com/phalcon/cphalcon/blob/v{{ pageVersion }}.0/phalcon/{$github})
 ";
 
         if (!empty($namespace)) {
