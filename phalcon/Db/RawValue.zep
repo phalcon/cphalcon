@@ -31,7 +31,7 @@ class RawValue
      *
      * @var string
      */
-    protected value { get, __toString };
+    protected value;
 
     /**
      * Phalcon\Db\RawValue constructor
@@ -45,5 +45,15 @@ class RawValue
         } else {
             let this->value = (string) value;
         }
+    }
+
+    public function __toString() -> string
+    {
+        return this->value;
+    }
+
+    public function getValue() -> string
+    {
+        return this->value;
     }
 }

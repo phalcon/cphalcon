@@ -39,14 +39,14 @@ class Escaper implements EscaperInterface
     /**
      * @var string
      */
-    protected encoding = "utf-8" { get };
+    protected encoding = "utf-8";
 
     /**
      * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
      *
      * @var int
      */
-    protected flags = 11 { get };
+    protected flags = 11;
 
     /**
      * Escapes a HTML attribute string
@@ -192,6 +192,22 @@ class Escaper implements EscaperInterface
     public function escapeUrl(string input) -> string
     {
         return this->url(input);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncoding() -> string
+    {
+        return this->encoding;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFlags() -> int
+    {
+        return this->flags;
     }
 
     /**

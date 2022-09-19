@@ -16,18 +16,18 @@ namespace Phalcon\Acl;
 class Role implements RoleInterface
 {
     /**
-     * Role name
-     *
-     * @var string
-     */
-    private name { get, __toString };
-
-    /**
      * Role description
      *
      * @var string
      */
-    private description { get };
+    private description;
+
+    /**
+     * Role name
+     *
+     * @var string
+     */
+    private name;
 
     /**
      * Phalcon\Acl\Role constructor
@@ -40,5 +40,20 @@ class Role implements RoleInterface
 
         let this->name = name,
             this->description = description;
+    }
+
+    public function __toString() -> string
+    {
+        return this->name;
+    }
+
+    public function getDescription() -> string
+    {
+        return this->description;
+    }
+
+    public function getName() -> string
+    {
+        return this->name;
     }
 }

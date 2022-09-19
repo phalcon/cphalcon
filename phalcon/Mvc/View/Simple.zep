@@ -74,9 +74,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected options = [];
 
     /**
-     * @var array|null
+     * @var array | null
      */
-    protected registeredEngines { get };
+    protected registeredEngines = null;
 
     /**
      * @var string
@@ -170,6 +170,14 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     public function getParamsToView() -> array
     {
         return this->viewParams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegisteredEngines() -> array
+    {
+        return this->registeredEngines;
     }
 
     /**

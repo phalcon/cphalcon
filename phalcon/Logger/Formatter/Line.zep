@@ -25,7 +25,7 @@ class Line extends AbstractFormatter
      *
      * @var string
      */
-    protected format { get, set };
+    protected format;
 
     /**
      * Line constructor.
@@ -63,5 +63,29 @@ class Line extends AbstractFormatter
         );
 
         return this->toInterpolate(message, item->getContext());
+    }
+
+    /**
+     * Return the format applied to each message
+     *
+     * @return string
+     */
+    public function getFormat() -> string
+    {
+        return this->format;
+    }
+
+    /**
+     * Set the format applied to each message
+     *
+     * @param string $format
+     *
+     * @return Line
+     */
+    public function setFormat(string format) -> <Line>
+    {
+        let this->format = format;
+
+        return this;
     }
 }

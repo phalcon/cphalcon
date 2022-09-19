@@ -38,17 +38,17 @@ class File implements FileInterface
     /**
      * @var string|null
      */
-    protected error = null { get };
+    protected error = null;
 
     /**
      * @var string
      */
-    protected extension { get };
+    protected extension;
 
     /**
      * @var string|null
      */
-    protected key = null { get };
+    protected key = null;
 
     /**
      * @var string
@@ -98,6 +98,30 @@ class File implements FileInterface
         if key {
             let this->key = key;
         }
+    }
+
+    /**
+     * @var string|null
+     */
+    public function getError() -> string | null
+    {
+        return this->error;
+    }
+
+    /**
+     * @var string
+     */
+    public function getExtension() -> string
+    {
+        return this->extension;
+    }
+
+    /**
+     * @var string|null
+     */
+    public function getKey() -> string | null
+    {
+        return this->key;
     }
 
     /**

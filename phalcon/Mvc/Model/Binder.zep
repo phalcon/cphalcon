@@ -29,7 +29,7 @@ class Binder implements BinderInterface
      *
      * @var array
      */
-    protected boundModels = [] { get };
+    protected boundModels = [];
 
     /**
      * Cache object used for caching parameters for model binding
@@ -50,7 +50,7 @@ class Binder implements BinderInterface
      *
      * @var array
      */
-    protected originalValues = [] { get };
+    protected originalValues = [];
 
     /**
      * Phalcon\Mvc\Model\Binder constructor
@@ -106,6 +106,26 @@ class Binder implements BinderInterface
     protected function findBoundModel(var paramValue, string className) -> var | bool
     {
         return {className}::findFirst(paramValue);
+    }
+
+    /**
+     * Return the active bound models
+     *
+     * @return array
+     */
+    public function getBoundModels() -> array
+    {
+        return this->boundModels;
+    }
+
+    /**
+     * Return the array for original values
+     *
+     * @return array
+     */
+    public function getOriginalValues() -> array
+    {
+        return this->originalValues;
     }
 
     /**

@@ -45,7 +45,7 @@ class Route implements RouteInterface
     /**
      * @var string|null
      */
-    protected id = null { get };
+    protected id = null;
 
     /**
      * @var array|string
@@ -380,6 +380,14 @@ class Route implements RouteInterface
     public function getHostname() -> string | null
     {
         return this->hostname;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getId() -> string | null
+    {
+        return this->id;
     }
 
     /**

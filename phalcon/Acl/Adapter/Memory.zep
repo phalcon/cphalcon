@@ -104,21 +104,21 @@ class Memory extends AbstractAdapter
      *
      * @var mixed
      */
-    protected activeFunction { get };
+    protected activeFunction;
 
     /**
      * Returns number of additional arguments(excluding role and resource) for active function
      *
      * @var int
      */
-    protected activeFunctionCustomArgumentsCount = 0 { get };
+    protected activeFunctionCustomArgumentsCount = 0;
 
     /**
      * Returns latest key used to acquire access
      *
      * @var string|null
      */
-    protected activeKey { get };
+    protected activeKey = null;
 
     /**
      * Components
@@ -506,6 +506,32 @@ class Memory extends AbstractAdapter
             }
         }
      }
+
+    /**
+     * Returns latest function used to acquire access
+     *
+     * @return mixed
+     */
+    public function getActiveFunction() -> var
+    {
+        return this->activeFunction;
+    }
+
+    /**
+     * Returns number of additional arguments(excluding role and resource) for active function
+     */
+    public function getActiveFunctionCustomArgumentsCount() -> int
+    {
+        return this->activeFunctionCustomArgumentsCount;
+    }
+
+    /**
+     * Returns latest key used to acquire access
+     */
+    public function getActiveKey() -> string | null
+    {
+        return this->activeKey;
+    }
 
     /**
      * Return an array with every component registered in the list

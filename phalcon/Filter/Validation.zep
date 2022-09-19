@@ -34,7 +34,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * @var mixed
      */
-    protected data { get };
+    protected data;
 
     /**
      * @var object|null
@@ -61,7 +61,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @var array
      */
-    protected validators = [] { set };
+    protected validators = [];
 
     /**
      * Calculated values
@@ -169,6 +169,14 @@ class Validation extends Injectable implements ValidationInterface
         let this->data = data;
 
         return this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData() -> var
+    {
+        return this->data;
     }
 
     /**
@@ -456,6 +464,13 @@ class Validation extends Injectable implements ValidationInterface
     public function setLabels(array! labels) -> void
     {
         let this->labels = labels;
+    }
+
+    public function setValidators(array validators) -> <Validation>
+    {
+        let this->validators = validators;
+
+        return this;
     }
 
     /**

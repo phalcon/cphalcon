@@ -57,7 +57,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var bool
      */
-    private httpMethodParameterOverride = false { get, set };
+    private httpMethodParameterOverride = false;
 
     /**
      * @var array
@@ -158,6 +158,16 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     public function getBestLanguage() -> string
     {
         return this->getBestQuality(this->getLanguages(), "language");
+    }
+
+    /**
+     * Return the HTTP method parameter override flag
+     *
+     * @return bool
+     */
+    public function getHttpMethodParameterOverride() -> bool
+    {
+        return this->httpMethodParameterOverride;
     }
 
     /**
@@ -1240,6 +1250,20 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return numberFiles;
+    }
+
+    /**
+     * Set the HTTP method parameter override flag
+     *
+     * @param bool $override
+     *
+     * @return Request
+     */
+    public function setHttpMethodParameterOverride(bool override) -> <Request>
+    {
+        let this->httpMethodParameterOverride = override;
+
+        return this;
     }
 
     /**

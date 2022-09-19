@@ -60,7 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var string
      */
-    protected dialectType { get };
+    protected dialectType;
 
     /**
      * Event Manager
@@ -116,7 +116,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Db\Adapter constructor
@@ -733,6 +733,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Name of the dialect used
+     */
+    public function getDialectType() -> string
+    {
+        return this->dialectType;
+    }
+
+    /**
      * Returns the internal event manager
      */
     public function getEventsManager() -> <ManagerInterface> | null
@@ -778,6 +786,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function getSQLVariables() -> array
     {
         return this->sqlVariables;
+    }
+
+    /**
+     * Type of database system the adapter is used for
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use DateTimeImmutable;
 use Phalcon\Logger\Item;
 use Phalcon\Support\Helper\Str\AbstractStr;
 
@@ -25,7 +26,17 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
      *
      * @var string
      */
-    protected dateFormat = "c" { get, set };
+    protected dateFormat = "c";
+
+    /**
+     * Return the default date format
+     *
+     * @var string
+     */
+    public function getDateFormat() -> string
+    {
+        return this->dateFormat;
+    }
 
     /**
      * Returns the date formatted for the logger.
@@ -37,5 +48,17 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
     protected function getFormattedDate(<Item> item) -> string
     {
         return item->getDateTime()->format(this->dateFormat);
+    }
+
+    /**
+     * Set the default date format
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    public function setDateFormat(string format) -> void
+    {
+        let this->dateFormat = format;
     }
 }

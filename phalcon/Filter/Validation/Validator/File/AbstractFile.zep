@@ -60,21 +60,21 @@ abstract class AbstractFile extends AbstractValidator
      *
      * @var string
      */
-    protected messageFileEmpty = "Field :field must not be empty" { get, set };
+    protected messageFileEmpty = "Field :field must not be empty";
 
     /**
      * File exceeds the file size set in PHP configuration
      *
      * @var string
      */
-    protected messageIniSize = "File :field exceeds the maximum file size" { get, set };
+    protected messageIniSize = "File :field exceeds the maximum file size";
 
     /**
      * File is not valid
      *
      * @var string
      */
-    protected messageValid = "Field :field is not valid" { get, set };
+    protected messageValid = "Field :field is not valid";
 
     /**
     * Check upload
@@ -237,6 +237,36 @@ abstract class AbstractFile extends AbstractValidator
     }
 
     /**
+     * Empty is empty
+     *
+     * @return string
+     */
+    public function getMessageFileEmpty() -> string
+    {
+        return this->messageFileEmpty;
+    }
+
+    /**
+     * File exceeds the file size set in PHP configuration
+     *
+     * @return string
+     */
+    public function getMessageIniSize() -> string
+    {
+        return this->messageIniSize;
+    }
+
+    /**
+     * File is not valid
+     *
+     * @return string
+     */
+    public function getMessageValid() -> string
+    {
+        return this->messageValid;
+    }
+
+    /**
      * Check on empty
      *
      * @param Validation $validation
@@ -248,6 +278,42 @@ abstract class AbstractFile extends AbstractValidator
         var value = validation->getValue(field);
 
         return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
+    }
+
+    /**
+     * Empty is empty
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    public function setMessageFileEmpty(string message) -> void
+    {
+        let this->messageFileEmpty = message;
+    }
+
+    /**
+     * File exceeds the file size set in PHP configuration
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    public function setMessageIniSize(string message) -> void
+    {
+        let this->messageIniSize = message;
+    }
+
+    /**
+     * File is not valid
+     *
+     * @param string $message
+     *
+     * @return void
+     */
+    public function setMessageValid(string message) -> void
+    {
+        let this->messageValid = message;
     }
 
     /**
