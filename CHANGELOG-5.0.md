@@ -4,6 +4,7 @@
 - Changed `Phalcon\Logger\Adapter\Stream::process` to open the log file, check for locks, write contents and close the stream [#16072](https://github.com/phalcon/cphalcon/issues/16072) 
 - Changed getters and setters from shorthand format to full methods [#16102](https://github.com/phalcon/cphalcon/issues/16102)
 - Changed return types to `array` in `Phalcon\Annotations\Reflection` class methods [#16106](https://github.com/phalcon/cphalcon/issues/16106)
+- Changed `Phalcon\Html\Escaper::attributes()` to also accept an array of attributes [#16108](https://github.com/phalcon/cphalcon/issues/16108)
 
 ## Fixed
 - Fixed and improved return type of `object` & `?object` [#16023](https://github.com/phalcon/cphalcon/issues/16023)
