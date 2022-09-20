@@ -95,7 +95,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function begin(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Increase the transaction nesting level
@@ -105,9 +105,7 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the started transaction
              */
@@ -122,7 +120,7 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             return false;
         }
 
@@ -144,17 +142,16 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function commit(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-        if unlikely !transactionLevel {
+        if this->transactionLevel === 0 {
             throw new Exception("There is no active transaction");
         }
 
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the committed transaction
              */
@@ -174,11 +171,11 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
-            if transactionLevel > 0 {
+            if this->transactionLevel > 0 {
                 let this->transactionLevel--;
             }
 
@@ -749,17 +746,16 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function rollback(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-        if unlikely !transactionLevel {
+        if this->transactionLevel === 0 {
             throw new Exception("There is no active transaction");
         }
 
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the rollbacked transaction
              */
@@ -779,11 +775,11 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
-            if transactionLevel > 0 {
+            if this->transactionLevel > 0 {
                 let this->transactionLevel--;
             }
 

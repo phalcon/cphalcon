@@ -65,7 +65,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
     {
         var currentMessages, finalMessages, message;
 
-        if typeof messages != "array" && typeof messages != "object" {
+        if typeof messages !== "array" && typeof messages !== "object" {
             throw new Exception("The messages must be iterable");
         }
 

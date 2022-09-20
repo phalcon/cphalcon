@@ -89,15 +89,15 @@ class Di implements DiInterface
      *
      * @var DiInterface|null
      */
-    protected static _default;
+    protected static defaultDi;
 
     /**
      * Phalcon\Di\Di constructor
      */
     public function __construct()
     {
-        if !self::_default {
-            let self::_default = this;
+        if !self::defaultDi {
+            let self::defaultDi = this;
         }
     }
 
@@ -271,7 +271,7 @@ class Di implements DiInterface
      */
     public static function getDefault() -> <DiInterface> | null
     {
-        return self::_default;
+        return self::defaultDi;
     }
 
     /**
@@ -539,7 +539,7 @@ class Di implements DiInterface
      */
     public static function reset() -> void
     {
-        let self::_default = null;
+        let self::defaultDi = null;
     }
 
     /**
@@ -558,7 +558,7 @@ class Di implements DiInterface
      */
     public static function setDefault(<DiInterface> container) -> void
     {
-        let self::_default = container;
+        let self::defaultDi = container;
     }
 
     /**

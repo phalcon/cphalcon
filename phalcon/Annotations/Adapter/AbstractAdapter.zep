@@ -41,7 +41,7 @@ abstract class AbstractAdapter implements AdapterInterface
         /**
          * Get the class name if it's an object
          */
-        if typeof className == "object" {
+        if typeof className === "object" {
             let realClassName = get_class(className);
         }  else {
             let realClassName = className;
@@ -158,7 +158,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let methods = classAnnotations->getMethodsAnnotations();
 
-        if typeof methods == "array" {
+        if typeof methods === "array" {
             for methodKey, method in methods {
                 if !strcasecmp(methodKey, methodName) {
                     return method;
@@ -192,7 +192,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getReader() -> <ReaderInterface>
     {
-        if typeof this->reader != "object" {
+        if this->reader === null {
             let this->reader = new Reader();
         }
 

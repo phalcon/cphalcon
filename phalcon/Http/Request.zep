@@ -1403,18 +1403,18 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         var value;
         int numberFiles = 0;
 
-        if typeof data != "array" {
+        if typeof data !== "array" {
             return 1;
         }
 
         for value in data {
-            if typeof value != "array" {
+            if typeof value !== "array" {
                 if !value || !onlySuccessful {
                     let numberFiles++;
                 }
             }
 
-            if typeof value == "array" {
+            if typeof value === "array" {
                 let numberFiles += this->hasFileHelper(value, onlySuccessful);
             }
         }
@@ -1479,8 +1479,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             server    = this->getServerArray();
 
         // TODO: Make Request implements EventsAwareInterface for v4.0.0
-        if typeof container === "object" {
-            let hasEventsManager = (bool) container->has("eventsManager");
+        if container !== null {
+            let hasEventsManager = container->has("eventsManager");
 
             if hasEventsManager {
                 let eventsManager = <ManagerInterface> container->getShared("eventsManager");
@@ -1572,7 +1572,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         for idx, name in names {
             let p = prefix . "." . idx;
 
-            if typeof name == "string" {
+            if typeof name === "string" {
                 let files[] = [
                     "name":     name,
                     "type":     types[idx],
@@ -1583,7 +1583,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
                 ];
             }
 
-            if typeof name == "array" {
+            if typeof name === "array" {
                 let parentFiles = this->smoothFiles(
                     names[idx],
                     types[idx],
@@ -1614,7 +1614,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if typeof filterService != "object" {
             let container = <DiInterface> this->container;
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'filter' service"
                 );
@@ -1631,8 +1631,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         if _SERVER {
             return _SERVER;
-        } else {
-            return [];
         }
+
+        return [];
     }
 }

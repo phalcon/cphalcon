@@ -259,7 +259,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             if this->useEncryption {
                 let container = <DiInterface> this->container;
 
-                if unlikely typeof container != "object" {
+                if container === null {
                     throw new Exception(
                         "A dependency injection container is required to access the 'filter' and 'crypt' services"
                     );
@@ -308,7 +308,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                     if container === null {
                         let container = <DiInterface> this->container;
 
-                        if unlikely typeof container != "object" {
+                        if container === null {
                             throw new Exception(
                                 "A dependency injection container is required to access the 'filter' service"
                             );
@@ -456,7 +456,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         }
 
         if this->useEncryption && !empty value {
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'filter' service"
                 );
@@ -464,7 +464,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
             let crypt = <CryptInterface> container->getShared("crypt");
 
-            if unlikely typeof crypt != "object" {
+            if unlikely typeof crypt !== "object" {
                 throw new Exception(
                     "A dependency which implements CryptInterface is required to use encryption"
                 );

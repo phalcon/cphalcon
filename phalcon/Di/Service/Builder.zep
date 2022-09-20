@@ -41,8 +41,7 @@ class Builder
             );
         }
 
-        if typeof parameters == "array" {
-
+        if typeof parameters === "array" {
             /**
              * Build the instance overriding the definition constructor
              * parameters
@@ -52,14 +51,11 @@ class Builder
             } else {
                 let instance = create_instance(className);
             }
-
         } else {
-
             /**
              * Check if the argument has constructor arguments
              */
             if fetch arguments, definition["arguments"] {
-
                 /**
                  * Create the instance based on the parameters
                  */
@@ -67,7 +63,6 @@ class Builder
                     className,
                     this->buildParameters(container, arguments)
                 );
-
             } else {
                 let instance = create_instance(className);
             }
@@ -77,7 +72,7 @@ class Builder
          * The definition has calls?
          */
         if fetch paramCalls, definition["calls"] {
-            if unlikely typeof instance != "object" {
+            if unlikely typeof instance !== "object" {
                 throw new Exception(
                     "The definition has setter injection parameters but the constructor didn't return an instance"
                 );
@@ -93,7 +88,6 @@ class Builder
              * The method call has parameters
              */
             for methodPosition, method in paramCalls {
-
                 /**
                  * The call parameter must be an array of arrays
                  */
@@ -152,14 +146,13 @@ class Builder
          * The definition has properties?
          */
         if fetch paramCalls, definition["properties"] {
-
-            if unlikely typeof instance != "object" {
+            if unlikely typeof instance !== "object" {
                 throw new Exception(
                     "The definition has properties injection parameters but the constructor didn't return an instance"
                 );
             }
 
-            if unlikely typeof paramCalls != "array" {
+            if unlikely typeof paramCalls !== "array" {
                 throw new Exception(
                     "Setter injection parameters must be an array"
                 );
@@ -169,7 +162,6 @@ class Builder
              * The method call has parameters
              */
             for propertyPosition, property in paramCalls {
-
                 /**
                  * The call parameter must be an array of arrays
                  */
@@ -230,7 +222,6 @@ class Builder
         }
 
         switch type {
-
             /**
              * If the argument type is 'service', we obtain the service from the
              * DI
@@ -239,12 +230,6 @@ class Builder
                 if unlikely !fetch name, argument["name"] {
                     throw new Exception(
                         "Service 'name' is required in parameter on position " . position
-                    );
-                }
-
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        "The dependency injector container is not valid"
                     );
                 }
 
@@ -266,16 +251,9 @@ class Builder
              * If the argument type is 'instance', we assign the value as it is
              */
             case "instance":
-
                 if unlikely !fetch name, argument["className"] {
                     throw new Exception(
                         "Service 'className' is required in parameter on position " . position
-                    );
-                }
-
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        "The dependency injector container is not valid"
                     );
                 }
 

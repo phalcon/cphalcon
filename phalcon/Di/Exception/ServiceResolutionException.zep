@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
- namespace Phalcon\Di\Exception;
+namespace Phalcon\Di\Exception;
 
- /**
-  * Phalcon\Di\Exception\ServiceResolutionException
-  */
- class ServiceResolutionException extends \Phalcon\Di\Exception
- {
- }
+/**
+ * Phalcon\Di\Exception\ServiceResolutionException
+ */
+class ServiceResolutionException extends \Phalcon\Di\Exception
+{
+}

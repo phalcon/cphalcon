@@ -34,7 +34,7 @@ class Role implements RoleInterface
      */
     public function __construct(string! name, string description = null)
     {
-        if unlikely name == "*" {
+        if unlikely name === "*" {
             throw new Exception("Role name cannot be '*'");
         }
 

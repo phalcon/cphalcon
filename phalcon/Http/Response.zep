@@ -138,10 +138,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if container === null {
             let container = Di::getDefault();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'url' service"
                 );
