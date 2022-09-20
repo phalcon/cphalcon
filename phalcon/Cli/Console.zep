@@ -36,30 +36,26 @@ class Console extends AbstractApplication
      */
     public function handle(array arguments = null)
     {
-        var className, container, dispatcher, eventsManager, module, moduleName,
+        var className, dispatcher, module, moduleName,
             moduleObject, modules, path, router, task;
 
-        let container = this->container;
-
-        if container === null {
+        if this->container === null {
             throw new Exception(
                 "A dependency injection container is required to access internal services"
             );
         }
 
-        let eventsManager = <ManagerInterface> this->eventsManager;
-
         /**
          * Call boot event, this allows the developer to perform initialization
          * actions
          */
-        if eventsManager !== null {
-            if eventsManager->fire("console:boot", this) === false {
+        if this->eventsManager !== null {
+            if this->eventsManager->fire("console:boot", this) === false {
                 return false;
             }
         }
 
-        let router = <Router> container->getShared("router");
+        let router = <Router> this->container->getShared("router");
 
         if !count(arguments) && this->arguments {
             router->handle(this->arguments);
@@ -77,8 +73,8 @@ class Console extends AbstractApplication
         }
 
         if moduleName {
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("console:beforeStartModule", this, moduleName) === false {
+            if this->eventsManager !== null {
+                if this->eventsManager->fire("console:beforeStartModule", this, moduleName) === false {
                     return false;
                 }
             }
@@ -93,7 +89,7 @@ class Console extends AbstractApplication
 
             let module = modules[moduleName];
 
-            if unlikely typeof module != "array" {
+            if unlikely typeof module !== "array" {
                 throw new Exception("Invalid module definition path");
             }
 
@@ -113,20 +109,20 @@ class Console extends AbstractApplication
                 }
             }
 
-            let moduleObject = container->get(className);
+            let moduleObject = this->container->get(className);
 
-            moduleObject->registerAutoloaders(container);
-            moduleObject->registerServices(container);
+            moduleObject->registerAutoloaders(this->container);
+            moduleObject->registerServices(this->container);
 
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
+            if this->eventsManager !== null {
+                if this->eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
                     return false;
                 }
             }
 
         }
 
-        let dispatcher = <Dispatcher> container->getShared("dispatcher");
+        let dispatcher = <Dispatcher> this->container->getShared("dispatcher");
 
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setTaskName(router->getTaskName());
@@ -134,16 +130,16 @@ class Console extends AbstractApplication
         dispatcher->setParams(router->getParams());
         dispatcher->setOptions(this->options);
 
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
+        if this->eventsManager !== null {
+            if this->eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
                 return false;
             }
         }
 
         let task = dispatcher->dispatch();
 
-        if typeof eventsManager == "object" {
-            eventsManager->fire("console:afterHandleTask", this, task);
+        if this->eventsManager !== null {
+            this->eventsManager->fire("console:afterHandleTask", this, task);
         }
 
         return task;
