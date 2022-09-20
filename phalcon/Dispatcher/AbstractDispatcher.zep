@@ -276,7 +276,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              * Handlers are retrieved as shared instances from the Service
              * Container
              */
-            let hasService = container->has(handlerClass);
+            let hasService = (bool) container->has(handlerClass);
             if !hasService {
                 /**
                  * DI doesn't have a service with that name, try to load it
