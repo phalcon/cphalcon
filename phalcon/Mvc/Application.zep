@@ -154,7 +154,7 @@ class Application extends AbstractApplication
                  * If the returned string is a ResponseInterface use it as
                  * response
                  */
-                if possibleResponse instanceof ResponseInterface {
+                if typeof possibleResponse === "object" && possibleResponse instanceof ResponseInterface {
                     possibleResponse->sendHeaders();
                     possibleResponse->sendCookies();
 

@@ -310,7 +310,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Gets model binder
      */
-    public function getModelBinder() -> <BinderInterface>|null
+    public function getModelBinder() -> <BinderInterface> | null
     {
         return this->modelBinder;
     }
@@ -455,7 +455,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Calls the before handlers
                  */
                 for before in beforeHandlers {
-                    if before instanceof MiddlewareInterface {
+                    if typeof before === "object" && before instanceof MiddlewareInterface {
                         /**
                          * Call the middleware
                          */
@@ -488,10 +488,10 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 /**
                  * Bound the app to the handler
                  */
-                if typeof handler == "object" && handler instanceof Closure {
+                if typeof handler === "object" && handler instanceof Closure {
                     let handler = Closure::bind(handler, this);
 
-                    if modelBinder != null {
+                    if modelBinder !== null {
                         let routeName = matchedRoute->getName();
 
                         if routeName != null {
@@ -514,7 +514,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 if typeof handler === "array" {
                     let realHandler = handler[0];
 
-                    if realHandler instanceof Controller && modelBinder != null {
+                    if realHandler instanceof Controller && modelBinder !== null {
                         let methodName = handler[1];
                         let bindCacheKey = "_PHMB_" . get_class(realHandler) . "_" . methodName;
 
@@ -566,7 +566,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Calls the after binding handlers
                  */
                 for afterBinding in afterBindingHandlers {
-                    if typeof afterBinding == "object" && afterBinding instanceof MiddlewareInterface {
+                    if typeof afterBinding === "object" && afterBinding instanceof MiddlewareInterface {
                         /**
                          * Call the middleware
                          */
@@ -612,7 +612,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Calls the after handlers
                  */
                 for after in afterHandlers {
-                    if typeof after == "object" && after instanceof MiddlewareInterface {
+                    if typeof after === "object" && after instanceof MiddlewareInterface {
                         /**
                          * Call the middleware
                          */
@@ -779,7 +779,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             /**
              * Check if the returned object is already a response
              */
-            if returnedValue instanceof ResponseInterface && !returnedValue->isSent() {
+            if typeof returnedValue === "object" && returnedValue instanceof ResponseInterface && !returnedValue->isSent() {
                 returnedValue->send();
             }
         }

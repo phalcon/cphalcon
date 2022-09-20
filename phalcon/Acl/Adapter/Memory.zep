@@ -209,7 +209,7 @@ class Memory extends AbstractAdapter
     {
         var componentName, componentObject;
 
-        if componentValue instanceof ComponentInterface {
+        if typeof componentValue === "object" && componentValue instanceof ComponentInterface {
             let componentObject = componentValue;
         } else {
             let componentObject = new Component(componentValue);
@@ -294,7 +294,7 @@ class Memory extends AbstractAdapter
          * inherits
          */
         for roleToInherit in roleToInheritList {
-            if roleToInherit instanceof RoleInterface {
+            if typeof roleToInherit === "object" && roleToInherit instanceof RoleInterface {
                 let roleInheritName = roleToInherit->getName();
             } else {
                 let roleInheritName = roleToInherit;
@@ -383,7 +383,7 @@ class Memory extends AbstractAdapter
     {
         var roleName, roleObject;
 
-        if role instanceof RoleInterface {
+        if typeof role === "object" && role instanceof RoleInterface {
             let roleObject = role;
         } elseif is_string(role) {
             let roleObject = new Role(role);

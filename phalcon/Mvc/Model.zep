@@ -418,7 +418,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Values are probably relationships if they are objects
          */
-        if value instanceof ModelInterface {
+        if typeof value === "object" && value instanceof ModelInterface {
             let lowerProperty = strtolower(property),
                 modelName     = get_class(this),
                 manager       = this->getModelsManager(),
@@ -1144,7 +1144,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            if !(record instanceof ModelInterface) {
+            if typeof record !== "object" || !(record instanceof ModelInterface) {
                 continue;
             }
 
