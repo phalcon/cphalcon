@@ -40,7 +40,10 @@ class GetPropertiesAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertFalse(
+        $I->assertIsArray(
+            $reflection->getPropertiesAnnotations()
+        );
+        $I->assertIsEmpty(
             $reflection->getPropertiesAnnotations()
         );
     }
