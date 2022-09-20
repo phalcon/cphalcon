@@ -137,7 +137,7 @@ class Reader implements ReaderInterface
          */
         let methods = reflection->getMethods();
 
-        if count(methods) > 0 {
+        if false === empty(methods) {
             let annotationsMethods = [];
 
             for method in methods {
