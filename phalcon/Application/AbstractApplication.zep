@@ -45,7 +45,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      */
     public function __construct(<DiInterface> container = null)
     {
-        if container === null {
+        if container !== null {
             let this->container = container;
         }
     }
