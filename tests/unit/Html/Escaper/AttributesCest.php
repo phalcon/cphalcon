@@ -25,7 +25,7 @@ use const ENT_XML1;
 class AttributesCest
 {
     /**
-     * Tests Phalcon\Escaper :: escapeHtmlAttr()
+     * Tests Phalcon\Escaper :: attributes()
      *
      * @dataProvider escaperEscapeHtmlAttrProvider
      *
@@ -44,13 +44,10 @@ class AttributesCest
         $text  = $example['text'];
         $flags = $example['htmlQuoteType'];
 
-        $escaper->setHtmlQuoteType($flags);
+        $escaper->setFlags($flags);
 
         $expected = $example['expected'];
         $actual   = $escaper->attributes($text);
-        $I->assertSame($expected, $actual);
-
-        $actual = $escaper->escapeHtmlAttr($text);
         $I->assertSame($expected, $actual);
     }
 
@@ -65,23 +62,31 @@ class AttributesCest
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
-
             [
                 'htmlQuoteType' => ENT_XML1,
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
-
             [
                 'htmlQuoteType' => ENT_XHTML,
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
-
             [
                 'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => 'text="Ferrari Ford Dodge"',
+                'text'          => [
+                    'text' => [
+                        'Ferrari',
+                        'Ford',
+                        'Dodge',
+                    ],
+                ],
             ],
         ];
     }
