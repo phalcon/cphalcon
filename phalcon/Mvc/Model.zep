@@ -157,10 +157,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected uniqueParams = [];
 
     /**
-     * @var array|null
-     * TODO: Make it always array in code
+     * @var array
      */
-    protected uniqueTypes = null;
+    protected uniqueTypes = [];
 
     /**
      * Phalcon\Mvc\Model constructor
@@ -3914,7 +3913,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var automaticAttributes, attributeField, bindSkip, bindDataTypes,
             bindType, bindTypes, columnMap, dataType, dataTypes, field, fields,
             manager, nonPrimary, newSnapshot, success, primaryKeys, snapshot,
-            snapshotValue, uniqueKey, uniqueParams, uniqueTypes, value, values,
+            snapshotValue, uniqueKey, uniqueParams, value, values,
             updateValue;
         bool changed, useDynamicUpdate;
 
@@ -4094,8 +4093,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         let uniqueKey    = this->uniqueKey,
-            uniqueParams = this->uniqueParams,
-            uniqueTypes  = this->uniqueTypes;
+            uniqueParams = this->uniqueParams;
 
         /**
          * When unique params is null we need to rebuild the bind params
@@ -4156,7 +4154,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 [
                     "conditions" : uniqueKey,
                     "bind"       : uniqueParams,
-                    "bindTypes"  : uniqueTypes
+                    "bindTypes"  : this->uniqueTypes
                 ],
                 bindTypes
             );
