@@ -1,3 +1,24 @@
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
+
+## Changed
+- Changed `Phalcon\Logger\Adapter\Stream::process` to open the log file, check for locks, write contents and close the stream [#16072](https://github.com/phalcon/cphalcon/issues/16072) 
+- Changed getters and setters from shorthand format to full methods [#16102](https://github.com/phalcon/cphalcon/issues/16102)
+- Changed return types to `array` in `Phalcon\Annotations\Reflection` class methods [#16106](https://github.com/phalcon/cphalcon/issues/16106)
+- Changed `Phalcon\Html\Escaper::attributes()` to also accept an array of attributes [#16108](https://github.com/phalcon/cphalcon/issues/16108)
+
+## Fixed
+- Fixed and improved return type of `object` & `?object` [#16023](https://github.com/phalcon/cphalcon/issues/16023)
+- Fixed `Phalcon\Filter\Validation\Validator\Digit` to use only strings for `ctype_*` calls [#16064](https://github.com/phalcon/cphalcon/issues/16064)
+- Fixed `Phalcon\Flash\AbstractFlash::outputMessage` to return the message (implicitFlush) [#16063](https://github.com/phalcon/cphalcon/issues/16063)
+- Fixed `Phalcon\Filter\Validation\Validator\Numericality` to correctly detect illegal characters within string numbers [#16070](https://github.com/phalcon/cphalcon/issues/16070)
+- Fixed segmentation fault on Reflection of `Phalcon\Mvc\Model` class [#16080](https://github.com/phalcon/cphalcon/issues/16080)
+- Fixed segmentation fault on Reflection [#16096](https://github.com/phalcon/cphalcon/issues/16096)
+
+## Added
+- Added `Phalcon\Encryption\Security\JWT\Token::validate()` to validate a token's claims [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Token::verify()` to verify a token's signature [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Validator::getErrors()` to return any errors with the validation as an array [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+
 # [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
 ## Fixed 

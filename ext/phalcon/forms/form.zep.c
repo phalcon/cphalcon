@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -93,28 +93,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Form)
 	zend_class_implements(phalcon_forms_form_ce, 1, zend_ce_iterator);
 	zend_class_implements(phalcon_forms_form_ce, 1, phalcon_html_attributes_attributesinterface_ce);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Forms_Form, getValidation)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "validation");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Forms_Form, getWhitelist)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "whitelist");
 }
 
 /**
@@ -1213,6 +1191,30 @@ PHP_METHOD(Phalcon_Forms_Form, getValue)
 }
 
 /**
+ * return ValidationInterface|null
+ */
+PHP_METHOD(Phalcon_Forms_Form, getValidation)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "validation");
+}
+
+/**
+ * return array
+ */
+PHP_METHOD(Phalcon_Forms_Form, getWhitelist)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "whitelist");
+}
+
+/**
  * Check if the form contains an element
  */
 PHP_METHOD(Phalcon_Forms_Form, has)
@@ -1412,7 +1414,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_8, 0, "phalcon/Forms/Form.zep", 698);
+	zephir_is_iterable(&_8, 0, "phalcon/Forms/Form.zep", 714);
 	if (Z_TYPE_P(&_8) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_8), _9)
 		{
@@ -1425,7 +1427,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 			}
 			ZEPHIR_CALL_METHOD(&name, &element, "getname", NULL, 0);
 			zephir_check_call_status();
-			zephir_is_iterable(&validators, 0, "phalcon/Forms/Form.zep", 685);
+			zephir_is_iterable(&validators, 0, "phalcon/Forms/Form.zep", 701);
 			if (Z_TYPE_P(&validators) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _11$$10)
 				{
@@ -1477,7 +1479,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				}
 				ZEPHIR_CALL_METHOD(&name, &element, "getname", NULL, 0);
 				zephir_check_call_status();
-				zephir_is_iterable(&validators, 0, "phalcon/Forms/Form.zep", 685);
+				zephir_is_iterable(&validators, 0, "phalcon/Forms/Form.zep", 701);
 				if (Z_TYPE_P(&validators) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _15$$15)
 					{
@@ -1615,7 +1617,7 @@ PHP_METHOD(Phalcon_Forms_Form, label)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Element with ID=", &name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Form.zep", 748);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Form.zep", 764);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1692,7 +1694,7 @@ PHP_METHOD(Phalcon_Forms_Form, render)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Element with ID=", &name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 29, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Form.zep", 772);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Form.zep", 788);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

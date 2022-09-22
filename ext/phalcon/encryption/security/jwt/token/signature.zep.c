@@ -29,7 +29,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Item
+ * Signature class containing the encoded data and the hash.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Signature)
 {

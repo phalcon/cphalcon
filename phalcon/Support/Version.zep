@@ -77,7 +77,7 @@ class Version
      */
     protected function getVersion() -> array
     {
-        return [5, 0, 0, 3, 4];
+        return [5, 0, 0, 4, 0];
     }
 
     /**
@@ -85,7 +85,7 @@ class Version
      */
     protected final function getSpecial(int special) -> string
     {
-        string suffix = "";
+        var suffix;
 
         switch special {
             case 1:
@@ -96,6 +96,9 @@ class Version
                 break;
             case 3:
                 let suffix = "RC";
+                break;
+            default:
+                let suffix = "";
                 break;
         }
 

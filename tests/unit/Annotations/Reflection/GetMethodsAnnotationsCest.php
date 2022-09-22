@@ -40,7 +40,10 @@ class GetMethodsAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertFalse(
+        $I->assertIsArray(
+            $reflection->getMethodsAnnotations()
+        );
+        $I->assertIsEmpty(
             $reflection->getMethodsAnnotations()
         );
     }

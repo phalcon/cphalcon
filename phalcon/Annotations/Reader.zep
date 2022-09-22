@@ -36,7 +36,7 @@ class Reader implements ReaderInterface
         let reflection = new ReflectionClass(className);
 
         let comment = reflection->getDocComment();
-        if typeof comment == "string" {
+        if comment !== false {
             /**
              * Read annotations from class
              */
@@ -49,7 +49,7 @@ class Reader implements ReaderInterface
             /**
              * Append the class annotations to the annotations var
              */
-            if typeof classAnnotations == "array" {
+            if typeof classAnnotations === "array" {
                 let annotations["class"] = classAnnotations;
             }
         }
@@ -73,8 +73,7 @@ class Reader implements ReaderInterface
                  */
                 let constantReflection = reflection->getReflectionConstant(constant);
                 let comment = constantReflection->getDocComment();
-
-                if typeof comment == "string" {
+                if comment !== false {
                     /**
                      * Parse constant docblock comment
                      */
@@ -112,8 +111,7 @@ class Reader implements ReaderInterface
                  * Read comment from property
                  */
                 let comment = property->getDocComment();
-
-                if typeof comment == "string" {
+                if comment !== false {
                     /**
                      * Parse property docblock comment
                      */
@@ -123,7 +121,7 @@ class Reader implements ReaderInterface
                         line
                     );
 
-                    if typeof propertyAnnotations == "array" {
+                    if typeof propertyAnnotations === "array" {
                         let annotationsProperties[property->name] = propertyAnnotations;
                     }
                 }
@@ -139,7 +137,7 @@ class Reader implements ReaderInterface
          */
         let methods = reflection->getMethods();
 
-        if count(methods) {
+        if false === empty(methods) {
             let annotationsMethods = [];
 
             for method in methods {
@@ -147,8 +145,7 @@ class Reader implements ReaderInterface
                  * Read comment from method
                  */
                 let comment = method->getDocComment();
-
-                if typeof comment == "string" {
+                if comment !== false {
                     /**
                      * Parse method docblock comment
                      */
@@ -158,7 +155,7 @@ class Reader implements ReaderInterface
                         method->getStartLine()
                     );
 
-                    if typeof methodAnnotations == "array" {
+                    if typeof methodAnnotations === "array" {
                         let annotationsMethods[method->name] = methodAnnotations;
                     }
                 }
@@ -177,7 +174,7 @@ class Reader implements ReaderInterface
      */
     public static function parseDocBlock(string docBlock, file = null, line = null) -> array
     {
-        if typeof file != "string" {
+        if typeof file !== "string" {
             let file = "eval code";
         }
 

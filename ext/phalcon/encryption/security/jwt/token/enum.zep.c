@@ -23,7 +23,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Enum
+ * Constants for Tokens. It offers constants for Headers as well as Claims
  *
  * @link https://tools.ietf.org/html/rfc7519
  */

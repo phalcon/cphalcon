@@ -38,15 +38,13 @@ class ValidateIdCest
         $I->wantToTest('Encryption\Security\JWT\Validator - validateId()');
 
         $token = $this->newToken();
-        $I->expectThrowable(
-            new ValidatorException(
-                "Validation: incorrect Id"
-            ),
-            function () use ($token, $I) {
-                $validator = new Validator($token);
-                $I->assertInstanceOf(Validator::class, $validator);
-                $validator->validateId("unknown");
-            }
-        );
+        $validator = new Validator($token);
+        $I->assertInstanceOf(Validator::class, $validator);
+
+        $validator->validateId("unknown");
+
+        $expected = ["Validation: incorrect Id"];
+        $actual   = $validator->getErrors();
+        $I->assertSame($expected, $actual);
     }
 }

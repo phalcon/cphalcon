@@ -34,7 +34,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * @var mixed
      */
-    protected data { get };
+    protected data;
 
     /**
      * @var object|null
@@ -61,7 +61,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @var array
      */
-    protected validators = [] { set };
+    protected validators = [];
 
     /**
      * Calculated values
@@ -109,7 +109,7 @@ class Validation extends Injectable implements ValidationInterface
     {
         var singleField;
 
-        if typeof field == "array" {
+        if typeof field === "array" {
             // Uniqueness validator for combination of fields is handled differently
             if validator instanceof AbstractCombinedFieldsValidator {
                 let this->combinedFieldsValidators[] = [field, validator];
@@ -169,6 +169,14 @@ class Validation extends Injectable implements ValidationInterface
         let this->data = data;
 
         return this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData() -> var
+    {
+        return this->data;
     }
 
     /**
@@ -337,10 +345,10 @@ class Validation extends Injectable implements ValidationInterface
             if fieldFilters {
                 let container = this->getDI();
 
-                if typeof container != "object" {
+                if container === null {
                     let container = Di::getDefault();
 
-                    if unlikely typeof container != "object" {
+                    if container === null {
                         throw new Exception(
                             "A dependency injection container is required to access the 'filter' service"
                         );
@@ -456,6 +464,13 @@ class Validation extends Injectable implements ValidationInterface
     public function setLabels(array! labels) -> void
     {
         let this->labels = labels;
+    }
+
+    public function setValidators(array validators) -> <Validation>
+    {
+        let this->validators = validators;
+
+        return this;
     }
 
     /**

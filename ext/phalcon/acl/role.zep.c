@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/memory.h"
 
@@ -35,55 +35,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
 
 	/**
-	 * Role name
-	 *
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE);
-	/**
 	 * Role description
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE);
+	/**
+	 * Role name
+	 *
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE);
 	zend_class_implements(phalcon_acl_role_ce, 1, phalcon_acl_roleinterface_ce);
 	return SUCCESS;
-}
-
-/**
- * Role name
- */
-PHP_METHOD(Phalcon_Acl_Role, getName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
-}
-
-/**
- * Role name
- */
-PHP_METHOD(Phalcon_Acl_Role, __toString)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
-}
-
-/**
- * Role description
- */
-PHP_METHOD(Phalcon_Acl_Role, getDescription)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "description");
 }
 
 /**
@@ -126,12 +90,39 @@ PHP_METHOD(Phalcon_Acl_Role, __construct)
 	}
 
 
-	if (UNEXPECTED(ZEPHIR_IS_STRING(&name, "*"))) {
+	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name, "*"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/Acl/Role.zep", 38);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description);
 	ZEPHIR_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Acl_Role, __toString)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
+}
+
+PHP_METHOD(Phalcon_Acl_Role, getDescription)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "description");
+}
+
+PHP_METHOD(Phalcon_Acl_Role, getName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
 }
 

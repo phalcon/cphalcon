@@ -31,7 +31,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Db\Adapter\AdapterInterface $db
  * @property \Phalcon\Encryption\Security $security
  * @property \Phalcon\Encryption\Crypt|\Phalcon\Encryption\Crypt\CryptInterface $crypt
- * @property \Phalcon\Tag $tag
+ * @property \Phalcon\Html\TagFactory $tag
  * @property \Phalcon\Html\Escaper|\Phalcon\Html\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
  * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
@@ -60,7 +60,7 @@ abstract class Injectable implements InjectionAwareInterface
 
         let container = <DiInterface> this->getDI();
 
-        if propertyName == "di" {
+        if propertyName === "di" {
             let this->{"di"} = container;
 
             return container;
@@ -69,7 +69,7 @@ abstract class Injectable implements InjectionAwareInterface
         /**
          * Accessing the persistent property will create a session bag on any class
          */
-        if propertyName == "persistent" {
+        if propertyName === "persistent" {
             let this->{"persistent"} = <BagInterface> container->get(
                 "sessionBag",
                 [
@@ -116,7 +116,7 @@ abstract class Injectable implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if container === null {
             let container = Di::getDefault();
 
             if unlikely typeof container != "object" {

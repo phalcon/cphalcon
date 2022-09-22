@@ -238,11 +238,18 @@ class Column implements ColumnInterface
     protected bindType = 2;
 
     /**
+     * Column's comment
+     *
+     * @var string|null
+     */
+     protected comment = null;
+
+    /**
      * Default column value
      *
      * @var mixed|null
      */
-    protected _default = null { get };
+    protected defaultValue = null;
 
     /**
      * Position is first
@@ -263,14 +270,7 @@ class Column implements ColumnInterface
      *
      * @var string
      */
-    protected name { get };
-
-    /**
-     * Column's comment
-     *
-     * @var string|null
-     */
-     protected comment = null { get };
+    protected name;
 
     /**
      * Column not nullable?
@@ -293,35 +293,35 @@ class Column implements ColumnInterface
      *
      * @var int
      */
-    protected scale = 0 { get };
+    protected scale = 0;
 
     /**
      * Integer column size
      *
      * @var int|string
      */
-    protected size = 0 { get };
+    protected size = 0;
 
     /**
      * Column data type
      *
      * @var int
      */
-    protected type { get };
+    protected type;
 
     /**
      * Column data type reference
      *
      * @var int
      */
-    protected typeReference = -1 { get };
+    protected typeReference = -1;
 
     /**
      * Column data type values
      *
      * @var array|string
      */
-    protected typeValues { get };
+    protected typeValues;
 
     /**
      * Integer column unsigned?
@@ -403,7 +403,7 @@ class Column implements ColumnInterface
          * Check if the column is default value
          */
         if fetch defaultValue, definition["default"] {
-            let this->_default = defaultValue;
+            let this->defaultValue = defaultValue;
         }
 
         /**
@@ -490,6 +490,70 @@ class Column implements ColumnInterface
     }
 
     /**
+     * Column's comment
+     */
+     public function getComment() -> string | null
+     {
+        return this->comment;
+     }
+
+    /**
+     * Default column value
+     */
+    public function getDefault() -> var
+    {
+        return this->defaultValue;
+    }
+
+    /**
+     * Column's name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Integer column number scale
+     */
+    public function getScale() -> int
+    {
+        return this->scale;
+    }
+
+    /**
+     * Integer column size
+     */
+    public function getSize() -> int | string
+    {
+        return this->size;
+    }
+
+    /**
+     * Column data type
+     */
+    public function getType() -> int
+    {
+        return this->type;
+    }
+
+    /**
+     * Column data type reference
+     */
+    public function getTypeReference() -> int
+    {
+        return this->typeReference;
+    }
+
+    /**
+     * Column data type values
+     */
+    public function getTypeValues() -> array | string
+    {
+        return this->typeValues;
+    }
+
+    /**
      * Check whether column has default value
      */
     public function hasDefault() -> bool
@@ -498,7 +562,7 @@ class Column implements ColumnInterface
             return false;
         }
 
-        return this->_default !== null;
+        return this->defaultValue !== null;
     }
 
     /**

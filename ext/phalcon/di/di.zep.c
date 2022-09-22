@@ -96,7 +96,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Di)
 	 *
 	 * @var DiInterface|null
 	 */
-	zend_declare_property_null(phalcon_di_di_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_di_di_ce, SL("defaultDi"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC);
 	phalcon_di_di_ce->create_object = zephir_init_properties_Phalcon_Di_Di;
 
 	zend_class_implements(phalcon_di_di_ce, 1, phalcon_di_diinterface_ce);
@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Di_Di, __construct)
 
 
 
-	zephir_read_static_property_ce(&_0, phalcon_di_di_ce, SL("_default"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_static_property_ce(&_0, phalcon_di_di_ce, SL("defaultDi"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
-		zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("_default"), this_ptr);
+		zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("defaultDi"), this_ptr);
 	}
 }
 
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Di_Di, getDefault)
 
 
 
-	zephir_read_static_property_ce(&_0, phalcon_di_di_ce, SL("_default"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_static_property_ce(&_0, phalcon_di_di_ce, SL("defaultDi"), PH_NOISY_CC | PH_READONLY);
 	RETURN_CTORW(&_0);
 }
 
@@ -1170,7 +1170,7 @@ PHP_METHOD(Phalcon_Di_Di, reset)
 
 
 
-	zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("_default"), &__$null);
+	zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("defaultDi"), &__$null);
 }
 
 /**
@@ -1256,7 +1256,7 @@ PHP_METHOD(Phalcon_Di_Di, setDefault)
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
-	zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("_default"), container);
+	zephir_update_static_property_ce(phalcon_di_di_ce, ZEND_STRL("defaultDi"), container);
 }
 
 /**

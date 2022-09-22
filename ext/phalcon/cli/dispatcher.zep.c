@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
-	if (Z_TYPE_P(&container) != IS_OBJECT) {
+	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$5);
 		ZVAL_STRING(&_1$$5, "A dependency injection container is required to access the 'filter' service");
 		ZVAL_LONG(&_2$$5, 0);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, handleException)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
-	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
+	if (Z_TYPE_P(&eventsManager) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "dispatch:beforeException");
 		ZEPHIR_CALL_METHOD(&_1$$3, &eventsManager, "fire", NULL, 0, &_2$$3, this_ptr, exception);

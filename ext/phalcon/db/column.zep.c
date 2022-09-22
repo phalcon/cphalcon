@@ -76,11 +76,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("bindType"), 2, ZEND_ACC_PROTECTED);
 	/**
+	 * Column's comment
+	 *
+	 * @var string|null
+	 */
+	zend_declare_property_null(phalcon_db_column_ce, SL("comment"), ZEND_ACC_PROTECTED);
+	/**
 	 * Default column value
 	 *
 	 * @var mixed|null
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("_default"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_db_column_ce, SL("defaultValue"), ZEND_ACC_PROTECTED);
 	/**
 	 * Position is first
 	 *
@@ -99,12 +105,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("name"), ZEND_ACC_PROTECTED);
-	/**
-	 * Column's comment
-	 *
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("comment"), ZEND_ACC_PROTECTED);
 	/**
 	 * Column not nullable?
 	 *
@@ -340,102 +340,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 }
 
 /**
- * Default column value
- */
-PHP_METHOD(Phalcon_Db_Column, getDefault)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "_default");
-}
-
-/**
- * Column's name
- */
-PHP_METHOD(Phalcon_Db_Column, getName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
-}
-
-/**
- * Column's comment
- */
-PHP_METHOD(Phalcon_Db_Column, getComment)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "comment");
-}
-
-/**
- * Integer column number scale
- */
-PHP_METHOD(Phalcon_Db_Column, getScale)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "scale");
-}
-
-/**
- * Integer column size
- */
-PHP_METHOD(Phalcon_Db_Column, getSize)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "size");
-}
-
-/**
- * Column data type
- */
-PHP_METHOD(Phalcon_Db_Column, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
-}
-
-/**
- * Column data type reference
- */
-PHP_METHOD(Phalcon_Db_Column, getTypeReference)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "typeReference");
-}
-
-/**
- * Column data type values
- */
-PHP_METHOD(Phalcon_Db_Column, getTypeValues)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "typeValues");
-}
-
-/**
  * Phalcon\Db\Column constructor
  */
 PHP_METHOD(Phalcon_Db_Column, __construct)
@@ -529,7 +433,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	}
 	ZEPHIR_OBS_VAR(&defaultValue);
 	if (zephir_array_isset_string_fetch(&defaultValue, &definition, SL("default"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("_default"), &defaultValue);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("defaultValue"), &defaultValue);
 	}
 	ZEPHIR_OBS_VAR(&dunsigned);
 	if (zephir_array_isset_string_fetch(&dunsigned, &definition, SL("unsigned"), 0)) {
@@ -603,6 +507,102 @@ PHP_METHOD(Phalcon_Db_Column, getBindType)
 }
 
 /**
+ * Column's comment
+ */
+PHP_METHOD(Phalcon_Db_Column, getComment)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "comment");
+}
+
+/**
+ * Default column value
+ */
+PHP_METHOD(Phalcon_Db_Column, getDefault)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "defaultValue");
+}
+
+/**
+ * Column's name
+ */
+PHP_METHOD(Phalcon_Db_Column, getName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
+}
+
+/**
+ * Integer column number scale
+ */
+PHP_METHOD(Phalcon_Db_Column, getScale)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "scale");
+}
+
+/**
+ * Integer column size
+ */
+PHP_METHOD(Phalcon_Db_Column, getSize)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "size");
+}
+
+/**
+ * Column data type
+ */
+PHP_METHOD(Phalcon_Db_Column, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
+}
+
+/**
+ * Column data type reference
+ */
+PHP_METHOD(Phalcon_Db_Column, getTypeReference)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "typeReference");
+}
+
+/**
+ * Column data type values
+ */
+PHP_METHOD(Phalcon_Db_Column, getTypeValues)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "typeValues");
+}
+
+/**
  * Check whether column has default value
  */
 PHP_METHOD(Phalcon_Db_Column, hasDefault)
@@ -623,7 +623,7 @@ PHP_METHOD(Phalcon_Db_Column, hasDefault)
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("_default"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("defaultValue"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(Z_TYPE_P(&_1) != IS_NULL);
 }
 

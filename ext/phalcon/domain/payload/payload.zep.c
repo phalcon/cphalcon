@@ -80,7 +80,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload)
 }
 
 /**
+ * Gets the potential exception thrown in the domain layer
+ *
+ * @return Throwable|null
+ */
+PHP_METHOD(Phalcon_Domain_Payload_Payload, getException)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "exception");
+}
+
+/**
  * Extra information
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras)
 {
@@ -93,6 +109,8 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras)
 
 /**
  * Input
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput)
 {
@@ -105,6 +123,8 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput)
 
 /**
  * Messages
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages)
 {
@@ -117,6 +137,8 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages)
 
 /**
  * Status
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus)
 {
@@ -129,6 +151,8 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus)
 
 /**
  * Output
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput)
 {
@@ -137,20 +161,6 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput)
 
 
 	RETURN_MEMBER(getThis(), "output");
-}
-
-/**
- * Gets the potential exception thrown in the domain layer
- *
- * @return Throwable|null
- */
-PHP_METHOD(Phalcon_Domain_Payload_Payload, getException)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "exception");
 }
 
 /**

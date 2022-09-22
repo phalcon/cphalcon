@@ -10,8 +10,14 @@
 
 namespace Phalcon\Encryption\Security\JWT\Token;
 
+use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
+use Phalcon\Encryption\Security\JWT\Validator;
+
 /**
- * Class Token
+ * Token Class.
+ *
+ * A container for Token related data. It stores the claims, headers, signature
+ * and payload. It also calculates and returns the token string.
  *
  * @property Item      $claims
  * @property Item      $headers
@@ -24,17 +30,17 @@ class Token
     /**
      * @var Item
      */
-    private claims { get };
+    private claims;
 
     /**
      * @var Item
      */
-    private headers { get };
+    private headers;
 
     /**
      * @var Signature
      */
-    private signature { get };
+    private signature;
 
     /**
      * Token constructor.
@@ -54,6 +60,22 @@ class Token
     }
 
     /**
+     * @return Item
+     */
+    public function getClaims() -> <Item>
+    {
+        return this->claims;
+    }
+
+    /**
+     * @return Item
+     */
+    public function getHeaders() -> <Item>
+    {
+        return this->headers;
+    }
+
+    /**
      * @return string
      */
     public function getPayload() -> string
@@ -62,10 +84,65 @@ class Token
     }
 
     /**
+     * @return Signature
+     */
+    public function getSignature() -> <Signature>
+    {
+        return this->signature;
+    }
+
+    /**
      * @return string
      */
     public function getToken() -> string
     {
         return this->getPayload() . "." . this->getSignature()->getEncoded();
+    }
+
+    /**
+     * @param Validator $validator
+     *
+     * @return array
+     */
+    public function validate(<Validator> validator) -> array
+    {
+        var claimId, method;
+        array methods;
+
+        let methods = [
+            "validateAudience"   : Enum::AUDIENCE,
+            "validateExpiration" : Enum::EXPIRATION_TIME,
+            "validateId"         : Enum::ID,
+            "validateIssuedAt"   : Enum::ISSUED_AT,
+            "validateIssuer"     : Enum::ISSUER,
+            "validateNotBefore"  : Enum::NOT_BEFORE
+        ];
+
+        for claimId, method in methods {
+            validator->{method}(this->claims->get(claimId));
+        }
+
+        return validator->getErrors();
+    }
+
+    /**
+     * Verify the signature
+     *
+     * @param SignerInterface $signer
+     * @param string          $key
+     *
+     * @return bool
+     */
+    public function verify(<SignerInterface> signer, string key) -> bool
+    {
+        if (signer->getAlgHeader() !== this->getHeaders()->get(Enum::ALGO)) {
+            return false;
+        }
+
+        return signer->verify(
+            this->signature->getHash(),
+            this->getPayload(),
+            key
+        );
     }
 }

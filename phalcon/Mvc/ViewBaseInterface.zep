@@ -59,5 +59,4 @@ interface ViewBaseInterface
      * slash or backslash
      */
     public function setViewsDir(string! viewsDir);
-
 }

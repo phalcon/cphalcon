@@ -19,7 +19,7 @@ abstract class AbstractConfigFactory
      */
     protected function checkConfig(var config) -> array
     {
-        if typeof config == "object" && config instanceof ConfigInterface {
+        if typeof config === "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 

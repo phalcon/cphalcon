@@ -16,29 +16,44 @@ namespace Phalcon\Acl;
 class Role implements RoleInterface
 {
     /**
-     * Role name
-     *
-     * @var string
-     */
-    private name { get, __toString };
-
-    /**
      * Role description
      *
      * @var string
      */
-    private description { get };
+    private description;
+
+    /**
+     * Role name
+     *
+     * @var string
+     */
+    private name;
 
     /**
      * Phalcon\Acl\Role constructor
      */
     public function __construct(string! name, string description = null)
     {
-        if unlikely name == "*" {
+        if unlikely name === "*" {
             throw new Exception("Role name cannot be '*'");
         }
 
         let this->name = name,
             this->description = description;
+    }
+
+    public function __toString() -> string
+    {
+        return this->name;
+    }
+
+    public function getDescription() -> string
+    {
+        return this->description;
+    }
+
+    public function getName() -> string
+    {
+        return this->name;
     }
 }

@@ -378,7 +378,7 @@ class Tag
 
         let di = self::container;
 
-        if typeof di != "object" {
+        if di === null {
             let di = Di::getDefault();
         }
 
@@ -397,7 +397,7 @@ class Tag
         if typeof escaper != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'escaper' service"
                 );
@@ -492,7 +492,7 @@ class Tag
         if typeof url != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'url' service"
                 );
@@ -1477,8 +1477,8 @@ class Tag
         }
 
         /**
-        * Automatically assign the id if the name is not an array
-        */
+         * Automatically assign the id if the name is not an array
+         */
         if !strpos(id, "[") {
             if !isset params["id"] {
                 let params["id"] = id;
@@ -1502,15 +1502,15 @@ class Tag
             let value = self::getValue(id, params);
 
             /**
-            * Evaluate the value in POST
-            */
+             * Evaluate the value in POST
+             */
             if value != null {
                 let params["checked"] = "checked";
             }
 
             /**
-            * Update the value anyways
-            */
+             * Update the value anyways
+             */
             let params["value"] = value;
         }
 

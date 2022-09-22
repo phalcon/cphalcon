@@ -20,13 +20,6 @@ use Phalcon\Events\EventsAwareInterface;
 abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInterface, EventsAwareInterface
 {
     /**
-     * Active access which the list is checking if some role can access it
-     *
-     * @var string|null
-     */
-    protected activeAccess { get };
-
-    /**
      * Access Granted
      *
      * @var bool
@@ -34,19 +27,26 @@ abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInt
     protected accessGranted = false;
 
     /**
-     * Role which the list is checking if it's allowed to certain
-     * component/access
+     * Active access which the list is checking if some role can access it
      *
      * @var string|null
      */
-    protected activeRole { get };
+    protected activeAccess = null;
 
     /**
      * Component which the list is checking if some role can access it
      *
      * @var string|null
      */
-    protected activeComponent { get };
+    protected activeComponent = null;
+
+    /**
+     * Role which the list is checking if it's allowed to certain
+     * component/access
+     *
+     * @var string|null
+     */
+    protected activeRole = null;
 
     /**
      * Default access
@@ -54,6 +54,32 @@ abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInt
      * @var int
      */
     protected defaultAccess = Enum::DENY;
+
+
+    /**
+     * Active access which the list is checking if some role can access it
+     */
+    public function getActiveAccess() -> string | null
+    {
+        return this->activeAccess;
+    }
+
+    /**
+     * Component which the list is checking if some role can access it
+     */
+    public function getActiveComponent() -> string | null
+    {
+        return this->activeComponent;
+    }
+
+    /**
+     * Role which the list is checking if it's allowed to certain
+     * component/access
+     */
+    public function getActiveRole() -> string | null
+    {
+        return this->activeRole;
+    }
 
     /**
      * Returns the default ACL access level

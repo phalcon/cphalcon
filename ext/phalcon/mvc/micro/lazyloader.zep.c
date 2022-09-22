@@ -40,36 +40,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
 	/**
-	 * @var object|null
-	 */
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var object|null
+	 */
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "handler");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "definition");
 }
 
 /**
@@ -199,5 +177,29 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, arguments);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "definition");
+}
+
+/**
+ * @return object|null
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "handler");
 }
 

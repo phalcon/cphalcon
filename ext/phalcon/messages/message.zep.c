@@ -66,61 +66,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 }
 
 /**
- */
-PHP_METHOD(Phalcon_Messages_Message, getCode)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "code");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getField)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "field");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getMessage)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "message");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getMetaData)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "metaData");
-}
-
-/**
  * Phalcon\Messages\Message constructor
  */
 PHP_METHOD(Phalcon_Messages_Message, __construct)
@@ -205,6 +150,66 @@ PHP_METHOD(Phalcon_Messages_Message, __toString)
 
 
 	RETURN_MEMBER(getThis(), "message");
+}
+
+/**
+ * @return int
+ */
+PHP_METHOD(Phalcon_Messages_Message, getCode)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "code");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getField)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "field");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMessage)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "message");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMetaData)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "metaData");
 }
 
 /**

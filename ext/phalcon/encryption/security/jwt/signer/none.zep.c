@@ -28,7 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class None
+ * No signing class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_None)
 {
@@ -141,33 +141,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, verify)
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &source_param, &payload_param, &passphrase_param);
-	if (UNEXPECTED(Z_TYPE_P(source_param) != IS_STRING && Z_TYPE_P(source_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'source' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(source_param) == IS_STRING)) {
-		zephir_get_strval(&source, source_param);
-	} else {
-		ZEPHIR_INIT_VAR(&source);
-	}
-	if (UNEXPECTED(Z_TYPE_P(payload_param) != IS_STRING && Z_TYPE_P(payload_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'payload' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(payload_param) == IS_STRING)) {
-		zephir_get_strval(&payload, payload_param);
-	} else {
-		ZEPHIR_INIT_VAR(&payload);
-	}
-	if (UNEXPECTED(Z_TYPE_P(passphrase_param) != IS_STRING && Z_TYPE_P(passphrase_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'passphrase' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(passphrase_param) == IS_STRING)) {
-		zephir_get_strval(&passphrase, passphrase_param);
-	} else {
-		ZEPHIR_INIT_VAR(&passphrase);
-	}
+	zephir_get_strval(&source, source_param);
+	zephir_get_strval(&payload, payload_param);
+	zephir_get_strval(&passphrase, passphrase_param);
 
 
 	ZEPHIR_INIT_VAR(&_0);

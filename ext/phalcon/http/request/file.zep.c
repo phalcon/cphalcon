@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
@@ -90,39 +90,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File)
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("type"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_http_request_file_ce, 1, phalcon_http_request_fileinterface_ce);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Http_Request_File, getError)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "error");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Http_Request_File, getExtension)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "extension");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Http_Request_File, getKey)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "key");
 }
 
 /**
@@ -206,6 +173,42 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("key"), key);
 	}
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @return string|null
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getError)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "error");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getExtension)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "extension");
+}
+
+/**
+ * @return string|null
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getKey)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "key");
 }
 
 /**

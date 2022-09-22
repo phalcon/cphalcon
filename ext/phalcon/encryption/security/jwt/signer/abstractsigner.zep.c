@@ -24,9 +24,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class AbstractSigner
- *
- * @property string $algo
+ * Abstract class helping with the signer classes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner)
 {
@@ -35,13 +33,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner)
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_signer_abstractsigner_ce, SL("algorithm"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_encryption_security_jwt_signer_abstractsigner_ce, SL("algorithm"), "", ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_encryption_security_jwt_signer_abstractsigner_ce, 1, phalcon_encryption_security_jwt_signer_signerinterface_ce);
 	return SUCCESS;
 }
 
-/**
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner, getAlgorithm)
 {
 	zval *this_ptr = getThis();

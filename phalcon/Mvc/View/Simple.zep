@@ -74,9 +74,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected options = [];
 
     /**
-     * @var array|null
+     * @var array
      */
-    protected registeredEngines { get };
+    protected registeredEngines = [];
 
     /**
      * @var string
@@ -170,6 +170,14 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     public function getParamsToView() -> array
     {
         return this->viewParams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegisteredEngines() -> array
+    {
+        return this->registeredEngines;
     }
 
     /**
@@ -436,7 +444,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
 
             let registeredEngines = this->registeredEngines;
 
-            if typeof registeredEngines != "array" {
+            if empty registeredEngines {
                 /**
                  * We use Phalcon\Mvc\View\Engine\Php as default
                  * Use .phtml as extension for the PHP engine

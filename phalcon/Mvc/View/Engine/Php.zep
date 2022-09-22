@@ -29,7 +29,7 @@ class Php extends AbstractEngine
         /**
          * Create the variables in local symbol table
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             for key, value in params {
                 let {key} = value;
             }

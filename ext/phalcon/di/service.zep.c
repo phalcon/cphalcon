@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		object_init_ex(&_5$$21, phalcon_di_exception_serviceresolutionexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$21, "__construct", NULL, 29);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 205);
+		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 204);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&definition) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 240);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 239);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&arguments);

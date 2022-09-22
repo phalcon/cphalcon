@@ -277,8 +277,8 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
 }
 
 /**
- * @param string $key
- * @param mixed  $value
+ * @param string       $key
+ * @param string|array $value
  *
  * @return mixed
  */

@@ -12,6 +12,14 @@
 #include "kernel/main.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Di_InitializationAwareInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, InitializationAwareInterface, phalcon, di_initializationawareinterface, phalcon_di_initializationawareinterface_method_entry);

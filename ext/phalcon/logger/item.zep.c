@@ -46,6 +46,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
 	/**
+	 * @var DateTimeImmutable
+	 */
+	zend_declare_property_null(phalcon_logger_item_ce, SL("dateTime"), ZEND_ACC_PROTECTED);
+	/**
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
@@ -57,68 +61,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("levelName"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var DateTimeImmutable
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("dateTime"), ZEND_ACC_PROTECTED);
 	phalcon_logger_item_ce->create_object = zephir_init_properties_Phalcon_Logger_Item;
 
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Logger_Item, getContext)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "context");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Logger_Item, getMessage)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "message");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Logger_Item, getLevel)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "level");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Logger_Item, getLevelName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "levelName");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Logger_Item, getDateTime)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "dateTime");
 }
 
 /**
@@ -178,6 +123,66 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("dateTime"), dateTime);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &context);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Logger_Item, getContext)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "context");
+}
+
+/**
+ * @return DateTimeImmutable
+ */
+PHP_METHOD(Phalcon_Logger_Item, getDateTime)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "dateTime");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Item, getMessage)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "message");
+}
+
+/**
+ * @return int
+ */
+PHP_METHOD(Phalcon_Logger_Item, getLevel)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "level");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Item, getLevelName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "levelName");
 }
 
 zend_object *zephir_init_properties_Phalcon_Logger_Item(zend_class_entry *class_type)

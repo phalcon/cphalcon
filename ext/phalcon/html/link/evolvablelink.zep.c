@@ -48,8 +48,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
  * If the specified attribute is already present, it will be overwritten
  * with the new value.
  *
- * @param string $attribute The attribute to include.
- * @param string $value     The value of the attribute to set.
+ * @param string       $attribute The attribute to include.
+ * @param string|array $value     The value of the attribute to set.
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute)
 {

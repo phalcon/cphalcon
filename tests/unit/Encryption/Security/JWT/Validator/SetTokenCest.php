@@ -49,16 +49,10 @@ class SetTokenCest
         );
 
         $validator->setToken($token2);
-        $I->expectThrowable(
-            new ValidatorException(
-                "Validation: the token cannot be used yet (future)"
-            ),
-            function () use ($validator, $now, $I) {
-                $I->assertInstanceOf(
-                    Validator::class,
-                    $validator->validateIssuedAt($now)
-                );
-            }
-        );
+        $validator->validateIssuedAt($now);
+
+        $expected = ["Validation: the token cannot be used yet (future)"];
+        $actual   = $validator->getErrors();
+        $I->assertSame($expected, $actual);
     }
 }

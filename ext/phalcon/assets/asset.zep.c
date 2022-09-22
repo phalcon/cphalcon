@@ -99,84 +99,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset)
 }
 
 /**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getFilter)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "filter");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getPath)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "path");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getSourcePath)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "sourcePath");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getTargetPath)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "targetPath");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getTargetUri)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "targetUri");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Asset, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
-}
-
-/**
- * Version of resource
- */
-PHP_METHOD(Phalcon_Assets_Asset, getVersion)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "version");
-}
-
-/**
  * Asset constructor.
  *
  * @param string      $type
@@ -385,6 +307,24 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent)
 	RETURN_CCTOR(&content);
 }
 
+PHP_METHOD(Phalcon_Assets_Asset, getFilter)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "filter");
+}
+
+PHP_METHOD(Phalcon_Assets_Asset, getPath)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "path");
+}
+
 /**
  * Returns the complete location where the asset is located
  *
@@ -563,6 +503,59 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri)
 		ZEPHIR_CPY_WRT(&target, &_6$$4);
 	}
 	RETURN_CCTOR(&target);
+}
+
+PHP_METHOD(Phalcon_Assets_Asset, getSourcePath)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "sourcePath");
+}
+
+PHP_METHOD(Phalcon_Assets_Asset, getTargetPath)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "targetPath");
+}
+
+PHP_METHOD(Phalcon_Assets_Asset, getTargetUri)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "targetUri");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Asset, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
+}
+
+/**
+ * Version of resource
+ *
+ * @return string|null
+ */
+PHP_METHOD(Phalcon_Assets_Asset, getVersion)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "version");
 }
 
 /**
@@ -993,7 +986,7 @@ PHP_METHOD(Phalcon_Assets_Asset, throwException)
 	ZEPHIR_CONCAT_SVS(&_1, "Asset's content for '", &completePath, "' cannot be read");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 29, &_1);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 441);
+	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 484);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
