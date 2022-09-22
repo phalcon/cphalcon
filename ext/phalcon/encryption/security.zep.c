@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -123,17 +123,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_STD_DES"), 1);
 
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "workFactor");
 }
 
 /**
@@ -733,6 +722,18 @@ PHP_METHOD(Phalcon_Encryption_Security, getTokenKey)
 		}
 	}
 	RETURN_MM_MEMBER(getThis(), "tokenKey");
+}
+
+/**
+ * @return int
+ */
+PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "workFactor");
 }
 
 /**

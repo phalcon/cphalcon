@@ -92,18 +92,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AbstractAdapter)
 }
 
 /**
- * Name of the default serializer class
- */
-PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "defaultSerializer");
-}
-
-/**
  * AbstractAdapter constructor.
  *
  * @param SerializerFactory $factory
@@ -278,6 +266,20 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter)
 
 
 	RETURN_MEMBER(getThis(), "adapter");
+}
+
+/**
+ * Name of the default serializer class
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "defaultSerializer");
 }
 
 /**
@@ -469,14 +471,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys)
 		ZEPHIR_CPY_WRT(&_1, keys);
 	}
 	ZEPHIR_CPY_WRT(keys, &_1);
-	zephir_is_iterable(keys, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 257);
+	zephir_is_iterable(keys, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 267);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _2)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _2);
 			if (zephir_start_with(&key, &pattern, NULL)) {
-				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 253);
+				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 263);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -491,7 +493,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys)
 			ZEPHIR_CALL_METHOD(&key, keys, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_start_with(&key, &pattern, NULL)) {
-					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 253);
+					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 263);
 				}
 			ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
 			zephir_check_call_status();

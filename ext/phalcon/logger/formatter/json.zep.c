@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Logger\Formatter\Json
- *
  * Formats messages using JSON encoding
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json)

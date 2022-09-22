@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -28,8 +28,6 @@
  */
 /**
  * Class AbstractFormatter
- *
- * @property string $dateFormat
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter)
 {
@@ -46,7 +44,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter)
 }
 
 /**
- * Default date format
+ * Return the default date format
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat)
 {
@@ -55,34 +55,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat)
 
 
 	RETURN_MEMBER(getThis(), "dateFormat");
-}
-
-/**
- * Default date format
- */
-PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *dateFormat_param = NULL;
-	zval dateFormat;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&dateFormat);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(dateFormat)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dateFormat_param);
-	zephir_get_strval(&dateFormat, dateFormat_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
-	RETURN_THIS();
 }
 
 /**
@@ -120,5 +92,37 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "format", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Set the default date format
+ *
+ * @param string $format
+ *
+ * @return void
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *format_param = NULL;
+	zval format;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&format);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(format)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &format_param);
+	zephir_get_strval(&format, format_param);
+
+
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &format);
+	ZEPHIR_MM_RESTORE();
 }
 

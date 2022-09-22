@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
 		zephir_read_property(&_11$$6, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&container, &_11$$6);
-		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+		if (Z_TYPE_P(&container) == IS_NULL) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection container is required to access the 'response' service", "phalcon/Http/Response/Cookies.zep", 311);
 			return;
 		}

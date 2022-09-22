@@ -516,9 +516,9 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 		ZEPHIR_CPY_WRT(&connection, &_1$$3);
 		ZEPHIR_CALL_METHOD(&type, &connection, "gettype", NULL, 0);
 		zephir_check_call_status();
-		_2$$3 = ZEPHIR_IS_STRING(&type, "mysql");
+		_2$$3 = ZEPHIR_IS_STRING_IDENTICAL(&type, "mysql");
 		if (!(_2$$3)) {
-			_2$$3 = ZEPHIR_IS_STRING(&type, "pgsql");
+			_2$$3 = ZEPHIR_IS_STRING_IDENTICAL(&type, "pgsql");
 		}
 		if (_2$$3) {
 			zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("pdoStatement"), PH_NOISY_CC | PH_READONLY);

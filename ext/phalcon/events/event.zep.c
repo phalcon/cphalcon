@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -78,30 +78,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
 	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_events_event_ce, 1, phalcon_events_eventinterface_ce);
 	return SUCCESS;
-}
-
-/**
- * Event data
- */
-PHP_METHOD(Phalcon_Events_Event, getData)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "data");
-}
-
-/**
- * Event type
- */
-PHP_METHOD(Phalcon_Events_Event, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
 }
 
 /**
@@ -193,6 +169,33 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Events_Event, getData)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "data");
+}
+
+PHP_METHOD(Phalcon_Events_Event, getSource)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "source");
+}
+
+PHP_METHOD(Phalcon_Events_Event, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
+}
+
 /**
  * Check whether the event is cancelable.
  *
@@ -221,15 +224,6 @@ PHP_METHOD(Phalcon_Events_Event, isStopped)
 
 
 	RETURN_MEMBER(getThis(), "stopped");
-}
-
-PHP_METHOD(Phalcon_Events_Event, getSource)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "source");
 }
 
 /**
@@ -320,7 +314,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 140);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 150);
 		return;
 	}
 	if (1) {
