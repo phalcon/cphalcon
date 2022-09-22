@@ -405,9 +405,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getReader)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("reader"), PH_NOISY_CC);
-	if (Z_TYPE_P(&_0) != IS_OBJECT) {
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("reader"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_annotations_reader_ce);
 		if (zephir_has_constructor(&_1$$3)) {

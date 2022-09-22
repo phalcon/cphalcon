@@ -106,6 +106,91 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 }
 
 /**
+ * Phalcon\Db\Reference constructor
+ */
+PHP_METHOD(Phalcon_Db_Reference, __construct)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval definition;
+	zval *name_param = NULL, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate;
+	zval name;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&schema);
+	ZVAL_UNDEF(&referencedTable);
+	ZVAL_UNDEF(&referencedSchema);
+	ZVAL_UNDEF(&referencedColumns);
+	ZVAL_UNDEF(&onDelete);
+	ZVAL_UNDEF(&onUpdate);
+	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ARRAY(definition)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(&name, name_param);
+	} else {
+		ZEPHIR_INIT_VAR(&name);
+	}
+	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+
+
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+	ZEPHIR_OBS_VAR(&referencedTable);
+	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced table is required", "phalcon/Db/Reference.zep", 103);
+		return;
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedTable"), &referencedTable);
+	ZEPHIR_OBS_VAR(&columns);
+	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Foreign key columns are required", "phalcon/Db/Reference.zep", 109);
+		return;
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
+	ZEPHIR_OBS_VAR(&referencedColumns);
+	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required", "phalcon/Db/Reference.zep", 117);
+		return;
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedColumns"), &referencedColumns);
+	ZEPHIR_OBS_VAR(&schema);
+	if (zephir_array_isset_string_fetch(&schema, &definition, SL("schema"), 0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("schemaName"), &schema);
+	}
+	ZEPHIR_OBS_VAR(&referencedSchema);
+	if (zephir_array_isset_string_fetch(&referencedSchema, &definition, SL("referencedSchema"), 0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("referencedSchema"), &referencedSchema);
+	}
+	ZEPHIR_OBS_VAR(&onDelete);
+	if (zephir_array_isset_string_fetch(&onDelete, &definition, SL("onDelete"), 0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("onDelete"), &onDelete);
+	}
+	ZEPHIR_OBS_VAR(&onUpdate);
+	if (zephir_array_isset_string_fetch(&onUpdate, &definition, SL("onUpdate"), 0)) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("onUpdate"), &onUpdate);
+	}
+	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced", "phalcon/Db/Reference.zep", 141);
+		return;
+	}
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
  * Local reference columns
  */
 PHP_METHOD(Phalcon_Db_Reference, getColumns)
@@ -199,90 +284,5 @@ PHP_METHOD(Phalcon_Db_Reference, getOnUpdate)
 
 
 	RETURN_MEMBER(getThis(), "onUpdate");
-}
-
-/**
- * Phalcon\Db\Reference constructor
- */
-PHP_METHOD(Phalcon_Db_Reference, __construct)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval definition;
-	zval *name_param = NULL, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate;
-	zval name;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&columns);
-	ZVAL_UNDEF(&schema);
-	ZVAL_UNDEF(&referencedTable);
-	ZVAL_UNDEF(&referencedSchema);
-	ZVAL_UNDEF(&referencedColumns);
-	ZVAL_UNDEF(&onDelete);
-	ZVAL_UNDEF(&onUpdate);
-	ZVAL_UNDEF(&definition);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(name)
-		Z_PARAM_ARRAY(definition)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
-	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
-	} else {
-		ZEPHIR_INIT_VAR(&name);
-	}
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
-	ZEPHIR_OBS_VAR(&referencedTable);
-	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced table is required", "phalcon/Db/Reference.zep", 103);
-		return;
-	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedTable"), &referencedTable);
-	ZEPHIR_OBS_VAR(&columns);
-	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Foreign key columns are required", "phalcon/Db/Reference.zep", 109);
-		return;
-	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
-	ZEPHIR_OBS_VAR(&referencedColumns);
-	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required", "phalcon/Db/Reference.zep", 117);
-		return;
-	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedColumns"), &referencedColumns);
-	ZEPHIR_OBS_VAR(&schema);
-	if (zephir_array_isset_string_fetch(&schema, &definition, SL("schema"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("schemaName"), &schema);
-	}
-	ZEPHIR_OBS_VAR(&referencedSchema);
-	if (zephir_array_isset_string_fetch(&referencedSchema, &definition, SL("referencedSchema"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("referencedSchema"), &referencedSchema);
-	}
-	ZEPHIR_OBS_VAR(&onDelete);
-	if (zephir_array_isset_string_fetch(&onDelete, &definition, SL("onDelete"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("onDelete"), &onDelete);
-	}
-	ZEPHIR_OBS_VAR(&onUpdate);
-	if (zephir_array_isset_string_fetch(&onUpdate, &definition, SL("onUpdate"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("onUpdate"), &onUpdate);
-	}
-	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced", "phalcon/Db/Reference.zep", 141);
-		return;
-	}
-	ZEPHIR_MM_RESTORE();
 }
 

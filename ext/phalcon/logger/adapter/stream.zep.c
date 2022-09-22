@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -73,18 +73,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream)
 	 */
 	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("options"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- * Stream name
- */
-PHP_METHOD(Phalcon_Logger_Adapter_Stream, getName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
 }
 
 /**
@@ -163,6 +151,20 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close)
 }
 
 /**
+ * Stream name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_Stream, getName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
+}
+
+/**
  * Processes the message i.e. writes it to the file
  *
  * @param Item $item
@@ -211,7 +213,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 		ZEPHIR_CONCAT_SVSVS(&_5$$3, "The file '", &_3$$3, "' cannot be opened with mode '", &_4$$3, "'");
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 408, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/Adapter/Stream.zep", 109);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/Adapter/Stream.zep", 119);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

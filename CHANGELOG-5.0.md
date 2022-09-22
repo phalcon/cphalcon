@@ -1,4 +1,4 @@
-# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (xxxx-xx-xx)
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
 
 ## Changed
 - Changed `Phalcon\Logger\Adapter\Stream::process` to open the log file, check for locks, write contents and close the stream [#16072](https://github.com/phalcon/cphalcon/issues/16072) 

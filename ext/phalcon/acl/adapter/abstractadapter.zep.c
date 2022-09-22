@@ -33,17 +33,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, AbstractAdapter, phalcon, acl_adapter_abstractadapter, phalcon_events_abstracteventsaware_ce, phalcon_acl_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
+	 * Access Granted
+	 *
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
+	/**
 	 * Active access which the list is checking if some role can access it
 	 *
 	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
 	/**
-	 * Access Granted
+	 * Component which the list is checking if some role can access it
 	 *
-	 * @var bool
+	 * @var string|null
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
 	/**
 	 * Role which the list is checking if it's allowed to certain
 	 * component/access
@@ -51,12 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
-	/**
-	 * Component which the list is checking if some role can access it
-	 *
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
 	/**
 	 * Default access
 	 *
@@ -81,22 +81,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
 }
 
 /**
- * Role which the list is checking if it's allowed to certain
- *
- *
- * component/access
- *
- */
-PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "activeRole");
-}
-
-/**
  * Component which the list is checking if some role can access it
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
@@ -106,6 +90,19 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
 
 
 	RETURN_MEMBER(getThis(), "activeComponent");
+}
+
+/**
+ * Role which the list is checking if it's allowed to certain
+ * component/access
+ */
+PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "activeRole");
 }
 
 /**

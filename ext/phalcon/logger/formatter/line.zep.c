@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 
@@ -29,8 +29,6 @@
  */
 /**
  * Class Line
- *
- * @property string $format
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 {
@@ -43,46 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 	 */
 	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("format"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- * Format applied to each message
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "format");
-}
-
-/**
- * Format applied to each message
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *format_param = NULL;
-	zval format;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&format);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(format)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &format_param);
-	zephir_get_strval(&format, format_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
-	RETURN_THIS();
 }
 
 /**
@@ -183,5 +141,51 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Return the format applied to each message
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "format");
+}
+
+/**
+ * Set the format applied to each message
+ *
+ * @param string $format
+ *
+ * @return Line
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *format_param = NULL;
+	zval format;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&format);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(format)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &format_param);
+	zephir_get_strval(&format, format_param);
+
+
+	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
+	RETURN_THIS();
 }
 
