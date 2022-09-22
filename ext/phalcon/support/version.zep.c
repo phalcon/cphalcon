@@ -133,9 +133,8 @@ PHP_METHOD(Phalcon_Support_Version, getVersion)
  */
 PHP_METHOD(Phalcon_Support_Version, getSpecial)
 {
-	zval suffix;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *special_param = NULL;
+	zval *special_param = NULL, suffix;
 	zend_long special;
 	zval *this_ptr = getThis();
 
@@ -153,10 +152,9 @@ PHP_METHOD(Phalcon_Support_Version, getSpecial)
 	special = zephir_get_intval(special_param);
 
 
-	ZEPHIR_INIT_VAR(&suffix);
 	do {
 		if (special == 1) {
-			ZEPHIR_INIT_NVAR(&suffix);
+			ZEPHIR_INIT_VAR(&suffix);
 			ZVAL_STRING(&suffix, "alpha");
 			break;
 		}
@@ -170,9 +168,12 @@ PHP_METHOD(Phalcon_Support_Version, getSpecial)
 			ZVAL_STRING(&suffix, "RC");
 			break;
 		}
+		ZEPHIR_INIT_NVAR(&suffix);
+		ZVAL_STRING(&suffix, "");
+		break;
 	} while(0);
 
-	RETURN_CTOR(&suffix);
+	RETURN_CCTOR(&suffix);
 }
 
 /**
@@ -206,15 +207,15 @@ PHP_METHOD(Phalcon_Support_Version, get)
 	ZEPHIR_CALL_METHOD(&version, this_ptr, "getversion", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&major);
-	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Support/Version.zep", 119);
+	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Support/Version.zep", 122);
 	ZEPHIR_OBS_VAR(&medium);
-	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Support/Version.zep", 120);
+	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Support/Version.zep", 123);
 	ZEPHIR_OBS_VAR(&minor);
-	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Support/Version.zep", 121);
+	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Support/Version.zep", 124);
 	ZEPHIR_OBS_VAR(&special);
-	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Support/Version.zep", 122);
+	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Support/Version.zep", 125);
 	ZEPHIR_OBS_VAR(&specialNumber);
-	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Support/Version.zep", 123);
+	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Support/Version.zep", 126);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSVSV(&_0, &major, ".", &medium, ".", &minor);
 	zephir_get_strval(&result, &_0);
@@ -259,15 +260,15 @@ PHP_METHOD(Phalcon_Support_Version, getId)
 	ZEPHIR_CALL_METHOD(&version, this_ptr, "getversion", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&major);
-	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Support/Version.zep", 157);
+	zephir_array_fetch_long(&major, &version, 0, PH_NOISY, "phalcon/Support/Version.zep", 160);
 	ZEPHIR_OBS_VAR(&medium);
-	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Support/Version.zep", 158);
+	zephir_array_fetch_long(&medium, &version, 1, PH_NOISY, "phalcon/Support/Version.zep", 161);
 	ZEPHIR_OBS_VAR(&minor);
-	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Support/Version.zep", 159);
+	zephir_array_fetch_long(&minor, &version, 2, PH_NOISY, "phalcon/Support/Version.zep", 162);
 	ZEPHIR_OBS_VAR(&special);
-	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Support/Version.zep", 160);
+	zephir_array_fetch_long(&special, &version, 3, PH_NOISY, "phalcon/Support/Version.zep", 163);
 	ZEPHIR_OBS_VAR(&specialNumber);
-	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Support/Version.zep", 161);
+	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Support/Version.zep", 164);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
 	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 113, &_0, &medium);
@@ -318,12 +319,12 @@ PHP_METHOD(Phalcon_Support_Version, getPart)
 	do {
 		if (part == 0 || part == 1 || part == 2 || part == 4) {
 			ZEPHIR_OBS_VAR(&_0$$3);
-			zephir_array_fetch_long(&_0$$3, &version, part, PH_NOISY, "phalcon/Support/Version.zep", 189);
+			zephir_array_fetch_long(&_0$$3, &version, part, PH_NOISY, "phalcon/Support/Version.zep", 192);
 			zephir_cast_to_string(&_1$$3, &_0$$3);
 			RETURN_CTOR(&_1$$3);
 		}
 		if (part == 3) {
-			zephir_array_fetch_long(&_2$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 192);
+			zephir_array_fetch_long(&_2$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 195);
 			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getspecial", NULL, 0, &_2$$4);
 			zephir_check_call_status();
 			RETURN_MM();
