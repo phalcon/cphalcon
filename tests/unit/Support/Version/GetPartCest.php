@@ -57,11 +57,11 @@ class GetPartCest
         $actual   = $version->getPart(Version::VERSION_MINOR);
         $I->assertSame($expected, $actual);
 
-        $expected = $this->numberToSpecial($id[5]);
+        $expected = $this->numberToSpecial((string) $id[5]);
         $actual   = $version->getPart(Version::VERSION_SPECIAL);
         $I->assertSame($expected, $actual);
 
-        $special  = $this->numberToSpecial($id[5]);
+        $special  = $this->numberToSpecial((string) $id[6]);
         $expected = (string) (($special) ? $id[6] : 0);
         $actual   = $version->getPart(Version::VERSION_SPECIAL_NUMBER);
         $I->assertSame($expected, $actual);

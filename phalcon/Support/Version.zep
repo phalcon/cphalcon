@@ -85,7 +85,7 @@ class Version
      */
     protected final function getSpecial(int special) -> string
     {
-        string suffix = "";
+        var suffix;
 
         switch special {
             case 1:
@@ -96,6 +96,9 @@ class Version
                 break;
             case 3:
                 let suffix = "RC";
+                break;
+            default:
+                let suffix = "";
                 break;
         }
 
