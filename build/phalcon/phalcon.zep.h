@@ -1383,7 +1383,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
@@ -1516,7 +1516,7 @@ static PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize);
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_none_serialize, 0, 0, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_none_serialize, 0, 0, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_none_serialize, 0, 0, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -5405,7 +5405,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, translateKey)
 ZEND_END_ARG_INFO()
@@ -6357,7 +6357,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
@@ -7572,7 +7572,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -13518,7 +13518,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_current, 0, 0, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_current, 0, 0, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection_current, 0, 0, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -20931,7 +20931,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_current, 0, 0, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_current, 0, 0, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_current, 0, 0, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -24238,7 +24238,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_messages_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_messages_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_messages_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -24579,7 +24579,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
@@ -27732,7 +27732,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_current, 0, 0, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_current, 0, 0, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_current, 0, 0, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -27840,7 +27840,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_row_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_row_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_row_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -30468,7 +30468,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_phpunserialize, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_phpunserialize, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_php_phpunserialize, 0, 0, 1)
 #endif
 	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 #if PHP_VERSION_ID >= 80000
@@ -32011,7 +32011,7 @@ ZEND_END_ARG_INFO()
 #if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_offsetget, 0, 1, IS_MIXED, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_offsetget, 0, 1, IS_NULL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_registry_offsetget, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
