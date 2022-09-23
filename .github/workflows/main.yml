@@ -98,8 +98,8 @@ jobs:
         include:
           # Linux
           - { name: ubuntu-gcc, os: ubuntu-18.04, compiler: gcc }
-          # macOS
-          - { name: macos-clang, os: macos-11, compiler: clang }
+#          # macOS
+#          - { name: macos-clang, os: macos-11, compiler: clang }
           # Windows
           - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
           - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
