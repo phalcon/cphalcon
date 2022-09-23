@@ -91,7 +91,7 @@ jobs:
 
         name:
           - ubuntu-gcc
-          - macos-clang
+#          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
@@ -142,11 +142,11 @@ jobs:
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
-      - name: Build Phalcon Extension (macOS)
-        uses: ./.github/actions/build-phalcon-mac
-        if: runner.os == 'macOS'
-        with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+#      - name: Build Phalcon Extension (macOS)
+#        uses: ./.github/actions/build-phalcon-mac
+#        if: runner.os == 'macOS'
+#        with:
+#          pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
       - name: Build Phalcon Extension (Windows)
         uses: ./.github/actions/build-phalcon-win
