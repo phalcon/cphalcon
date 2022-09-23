@@ -1,3 +1,11 @@
+# [5.0.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.1) (2022-09-23)
+
+## Fixed
+- Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
+
+## Added
+- Added `Phalcon\Encryption\Security\JWT\Validator::get()` and `Phalcon\Encryption\Security\JWT\Validator::set()` for validation data [#16115](https://github.com/phalcon/cphalcon/issues/16115)
+
 # [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
 
 ## Changed
