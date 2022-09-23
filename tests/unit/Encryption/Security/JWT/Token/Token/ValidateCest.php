@@ -13,6 +13,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Token\Token;
 
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Item;
 use Phalcon\Encryption\Security\JWT\Token\Signature;
 use Phalcon\Encryption\Security\JWT\Token\Token;
@@ -38,9 +39,10 @@ class ValidateCest
 
         $signer     = new Hmac();
         $builder    = new Builder($signer);
-        $expiry     = strtotime('+1 day');
-        $issued     = strtotime('now');
-        $notBefore  = strtotime('-1 day');
+        $now        = time();
+        $expiry     = $now + 3600;
+        $issued     = $now - 10;
+        $notBefore  = $now - 10;
         $passphrase = '&vsJBETaizP3A3VX&TPMJUqi48fJEgN7';
 
         $token = $builder
@@ -54,16 +56,19 @@ class ValidateCest
             ->setPassphrase($passphrase)
             ->getToken();
 
-        $validator = new Validator($token);
+        $validator = new Validator($token, 10);
+
+        $validator
+            ->set(Enum::AUDIENCE, 'my-audience')
+            ->set(Enum::EXPIRATION_TIME, $expiry)
+            ->set(Enum::ISSUER, 'Phalcon JWT')
+            ->set(Enum::ISSUED_AT, $issued)
+            ->set(Enum::ID, 'PH-JWT')
+            ->set(Enum::NOT_BEFORE, $notBefore)
+            ->set(Enum::SUBJECT, 'Mary had a little lamb')
+        ;
 
         $errors = $token->validate($validator);
-        $I->assertCount(2, $errors);
-
-        $expected = [
-            "Validation: the token cannot be used yet (future)",
-            "Validation: the token cannot be used yet (not before)"
-        ];
-        $actual = $errors;
-        $I->assertSame($expected, $actual);
+        $I->assertCount(0, $errors);
     }
 }

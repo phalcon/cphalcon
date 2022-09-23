@@ -26,6 +26,11 @@ class Validator
     /**
      * @var array
      */
+    private claims = [];
+
+    /**
+     * @var array
+     */
     private errors = [];
 
     /**
@@ -46,13 +51,41 @@ class Validator
      */
     public function __construct(<Token> token, int timeShift = 0)
     {
-        let this->token     = token,
-            this->timeShift = timeShift;
+        var now;
+
+        let now             = time(),
+            this->token     = token,
+            this->timeShift = timeShift,
+            this->claims    = [
+                Enum::AUDIENCE        : null,
+                Enum::EXPIRATION_TIME : now,
+                Enum::ID              : null,
+                Enum::ISSUED_AT       : now,
+                Enum::ISSUER          : null,
+                Enum::NOT_BEFORE      : now,
+                Enum::SUBJECT         : null
+            ];
     }
 
     public function getErrors() -> array
     {
         return this->errors;
+    }
+
+    public function get(string claim) -> var | null
+    {
+        if isset this->claims[claim] {
+            return this->claims[claim];
+        }
+
+        return null;
+    }
+
+    public function set(string claim, var value) -> <Validator>
+    {
+        let this->claims[claim] = value;
+
+        return this;
     }
 
     /**

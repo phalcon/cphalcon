@@ -110,16 +110,16 @@ class Token
         array methods;
 
         let methods = [
-            "validateAudience"   : Enum::AUDIENCE,
-            "validateExpiration" : Enum::EXPIRATION_TIME,
-            "validateId"         : Enum::ID,
-            "validateIssuedAt"   : Enum::ISSUED_AT,
-            "validateIssuer"     : Enum::ISSUER,
-            "validateNotBefore"  : Enum::NOT_BEFORE
+            "validateAudience"   : validator->get(Enum::AUDIENCE),
+            "validateExpiration" : validator->get(Enum::EXPIRATION_TIME),
+            "validateId"         : validator->get(Enum::ID),
+            "validateIssuedAt"   : validator->get(Enum::ISSUED_AT),
+            "validateIssuer"     : validator->get(Enum::ISSUER),
+            "validateNotBefore"  : validator->get(Enum::NOT_BEFORE)
         ];
 
         for method, claimId in methods {
-            validator->{method}(this->claims->get(claimId));
+            validator->{method}(claimId);
         }
 
         return validator->getErrors();
