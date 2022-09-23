@@ -190,22 +190,20 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 {
-	zend_string *_3;
-	zend_ulong _2;
+	zend_string *_5;
+	zend_ulong _4;
 	zval methods;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validator, validator_sub, claimId, method, *_0, _1, _4$$3, _5$$3, _6$$4, _7$$4;
+	zval *validator, validator_sub, claimId, method, _0, _1, *_2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validator_sub);
 	ZVAL_UNDEF(&claimId);
 	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&methods);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -221,54 +219,72 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 
 	ZEPHIR_INIT_VAR(&methods);
 	zephir_create_array(&methods, 6, 0);
-	add_assoc_stringl_ex(&methods, SL("validateAudience"), SL("aud"));
-	add_assoc_stringl_ex(&methods, SL("validateExpiration"), SL("exp"));
-	add_assoc_stringl_ex(&methods, SL("validateId"), SL("jti"));
-	add_assoc_stringl_ex(&methods, SL("validateIssuedAt"), SL("iat"));
-	add_assoc_stringl_ex(&methods, SL("validateIssuer"), SL("iss"));
-	add_assoc_stringl_ex(&methods, SL("validateNotBefore"), SL("nbf"));
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "aud");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateAudience"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "exp");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateExpiration"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "jti");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateId"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "iat");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateIssuedAt"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "iss");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateIssuer"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "nbf");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 125);
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _2, _3, _0)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _4, _5, _2)
 		{
-			ZEPHIR_INIT_NVAR(&claimId);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&claimId, _3);
-			} else {
-				ZVAL_LONG(&claimId, _2);
-			}
 			ZEPHIR_INIT_NVAR(&method);
-			ZVAL_COPY(&method, _0);
-			zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_5$$3, &_4$$3, "get", NULL, 0, &claimId);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &_5$$3);
+			if (_5 != NULL) { 
+				ZVAL_STR_COPY(&method, _5);
+			} else {
+				ZVAL_LONG(&method, _4);
+			}
+			ZEPHIR_INIT_NVAR(&claimId);
+			ZVAL_COPY(&claimId, _2);
+			ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &methods, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &methods, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, &methods, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_3)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&claimId, &methods, "key", NULL, 0);
+			ZEPHIR_CALL_METHOD(&method, &methods, "key", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&method, &methods, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&claimId, &methods, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property(&_6$$4, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_7$$4, &_6$$4, "get", NULL, 0, &claimId);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &_7$$4);
+				ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &methods, "next", NULL, 0);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_INIT_NVAR(&claimId);
+	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_RETURN_CALL_METHOD(validator, "geterrors", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
