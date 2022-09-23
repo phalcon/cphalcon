@@ -72,7 +72,7 @@ class Validator
         return this->errors;
     }
 
-    public function get(string claim) -> var | null
+    public function get(string claim) -> mixed | null
     {
         if isset this->claims[claim] {
             return this->claims[claim];
