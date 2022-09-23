@@ -118,7 +118,7 @@ class Token
             "validateNotBefore"  : Enum::NOT_BEFORE
         ];
 
-        for claimId, method in methods {
+        for method, claimId in methods {
             validator->{method}(this->claims->get(claimId));
         }
 
