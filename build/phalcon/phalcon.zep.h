@@ -18864,6 +18864,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Validator);
 
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getErrors);
+static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get);
+static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, set);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, setToken);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration);
@@ -18881,6 +18883,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator___const
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_geterrors, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 80000
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_get, 0, 1, IS_MIXED, 1)
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_get, 0, 0, 1)
+#endif
+	ZEND_ARG_TYPE_INFO(0, claim, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_set, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+	ZEND_ARG_TYPE_INFO(0, claim, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_settoken, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
@@ -18926,6 +18941,8 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_validator_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, __construct, arginfo_phalcon_encryption_security_jwt_validator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, getErrors, arginfo_phalcon_encryption_security_jwt_validator_geterrors, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, get, arginfo_phalcon_encryption_security_jwt_validator_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, set, arginfo_phalcon_encryption_security_jwt_validator_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, setToken, arginfo_phalcon_encryption_security_jwt_validator_settoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateAudience, arginfo_phalcon_encryption_security_jwt_validator_validateaudience, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateExpiration, arginfo_phalcon_encryption_security_jwt_validator_validateexpiration, ZEND_ACC_PUBLIC)
