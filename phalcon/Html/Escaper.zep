@@ -66,12 +66,8 @@ class Escaper implements EscaperInterface
     {
         var key, result, value;
 
-        if (typeof input !== "string" && typeof input !== "array") {
-            throw new Exception("Input must be an array or a string");
-        }
-
-        if (typeof input === "string") {
-            return this->phpHtmlSpecialChars(input);
+        if likely (typeof input !== "array") {
+            return this->phpHtmlSpecialChars((string) input);
         }
 
         let result = "";
@@ -86,11 +82,11 @@ class Escaper implements EscaperInterface
                 let value = implode(" ", value);
             }
 
-            let result .= this->phpHtmlSpecialChars(key);
+            let result .= this->phpHtmlSpecialChars((string) key);
 
             if (true !== value) {
                 let result .= "=\""
-                    . this->phpHtmlSpecialChars(value)
+                    . this->phpHtmlSpecialChars((string) value)
                     . "\"";
             }
 

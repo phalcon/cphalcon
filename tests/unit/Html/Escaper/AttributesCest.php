@@ -79,6 +79,24 @@ class AttributesCest
             ],
             [
                 'htmlQuoteType' => ENT_HTML5,
+                'expected'      => '10',
+                'text'          => 10,
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => 'maxlength="10" cols="5" rows="3" min="1" max="100"',
+                'text'          => [
+                    'maxlength'  => 10,
+                    'cols'       => 5,
+                    'rows'       => 3,
+                    'min'        => 1,
+                    'max'        => 100,
+                    'notPrinted'  => false,
+                    'notPrinted2' => null,
+                ],
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'text="Ferrari Ford Dodge"',
                 'text'          => [
                     'text' => [
