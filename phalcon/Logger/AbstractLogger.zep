@@ -313,14 +313,14 @@ abstract class AbstractLogger
      *
      * @return int
      */
-    protected function getLevelNumber(level) -> int
+    protected function getLevelNumber(var level) -> int
     {
         var levelName, levels;
 
         /**
          * If someone uses "critical" as the level (string)
          */
-        if (true === is_string(level)) {
+        if (typeof level === "string") {
             let levelName = strtoupper(level),
                 levels    = array_flip(this->getLevels());
 
