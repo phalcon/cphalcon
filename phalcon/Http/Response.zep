@@ -231,7 +231,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      *```php
      * // Using a string redirect (internal/external)
      * $response->redirect("posts/index");
-     * $response->redirect("http://en.wikipedia.org", true);
+     * $response->redirect("https://en.wikipedia.org", true);
      * $response->redirect("http://www.example.com/new-location", true, 301);
      *
      * // Making a redirection based on a named route
@@ -709,7 +709,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         // if an empty message is given we try and grab the default for this
         // status code. If a default doesn't exist, stop here.
         if message === null {
-            // See: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+            // See: https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
             let statusCodes = [
                 // Informational 1xx
                 self::STATUS_CONTINUE                             : "Continue",                                           // Information - RFC 7231, 6.2.1

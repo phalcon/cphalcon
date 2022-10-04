@@ -542,7 +542,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets web page that refers active request. ie: http://www.google.com
+     * Gets web page that refers active request. ie: https://www.google.com
      */
     public function getHTTPReferer() -> string
     {
