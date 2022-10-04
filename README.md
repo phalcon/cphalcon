@@ -4,7 +4,7 @@
 [![Codecov master][codecov-master-badge]](https://codecov.io/gh/phalcon/cphalcon)
 [![Codecov 5.0x][codecov-5x-badge]](https://codecov.io/gh/phalcon/cphalcon)
 
-[![Discord][discord-badge]](http://phalcon.io/discord)
+[![Discord][discord-badge]](https://phalcon.io/discord)
 [![Contributors][contributors-badge]](https://github.com/phalcon/cphalcon/graphs/contributors)
 [![Phalcon Backers][backers-badge]](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 [![OpenCollective][oc-backers-badge]](#backers)

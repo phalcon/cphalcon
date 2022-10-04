@@ -23,7 +23,7 @@ trait CookieTrait
      * A clean and transparent way to get a value set with setcookie() within
      * the same request
      *
-     * @link  http://tools.ietf.org/html/rfc6265#section-4.1.1
+     * @link  https://tools.ietf.org/html/rfc6265#section-4.1.1
      *
      * @param string $name
      *

@@ -113,7 +113,7 @@ belongs to the uniqueId or the whole session data
 
 # [2.0.4](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.4) (2015-07-07)
 - Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
-- Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
+- Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of https://docs.phalconphp.com
 - Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
 - Improved generation of macros in Volt using anonymous functions instead of plain PHP functions
   This allow to bind the adapter object and inject services within them
