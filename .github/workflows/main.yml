@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.0.1
+  PHALCON_VERSION: 5.0.2
   ZEPHIR_PARSER_VERSION: 1.5.1
   ZEPHIR_VERSION: 0.16.3
 
@@ -91,15 +91,15 @@ jobs:
 
         name:
           - ubuntu-gcc
-          - macos-clang
+#          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
           - { name: ubuntu-gcc, os: ubuntu-18.04, compiler: gcc }
-          # macOS
-          - { name: macos-clang, os: macos-11, compiler: clang }
+#          # macOS
+#          - { name: macos-clang, os: macos-11, compiler: clang }
           # Windows
           - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
           - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
@@ -142,11 +142,11 @@ jobs:
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
-      - name: Build Phalcon Extension (macOS)
-        uses: ./.github/actions/build-phalcon-mac
-        if: runner.os == 'macOS'
-        with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+#      - name: Build Phalcon Extension (macOS)
+#        uses: ./.github/actions/build-phalcon-mac
+#        if: runner.os == 'macOS'
+#        with:
+#          pecl: ./phalcon-pecl/phalcon-pecl.tgz
 
       - name: Build Phalcon Extension (Windows)
         uses: ./.github/actions/build-phalcon-win
