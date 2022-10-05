@@ -384,7 +384,7 @@ class Escaper implements EscaperInterface
     {
         return htmlspecialchars(
             input,
-            ENT_QUOTES,
+            this->flags,
             this->encoding,
             this->doubleEncode
         );
