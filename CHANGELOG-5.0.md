@@ -1,3 +1,8 @@
+# [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Html\Escaper::attributes()` to honor the `$flags` set for `htmlspecialchars()` [#16134](https://github.com/phalcon/cphalcon/issues/16134)
+
 # [5.0.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.2) (2022-09-27)
 
 ## Fixed
