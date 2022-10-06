@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Fixtures\Http;
 
 /**
- * @link http://php.net/manual/en/class.streamwrapper.php
- * @link http://php.net/manual/en/stream.streamwrapper.example-1.php
+ * @link https://php.net/manual/en/class.streamwrapper.php
+ * @link https://php.net/manual/en/stream.streamwrapper.example-1.php
  *
  * @codingStandardsIgnoreFile
  */

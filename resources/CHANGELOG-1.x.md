@@ -37,7 +37,7 @@
  - Fix offsetUnset
  - Changing "file_exists" function for "is_file".
  - Fix bug about updated property for Phalcon\Session\*
- - [#2291](https://github.com/phalcon/cphalcon/issues/2291) Middlewares do not stop operation when before event triggered in Micro as documented http://docs.…
+ - [#2291](https://github.com/phalcon/cphalcon/issues/2291) Middlewares do not stop operation when before event triggered in Micro as documented https://docs.…
  - [#1608](https://github.com/phalcon/cphalcon/issues/1608) about Phalcon\Mvc\Router\Annotations
  - [#2019](https://github.com/phalcon/cphalcon/issues/2019) and added tests
  - model: added methods arg infos

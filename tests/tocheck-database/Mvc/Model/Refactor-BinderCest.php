@@ -24,7 +24,7 @@ use TypeError;
  * Tests the Phalcon\Mvc\Application component
  *
  * @copyright (c) 2011-2016 Phalcon Team
- * @link          http://www.phalcon.io
+ * @link          https://www.phalcon.io
  * @author        Andres Gutierrez <andres@phalcon.io>
  * @author        Phalcon Team <team@phalcon.io>
  * @author        Wojciech Ślawski <jurigag@gmail.com>

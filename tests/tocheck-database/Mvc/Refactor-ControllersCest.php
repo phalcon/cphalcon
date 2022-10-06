@@ -13,7 +13,7 @@ use Phalcon\Tests\Controllers\ViewRequestController;
  * Tests the Phalcon\Mvc\Controller component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
+ * @link          https://www.phalcon.io
  * @author        Andres Gutierrez <andres@phalcon.io>
  * @author        Phalcon Team <team@phalcon.io>
  *

@@ -15,7 +15,7 @@ use Phalcon\Mvc\Dispatcher;
  * Phalcon\Mvc\Dispatcher, and other related components.
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
+ * @link          https://www.phalcon.io
  * @author        Andres Gutierrez <andres@phalcon.io>
  * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
  *

@@ -1270,7 +1270,7 @@ class Compiler implements InjectionAwareInterface
              * responsibility of the user. However, we can clear empty lines and
              * whitespace here to reduce the number of errors.
              *
-             * http://php.net/control-structures.alternative-syntax
+             * https://php.net/control-structures.alternative-syntax
              */
              if strlen(lines) !== 0 {
                 /**
