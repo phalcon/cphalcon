@@ -38,32 +38,42 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal)
 
 /**
  * @param string $input The text to sanitize
+ * @param int    $flags The flags for `htmlspecialchars()`
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
+	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zval *input_param = NULL, *flags_param = NULL, _0;
 	zval input;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(input)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
+	zephir_fetch_params(1, 1, 1, &input_param, &flags_param);
 	zephir_get_strval(&input, input_param);
+	if (!flags_param) {
+		flags = 11;
+	} else {
+		flags = zephir_get_intval(flags_param);
+	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 284, &input);
+	ZVAL_LONG(&_0, flags);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 284, &input, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

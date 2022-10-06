@@ -1,4 +1,4 @@
-# [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (xxxx-xx-xx)
+# [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (2022-10-06)
 
 ## Changed
 - Fixed `Phalcon\Filter\Sanitize\StringVal` to accept flags for `htmlspecialchars()` [#16135](https://github.com/phalcon/cphalcon/issues/16135)
