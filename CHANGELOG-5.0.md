@@ -1,5 +1,8 @@
 # [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (xxxx-xx-xx)
 
+## Changed
+- Fixed `Phalcon\Filter\Sanitize\StringVal` to accept flags for `htmlspecialchars()` [#16135](https://github.com/phalcon/cphalcon/issues/16135)
+
 ## Fixed
 - Fixed `Phalcon\Html\Escaper::attributes()` to honor the `$flags` set for `htmlspecialchars()` [#16134](https://github.com/phalcon/cphalcon/issues/16134)
 
