@@ -17,11 +17,12 @@ class StringVal
 {
     /**
      * @param string $input The text to sanitize
+     * @param int    $flags The flags for `htmlspecialchars()`
      *
      * @return string
      */
-    public function __invoke(string input) -> string
+    public function __invoke(string input, int flags = 11) -> string
     {
-        return htmlspecialchars(input);
+        return htmlspecialchars(input, flags);
     }
 }

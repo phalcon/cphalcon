@@ -19,6 +19,8 @@ use UnitTester;
 
 use const ENT_HTML401;
 use const ENT_HTML5;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
 use const ENT_XHTML;
 use const ENT_XML1;
 
@@ -59,23 +61,46 @@ class AttributesCest
         return [
             [
                 'htmlQuoteType' => ENT_HTML401,
-                'expected'      => 'That&#039;s right',
+                'expected'      => "That's right",
                 'text'          => "That's right",
             ],
             [
                 'htmlQuoteType' => ENT_XML1,
-                'expected'      => 'That&#039;s right',
+                'expected'      => "That's right",
                 'text'          => "That's right",
             ],
             [
                 'htmlQuoteType' => ENT_XHTML,
-                'expected'      => 'That&#039;s right',
+                'expected'      => "That's right",
                 'text'          => "That's right",
             ],
             [
                 'htmlQuoteType' => ENT_HTML5,
-                'expected'      => 'That&#039;s right',
+                'expected'      => "That's right",
                 'text'          => "That's right",
+            ],
+            [
+                'htmlQuoteType' => ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+                'expected'      => "That&#039;s right",
+                'text'          => "That's right",
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => '10',
+                'text'          => 10,
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => 'maxlength="10" cols="5" rows="3" min="1" max="100"',
+                'text'          => [
+                    'maxlength'  => 10,
+                    'cols'       => 5,
+                    'rows'       => 3,
+                    'min'        => 1,
+                    'max'        => 100,
+                    'notPrinted'  => false,
+                    'notPrinted2' => null,
+                ],
             ],
             [
                 'htmlQuoteType' => ENT_HTML5,
