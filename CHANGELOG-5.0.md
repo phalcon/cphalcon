@@ -205,7 +205,7 @@
   - Renamed `registerDirectories()` to `setDirectories()`
   - Renamed `registertExtensions()` to `setExtensions()`
   - Renamed `registertFiles()` to `setFiles()`
-  - Renamed `registertNamespaces()` to `setNamespaces()` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
+  - Renamed `registerNamespaces()` to `setNamespaces()` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
 - Moved `Phalcon\Di` to `Phalcon\Di\Di` [#15799](https://github.com/phalcon/cphalcon/issues/15799)
 - Removed references to `Phalcon\Tag` from the framework in favor of `Phalcon\Html\TagFactory` [#15801](https://github.com/phalcon/cphalcon/issues/15801)
 - `Phalcon\Forms\Form` requires a `Phalcon\Html\TagFactory` to be set before it can render elements [#15801](https://github.com/phalcon/cphalcon/issues/15801)
