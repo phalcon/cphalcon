@@ -709,7 +709,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         // if an empty message is given we try and grab the default for this
         // status code. If a default doesn't exist, stop here.
         if message === null {
-            // See: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+            // See: https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
             let statusCodes = [
                 // Informational 1xx
                 self::STATUS_CONTINUE                             : "Continue",                                           // Information - RFC 7231, 6.2.1

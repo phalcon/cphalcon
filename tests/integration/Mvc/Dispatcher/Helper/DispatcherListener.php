@@ -11,7 +11,7 @@ use Phalcon\Events\Event;
  * Early listener for all dispatch events.
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
+ * @link          https://www.phalcon.io
  * @author        Andres Gutierrez <andres@phalcon.io>
  * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
  *
