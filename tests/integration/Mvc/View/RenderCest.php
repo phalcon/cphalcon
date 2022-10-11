@@ -15,6 +15,8 @@ namespace Phalcon\Tests\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Mvc\View;
+use Phalcon\Tests\Fixtures\Objects\ChildObject;
+use Phalcon\Tests\Fixtures\Objects\ParentObject;
 use Phalcon\Tests\Fixtures\Traits\ViewTrait;
 
 class RenderCest
