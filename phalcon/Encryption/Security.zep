@@ -628,7 +628,7 @@ class Security extends AbstractInjectionAware
         var cost;
 
         if !fetch cost, options["cost"] {
-            let cost = 10;
+            let cost = this->workFactor;
         }
 
         if cost < 4 {
