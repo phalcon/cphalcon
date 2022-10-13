@@ -375,4 +375,18 @@ class Complex extends Resultset implements ResultsetInterface
            "hydrateMode" : hydrateMode
         ];
     }
+
+    public function __unserialize(array data) -> void
+    {
+        /**
+         * Rows are already hydrated
+         */
+        let this->disableHydration = true;
+
+        let this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnTypes = data["columnTypes"],
+            this->hydrateMode = data["hydrateMode"];
+    }
 }
