@@ -35,7 +35,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * @var bool
      */
-    protected autoescape = true { get };
+    protected autoescape = true;
 
     /**
      * @var bool
@@ -45,17 +45,17 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * @var array
      */
-    protected cssClasses = [] { get };
+    protected cssClasses = [];
 
     /**
      * @var array
      */
-    protected cssIconClasses = [] { get };
+    protected cssIconClasses = [];
 
     /**
      * @var string
      */
-    protected customTemplate = "" { get };
+    protected customTemplate = "";
 
     /**
      * @var EscaperInterface | null
@@ -126,6 +126,46 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     public function error(string message) -> string | null
     {
         return this->{"message"}("error", message);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAutoescape() -> bool
+    {
+        return this->autoescape;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAutomaticHtml() -> bool
+    {
+        return this->automaticHtml;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCssClasses() -> array
+    {
+        return this->cssClasses;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCssIconClasses() -> array
+    {
+        return this->cssIconClasses;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomTemplate() -> string
+    {
+        return this->customTemplate;
     }
 
     /**
@@ -314,14 +354,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         }
 
         /**
-         * We return the message as a string if the implicitFlush is turned
-         * off
+         * If we are here then implicitFlush is off - otherwise it has been
+         * echoed back during the loop. Return the string back.
          */
-        if (true !== this->implicitFlush) {
-            return content;
-        }
-
-        return null;
+        return content;
     }
 
     /**

@@ -41,8 +41,12 @@ class GetHeadersCest
 
         $token = new Token($headers, $claims, $signature);
 
-        $I->assertInstanceOf(Item::class, $token->getHeaders());
-        $I->assertSame("JWT", $token->getHeaders()
-                                      ->get('typ'));
+        $expected = Item::class;
+        $actual   = $token->getHeaders();
+        $I->assertInstanceOf($expected, $actual);
+
+        $expected = "JWT";
+        $actual   = $token->getHeaders()->get('typ');
+        $I->assertSame($expected, $actual);
     }
 }

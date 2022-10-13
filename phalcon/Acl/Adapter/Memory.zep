@@ -104,21 +104,21 @@ class Memory extends AbstractAdapter
      *
      * @var mixed
      */
-    protected activeFunction { get };
+    protected activeFunction;
 
     /**
      * Returns number of additional arguments(excluding role and resource) for active function
      *
      * @var int
      */
-    protected activeFunctionCustomArgumentsCount = 0 { get };
+    protected activeFunctionCustomArgumentsCount = 0;
 
     /**
      * Returns latest key used to acquire access
      *
      * @var string|null
      */
-    protected activeKey { get };
+    protected activeKey = null;
 
     /**
      * Components
@@ -209,7 +209,7 @@ class Memory extends AbstractAdapter
     {
         var componentName, componentObject;
 
-        if typeof componentValue == "object" && componentValue instanceof ComponentInterface {
+        if typeof componentValue === "object" && componentValue instanceof ComponentInterface {
             let componentObject = componentValue;
         } else {
             let componentObject = new Component(componentValue);
@@ -236,13 +236,13 @@ class Memory extends AbstractAdapter
 
         this->checkExists(this->componentsNames, componentName, "Component");
 
-        if unlikely (typeof accessList != "array" && typeof accessList != "string") {
+        if unlikely (typeof accessList !== "array" && typeof accessList !== "string") {
             throw new Exception("Invalid value for the accessList");
         }
 
         let exists = true;
 
-        if typeof accessList == "array" {
+        if typeof accessList === "array" {
             for accessName in accessList {
                 let accessKey = componentName . "!" . accessName;
 
@@ -284,7 +284,7 @@ class Memory extends AbstractAdapter
         /**
          * Type conversion
          */
-        if typeof roleToInherits != "array" {
+        if typeof roleToInherits !== "array" {
             let roleToInheritList = [roleToInherits];
         } else {
             let roleToInheritList = roleToInherits;
@@ -294,7 +294,7 @@ class Memory extends AbstractAdapter
          * inherits
          */
         for roleToInherit in roleToInheritList {
-            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
+            if typeof roleToInherit === "object" && roleToInherit instanceof RoleInterface {
                 let roleInheritName = roleToInherit->getName();
             } else {
                 let roleInheritName = roleToInherit;
@@ -383,7 +383,7 @@ class Memory extends AbstractAdapter
     {
         var roleName, roleObject;
 
-        if typeof role == "object" && role instanceof RoleInterface {
+        if typeof role === "object" && role instanceof RoleInterface {
             let roleObject = role;
         } elseif is_string(role) {
             let roleObject = new Role(role);
@@ -490,13 +490,13 @@ class Memory extends AbstractAdapter
         string accessKey;
         array localAccess = [];
 
-        if typeof accessList == "string" {
+        if typeof accessList === "string" {
             let localAccess = [accessList];
         } else {
             let localAccess = accessList;
         }
 
-        if typeof accessList == "array" {
+        if typeof accessList === "array" {
             for accessName in localAccess {
                 let accessKey = componentName . "!" . accessName;
 
@@ -506,6 +506,32 @@ class Memory extends AbstractAdapter
             }
         }
      }
+
+    /**
+     * Returns latest function used to acquire access
+     *
+     * @return mixed
+     */
+    public function getActiveFunction() -> var
+    {
+        return this->activeFunction;
+    }
+
+    /**
+     * Returns number of additional arguments(excluding role and resource) for active function
+     */
+    public function getActiveFunctionCustomArgumentsCount() -> int
+    {
+        return this->activeFunctionCustomArgumentsCount;
+    }
+
+    /**
+     * Returns latest key used to acquire access
+     */
+    public function getActiveKey() -> string | null
+    {
+        return this->activeKey;
+    }
 
     /**
      * Return an array with every component registered in the list
@@ -574,7 +600,7 @@ class Memory extends AbstractAdapter
 
         bool hasComponent = false, hasRole = false;
 
-        if typeof roleName == "object" {
+        if typeof roleName === "object" {
             if roleName instanceof RoleAwareInterface {
                 let roleObject = roleName,
                     roleName   = roleObject->getRoleName();

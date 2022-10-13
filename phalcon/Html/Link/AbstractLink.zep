@@ -134,8 +134,8 @@ abstract class AbstractLink
         );
     }
     /**
-     * @param string $key
-     * @param mixed  $value
+     * @param string       $key
+     * @param string|array $value
      *
      * @return mixed
      */

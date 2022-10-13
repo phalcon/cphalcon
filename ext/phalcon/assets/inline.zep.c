@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
 	/**
-	 * @var array | null
+	 * @var array
 	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 	/**
@@ -56,50 +56,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline)
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_assets_inline_ce, 1, phalcon_assets_assetinterface_ce);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "attributes");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Inline, getContent)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "content");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Inline, getFilter)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "filter");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Inline, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
 }
 
 /**
@@ -188,6 +144,54 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 68, &_2, &key);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "attributes");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getContent)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "content");
+}
+
+/**
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getFilter)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "filter");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
 }
 
 /**

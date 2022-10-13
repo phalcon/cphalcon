@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/memory.h"
 
@@ -48,42 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Component)
 	zend_declare_property_null(phalcon_acl_component_ce, SL("name"), ZEND_ACC_PRIVATE);
 	zend_class_implements(phalcon_acl_component_ce, 1, phalcon_acl_componentinterface_ce);
 	return SUCCESS;
-}
-
-/**
- * Component description
- */
-PHP_METHOD(Phalcon_Acl_Component, getDescription)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "description");
-}
-
-/**
- * Component name
- */
-PHP_METHOD(Phalcon_Acl_Component, getName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
-}
-
-/**
- * Component name
- */
-PHP_METHOD(Phalcon_Acl_Component, __toString)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
 }
 
 /**
@@ -126,12 +90,39 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 	}
 
 
-	if (UNEXPECTED(ZEPHIR_IS_STRING(&name, "*"))) {
+	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name, "*"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 38);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description);
 	ZEPHIR_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Acl_Component, __toString)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
+}
+
+PHP_METHOD(Phalcon_Acl_Component, getDescription)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "description");
+}
+
+PHP_METHOD(Phalcon_Acl_Component, getName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
 }
 

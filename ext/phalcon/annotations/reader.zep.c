@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "phalcon/annotations/scanner.h"
 #include "phalcon/annotations/annot.h"
 
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&comment, &reflection, "getdoccomment", NULL, 153);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&comment) == IS_STRING) {
+	if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 		ZEPHIR_INIT_VAR(&classAnnotations);
 		ZEPHIR_CALL_METHOD(&_0$$3, &reflection, "getfilename", NULL, 154);
 		zephir_check_call_status();
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		zephir_array_keys(&arrayKeys, &constants);
 		ZEPHIR_INIT_VAR(&anotationsConstants);
 		array_init(&anotationsConstants);
-		zephir_is_iterable(&arrayKeys, 0, "phalcon/Annotations/Reader.zep", 93);
+		zephir_is_iterable(&arrayKeys, 0, "phalcon/Annotations/Reader.zep", 92);
 		if (Z_TYPE_P(&arrayKeys) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&arrayKeys), _2$$5)
 			{
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&comment, &constantReflection, "getdoccomment", NULL, 0);
 				zephir_check_call_status();
-				if (Z_TYPE_P(&comment) == IS_STRING) {
+				if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 					ZEPHIR_INIT_NVAR(&constantAnnotations);
 					ZEPHIR_CALL_METHOD(&_5$$7, &reflection, "getfilename", NULL, 154);
 					zephir_check_call_status();
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&comment, &constantReflection, "getdoccomment", NULL, 0);
 					zephir_check_call_status();
-					if (Z_TYPE_P(&comment) == IS_STRING) {
+					if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 						ZEPHIR_INIT_NVAR(&constantAnnotations);
 						ZEPHIR_CALL_METHOD(&_7$$10, &reflection, "getfilename", NULL, 154);
 						zephir_check_call_status();
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		line = 1;
 		ZEPHIR_INIT_VAR(&annotationsProperties);
 		array_init(&annotationsProperties);
-		zephir_is_iterable(&properties, 0, "phalcon/Annotations/Reader.zep", 132);
+		zephir_is_iterable(&properties, 0, "phalcon/Annotations/Reader.zep", 130);
 		if (Z_TYPE_P(&properties) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&properties), _9$$13)
 			{
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				ZVAL_COPY(&property, _9$$13);
 				ZEPHIR_CALL_METHOD(&comment, &property, "getdoccomment", NULL, 0);
 				zephir_check_call_status();
-				if (Z_TYPE_P(&comment) == IS_STRING) {
+				if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 					ZEPHIR_INIT_NVAR(&propertyAnnotations);
 					ZEPHIR_CALL_METHOD(&_11$$15, &reflection, "getfilename", NULL, 154);
 					zephir_check_call_status();
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&comment, &property, "getdoccomment", NULL, 0);
 					zephir_check_call_status();
-					if (Z_TYPE_P(&comment) == IS_STRING) {
+					if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 						ZEPHIR_INIT_NVAR(&propertyAnnotations);
 						ZEPHIR_CALL_METHOD(&_14$$18, &reflection, "getfilename", NULL, 154);
 						zephir_check_call_status();
@@ -256,10 +256,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 	}
 	ZEPHIR_CALL_METHOD(&methods, &reflection, "getmethods", NULL, 159);
 	zephir_check_call_status();
-	if (zephir_fast_count_int(&methods)) {
+	if (0 == ZEPHIR_IS_EMPTY(&methods)) {
 		ZEPHIR_INIT_VAR(&annotationsMethods);
 		array_init(&annotationsMethods);
-		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Reader.zep", 167);
+		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Reader.zep", 164);
 		if (Z_TYPE_P(&methods) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&methods), _17$$21)
 			{
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				ZVAL_COPY(&method, _17$$21);
 				ZEPHIR_CALL_METHOD(&comment, &method, "getdoccomment", NULL, 0);
 				zephir_check_call_status();
-				if (Z_TYPE_P(&comment) == IS_STRING) {
+				if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 					ZEPHIR_INIT_NVAR(&methodAnnotations);
 					ZEPHIR_CALL_METHOD(&_19$$23, &method, "getfilename", NULL, 0);
 					zephir_check_call_status();
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&comment, &method, "getdoccomment", NULL, 0);
 					zephir_check_call_status();
-					if (Z_TYPE_P(&comment) == IS_STRING) {
+					if (!ZEPHIR_IS_FALSE_IDENTICAL(&comment)) {
 						ZEPHIR_INIT_NVAR(&methodAnnotations);
 						ZEPHIR_CALL_METHOD(&_22$$26, &method, "getfilename", NULL, 0);
 						zephir_check_call_status();

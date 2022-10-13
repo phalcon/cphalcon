@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/main.h"
 #include "kernel/concat.h"
@@ -68,47 +68,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump)
 	phalcon_support_debug_dump_ce->create_object = zephir_init_properties_Phalcon_Support_Debug_Dump;
 
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Support_Debug_Dump, getDetailed)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "detailed");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Support_Debug_Dump, setDetailed)
-{
-	zval *detailed_param = NULL, __$true, __$false;
-	zend_bool detailed;
-	zval *this_ptr = getThis();
-
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_BOOL(detailed)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &detailed_param);
-	detailed = zephir_get_boolval(detailed_param);
-
-
-	if (detailed) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
-	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
-	}
-	RETURN_THISW();
 }
 
 /**
@@ -189,6 +148,42 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, all)
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_Support_Debug_Dump, getDetailed)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "detailed");
+}
+
+PHP_METHOD(Phalcon_Support_Debug_Dump, setDetailed)
+{
+	zval *detailed_param = NULL, __$true, __$false;
+	zend_bool detailed;
+	zval *this_ptr = getThis();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(detailed)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	zephir_fetch_params_without_memory_grow(1, 0, &detailed_param);
+	detailed = zephir_get_boolval(detailed_param);
+
+
+	if (detailed) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
+	}
 }
 
 /**
@@ -418,7 +413,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, variables)
 	ZEPHIR_INIT_VAR(&output);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_args(&_0);
-	zephir_is_iterable(&_0, 0, "phalcon/Support/Debug/Dump.zep", 181);
+	zephir_is_iterable(&_0, 0, "phalcon/Support/Debug/Dump.zep", 191);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -721,7 +716,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		ZEPHIR_CALL_FUNCTION(&_2$$4, "strtr", NULL, 5, &_3$$4, &_1$$4);
 		zephir_check_call_status();
 		zephir_concat_self(&output, &_2$$4);
-		zephir_is_iterable(variable, 0, "phalcon/Support/Debug/Dump.zep", 231);
+		zephir_is_iterable(variable, 0, "phalcon/Support/Debug/Dump.zep", 241);
 		if (Z_TYPE_P(variable) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(variable), _6$$4, _7$$4, _4$$4)
 			{
@@ -890,9 +885,9 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			ZEPHIR_CONCAT_VS(&_45$$11, &_44$$11, "[skipped]\n");
 			zephir_concat_self(&output, &_45$$11);
 		} else if (_42$$9) {
-			ZEPHIR_CALL_FUNCTION(&_46$$12, "get_object_vars", NULL, 429, variable);
+			ZEPHIR_CALL_FUNCTION(&_46$$12, "get_object_vars", NULL, 425, variable);
 			zephir_check_call_status();
-			zephir_is_iterable(&_46$$12, 0, "phalcon/Support/Debug/Dump.zep", 263);
+			zephir_is_iterable(&_46$$12, 0, "phalcon/Support/Debug/Dump.zep", 273);
 			if (Z_TYPE_P(&_46$$12) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_46$$12), _49$$12, _50$$12, _47$$12)
 				{
@@ -986,7 +981,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			ZVAL_LONG(&_67$$15, ((1 | 2) | 4));
 			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 158, &_67$$15);
 			zephir_check_call_status();
-			zephir_is_iterable(&props$$15, 0, "phalcon/Support/Debug/Dump.zep", 289);
+			zephir_is_iterable(&props$$15, 0, "phalcon/Support/Debug/Dump.zep", 299);
 			if (Z_TYPE_P(&props$$15) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&props$$15), _68$$15)
 				{
@@ -1126,7 +1121,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			ZEPHIR_CONCAT_VS(&_110$$18, &_109$$18, "[already listed]\n");
 			zephir_concat_self(&output, &_110$$18);
 		} else {
-			zephir_is_iterable(&attr, 0, "phalcon/Support/Debug/Dump.zep", 307);
+			zephir_is_iterable(&attr, 0, "phalcon/Support/Debug/Dump.zep", 317);
 			if (Z_TYPE_P(&attr) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attr), _111$$19)
 				{
@@ -1434,7 +1429,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, encode)
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 192, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Debug/Dump.zep", 356);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Debug/Dump.zep", 366);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

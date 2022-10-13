@@ -11,9 +11,11 @@
 namespace Phalcon\Encryption\Security\JWT\Exceptions;
 
 use Exception;
-use Throwable;
 
-class ValidatorException extends Exception implements Throwable
+/**
+ * Exception thrown when the validation does not pass for JWT
+ */
+class ValidatorException extends Exception
 {
 
 }

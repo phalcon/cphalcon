@@ -3,18 +3,21 @@ extern zend_class_entry *phalcon_domain_payload_payload_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload);
 
+PHP_METHOD(Phalcon_Domain_Payload_Payload, getException);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput);
-PHP_METHOD(Phalcon_Domain_Payload_Payload, getException);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setException);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setExtras);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setInput);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setMessages);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setOutput);
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setStatus);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_getexception, 0, 0, Throwable, 1)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getextras, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -29,9 +32,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getstatus, 0, 0, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getoutput, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_getexception, 0, 0, Throwable, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setexception, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
@@ -59,6 +59,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_se
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_domain_payload_payload_method_entry) {
+	PHP_ME(Phalcon_Domain_Payload_Payload, getException, arginfo_phalcon_domain_payload_payload_getexception, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getExtras, arginfo_phalcon_domain_payload_payload_getextras, ZEND_ACC_PUBLIC)
 #else
@@ -84,7 +85,6 @@ ZEPHIR_INIT_FUNCS(phalcon_domain_payload_payload_method_entry) {
 #else
 	PHP_ME(Phalcon_Domain_Payload_Payload, getOutput, NULL, ZEND_ACC_PUBLIC)
 #endif
-	PHP_ME(Phalcon_Domain_Payload_Payload, getException, arginfo_phalcon_domain_payload_payload_getexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setException, arginfo_phalcon_domain_payload_payload_setexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setExtras, arginfo_phalcon_domain_payload_payload_setextras, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setInput, arginfo_phalcon_domain_payload_payload_setinput, ZEND_ACC_PUBLIC)

@@ -42,7 +42,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var string
      */
-    protected defaultSerializer = "php" { get };
+    protected defaultSerializer = "php";
 
     /**
      * Name of the default TTL (time to live)
@@ -162,6 +162,16 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getAdapter() -> var
     {
         return this->adapter;
+    }
+
+    /**
+     * Name of the default serializer class
+     *
+     * @return string
+     */
+    public function getDefaultSerializer() -> string
+    {
+        return this->defaultSerializer;
     }
 
     /**

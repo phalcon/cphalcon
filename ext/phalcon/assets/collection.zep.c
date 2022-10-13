@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_array.h"
 #include "kernel/concat.h"
@@ -77,11 +77,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection)
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("join"), 1, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("isLocal"), 1, ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("isLocal"), 1, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("join"), 1, ZEND_ACC_PROTECTED);
 	/**
 	 * @var string
 	 */
@@ -111,127 +111,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection)
 	zend_class_implements(phalcon_assets_collection_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_assets_collection_ce, 1, zend_ce_aggregate);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getAssets)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "assets");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getAttributes)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "attributes");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getCodes)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "codes");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getFilters)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "filters");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getJoin)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "join");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getPrefix)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "prefix");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getSourcePath)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "sourcePath");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getTargetIsLocal)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "targetIsLocal");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getTargetPath)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "targetPath");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "targetUri");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Assets_Collection, getVersion)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "version");
 }
 
 /**
@@ -639,6 +518,54 @@ PHP_METHOD(Phalcon_Assets_Collection, count)
 }
 
 /**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getAssets)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "assets");
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getAttributes)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "attributes");
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getCodes)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "codes");
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getFilters)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "filters");
+}
+
+/**
  * Returns the generator of the class
  *
  * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
@@ -660,6 +587,30 @@ PHP_METHOD(Phalcon_Assets_Collection, getIterator)
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getJoin)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "join");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getPrefix)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "prefix");
 }
 
 /**
@@ -714,6 +665,66 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 }
 
 /**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getSourcePath)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "sourcePath");
+}
+
+/**
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetIsLocal)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "targetIsLocal");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetPath)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "targetPath");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "targetUri");
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getVersion)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "version");
+}
+
+/**
  * Checks this the asset is added to the collection.
  *
  * ```php
@@ -761,7 +772,7 @@ PHP_METHOD(Phalcon_Assets_Collection, has)
 	ZEPHIR_CALL_METHOD(&key, asset, "getassetkey", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("assets"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Assets/Collection.zep", 307);
+	zephir_is_iterable(&_0, 0, "phalcon/Assets/Collection.zep", 395);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{

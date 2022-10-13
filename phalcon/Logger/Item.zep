@@ -28,27 +28,27 @@ class Item
     /**
      * @var array
      */
-    protected context = [] { get };
-
-    /**
-     * @var string
-     */
-    protected message { get };
-
-    /**
-     * @var int
-     */
-    protected level { get };
-
-    /**
-     * @var string
-     */
-    protected levelName { get };
+    protected context = [];
 
     /**
      * @var DateTimeImmutable
      */
-    protected dateTime { get };
+    protected dateTime;
+
+    /**
+     * @var string
+     */
+    protected message;
+
+    /**
+     * @var int
+     */
+    protected level;
+
+    /**
+     * @var string
+     */
+    protected levelName;
 
     /**
      * Item constructor.
@@ -71,5 +71,45 @@ class Item
             this->level     = level,
             this->dateTime  = dateTime,
             this->context   = context;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContext() -> array
+    {
+        return this->context;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getDateTime() -> <DateTimeImmutable>
+    {
+        return this->dateTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage() -> string
+    {
+        return this->message;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel() -> int
+    {
+        return this->level;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLevelName() -> string
+    {
+        return this->levelName;
     }
 }

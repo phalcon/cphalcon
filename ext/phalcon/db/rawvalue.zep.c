@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 
 
@@ -50,30 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue)
 	 */
 	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("value"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- * Raw value without quoting or formatting
- */
-PHP_METHOD(Phalcon_Db_RawValue, getValue)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "value");
-}
-
-/**
- * Raw value without quoting or formatting
- */
-PHP_METHOD(Phalcon_Db_RawValue, __toString)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "value");
 }
 
 /**
@@ -117,5 +93,23 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_2$$5);
 	}
 	ZEPHIR_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Db_RawValue, __toString)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "value");
+}
+
+PHP_METHOD(Phalcon_Db_RawValue, getValue)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "value");
 }
 

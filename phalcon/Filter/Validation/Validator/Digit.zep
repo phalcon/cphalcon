@@ -76,7 +76,7 @@ class Digit extends AbstractValidator
             return true;
         }
 
-        if is_int(value) || ctype_digit(value) {
+        if is_int(value) || ctype_digit((string) value) {
             return true;
         }
 

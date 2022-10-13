@@ -93,7 +93,7 @@ class Security extends AbstractInjectionAware
     /**
      * @var int
      */
-    protected workFactor = 10 { get };
+    protected workFactor = 10;
 
     /**
      * @var SessionInterface|null
@@ -395,6 +395,14 @@ class Security extends AbstractInjectionAware
     }
 
     /**
+     * @return int
+     */
+    public function getWorkFactor() -> int
+    {
+        return this->workFactor;
+    }
+
+    /**
      * Creates a password hash using bcrypt with a pseudo random salt
      *
      * @param string $password
@@ -620,7 +628,7 @@ class Security extends AbstractInjectionAware
         var cost;
 
         if !fetch cost, options["cost"] {
-            let cost = 10;
+            let cost = this->workFactor;
         }
 
         if cost < 4 {

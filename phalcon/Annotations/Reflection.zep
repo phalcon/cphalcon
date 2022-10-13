@@ -31,37 +31,30 @@ namespace Phalcon\Annotations;
 class Reflection
 {
     /**
-     * @var array
-     * TODO: Make always array
+     * @var Collection|null
      */
-    protected classAnnotations;
+    protected classAnnotations = null;
 
     /**
      * @var array
-     * TODO: Make always array
      */
-    protected constantAnnotations;
+    protected constantAnnotations = [];
 
     /**
      * @var array
-     * TODO: Make always array
      */
-    protected propertyAnnotations;
+    protected propertyAnnotations = [];
 
     /**
      * @var array
-     * TODO: Make always array
      */
-    protected methodAnnotations;
+    protected methodAnnotations = [];
 
     /**
      * @var array
      */
     protected reflectionData = [];
 
-    /**
-     * Phalcon\Annotations\Reflection constructor
-     */
     public function __construct(array reflectionData = [])
     {
         let this->reflectionData = reflectionData;
@@ -69,16 +62,16 @@ class Reflection
 
     /**
      * Returns the annotations found in the class docblock
+     *
+     * @return Collection|null
      */
-    public function getClassAnnotations() -> <Collection> | bool
+    public function getClassAnnotations() -> <Collection> | null
     {
         var reflectionClass;
 
         if this->classAnnotations === null {
             if fetch reflectionClass, this->reflectionData["class"] {
                 let this->classAnnotations = new Collection(reflectionClass);
-            } else {
-                let this->classAnnotations = false;
             }
         }
 
@@ -87,27 +80,21 @@ class Reflection
 
     /**
      * Returns the annotations found in the constants' docblocks
+     *
+     * @return Collection[]
      */
-    public function getConstantsAnnotations() -> <Collection[]> | bool
+    public function getConstantsAnnotations() -> <Collection[]>
     {
         var reflectionConstants, constant, reflectionConstant;
 
-        if this->constantAnnotations === null {
-            if fetch reflectionConstants, this->reflectionData["constants"] {
-                if count(reflectionConstants) {
-                    let this->constantAnnotations = [];
-
-                    for constant, reflectionConstant in reflectionConstants {
-                        let this->constantAnnotations[constant] = new Collection(
-                            reflectionConstant
-                        );
-                    }
-
-                    return this->constantAnnotations;
+        if fetch reflectionConstants, this->reflectionData["constants"] {
+            if typeof reflectionConstants === "array" && count(reflectionConstants) > 0 {
+                for constant, reflectionConstant in reflectionConstants {
+                    let this->constantAnnotations[constant] = new Collection(
+                        reflectionConstant
+                    );
                 }
             }
-
-            let this->constantAnnotations = false;
         }
 
         return this->constantAnnotations;
@@ -115,27 +102,21 @@ class Reflection
 
     /**
      * Returns the annotations found in the properties' docblocks
+     *
+     * @return Collection[]
      */
-    public function getPropertiesAnnotations() -> <Collection[]> | bool
+    public function getPropertiesAnnotations() -> <Collection[]>
     {
         var reflectionProperties, property, reflectionProperty;
 
-        if this->propertyAnnotations === null {
-            if fetch reflectionProperties, this->reflectionData["properties"] {
-                if count(reflectionProperties) {
-                    let this->propertyAnnotations = [];
-
-                    for property, reflectionProperty in reflectionProperties {
-                        let this->propertyAnnotations[property] = new Collection(
-                            reflectionProperty
-                        );
-                    }
-
-                    return this->propertyAnnotations;
+        if fetch reflectionProperties, this->reflectionData["properties"] {
+            if typeof reflectionProperties === "array" && count(reflectionProperties) > 0 {
+                for property, reflectionProperty in reflectionProperties {
+                    let this->propertyAnnotations[property] = new Collection(
+                        reflectionProperty
+                    );
                 }
             }
-
-            let this->propertyAnnotations = false;
         }
 
         return this->propertyAnnotations;
@@ -143,27 +124,21 @@ class Reflection
 
     /**
      * Returns the annotations found in the methods' docblocks
+     *
+     * @return Collection[]
      */
-    public function getMethodsAnnotations() -> <Collection[]> | bool
+    public function getMethodsAnnotations() -> <Collection[]>
     {
         var reflectionMethods, methodName, reflectionMethod;
 
-        if this->methodAnnotations === null {
-            if fetch reflectionMethods, this->reflectionData["methods"] {
-                if count(reflectionMethods) {
-                    let this->methodAnnotations = [];
-
-                    for methodName, reflectionMethod in reflectionMethods {
-                        let this->methodAnnotations[methodName] = new Collection(
-                            reflectionMethod
-                        );
-                    }
-
-                    return this->methodAnnotations;
+        if fetch reflectionMethods, this->reflectionData["methods"] {
+            if typeof reflectionMethods === "array" && count(reflectionMethods) > 0 {
+                for methodName, reflectionMethod in reflectionMethods {
+                    let this->methodAnnotations[methodName] = new Collection(
+                        reflectionMethod
+                    );
                 }
             }
-
-            let this->methodAnnotations = false;
         }
 
         return this->methodAnnotations;
@@ -172,6 +147,8 @@ class Reflection
     /**
      * Returns the raw parsing intermediate definitions used to construct the
      * reflection
+     *
+     * @return array
      */
     public function getReflectionData() -> array
     {

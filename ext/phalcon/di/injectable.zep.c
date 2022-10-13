@@ -48,7 +48,7 @@
  * @property \Phalcon\Db\Adapter\AdapterInterface $db
  * @property \Phalcon\Encryption\Security $security
  * @property \Phalcon\Encryption\Crypt|\Phalcon\Encryption\Crypt\CryptInterface $crypt
- * @property \Phalcon\Tag $tag
+ * @property \Phalcon\Html\TagFactory $tag
  * @property \Phalcon\Html\Escaper|\Phalcon\Html\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
  * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
@@ -118,11 +118,11 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdi", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&container, &_0);
-	if (ZEPHIR_IS_STRING(&propertyName, "di")) {
+	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName, "di")) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("di"), &container);
 		RETURN_CCTOR(&container);
 	}
-	if (ZEPHIR_IS_STRING(&propertyName, "persistent")) {
+	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName, "persistent")) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		zephir_create_array(&_2$$4, 2, 0);
 		ZEPHIR_INIT_VAR(&_3$$4);
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
-	if (Z_TYPE_P(&container) != IS_OBJECT) {
+	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {

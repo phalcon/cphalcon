@@ -334,7 +334,9 @@ PHP_METHOD(Phalcon_Http_Cookie, delete)
 	ZEPHIR_CALL_METHOD(&_12, this_ptr, "getarrval", NULL, 332, &options, &_8, &httpOnly);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("httponly"), &_12, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 333, &name, &__$null, &options);
+	ZEPHIR_INIT_NVAR(&_8);
+	ZVAL_STRING(&_8, "");
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 333, &name, &_8, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -553,7 +555,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue)
 		if (zephir_is_true(&_2$$4)) {
 			zephir_read_property(&_3$$6, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CPY_WRT(&container, &_3$$6);
-			if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+			if (Z_TYPE_P(&container) == IS_NULL) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection container is required to access the 'filter' and 'crypt' services", "phalcon/Http/Cookie.zep", 265);
 				return;
 			}
@@ -586,7 +588,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue)
 				if (Z_TYPE_P(&container) == IS_NULL) {
 					zephir_read_property(&_7$$14, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CPY_WRT(&container, &_7$$14);
-					if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+					if (Z_TYPE_P(&container) == IS_NULL) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection container is required to access the 'filter' service", "phalcon/Http/Cookie.zep", 314);
 						return;
 					}
@@ -826,7 +828,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 		_7 = !(ZEPHIR_IS_EMPTY(&value));
 	}
 	if (_7) {
-		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+		if (Z_TYPE_P(&container) == IS_NULL) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection container is required to access the 'filter' service", "phalcon/Http/Cookie.zep", 462);
 			return;
 		}

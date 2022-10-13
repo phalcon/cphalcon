@@ -3,10 +3,10 @@ extern zend_class_entry *phalcon_http_request_file_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File);
 
+PHP_METHOD(Phalcon_Http_Request_File, __construct);
 PHP_METHOD(Phalcon_Http_Request_File, getError);
 PHP_METHOD(Phalcon_Http_Request_File, getExtension);
 PHP_METHOD(Phalcon_Http_Request_File, getKey);
-PHP_METHOD(Phalcon_Http_Request_File, __construct);
 PHP_METHOD(Phalcon_Http_Request_File, getName);
 PHP_METHOD(Phalcon_Http_Request_File, getRealType);
 PHP_METHOD(Phalcon_Http_Request_File, getSize);
@@ -16,6 +16,11 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 PHP_METHOD(Phalcon_Http_Request_File, getArrVal);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, file, 0)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_geterror, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
@@ -23,11 +28,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_getext
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_getkey, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
-	ZEND_ARG_ARRAY_INFO(0, file, 0)
-	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_file_getname, 0, 0, IS_STRING, 0)
@@ -59,10 +59,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file_getarrval, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
+	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Request_File, getError, arginfo_phalcon_http_request_file_geterror, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getExtension, arginfo_phalcon_http_request_file_getextension, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getKey, arginfo_phalcon_http_request_file_getkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Request_File, getName, arginfo_phalcon_http_request_file_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getRealType, arginfo_phalcon_http_request_file_getrealtype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getSize, arginfo_phalcon_http_request_file_getsize, ZEND_ACC_PUBLIC)

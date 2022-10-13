@@ -261,12 +261,8 @@ class Url extends AbstractInjectionAware implements UrlInterface
      */
     public function getStaticBaseUri() -> string
     {
-        var staticBaseUri;
-
-        let staticBaseUri = this->staticBaseUri;
-
-        if staticBaseUri !== null {
-            return staticBaseUri;
+        if this->staticBaseUri !== null {
+            return this->staticBaseUri;
         }
 
         return this->getBaseUri();

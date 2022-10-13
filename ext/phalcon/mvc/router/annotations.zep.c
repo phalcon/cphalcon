@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle)
 				object_init_ex(&route, phalcon_mvc_router_route_ce);
 				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_4, 97, &prefix);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_5$$6, &route, "getcompiledpattern", &_6, 488);
+				ZEPHIR_CALL_METHOD(&_5$$6, &route, "getcompiledpattern", &_6, 484);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_7$$6);
 				ZVAL_STRING(&_7$$6, "$#");
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle)
 					object_init_ex(&route, phalcon_mvc_router_route_ce);
 					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_4, 97, &prefix);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_28$$29, &route, "getcompiledpattern", &_6, 488);
+					ZEPHIR_CALL_METHOD(&_28$$29, &route, "getcompiledpattern", &_6, 484);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_29$$29);
 					ZVAL_STRING(&_29$$29, "$#");

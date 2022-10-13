@@ -24,6 +24,16 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 class Validator
 {
     /**
+     * @var array
+     */
+    private claims = [];
+
+    /**
+     * @var array
+     */
+    private errors = [];
+
+    /**
      * @var int
      */
     private timeShift = 0;
@@ -41,8 +51,41 @@ class Validator
      */
     public function __construct(<Token> token, int timeShift = 0)
     {
-        let this->token     = token,
-            this->timeShift = timeShift;
+        var now;
+
+        let now             = time(),
+            this->token     = token,
+            this->timeShift = timeShift,
+            this->claims    = [
+                Enum::AUDIENCE        : null,
+                Enum::EXPIRATION_TIME : now,
+                Enum::ID              : null,
+                Enum::ISSUED_AT       : now,
+                Enum::ISSUER          : null,
+                Enum::NOT_BEFORE      : now,
+                Enum::SUBJECT         : null
+            ];
+    }
+
+    public function getErrors() -> array
+    {
+        return this->errors;
+    }
+
+    public function get(string claim) -> mixed | null
+    {
+        if isset this->claims[claim] {
+            return this->claims[claim];
+        }
+
+        return null;
+    }
+
+    public function set(string claim, var value) -> <Validator>
+    {
+        let this->claims[claim] = value;
+
+        return this;
     }
 
     /**
@@ -58,17 +101,31 @@ class Validator
     }
 
     /**
-     * @param string $audience
+     * @param string|array $audience
      *
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateAudience(string! audience) -> <Validator>
+    public function validateAudience(var audience) -> <Validator>
     {
-        if (!in_array(audience, this->token->getClaims()->get(Enum::AUDIENCE, []))) {
+        var item, tokenAudience;
+
+        if (typeof audience !== "string" && typeof audience !== "array") {
             throw new ValidatorException(
-                "Validation: audience not allowed"
+                "Audience must be a string or an array"
             );
+        }
+
+        if (typeof audience === "string") {
+            let audience = [audience];
+        }
+
+        let tokenAudience = this->token->getClaims()->get(Enum::AUDIENCE, []);
+
+        for item in audience {
+            if (true !== in_array(item, tokenAudience)) {
+                let this->errors[] = "Validation: audience not allowed";
+            }
         }
 
         return this;
@@ -82,13 +139,15 @@ class Validator
      */
     public function validateExpiration(int timestamp) -> <Validator>
     {
+        var tokenExpirationTime;
+
+        let tokenExpirationTime = (int) this->token->getClaims()->get(Enum::EXPIRATION_TIME);
+
         if (
             this->token->getClaims()->has(Enum::EXPIRATION_TIME) &&
-            this->getTimestamp(timestamp) >= (int) this->token->getClaims()->get(Enum::EXPIRATION_TIME)
+            this->getTimestamp(timestamp) < $tokenExpirationTime
         ) {
-            throw new ValidatorException(
-                "Validation: the token has expired"
-            );
+            let this->errors[] = "Validation: the token has expired";
         }
 
         return this;
@@ -100,12 +159,14 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateId(string! id) -> <Validator>
+    public function validateId(string id) -> <Validator>
     {
-        if (id !== (string) this->token->getClaims()->get(Enum::ID)) {
-            throw new ValidatorException(
-                "Validation: incorrect Id"
-            );
+        var tokenId;
+
+        let tokenId = (string) this->token->getClaims()->get(Enum::ID);
+
+        if ($id !== tokenId) {
+            let this->errors[] = "Validation: incorrect Id";
         }
 
         return this;
@@ -119,10 +180,12 @@ class Validator
      */
     public function validateIssuedAt(int timestamp) -> <Validator>
     {
-        if (this->getTimestamp(timestamp) <= (int) this->token->getClaims()->get(Enum::ISSUED_AT)) {
-            throw new ValidatorException(
-                "Validation: the token cannot be used yet (future)"
-            );
+        var tokenIssuedAt;
+
+        let tokenIssuedAt = (int) this->token->getClaims()->get(Enum::ISSUED_AT);
+
+        if (this->getTimestamp($timestamp) <= tokenIssuedAt) {
+            let this->errors[] = "Validation: the token cannot be used yet (future)";
         }
 
         return this;
@@ -136,10 +199,12 @@ class Validator
      */
     public function validateIssuer(string! issuer) -> <Validator>
     {
-        if (issuer !== (string) this->token->getClaims()->get(Enum::ISSUER)) {
-            throw new ValidatorException(
-                "Validation: incorrect issuer"
-            );
+        var tokenIssuer;
+
+        let tokenIssuer = (string) this->token->getClaims()->get(Enum::ISSUER);
+
+        if (issuer !== tokenIssuer) {
+            let this->errors[] = "Validation: incorrect issuer";
         }
 
         return this;
@@ -153,10 +218,12 @@ class Validator
      */
     public function validateNotBefore(int timestamp) -> <Validator>
     {
-        if (this->getTimestamp(timestamp) <= (int) this->token->getClaims()->get(Enum::NOT_BEFORE)) {
-            throw new ValidatorException(
-                "Validation: the token cannot be used yet (not before)"
-            );
+        var tokenNotBefore;
+
+        let tokenNotBefore = (int) this->token->getClaims()->get(Enum::NOT_BEFORE);
+
+        if (this->getTimestamp($timestamp) <= tokenNotBefore) {
+            let this->errors[] = "Validation: the token cannot be used yet (not before)";
         }
 
         return this;
@@ -169,18 +236,18 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateSignature(<SignerInterface> signer, string passphrase) -> <Validator>
-    {
+    public function validateSignature(
+        <SignerInterface> signer,
+        string passphrase
+    ) -> <Validator> {
         if (
-            !signer->verify(
+            true !== signer->verify(
                 this->token->getSignature()->getHash(),
                 this->token->getPayload(),
                 passphrase
             )
         ) {
-            throw new ValidatorException(
-                "Validation: the signature does not match"
-            );
+            let this->errors[] = "Validation: the signature does not match";
         }
 
         return this;

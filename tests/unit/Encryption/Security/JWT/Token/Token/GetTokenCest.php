@@ -41,9 +41,8 @@ class GetTokenCest
 
         $token = new Token($headers, $claims, $signature);
 
-        $I->assertSame(
-            "header-encoded.claim-encoded.signature-encoded",
-            $token->getToken()
-        );
+        $expected = "header-encoded.claim-encoded.signature-encoded";
+        $actual   = $token->getToken();
+        $I->assertSame($expected, $actual);
     }
 }

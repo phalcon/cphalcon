@@ -39,7 +39,7 @@ class GetClassAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertFalse(
+        $I->assertNull(
             $reflection->getClassAnnotations()
         );
     }

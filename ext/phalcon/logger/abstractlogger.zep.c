@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 	zephir_fetch_params(1, 1, 0, &level);
 
 
-	if (1 == Z_TYPE_P(level) == IS_STRING) {
+	if (Z_TYPE_P(level) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&levelName);
 		zephir_fast_strtoupper(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);

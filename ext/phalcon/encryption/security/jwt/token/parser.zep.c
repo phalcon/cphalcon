@@ -32,7 +32,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Parser
+ * Token Parser class.
+ *
+ * It parses a token by validating if it is formed properly and splits it into
+ * three parts. The headers are decoded, then the claims and finally the
+ * signature. It returns a token object populated with the decoded information.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Parser)
 {
@@ -88,11 +92,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parse)
 	ZEPHIR_CALL_METHOD(&results, this_ptr, "parsetoken", NULL, 258, &token);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&encodedHeaders);
-	zephir_array_fetch_long(&encodedHeaders, &results, 0, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 33);
+	zephir_array_fetch_long(&encodedHeaders, &results, 0, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 37);
 	ZEPHIR_OBS_VAR(&encodedClaims);
-	zephir_array_fetch_long(&encodedClaims, &results, 1, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 34);
+	zephir_array_fetch_long(&encodedClaims, &results, 1, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 38);
 	ZEPHIR_OBS_VAR(&encodedSignature);
-	zephir_array_fetch_long(&encodedSignature, &results, 2, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 35);
+	zephir_array_fetch_long(&encodedSignature, &results, 2, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 39);
 	ZEPHIR_CALL_METHOD(&headers, this_ptr, "decodeheaders", NULL, 259, &encodedHeaders);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&claims, this_ptr, "decodeclaims", NULL, 260, &encodedClaims);
@@ -148,20 +152,20 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims)
 	ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decode", NULL, 263, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 63);
 		return;
 	}
 	_2 = zephir_array_isset_string(&decoded, SL("aud"));
 	if (_2) {
 		ZEPHIR_OBS_VAR(&_3);
-		zephir_array_fetch_string(&_3, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 65);
+		zephir_array_fetch_string(&_3, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 69);
 		_2 = Z_TYPE_P(&_3) != IS_ARRAY;
 	}
 	if (_2) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		zephir_create_array(&_4$$4, 1, 0);
 		ZEPHIR_OBS_VAR(&_5$$4);
-		zephir_array_fetch_string(&_5$$4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 66);
+		zephir_array_fetch_string(&_5$$4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 70);
 		zephir_array_fast_append(&_4$$4, &_5$$4);
 		zephir_array_update_string(&decoded, SL("aud"), &_4$$4, PH_COPY | PH_SEPARATE);
 	}
@@ -209,11 +213,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders)
 	ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decode", NULL, 263, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 88);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 92);
 		return;
 	}
 	if (!(zephir_array_isset_string(&decoded, SL("typ")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (missing 'typ' element)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 94);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (missing 'typ' element)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 98);
 		return;
 	}
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_item_ce);
@@ -321,7 +325,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken)
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("."), &token, LONG_MAX);
 	if (zephir_fast_count_int(&parts) != 3) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid JWT string (dots misalignment)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 140);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid JWT string (dots misalignment)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 144);
 		return;
 	}
 	RETURN_CCTOR(&parts);
@@ -404,7 +408,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decode)
 		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 192, &_6$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 163);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 167);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

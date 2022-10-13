@@ -79,21 +79,18 @@ class ValidateSignatureCest
         $I->wantToTest('Encryption\Security\JWT\Validator - validateSignature()');
 
         $token = $this->newToken();
-        $I->expectThrowable(
-            new ValidatorException(
-                "Validation: the signature does not match"
-            ),
-            function () use ($token, $I) {
-                $signer     = new Hmac();
-                $passphrase = '123456';
-                $validator  = new Validator($token);
-                $I->assertInstanceOf(Validator::class, $validator);
+        $signer     = new Hmac();
+        $passphrase = '123456';
+        $validator  = new Validator($token);
+        $I->assertInstanceOf(Validator::class, $validator);
 
-                $I->assertInstanceOf(
-                    Validator::class,
-                    $validator->validateSignature($signer, $passphrase)
-                );
-            }
+        $I->assertInstanceOf(
+            Validator::class,
+            $validator->validateSignature($signer, $passphrase)
         );
+
+        $expected = ["Validation: the signature does not match"];
+        $actual   = $validator->getErrors();
+        $I->assertSame($expected, $actual);
     }
 }

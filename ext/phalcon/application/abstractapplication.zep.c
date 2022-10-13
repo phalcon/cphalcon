@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
@@ -19,7 +20,6 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct)
 	}
 
 
-	if (Z_TYPE_P(container) == IS_OBJECT) {
+	if (Z_TYPE_P(container) != IS_NULL) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 	}
 }

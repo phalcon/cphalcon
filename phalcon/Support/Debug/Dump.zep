@@ -39,7 +39,7 @@ class Dump
     /**
      * @var bool
      */
-    protected detailed = false { get, set };
+    protected detailed = false;
 
     /**
      * @var array
@@ -74,6 +74,16 @@ class Dump
             ],
             func_get_args()
         );
+    }
+
+    public function getDetailed() -> bool
+    {
+        return this->detailed;
+    }
+
+    public function setDetailed(bool detailed) -> void
+    {
+        let this->detailed = detailed;
     }
 
     /**

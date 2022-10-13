@@ -41,6 +41,8 @@ class GetPayloadCest
 
         $token = new Token($headers, $claims, $signature);
 
-        $I->assertSame("header-encoded.claim-encoded", $token->getPayload());
+        $expected = "header-encoded.claim-encoded";
+        $actual   = $token->getPayload();
+        $I->assertSame($expected, $actual);
     }
 }

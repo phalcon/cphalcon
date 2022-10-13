@@ -46,29 +46,53 @@ class Index implements IndexInterface
      *
      * @var array
      */
-    protected columns { get };
+    protected columns;
 
     /**
      * Index name
      *
      * @var string
      */
-    protected name { get };
+    protected name;
 
     /**
      * Index type
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Db\Index constructor
      */
     public function __construct(string! name, array! columns, string type = "")
     {
-        let this->name = name;
+        let this->name    = name;
         let this->columns = columns;
-        let this->type = type;
+        let this->type    = type;
+    }
+
+    /**
+     * Index columns
+     */
+    public function getColumns() -> array
+    {
+        return this->columns;
+    }
+
+    /**
+     * Index name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Index type
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 }

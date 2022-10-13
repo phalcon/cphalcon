@@ -76,7 +76,7 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
 
-        if unlikely typeof definition != "array" {
+        if unlikely typeof definition !== "array" {
             throw new Exception(
                 "Definition must be an array to obtain its parameters"
             );
@@ -136,7 +136,7 @@ class Service implements ServiceInterface
             instance = null;
 
         let definition = this->definition;
-        if typeof definition == "string" {
+        if typeof definition === "string" {
             /**
              * String definitions can be class names without implicit parameters
              */
@@ -155,12 +155,11 @@ class Service implements ServiceInterface
                 let found = false;
             }
         } else {
-
             /**
              * Object definitions can be a Closure or an already resolved
              * instance
              */
-            if typeof definition == "object" {
+            if typeof definition === "object" {
                 if definition instanceof Closure {
 
                     /**
@@ -234,7 +233,7 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
 
-        if unlikely typeof definition != "array" {
+        if unlikely typeof definition !== "array" {
             throw new Exception(
                 "Definition must be an array to update its parameters"
             );

@@ -37,14 +37,14 @@ class Event implements EventInterface
      *
      * @var mixed
      */
-    protected data { get };
+    protected data;
 
     /**
      * Event source
      *
      * @var object|null
      */
-    protected source { get };
+    protected source = null;
 
     /**
      * Is event propagation stopped?
@@ -58,7 +58,7 @@ class Event implements EventInterface
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Events\Event constructor
@@ -67,7 +67,7 @@ class Event implements EventInterface
      */
     public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
     {
-        if unlikely null !== source && typeof source != "object" {
+        if unlikely null !== source && typeof source !== "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );
@@ -76,6 +76,21 @@ class Event implements EventInterface
             this->source     = source,
             this->data       = data,
             this->cancelable = cancelable;
+    }
+
+    public function getData() -> var
+    {
+        return this->data;
+    }
+
+    public function getSource() -> object | null
+    {
+        return this->source;
+    }
+
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**

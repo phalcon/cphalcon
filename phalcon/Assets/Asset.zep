@@ -44,7 +44,7 @@ class Asset implements AssetInterface
     /**
      * @var bool
      */
-    protected filter { get };
+    protected filter;
 
     /**
      * @var bool
@@ -54,34 +54,34 @@ class Asset implements AssetInterface
     /**
      * @var string
      */
-    protected path { get };
+    protected path;
 
     /**
      * @var string
      */
-    protected sourcePath { get };
+    protected sourcePath;
 
     /**
      * @var string
      */
-    protected targetPath { get };
+    protected targetPath;
 
     /**
      * @var string
      */
-    protected targetUri { get };
+    protected targetUri;
 
     /**
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Version of resource
      *
      * @var string|null
      */
-    protected version { get };
+    protected version;
 
     /**
      * Asset constructor.
@@ -175,6 +175,16 @@ class Asset implements AssetInterface
         return content;
     }
 
+    public function getFilter() -> bool
+    {
+        return this->filter;
+    }
+
+    public function getPath() -> string
+    {
+        return this->path;
+    }
+
     /**
      * Returns the complete location where the asset is located
      *
@@ -255,6 +265,39 @@ class Asset implements AssetInterface
         }
 
         return target;
+    }
+
+    public function getSourcePath() -> string
+    {
+        return this->sourcePath;
+    }
+
+    public function getTargetPath() -> string
+    {
+        return this->targetPath;
+    }
+
+    public function getTargetUri() -> string
+    {
+        return this->targetUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
+    }
+
+    /**
+     * Version of resource
+     *
+     * @return string|null
+     */
+    public function getVersion() -> string | null
+    {
+        return this->version;
     }
 
     /**

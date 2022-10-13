@@ -336,8 +336,8 @@ Thanks!
 [nanobox]: https://nanobox.io
 [nanobox-doc]: https://docs.nanobox.io/install
 [docker]: https://www.docker.com
-[codeception]: http://codeception.com
+[codeception]: https://codeception.com
 [compose]: https://docs.docker.com/compose
-[composer]: http://getcomposer.org
-[codeception-intro]: http://codeception.com/docs/01-Introduction
-[codeception-cmds]: http://codeception.com/docs/reference/Commands
+[composer]: https://getcomposer.org
+[codeception-intro]: https://codeception.com/docs/01-Introduction
+[codeception-cmds]: https://codeception.com/docs/reference/Commands

@@ -53,7 +53,7 @@ abstract class AbstractStr
     /**
      * Interpolates context values into the message placeholders
      *
-     * @see http://www.php-fig.org/psr/psr-3/ Section 1.2 Message
+     * @see https://www.php-fig.org/psr/psr-3/ Section 1.2 Message
      *
      * @param string $input
      * @param array  $context

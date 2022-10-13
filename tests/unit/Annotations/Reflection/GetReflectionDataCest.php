@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Reflection;
 use UnitTester;
 
 class GetReflectionDataCest
@@ -27,6 +28,9 @@ class GetReflectionDataCest
     {
         $I->wantToTest('Annotations\Reflection - getReflectionData()');
 
-        $I->skipTest('Need implementation');
+        $reflection = new Reflection();
+
+        $I->assertIsArray($reflection->getReflectionData());
+        $I->assertIsEmpty($reflection->getReflectionData());
     }
 }

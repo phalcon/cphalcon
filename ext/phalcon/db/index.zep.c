@@ -83,42 +83,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 }
 
 /**
- * Index columns
- */
-PHP_METHOD(Phalcon_Db_Index, getColumns)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "columns");
-}
-
-/**
- * Index name
- */
-PHP_METHOD(Phalcon_Db_Index, getName)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "name");
-}
-
-/**
- * Index type
- */
-PHP_METHOD(Phalcon_Db_Index, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
-}
-
-/**
  * Phalcon\Db\Index constructor
  */
 PHP_METHOD(Phalcon_Db_Index, __construct)
@@ -167,5 +131,41 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Index columns
+ */
+PHP_METHOD(Phalcon_Db_Index, getColumns)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "columns");
+}
+
+/**
+ * Index name
+ */
+PHP_METHOD(Phalcon_Db_Index, getName)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "name");
+}
+
+/**
+ * Index type
+ */
+PHP_METHOD(Phalcon_Db_Index, getType)
+{
+	zval *this_ptr = getThis();
+
+
+
+	RETURN_MEMBER(getThis(), "type");
 }
 

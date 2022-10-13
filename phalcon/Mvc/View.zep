@@ -104,7 +104,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var int
      */
-    protected currentRenderLevel = 0 { get };
+    protected currentRenderLevel = 0;
 
     /**
      * @var bool
@@ -164,12 +164,12 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var array
      */
-    protected registeredEngines = [] { get };
+    protected registeredEngines = [];
 
     /**
      * @var int
      */
-    protected renderLevel = 5 { get };
+    protected renderLevel = 5;
 
     /**
      * @var array
@@ -335,7 +335,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
             activeRenderPath = this->activeRenderPaths;
 
         if viewsDirsCount === 1 {
-            if typeof activeRenderPath == "array" && count(activeRenderPath) {
+            if typeof activeRenderPath === "array" && count(activeRenderPath) {
                 let activeRenderPath = activeRenderPath[0];
             }
         }
@@ -369,6 +369,30 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getControllerName() -> string
     {
         return this->controllerName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentRenderLevel() -> int
+    {
+        return this->currentRenderLevel;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegisteredEngines() -> array
+    {
+        return this->registeredEngines;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRenderLevel() -> int
+    {
+        return this->renderLevel;
     }
 
     /**
@@ -485,7 +509,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Perform extra configurations over the cloned object
          */
-        if typeof configCallback == "object" {
+        if typeof configCallback === "object" {
             call_user_func_array(configCallback, [view]);
         }
 
@@ -607,7 +631,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
          * If the developer pass an array of variables we create a new virtual
          * symbol table
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             /**
              * Merge the new params as parameters
              */
@@ -637,7 +661,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Now we need to restore the original view parameters
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             /**
              * Restore the original view params
              */
@@ -667,7 +691,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     {
         var pickView, layout, parts;
 
-        if typeof renderView == "array" {
+        if typeof renderView === "array" {
             let pickView = renderView;
         } else {
             let layout = null;
@@ -885,7 +909,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     public function setTemplateAfter(var templateAfter) -> <View>
     {
-        if typeof templateAfter != "array" {
+        if typeof templateAfter !== "array" {
             let this->templatesAfter = [templateAfter];
         } else {
             let this->templatesAfter = templateAfter;
@@ -899,7 +923,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     public function setTemplateBefore(var templateBefore) -> <View>
     {
-        if typeof templateBefore != "array" {
+        if typeof templateBefore !== "array" {
             let this->templatesBefore = [templateBefore];
         } else {
             let this->templatesBefore = templateBefore;
@@ -952,7 +976,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     {
         var position, directory, newViewsDir;
 
-        if typeof viewsDir != "string" && typeof viewsDir != "array" {
+        if typeof viewsDir !== "string" && typeof viewsDir !== "array" {
             throw new Exception("Views directory must be a string or an array");
         }
 
@@ -1053,7 +1077,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                      * Call beforeRenderView if there is an events manager
                      * available
                      */
-                    if typeof eventsManager == "object" {
+                    if typeof eventsManager === "object" {
                         let this->activeRenderPaths = [viewEnginePath];
 
                         if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
@@ -1063,7 +1087,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
                     engine->render(viewEnginePath, viewParams, mustClean);
 
-                    if typeof eventsManager == "object" {
+                    if typeof eventsManager === "object" {
                         eventsManager->fire("view:afterRenderView", this);
                     }
 
@@ -1077,7 +1101,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Notify about not found views
          */
-        if typeof eventsManager == "object" {
+        if typeof eventsManager === "object" {
             let this->activeRenderPaths = viewEnginePaths;
 
             eventsManager->fire("view:notFoundView", this, viewEnginePath);
@@ -1095,7 +1119,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     final protected function isAbsolutePath(string path)
     {
-        if PHP_OS == "WINNT" {
+        if PHP_OS === "WINNT" {
             return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
         }
 
@@ -1264,7 +1288,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Call beforeRender if there is an events manager
          */
-        if fireEvents && typeof eventsManager == "object" {
+        if fireEvents && typeof eventsManager === "object" {
             if eventsManager->fire("view:beforeRender", this) === false {
                 return false;
             }
@@ -1381,7 +1405,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Call afterRender event
          */
-        if fireEvents && typeof eventsManager == "object" {
+        if fireEvents && typeof eventsManager === "object" {
             eventsManager->fire("view:afterRender", this);
         }
 

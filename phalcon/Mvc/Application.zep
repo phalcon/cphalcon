@@ -123,7 +123,7 @@ class Application extends AbstractApplication
          */
         let matchedRoute = router->getMatchedRoute();
 
-        if typeof matchedRoute == "object" {
+        if typeof matchedRoute === "object" {
             let match = matchedRoute->getMatch();
 
             if match !== null {
@@ -142,7 +142,7 @@ class Application extends AbstractApplication
                 /**
                  * If the returned value is a string return it as body
                  */
-                if typeof possibleResponse == "string" {
+                if typeof possibleResponse === "string" {
                     let response = <ResponseInterface> container->getShared("response");
 
                     response->setContent(possibleResponse);
@@ -154,7 +154,7 @@ class Application extends AbstractApplication
                  * If the returned string is a ResponseInterface use it as
                  * response
                  */
-                if typeof possibleResponse == "object" && possibleResponse instanceof ResponseInterface {
+                if typeof possibleResponse === "object" && possibleResponse instanceof ResponseInterface {
                     possibleResponse->sendHeaders();
                     possibleResponse->sendCookies();
 
@@ -178,7 +178,7 @@ class Application extends AbstractApplication
          * Process the module definition
          */
         if moduleName {
-            if typeof eventsManager == "object" {
+            if typeof eventsManager === "object" {
                 if eventsManager->fire("application:beforeStartModule", this, moduleName) === false {
                     return false;
                 }
@@ -192,7 +192,7 @@ class Application extends AbstractApplication
             /**
              * A module definition must ne an array or an object
              */
-            if unlikely (typeof module != "array" && typeof module != "object") {
+            if unlikely (typeof module !== "array" && typeof module !== "object") {
                 throw new Exception("Invalid module definition");
             }
 
@@ -200,7 +200,7 @@ class Application extends AbstractApplication
              * An array module definition contains a path to a module definition
              * class
              */
-            if typeof module == "array" {
+            if typeof module === "array" {
                 /**
                  * Class name used to load the module definition
                  */
@@ -250,7 +250,7 @@ class Application extends AbstractApplication
             /**
              * Calling afterStartModule event
              */
-            if typeof eventsManager == "object" {
+            if typeof eventsManager === "object" {
                 eventsManager->fire("application:afterStartModule", this, moduleObject);
             }
         }
@@ -311,7 +311,7 @@ class Application extends AbstractApplication
             /**
              * Returning a string makes use it as the body of the response
              */
-            if typeof possibleResponse == "string" {
+            if typeof possibleResponse === "string" {
                 let response = <ResponseInterface> container->getShared("response");
 
                 response->setContent(possibleResponse);
@@ -324,7 +324,7 @@ class Application extends AbstractApplication
                 /**
                  * Calling afterHandleRequest
                  */
-                if typeof eventsManager == "object" {
+                if typeof eventsManager === "object" {
                     eventsManager->fire("application:afterHandleRequest", this, controller);
                 }
 
@@ -333,7 +333,7 @@ class Application extends AbstractApplication
                  * in auto-rendering mode
                  */
                 if returnedResponse === false && implicitView === true {
-                    if typeof controller == "object" {
+                    if typeof controller === "object" {
                         let renderStatus = true;
 
                         /**
@@ -393,14 +393,14 @@ class Application extends AbstractApplication
         /**
          * Calling beforeSendResponse
          */
-        if typeof eventsManager == "object" {
+        if typeof eventsManager === "object" {
             eventsManager->fire("application:beforeSendResponse", this, response);
         }
 
         /**
          * Check whether send headers or not (by default yes)
          */
-        if this->sendHeaders  {
+        if this->sendHeaders {
             response->sendHeaders();
         }
 

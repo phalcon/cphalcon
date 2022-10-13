@@ -221,7 +221,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
+        if container === null {
             throw new Exception(
                 "A dependency injection container is required to access the 'response' service",
                 Exception::EXCEPTION_NO_DI

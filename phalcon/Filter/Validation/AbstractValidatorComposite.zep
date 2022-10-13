@@ -20,7 +20,15 @@ abstract class AbstractValidatorComposite extends AbstractValidator implements V
     /**
      * @var array
      */
-    protected validators = [] { get };
+    protected validators = [];
+
+    /**
+     * @return array
+     */
+    public function getValidators() -> array
+    {
+        return this->validators;
+    }
 
     /**
      * Executes the validation
