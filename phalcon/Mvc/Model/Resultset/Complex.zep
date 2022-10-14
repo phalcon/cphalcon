@@ -289,16 +289,8 @@ class Complex extends Resultset implements ResultsetInterface
      */
     public function serialize() -> string
     {
-        var records, cache, columnTypes, hydrateMode, container, serializer;
-
-        /**
-         * Obtain the records as an array
-         */
-        let records = this->toArray();
-
-        let cache       = this->cache,
-            columnTypes = this->columnTypes,
-            hydrateMode = this->hydrateMode;
+        var container, serializer;
+        array data;
 
         let container = Di::getDefault();
         if container === null {
@@ -307,29 +299,21 @@ class Complex extends Resultset implements ResultsetInterface
             );
         }
 
+        let data = [
+            "cache"       : this->cache,
+            "rows"        : this->toArray(),
+            "columnTypes" : this->columnTypes,
+            "hydrateMode" : this->hydrateMode
+        ];
+
         if container->has("serializer") {
             let serializer = <SerializerInterface> container->getShared("serializer");
-
-            serializer->setData(
-                [
-                    "cache"       : cache,
-                    "rows"        : records,
-                    "columnTypes" : columnTypes,
-                    "hydrateMode" : hydrateMode
-                ]
-            );
+            serializer->setData(data);
 
             return serializer->serialize();
         }
 
-        return serialize(
-            [
-                "cache"       : cache,
-                "rows"        : records,
-                "columnTypes" : columnTypes,
-                "hydrateMode" : hydrateMode
-            ]
-        );
+        return serialize(data);
     }
 
     /**
@@ -394,37 +378,15 @@ class Complex extends Resultset implements ResultsetInterface
 
     public function __unserialize(array data) -> void
     {
-        var resultset, container, serializer;
-
         /**
          * Rows are already hydrated
          */
         let this->disableHydration = true;
 
-        let container = Di::getDefault();
-        if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
-        }
-
-        if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-
-            serializer->unserialize(data);
-            let resultset = serializer->getData();
-        } else {
-            let resultset = unserialize(data);
-        }
-
-        if unlikely typeof resultset != "array" {
-            throw new Exception("Invalid serialization data");
-        }
-
-        let this->rows        = resultset["rows"],
-            this->count       = count(resultset["rows"]),
-            this->cache       = resultset["cache"],
-            this->columnTypes = resultset["columnTypes"],
-            this->hydrateMode = resultset["hydrateMode"];
+        let this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnTypes = data["columnTypes"],
+            this->hydrateMode = data["hydrateMode"];
     }
 }
