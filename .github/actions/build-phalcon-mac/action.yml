@@ -12,7 +12,7 @@ runs:
     - name: Configure macOS Environment
       shell: bash
       run: |
-        sudo xcode-select -s /Applications/Xcode_12.app
+        sudo xcode-select -s /Applications/Xcode_13.app
         xcodebuild -version
 
     - name: 'Build Phalcon for macOS'
