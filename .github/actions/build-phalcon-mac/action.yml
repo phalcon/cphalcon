@@ -11,6 +11,7 @@ runs:
   steps:
     - name: Configure macOS Environment
       shell: bash
+      # Xcode paths: https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
       run: |
         sudo xcode-select -s /Applications/Xcode_13.app
         xcodebuild -version
