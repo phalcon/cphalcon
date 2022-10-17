@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Fixtures\Traits;
 
 use UnitTester;
+
 use function dataDir;
 
 trait TranslateGettextTrait

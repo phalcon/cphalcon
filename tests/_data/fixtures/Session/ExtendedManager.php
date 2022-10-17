@@ -15,8 +15,6 @@ namespace Phalcon\Tests\Fixtures\Session;
 
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
-use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\AdapterFactory;
 
 class ExtendedManager extends Manager
 {
