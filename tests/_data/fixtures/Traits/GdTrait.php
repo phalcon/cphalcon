@@ -236,7 +236,7 @@ trait GdTrait
     /**
      * @author https://github.com/xwiz/phash
      *
-     * @param $img
+     * @param     $img
      * @param int $thumbwidth
      * @param int $thumbheight
      * @param int $width

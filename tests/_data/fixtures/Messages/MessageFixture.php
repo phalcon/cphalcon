@@ -117,6 +117,7 @@ class MessageFixture implements MessageInterface
      * Sets code for the message
      *
      * @param int $code
+     *
      * @return $this|MessageInterface
      */
     public function setCode(int $code): MessageInterface
@@ -130,6 +131,7 @@ class MessageFixture implements MessageInterface
      * Sets field name related to message
      *
      * @param string $field
+     *
      * @return $this|MessageInterface
      */
     public function setField(string $field): MessageInterface
@@ -143,6 +145,7 @@ class MessageFixture implements MessageInterface
      * Sets verbose message
      *
      * @param string $message
+     *
      * @return $this|MessageInterface
      */
     public function setMessage(string $message): MessageInterface
@@ -156,6 +159,7 @@ class MessageFixture implements MessageInterface
      * Sets message metadata
      *
      * @param array $metaData
+     *
      * @return $this|MessageInterface
      */
     public function setMetaData(array $metaData): MessageInterface
@@ -169,6 +173,7 @@ class MessageFixture implements MessageInterface
      * Sets message type
      *
      * @param string $type
+     *
      * @return $this|MessageInterface
      */
     public function setType(string $type): MessageInterface
