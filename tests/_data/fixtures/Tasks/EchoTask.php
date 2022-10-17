@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Tasks;
 
-class EchoTask extends \Phalcon\Cli\Task
+use Phalcon\Cli\Task;
+
+class EchoTask extends Task
 {
     public function mainAction()
     {

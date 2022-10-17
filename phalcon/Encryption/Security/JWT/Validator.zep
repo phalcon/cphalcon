@@ -145,7 +145,7 @@ class Validator
 
         if (
             this->token->getClaims()->has(Enum::EXPIRATION_TIME) &&
-            this->getTimestamp(timestamp) < $tokenExpirationTime
+            this->getTimestamp(timestamp) > $tokenExpirationTime
         ) {
             let this->errors[] = "Validation: the token has expired";
         }

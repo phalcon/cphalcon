@@ -129,7 +129,9 @@ trait ConfigTrait
         $config = $this->getConfig($adapter);
 
         $expected = 'memory';
-        $actual   = $config->get('models')->get('metadata');
+        $actual   = $config->get('models')
+                           ->get('metadata')
+        ;
         $I->assertEquals($expected, $actual);
     }
 
@@ -230,7 +232,9 @@ trait ConfigTrait
         $config = $this->getConfig($adapter);
 
         $expected = 'memory';
-        $actual   = $config->offsetGet('models')->offsetGet('metadata');
+        $actual   = $config->offsetGet('models')
+                           ->offsetGet('metadata')
+        ;
         $I->assertEquals($expected, $actual);
     }
 

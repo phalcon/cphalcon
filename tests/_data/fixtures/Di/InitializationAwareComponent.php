@@ -17,8 +17,6 @@ use Phalcon\Di\InitializationAwareInterface;
 
 /**
  * Class InitializationAwareComponent
- *
- * @package Phalcon\Tests\Fixtures\Di
  */
 class InitializationAwareComponent implements InitializationAwareInterface
 {

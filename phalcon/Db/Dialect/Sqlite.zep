@@ -384,7 +384,7 @@ class Sqlite extends Dialect
 
         // SQLite has dynamic column typing. The conversion below maximizes
         // compatibility with other DBMS's while following the type affinity
-        // rules: http://www.sqlite.org/datatype3.html.
+        // rules: https://www.sqlite.org/datatype3.html.
         switch columnType {
 
             case Column::TYPE_BIGINTEGER:

@@ -1971,7 +1971,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var status, behavior, modelsBehaviors, eventsManager,
             customEventsManager;
 
-        let status = null;
+        let status = true;
 
         /**
          * Dispatch events to the global events manager

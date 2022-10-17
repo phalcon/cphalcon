@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Tasks;
 
-class OnConstructTask extends \Phalcon\Cli\Task
+use Phalcon\Cli\Task;
+
+class OnConstructTask extends Task
 {
     public $onConstructExecuted = false;
 

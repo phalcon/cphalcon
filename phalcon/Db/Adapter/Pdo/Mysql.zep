@@ -539,7 +539,7 @@ class Mysql extends PdoAdapter
             } elseif index["Non_unique"] == 0 {
                 let indexes[keyName]["type"] = "UNIQUE";
             } else {
-                let indexes[keyName]["type"] = null;
+                let indexes[keyName]["type"] = "";
             }
         }
 

@@ -31,7 +31,7 @@ else
   fi
 
 	# If a `*.gch' (or a `*.pch') file is not found then the normal header files
-	# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
+	# will be used. For more see: https://en.wikipedia.org/wiki/Precompiled_header
   while IFS= read -r -d '' file
   do
     # shellcheck disable=SC2046

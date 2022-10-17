@@ -1,3 +1,13 @@
+# [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
+
+## Fixed
+- Fixed `Phalcon\Encryption\Security` to take into account the `workFactor` in the cost calculation [#16153](https://github.com/phalcon/cphalcon/issues/16153)
+- Removed double unserializing during Model caching [#16035](https://github.com/phalcon/cphalcon/issues/16035), [#16131](https://github.com/phalcon/cphalcon/issues/16131)
+- Fixed `Phalcon\Db\Adapter\Pdo\Mysql::describeIndexes` to assign an empty string in the index type of `null` and remove warnings [#16157](https://github.com/phalcon/cphalcon/issues/16157)
+- Fixed `Phalcon\Db\Adapter\Pdo\Sqlite::describeIndexes` to assign an empty string in the index type of `null` and remove warnings [#16157](https://github.com/phalcon/cphalcon/issues/16157)
+- Fixed `Phalcon\Mvc\Model\Manager::notifyEvent` to return `true` instead of `null` on success [#16161](https://github.com/phalcon/cphalcon/issues/16161)
+- Fixed `Phalcon\Encryption\Security\JWT\Validator::validateExpiration` to correctly validate the `exp` claim [#16166](https://github.com/phalcon/cphalcon/issues/16166)
+
 # [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (2022-10-06)
 
 ## Changed
@@ -203,8 +213,8 @@
 - Changes to `Phalcon\Autoload\Loader`:
   - Renamed `registerClasses()` to `setClasses()`
   - Renamed `registerDirectories()` to `setDirectories()`
-  - Renamed `registertExtensions()` to `setExtensions()`
-  - Renamed `registertFiles()` to `setFiles()`
+  - Renamed `registerExtensions()` to `setExtensions()`
+  - Renamed `registerFiles()` to `setFiles()`
   - Renamed `registerNamespaces()` to `setNamespaces()` [#15797](https://github.com/phalcon/cphalcon/issues/15797)
 - Moved `Phalcon\Di` to `Phalcon\Di\Di` [#15799](https://github.com/phalcon/cphalcon/issues/15799)
 - Removed references to `Phalcon\Tag` from the framework in favor of `Phalcon\Html\TagFactory` [#15801](https://github.com/phalcon/cphalcon/issues/15801)

@@ -20,8 +20,8 @@ use Phalcon\Html\EscaperInterface;
  *
  * @package Phalcon\Tests\Fixtures\Di
  *
- * @property string           $name
- * @property int              $type
+ * @property string $name
+ * @property int    $type
  */
 class ServiceComponent
 {

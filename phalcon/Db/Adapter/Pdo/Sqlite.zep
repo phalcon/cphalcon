@@ -362,7 +362,7 @@ class Sqlite extends PdoAdapter
                     let indexes[keyName]["type"] = "PRIMARY";
                 }
             } else {
-                let indexes[keyName]["type"] = null;
+                let indexes[keyName]["type"] = "";
             }
         }
 

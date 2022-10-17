@@ -73,7 +73,7 @@ namespace Phalcon\Encryption\Security;
  *
  * This class partially borrows SecureRandom library from Ruby
  *
- * @link http://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
+ * @link https://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
  */
 class Random
 {
