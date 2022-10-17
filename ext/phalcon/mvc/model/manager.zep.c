@@ -3745,7 +3745,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent)
 
 
 	ZEPHIR_INIT_VAR(&status);
-	ZVAL_NULL(&status);
+	ZVAL_BOOL(&status, 1);
 	ZEPHIR_OBS_VAR(&modelsBehaviors);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("behaviors"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);

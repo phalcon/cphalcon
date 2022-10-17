@@ -1,4 +1,4 @@
-# [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (xxxx-xx-xx)
+# [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
 
 ## Fixed
 - Fixed `Phalcon\Encryption\Security` to take into account the `workFactor` in the cost calculation [#16153](https://github.com/phalcon/cphalcon/issues/16153)

@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Decode)
  * @return mixed
  *
  * @throws InvalidArgumentException if the JSON cannot be decoded.
- * @link http://www.php.net/manual/en/function.json-decode.php
+ * @link https://www.php.net/manual/en/function.json-decode.php
  */
 PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 {

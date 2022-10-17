@@ -1191,8 +1191,8 @@ PHP_METHOD(Phalcon_Encryption_Security, processCost)
 
 	ZEPHIR_OBS_VAR(&cost);
 	if (!(zephir_array_isset_string_fetch(&cost, &options, SL("cost"), 0))) {
-		ZEPHIR_INIT_NVAR(&cost);
-		ZVAL_LONG(&cost, 10);
+		ZEPHIR_OBS_NVAR(&cost);
+		zephir_read_property(&cost, this_ptr, ZEND_STRL("workFactor"), PH_NOISY_CC);
 	}
 	if (ZEPHIR_LT_LONG(&cost, 4)) {
 		ZEPHIR_INIT_NVAR(&cost);

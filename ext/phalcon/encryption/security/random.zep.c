@@ -92,7 +92,7 @@
  *
  * This class partially borrows SecureRandom library from Ruby
  *
- * @link http://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
+ * @link https://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Random)
 {

@@ -54,7 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Encode)
  * @return string
  *
  * @throws JsonException if the JSON cannot be encoded.
- * @link http://www.php.net/manual/en/function.json-encode.php
+ * @link https://www.php.net/manual/en/function.json-encode.php
  */
 PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 {
