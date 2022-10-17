@@ -38,7 +38,7 @@ class ValidateExpirationCest
         $I->wantToTest('Encryption\Security\JWT\Validator - validateExpiration()');
 
         $token = $this->newToken();
-        $timestamp = strtotime(("-2 days"));
+        $timestamp = strtotime(("+2 days"));
         $validator = new Validator($token);
         $I->assertInstanceOf(Validator::class, $validator);
 

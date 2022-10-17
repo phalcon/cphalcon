@@ -60,7 +60,7 @@ class ValidateCest
 
         $validator
             ->set(Enum::AUDIENCE, 'my-audience')
-            ->set(Enum::EXPIRATION_TIME, $expiry)
+            ->set(Enum::EXPIRATION_TIME, $now)
             ->set(Enum::ISSUER, 'Phalcon JWT')
             ->set(Enum::ISSUED_AT, $issued)
             ->set(Enum::ID, 'PH-JWT')
