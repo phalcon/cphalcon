@@ -250,7 +250,7 @@ class Config extends Collection implements ConfigInterface
         let this->lowerKeys[key] = element;
 
         if typeof value === "array" {
-            let data[element] = new Config(value);
+            let data[element] = new Config(value, this->insensitive);
         } else {
             let data[element] = value;
         }
