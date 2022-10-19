@@ -294,12 +294,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
             );
         }
 
-        if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
-            throw new Exception(
-                "The name contains non alphanum characters"
-            );
-        }
-
         let this->name = name;
 
         session_name(name);
