@@ -1,3 +1,9 @@
+# [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
+- Fixed `Phalcon\Config\Adapter\Groupped::__construct` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
+
 # [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
 
 ## Fixed
