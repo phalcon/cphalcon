@@ -83,4 +83,42 @@ class ConfigCest
         $actual   = new Config($settings);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Test insensitive in sub arrays
+     *
+     * @param UnitTester $I
+     *
+     * @return void
+     *
+     * @issue  16171
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-10-19
+     */
+    public function configConfigConfigInsensitive(UnitTester $I)
+    {
+        $settings = [
+            'database' => [
+                'adapter'  => 'Mysql',
+                'host'     => 'localhost',
+                'username' => 'scott',
+                'password' => 'cheetah',
+                'name'     => 'test_db',
+            ],
+            'other'    => [1, 2, 3, 4],
+        ];
+        $config = new Config($settings, false);
+
+        /** @var Config $database */
+        $database = $config->get('database');
+
+        $class = Config::class;
+        $I->assertInstanceOf($class, $database);
+
+        $actual = $database->has('adapter');
+        $I->assertTrue($actual);
+
+        $actual = $database->has('ADAPTER');
+        $I->assertFalse($actual);
+    }
 }
