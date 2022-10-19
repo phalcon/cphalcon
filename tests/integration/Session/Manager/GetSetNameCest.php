@@ -51,29 +51,6 @@ class GetSetNameCest
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function sessionManagerGetNameNotValidName(IntegrationTester $I)
-    {
-        $I->wantToTest('Session\Manager - getName()/setName() - not valid name');
-        $I->expectThrowable(
-            new Exception('The name contains non alphanum characters'),
-            function () {
-                $manager = new Manager();
-                $files   = $this->newService('sessionStream');
-                $manager->setAdapter($files);
-
-                $manager->setName('%-gga34');
-            }
-        );
-    }
-
-    /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - session started
      *
      * @param IntegrationTester $I
