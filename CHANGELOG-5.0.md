@@ -3,7 +3,8 @@
 ## Fixed
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
 - Fixed `Phalcon\Config\Adapter\Groupped::__construct` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
-
+- Fixed `Phalcon\Session\Manager::setName`, removing the regex check for the name for custom adapters to work with `create_sid()` [#16170](https://github.com/phalcon/cphalcon/issues/16170)
+ 
 # [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
 
 ## Fixed
