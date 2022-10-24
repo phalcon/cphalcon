@@ -1585,7 +1585,7 @@ PHP_METHOD(Phalcon_Forms_Form, label)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_ARRAY_OR_NULL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1603,7 +1603,6 @@ PHP_METHOD(Phalcon_Forms_Form, label)
 	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
-		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}

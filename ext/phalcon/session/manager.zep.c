@@ -671,12 +671,16 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, _0;
+	zval *name_param = NULL, _0, _1, _2, _3, _4;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -694,6 +698,17 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "Cannot set session name after a session has started", "phalcon/Session/Manager.zep", 294);
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "/^[\\p{L}\\p{N}_-]+$/u");
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "/^[\\p{L}\\p{N}_-]+$/u");
+	zephir_preg_match(&_3, &_4, &name, &_1, 0, 0 , 0 );
+	if (UNEXPECTED(!zephir_is_true(&_3))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 300);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
@@ -783,7 +798,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC);
 	if (UNEXPECTED(!(zephir_is_instance_of(&_2, SL("SessionHandlerInterface"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 338);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 344);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&value);
