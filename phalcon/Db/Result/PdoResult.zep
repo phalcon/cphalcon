@@ -211,29 +211,24 @@ class PdoResult implements ResultInterface
      * $robots = $result->fetchAll();
      *```
      *
-     * @param int|null            $fetchStyle
-     * @param int|string|callable $fetchArgument
-     * @param array|null          $constructorArgs
+     * @param int                      $mode
+     * @param int|string|callable|null $fetchArgument
+     * @param array|null               $constructorArgs
      */
     public function fetchAll(
-        int fetchStyle = null,
-        mixed fetchArgument = Pdo::FETCH_ORI_NEXT,
-        mixed constructorArgs = 0
+        int mode = Enum::FETCH_DEFAULT,
+        var fetchArgument = Pdo::FETCH_ORI_NEXT,
+        var constructorArgs = 0
     ) -> array {
-        var pdoStatement, mode;
-
-        let pdoStatement = this->pdoStatement;
-        let mode = typeof fetchStyle === "int" ? fetchStyle : this->fetchMode;
-
         if fetchStyle == Enum::FETCH_CLASS {
-            return pdoStatement->fetchAll(mode, fetchArgument, constructorArgs);
+            return this->pdoStatement->fetchAll(mode, fetchArgument, constructorArgs);
         }
 
         if fetchStyle == Enum::FETCH_COLUMN || fetchStyle == Enum::FETCH_FUNC {
-            return pdoStatement->fetchAll(fetchStyle, fetchArgument);
+            return this->pdoStatement->fetchAll(fetchStyle, fetchArgument);
         }
 
-        return pdoStatement->fetchAll(fetchStyle);
+        return this->pdoStatement->fetchAll(fetchStyle);
     }
 
     /**
