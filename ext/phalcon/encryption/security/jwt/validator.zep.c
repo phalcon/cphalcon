@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 		ZVAL_LONG(&_9, timestamp);
 		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 264, &_9);
 		zephir_check_call_status();
-		_7 = ZEPHIR_LT_LONG(&_8, tokenExpirationTime);
+		_7 = ZEPHIR_GT_LONG(&_8, tokenExpirationTime);
 	}
 	if (_7) {
 		ZEPHIR_INIT_ZVAL_NREF(_10$$3);
