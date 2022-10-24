@@ -220,15 +220,15 @@ class PdoResult implements ResultInterface
         var fetchArgument = Pdo::FETCH_ORI_NEXT,
         var constructorArgs = 0
     ) -> array {
-        if fetchStyle == Enum::FETCH_CLASS {
+        if mode == Enum::FETCH_CLASS {
             return this->pdoStatement->fetchAll(mode, fetchArgument, constructorArgs);
         }
 
-        if fetchStyle == Enum::FETCH_COLUMN || fetchStyle == Enum::FETCH_FUNC {
-            return this->pdoStatement->fetchAll(fetchStyle, fetchArgument);
+        if mode == Enum::FETCH_COLUMN || mode == Enum::FETCH_FUNC {
+            return this->pdoStatement->fetchAll(mode, fetchArgument);
         }
 
-        return this->pdoStatement->fetchAll(fetchStyle);
+        return this->pdoStatement->fetchAll(mode);
     }
 
     /**
