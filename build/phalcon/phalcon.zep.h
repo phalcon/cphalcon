@@ -17486,9 +17486,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetch, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetchall, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, fetchStyle, IS_LONG, 1)
-	ZEND_ARG_TYPE_INFO(0, fetchArgument, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, ctorArgs, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
+	ZEND_ARG_INFO(0, fetchArgument)
+	ZEND_ARG_INFO(0, constructorArgs)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdoresult_fetcharray, 0, 0, 0)
@@ -21029,9 +21029,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 #if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 1, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 #else
-	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 #endif
 ZEND_END_ARG_INFO()
 

@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *element = NULL, element_sub, *value, value_sub, data, key, _0, _2$$3;
+	zval *element = NULL, element_sub, *value, value_sub, data, key, _0, _2$$3, _3$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
@@ -529,6 +529,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -559,7 +560,8 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_config_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 22, value);
+		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("insensitive"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 22, value, &_3$$3);
 		zephir_check_call_status();
 		zephir_array_update_zval(&data, element, &_2$$3, PH_COPY | PH_SEPARATE);
 	} else {
