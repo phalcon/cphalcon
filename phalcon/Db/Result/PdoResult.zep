@@ -213,7 +213,7 @@ class PdoResult implements ResultInterface
      *
      * @param int|null            $fetchStyle
      * @param int|string|callable $fetchArgument
-     * @param int|array|null      $constructorArgs
+     * @param array|null          $constructorArgs
      */
     public function fetchAll(
         int fetchStyle = null,
