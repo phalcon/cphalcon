@@ -19,8 +19,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 /**
- * Class StartCest
- *
  * @package Phalcon\Tests\Integration\Session\Manager
  */
 class StartCest

@@ -111,7 +111,7 @@ class Grouped extends Config
                 }
 
                 let configArray    = configInstance["config"],
-                    configInstance = new Config(configArray);
+                    configInstance = new Config(configArray, this->insensitive);
             } else {
                 let configInstance = (new ConfigFactory())->load(configInstance);
             }
