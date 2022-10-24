@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Result;
 
+use Pdo;
 use Phalcon\Db\Enum;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -184,11 +185,8 @@ class PdoResult implements ResultInterface
      * }
      *```
      */
-    public function $fetch(
-        int fetchStyle = null,
-        int cursorOrientation = \PDO::FETCH_ORI_NEXT,
-        int cursorOffset = 0
-    ) {
+    public function $fetch(int fetchStyle = null, int cursorOrientation = Pdo::FETCH_ORI_NEXT, int cursorOffset = 0)
+    {
         var mode;
 
         let mode = typeof fetchStyle === "int" ? fetchStyle : this->fetchMode;
@@ -219,7 +217,7 @@ class PdoResult implements ResultInterface
      */
     public function fetchAll(
         int mode = Enum::FETCH_DEFAULT,
-        var fetchArgument = \PDO::FETCH_ORI_NEXT,
+        var fetchArgument = Pdo::FETCH_ORI_NEXT,
         var constructorArgs = null
     ) -> array {
         if mode == Enum::FETCH_CLASS {
