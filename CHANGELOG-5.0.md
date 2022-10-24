@@ -1,11 +1,10 @@
-# [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
+# [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (xxxx-xx-xx)
 
 ## Fixed
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
-- Fixed `Phalcon\Config\Adapter\Grouped::__construct` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
+- Fixed `Phalcon\Config\Adapter\Groupped::__construct` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
 - Fixed `Phalcon\Session\Manager::setName`, removing the regex check for the name for custom adapters to work with `create_sid()` [#16170](https://github.com/phalcon/cphalcon/issues/16170)
 - Fixed `PdoResult::fetchAll` when passed class name in 2nd argument [#16177](https://github.com/phalcon/cphalcon/issues/16177)
-- Fixed `Phalcon\Form::label()` to have the correct default parameter type [#16180](https://github.com/phalcon/cphalcon/issues/16180)
  
 # [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
 
