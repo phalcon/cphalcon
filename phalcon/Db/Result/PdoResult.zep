@@ -218,7 +218,7 @@ class PdoResult implements ResultInterface
     public function fetchAll(
         int mode = Enum::FETCH_DEFAULT,
         var fetchArgument = Pdo::FETCH_ORI_NEXT,
-        var constructorArgs = 0
+        var constructorArgs = null
     ) -> array {
         if mode == Enum::FETCH_CLASS {
             return this->pdoStatement->fetchAll(mode, fetchArgument, constructorArgs);
