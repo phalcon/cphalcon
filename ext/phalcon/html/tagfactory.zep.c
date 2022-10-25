@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 		zephir_check_call_status();
@@ -115,13 +115,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_create_array(&_2$$3, 1, 0);
 		ZEPHIR_OBS_VAR(&_3$$3);
-		zephir_read_property(&_3$$3, this_ptr, SL("escaper"), PH_NOISY_CC);
+		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
 		zephir_array_fast_append(&_2$$3, &_3$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
-	zephir_read_property(&_4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 57);
 	RETURN_CTOR(&_5);
 

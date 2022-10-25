@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
 
 }
 
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
 	if (raw) {
 		ZEPHIR_CPY_WRT(&content, &text);
 	} else {
-		zephir_read_property(&_0, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&content, &_0, "escapehtml", NULL, 0, &text);
 		zephir_check_call_status();
 	}
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				zephir_read_property(&_11$$4, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_11$$4, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_12$$4, &_11$$4, "escapehtmlattr", NULL, 0, &value);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_13$$4);
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					zephir_read_property(&_20$$7, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_20$$7, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CALL_METHOD(&_21$$7, &_20$$7, "escapehtmlattr", NULL, 0, &value);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_22$$7);

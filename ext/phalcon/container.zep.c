@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container) {
 	 */
 	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_container_ce, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
+	zend_class_implements(phalcon_container_ce, 1, zephir_get_internal_ce(SL("psrext\\container\\containerinterface")));
 	return SUCCESS;
 
 }
@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Container, get) {
 
 
 
-	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getshared", NULL, 0, name);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Container, has) {
 
 
 
-	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, name);
 	zephir_check_call_status();
 	RETURN_MM();

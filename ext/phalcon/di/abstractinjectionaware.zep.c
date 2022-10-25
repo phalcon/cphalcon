@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 

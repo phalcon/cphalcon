@@ -28372,7 +28372,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, 
 #else
 	ZEND_ARG_INFO(0, name)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100

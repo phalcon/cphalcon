@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("record"), record);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("record"), record);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("record"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("record"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&record, &_0);
 	if (Z_TYPE_P(&record) != IS_NULL) {
 		ZEPHIR_RETURN_CALL_METHOD(&record, "getmessages", NULL, 0);

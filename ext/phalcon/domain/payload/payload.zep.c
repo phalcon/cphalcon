@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setException) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("exception"), exception);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("exception"), exception);
 	RETURN_THISW();
 
 }
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setExtras) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("extras"), extras);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("extras"), extras);
 	RETURN_THISW();
 
 }
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setInput) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("input"), input);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("input"), input);
 	RETURN_THISW();
 
 }
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setMessages) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("messages"), messages);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), messages);
 	RETURN_THISW();
 
 }
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setOutput) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("output"), output);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("output"), output);
 	RETURN_THISW();
 
 }
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setStatus) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("status"), status);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("status"), status);
 	RETURN_THISW();
 
 }

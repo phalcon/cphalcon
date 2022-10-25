@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, SL("defaultAccess"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
 
 }
 
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 
 }
 

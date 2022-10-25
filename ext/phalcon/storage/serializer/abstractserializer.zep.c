@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 
 }
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 
 }
 

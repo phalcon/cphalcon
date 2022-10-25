@@ -63,8 +63,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("view"), view);
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("view"), view);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getcontent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

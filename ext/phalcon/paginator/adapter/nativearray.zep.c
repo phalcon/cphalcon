@@ -85,19 +85,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
 	ZEPHIR_OBS_VAR(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/NativeArray.zep", 54);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 54);
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/NativeArray.zep", 57);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/NativeArray.zep", 57);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, SL("limitRows"), PH_NOISY_CC);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	show = zephir_get_intval(&_1);
 	ZEPHIR_OBS_VAR(&_2);
-	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	if (pageNumber <= 0) {
 		pageNumber = 1;
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	ZVAL_LONG(&_7, number);
 	zephir_array_update_string(&_6, SL("total_items"), &_7, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_VAR(&_8);
-	zephir_read_property(&_8, this_ptr, SL("limitRows"), PH_NOISY_CC);
+	zephir_read_property(&_8, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("limit"), &_8, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_6, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_7);

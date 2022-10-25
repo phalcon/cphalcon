@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		line = 1;
 		ZEPHIR_INIT_VAR(&annotationsProperties);
 		array_init(&annotationsProperties);
-		zephir_is_iterable(&properties, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reader.zep", 92);
+		zephir_is_iterable(&properties, 0, "phalcon/Annotations/Reader.zep", 92);
 		if (Z_TYPE_P(&properties) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&properties), _2$$5)
 			{
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 					zephir_check_call_status();
 					if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_6$$8);
-						zephir_read_property(&_6$$8, &property, SL("name"), PH_NOISY_CC);
+						zephir_read_property(&_6$$8, &property, ZEND_STRL("name"), PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsProperties, &_6$$8, &propertyAnnotations, PH_COPY | PH_SEPARATE);
 					}
 				}
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 						zephir_check_call_status();
 						if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_9$$11);
-							zephir_read_property(&_9$$11, &property, SL("name"), PH_NOISY_CC);
+							zephir_read_property(&_9$$11, &property, ZEND_STRL("name"), PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsProperties, &_9$$11, &propertyAnnotations, PH_COPY | PH_SEPARATE);
 						}
 					}
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	if (zephir_fast_count_int(&methods)) {
 		ZEPHIR_INIT_VAR(&annotationsMethods);
 		array_init(&annotationsMethods);
-		zephir_is_iterable(&methods, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reader.zep", 127);
+		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Reader.zep", 127);
 		if (Z_TYPE_P(&methods) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&methods), _10$$13)
 			{
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 					zephir_check_call_status();
 					if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_14$$16);
-						zephir_read_property(&_14$$16, &method, SL("name"), PH_NOISY_CC);
+						zephir_read_property(&_14$$16, &method, ZEND_STRL("name"), PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsMethods, &_14$$16, &methodAnnotations, PH_COPY | PH_SEPARATE);
 					}
 				}
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 						zephir_check_call_status();
 						if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_17$$19);
-							zephir_read_property(&_17$$19, &method, SL("name"), PH_NOISY_CC);
+							zephir_read_property(&_17$$19, &method, ZEND_STRL("name"), PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsMethods, &_17$$19, &methodAnnotations, PH_COPY | PH_SEPARATE);
 						}
 					}

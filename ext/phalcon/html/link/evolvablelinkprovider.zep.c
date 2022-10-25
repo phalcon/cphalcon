@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Link, EvolvableLinkProvider, phalcon, html_link_evolvablelinkprovider, phalcon_html_link_linkprovider_ce, phalcon_html_link_evolvablelinkprovider_method_entry, 0);
 
-	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, zephir_get_internal_ce(SL("psr\\link\\evolvablelinkproviderinterface")));
+	zend_class_implements(phalcon_html_link_evolvablelinkprovider_ce, 1, zephir_get_internal_ce(SL("psrext\\link\\evolvablelinkproviderinterface")));
 	return SUCCESS;
 
 }
@@ -115,10 +115,10 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, this_ptr, SL("links"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_unset(&links, &key, PH_SEPARATE);
-	zephir_update_property_zval(&newInstance, SL("links"), &links);
+	zephir_update_property_zval(&newInstance, ZEND_STRL("links"), &links);
 	RETURN_CCTOR(&newInstance);
 
 }

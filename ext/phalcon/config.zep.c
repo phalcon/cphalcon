@@ -85,12 +85,12 @@ PHP_METHOD(Phalcon_Config, getPathDelimiter) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("pathDelimiter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("pathDelimiter"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, ".");
-		zephir_update_property_zval(this_ptr, SL("pathDelimiter"), &_1$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("pathDelimiter"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "pathDelimiter");
 
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Config, setPathDelimiter) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("pathDelimiter"), &delimiter);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pathDelimiter"), &delimiter);
 	RETURN_THIS();
 
 }
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Config, setData) {
 
 	zephir_get_strval(&_0, element);
 	ZEPHIR_CPY_WRT(element, &_0);
-	zephir_read_property(&_1, this_ptr, SL("insensitive"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("insensitive"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 24, element);
 		zephir_check_call_status();

@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
 	ZEPHIR_MM_RESTORE();
 
 }
