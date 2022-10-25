@@ -1,0 +1,37 @@
+# For local development only.
+
+version: '3'
+
+services:
+  cphalcon-4-7.3:
+    container_name: cphalcon-4-7.3
+    hostname: cphalcon-73
+    build: docker/7.3
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
+  mysql:
+    container_name: cphalcon-4-mysql
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=phalcon
+      - MYSQL_DATABASE=phalcon
+      - MYSQL_PASSWORD=secret
+
+  postgres:
+    container_name: cphalcon-4-postgres
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=phalcon
+      - POSTGRES_DB=phalcon
+
+  redis:
+    container_name: cphalcon-4-redis
+    image: redis:5-alpine
+
+  memcached:
+    container_name: cphalcon-4-memcached
+    image: memcached:1.5-alpine
