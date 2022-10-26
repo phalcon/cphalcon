@@ -196,6 +196,10 @@ class RenderCest
     {
         $I->wantToTest('Mvc\View\Simple - render() - childobject');
 
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/currentrender/subobject.volt.php')
+        );
+
         $view = $this->container->get('viewSimple');
 
         $view->registerEngines(
@@ -209,8 +213,12 @@ class RenderCest
 
         $view->setVar('parentObject', $parent);
 
-        $expected = 'My name is Sam and I am 20 years old';
+        $expected = 'Value';
         $actual   = $view->render('currentrender/subobject');
         $I->assertEquals($expected, $actual);
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/currentrender/subobject.volt.php')
+        );
     }
 }

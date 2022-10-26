@@ -1,1 +1,1 @@
-{{ parentObject.childObject.getValue() }}
+{{ parentObject.child.getValue() }}
