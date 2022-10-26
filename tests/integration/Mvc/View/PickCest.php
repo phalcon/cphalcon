@@ -50,10 +50,9 @@ class PickCest
         $view->render('currentrender', 'another');
         $view->finish();
 
-        $I->assertEquals(
-            'Well, this is the view content: here.',
-            $view->getContent()
-        );
+        $expected = 'Well, this is the view content: here.';
+        $actual   = $view->getContent();
+        $I->assertEquals($expected, $actual);
 
 
         $view->start();
@@ -62,9 +61,8 @@ class PickCest
         $view->render('currentrender', 'another');
         $view->finish();
 
-        $I->assertEquals(
-            'Well, this is the view content: here.',
-            $view->getContent()
-        );
+        $expected = 'Well, this is the view content: here.';
+        $actual   = $view->getContent();
+        $I->assertEquals($expected, $actual);
     }
 }

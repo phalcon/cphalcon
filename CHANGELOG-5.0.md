@@ -1,4 +1,9 @@
-# [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (xxxx-xx-xx)
+# [5.0.6](https://github.com/phalcon/cphalcon/releases/tag/v5.0.6) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::isTagFactory` to correctly detect a `TagFactory` object without throwing an error [#16097](https://github.com/phalcon/cphalcon/issues/16097)
+
+# [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 
 ## Fixed
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)

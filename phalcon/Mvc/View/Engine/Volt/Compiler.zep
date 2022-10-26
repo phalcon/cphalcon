@@ -2898,7 +2898,7 @@ class Compiler implements InjectionAwareInterface
                     /**
                      * There is a "name" so that is nested, recursion
                      */
-                    if typeof left["name"] === "array" {
+                    if isset left["name"] && typeof left["name"] === "array" {
                         return this->isTagFactory(left);
                     }
                 }
