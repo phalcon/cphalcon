@@ -50,15 +50,13 @@ class GetModuleCest
 
         $console->registerModules($definition);
 
-        $I->assertEquals(
-            $definition['frontend'],
-            $console->getModule('frontend')
-        );
+        $expected = $definition['frontend'];
+        $actual   = $console->getModule('frontend');
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            $definition['backend'],
-            $console->getModule('backend')
-        );
+        $expected = $definition['backend'];
+        $actual   = $console->getModule('backend');
+        $I->assertSame($expected, $actual);
     }
 
     /**

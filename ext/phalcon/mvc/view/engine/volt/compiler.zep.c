@@ -5003,9 +5003,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, statementListOrExtends)
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, isTagFactory)
 {
+	zend_bool _0$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *expression_param = NULL, left, leftValue, name, _0$$6;
+	zval *expression_param = NULL, left, leftValue, name, _1$$6;
 	zval expression;
 	zval *this_ptr = getThis();
 
@@ -5013,7 +5014,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, isTagFactory)
 	ZVAL_UNDEF(&left);
 	ZVAL_UNDEF(&leftValue);
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&_0$$6);
+	ZVAL_UNDEF(&_1$$6);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -5035,9 +5036,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, isTagFactory)
 			if (zephir_array_isset_string_fetch(&leftValue, &left, SL("value"), 0)) {
 				RETURN_MM_BOOL((ZEPHIR_IS_STRING_IDENTICAL(&leftValue, "tag")));
 			} else {
-				ZEPHIR_OBS_VAR(&_0$$6);
-				zephir_array_fetch_string(&_0$$6, &left, SL("name"), PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2901);
-				if (Z_TYPE_P(&_0$$6) == IS_ARRAY) {
+				_0$$6 = zephir_array_isset_string(&left, SL("name"));
+				if (_0$$6) {
+					ZEPHIR_OBS_VAR(&_1$$6);
+					zephir_array_fetch_string(&_1$$6, &left, SL("name"), PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2901);
+					_0$$6 = Z_TYPE_P(&_1$$6) == IS_ARRAY;
+				}
+				if (_0$$6) {
 					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "istagfactory", NULL, 504, &left);
 					zephir_check_call_status();
 					RETURN_MM();

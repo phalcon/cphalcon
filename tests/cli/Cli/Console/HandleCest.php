@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
+use Codeception\Example;
 use Exception;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
+use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Tests\Fixtures\Tasks\Issue787Task;
@@ -29,12 +31,28 @@ class HandleCest
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
+     * @dataProvider getExamplesHandle
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
+     * @throws ConsoleException
+     * @throws RouterException
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function handle(CliTester $I)
+    public function cliConsoleHandle(CliTester $I, Example $example)
     {
-        $I->wantToTest("Cli\Console - handle()");
+        $label         = $example['label'];
+        $arguments     = $example['arguments'];
+        $taskName      = $example['taskName'];
+        $actionName    = $example['actionName'];
+        $params        = $example['params'];
+        $returnedValue = $example['returnedValue'];
+
+        $I->wantToTest("Cli\Console - handle() " . $label);
 
         $container = new DiFactoryDefault();
 
@@ -47,112 +65,28 @@ class HandleCest
 
         $console = new CliConsole($container);
 
-        $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher = $console->getDI()
+                              ->getShared('dispatcher')
+        ;
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
-        $console->handle([]);
+        $console->handle($arguments);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = $taskName;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
+        $expected = $actionName;
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
+        $expected = $params;
+        $actual   = $dispatcher->getParams();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'mainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task' => 'echo',
-            ]
-        );
-
-        $I->assertEquals(
-            'echo',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'echoMainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task'   => 'main',
-                'action' => 'hello',
-            ]
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task'   => 'main',
-                'action' => 'hello',
-                'World',
-                '######',
-            ]
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ['World', '######'],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello World######',
-            $dispatcher->getReturnedValue()
-        );
+        $expected = $returnedValue;
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -195,21 +129,17 @@ class HandleCest
             }
         );
 
+        $expected = 'main';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = 'throw';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'throw',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            'backend',
-            $dispatcher->getModuleName()
-        );
+        $expected = 'backend';
+        $actual   = $dispatcher->getModuleName();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -236,9 +166,7 @@ class HandleCest
         $I->expectThrowable(
             new Exception('Console Boot Event Fired'),
             function () use ($console) {
-                $console->handle(
-                    []
-                );
+                $console->handle();
             }
         );
     }
@@ -536,9 +464,63 @@ class HandleCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
             Issue787Task::$output
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamplesHandle(): array
+    {
+        return [
+            [
+                'label'         => 'default',
+                'arguments'     => [],
+                'taskName'      => 'main',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'mainAction',
+            ],
+            [
+                'label'         => 'task',
+                'arguments'     => [
+                    'task' => 'echo',
+                ],
+                'taskName'      => 'echo',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'echoMainAction',
+            ],
+            [
+                'label'         => 'task action',
+                'arguments'     => [
+                    'task'   => 'main',
+                    'action' => 'hello',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [],
+                'returnedValue' => 'Hello !',
+            ],
+            [
+                'label'         => 'task action params',
+                'arguments'     => [
+                    'task'   => 'main',
+                    'action' => 'hello',
+                    'World',
+                    '#####',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [
+                    'World',
+                    '#####',
+                ],
+                'returnedValue' => 'Hello World#####',
+            ],
+        ];
     }
 }

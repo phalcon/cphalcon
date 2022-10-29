@@ -45,6 +45,6 @@ class ConstructCest
         $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
-        $I->assertEquals($di, $container->getValue($console));
+        $I->assertSame($di, $container->getValue($console));
     }
 }

@@ -809,8 +809,23 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * @param  string|array filters
      * @param  mixed defaultValue
      * @return mixed
+     *
+     * @todo remove this in future versions
      */
     public function getParam(var param, filters = null, defaultValue = null) -> var
+    {
+        return this->getParameter(param, filters, defaultValue);
+    }
+
+    /**
+     * Gets a param by its name or numeric index
+     *
+     * @param  mixed param
+     * @param  string|array filters
+     * @param  mixed defaultValue
+     * @return mixed
+     */
+    public function getParameter(var param, var filters = null, var defaultValue = null) -> var
     {
         var params, filter, paramValue;
 
@@ -838,8 +853,18 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Gets action params
+     *
+     * @todo remove this in future versions
      */
     public function getParams() -> array
+    {
+        return this->getParameters();
+    }
+
+    /**
+     * Gets action params
+     */
+    public function getParameters() -> array
     {
         return this->params;
     }

@@ -1221,8 +1221,57 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getNamespaceName)
  * @param  string|array filters
  * @param  mixed defaultValue
  * @return mixed
+ *
+ * @todo remove this in future versions
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParam)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *param, param_sub, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&param_sub);
+	ZVAL_UNDEF(&filters_sub);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_ZVAL(param)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(filters)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &param, &filters, &defaultValue);
+	if (!filters) {
+		filters = &filters_sub;
+		filters = &__$null;
+	}
+	if (!defaultValue) {
+		defaultValue = &defaultValue_sub;
+		defaultValue = &__$null;
+	}
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getparameter", NULL, 0, param, filters, defaultValue);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Gets a param by its name or numeric index
+ *
+ * @param  mixed param
+ * @param  string|array filters
+ * @param  mixed defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameter)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1296,8 +1345,28 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParam)
 
 /**
  * Gets action params
+ *
+ * @todo remove this in future versions
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParams)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getparameters", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Gets action params
+ */
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameters)
 {
 	zval *this_ptr = getThis();
 
@@ -1456,7 +1525,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getHandlerClass)
 	ZEPHIR_CPY_WRT(&handlerName, &_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("namespaceName"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&namespaceName, &_0);
-	if (!(zephir_memnstr_str(&handlerName, SL("\\"), "phalcon/Dispatcher/AbstractDispatcher.zep", 904))) {
+	if (!(zephir_memnstr_str(&handlerName, SL("\\"), "phalcon/Dispatcher/AbstractDispatcher.zep", 929))) {
 		ZEPHIR_CALL_METHOD(&camelizedClass, this_ptr, "tocamelcase", NULL, 0, &handlerName);
 		zephir_check_call_status();
 	} else {
