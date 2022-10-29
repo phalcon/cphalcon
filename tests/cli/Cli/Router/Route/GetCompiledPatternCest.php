@@ -36,9 +36,8 @@ class GetCompiledPatternCest
 
         $expected = '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/'
             . '([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#';
-        $I->assertEquals(
-            $expected,
-            $route->getCompiledPattern()
-        );
+
+        $actual = $route->getCompiledPattern();
+        $I->assertSame($expected, $actual);
     }
 }

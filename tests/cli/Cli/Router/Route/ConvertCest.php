@@ -41,7 +41,8 @@ class ConvertCest
         $router = new Router();
 
         $route1 = $router
-            ->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country');
+            ->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country')
+        ;
 
         $taskConverter   = function ($task) {
             return str_replace('-', '', $task);
@@ -90,28 +91,23 @@ class ConvertCest
 
         $router->handle($route);
 
-        $I->assertTrue(
-            $router->wasMatched()
-        );
+        $actual = $router->wasMatched();
+        $I->assertTrue($actual);
 
-        $I->assertEquals(
-            $paths['task'],
-            $router->getTaskName()
-        );
+        $expected = $paths['task'];
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            $paths['action'],
-            $router->getActionName()
-        );
+        $expected = $paths['action'];
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
 
         $expected = [
             'task'   => $taskConverter,
             'action' => $actionConverter,
         ];
-        $I->assertEquals(
-            $expected,
-            $route1->getConverters()
-        );
+        $actual   = $route1->getConverters();
+        $I->assertSame($expected, $actual);
     }
 
     private function getExamplesConverters(): array

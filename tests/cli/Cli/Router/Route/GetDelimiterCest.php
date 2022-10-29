@@ -33,19 +33,28 @@ class GetDelimiterCest
         Route::delimiter(Route::DEFAULT_DELIMITER);
         $route = new Route("test");
 
-        //Default delimiter
-        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
-        $I->assertEquals(" ", $route->getDelimiter());
+        // Default delimiter
+        $expected = " ";
+        $actual   = Route::DEFAULT_DELIMITER;
+        $I->assertSame($expected, $actual);
+
+        $expected = " ";
+        $actual   = $route->getDelimiter();
+        $I->assertSame($expected, $actual);
 
         $route = new Route("test");
         $route::delimiter("-");
-        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
-        $I->assertEquals("-", $route->getDelimiter());
+
+        $expected = " ";
+        $actual   = Route::DEFAULT_DELIMITER;
+        $I->assertSame($expected, $actual);
+
+        $expected = "-";
+        $actual   = $route->getDelimiter();
+        $I->assertSame($expected, $actual);
 
         $route = new Route("test");
         $route::delimiter("-");
-        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
-        $I->assertEquals("-", $route->getDelimiter());
 
         Route::delimiter($store);
     }

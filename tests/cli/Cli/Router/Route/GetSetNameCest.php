@@ -32,9 +32,14 @@ class GetSetNameCest
         Route::delimiter('/');
         $route = new Route('test');
 
-        $I->assertEquals('', $route->getName());
+        $expected = '';
+        $actual   = $route->getName();
+        $I->assertSame($expected, $actual);
 
         $route->setName('otherRoute');
-        $I->assertEquals('otherRoute', $route->getName());
+
+        $expected = 'otherRoute';
+        $actual   = $route->getName();
+        $I->assertSame($expected, $actual);
     }
 }

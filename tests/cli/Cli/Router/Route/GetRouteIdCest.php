@@ -32,6 +32,8 @@ class GetRouteIdCest
         Route::delimiter('/');
         $route = new Route('test');
 
-        $I->assertEquals(0, $route->getRouteId());
+        $expected = '0';
+        $actual   = $route->getRouteId();
+        $I->assertSame($expected, $actual);
     }
 }

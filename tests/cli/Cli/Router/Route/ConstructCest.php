@@ -30,7 +30,11 @@ class ConstructCest
         $I->wantToTest('Cli\Router\Route - __construct()');
 
         $route = new Route('test');
-        $I->assertInstanceOf(RouteInterface::class, $route);
-        $I->assertInstanceOf(Route::class, $route);
+
+        $class = RouteInterface::class;
+        $I->assertInstanceOf($class, $route);
+
+        $class = Route::class;
+        $I->assertInstanceOf($class, $route);
     }
 }

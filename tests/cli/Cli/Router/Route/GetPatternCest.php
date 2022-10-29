@@ -30,15 +30,11 @@ class GetPatternCest
 
         Route::reset();
         Route::delimiter('/');
-        $route = new Route(
-            '/:module/:namespace/:task/:action/:params/:delimiter'
-        );
+        $pattern = '/:module/:namespace/:task/:action/:params/:delimiter';
+        $route   = new Route($pattern);
 
-        $expected = '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/'
-            . '([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#';
-        $I->assertEquals(
-            $expected,
-            $route->getCompiledPattern()
-        );
+        $expected = $pattern;
+        $actual   = $route->getPattern();
+        $I->assertSame($expected, $actual);
     }
 }

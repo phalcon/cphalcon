@@ -45,11 +45,11 @@ class MainTask extends Task
         string $world,
         string $symbol,
         string $country,
-        mixed $last
+        $last
     ) {
         return '-' . $world . '-' . $symbol . '-' . $country . '-' . (string) $last . '-';
     }
-    
+
     public function noopAction()
     {
         return;
