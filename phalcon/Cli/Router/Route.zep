@@ -23,9 +23,9 @@ class Route implements RouteInterface
     protected beforeMatch = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected compiledPattern = null;
+    protected compiledPattern = "";
 
     /**
      * @var array
@@ -43,19 +43,19 @@ class Route implements RouteInterface
     protected static delimiterPath = self::DEFAULT_DELIMITER;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected description = null;
+    protected description = "";
 
     /**
      * @var string
      */
-    protected id;
+    protected routeId;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected name = null;
+    protected name = "";
 
     /**
      * @var array
@@ -65,10 +65,10 @@ class Route implements RouteInterface
     /**
      * @var string
      */
-    protected pattern;
+    protected pattern = "";
 
     /**
-     * @var int|string
+     * @var int
      */
     protected static uniqueId = 0;
 
@@ -90,7 +90,7 @@ class Route implements RouteInterface
 
         // TODO: Add a function that increase static members
         let routeId        = uniqueId,
-            this->id       = routeId,
+            this->routeId  = (string) routeId,
             self::uniqueId = uniqueId + 1;
     }
 
@@ -114,66 +114,29 @@ class Route implements RouteInterface
      */
     public function compilePattern(string! pattern) -> string
     {
-        var idPattern, part;
+        var idPattern;
+        array map;
 
         // If a pattern contains ':', maybe there are placeholders to replace
         if memstr(pattern, ":") {
 
             // This is a pattern for valid identifiers
             let idPattern = this->delimiter . "([a-zA-Z0-9\\_\\-]+)";
+            let map       = [
+                ":delimiter"                   : this->delimiter,
+                this->delimiter . ":module"    : idPattern,
+                this->delimiter . ":task"      : idPattern,
+                this->delimiter . ":namespace" : idPattern,
+                this->delimiter . ":action"    : idPattern,
+                this->delimiter . ":params"    : "(" . this->delimiter . ".*)*",
+                this->delimiter . ":int"       : this->delimiter . "([0-9]+)"
+            ];
 
-            // Replace the delimiter part
-            if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(
-                    ":delimiter",
-                    this->delimiter,
-                    pattern
-                );
-            }
-
-            // Replace the module part
-            let part = this->delimiter . ":module";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the task placeholder
-            let part = this->delimiter . ":task";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the namespace placeholder
-            let part = this->delimiter . ":namespace";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the action placeholder
-            let part = this->delimiter . ":action";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the params placeholder
-            let part = this->delimiter . ":params";
-            if memstr(pattern, part) {
-                let pattern = str_replace(
-                    part,
-                    "(" . this->delimiter . ".*)*",
-                    pattern
-                );
-            }
-
-            // Replace the int placeholder
-            let part = this->delimiter . ":int";
-            if memstr(pattern, part) {
-                let pattern = str_replace(
-                    part,
-                    this->delimiter . "([0-9]+)",
-                    pattern
-                );
-            }
+            let pattern = str_replace(
+                array_keys(map),
+                array_values(map),
+                pattern
+            );
         }
 
         /**
@@ -419,7 +382,7 @@ class Route implements RouteInterface
      */
     public function getRouteId() -> string
     {
-        return this->id;
+        return this->routeId;
     }
 
     /**
@@ -441,7 +404,7 @@ class Route implements RouteInterface
 
         if typeof paths == "string" {
             let moduleName = null,
-                taskName = null,
+                taskName   = null,
                 actionName = null;
 
             // Explode the short paths using the :: separator

@@ -38,9 +38,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected activeMethodMap = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected actionName = null;
+    protected actionName = "";
 
     /**
      * @var string
@@ -58,14 +58,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected defaultAction = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultNamespace = null;
+    protected defaultNamespace = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultHandler = null;
+    protected defaultHandler = "";
 
     /**
      * @var array
@@ -73,9 +73,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected handlerHashes = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected handlerName = null;
+    protected handlerName = "";
 
     /**
      * @var string
@@ -118,14 +118,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected modelBinding = false;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected moduleName = null;
+    protected moduleName = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected namespaceName = null;
+    protected namespaceName = "";
 
     /**
      * @var array
@@ -135,17 +135,17 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * @var string|null
      */
-    protected previousActionName = null;
+    protected previousActionName = "";
 
     /**
      * @var string|null
      */
-    protected previousHandlerName = null;
+    protected previousHandlerName = "";
 
     /**
      * @var string|null
      */
-    protected previousNamespaceName = null;
+    protected previousNamespaceName = "";
 
     /**
      * @var string|null

@@ -185,8 +185,18 @@ class Router extends AbstractInjectionAware
 
     /**
      * Returns processed extra params
+     *
+     * @todo deprecate this in future versions
      */
     public function getParams() -> array
+    {
+        return this->getParameters();
+    }
+
+    /**
+     * Returns processed extra params
+     */
+    public function getParameters() -> array
     {
         return this->params;
     }
