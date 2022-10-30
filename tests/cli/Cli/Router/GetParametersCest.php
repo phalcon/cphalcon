@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Cli\Cli\Router;
 use CliTester;
 use Phalcon\Cli\Router;
 
-class GetParamsCest
+class GetParametersCest
 {
     /**
      * Tests Phalcon\Cli\Router :: getParams()
@@ -29,12 +29,23 @@ class GetParamsCest
         $I->wantToTest('Cli\Router - getParams()');
 
         $router = new Router();
-        $I->assertEquals(
-            [],
-            $router->getParams()
-        );
+
+        $expected = [];
+        $actual   = $router->getParameters();
+        $I->assertSame($expected, $actual);
+
+        $expected = [];
+        $actual   = $router->getParams();
+        $I->assertSame($expected, $actual);
+
         $router->handle("task action param1 param2");
 
-        $I->assertEquals(["param1", "param2"], $router->getParams());
+        $expected = ["param1", "param2"];
+        $actual   = $router->getParameters();
+        $I->assertSame($expected, $actual);
+
+        $expected = ["param1", "param2"];
+        $actual   = $router->getParams();
+        $I->assertSame($expected, $actual);
     }
 }

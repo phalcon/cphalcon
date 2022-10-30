@@ -28,8 +28,9 @@ class AddCest
     {
         $I->wantToTest('Cli\Router - add()');
 
+        Router\Route::reset();
         $router = new Router(false);
-        $I->assertEquals([], $router->getRoutes());
+        $I->assertSame([], $router->getRoutes());
 
         $router->add(
             'route',
@@ -40,6 +41,10 @@ class AddCest
             ]
         );
         $router->handle('route');
-        $I->assertInstanceOf('Phalcon\Cli\Router\Route', $router->getRoutes()[0]);
+
+        $routes = $router->getRoutes();
+        $class  = Router\Route::class;
+        $actual = $routes[0];
+        $I->assertInstanceOf($class, $actual);
     }
 }

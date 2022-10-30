@@ -33,17 +33,19 @@ class GetRouteByNameCest
 
         $router = new Router(false);
 
-        $usersFind = $router->add('api users find')->setName('usersFind');
-        $usersAdd  = $router->add('api users add')->setName('usersAdd');
+        $usersFind = $router->add('api users find')
+                            ->setName('usersFind')
+        ;
+        $usersAdd  = $router->add('api users add')
+                            ->setName('usersAdd')
+        ;
 
-        $I->assertEquals(
-            $usersFind,
-            $router->getRouteByName('usersFind')
-        );
+        $expected = $usersFind;
+        $actual   = $router->getRouteByName('usersFind');
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            $usersAdd,
-            $router->getRouteByName('usersAdd')
-        );
+        $expected = $usersAdd;
+        $actual   = $router->getRouteByName('usersAdd');
+        $I->assertSame($expected, $actual);
     }
 }

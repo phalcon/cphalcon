@@ -29,39 +29,38 @@ class SetDefaultsCest
         $I->wantToTest('Cli\Router - setDefaults()');
 
         $router = new Router(false);
-        $router->handle(
-            []
-        );
-        $I->assertSame(
-            '',
-            $router->getModuleName()
-        );
-        $I->assertNull(
-            $router->getTaskName()
-        );
-        $I->assertNull(
-            $router->getActionName()
-        );
+        $router->handle();
+
+        $expected = "";
+        $actual   = $router->getModuleName();
+        $I->assertSame($expected, $actual);
+
+        $expected = "";
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
+
+        $expected = "";
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
+
         $defaults = [
             'module' => "testModule",
             'task'   => "testTask",
             'action' => "testAction",
         ];
         $router->setDefaults($defaults);
-        $router->handle(
-            []
-        );
-        $I->assertEquals(
-            $defaults['module'],
-            $router->getModuleName()
-        );
-        $I->assertEquals(
-            $defaults['task'],
-            $router->getTaskName()
-        );
-        $I->assertEquals(
-            $defaults['action'],
-            $router->getActionName()
-        );
+        $router->handle();
+
+        $expected = $defaults["module"];
+        $actual   = $router->getModuleName();
+        $I->assertSame($expected, $actual);
+
+        $expected = $defaults["task"];
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
+
+        $expected = $defaults["action"];
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }

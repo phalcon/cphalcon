@@ -48,6 +48,9 @@ class GetMatchesCest
             ]
         );
         $router->handle('route');
-        $I->assertEquals(["route", "route"], $router->getMatches());
+
+        $expected = ["route", "route"];
+        $actual   = $router->getMatches();
+        $I->assertSame($expected, $actual);
     }
 }

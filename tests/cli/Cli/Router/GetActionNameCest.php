@@ -28,13 +28,19 @@ class GetActionNameCest
     {
         $I->wantToTest('Cli\Router - getActionName()');
         $router = new Router();
-        $I->assertNull(
-            $router->getActionName()
-        );
-        $router->handle([
-            'action' => 'test',
-        ]);
 
-        $I->assertEquals("test", $router->getActionName());
+        $expected = '';
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
+
+        $router->handle(
+            [
+                'action' => 'test',
+            ]
+        );
+
+        $expected = "test";
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }
