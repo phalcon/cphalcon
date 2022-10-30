@@ -50,9 +50,21 @@ interface DispatcherInterface
     public function getParam(var param, filters = null) -> var;
 
     /**
+     * Gets a param by its name or numeric index
+     *
+     * @param  string|array filters
+     */
+    public function getParameter(var param, filters = null) -> var;
+
+    /**
      * Gets action params
      */
     public function getParams() -> array;
+
+    /**
+     * Gets action params
+     */
+    public function getParameters() -> array;
 
     /**
      * Returns value returned by the latest dispatched action
