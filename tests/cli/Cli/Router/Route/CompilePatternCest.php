@@ -22,9 +22,15 @@ class CompilePatternCest
     /**
      * Tests Phalcon\Cli\Router\Route :: compilePattern()
      *
+     * @dataProvider getExamples
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
+     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-05
-     * @dataProvider getExamples
      */
     public function cliRouterRouteCompilePattern(CliTester $I, Example $example)
     {
@@ -33,10 +39,10 @@ class CompilePatternCest
         Route::reset();
         Route::delimiter('/');
         $route = new Route('test');
-        $I->assertEquals(
-            $example[2],
-            $route->compilePattern($example[1])
-        );
+
+        $expected = $example[2];
+        $actual   = $route->compilePattern($example[1]);
+        $I->assertSame($expected, $actual);
     }
 
     /**

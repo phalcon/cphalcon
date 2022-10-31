@@ -34,13 +34,10 @@ class GetSetDICest
         $container = new Di();
 
         $router->setDI($container);
-
         $actual = $router->getDI();
 
-        $I->assertInstanceOf(
-            Di::class,
-            $actual
-        );
+        $class = Di::class;
+        $I->assertInstanceOf($class, $actual);
 
         $I->assertSame($container, $actual);
     }

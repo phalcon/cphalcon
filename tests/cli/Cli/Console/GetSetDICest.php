@@ -35,9 +35,8 @@ class GetSetDICest
         $container = new DiFactoryDefault();
         $console->setDI($container);
 
-        $I->assertInstanceOf(
-            Dispatcher::class,
-            $console->getDI()->getShared('dispatcher')
-        );
+        $class  = Dispatcher::class;
+        $actual = $console->getDI()->getShared('dispatcher');
+        $I->assertInstanceOf($class, $actual);
     }
 }

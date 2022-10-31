@@ -31,17 +31,21 @@ class WasForwardedCest
 
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
-        $I->assertFalse($dispatcher->wasForwarded());
+        $dispatcher->setDI(new DiFactoryDefault());
+
+        $actual = $dispatcher->wasForwarded();
+        $I->assertFalse($actual);
+
         $dispatcher->forward(
             [
                 'task'   => 'echo',
                 'action' => 'main',
             ]
         );
+
         $dispatcher->dispatch();
-        $I->assertTrue($dispatcher->wasForwarded());
+
+        $actual = $dispatcher->wasForwarded();
+        $I->assertTrue($actual);
     }
 }

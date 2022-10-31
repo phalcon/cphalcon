@@ -32,14 +32,15 @@ class GetSetDescriptionCest
         $router = new Router(false);
 
         foreach ($routes as $pattern => $description) {
-            $router->add($pattern)->setDescription($description);
+            $router->add($pattern)
+                   ->setDescription($description)
+            ;
         }
 
         foreach ($router->getRoutes() as $route) {
-            $I->assertEquals(
-                $routes[$route->getPattern()],
-                $route->getDescription()
-            );
+            $expected = $routes[$route->getPattern()];
+            $actual   = $route->getDescription();
+            $I->assertSame($expected, $actual);
         }
     }
 

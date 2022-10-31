@@ -30,11 +30,13 @@ class GetSetDefaultNamespaceCest
         $I->wantToTest('Cli\Dispatcher - getDefaultNamespace() / setDefaultNamespace()');
         $dispatcher = new Dispatcher();
 
-        $I->assertEquals('', $dispatcher->getDefaultNamespace());
+        $I->assertSame('', $dispatcher->getDefaultNamespace());
 
         $namespace = "Phalcon\Rules";
         $dispatcher->setDefaultNamespace($namespace);
 
-        $I->assertEquals($namespace, $dispatcher->getDefaultNamespace());
+        $expected = $namespace;
+        $actual   = $dispatcher->getDefaultNamespace();
+        $I->assertSame($expected, $actual);
     }
 }

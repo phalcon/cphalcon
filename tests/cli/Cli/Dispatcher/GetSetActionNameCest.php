@@ -34,9 +34,8 @@ class GetSetActionNameCest
         $dispatcher = new Dispatcher();
         $dispatcher->setActionName('hello');
 
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
+        $expected = 'hello';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }

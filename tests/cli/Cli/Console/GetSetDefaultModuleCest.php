@@ -37,9 +37,8 @@ class GetSetDefaultModuleCest
 
         $console->setDefaultModule('moduleName');
 
-        $I->assertEquals(
-            'moduleName',
-            $console->getDefaultModule()
-        );
+        $expected = 'moduleName';
+        $actual   = $console->getDefaultModule();
+        $I->assertSame($expected, $actual);
     }
 }

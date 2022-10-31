@@ -32,10 +32,16 @@ class GetSetNamespaceNameCest
         $I->wantToTest('Cli\Dispatcher - getNamespaceName() / setNamespaceName()');
 
         $dispatcher = new Dispatcher();
-        $I->assertNull($dispatcher->getNamespaceName());
+
+        $expected = '';
+        $actual   = $dispatcher->getNamespaceName();
+        $I->assertSame($expected, $actual);
 
         $namespace = "Phalcon";
         $dispatcher->setNamespaceName($namespace);
-        $I->assertEquals($namespace, $dispatcher->getNamespaceName());
+
+        $expected = $namespace;
+        $actual   = $dispatcher->getNamespaceName();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -33,14 +33,14 @@ class BeforeMatchCest
 
         $trace = 0;
 
-        $router = new Router(false);
-
+        $router   = new Router(false);
         $callback = function () use (&$trace) {
             $trace++;
 
             return false;
         };
 
+        /** @var Route $route1 */
         $route1 = $router->add('static route');
         $route1->beforeMatch($callback);
 
@@ -58,26 +58,27 @@ class BeforeMatchCest
 
         $router->handle();
 
-        $I->assertFalse(
-            $router->wasMatched()
-        );
+        $actual = $router->wasMatched();
+        $I->assertFalse($actual);
 
 
         $router->handle('static route');
 
-        $I->assertFalse(
-            $router->wasMatched()
-        );
+        $actual = $router->wasMatched();
+        $I->assertFalse($actual);
 
 
         $router->handle('static route2');
 
-        $I->assertTrue(
-            $router->wasMatched()
-        );
+        $actual = $router->wasMatched();
+        $I->assertTrue($actual);
 
-        $I->assertEquals(2, $trace);
+        $expected = 2;
+        $actual   = $trace;
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals($callback, $route1->getBeforeMatch());
+        $expected = $callback;
+        $actual   = $route1->getBeforeMatch();
+        $I->assertSame($expected, $actual);
     }
 }

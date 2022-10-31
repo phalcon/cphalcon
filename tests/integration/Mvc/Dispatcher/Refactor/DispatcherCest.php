@@ -566,7 +566,7 @@ class DispatcherCest extends BaseDispatcher
 
         $handler = $dispatcher->dispatch();
 
-        $I->assertNull(
+        $I->assertEmpty(
             $dispatcher->getNamespaceName()
         );
 
@@ -673,7 +673,7 @@ class DispatcherCest extends BaseDispatcher
             $dispatcher->wasForwarded()
         );
 
-        $I->assertNull(
+        $I->assertEmpty(
             $dispatcher->getPreviousNamespaceName()
         );
 

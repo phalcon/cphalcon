@@ -32,10 +32,16 @@ class GetSetTaskSuffixCest
         $I->wantToTest('Cli\Dispatcher - getTaskSuffix()');
 
         $dispatcher = new Dispatcher();
-        $I->assertEquals("Task", $dispatcher->getTaskSuffix());
+
+        $expected = "Task";
+        $actual   = $dispatcher->getTaskSuffix();
+        $I->assertSame($expected, $actual);
 
         $value = "Phalcon";
         $dispatcher->setTaskSuffix($value);
-        $I->assertEquals($value, $dispatcher->getTaskSuffix());
+
+        $expected = $value;
+        $actual   = $dispatcher->getTaskSuffix();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -17,7 +17,7 @@ use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
-class GetParamCest
+class GetSetParameterCest
 {
     use DiTrait;
 
@@ -26,17 +26,14 @@ class GetParamCest
         $this->setNewCliFactoryDefault();
     }
 
-    public function testCliParameters(CliTester $I)
+    public function cliDispatcherGetSetParameter(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getParam()');
+        $I->wantToTest('Cli\Dispatcher - getParameter()/setParameter()');
 
         $dispatcher = new Dispatcher();
 
         $this->container->setShared('dispatcher', $dispatcher);
-
-        $dispatcher->setDI(
-            $this->container
-        );
+        $dispatcher->setDI($this->container);
 
         // Test $this->dispatcher->getParam()
         $dispatcher->setNamespaceName('Phalcon\Tests\Fixtures\Tasks');
@@ -49,9 +46,8 @@ class GetParamCest
 
         $dispatcher->dispatch();
 
-        $I->assertEquals(
-            '$param[0] is the same as $this->dispatcher->getParam(0)',
-            $dispatcher->getReturnedValue()
-        );
+        $expected = '$param[0] is the same as $this->dispatcher->getParam(0)';
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
     }
 }

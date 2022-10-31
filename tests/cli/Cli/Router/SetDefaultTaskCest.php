@@ -29,11 +29,22 @@ class SetDefaultTaskCest
         $I->wantToTest('Cli\Router - setDefaultTask()');
 
         $router = new Router();
-        $I->assertNull($router->getTaskName());
+
+        $expected = "";
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
+
         $router->handle("");
-        $I->assertNull($router->getTaskName());
+
+        $expected = "";
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
+
         $router->setDefaultTask("test");
         $router->handle("");
-        $I->assertEquals("test", $router->getTaskName());
+
+        $expected = "test";
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
     }
 }

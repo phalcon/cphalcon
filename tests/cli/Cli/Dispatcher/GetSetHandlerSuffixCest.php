@@ -40,13 +40,9 @@ class GetSetHandlerSuffixCest
         $dispatcher = new Dispatcher();
 
         $this->container->setShared('dispatcher', $dispatcher);
-
-        $dispatcher->setDI(
-            $this->container
-        );
+        $dispatcher->setDI($this->container);
 
         $dispatcher->setTaskName('Index');
-
         $dispatcher->setTaskSuffix('Bleh');
 
         $I->expectThrowable(

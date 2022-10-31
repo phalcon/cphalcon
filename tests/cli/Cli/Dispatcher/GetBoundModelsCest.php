@@ -33,15 +33,18 @@ class GetBoundModelsCest
     {
         $I->wantToTest('Cli\Dispatcher - getBoundModels()');
         $dispatcher = new Dispatcher();
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
+        $dispatcher->setDI(new DiFactoryDefault());
 
         //No binder set should return empty array
-        $I->assertEquals([], $dispatcher->getBoundModels());
+        $expected = [];
+        $actual   = $dispatcher->getBoundModels();
+        $I->assertSame($expected, $actual);
 
         $modelBinder = new Binder();
         $dispatcher->setModelBinder($modelBinder);
-        $I->assertCount(0, $dispatcher->getBoundModels());
+
+        $expected = 0;
+        $actual   = count($dispatcher->getBoundModels());
+        $I->assertSame($expected, $actual);
     }
 }

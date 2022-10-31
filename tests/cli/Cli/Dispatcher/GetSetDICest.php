@@ -36,6 +36,6 @@ class GetSetDICest
         $console->setDI($container);
 
         $actual = $console->getDI();
-        $I->assertEquals($container, $actual);
+        $I->assertSame($container, $actual);
     }
 }

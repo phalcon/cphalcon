@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Cli\Cli\Dispatcher;
 use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Tests\Fixtures\Tasks\EchoTask;
+use Phalcon\Tests\Fixtures\Tasks\MainTask;
 
 class GetLastTaskCest
 {
@@ -29,18 +31,20 @@ class GetLastTaskCest
     {
         $I->wantToTest('Cli\Dispatcher - getLastTask()');
         $dispatcher = new Dispatcher();
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
+        $dispatcher->setDI(new DiFactoryDefault());
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
         $dispatcher->setTaskName("main");
         $dispatcher->dispatch();
 
-        $I->assertInstanceOf('\Phalcon\Tests\Fixtures\Tasks\MainTask', $dispatcher->getLastTask());
+        $class  = MainTask::class;
+        $actual = $dispatcher->getLastTask();
+        $I->assertInstanceOf($class, $actual);
 
         $dispatcher->setTaskName("echo");
         $dispatcher->dispatch();
 
-        $I->assertInstanceOf('\Phalcon\Tests\Fixtures\Tasks\EchoTask', $dispatcher->getLastTask());
+        $class  = EchoTask::class;
+        $actual = $dispatcher->getLastTask();
+        $I->assertInstanceOf($class, $actual);
     }
 }

@@ -17,10 +17,14 @@ use CliTester;
 use Codeception\Example;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
+use Phalcon\Tests\Fixtures\Traits\CliTrait;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
+
+use function array_flip;
 
 class GetReversedPathsCest
 {
+    use CliTrait;
     use DiTrait;
 
     public function _before(CliTester $I)
@@ -29,79 +33,24 @@ class GetReversedPathsCest
     }
 
     /**
-     * @dataProvider shortPathsProvider
+     * @dataProvider getExamplesShortPaths
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
      */
-    public function testShortPaths(CliTester $I, Example $example)
+    public function cliRouterRouteGetReversedPathsShortPaths(CliTester $I, Example $example)
     {
         Route::reset();
 
         $router = new Router(false);
 
-        $route = $router->add(
-            'route',
-            $example['path']
-        );
+        $path     = $example['path'];
+        $expected = array_flip($example['expected']);
 
-        $I->assertEquals(
-            $example['expected'],
-            $route->getReversedPaths()
-        );
-    }
-
-    protected function shortPathsProvider(): array
-    {
-        return [
-            [
-                'path'     => 'Feed',
-                'expected' => [
-                    'feed' => 'task',
-                ],
-            ],
-
-            [
-                'path'     => 'Feed::get',
-                'expected' => [
-                    'feed' => 'task',
-                    'get'  => 'action',
-                ],
-            ],
-
-            [
-                'path'     => 'News::Posts::show',
-                'expected' => [
-                    'News'  => 'module',
-                    'posts' => 'task',
-                    'show'  => 'action',
-                ],
-            ],
-
-            [
-
-                'path'     => 'MyApp\\Tasks\\Posts::show',
-                'expected' => [
-                    'MyApp\\Tasks' => 'namespace',
-                    'posts'        => 'task',
-                    'show'         => 'action',
-                ],
-            ],
-
-            [
-                'path'     => 'News::MyApp\\Tasks\\Posts::show',
-                'expected' => [
-                    'News'         => 'module',
-                    'MyApp\\Tasks' => 'namespace',
-                    'posts'        => 'task',
-                    'show'         => 'action',
-                ],
-            ],
-
-            [
-                'path'     => '\\Posts::show',
-                'expected' => [
-                    'posts' => 'task',
-                    'show'  => 'action',
-                ],
-            ],
-        ];
+        $route  = $router->add('route', $path);
+        $actual = $route->getReversedPaths();
+        $I->assertSame($expected, $actual);
     }
 }

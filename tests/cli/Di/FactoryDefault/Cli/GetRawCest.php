@@ -33,22 +33,21 @@ class GetRawCest
         $di = new Di();
 
         // nonexistent service
-        $expected = new Exception("Service 'nonexistent-service' was not found in the dependency injection container");
+        $expected = new Exception(
+            "Service 'nonexistent-service' was not found in the "
+            . "dependency injection container"
+        );
         $actual   = function () use ($di) {
             $di->getRaw('nonexistent-service');
         };
 
-        $I->expectThrowable(
-            $expected,
-            $actual
-        );
+        $I->expectThrowable($expected, $actual);
 
         // existing service
         $di->set('escaper', Escaper::class);
 
         $expected = Escaper::class;
         $actual   = $di->getRaw('escaper');
-
         $I->assertSame($expected, $actual);
     }
 }

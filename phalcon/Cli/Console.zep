@@ -127,7 +127,7 @@ class Console extends AbstractApplication
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setTaskName(router->getTaskName());
         dispatcher->setActionName(router->getActionName());
-        dispatcher->setParams(router->getParams());
+        dispatcher->setParams(router->getParameters());
         dispatcher->setOptions(this->options);
 
         if this->eventsManager !== null {
