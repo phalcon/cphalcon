@@ -41,12 +41,12 @@ class Router extends AbstractInjectionAware
     /**
      * @var string
      */
-    protected action = null;
+    protected action = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultAction = null;
+    protected defaultAction = "";
 
     /**
      * @var string
@@ -59,9 +59,9 @@ class Router extends AbstractInjectionAware
     protected defaultParams = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultTask = null;
+    protected defaultTask = "";
 
     /**
      * @var RouteInterface|null
@@ -69,10 +69,9 @@ class Router extends AbstractInjectionAware
     protected matchedRoute = null;
 
     /**
-     * @var array|null
-     * TODO: make always array
+     * @var array
      */
-    protected matches = null;
+    protected matches = [];
 
     /**
      * @var string
@@ -90,9 +89,9 @@ class Router extends AbstractInjectionAware
     protected routes = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected task = null;
+    protected task = "";
 
     /**
      * @var bool

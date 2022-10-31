@@ -871,8 +871,17 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Check if a param exists
+     * @todo deprecate this in the future
      */
     public function hasParam(var param) -> bool
+    {
+        return this->hasParameter(param);
+    }
+
+    /**
+     * Check if a param exists
+     */
+    public function hasParameter(var param) -> bool
     {
         return isset this->params[param];
     }
@@ -948,16 +957,34 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Set a param by its name or numeric index
+     * @todo deprecate this in the future
      */
     public function setParam(var param, var value) -> void
+    {
+        this->setParameter(param, value);
+    }
+
+    /**
+     * Set a param by its name or numeric index
+     */
+    public function setParameter(var param, var value) -> void
     {
         let this->params[param] = value;
     }
 
     /**
      * Sets action params to be dispatched
+     * @todo deprecate this in the future
      */
     public function setParams(array params) -> void
+    {
+        this->setParameters(params);
+    }
+
+    /**
+     * Sets action params to be dispatched
+     */
+    public function setParameters(array params) -> void
     {
         let this->params = params;
     }
