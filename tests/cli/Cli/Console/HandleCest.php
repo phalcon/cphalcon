@@ -32,6 +32,8 @@ use function ob_end_clean;
 use function ob_start;
 use function shell_exec;
 
+use const PHP_OS_FAMILY;
+
 class HandleCest
 {
     /**
@@ -485,6 +487,10 @@ class HandleCest
     public function cliConsoleHandleNoAction(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - no action");
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to check this under Windows');
+        }
 
         $script = codecept_root_dir() . 'tests/testbed/cli.php ';
 
