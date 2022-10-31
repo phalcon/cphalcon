@@ -34,11 +34,14 @@ class IsFinishedCest
 
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
-        $I->assertFalse($dispatcher->isFinished());
+        $dispatcher->setDI(new DiFactoryDefault());
+
+        $actual = $dispatcher->isFinished();
+        $I->assertFalse($actual);
+
         $dispatcher->dispatch();
-        $I->assertTrue($dispatcher->isFinished());
+
+        $actual = $dispatcher->isFinished();
+        $I->assertTrue($actual);
     }
 }

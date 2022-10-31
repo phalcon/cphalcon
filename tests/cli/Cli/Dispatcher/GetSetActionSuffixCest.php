@@ -34,9 +34,8 @@ class GetSetActionSuffixCest
         $dispatcher = new Dispatcher();
         $dispatcher->setActionSuffix('Task');
 
-        $I->assertEquals(
-            'Task',
-            $dispatcher->getActionSuffix()
-        );
+        $expected = 'Task';
+        $actual   = $dispatcher->getActionSuffix();
+        $I->assertSame($expected, $actual);
     }
 }

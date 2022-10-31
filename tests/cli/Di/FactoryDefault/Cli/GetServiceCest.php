@@ -36,7 +36,6 @@ class GetServiceCest
 
         // set a service and get it to check
         $actual = $di->set('escaper', Escaper::class);
-
         $I->assertInstanceOf(Service::class, $actual);
 
         // get escaper service

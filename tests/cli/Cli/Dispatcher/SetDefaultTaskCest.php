@@ -36,8 +36,15 @@ class SetDefaultTaskCest
         );
         $defaultTask = "echo";
         $dispatcher->setDefaultTask($defaultTask);
-        $I->assertEquals("", $dispatcher->getTaskName());
+
+        $expected = '';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
+
         $dispatcher->dispatch();
-        $I->assertEquals($defaultTask, $dispatcher->getTaskName());
+
+        $expected = $defaultTask;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
     }
 }

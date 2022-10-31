@@ -38,20 +38,16 @@ class HasParamCest
             ]
         );
 
-        $I->assertTrue(
-            $dispatcher->hasParam('a')
-        );
+        $actual = $dispatcher->hasParam('a');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $dispatcher->hasParam('b')
-        );
+        $actual = $dispatcher->hasParam('b');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $dispatcher->hasParam('c')
-        );
+        $actual = $dispatcher->hasParam('c');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $dispatcher->hasParam('d')
-        );
+        $actual = $dispatcher->hasParam('d');
+        $I->assertFalse($actual);
     }
 }

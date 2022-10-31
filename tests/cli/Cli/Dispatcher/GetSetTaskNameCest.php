@@ -28,10 +28,16 @@ class GetSetTaskNameCest
     {
         $I->wantToTest('Cli\Dispatcher - getTaskName()');
         $dispatcher = new Dispatcher();
-        $I->assertNull($dispatcher->getTaskName());
+
+        $expected = '';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
         $value = "Phalcon";
         $dispatcher->setTaskName($value);
-        $I->assertEquals($value, $dispatcher->getTaskName());
+
+        $expected = $value;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
     }
 }

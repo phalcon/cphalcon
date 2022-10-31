@@ -30,15 +30,19 @@ class UnderscoreGetCest
     {
         $I->wantToTest('Cli\Task - __get()');
 
-
-        $task = new Task();
-        $di   = new CliDi();
-        $task->setDi($di);
+        $task      = new Task();
+        $container = new CliDi();
+        $task->setDi($container);
 
         $eventsManager = new Manager();
         $task->setEventsManager($eventsManager);
 
-        $I->assertEquals($di, $task->di);
-        $I->assertEquals($eventsManager, $task->eventsManager);
+        $expected = $container;
+        $actual   = $task->di;
+        $I->assertSame($expected, $actual);
+
+        $expected = $eventsManager;
+        $actual   = $task->eventsManager;
+        $I->assertSame($expected, $actual);
     }
 }

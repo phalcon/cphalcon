@@ -75,7 +75,7 @@ class HandleCest
         );
 
         $router->add(
-            'system :task :action :params',
+            'system :task a :action :params',
             [
                 'task'   => 1,
                 'action' => 2,

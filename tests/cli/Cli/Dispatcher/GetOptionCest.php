@@ -31,9 +31,9 @@ class GetOptionCest
     public function cliDispatcherGetOption(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getOption()');
-        $di         = new DiFactoryDefault();
+        $container  = new DiFactoryDefault();
         $dispatcher = new Dispatcher();
-        $dispatcher->setDi($di);
+        $dispatcher->setDi($container);
         $options = [
             "phalcon" => "value123!",
         ];
@@ -41,11 +41,25 @@ class GetOptionCest
         $dispatcher->setOptions($options);
         $optionName   = "phalcon";
         $defaultValue = "Phalcon Rocks!";
-        $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName));
-        $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName, '', $defaultValue));
-        $I->assertEquals($defaultValue, $dispatcher->getOption('nonExisting', '', $defaultValue));
 
-        $I->assertSame('value123', $dispatcher->getOption($optionName, 'alnum'));
-        $I->assertSame(123, $dispatcher->getOption($optionName, ['int']));
+        $expected = $options[$optionName];
+        $actual   = $dispatcher->getOption($optionName);
+        $I->assertSame($expected, $actual);
+
+        $expected = $options[$optionName];
+        $actual   = $dispatcher->getOption($optionName, '', $defaultValue);
+        $I->assertSame($expected, $actual);
+
+        $expected = $defaultValue;
+        $actual   = $dispatcher->getOption('nonExisting', '', $defaultValue);
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value123';
+        $actual   = $dispatcher->getOption($optionName, 'alnum');
+        $I->assertSame($expected, $actual);
+
+        $expected = 123;
+        $actual   = $dispatcher->getOption($optionName, ['int']);
+        $I->assertSame($expected, $actual);
     }
 }

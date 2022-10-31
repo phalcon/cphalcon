@@ -32,15 +32,13 @@ class GetInternalEventsManagerCest
 
         $di = new Di();
 
-        $I->assertNull(
-            $di->getInternalEventsManager()
-        );
+        $actual = $di->getInternalEventsManager();
+        $I->assertNull($actual);
 
         $di->setInternalEventsManager(new Manager());
 
-        $I->assertInstanceOf(
-            ManagerInterface::class,
-            $di->getInternalEventsManager()
-        );
+        $class = ManagerInterface::class;
+        $actual = $di->getInternalEventsManager();
+        $I->assertInstanceOf($class, $actual);
     }
 }

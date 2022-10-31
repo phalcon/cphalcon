@@ -42,9 +42,8 @@ class CallActionMethodCest
             ]
         );
 
-        $I->assertEquals(
-            'Hello Sid.',
-            $returnedValue
-        );
+        $expected = 'Hello Sid.';
+        $actual   = $returnedValue;
+        $I->assertSame($expected, $actual);
     }
 }

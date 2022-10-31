@@ -28,10 +28,13 @@ class GetSetOptionsCest
     {
         $I->wantToTest('Cli\Dispatcher - getOptions() / setOptions()');
         $dispatcher = new Dispatcher();
-        $I->assertEquals([], $dispatcher->getOptions());
+        $I->assertSame([], $dispatcher->getOptions());
 
         $options = ["Phalcon", "Rocks"];
         $dispatcher->setOptions($options);
-        $I->assertEquals($options, $dispatcher->getOptions());
+
+        $expected = $options;
+        $actual   = $dispatcher->getOptions();
+        $I->assertSame($expected, $actual);
     }
 }

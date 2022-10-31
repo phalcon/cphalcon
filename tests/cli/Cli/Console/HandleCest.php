@@ -489,7 +489,7 @@ class HandleCest
         $script = codecept_root_dir() . 'tests/testbed/cli.php ';
 
         ob_start();
-        $actual = shell_exec('sudo ' . $script . 'print');
+        $actual = shell_exec('sudo php ' . $script . 'print');
         ob_end_clean();
 
         $expected = 'printMainAction';
