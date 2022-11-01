@@ -21,13 +21,16 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameter);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParams);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameters);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParam);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParameter);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, isFinished);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setActionName);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDefaultAction);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDefaultNamespace);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getHandlerClass);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParam);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParameter);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParams);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParameters);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setActionSuffix);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setEventsManager);
@@ -111,6 +114,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispa
 	ZEND_ARG_INFO(0, param)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_hasparameter, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, param)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_isfinished, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -138,7 +145,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispa
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setparameter, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setparams, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_setparameters, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
@@ -217,13 +235,16 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_abstractdispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getParams, arginfo_phalcon_dispatcher_abstractdispatcher_getparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getParameters, arginfo_phalcon_dispatcher_abstractdispatcher_getparameters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, hasParam, arginfo_phalcon_dispatcher_abstractdispatcher_hasparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, hasParameter, arginfo_phalcon_dispatcher_abstractdispatcher_hasparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, isFinished, arginfo_phalcon_dispatcher_abstractdispatcher_isfinished, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setActionName, arginfo_phalcon_dispatcher_abstractdispatcher_setactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setDefaultAction, arginfo_phalcon_dispatcher_abstractdispatcher_setdefaultaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setDefaultNamespace, arginfo_phalcon_dispatcher_abstractdispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getHandlerClass, arginfo_phalcon_dispatcher_abstractdispatcher_gethandlerclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setParam, arginfo_phalcon_dispatcher_abstractdispatcher_setparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setParameter, arginfo_phalcon_dispatcher_abstractdispatcher_setparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setParams, arginfo_phalcon_dispatcher_abstractdispatcher_setparams, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setParameters, arginfo_phalcon_dispatcher_abstractdispatcher_setparameters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setReturnedValue, arginfo_phalcon_dispatcher_abstractdispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setActionSuffix, arginfo_phalcon_dispatcher_abstractdispatcher_setactionsuffix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setEventsManager, arginfo_phalcon_dispatcher_abstractdispatcher_seteventsmanager, ZEND_ACC_PUBLIC)

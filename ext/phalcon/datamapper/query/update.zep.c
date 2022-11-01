@@ -34,7 +34,7 @@
  * @license https://github.com/atlasphp/Atlas.Qyert/blob/1.x/LICENSE.md
  */
 /**
- * Class Update
+ * Update Query
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Update)
 {

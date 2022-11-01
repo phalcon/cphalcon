@@ -33,14 +33,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Builder
- *
- * The builder offers
- *
- * @property CollectionInterface  $claims
- * @property CollectionInterface  $jose
- * @property string               $passphrase
- * @property SignerInterface      $signer
+ * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
@@ -499,7 +492,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("passphrase"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Encryption/Security/JWT/Builder.zep", 199);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Encryption/Security/JWT/Builder.zep", 192);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getclaims", NULL, 0);
@@ -602,7 +595,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setAudience)
 		_0 = Z_TYPE_P(audience) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Encryption/Security/JWT/Builder.zep", 249);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Encryption/Security/JWT/Builder.zep", 242);
 		return;
 	}
 	if (Z_TYPE_P(audience) == IS_STRING) {
@@ -698,7 +691,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setExpirationTime)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_GT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Encryption/Security/JWT/Builder.zep", 294);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Encryption/Security/JWT/Builder.zep", 287);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -897,7 +890,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_LT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Encryption/Security/JWT/Builder.zep", 368);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Encryption/Security/JWT/Builder.zep", 361);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -1006,7 +999,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase)
 	ZVAL_STRING(&_3, "/(?=^.{16,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/");
 	zephir_preg_match(&_2, &_3, &passphrase, &_0, 0, 0 , 0 );
 	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Encryption/Security/JWT/Builder.zep", 406);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Encryption/Security/JWT/Builder.zep", 399);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &passphrase);
@@ -1173,7 +1166,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, encode)
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 192, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 453);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 446);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

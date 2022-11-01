@@ -52,8 +52,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getModuleName);
 /**
  * Returns processed extra params
+ * @todo deprecate this in the future
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
+/**
+ * Returns processed extra params
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParameters);
 /**
  * Returns a route object by its id
  */

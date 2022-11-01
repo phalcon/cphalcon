@@ -28,9 +28,6 @@
  */
 /**
  * This component offers caching capabilities for your application.
- * Phalcon\Cache implements PSR-16.
- *
- * @property AdapterInterface $adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Cache)
 {

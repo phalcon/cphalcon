@@ -35,18 +35,6 @@
  * The Phalcon Autoloader provides an easy way to automatically load classes
  * (namespaced or not) as well as files. It also features extension loading,
  * allowing the user to autoload files with different extensions than .php.
- *
- * @property string|null          $checkedPath
- * @property array                $classes
- * @property array                $debug
- * @property array                $directories
- * @property array                $extensions
- * @property string|callable|null $fileCheckingCallback
- * @property array                $files
- * @property string|null          $foundPath
- * @property bool                 $isDebug
- * @property bool                 $isRegistered
- * @property array                $namespaces
  */
 ZEPHIR_INIT_CLASS(Phalcon_Autoload_Loader)
 {
@@ -383,12 +371,12 @@ PHP_METHOD(Phalcon_Autoload_Loader, addNamespace)
 	} else {
 		zephir_read_property(&_5, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&source);
-		zephir_array_fetch(&source, &_5, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 181);
+		zephir_array_fetch(&source, &_5, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 169);
 	}
 	if (prepend) {
 		zephir_read_property(&_6, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&target);
-		zephir_array_fetch(&target, &_6, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 182);
+		zephir_array_fetch(&target, &_6, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 170);
 	} else {
 		ZEPHIR_CPY_WRT(&target, directories);
 	}
@@ -626,7 +614,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, loadFiles)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("files"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&files, &_0);
-	zephir_is_iterable(&files, 0, "phalcon/Autoload/Loader.zep", 334);
+	zephir_is_iterable(&files, 0, "phalcon/Autoload/Loader.zep", 322);
 	if (Z_TYPE_P(&files) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&files), _1)
 		{
@@ -786,7 +774,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setClasses)
 		array_init(&_0$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("classes"), &_0$$3);
 	}
-	zephir_is_iterable(&classes, 0, "phalcon/Autoload/Loader.zep", 376);
+	zephir_is_iterable(&classes, 0, "phalcon/Autoload/Loader.zep", 364);
 	if (Z_TYPE_P(&classes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&classes), _3, _4, _1)
 		{
@@ -940,7 +928,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions)
 		ZVAL_STRING(&_1$$3, "php");
 		zephir_update_property_array(this_ptr, SL("extensions"), &_3$$3, &_1$$3);
 	}
-	zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 419);
+	zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 407);
 	if (Z_TYPE_P(&extensions) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&extensions), _4)
 		{
@@ -1024,7 +1012,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback)
 		zephir_create_closure_ex(&_0$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("fileCheckingCallback"), &_0$$4);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The 'method' parameter must be either a callable or NULL", "phalcon/Autoload/Loader.zep", 453);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The 'method' parameter must be either a callable or NULL", "phalcon/Autoload/Loader.zep", 441);
 		return;
 	}
 	RETURN_THIS();
@@ -1141,7 +1129,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces)
 		array_init(&_0$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("namespaces"), &_0$$3);
 	}
-	zephir_is_iterable(&namespaces, 0, "phalcon/Autoload/Loader.zep", 501);
+	zephir_is_iterable(&namespaces, 0, "phalcon/Autoload/Loader.zep", 489);
 	if (Z_TYPE_P(&namespaces) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&namespaces), _3, _4, _1)
 		{
@@ -1375,7 +1363,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addToCollection)
 		array_init(&_0$$3);
 		zephir_update_property_zval_zval(this_ptr, &collectionName, &_0$$3);
 	}
-	zephir_is_iterable(&collection, 0, "phalcon/Autoload/Loader.zep", 596);
+	zephir_is_iterable(&collection, 0, "phalcon/Autoload/Loader.zep", 584);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _1)
 		{
@@ -1444,7 +1432,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckClasses)
 	if (1 == zephir_array_isset(&_0, &className)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("classes"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&filePath);
-		zephir_array_fetch(&filePath, &_1$$3, &className, PH_NOISY, "phalcon/Autoload/Loader.zep", 612);
+		zephir_array_fetch(&filePath, &_1$$3, &className, PH_NOISY, "phalcon/Autoload/Loader.zep", 600);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "loader:pathFound");
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_2$$3, &filePath);
@@ -1539,7 +1527,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 	ZEPHIR_CPY_WRT(&className, &_0);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("extensions"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&extensions, &_1);
-	zephir_is_iterable(&directories, 0, "phalcon/Autoload/Loader.zep", 671);
+	zephir_is_iterable(&directories, 0, "phalcon/Autoload/Loader.zep", 659);
 	if (Z_TYPE_P(&directories) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&directories), _2)
 		{
@@ -1549,7 +1537,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 			zephir_fast_trim(&_4$$3, &directory, &dirSeparator, ZEPHIR_TRIM_RIGHT);
 			ZEPHIR_INIT_NVAR(&fixedDirectory);
 			ZEPHIR_CONCAT_VV(&fixedDirectory, &_4$$3, &dirSeparator);
-			zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 669);
+			zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 657);
 			if (Z_TYPE_P(&extensions) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&extensions), _5$$3)
 				{
@@ -1624,7 +1612,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 				zephir_fast_trim(&_16$$10, &directory, &dirSeparator, ZEPHIR_TRIM_RIGHT);
 				ZEPHIR_INIT_NVAR(&fixedDirectory);
 				ZEPHIR_CONCAT_VV(&fixedDirectory, &_16$$10, &dirSeparator);
-				zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 669);
+				zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 657);
 				if (Z_TYPE_P(&extensions) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&extensions), _17$$10)
 					{
@@ -1747,7 +1735,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckNamespaces)
 	ZVAL_STRING(&nsSeparator, "\\");
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&namespaces, &_0);
-	zephir_is_iterable(&namespaces, 0, "phalcon/Autoload/Loader.zep", 706);
+	zephir_is_iterable(&namespaces, 0, "phalcon/Autoload/Loader.zep", 694);
 	if (Z_TYPE_P(&namespaces) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&namespaces), _3, _4, _1)
 		{
@@ -1881,7 +1869,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 		_0 = !(Z_TYPE_P(directories) == IS_ARRAY);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The directories parameter is not a string or array", "phalcon/Autoload/Loader.zep", 729);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The directories parameter is not a string or array", "phalcon/Autoload/Loader.zep", 717);
 		return;
 	}
 	if (Z_TYPE_P(directories) == IS_STRING) {
@@ -1892,7 +1880,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 	}
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(directories, 0, "phalcon/Autoload/Loader.zep", 743);
+	zephir_is_iterable(directories, 0, "phalcon/Autoload/Loader.zep", 731);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(directories), _2)
 		{
