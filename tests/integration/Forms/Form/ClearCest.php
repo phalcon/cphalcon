@@ -15,10 +15,7 @@ namespace Phalcon\Tests\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
-
-use stdClass;
 
 use function uniqid;
 
