@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.0.5
+  PHALCON_VERSION: 5.1.0
   ZEPHIR_PARSER_VERSION: 1.5.1
   ZEPHIR_VERSION: 0.16.3
 
@@ -86,7 +86,8 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.4', '8.0', '8.1' ]
-        ts: [ 'nts', 'ts' ]
+        ts: [ 'nts' ]
+#        ts: [ 'nts', 'ts' ] // disabling TS for the release
         arch: [ 'x64' ]
 
         name:

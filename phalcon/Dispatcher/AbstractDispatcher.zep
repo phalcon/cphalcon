@@ -38,9 +38,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected activeMethodMap = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected actionName = null;
+    protected actionName = "";
 
     /**
      * @var string
@@ -58,14 +58,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected defaultAction = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultNamespace = null;
+    protected defaultNamespace = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected defaultHandler = null;
+    protected defaultHandler = "";
 
     /**
      * @var array
@@ -73,9 +73,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected handlerHashes = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected handlerName = null;
+    protected handlerName = "";
 
     /**
      * @var string
@@ -118,14 +118,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     protected modelBinding = false;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected moduleName = null;
+    protected moduleName = "";
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected namespaceName = null;
+    protected namespaceName = "";
 
     /**
      * @var array
@@ -135,17 +135,17 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * @var string|null
      */
-    protected previousActionName = null;
+    protected previousActionName = "";
 
     /**
      * @var string|null
      */
-    protected previousHandlerName = null;
+    protected previousHandlerName = "";
 
     /**
      * @var string|null
      */
-    protected previousNamespaceName = null;
+    protected previousNamespaceName = "";
 
     /**
      * @var string|null
@@ -809,8 +809,23 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * @param  string|array filters
      * @param  mixed defaultValue
      * @return mixed
+     *
+     * @todo remove this in future versions
      */
     public function getParam(var param, filters = null, defaultValue = null) -> var
+    {
+        return this->getParameter(param, filters, defaultValue);
+    }
+
+    /**
+     * Gets a param by its name or numeric index
+     *
+     * @param  mixed param
+     * @param  string|array filters
+     * @param  mixed defaultValue
+     * @return mixed
+     */
+    public function getParameter(var param, var filters = null, var defaultValue = null) -> var
     {
         var params, filter, paramValue;
 
@@ -838,16 +853,35 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Gets action params
+     *
+     * @todo remove this in future versions
      */
     public function getParams() -> array
+    {
+        return this->getParameters();
+    }
+
+    /**
+     * Gets action params
+     */
+    public function getParameters() -> array
     {
         return this->params;
     }
 
     /**
      * Check if a param exists
+     * @todo deprecate this in the future
      */
     public function hasParam(var param) -> bool
+    {
+        return this->hasParameter(param);
+    }
+
+    /**
+     * Check if a param exists
+     */
+    public function hasParameter(var param) -> bool
     {
         return isset this->params[param];
     }
@@ -923,16 +957,34 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Set a param by its name or numeric index
+     * @todo deprecate this in the future
      */
     public function setParam(var param, var value) -> void
+    {
+        this->setParameter(param, value);
+    }
+
+    /**
+     * Set a param by its name or numeric index
+     */
+    public function setParameter(var param, var value) -> void
     {
         let this->params[param] = value;
     }
 
     /**
      * Sets action params to be dispatched
+     * @todo deprecate this in the future
      */
     public function setParams(array params) -> void
+    {
+        this->setParameters(params);
+    }
+
+    /**
+     * Sets action params to be dispatched
+     */
+    public function setParameters(array params) -> void
     {
         let this->params = params;
     }

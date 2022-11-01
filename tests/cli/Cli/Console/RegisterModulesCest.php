@@ -17,6 +17,7 @@ use CliTester;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Tests\Modules\Backend\Module;
 use Phalcon\Tests\Modules\Frontend\Module as FrontendModule;
 
 class RegisterModulesCest
@@ -64,15 +65,13 @@ class RegisterModulesCest
             ]
         );
 
-        $I->assertCount(
-            1,
-            $console->getModules()
-        );
+        $expected = 1;
+        $actual   = $console->getModules();
+        $I->assertCount($expected, $actual);
 
-        $I->assertArrayHasKey(
-            'backend',
-            $console->getModules()
-        );
+        $expected = 'backend';
+        $actual   = $console->getModules();
+        $I->assertArrayHasKey($expected, $actual);
 
         $console->registerModules(
             [
@@ -81,23 +80,20 @@ class RegisterModulesCest
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ],
-            $merge = true
+            true
         );
 
-        $I->assertCount(
-            2,
-            $console->getModules()
-        );
+        $expected = 2;
+        $actual   = $console->getModules();
+        $I->assertCount($expected, $actual);
 
-        $I->assertArrayHasKey(
-            'frontend',
-            $console->getModules()
-        );
+        $expected = 'frontend';
+        $actual   = $console->getModules();
+        $I->assertArrayHasKey($expected, $actual);
 
-        $I->assertArrayHasKey(
-            'backend',
-            $console->getModules()
-        );
+        $expected = 'backend';
+        $actual   = $console->getModules();
+        $I->assertArrayHasKey($expected, $actual);
     }
 
     /**
@@ -124,7 +120,9 @@ class RegisterModulesCest
 
         $I->expectThrowable(
             new Exception(
-                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
+                "Module definition path '"
+                . dataDir('not-a-real-file.php')
+                . "' doesn't exist"
             ),
             function () use ($console) {
                 $console->handle(

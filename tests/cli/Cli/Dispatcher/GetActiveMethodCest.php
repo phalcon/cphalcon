@@ -34,9 +34,8 @@ class GetActiveMethodCest
 
         $dispatcher->setActionName("phalcon");
 
-        $I->assertEquals(
-            "phalconAction",
-            $dispatcher->getActiveMethod()
-        );
+        $expected = "phalconAction";
+        $actual   = $dispatcher->getActiveMethod();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -29,11 +29,22 @@ class SetDefaultActionCest
         $I->wantToTest('Cli\Router - setDefaultAction()');
 
         $router = new Router(false);
-        $I->assertNull($router->getActionName());
+
+        $expected = "";
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
+
         $router->handle("");
-        $I->assertNull($router->getActionName());
+
+        $expected = "";
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
+
         $router->setDefaultAction("test");
         $router->handle("");
-        $I->assertEquals("test", $router->getActionName());
+
+        $expected = "test";
+        $actual   = $router->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }

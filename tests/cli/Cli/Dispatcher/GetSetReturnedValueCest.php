@@ -32,6 +32,9 @@ class GetSetReturnedValueCest
 
         $value = "Phalcon";
         $dispatcher->setReturnedValue($value);
-        $I->assertEquals($value, $dispatcher->getReturnedValue());
+
+        $expected = $value;
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
     }
 }

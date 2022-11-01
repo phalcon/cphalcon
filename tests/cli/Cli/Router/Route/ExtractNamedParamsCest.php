@@ -40,9 +40,8 @@ class ExtractNamedParamsCest
                 'action' => 2,
             ],
         ];
-        $I->assertEquals(
-            $expected,
-            $route->extractNamedParams($pattern)
-        );
+
+        $actual = $route->extractNamedParams($pattern);
+        $I->assertSame($expected, $actual);
     }
 }

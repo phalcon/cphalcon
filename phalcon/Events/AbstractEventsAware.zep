@@ -14,7 +14,6 @@ use Phalcon\Events\ManagerInterface;
 
 /**
  * This abstract class offers access to the events manager
- * @property ?ManagerInterface $eventsManager
  */
 abstract class AbstractEventsAware
 {
@@ -67,4 +66,3 @@ abstract class AbstractEventsAware
         return true;
     }
 }
-

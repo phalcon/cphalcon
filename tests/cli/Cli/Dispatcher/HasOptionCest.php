@@ -32,12 +32,17 @@ class HasOptionCest
         $I->wantToTest('Cli\Dispatcher - hasOption()');
         $dispatcher = new Dispatcher();
         $optionName = "Phalcon";
-        $I->assertFalse($dispatcher->hasOption($optionName));
+
+        $actual = $dispatcher->hasOption($optionName);
+        $I->assertFalse($actual);
 
         $dispatcher->setOptions([$optionName => "value"]);
-        $I->assertTrue($dispatcher->hasOption($optionName));
 
-        //Options should be case sensitive
-        $I->assertFalse($dispatcher->hasOption(strtolower($optionName)));
+        $actual = $dispatcher->hasOption($optionName);
+        $I->assertTrue($actual);
+
+        // Options should be case-sensitive
+        $actual = $dispatcher->hasOption(strtolower($optionName));
+        $I->assertFalse($actual);
     }
 }

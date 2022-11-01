@@ -32,10 +32,16 @@ class GetSetModuleNameCest
         $I->wantToTest('Cli\Dispatcher - getModuleName() / setModuleName()');
 
         $dispatcher = new Dispatcher();
-        $I->assertNull($dispatcher->getModuleName());
+
+        $expected = '';
+        $actual   = $dispatcher->getModuleName();
+        $I->assertSame($expected, $actual);
 
         $moduleName = "Phalcon";
         $dispatcher->setModuleName($moduleName);
-        $I->assertEquals($moduleName, $dispatcher->getModuleName());
+
+        $expected = $moduleName;
+        $actual   = $dispatcher->getModuleName();
+        $I->assertSame($expected, $actual);
     }
 }

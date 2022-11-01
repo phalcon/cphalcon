@@ -38,12 +38,6 @@
  */
 /**
  * Sends query profiles to a logger.
- *
- * @property bool            $active
- * @property array           $context
- * @property string          $logFormat
- * @property string          $logLevel
- * @property LoggerInterface $logger
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_Profiler)
 {
@@ -204,7 +198,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		ZVAL_STRING(&_2$$3, "backtrace");
 		zephir_update_property_array(this_ptr, SL("context"), &_2$$3, &_1$$3);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_4$$3, &_3$$3, SL("start"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 91);
+		zephir_array_fetch_string(&_4$$3, &_3$$3, SL("start"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 85);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		zephir_sub_function(&_5$$3, &finish, &_4$$3);
 		ZEPHIR_INIT_VAR(&_6$$3);
@@ -498,7 +492,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, encode)
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 192, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 215);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 209);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

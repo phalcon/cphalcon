@@ -36,6 +36,9 @@ class GetSetModelBinderCest
 
         $modelBinder = new Binder();
         $dispatcher->setModelBinder($modelBinder);
-        $I->assertEquals($modelBinder, $dispatcher->getModelBinder());
+
+        $expected = $modelBinder;
+        $actual   = $dispatcher->getModelBinder();
+        $I->assertSame($expected, $actual);
     }
 }

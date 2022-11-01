@@ -27,20 +27,36 @@ class ConstructCest
     public function cliRouterConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Router - __construct()');
+
+        Router\Route::reset();
         $router = new Router(false);
 
-        $I->assertInstanceOf('Phalcon\Cli\Router', $router);
+        $class  = Router::class;
+        $actual = $router;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals([], $router->getRoutes());
+        $expected = [];
+        $actual   = $router->getRoutes();
+        $I->assertSame($expected, $actual);
 
         //Should contain 2 default routes.
         $router = new Router();
 
-        $I->assertInstanceOf('Phalcon\Cli\Router', $router);
-        $routes = $router->getRoutes();
-        $I->assertCount(2, $routes);
+        $class  = Router::class;
+        $actual = $router;
+        $I->assertInstanceOf($class, $actual);
 
-        $I->assertEquals("#^(?: )?([a-zA-Z0-9\\_\\-]+)[ ]{0,1}$#", $routes[0]->getPattern());
-        $I->assertEquals("#^(?: )?([a-zA-Z0-9\\_\\-]+) ([a-zA-Z0-9\\.\\_]+)( .*)*$#", $routes[1]->getPattern());
+        $routes   = $router->getRoutes();
+        $expected = 2;
+        $actual   = count($router->getRoutes());
+        $I->assertSame($expected, $actual);
+
+        $expected = "#^(?: )?([a-zA-Z0-9\\_\\-]+)[ ]{0,1}$#";
+        $actual   = $routes[0]->getPattern();
+        $I->assertSame($expected, $actual);
+
+        $expected = "#^(?: )?([a-zA-Z0-9\\_\\-]+) ([a-zA-Z0-9\\.\\_]+)( .*)*$#";
+        $actual   = $routes[1]->getPattern();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -31,13 +31,19 @@ class SetDefaultActionCest
 
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
+        $dispatcher->setDI(new DiFactoryDefault());
+
         $defaultAction = "noop";
         $dispatcher->setDefaultAction($defaultAction);
-        $I->assertEquals("", $dispatcher->getActionName());
+
+        $expected = '';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
+
         $dispatcher->dispatch();
-        $I->assertEquals($defaultAction, $dispatcher->getActionName());
+
+        $expected = $defaultAction;
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }

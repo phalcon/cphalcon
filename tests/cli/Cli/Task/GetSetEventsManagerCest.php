@@ -17,21 +17,23 @@ use CliTester;
 use Phalcon\Cli\Task;
 use Phalcon\Events\Manager;
 
-class SetEventsManagerCest
+class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Cli\Task :: setEventsManager()
+     * Tests Phalcon\Cli\Task :: getEventsManager()/setEventsManager()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function cliTaskSetEventsManager(CliTester $I)
+    public function cliTaskGetSetEventsManager(CliTester $I)
     {
-        $I->wantToTest('Cli\Task - setEventsManager()');
-
+        $I->wantToTest('Cli\Task - getEventsManager()/setEventsManager()');
         $eventsManager = new Manager();
         $task          = new Task();
         $task->setEventsManager($eventsManager);
-        $I->assertEquals($eventsManager, $task->getEventsManager());
+
+        $expected = $eventsManager;
+        $actual   = $task->getEventsManager();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -36,22 +36,25 @@ class GetRoutesCest
     {
         $I->wantToTest('Cli\Router - getRoutes()');
 
+        Router\Route::reset();
         $router = new Router(false);
 
-        $I->assertEquals(
-            [],
-            $router->getRoutes()
-        );
+        $expected = [];
+        $actual   = $router->getRoutes();
+        $I->assertSame($expected, $actual);
 
-        $usersFind = $router->add('api users find')->setName('usersFind');
-        $usersAdd  = $router->add('api users add')->setName('usersAdd');
+        $usersFind = $router->add('api users find')
+                            ->setName('usersFind')
+        ;
+        $usersAdd  = $router->add('api users add')
+                            ->setName('usersAdd')
+        ;
 
-        $I->assertEquals(
-            [
-                $usersFind,
-                $usersAdd,
-            ],
-            $router->getRoutes()
-        );
+        $expected = [
+            0 => $usersFind,
+            1 => $usersAdd,
+        ];
+        $actual   = $router->getRoutes();
+        $I->assertSame($expected, $actual);
     }
 }

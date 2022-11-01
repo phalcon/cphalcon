@@ -33,20 +33,6 @@
  */
 /**
  * Collection of asset objects
- *
- * @property array  $assets
- * @property array  $attributes
- * @property bool   $autoVersion
- * @property array  $codes
- * @property array  $filters
- * @property bool   $join
- * @property bool   $isLocal
- * @property string $prefix
- * @property string $sourcePath
- * @property bool   $targetIsLocal
- * @property string $targetPath
- * @property string $targetUri
- * @property string $version
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection)
 {
@@ -772,7 +758,7 @@ PHP_METHOD(Phalcon_Assets_Collection, has)
 	ZEPHIR_CALL_METHOD(&key, asset, "getassetkey", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("assets"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Assets/Collection.zep", 395);
+	zephir_is_iterable(&_0, 0, "phalcon/Assets/Collection.zep", 381);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{

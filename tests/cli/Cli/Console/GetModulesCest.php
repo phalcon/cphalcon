@@ -39,10 +39,9 @@ class GetModulesCest
 
         $console = new CliConsole(new DiFactoryDefault());
 
-        $I->assertEquals(
-            [],
-            $console->getModules()
-        );
+        $expected = [];
+        $actual   = $console->getModules();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -73,9 +72,8 @@ class GetModulesCest
 
         $console->registerModules($definition);
 
-        $I->assertEquals(
-            $definition,
-            $console->getModules()
-        );
+        $expected = $definition;
+        $actual   = $console->getModules();
+        $I->assertSame($expected, $actual);
     }
 }

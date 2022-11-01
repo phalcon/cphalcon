@@ -38,9 +38,8 @@ class GetSetEventsManagerCest
 
         $console->setEventsManager($eventsManager);
 
-        $I->assertEquals(
-            $eventsManager,
-            $console->getEventsManager()
-        );
+        $expected = $eventsManager;
+        $actual   = $console->getEventsManager();
+        $I->assertSame($expected, $actual);
     }
 }

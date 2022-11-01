@@ -284,10 +284,14 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule)
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager)
 {
-	zval *eventsManager, eventsManager_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *eventsManager, eventsManager_sub, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -296,10 +300,18 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager)
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventsManager);
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdi", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "eventsManager");
+	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &_1, eventsManager);
+	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	ZEPHIR_MM_RESTORE();
 }
 
 zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type)

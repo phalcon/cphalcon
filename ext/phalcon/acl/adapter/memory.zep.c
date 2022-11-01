@@ -109,7 +109,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory)
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("accessList"), ZEND_ACC_PROTECTED);
 	/**
-	 * Returns latest function used to acquire access
+	 * Returns the latest function used to acquire access
 	 *
 	 * @var mixed
 	 */
@@ -121,7 +121,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory)
 	 */
 	zend_declare_property_long(phalcon_acl_adapter_memory_ce, SL("activeFunctionCustomArgumentsCount"), 0, ZEND_ACC_PROTECTED);
 	/**
-	 * Returns latest key used to acquire access
+	 * Returns the latest key used to acquire access
 	 *
 	 * @var string|null
 	 */
@@ -145,7 +145,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory)
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("func"), ZEND_ACC_PROTECTED);
 	/**
-	 * Default action for no arguments is allow
+	 * Default action for no arguments is `allow`
 	 *
 	 * @var mixed
 	 */
@@ -197,11 +197,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct)
  * Adds a component to the ACL list
  *
  * Access names can be a particular action, by example
- * search, update, delete, etc or a list of them
+ * search, update, delete, etc. or a list of them
  *
  * Example:
  * ```php
- * // Add a component to the the list allowing access to an action
+ * // Add a component to the list allowing access to an action
  * $acl->addComponent(
  *     new Phalcon\Acl\Component("customers"),
  *     "search"
@@ -1056,7 +1056,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny)
 }
 
 /**
- * Removes an access from a component
+ * Removes access from a component
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropComponentAccess)
 {
@@ -1151,7 +1151,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropComponentAccess)
 }
 
 /**
- * Returns latest function used to acquire access
+ * Returns the latest function used to acquire access
  *
  * @return mixed
  */
@@ -1177,7 +1177,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveFunctionCustomArgumentsCount)
 }
 
 /**
- * Returns latest key used to acquire access
+ * Returns the latest key used to acquire access
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveKey)
 {

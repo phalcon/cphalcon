@@ -33,6 +33,23 @@ class MainTask extends Task
         return 'Hello ' . $world . $symbol;
     }
 
+    /**
+     * @param string $world
+     * @param string $symbol
+     * @param string $country
+     * @param string $last
+     *
+     * @return string
+     */
+    public function argumentsAction(
+        string $world,
+        string $symbol,
+        string $country,
+        $last
+    ) {
+        return '-' . $world . '-' . $symbol . '-' . $country . '-' . (string) $last . '-';
+    }
+
     public function noopAction()
     {
         return;

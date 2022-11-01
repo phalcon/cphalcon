@@ -59,9 +59,19 @@ ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getHandlerSuffix);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParam);
 /**
+ * Gets a param by its name or numeric index
+ *
+ * @param  string|array filters
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParameter);
+/**
  * Gets action params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParams);
+/**
+ * Gets action params
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParameters);
 /**
  * Returns value returned by the latest dispatched action
  */

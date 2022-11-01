@@ -14,27 +14,53 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
+use Codeception\Example;
 use Exception;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
+use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Tests\Fixtures\Tasks\Issue787Task;
 use Phalcon\Tests\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Modules\Frontend\Module as FrontendModule;
 
+use function codecept_root_dir;
+use function dataDir;
+use function ob_end_clean;
+use function ob_start;
+use function shell_exec;
+
+use const PHP_OS_FAMILY;
+
 class HandleCest
 {
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
+     * @dataProvider getExamplesHandle
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
+     * @throws ConsoleException
+     * @throws RouterException
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function handle(CliTester $I)
+    public function cliConsoleHandle(CliTester $I, Example $example)
     {
-        $I->wantToTest("Cli\Console - handle()");
+        $label         = $example['label'];
+        $arguments     = $example['arguments'];
+        $taskName      = $example['taskName'];
+        $actionName    = $example['actionName'];
+        $params        = $example['params'];
+        $returnedValue = $example['returnedValue'];
+
+        $I->wantToTest("Cli\Console - handle() " . $label);
 
         $container = new DiFactoryDefault();
 
@@ -47,112 +73,28 @@ class HandleCest
 
         $console = new CliConsole($container);
 
-        $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher = $console->getDI()
+                              ->getShared('dispatcher')
+        ;
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
-        $console->handle([]);
+        $console->handle($arguments);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = $taskName;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
+        $expected = $actionName;
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
+        $expected = $params;
+        $actual   = $dispatcher->getParams();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'mainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task' => 'echo',
-            ]
-        );
-
-        $I->assertEquals(
-            'echo',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'echoMainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task'   => 'main',
-                'action' => 'hello',
-            ]
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->handle(
-            [
-                'task'   => 'main',
-                'action' => 'hello',
-                'World',
-                '######',
-            ]
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ['World', '######'],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello World######',
-            $dispatcher->getReturnedValue()
-        );
+        $expected = $returnedValue;
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -161,7 +103,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleModule(CliTester $I)
+    public function cliConsoleHandleModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - BackendModules");
 
@@ -195,21 +137,17 @@ class HandleCest
             }
         );
 
+        $expected = 'main';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = 'throw';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'throw',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            'backend',
-            $dispatcher->getModuleName()
-        );
+        $expected = 'backend';
+        $actual   = $dispatcher->getModuleName();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -218,7 +156,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleEventBoot(CliTester $I)
+    public function cliConsoleHandleEventBoot(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:boot");
 
@@ -236,9 +174,7 @@ class HandleCest
         $I->expectThrowable(
             new Exception('Console Boot Event Fired'),
             function () use ($console) {
-                $console->handle(
-                    []
-                );
+                $console->handle();
             }
         );
     }
@@ -249,7 +185,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleEventBeforeStartModule(CliTester $I)
+    public function cliConsoleHandleEventBeforeStartModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:beforeStartModule");
 
@@ -297,7 +233,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleEventAfterStartModule(CliTester $I)
+    public function cliConsoleHandleEventAfterStartModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:afterStartModule");
 
@@ -345,7 +281,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleEventBeforeHandleTask(CliTester $I)
+    public function cliConsoleHandleEventBeforeHandleTask(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:beforeHandleTask");
 
@@ -374,7 +310,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
-    public function handleEventAfterHandleTask(CliTester $I)
+    public function cliConsoleHandleEventAfterHandleTask(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:afterHandleTask");
 
@@ -426,7 +362,7 @@ class HandleCest
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2019-01-06
      */
-    public function handle13724(CliTester $I)
+    public function cliConsoleHandle13724(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Issue #13724");
         $console = new CliConsole(new DiFactoryDefault());
@@ -473,7 +409,7 @@ class HandleCest
         );
     }
 
-    public function shouldThrowExceptionWhenModuleDoesNotExists(CliTester $I)
+    public function cliConsoleHandleModuleDoesNotExists(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Throw exception when module does not exists");
 
@@ -497,7 +433,7 @@ class HandleCest
         );
     }
 
-    public function shouldThrowExceptionWhenTaskDoesNotExists(CliTester $I)
+    public function cliConsoleHandleTaskDoesNotExists(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Throw exception when task does not exists");
 
@@ -524,7 +460,7 @@ class HandleCest
         );
     }
 
-    public function testIssue787(CliTester $I)
+    public function cliConsoleHandle787(CliTester $I)
     {
         $console = new CliConsole(new DiFactoryDefault());
         $console->dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
@@ -536,9 +472,87 @@ class HandleCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
             Issue787Task::$output
         );
+    }
+
+    /**
+     * @param CliTester $I
+     *
+     * @issue  16186
+     * @return void
+     */
+    public function cliConsoleHandleNoAction(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - handle() - no action");
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $I->markTestSkipped('Need to check this under Windows');
+        }
+
+        $script = codecept_root_dir() . 'tests/testbed/cli.php ';
+
+        ob_start();
+        $actual = shell_exec('sudo php ' . $script . 'print');
+        ob_end_clean();
+
+        $expected = 'printMainAction';
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamplesHandle(): array
+    {
+        return [
+            [
+                'label'         => 'default',
+                'arguments'     => [],
+                'taskName'      => 'main',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'mainAction',
+            ],
+            [
+                'label'         => 'task',
+                'arguments'     => [
+                    'task' => 'echo',
+                ],
+                'taskName'      => 'echo',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'echoMainAction',
+            ],
+            [
+                'label'         => 'task action',
+                'arguments'     => [
+                    'task'   => 'main',
+                    'action' => 'hello',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [],
+                'returnedValue' => 'Hello !',
+            ],
+            [
+                'label'         => 'task action params',
+                'arguments'     => [
+                    'task'   => 'main',
+                    'action' => 'hello',
+                    'World',
+                    '#####',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [
+                    'World',
+                    '#####',
+                ],
+                'returnedValue' => 'Hello World#####',
+            ],
+        ];
     }
 }

@@ -29,11 +29,15 @@ class GetTaskNameCest
         $I->wantToTest('Cli\Router - getTaskName()');
 
         $router = new Router();
-        $I->assertNull(
-            $router->getTaskName()
-        );
+
+        $expected = '';
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
+
         $router->handle("task action param1 param2");
 
-        $I->assertEquals("task", $router->getTaskName());
+        $expected = "task";
+        $actual   = $router->getTaskName();
+        $I->assertSame($expected, $actual);
     }
 }

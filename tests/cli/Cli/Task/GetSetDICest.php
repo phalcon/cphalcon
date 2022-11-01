@@ -29,10 +29,12 @@ class GetSetDICest
     {
         $I->wantToTest('Cli\Task - getDI() / setDI()');
 
-        $task = new Task();
-        $di   = new CliDi();
-        $task->setDi($di);
+        $task      = new Task();
+        $container = new CliDi();
+        $task->setDi($container);
 
-        $I->assertEquals($di, $task->getDi());
+        $expected = $container;
+        $actual   = $task->getDI();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -40,9 +40,8 @@ class ForwardCest
             ]
         );
 
-        $I->assertEquals(
-            'phalcon',
-            $dispatcher->getActionName()
-        );
+        $expected = 'phalcon';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
     }
 }

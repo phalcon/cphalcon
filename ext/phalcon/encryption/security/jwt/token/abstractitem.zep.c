@@ -28,8 +28,6 @@
  */
 /**
  * Abstract helper class for Tokens
- *
- * @property array $data
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_AbstractItem)
 {
@@ -58,7 +56,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded)
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 30);
+	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 28);
 	RETURN_CTORW(&_1);
 }
 

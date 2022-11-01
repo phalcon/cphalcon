@@ -14,8 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Cli\Cli\Console;
 
 use CliTester;
+use Codeception\Example;
 use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Exception as RouterException;
+use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 class SetArgumentCest
@@ -45,297 +50,146 @@ class SetArgumentCest
             }
         );
 
+        /** @var Dispatcher $dispatcher */
         $dispatcher = $di->getShared('dispatcher');
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
-        $console->setArgument([
-            'php',
-            '--foo=bar',
-            '-bar',
-            'main',
-            'hello',
-            'a',
-            'B',
-        ])->handle()
+        $console->setArgument(
+            [
+                'php',
+                'main',
+                'arguments',
+                'a',
+                'b',
+                'c',
+                'd',
+            ]
+        )
+                ->handle()
         ;
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = 'main';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
+        $expected = 'arguments';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            ['a', 'B'],
-            $dispatcher->getParams()
-        );
+        $expected = ['a', 'b', 'c', 'd'];
+        $actual   = $dispatcher->getParameters();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
+        $expected = [];
+        $actual   = $dispatcher->getOptions();
+        $I->assertSame($expected, $actual);
+
+        $console->setArgument(
             [
-                'foo' => 'bar',
-                'bar' => true,
-            ],
-            $dispatcher->getOptions()
-        );
+                'php',
+                '--country=usa',
+                '-last',
+                'main',
+                'arguments',
+                'a',
+                'b',
+            ]
+        )
+                ->handle()
+        ;
+
+        $expected = 'main';
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
+
+        $expected = 'arguments';
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
+
+        $expected = ['a', 'b'];
+        $actual   = $dispatcher->getParameters();
+        $I->assertSame($expected, $actual);
+
+        $expected = [
+            'country' => 'usa',
+            'last' => true,
+        ];
+        $actual   = $dispatcher->getOptions();
+        $I->assertSame($expected, $actual);
     }
 
-    public function testArgumentArray(CliTester $I)
+    /**
+     * @dataProvider getExamplesStrShift
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
+     * @throws ConsoleException
+     * @throws DiException
+     * @throws RouterException
+     */
+    public function cliConsoleSetArgumentStrShift(CliTester $I, Example $example)
     {
+        $label         = $example['label'];
+        $str           = $example['str'];
+        $shift         = $example['shift'];
+        $argument      = $example['argument'];
+        $taskName      = $example['taskName'];
+        $actionName    = $example['actionName'];
+        $params        = $example['params'];
+        $returnedValue = $example['returnedValue'];
+
+        $I->wantToTest("Cli\Console - setArgument - str/shift - " . $label);
         $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
 
+        /** @var Dispatcher $dispatcher */
         $dispatcher = $di->getShared('dispatcher');
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
-        $console->setArgument(
-            [
-                'php',
-            ],
-            false
-        )->handle()
+        $console->setArgument($argument, $str, $shift)
+                ->handle()
         ;
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = $taskName;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
+        $expected = $actionName;
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
+        $expected = $params;
+        $actual   = $dispatcher->getParameters();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'mainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument(
-            [
-                'php',
-                'echo',
-            ],
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'echo',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'echoMainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument(
-            [
-                'php',
-                'main',
-                'hello',
-            ],
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument(
-            [
-                'php',
-                'main',
-                'hello',
-                'World',
-                '######',
-            ],
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ['World', '######'],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello World######',
-            $dispatcher->getReturnedValue()
-        );
+        $expected = $returnedValue;
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
     }
 
-    public function testArgumentNoShift(CliTester $I)
+    /**
+     * @dataProvider getExamplesRouter
+     *
+     * @param CliTester $I
+     * @param Example   $example
+     *
+     * @return void
+     * @throws ConsoleException
+     * @throws RouterException
+     * @throws DiException
+     */
+    public function cliConsoleSetArgumentRouter(CliTester $I, Example $example)
     {
-        $di      = new DiFactoryDefault();
-        $console = new CliConsole($di);
+        $label         = $example['label'];
+        $argument      = $example['argument'];
+        $taskName      = $example['taskName'];
+        $actionName    = $example['actionName'];
+        $params        = $example['params'];
+        $returnedValue = $example['returnedValue'];
 
-        $dispatcher = $di->getShared('dispatcher');
-        $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
-
-        $console->setArgument(
-            [],
-            false,
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'mainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument(
-            [
-                'echo',
-            ],
-            false,
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'echo',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'echoMainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument([
-            'main',
-            'hello',
-        ], false, false)->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $dispatcher->getReturnedValue()
-        );
-
-        $console->setArgument(
-            [
-                'main',
-                'hello',
-                'World',
-                '######',
-            ],
-            false,
-            false
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ['World', '######'],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello World######',
-            $dispatcher->getReturnedValue()
-        );
-    }
-
-    public function testArgumentRouter(CliTester $I)
-    {
+        $I->wantToTest("Cli\Console - setArgument - router - " . $label);
         $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
@@ -348,126 +202,186 @@ class SetArgumentCest
             }
         );
 
+        /** @var Dispatcher $dispatcher */
         $dispatcher = $di->getShared('dispatcher');
         $dispatcher->setDefaultNamespace('Phalcon\Tests\Fixtures\Tasks');
 
-
-        $console->setArgument(
-            [
-                'php',
-            ]
-        )->handle()
+        $console->setArgument($argument)
+                ->handle()
         ;
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
+        $expected = $taskName;
+        $actual   = $dispatcher->getTaskName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
+        $expected = $actionName;
+        $actual   = $dispatcher->getActionName();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
+        $expected = $params;
+        $actual   = $dispatcher->getParameters();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            'mainAction',
-            $dispatcher->getReturnedValue()
-        );
+        $expected = $returnedValue;
+        $actual   = $dispatcher->getReturnedValue();
+        $I->assertSame($expected, $actual);
+    }
 
-
-        $console->setArgument(
+    /**
+     * @return array[]
+     */
+    private function getExamplesStrShift(): array
+    {
+        return [
             [
-                'php',
-                'echo',
-            ]
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'echo',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'echoMainAction',
-            $dispatcher->getReturnedValue()
-        );
-
-
-        $console->setArgument(
+                'label'         => 'default',
+                'str'           => false,
+                'shift'         => true,
+                'argument'      => [
+                    'php',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'mainAction',
+            ],
             [
-                'php',
-                'main',
-                'hello',
-            ]
-        )->handle()
-        ;
-
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            [],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $dispatcher->getReturnedValue()
-        );
-
-
-        $console->setArgument(
+                'label'         => 'one',
+                'str'           => false,
+                'shift'         => true,
+                'argument'      => [
+                    'php',
+                    'echo',
+                ],
+                'taskName'      => 'echo',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'echoMainAction',
+            ],
             [
-                'php',
-                'main',
-                'hello',
-                'World',
-                '######',
-            ]
-        )->handle()
-        ;
+                'label'         => 'two',
+                'str'           => false,
+                'shift'         => true,
+                'argument'      => [
+                    'php',
+                    'main',
+                    'hello',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [],
+                'returnedValue' => 'Hello !',
+            ],
+            [
+                'label'         => 'four',
+                'str'           => false,
+                'shift'         => true,
+                'argument'      => [
+                    'php',
+                    'main',
+                    'hello',
+                    'World',
+                    '#####',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => ['World', '#####'],
+                'returnedValue' => 'Hello World#####',
+            ],
+            [
+                'label'         => 'default',
+                'str'           => false,
+                'shift'         => false,
+                'argument'      => [],
+                'taskName'      => 'main',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'mainAction',
+            ],
+            [
+                'label'         => 'one',
+                'str'           => false,
+                'shift'         => false,
+                'argument'      => [
+                    'echo',
+                ],
+                'taskName'      => 'echo',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'echoMainAction',
+            ],
+            [
+                'label'         => 'two',
+                'str'           => false,
+                'shift'         => false,
+                'argument'      => [
+                    'main',
+                    'hello',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => [],
+                'returnedValue' => 'Hello !',
+            ],
+            [
+                'label'         => 'four',
+                'str'           => false,
+                'shift'         => false,
+                'argument'      => [
+                    'main',
+                    'hello',
+                    'World',
+                    '#####',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => ['World', '#####'],
+                'returnedValue' => 'Hello World#####',
+            ],
+        ];
+    }
 
-        $I->assertEquals(
-            'main',
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ['World', '######'],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            'Hello World######',
-            $dispatcher->getReturnedValue()
-        );
+    /**
+     * @return array[]
+     */
+    private function getExamplesRouter(): array
+    {
+        return [
+            [
+                'label'         => 'one',
+                'argument'      => [
+                    'php',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'mainAction',
+            ],
+            [
+                'label'         => 'two',
+                'argument'      => [
+                    'php',
+                    'echo',
+                ],
+                'taskName'      => 'echo',
+                'actionName'    => 'main',
+                'params'        => [],
+                'returnedValue' => 'echoMainAction',
+            ],
+            [
+                'label'         => 'five',
+                'argument'      => [
+                    'php',
+                    'main',
+                    'hello',
+                    'World',
+                    '#####',
+                ],
+                'taskName'      => 'main',
+                'actionName'    => 'hello',
+                'params'        => ['World', '#####'],
+                'returnedValue' => 'Hello World#####',
+            ],
+        ];
     }
 }

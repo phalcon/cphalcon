@@ -33,10 +33,14 @@ class ConstructCest
     {
         $I->wantToTest('Cli\Task - __construct()');
         $task = new Task();
-        $I->assertInstanceOf(Task::class, $task);
+
+        $class = Task::class;
+        $I->assertInstanceOf($class, $task);
 
         $task = new OnConstructTask();
-        $I->assertTrue($task->onConstructExecuted);
+
+        $actual = $task->onConstructExecuted;
+        $I->assertTrue($actual);
     }
 
     public function extendTask(CliTester $I)
@@ -53,9 +57,17 @@ class ConstructCest
         $task = new MainTask();
         $task->setDI($di);
 
-        $I->assertEquals('data', $task->requestRegistryAction());
-        $I->assertEquals('Hello !', $task->helloAction());
-        $I->assertEquals('Hello World!', $task->helloAction('World'));
+        $expected = 'data';
+        $actual   = $task->requestRegistryAction();
+        $I->assertSame($expected, $actual);
+
+        $expected = 'Hello !';
+        $actual   = $task->helloAction();
+        $I->assertSame($expected, $actual);
+
+        $expected = 'Hello World!';
+        $actual   = $task->helloAction('World');
+        $I->assertSame($expected, $actual);
     }
 
     public function echoTask(CliTester $I)
@@ -65,6 +77,8 @@ class ConstructCest
 
         $task->setDI($di);
 
-        $I->assertEquals('echoMainAction', $task->mainAction());
+        $expected = 'echoMainAction';
+        $actual   = $task->mainAction();
+        $I->assertSame($expected, $actual);
     }
 }

@@ -14,8 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Tests\Fixtures\Objects\ChildObject;
+use Phalcon\Tests\Fixtures\Objects\ParentObject;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Fixtures\Traits\ViewTrait;
 
@@ -55,10 +58,9 @@ class RenderCest
     {
         $view = $this->container->get('viewSimple');
 
-        $I->assertEquals(
-            'here',
-            $view->render('currentrender/other')
-        );
+        $expected = 'here';
+        $actual   = $view->render('currentrender/other');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -71,15 +73,13 @@ class RenderCest
     {
         $view = $this->container->get('viewSimple');
 
-        $I->assertEquals(
-            'We are here',
-            $view->render('simple/index')
-        );
+        $expected = 'We are here';
+        $actual   = $view->render('simple/index');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'We are here',
-            $view->getContent()
-        );
+        $expected = 'We are here';
+        $actual   = $view->getContent();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -111,7 +111,6 @@ class RenderCest
         );
 
         $I->seeFileFound('index.mhtml.php');
-
         $I->safeDeleteFile('index.mhtml.php');
     }
 
@@ -190,6 +189,36 @@ class RenderCest
 
                 $view->render('unknown/view');
             }
+        );
+    }
+
+    public function mvcViewRenderChildobject(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\View\Simple - render() - childobject');
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/currentrender/subobject.volt.php')
+        );
+
+        $view = $this->container->get('viewSimple');
+
+        $view->registerEngines(
+            [
+                '.volt' => Volt::class,
+            ]
+        );
+
+        $child  = new ChildObject();
+        $parent = new ParentObject($child);
+
+        $view->setVar('parentObject', $parent);
+
+        $expected = 'Value';
+        $actual   = $view->render('currentrender/subobject');
+        $I->assertEquals($expected, $actual);
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/currentrender/subobject.volt.php')
         );
     }
 }

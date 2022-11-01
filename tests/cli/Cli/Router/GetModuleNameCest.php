@@ -29,14 +29,19 @@ class GetModuleNameCest
         $I->wantToTest('Cli\Router - getModuleName()');
 
         $router = new Router();
-        $I->assertSame(
-            '',
-            $router->getModuleName()
-        );
-        $router->handle([
-            'module' => 'test',
-        ]);
 
-        $I->assertEquals("test", $router->getModuleName());
+        $expected = '';
+        $actual   = $router->getModuleName();
+        $I->assertSame($expected, $actual);
+
+        $router->handle(
+            [
+                'module' => 'test',
+            ]
+        );
+
+        $expected = "test";
+        $actual   = $router->getModuleName();
+        $I->assertSame($expected, $actual);
     }
 }

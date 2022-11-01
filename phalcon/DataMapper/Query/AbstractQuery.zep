@@ -19,10 +19,6 @@ use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractQuery
- *
- * @property Bind       $bind
- * @property Connection $connection
- * @property array      $store
  */
 abstract class AbstractQuery
 {

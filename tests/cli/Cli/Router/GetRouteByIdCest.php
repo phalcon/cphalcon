@@ -33,21 +33,19 @@ class GetRouteByIdCest
 
         $router = new Router(false);
 
-        $usersFind = $router->add('api users find')->setName('usersFind');
-        $usersAdd  = $router->add('api users add')->setName('usersAdd');
+        $usersFind = $router->add('api users find')
+                            ->setName('usersFind')
+        ;
+        $usersAdd  = $router->add('api users add')
+                            ->setName('usersAdd')
+        ;
 
-        $I->assertEquals(
-            $usersFind,
-            $router->getRouteById(
-                $usersFind->getRouteId()
-            )
-        );
+        $expected = $usersFind;
+        $actual   = $router->getRouteById($usersFind->getRouteId());
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            $usersAdd,
-            $router->getRouteById(
-                $usersAdd->getRouteId()
-            )
-        );
+        $expected = $usersAdd;
+        $actual   = $router->getRouteById($usersAdd->getRouteId());
+        $I->assertSame($expected, $actual);
     }
 }

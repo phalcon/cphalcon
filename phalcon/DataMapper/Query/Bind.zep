@@ -17,9 +17,6 @@ namespace Phalcon\DataMapper\Query;
 
 /**
  * Class Bind
- *
- * @property int   $inlineCount
- * @property array $store
  */
 class Bind
 {

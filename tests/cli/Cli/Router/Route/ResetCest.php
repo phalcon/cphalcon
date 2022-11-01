@@ -31,15 +31,23 @@ class ResetCest
         Route::reset();
         Route::delimiter('/');
         $route = new Route('test');
-        $I->assertEquals(0, $route->getRouteId());
 
-        $route = new Route('test');
-        $route = new Route('test');
-        $route = new Route('test');
-        $I->assertEquals(3, $route->getRouteId());
+        $expected = '0';
+        $actual   = $route->getRouteId();
+        $I->assertSame($expected, $actual);
+
+        $route    = new Route('test');
+        $route    = new Route('test');
+        $route    = new Route('test');
+        $expected = '3';
+        $actual   = $route->getRouteId();
+        $I->assertSame($expected, $actual);
 
         Route::reset();
         $route = new Route('test');
-        $I->assertEquals(0, $route->getRouteId());
+
+        $expected = '0';
+        $actual   = $route->getRouteId();
+        $I->assertSame($expected, $actual);
     }
 }

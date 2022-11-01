@@ -28,7 +28,6 @@
  */
 /**
  * This abstract class offers access to the events manager
- * @property ?ManagerInterface $eventsManager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_AbstractEventsAware)
 {

@@ -31,9 +31,6 @@
  */
 /**
  * This component offers caching capabilities for your application.
- * Phalcon\Cache implements PSR-16.
- *
- * @property AdapterInterface $adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AbstractCache)
 {
@@ -147,7 +144,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 		ZVAL_STRING(&_7$$3, "The key contains invalid characters");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 0, &_7$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 68);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 65);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -205,7 +202,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 		ZVAL_STRING(&_4$$3, "The keys need to be an array or instance of Traversable");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 87);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -310,7 +307,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 135);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 132);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -440,7 +437,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 171);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 168);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -615,7 +612,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 232);
+	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 229);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{

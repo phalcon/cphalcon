@@ -29,7 +29,10 @@ class WasMatchedCest
         $I->wantToTest('Cli\Router - wasMatched()');
 
         $router = new Router();
-        $I->assertFalse($router->wasMatched());
+
+        $actual = $router->wasMatched();
+        $I->assertFalse($actual);
+
         $router->add(
             'route1',
             [
@@ -39,6 +42,8 @@ class WasMatchedCest
             ]
         );
         $router->handle('route1');
-        $I->assertTrue($router->wasMatched());
+
+        $actual = $router->wasMatched();
+        $I->assertTrue($actual);
     }
 }
