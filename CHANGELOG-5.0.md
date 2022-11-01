@@ -1,9 +1,13 @@
-# [5.0.6](https://github.com/phalcon/cphalcon/releases/tag/v5.0.6) (xxxx-xx-xx)
+# [5.1.0](https://github.com/phalcon/cphalcon/releases/tag/v5.1.0) (2022-11-01)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::isTagFactory` to correctly detect a `TagFactory` object without throwing an error [#16097](https://github.com/phalcon/cphalcon/issues/16097)
 - Fixed default values for `Phalcon\Cli`, `Phalcon\Dispatcher` and `Phalcon\Application` components to ensure not `null` values are passed to methods [#16186](https://github.com/phalcon/cphalcon/issues/16186)
 
+## Added
+- Added `Phalcon\Http\Request::getPatch()` to get a value from a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
+- Added `Phalcon\Http\Request::getFilteredPatch()` to get a value filtered from a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
+- Added `Phalcon\Http\Request::hasPatch()` to check if a value exist in a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
 
 # [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 

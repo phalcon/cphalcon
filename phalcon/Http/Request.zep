@@ -67,6 +67,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var array|null
      */
+    private patchCache = null;
+
+    /**
+     * @var array|null
+     */
     private putCache = null;
 
     /**
@@ -292,20 +297,34 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Retrieves a query/get value always sanitized with the preset filters
      */
     public function getFilteredQuery(
-        string! name = null,
+        string name = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        var filters;
-
-        if !fetch filters, this->queryFilters[self::METHOD_GET][name] {
-            let filters = [];
-        }
-
-        return this->getQuery(
+        return this->getFilteredData(
+            self::METHOD_GET,
+            "getQuery",
             name,
-            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
+    }
+
+    /**
+     * Retrieves a patch value always sanitized with the preset filters
+     */
+    public function getFilteredPatch(
+        string name = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
+        return this->getFilteredData(
+            self::METHOD_PATCH,
+            "getPatch",
+            name,
             defaultValue,
             notAllowEmpty,
             noRecursive
@@ -316,20 +335,15 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Retrieves a post value always sanitized with the preset filters
      */
     public function getFilteredPost(
-        string! name = null,
+        string name = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        var filters;
-
-        if !fetch filters, this->queryFilters[self::METHOD_POST][name] {
-            let filters = [];
-        }
-
-        return this->getPost(
+        return this->getFilteredData(
+            self::METHOD_POST,
+            "getPost",
             name,
-            filters,
             defaultValue,
             notAllowEmpty,
             noRecursive
@@ -340,20 +354,15 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Retrieves a put value always sanitized with the preset filters
      */
     public function getFilteredPut(
-        string! name = null,
+        string name = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        var filters;
-
-        if !fetch filters, this->queryFilters[self::METHOD_PUT][name] {
-            let filters = [];
-        }
-
-        return this->getPut(
+        return this->getFilteredData(
+            self::METHOD_PUT,
+            "getPut",
             name,
-            filters,
             defaultValue,
             notAllowEmpty,
             noRecursive
@@ -626,6 +635,34 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
+     * Gets a variable from put request
+     *
+     *```php
+     * // Returns value from $_PATCH["user_email"] without sanitizing
+     * $userEmail = $request->getPatch("user_email");
+     *
+     * // Returns value from $_PATCH["user_email"] with sanitizing
+     * $userEmail = $request->getPatch("user_email", "email");
+     *```
+     */
+    public function getPatch(
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
+        return this->getPatchPut(
+            "patchCache",
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
+    }
+
+    /**
      * Gets information about the port on which the request is made.
      */
     public function getPort() -> int
@@ -699,30 +736,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        var put, contentType;
-
-        let put = this->putCache;
-
-        if null === put {
-            let contentType = this->getContentType();
-
-            if typeof contentType == "string" && stripos(contentType, "json") != false {
-                let put = this->getJsonRawBody(true);
-
-                if typeof put != "array" {
-                    let put = [];
-                }
-            } else {
-                let put = [];
-
-                parse_str(this->getRawBody(), put);
-            }
-
-            let this->putCache = put;
-        }
-
-        return this->getHelper(
-            put,
+        return this->getPatchPut(
+            "putCache",
             name,
             filters,
             defaultValue,
@@ -983,6 +998,18 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         let name = strtoupper(strtr(header, "-", "_"));
 
         return this->hasServer(name) || this->hasServer("HTTP_" . name);
+    }
+
+    /**
+     * Checks whether the PATCH data has certain index
+     */
+    public function hasPatch(string! name) -> bool
+    {
+        var patch;
+
+        let patch = this->getPatch();
+
+        return isset patch[name];
     }
 
     /**
@@ -1296,6 +1323,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if count(scope) < 1 {
             let localScope = [
                 self::METHOD_GET,
+                self::METHOD_PATCH,
                 self::METHOD_POST,
                 self::METHOD_PUT
             ];
@@ -1634,5 +1662,82 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return [];
+    }
+
+    /**
+     * Gets filtered data
+     */
+    public function getFilteredData(
+        string methodKey,
+        string method,
+        string name = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
+        var filters;
+
+        if !fetch filters, this->queryFilters[methodKey][name] {
+            let filters = [];
+        }
+
+        return this->{method}(
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
+    }
+
+    /**
+     * Gets a variable from put request
+     *
+     *```php
+     * // Returns value from $_PATCH["user_email"] without sanitizing
+     * $userEmail = $request->getPatch("user_email");
+     *
+     * // Returns value from $_PATCH["user_email"] with sanitizing
+     * $userEmail = $request->getPatch("user_email", "email");
+     *```
+     */
+    private function getPatchPut(
+        string collection,
+        string name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
+        var cached, contentType;
+
+        let cached = this->{collection};
+
+        if null === cached {
+            let contentType = this->getContentType();
+
+            if typeof contentType == "string" && stripos(contentType, "json") != false {
+                let cached = this->getJsonRawBody(true);
+
+                if typeof cached != "array" {
+                    let cached = [];
+                }
+            } else {
+                let cached = [];
+
+                parse_str(this->getRawBody(), cached);
+            }
+
+            let this->{collection} = cached;
+        }
+
+        return this->getHelper(
+            cached,
+            name,
+            filters,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
     }
 }
