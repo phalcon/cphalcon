@@ -16,20 +16,6 @@ use IteratorAggregate;
 
 /**
  * Collection of asset objects
- *
- * @property array  $assets
- * @property array  $attributes
- * @property bool   $autoVersion
- * @property array  $codes
- * @property array  $filters
- * @property bool   $join
- * @property bool   $isLocal
- * @property string $prefix
- * @property string $sourcePath
- * @property bool   $targetIsLocal
- * @property string $targetPath
- * @property string $targetUri
- * @property string $version
  */
 class Collection implements Countable, IteratorAggregate
 {

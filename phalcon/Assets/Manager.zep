@@ -22,11 +22,6 @@ use Phalcon\Html\TagFactory;
 
 /**
  * Manages collections of CSS/JavaScript assets
- *
- * @property array      $collections
- * @property bool       $implicitOutput
- * @property array      $options
- * @property TagFactory $tagFactory
  */
 class Manager extends AbstractInjectionAware
 {

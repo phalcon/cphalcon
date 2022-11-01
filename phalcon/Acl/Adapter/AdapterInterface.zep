@@ -33,7 +33,7 @@ interface AdapterInterface
      * Adds a component to the ACL list
      *
      * Access names can be a particular action, by example
-     * search, update, delete, etc or a list of them
+     * search, update, delete, etc. or a list of them
      */
     public function addComponent(componentValue, accessList) -> bool;
 
@@ -53,7 +53,7 @@ interface AdapterInterface
     public function deny(string roleName, string componentName, access, func = null) -> void;
 
     /**
-     * Removes an access from a component
+     * Removes access from a component
      */
     public function dropComponentAccess(string componentName, accessList) -> void;
 

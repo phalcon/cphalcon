@@ -17,8 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 
 /**
  * Factory to create Cache adapters
- *
- * @property SerializerFactory $serializerFactory
  */
 class AdapterFactory extends AbstractFactory
 {

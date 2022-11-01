@@ -20,7 +20,9 @@ class Cssmin implements FilterInterface
 {
     /**
      * Filters the content using CSSMIN
-     * NOTE: This functionality is not currently available
+     *
+     * > NOTE: This functionality is not currently available
+     * {: .alert .alert-info }
      */
     public function filter(string! content) -> string
     {

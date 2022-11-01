@@ -281,11 +281,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
          * If it's array, clear only fields in array.
          * If null, clear all
          */
-        if fields === null {
+        if null === fields {
             let data = [];
 
             for element in elements {
-                element->clear();
+                let data[element->getName()] = element->getDefault();
             }
         } else {
             if typeof fields != "array" {
@@ -298,7 +298,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 if fetch element, elements[field] {
-                    element->clear();
+                    let data[element->getName()] = element->getDefault();
                 }
             }
         }
@@ -508,7 +508,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         string method;
 
         let entity = this->entity;
-        let data = this->data;
+        let data   = this->data;
 
         /**
          * Check if form has a getter
