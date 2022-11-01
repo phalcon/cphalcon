@@ -783,19 +783,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 428, container);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 429, container);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&conditions)) {
 		ZEPHIR_INIT_VAR(&_16$$16);
 		ZEPHIR_INIT_VAR(&_17$$16);
 		ZEPHIR_CONCAT_SVS(&_17$$16, " ", &operator, " ");
 		zephir_fast_join(&_16$$16, &_17$$16, &conditions);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 437, &_16$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 438, &_16$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 438, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 439, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 429, &modelName);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 430, &modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 }

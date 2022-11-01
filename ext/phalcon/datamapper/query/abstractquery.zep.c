@@ -36,10 +36,6 @@
  */
 /**
  * Class AbstractQuery
- *
- * @property Bind       $bind
- * @property Connection $connection
- * @property array      $store
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractQuery)
 {
@@ -338,7 +334,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag)
 	} else {
 		zephir_read_property(&_0$$4, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&flags);
-		zephir_array_fetch_string(&flags, &_0$$4, SL("FLAGS"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 148);
+		zephir_array_fetch_string(&flags, &_0$$4, SL("FLAGS"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 144);
 		zephir_array_unset(&flags, &flag, PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "FLAGS");
@@ -494,14 +490,14 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildFlags)
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 194);
+	zephir_array_fetch_string(&_1, &_0, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 190);
 	if (ZEPHIR_IS_EMPTY(&_1)) {
 		RETURN_MM_STRING("");
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_5, &_4, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 198);
+	zephir_array_fetch_string(&_5, &_4, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 194);
 	zephir_array_keys(&_3, &_5);
 	zephir_fast_join_str(&_2, SL(" "), &_3);
 	ZEPHIR_CONCAT_SV(return_value, " ", &_2);
@@ -531,12 +527,12 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning)
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 208);
+	zephir_array_fetch_string(&_1, &_0, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 204);
 	if (ZEPHIR_IS_EMPTY(&_1)) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_4, &_3, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 212);
+	zephir_array_fetch_string(&_4, &_3, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 208);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, ",");
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "indent", NULL, 0, &_4, &_5);

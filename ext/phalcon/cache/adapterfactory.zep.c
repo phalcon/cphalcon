@@ -31,8 +31,6 @@
  */
 /**
  * Factory to create Cache adapters
- *
- * @property SerializerFactory $serializerFactory
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 {

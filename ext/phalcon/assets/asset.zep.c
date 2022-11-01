@@ -35,18 +35,6 @@
  *```php
  * $asset = new \Phalcon\Assets\Asset("js", "js/jquery.js");
  *```
- *
- * @property array       $attributes
- * @property bool        $isAutoVersion
- * @property bool        $filter
- * @property bool        $isLocal
- * @property string      $path
- * @property string      $sourcePath
- * @property string      $targetPath
- * @property string      $targetUri
- * @property string      $type
- * @property string|null $version
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset)
 {
@@ -986,7 +974,7 @@ PHP_METHOD(Phalcon_Assets_Asset, throwException)
 	ZEPHIR_CONCAT_SVS(&_1, "Asset's content for '", &completePath, "' cannot be read");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 29, &_1);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 484);
+	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 472);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

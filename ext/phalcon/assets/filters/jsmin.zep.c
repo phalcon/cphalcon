@@ -42,7 +42,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin)
 
 /**
  * Filters the content using JSMIN
- * NOTE: This functionality is not currently available
+ *
+ * > NOTE: This functionality is not currently available
+ * {: .alert .alert-info }
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter)
 {

@@ -43,7 +43,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addRole);
  * Adds a component to the ACL list
  *
  * Access names can be a particular action, by example
- * search, update, delete, etc or a list of them
+ * search, update, delete, etc. or a list of them
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addComponent);
 /**
@@ -59,7 +59,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, allow);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, deny);
 /**
- * Removes an access from a component
+ * Removes access from a component
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, dropComponentAccess);
 /**

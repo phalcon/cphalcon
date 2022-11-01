@@ -32,9 +32,6 @@
  */
 /**
  * Class Validator
- *
- * @property int   $timeShift
- * @property Token $token
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Validator)
 {
@@ -154,7 +151,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset(&_0, &claim)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &claim, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Validator.zep", 78);
+		zephir_array_fetch(&_2$$3, &_1$$3, &claim, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Validator.zep", 75);
 		RETURN_CTOR(&_2$$3);
 	}
 	RETURN_MM_NULL();
@@ -256,7 +253,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 		_0 = Z_TYPE_P(audience) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Audience must be a string or an array", "phalcon/Encryption/Security/JWT/Validator.zep", 116);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_security_jwt_exceptions_validatorexception_ce, "Audience must be a string or an array", "phalcon/Encryption/Security/JWT/Validator.zep", 113);
 		return;
 	}
 	if (Z_TYPE_P(audience) == IS_STRING) {
@@ -274,7 +271,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 	ZVAL_STRING(&_5, "aud");
 	ZEPHIR_CALL_METHOD(&tokenAudience, &_3, "get", NULL, 0, &_5, &_4);
 	zephir_check_call_status();
-	zephir_is_iterable(audience, 0, "phalcon/Encryption/Security/JWT/Validator.zep", 131);
+	zephir_is_iterable(audience, 0, "phalcon/Encryption/Security/JWT/Validator.zep", 128);
 	if (Z_TYPE_P(audience) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(audience), _6)
 		{

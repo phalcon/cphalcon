@@ -34,10 +34,6 @@
  * A container for Token related data. It stores the claims, headers, signature
  * and payload. It also calculates and returns the token string.
  *
- * @property Item      $claims
- * @property Item      $headers
- * @property Signature $signature
- *
  * @link https://tools.ietf.org/html/rfc7519
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Token)
@@ -249,7 +245,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 125);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 121);
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _4, _5, _2)
 		{

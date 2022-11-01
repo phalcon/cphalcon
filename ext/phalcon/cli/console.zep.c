@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &dispatcher, "setactionname", NULL, 0, &_28);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_29, &router, "getparams", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_29, &router, "getparameters", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &dispatcher, "setparams", NULL, 0, &_29);
 	zephir_check_call_status();
