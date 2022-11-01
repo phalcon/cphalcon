@@ -18,9 +18,7 @@ namespace Phalcon\DataMapper\Query;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
- * Class QueryFactory
- *
- * @property string $class
+ * QueryFactory
  */
 class QueryFactory
 {

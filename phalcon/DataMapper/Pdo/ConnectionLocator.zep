@@ -20,10 +20,6 @@ use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
 
 /**
  * Manages Connection instances for default, read, and write connections.
- *
- * @property callable $master
- * @property array    $read
- * @property array    $write
  */
 class ConnectionLocator implements ConnectionLocatorInterface
 {

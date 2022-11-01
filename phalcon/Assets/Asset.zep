@@ -16,18 +16,6 @@ namespace Phalcon\Assets;
  *```php
  * $asset = new \Phalcon\Assets\Asset("js", "js/jquery.js");
  *```
- *
- * @property array       $attributes
- * @property bool        $isAutoVersion
- * @property bool        $filter
- * @property bool        $isLocal
- * @property string      $path
- * @property string      $sourcePath
- * @property string      $targetPath
- * @property string      $targetUri
- * @property string      $type
- * @property string|null $version
- *
  */
 class Asset implements AssetInterface
 {

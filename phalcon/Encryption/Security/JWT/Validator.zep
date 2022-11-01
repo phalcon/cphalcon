@@ -17,9 +17,6 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 
 /**
  * Class Validator
- *
- * @property int   $timeShift
- * @property Token $token
  */
 class Validator
 {

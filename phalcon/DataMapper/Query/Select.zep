@@ -18,21 +18,7 @@ namespace Phalcon\DataMapper\Query;
 use BadMethodCallException;
 
 /**
- * Class Select
- *
- * @property string $asAlias
- * @property bool   $forUpdate
- *
- * @method int    fetchAffected()
- * @method array  fetchAll()
- * @method array  fetchAssoc()
- * @method array  fetchColumn(int $column = 0)
- * @method array  fetchGroup(int $flags = PDO::FETCH_ASSOC)
- * @method object fetchObject(string $class = 'stdClass', array $arguments = [])
- * @method array  fetchObjects(string $class = 'stdClass', array $arguments = [])
- * @method array  fetchOne()
- * @method array  fetchPairs()
- * @method mixed  fetchValue()
+ * Select Query
  */
 class Select extends AbstractConditions
 {

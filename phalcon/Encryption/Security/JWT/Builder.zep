@@ -21,14 +21,7 @@ use Phalcon\Encryption\Security\JWT\Token\Signature;
 use Phalcon\Encryption\Security\JWT\Token\Token;
 
 /**
- * Builder
- *
- * The builder offers
- *
- * @property CollectionInterface  $claims
- * @property CollectionInterface  $jose
- * @property string               $passphrase
- * @property SignerInterface      $signer
+ * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
