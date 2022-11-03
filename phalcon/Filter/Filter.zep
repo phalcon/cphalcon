@@ -387,6 +387,12 @@ class Filter implements FilterInterface
                 sanitizerName,
                 sanitizerParams
             );
+        } else {
+            let value = this->sanitizer(
+                value,
+                sanitizerName,
+                sanitizerParams
+            );
         }
 
         return value;
