@@ -286,18 +286,20 @@ class Filter implements FilterInterface
              * has been defined it is a straight up; otherwise recursion is
              * required
              */
-            let value = this->processValueIsArray(
-                value,
-                sanitizerName,
-                sanitizerParams,
-                noRecursive
-            );
-
-            let value = this->processValueIsNotArray(
-                value,
-                sanitizerName,
-                sanitizerParams
-            );
+             if typeof value === "array" {
+                let value = this->processValueIsArray(
+                    value,
+                    sanitizerName,
+                    sanitizerParams,
+                    noRecursive
+                );
+             } else {
+                 let value = this->processValueIsNotArray(
+                     value,
+                     sanitizerName,
+                     sanitizerParams
+                 );
+             }
         }
 
         return value;
@@ -381,14 +383,14 @@ class Filter implements FilterInterface
         array sanitizerParams,
         bool noRecursive
     ) {
-        if typeof value === "array" && !noRecursive {
-            let value = this->processArrayValues(
+        if noRecursive {
+            let value = this->sanitizer(
                 value,
                 sanitizerName,
                 sanitizerParams
             );
         } else {
-            let value = this->sanitizer(
+            let value = this->processArrayValues(
                 value,
                 sanitizerName,
                 sanitizerParams
