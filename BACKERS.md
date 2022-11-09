@@ -112,7 +112,6 @@ Thanks for the support
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
-<a href="https://github.com/kgrammer"><img src="https://avatars.githubusercontent.com/u/8472433?v=4" title="Ken Grammer" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>
