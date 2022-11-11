@@ -52,11 +52,14 @@ class HtmlCest
     {
         $I->wantToTest('Escaper - html() - null');
 
-        $escaper = new Escaper();
-
         $escaper  = new Escaper();
         $expected = '';
         $actual   = $escaper->html(null);
+        $I->assertSame($expected, $actual);
+
+        $escaper  = new Escaper();
+        $expected = '0';
+        $actual   = $escaper->html('0');
         $I->assertSame($expected, $actual);
     }
 }
