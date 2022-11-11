@@ -57,7 +57,7 @@ class ValidateCest
             [
                 'day'   => date('d'),
                 'month' => date('m'),
-                'year'  => date('Y') + 1,
+                'year'  => (string) (intval(date('Y')) + 1),
             ]
         );
 
