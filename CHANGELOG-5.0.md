@@ -1,4 +1,4 @@
-# [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (xxxx-xx-xx)
+# [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
 ## Fixed
 - Fixed `Phalcon\Filter::sanitize` to return correct data when `noRecursive` is `true` [#16199](https://github.com/phalcon/cphalcon/issues/16199)
