@@ -112,18 +112,15 @@ Thanks for the support
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
-<a href="https://github.com/kgrammer"><img src="https://avatars.githubusercontent.com/u/8472433?v=4" title="Ken Grammer" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
-<a href="https://github.com/postype"><img src="https://avatars.githubusercontent.com/u/54393235?s=200&v=4" title="https://www.postype.com/" width="60" height="60"></a>
 <a href="https://github.com/RaulRaf95"><img src="https://avatars.githubusercontent.com/u/63474503?v=4" title="RaulRaf95" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
 <a href="https://github.com/super-dmitriy"><img src="https://avatars.githubusercontent.com/u/5605919?v=4" title="Dmitriy" width="60" height="60"></a>
-<a href="https://github.com/great-work-told-is"><img src="https://avatars.githubusercontent.com/u/113922084?v=4" title="great-work-told-is" width="60" height="60"></a>
 
 [//]: github-sponsors
 

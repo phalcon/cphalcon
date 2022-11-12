@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Html_Escaper, html)
 	}
 
 
-	if (!(!(ZEPHIR_IS_EMPTY(&input)))) {
+	if (Z_TYPE_P(&input) == IS_NULL) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("flags"), PH_NOISY_CC | PH_READONLY);

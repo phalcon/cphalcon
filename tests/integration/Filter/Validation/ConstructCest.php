@@ -41,9 +41,8 @@ class ConstructCest
 
         $validation = new Validation($validators);
 
-        $I->assertEquals(
-            $validators,
-            $validation->getValidators()
-        );
+        $expected = $validators;
+        $actual   = $validation->getValidators();
+        $I->assertSame($expected, $actual);
     }
 }

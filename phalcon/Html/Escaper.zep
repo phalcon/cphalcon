@@ -250,7 +250,7 @@ class Escaper implements EscaperInterface
      */
     public function html(string input = null) -> string
     {
-        if !input {
+        if null === input {
             return "";
         }
         return htmlspecialchars(
