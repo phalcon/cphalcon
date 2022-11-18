@@ -1267,7 +1267,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             success;
         array values, bindTypes, conditions;
 
-        let metaData = this->getModelsMetaData(),
+        let metaData        = this->getModelsMetaData(),
             writeConnection = this->getWriteConnection();
 
         /**
@@ -1285,11 +1285,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
-        let values = [],
-            bindTypes = [],
+        let values     = [],
+            bindTypes  = [],
             conditions = [];
 
-        let primaryKeys = metaData->getPrimaryKeyAttributes(this),
+        let primaryKeys   = metaData->getPrimaryKeyAttributes(this),
             bindDataTypes = metaData->getBindTypes(this);
 
         if globals_get("orm.column_renaming") {
@@ -1340,7 +1340,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if unlikely !fetch value, this->{attributeField} {
                 throw new Exception(
-                    "Cannot delete the record because the primary key attribute: '" . attributeField . "' was not set"
+                    "Cannot delete the record because the primary key attribute: '"
+                    . attributeField . "' was not set"
                 );
             }
 
@@ -1403,6 +1404,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if success {
                 this->fireEvent("afterDelete");
             }
+        }
+
+        /**
+         * Clear related records from the internal cache so that next time
+         * we can get proper counts.
+         */
+        if (success) {
+            let this->related = [];
+            this->modelsManager->clearReusableObjects();
         }
 
         /**
@@ -2046,7 +2056,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely typeof relation !== "object" {
             throw new Exception(
-                "There is no defined relations for the model '" . className . "' using alias '" . alias . "'"
+                "There is no defined relations for the model '"
+                . className . "' using alias '" . alias . "'"
             );
         }
 

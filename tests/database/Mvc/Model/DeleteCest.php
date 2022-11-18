@@ -36,15 +36,6 @@ class DeleteCest
     {
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-
-        $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
-
-        $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
     }
 
     /**
@@ -104,7 +95,6 @@ class DeleteCest
         $lastName  = uniqid('cust-', true);
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert($custId, 0, $firstName, $lastName);
 
         $paidInvoiceId   = 4;
@@ -113,7 +103,6 @@ class DeleteCest
         $title = uniqid('inv-');
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(
             $paidInvoiceId,
             $custId,
@@ -132,36 +121,159 @@ class DeleteCest
          */
         $customer = Customers::findFirst($custId);
 
-        $I->assertEquals(
-            2,
-            $customer->invoices->count()
-        );
+        $expected = 2;
+        $actual   = $customer->invoices->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            1,
-            $customer->paidInvoices->count()
-        );
+        $expected = 1;
+        $actual   = $customer->paidInvoices->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals(
-            1,
-            $customer->unpaidInvoices->count()
-        );
+        $expected = 1;
+        $actual   = $customer->unpaidInvoices->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertTrue(
-            $customer->delete()
-        );
+        $actual = $customer->delete();
+        $I->assertTrue($actual);
 
         $invoices = Invoices::find();
 
-        $I->assertEquals(
-            1,
-            $invoices->count()
+        $expected = 1;
+        $actual   = $invoices->count();
+        $I->assertSame($expected, $actual);
+
+        $expected = $unpaidInvoiceId;
+        $actual   = $invoices[0]->inv_id;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: delete() from getRelated
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-11-18
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelDeleteGetRelated(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - delete() from getRelated');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $custId    = 2;
+        $firstName = uniqid('cust-', true);
+        $lastName  = uniqid('cust-', true);
+
+        /**
+         * Set up a customer
+         */
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert($custId, 0, $firstName, $lastName);
+
+        $paidInvoiceId   = 40;
+        $unpaidInvoiceId = 50;
+
+        $title = uniqid('inv-');
+
+        /**
+         * Set up invoices for the customer
+         *
+         * 2 paid
+         * 3 unpaid
+         */
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(
+            40,
+            $custId,
+            Invoices::STATUS_PAID,
+            $title . '-paid'
+        );
+        $invoicesMigration->insert(
+            41,
+            $custId,
+            Invoices::STATUS_PAID,
+            $title . '-paid'
         );
 
-        $I->assertEquals(
-            $unpaidInvoiceId,
-            $invoices[0]->inv_id
+        $invoicesMigration->insert(
+            50,
+            $custId,
+            Invoices::STATUS_PAID,
+            $title . '-paid'
         );
+        $invoicesMigration->insert(
+            51,
+            $custId,
+            Invoices::STATUS_PAID,
+            $title . '-paid'
+        );
+        $invoicesMigration->insert(
+            52,
+            $custId,
+            Invoices::STATUS_PAID,
+            $title . '-paid'
+        );
+
+        /**
+         * Get the customer from the database
+         *
+         * @var Customers $customer
+         */
+        $customer = Customers::findFirst($custId);
+
+        /**
+         * Check for the number of invoices
+         */
+        $expected = 5;
+        $actual   = $customer->invoices->count();
+        $I->assertSame($expected, $actual);
+
+        /**
+         * Get paid invoices using the property
+         */
+        $invoices = $customer->paidInvoices;
+        /** @var Invoices $invoice */
+        foreach ($invoices as $invoice) {
+            if ($invoice->inv_id < 50) {
+                $actual = $invoice->delete();
+                $I->assertTrue($actual);
+            }
+        }
+
+        /**
+         * Just in case for a refresh
+         *
+         * @var Customers $customer
+         */
+        $customer = Customers::findFirst($custId);
+
+        /**
+         * Check for the number of invoices
+         */
+        $expected = 3;
+        $actual   = $customer->invoices->count();
+        $I->assertSame($expected, $actual);
+
+        /**
+         * Get unpaid invoices using getRelated()
+         */
+        $invoices = $customer->getRelated('invoices');
+        /** @var Invoices $invoice */
+        foreach ($invoices as $invoice) {
+            $actual = $invoice->delete();
+            $I->assertTrue($actual);
+        }
+
+        /**
+         * Check for the number of invoices
+         */
+        $expected = 0;
+        $actual   = $customer->invoices->count();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -187,13 +299,11 @@ class DeleteCest
         $lastName  = uniqid('cust-', true);
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert($customerId, 0, $firstName, $lastName);
 
         $title = uniqid('inv-');
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(
             1,
             $customerId,
@@ -206,24 +316,20 @@ class DeleteCest
          */
         $customer = Customers::findFirst($customerId);
 
-        $I->assertEquals(
-            1,
-            $customer->inactiveInvoices->count()
-        );
+        $expected = 1;
+        $actual   = $customer->inactiveInvoices->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertFalse(
-            $customer->delete()
-        );
+        $actual = $customer->delete();
+        $I->assertFalse($actual);
 
-        $I->assertCount(
-            1,
-            $customer->getMessages()
-        );
+        $expected = 1;
+        $actual   = $customer->getMessages();
+        $I->assertCount($expected, $actual);
 
-        $I->assertEquals(
-            'Record is referenced by model ' . Invoices::class,
-            current($customer->getMessages())->getMessage()
-        );
+        $expected = 'Record is referenced by model ' . Invoices::class;
+        $actual   = current($customer->getMessages())->getMessage();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -255,13 +361,11 @@ class DeleteCest
         $lastName  = uniqid('cust-', true);
 
         $customersMigration = new CustomersMigration($connection);
-        $customersMigration->clear();
         $customersMigration->insert($customerId, 0, $firstName, $lastName);
 
         $title = uniqid('inv-');
 
         $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
         $invoicesMigration->insert(
             $invoiceId,
             $customerId,
@@ -296,33 +400,29 @@ class DeleteCest
         /**
          * Make sure foreign key restrict works
          */
-        $I->assertFalse(
-            $customer->delete()
-        );
+        $actual = $customer->delete();
+        $I->assertFalse($actual);
 
         /**
          * Step 3:
          * Delete Model B first so that Model A passes FK constraint check successfully
          */
-        $I->assertTrue(
-            $invoice->delete()
-        );
+        $actual = $invoice->delete();
+        $I->assertTrue($actual);
 
         /**
          * Step 4:
          * Then try to delete Model A
          */
-        $I->assertTrue(
-            $customer->delete()
-        );
+        $actual = $customer->delete();
+        $I->assertTrue($actual);
 
         $transaction->rollback();
 
         /**
          * Test again foreign key restrict
          */
-        $I->assertFalse(
-            $customer->delete()
-        );
+        $actual = $customer->delete();
+        $I->assertFalse($actual);
     }
 }
