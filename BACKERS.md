@@ -119,6 +119,7 @@ Thanks for the support
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
 <a href="https://github.com/RaulRaf95"><img src="https://avatars.githubusercontent.com/u/63474503?v=4" title="RaulRaf95" width="60" height="60"></a>
+<a href="https://github.com/levertr"><img src="https://avatars.githubusercontent.com/u/78140431?v=4" title="Rayan Levert" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
 <a href="https://github.com/super-dmitriy"><img src="https://avatars.githubusercontent.com/u/5605919?v=4" title="Dmitriy" width="60" height="60"></a>
 
