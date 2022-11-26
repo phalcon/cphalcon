@@ -108,6 +108,7 @@ Thanks for the support
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
 <a href="https://github.com/f-do"><img src="https://avatars.githubusercontent.com/u/4299065?v=4" title="Florian" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
+<a href="https://github.com/stdnk"><img src="https://avatars.githubusercontent.com/u/5130969?v=4" title="Vasily Stadnik" width="60" height="60"></a>
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
