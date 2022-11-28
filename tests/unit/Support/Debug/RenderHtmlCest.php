@@ -43,9 +43,7 @@ class RenderHtmlCest
 
         $version       = new Version();
         $versionString = $version->get();
-        $link          = $version->getPart(Version::VERSION_MAJOR)
-            . "."
-            . $version->getPart(Version::VERSION_MEDIUM);
+        $link          = $version->getPart(Version::VERSION_MAJOR) . ".0";
 
 
         $expected = '<html><head>'
