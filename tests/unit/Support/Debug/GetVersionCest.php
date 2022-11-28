@@ -52,8 +52,7 @@ class GetVersionCest
 
         $target  = '"_new"';
         $uri     = '"https://docs.phalcon.io/'
-            . $version->getPart(Version::VERSION_MAJOR) . '.'
-            . $version->getPart(Version::VERSION_MEDIUM) . '/en/"';
+            . $version->getPart(Version::VERSION_MAJOR) . '.0/en/"';
         $version = $version->get();
 
         $I->assertSame(
