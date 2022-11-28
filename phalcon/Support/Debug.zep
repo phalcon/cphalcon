@@ -137,12 +137,7 @@ class Debug
     {
         var link, version;
 
-        let version = new Version(),
-            link    = "https://docs.phalcon.io/"
-            . version->getPart(Version::VERSION_MAJOR)
-            . "."
-            . version->getPart(Version::VERSION_MEDIUM)
-            . "/en/";
+        let link    = this->getDocsVersion() . "/en/";
 
         return "<div class=\"version\">Phalcon Framework "
             . "<a href=\"" . link . "\" target=\"_new\">"
@@ -663,7 +658,9 @@ class Debug
         /**
          * Every trace in the backtrace have a unique number
          */
-        let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#" . n . "</td><td>";
+        let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#"
+                . n
+                . "</td><td>";
 
         if fetch className, trace["class"] {
             /**
@@ -680,7 +677,11 @@ class Debug
                 /**
                  * Generate a link to the official docs
                  */
-                let classNameWithLink = "<a target=\"_new\" href=\"https://docs.phalcon.io/4.0/en/api/" . prepareUriClass . "\">" . className . "</a>";
+                let classNameWithLink = "<a target=\"_new\" href=\"https://docs.phalcon.io/"
+                        . this->getDocsVersion()
+                        . "/en/api/"
+                        . prepareUriClass
+                        . "\">" . className . "</a>";
             } else {
                 let classReflection = new ReflectionClass(className);
 
@@ -697,7 +698,9 @@ class Debug
                     /**
                      * Generate a link to the official docs
                      */
-                    let classNameWithLink = "<a target=\"_new\" href=\"https://secure.php.net/manual/en/class." . prepareInternalClass . ".php\">" . className . "</a>";
+                    let classNameWithLink = "<a target=\"_new\" href=\"https://secure.php.net/manual/en/class."
+                            . prepareInternalClass
+                            . ".php\">" . className . "</a>";
                 } else {
                     let classNameWithLink = className;
                 }
@@ -739,7 +742,9 @@ class Debug
                         functionName
                     );
 
-                    let functionNameWithLink = "<a target=\"_new\" href=\"https://secure.php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a>";
+                    let functionNameWithLink = "<a target=\"_new\" href=\"https://secure.php.net/manual/en/function."
+                        . preparedFunctionName
+                        . ".php\">" . functionName . "</a>";
                 } else {
                     let functionNameWithLink = functionName;
                 }
@@ -893,6 +898,20 @@ class Debug
         let html .= "</td></tr>";
 
         return html;
+    }
+
+    /**
+     * Generates a link to the current version documentation
+     */
+    private function getDocsVersion() -> string
+    {
+        var link, version;
+
+        let version = new Version();
+
+        return version->getPart(Version::VERSION_MAJOR)
+            . "."
+            . version->getPart(Version::VERSION_MEDIUM);
     }
 
     /**
