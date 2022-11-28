@@ -63,6 +63,20 @@ class Debug
     protected uri = "https://assets.phalcon.io/debug/5.0.x/";
 
     /**
+     * @var Version
+     */
+    private version;
+
+    /**
+     * Constructor setting a reusable version object
+     */
+    public function __construct()
+    {
+        let this->version = new Version();
+    }
+
+
+    /**
      * Clears are variables added previously
      */
     public function clearVars() -> <Debug>
@@ -135,13 +149,14 @@ class Debug
      */
     public function getVersion() -> string
     {
-        var link, version;
+        var link;
 
-        let link    = this->getDocsVersion() . "/en/";
+        let link = "https://docs.phalcon.io/"
+            . this->version->getPart(Version::VERSION_MAJOR) . ".0/en/";
 
         return "<div class=\"version\">Phalcon Framework "
             . "<a href=\"" . link . "\" target=\"_new\">"
-            . version->get() . "</a></div>";
+            . this->version->get() . "</a></div>";
     }
 
     /**
@@ -297,7 +312,8 @@ class Debug
         let html .= "<div align=\"center\">"
                   . "<div class=\"error-main\">"
                   . "<h1>" . className . ": " . escapedMessage . "</h1>"
-                  . "<span class=\"error-file\">" . exception->getFile() . " (" . exception->getLine() . ")</span>"
+                  . "<span class=\"error-file\">"
+                    . exception->getFile() . " (" . exception->getLine() . ")</span>"
                   . "</div>";
 
          let showBackTrace = this->showBackTrace;
@@ -349,9 +365,13 @@ class Debug
              for keyRequest, value in _REQUEST {
                 if true !== isset(blacklist[strtolower(keyRequest)]) {
                     if typeof value != "array" {
-                        let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
+                        let html .= "<tr><td class=\"key\">"
+                            . keyRequest . "</td><td>"
+                            . value . "</td></tr>";
                     } else {
-                        let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+                        let html .= "<tr><td class=\"key\">"
+                            . keyRequest . "</td><td>"
+                            . print_r(value, true) . "</td></tr>";
                     }
                 }
             }
@@ -368,7 +388,9 @@ class Debug
 
              for keyServer, value in _SERVER {
                 if true !== isset(blacklist[strtolower(keyServer)]) {
-                    let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
+                    let html .= "<tr><td class=\"key\">"
+                        . keyServer . "</td><td>"
+                        . this->getVarDump(value) . "</td></tr>";
                 }
             }
 
@@ -392,7 +414,8 @@ class Debug
              */
             let html .= "<div id=\"error-tabs-5\">"
                       . "<table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">"
-                      . "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>"
+                      . "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>"
+                      . memory_get_usage(true) . "</td></tr>"
                       . "</table></div>";
 
             /**
@@ -404,7 +427,9 @@ class Debug
                           . "<tr><th>Key</th><th>Value</th></tr>";
 
                  for keyVar, dataVar in dataVars {
-                    let html .= "<tr><td class=\"key\">" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
+                    let html .= "<tr><td class=\"key\">"
+                        . keyVar . "</td><td>"
+                        . this->getVarDump(dataVar[0]) . "</td></tr>";
                 }
 
                  let html .= "</table></div>";
@@ -678,8 +703,8 @@ class Debug
                  * Generate a link to the official docs
                  */
                 let classNameWithLink = "<a target=\"_new\" href=\"https://docs.phalcon.io/"
-                        . this->getDocsVersion()
-                        . "/en/api/"
+                        . this->version->getPart(Version::VERSION_MAJOR)
+                        . ".0/en/api/"
                         . prepareUriClass
                         . "\">" . className . "</a>";
             } else {
@@ -898,20 +923,6 @@ class Debug
         let html .= "</td></tr>";
 
         return html;
-    }
-
-    /**
-     * Generates a link to the current version documentation
-     */
-    private function getDocsVersion() -> string
-    {
-        var link, version;
-
-        let version = new Version();
-
-        return version->getPart(Version::VERSION_MAJOR)
-            . "."
-            . version->getPart(Version::VERSION_MEDIUM);
     }
 
     /**
