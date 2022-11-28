@@ -1,3 +1,8 @@
+# [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Support\Debug` to correctly calculate the documents URL for the hyperlinks [#16223](https://github.com/phalcon/cphalcon/issues/16223)
+
 # [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
 ## Fixed
