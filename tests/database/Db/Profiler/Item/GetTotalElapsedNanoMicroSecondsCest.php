@@ -33,23 +33,23 @@ class GetTotalElapsedNanoMicroSecondsCest
             'Db\Profiler\Item - getTotalElapsedNanoseconds() / getTotalElapsedMicroseconds() / getTotalElapsedSeconds()'
         );
 
-        $item = new Item();
+        $item  = new Item();
         $start = 444445555566666;
         $end   = 999999999999999;
 
         $item->setInitialTime($start);
         $item->setFinalTime($end);
 
-        $expected = $end - $start;
-        $actual = $item->getTotalElapsedNanoseconds();
+        $expected = (float) ($end - $start);
+        $actual   = $item->getTotalElapsedNanoseconds();
         $I->assertSame($expected, $actual);
 
         $expected = ($end - $start) / 1000000;
-        $actual = $item->getTotalElapsedMilliseconds();
+        $actual   = $item->getTotalElapsedMilliseconds();
         $I->assertSame($expected, $actual);
 
         $expected = ($end - $start) / 1000000000;
-        $actual = $item->getTotalElapsedSeconds();
+        $actual   = $item->getTotalElapsedSeconds();
         $I->assertSame($expected, $actual);
     }
 }

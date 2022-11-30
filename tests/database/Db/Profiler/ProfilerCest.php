@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Database\Db\Profiler;
 
 use DatabaseTester;
 use Phalcon\Db\Profiler\Item;
-use Phalcon\Storage\Exception;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
@@ -64,7 +63,7 @@ class ProfilerCest
         $connection->setEventsManager($eventsManager);
 
         $migration = new InvoicesMigration($I->getConnection());
-        $title = uniqid('tit-');
+        $title     = uniqid('tit-');
         $migration->insert(10, 20, 1, $title, 100);
 
         $invoices = Invoices::find();
