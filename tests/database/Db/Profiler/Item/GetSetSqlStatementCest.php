@@ -32,7 +32,7 @@ class GetSetSqlStatementCest
 
         $item = new Item();
         $item->setSqlStatement('select * from co_invoices');
-        $I->assertEquals(
+        $I->assertSame(
             'select * from co_invoices',
             $item->getSqlStatement()
         );

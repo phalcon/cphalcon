@@ -32,6 +32,6 @@ class GetSetSqlVariablesCest
 
         $item = new Item();
         $item->setSqlVariables(['one' => 1, 'two' => 2]);
-        $I->assertEquals(['one' => 1, 'two' => 2], $item->getSqlVariables());
+        $I->assertSame(['one' => 1, 'two' => 2], $item->getSqlVariables());
     }
 }
