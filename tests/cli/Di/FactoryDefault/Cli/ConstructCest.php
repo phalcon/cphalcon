@@ -22,6 +22,7 @@ use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Html\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\Filter;
+use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager;
@@ -115,6 +116,10 @@ class ConstructCest
             [
                 'service' => 'security',
                 'class'   => Security::class,
+            ],
+            [
+                'service' => 'tag',
+                'class'   => TagFactory::class,
             ],
             [
                 'service' => 'transactionManager',
