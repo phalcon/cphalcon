@@ -79,20 +79,31 @@ class ProfilerCest
         /** @var Item $first */
         $first = $profiles[0];
 
-//        $expected = '';
-//        $actual   = $first->getFinalTime();
-//        $I->assertEquals($expected, $actual);
+        $nanoseconds = $first->getTotalElapsedNanoseconds();
+        $miliseconds = $nanoseconds / 1000000;
+        $seconds     = $miliseconds / 1000;
 
-        $expected = '';
+        $expected = $miliseconds;
+        $actual   = $first->getTotalElapsedMilliseconds();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $seconds;
         $actual   = $first->getTotalElapsedSeconds();
         $I->assertEquals($expected, $actual);
 
-        $expected = '';
-        $actual   = $first->getInitialTime();
+        /**
+         * Profile
+         */
+        $elapsed = $profiles[0]->getTotalElapsedSeconds()
+            + $profiles[1]->getTotalElapsedSeconds()
+            + $profiles[2]->getTotalElapsedSeconds();
+
+        $expected = $elapsed;
+        $actual   = $profiler->getTotalElapsedSeconds();
         $I->assertEquals($expected, $actual);
 
-        $expected = '';
-        $actual   = $first->getSqlStatement();
+        $expected = 3;
+        $actual   = $profiler->getNumberTotalStatements();
         $I->assertEquals($expected, $actual);
     }
 }
