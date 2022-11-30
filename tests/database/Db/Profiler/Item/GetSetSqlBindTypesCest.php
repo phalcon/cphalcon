@@ -32,6 +32,6 @@ class GetSetSqlBindTypesCest
 
         $item = new Item();
         $item->setSqlBindTypes(['one' => 1, 'two' => 2]);
-        $I->assertEquals(['one' => 1, 'two' => 2], $item->getSqlBindTypes());
+        $I->assertSame(['one' => 1, 'two' => 2], $item->getSqlBindTypes());
     }
 }

@@ -32,6 +32,6 @@ class GetSetInitialTimeCest
 
         $item = new Item();
         $item->setInitialTime(123.45);
-        $I->assertEquals(123.45, $item->getInitialTime());
+        $I->assertSame(123.45, $item->getInitialTime());
     }
 }

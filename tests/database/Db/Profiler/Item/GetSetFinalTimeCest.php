@@ -32,6 +32,6 @@ class GetSetFinalTimeCest
 
         $item = new Item();
         $item->setFinalTime(123.45);
-        $I->assertEquals(123.45, $item->getFinalTime());
+        $I->assertSame(123.45, $item->getFinalTime());
     }
 }

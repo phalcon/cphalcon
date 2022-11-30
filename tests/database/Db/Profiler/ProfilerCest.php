@@ -18,9 +18,9 @@ use Phalcon\Db\Profiler\Item;
 use Phalcon\Storage\Exception;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-
 use Phalcon\Tests\Models\Invoices;
 
+use function substr;
 use function uniqid;
 
 class ProfilerCest
@@ -65,13 +65,13 @@ class ProfilerCest
 
         $migration = new InvoicesMigration($I->getConnection());
         $title = uniqid('tit-');
-        $migration->insert(10, 20, 1, $title,100);
+        $migration->insert(10, 20, 1, $title, 100);
 
         $invoices = Invoices::find();
 
         $expected = 1;
         $actual   = $invoices->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
 
         $profiles = $profiler->getProfiles();
         $I->assertCount(3, $profiles);
@@ -83,13 +83,16 @@ class ProfilerCest
         $miliseconds = $nanoseconds / 1000000;
         $seconds     = $miliseconds / 1000;
 
+        $miliseconds = substr((string) $miliseconds, 0, 5);
+        $seconds     = substr((string) $seconds, 0, 5);
+
         $expected = $miliseconds;
-        $actual   = $first->getTotalElapsedMilliseconds();
-        $I->assertEquals($expected, $actual);
+        $actual   = substr((string) $first->getTotalElapsedMilliseconds(), 0, 5);
+        $I->assertSame($expected, $actual);
 
         $expected = $seconds;
-        $actual   = $first->getTotalElapsedSeconds();
-        $I->assertEquals($expected, $actual);
+        $actual   = substr((string) $first->getTotalElapsedSeconds(), 0, 5);
+        $I->assertSame($expected, $actual);
 
         /**
          * Profile
@@ -98,12 +101,14 @@ class ProfilerCest
             + $profiles[1]->getTotalElapsedSeconds()
             + $profiles[2]->getTotalElapsedSeconds();
 
+        $elapsed = substr((string) $elapsed, 0, 5);
+
         $expected = $elapsed;
-        $actual   = $profiler->getTotalElapsedSeconds();
-        $I->assertEquals($expected, $actual);
+        $actual   = substr((string) $profiler->getTotalElapsedSeconds(), 0, 5);
+        $I->assertSame($expected, $actual);
 
         $expected = 3;
         $actual   = $profiler->getNumberTotalStatements();
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }
