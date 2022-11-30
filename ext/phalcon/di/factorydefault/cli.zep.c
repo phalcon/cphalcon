@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli)
  */
 PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 {
-	zval _1;
+	zval _1, _6, _7, _8;
 	zval filter, _2, _3, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -59,6 +59,9 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 
 
 	ZEPHIR_MM_GROW();
@@ -73,7 +76,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	}
 
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 11, 0);
+	zephir_create_array(&_1, 12, 0);
 	ZEPHIR_INIT_VAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(&_3);
@@ -154,6 +157,23 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("security"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	object_init_ex(&_2, phalcon_di_service_ce);
+	ZEPHIR_INIT_VAR(&_6);
+	zephir_create_array(&_6, 2, 0);
+	add_assoc_stringl_ex(&_6, SL("className"), SL("Phalcon\\Html\\TagFactory"));
+	ZEPHIR_INIT_VAR(&_7);
+	zephir_create_array(&_7, 1, 0);
+	ZEPHIR_INIT_VAR(&_8);
+	zephir_create_array(&_8, 2, 0);
+	add_assoc_stringl_ex(&_8, SL("type"), SL("service"));
+	add_assoc_stringl_ex(&_8, SL("name"), SL("escaper"));
+	zephir_array_fast_append(&_7, &_8);
+	zephir_array_update_string(&_6, SL("arguments"), &_7, PH_COPY | PH_SEPARATE);
+	ZVAL_BOOL(&_4, 1);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 74, &_6, &_4);
+	zephir_check_call_status();
+	zephir_array_update_string(&_1, SL("tag"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(&_3);
