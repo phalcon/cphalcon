@@ -19,6 +19,7 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cli\Console;
+use Phalcon\Db\Profiler;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\PdoFactory;
@@ -184,6 +185,8 @@ trait DiTrait
                 return new ModelsManager();
             case 'phpSerializer':
                 return (new SerializerFactory())->newInstance('php');
+            case 'profiler':
+                return new Profiler();
             case 'request':
                 return new Request();
             case 'response':

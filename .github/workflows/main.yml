@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.1.1
+  PHALCON_VERSION: 5.1.2
   ZEPHIR_PARSER_VERSION: 1.5.1
   ZEPHIR_VERSION: 0.16.3
 
@@ -180,22 +180,13 @@ jobs:
           target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
           ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
 
-      - name: Validate composer
+      - name: "Validate composer"
         run: composer validate --no-check-all --no-check-publish
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Setup Composer Cache
-        uses: actions/cache@v2
+      - name: "Install development dependencies with Composer"
+        uses: "ramsey/composer-install@v2"
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-${{ matrix.php }}-
-
-      - run: composer install --prefer-dist
+          composer-options: "--prefer-dist"
 
       - name: Setup Tests
         shell: bash
@@ -303,18 +294,13 @@ jobs:
           ./.ci/linux-setup-locales.sh
           echo "::endgroup::"
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: "Validate composer"
+        run: composer validate --no-check-all --no-check-publish
 
-      - name: Setup Composer Cache
-        uses: actions/cache@v2
+      - name: "Install development dependencies with Composer"
+        uses: "ramsey/composer-install@v2"
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-php${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-php${{ matrix.php }}-
-
-      - run: composer install --prefer-dist
+          composer-options: "--prefer-dist"
 
       - name: Setup Tests
         run: |

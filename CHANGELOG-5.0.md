@@ -1,3 +1,11 @@
+# [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
+
+## Fixed
+- Fixed `Phalcon\Support\Debug` to correctly calculate the documents URL for the hyperlinks [#16223](https://github.com/phalcon/cphalcon/issues/16223)
+- Fixed `Phalcon\Html\TagFactory` docblock for autocompletion (https://github.com/phalcon/cphalcon/commit/0129658f3ac468dcc5294d401403e166302a8069)
+- Fixed `Phalcon\Db\Profiler` by correctly calculating the seconds (reapplied changes) [#15822](https://github.com/phalcon/cphalcon/issues/15822)
+- Added `Phalcon\Html\TagFactory` to the `Phalcon\Di\FactoryDefault\Cli` [#16233](https://github.com/phalcon/cphalcon/issues/16233)
+
 # [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
 ## Fixed
