@@ -1,3 +1,8 @@
+# [5.1.3](https://github.com/phalcon/cphalcon/releases/tag/v5.1.3) (xxxx-xx-xx)
+
+## Fixed
+- Fixed `Phalcon\Mvc\Micro::handle` to type check an object for the `finish` [#16240](https://github.com/phalcon/cphalcon/issues/16240)
+
 # [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
 
 ## Fixed
