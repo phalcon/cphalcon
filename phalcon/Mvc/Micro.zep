@@ -678,7 +678,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 /**
                  * Try to execute middleware as plugins
                  */
-                if typeof after === "object" && finish instanceof MiddlewareInterface {
+                if typeof finish === "object" && finish instanceof MiddlewareInterface {
                     /**
                      * Call the middleware
                      */
