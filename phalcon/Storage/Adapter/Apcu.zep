@@ -10,7 +10,7 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use APCuIterator;
+use APCUIterator;
 use DateInterval;
 use Exception;
 use Phalcon\Storage\SerializerFactory;
@@ -239,9 +239,9 @@ class Apcu extends AbstractAdapter
         return apcu_fetch(key, success);
     }
 
-    protected function phpApcuIterator(string pattern) -> <APCuIterator> | bool
+    protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
     {
-        return new APCuIterator(pattern);
+        return new APCUIterator(pattern);
     }
 
     protected function phpApcuStore(var key, var payload, int ttl = 0) -> bool | array
