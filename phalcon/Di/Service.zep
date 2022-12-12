@@ -140,9 +140,7 @@ class Service implements ServiceInterface
             /**
              * String definitions can be class names without implicit parameters
              */
-            if container !== null {
-                let instance = container->get(definition, parameters);
-            } elseif class_exists(definition) {
+            if class_exists(definition) {
                 if typeof parameters == "array" && count(parameters) {
                     let instance = create_instance_params(
                         definition,

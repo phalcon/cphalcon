@@ -36,8 +36,12 @@ class InitializationAwareCest
     {
         $I->wantToTest('Di - initialization aware interface');
 
-        $di = new Di();
+        $container = new Di();
 
-        $I->assertSame(true, $di->get(InitializationAwareComponent::class)->isInitialized());
+        $actual = $container
+            ->get(InitializationAwareComponent::class)
+            ->isInitialized()
+        ;
+        $I->assertTrue($actual);
     }
 }

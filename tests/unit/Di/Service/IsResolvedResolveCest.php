@@ -52,23 +52,35 @@ class IsResolvedResolveCest
             }
         );
 
-        $actual = $container->getService('resolved')->isResolved();
+        $actual = $container->getService('resolved')
+                            ->isResolved()
+        ;
         $I->assertFalse($actual);
 
-        $actual = $container->getService('notResolved')->isResolved();
+        $actual = $container->getService('notResolved')
+                            ->isResolved()
+        ;
         $I->assertFalse($actual);
 
         $container->get('resolved');
 
-        $actual = $container->getService('resolved')->isResolved();
+        $actual = $container->getService('resolved')
+                            ->isResolved()
+        ;
         $I->assertTrue($actual);
 
-        $actual = $container->getService('notResolved')->isResolved();
+        $actual = $container->getService('notResolved')
+                            ->isResolved()
+        ;
         $I->assertFalse($actual);
 
-        $container->getService('notResolved')->resolve();
+        $container->getService('notResolved')
+                  ->resolve()
+        ;
 
-        $actual = $container->getService('notResolved')->isResolved();
+        $actual = $container->getService('notResolved')
+                            ->isResolved()
+        ;
         $I->assertTrue($actual);
     }
 }
