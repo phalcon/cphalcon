@@ -57,6 +57,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 
 	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_OBJ"), 5);
 
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_ORI_NEXT"), 0);
+
 	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_PROPS_LATE"), 1048576);
 
 	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_SERIALIZE"), 524288);

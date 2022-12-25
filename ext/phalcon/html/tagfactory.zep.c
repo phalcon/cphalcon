@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 145);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 176);
 	RETURN_CTOR(&_5);
 }
 
