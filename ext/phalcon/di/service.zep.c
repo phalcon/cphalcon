@@ -190,11 +190,11 @@ PHP_METHOD(Phalcon_Di_Service, isShared)
  */
 PHP_METHOD(Phalcon_Di_Service, resolve)
 {
-	zend_class_entry *_4$$14;
-	zend_bool found = 0, _2$$7;
+	zend_class_entry *_4$$13;
+	zend_bool found = 0, _2$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, shared, definition, sharedInstance, instance, builder, _0, _1$$3, _3$$14, _5$$21;
+	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, shared, definition, sharedInstance, instance, builder, _0, _1$$3, _3$$13, _5$$20;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&parameters_sub);
@@ -209,8 +209,8 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	ZVAL_UNDEF(&builder);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$14);
-	ZVAL_UNDEF(&_5$$21);
+	ZVAL_UNDEF(&_3$$13);
+	ZVAL_UNDEF(&_5$$20);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
@@ -248,15 +248,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&definition) == IS_STRING) {
-		if (Z_TYPE_P(container) != IS_NULL) {
-			ZEPHIR_CALL_METHOD(&instance, container, "get", NULL, 0, &definition, parameters);
-			zephir_check_call_status();
-		} else if (zephir_class_exists(&definition, 1)) {
-			_2$$7 = Z_TYPE_P(parameters) == IS_ARRAY;
-			if (_2$$7) {
-				_2$$7 = ((zephir_fast_count_int(parameters)) ? 1 : 0);
+		if (zephir_class_exists(&definition, 1)) {
+			_2$$6 = Z_TYPE_P(parameters) == IS_ARRAY;
+			if (_2$$6) {
+				_2$$6 = ((zephir_fast_count_int(parameters)) ? 1 : 0);
 			}
-			if (_2$$7) {
+			if (_2$$6) {
 				ZEPHIR_INIT_NVAR(&instance);
 				ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &definition, parameters);
 				zephir_check_call_status();
@@ -272,10 +269,10 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		if (Z_TYPE_P(&definition) == IS_OBJECT) {
 			if (zephir_is_instance_of(&definition, SL("Closure"))) {
 				if (Z_TYPE_P(container) == IS_OBJECT) {
-					_4$$14 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
-					ZEPHIR_CALL_CE_STATIC(&_3$$14, _4$$14, "bind", NULL, 0, &definition, container);
+					_4$$13 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
+					ZEPHIR_CALL_CE_STATIC(&_3$$13, _4$$13, "bind", NULL, 0, &definition, container);
 					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(&definition, &_3$$14);
+					ZEPHIR_CPY_WRT(&definition, &_3$$13);
 				}
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&instance);
@@ -306,11 +303,11 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		}
 	}
 	if (UNEXPECTED(found == 0)) {
-		ZEPHIR_INIT_VAR(&_5$$21);
-		object_init_ex(&_5$$21, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$21, "__construct", NULL, 29);
+		ZEPHIR_INIT_VAR(&_5$$20);
+		object_init_ex(&_5$$20, phalcon_di_exception_serviceresolutionexception_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$20, "__construct", NULL, 29);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 204);
+		zephir_throw_exception_debug(&_5$$20, "phalcon/Di/Service.zep", 202);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -382,7 +379,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&definition) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 239);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 237);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&arguments);
