@@ -351,4 +351,75 @@ class IsAllowedCest
 
         $I->assertFalse($actual);
     }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - documentation example
+     *
+     * @param UnitTester $I
+     *
+     * @author  Phalcon Team <team@phalcon.io>
+     * @since   2022-12-09
+     */
+    public function aclAdapterMemoryIsAllowedDocumentationExample(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - isAllowed() - documentation example');
+
+        $acl = new Memory();
+
+        /**
+         * Setup the ACL
+         */
+        $acl->addRole('manager');
+        $acl->addRole('accounting');
+        $acl->addRole('guest');
+
+        $acl->addComponent(
+            'admin',
+            [
+                'dashboard',
+                'users',
+                'view',
+            ]
+        );
+        $acl->addComponent(
+            'reports',
+            [
+                'list',
+                'add',
+                'view',
+            ]
+        );
+        $acl->addComponent(
+            'session',
+            [
+                'login',
+                'logout',
+            ]
+        );
+
+        $acl->allow('manager', 'admin', 'dashboard');
+        $acl->allow('manager', 'reports', ['list', 'add']);
+        $acl->allow('accounting', 'reports', '*');
+        $acl->allow('*', 'session', '*');
+
+        // true - defined explicitly
+        $actual = $acl->isAllowed('manager', 'admin', 'dashboard');
+        $I->assertTrue($actual);
+
+        // true - defined with wildcard
+        $actual = $acl->isAllowed('manager', 'session', 'login');
+        $I->assertTrue($actual);
+
+        // true - defined with wildcard
+        $actual = $acl->isAllowed('accounting', 'reports', 'view');
+        $I->assertTrue($actual);
+
+        // false - defined explicitly
+        $actual = $acl->isAllowed('guest', 'reports', 'view');
+        $I->assertFalse($actual);
+
+        // false - default access level
+        $actual = $acl->isAllowed('guest', 'reports', 'add');
+        $I->assertFalse($actual);
+    }
 }
