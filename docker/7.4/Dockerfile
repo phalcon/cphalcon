@@ -42,14 +42,14 @@ RUN apt update -y && \
         zlib1g
 
 # PECL Packages
-RUN pecl install -o -f redis && \
-    pecl install igbinary \
+RUN pecl install \
+      redis \
+      igbinary \
       msgpack \
       apcu \
       yaml \
       imagick \
       memcached \
-      xdebug \
       zephir_parser
 
 # Locale
@@ -87,7 +87,6 @@ RUN docker-php-ext-enable \
         imagick \
         yaml \
         memcached \
-        xdebug \
         zephir_parser
 
 # Composer

@@ -853,7 +853,7 @@ PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 359);
+	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 361);
 	zephir_check_call_status();
 	RETURN_MM();
 }
