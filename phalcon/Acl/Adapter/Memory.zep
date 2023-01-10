@@ -18,6 +18,7 @@ use Phalcon\Acl\Exception;
 use Phalcon\Acl\RoleAwareInterface;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
+use ReflectionClass;
 use ReflectionFunction;
 
 /**
@@ -593,11 +594,10 @@ class Memory extends AbstractAdapter
     {
         var accessKey, accessList, className, componentObject = null,
             haveAccess = null, funcAccess = null, funcList,
-            numberOfRequiredParameters, reflectionClass, reflectionFunction,
-            reflectionParameters, parameterNumber, parameterToCheck,
-            parametersForFunction, reflectionClass, reflectionParameter,
+            numberOfRequiredParameters, parameterNumber, parameterToCheck,
+            parametersForFunction, reflectionClass, reflectionFunction,
+            reflectionParameter, reflectionParameters, reflectionType,
             roleObject = null, userParametersSizeShouldBe;
-
         bool hasComponent = false, hasRole = false;
 
         if typeof roleName === "object" {
