@@ -1523,7 +1523,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&parameterToCheck, &reflectionParameter, "getname", NULL, 0);
 				zephir_check_call_status();
-				if (Z_TYPE_P(&reflectionClass) != IS_NULL) {
+				if (Z_TYPE_P(&reflectionType) != IS_NULL) {
 					ZEPHIR_CALL_METHOD(&className, &reflectionType, "getname", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&reflectionClass);
@@ -1613,7 +1613,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed)
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&parameterToCheck, &reflectionParameter, "getname", NULL, 0);
 					zephir_check_call_status();
-					if (Z_TYPE_P(&reflectionClass) != IS_NULL) {
+					if (Z_TYPE_P(&reflectionType) != IS_NULL) {
 						ZEPHIR_CALL_METHOD(&className, &reflectionType, "getname", NULL, 0);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&reflectionClass);

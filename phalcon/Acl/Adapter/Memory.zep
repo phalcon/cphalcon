@@ -706,7 +706,7 @@ class Memory extends AbstractAdapter
                 let parameterToCheck = reflectionParameter->getName();
 
 
-                if null !== reflectionClass {
+                if null !== reflectionType {
                     let className       = reflectionType->getName();
                     let reflectionClass = new ReflectionClass(className);
                     // roleObject is this class
