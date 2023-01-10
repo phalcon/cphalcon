@@ -18,6 +18,7 @@ use Phalcon\Acl\Exception;
 use Phalcon\Acl\RoleAwareInterface;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
+use ReflectionClass;
 use ReflectionFunction;
 
 /**
@@ -591,13 +592,12 @@ class Memory extends AbstractAdapter
      */
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
-        var accessKey, accessList, componentObject = null, haveAccess = null,
-            funcAccess = null, funcList, numberOfRequiredParameters,
-            reflectionFunction, reflectionParameters, parameterNumber,
-            parameterToCheck, parametersForFunction, reflectionClass,
-            reflectionParameter, roleObject = null,
-            userParametersSizeShouldBe;
-
+        var accessKey, accessList, className, componentObject = null,
+            haveAccess = null, funcAccess = null, funcList,
+            numberOfRequiredParameters, parameterNumber, parameterToCheck,
+            parametersForFunction, reflectionClass, reflectionFunction,
+            reflectionParameter, reflectionParameters, reflectionType,
+            roleObject = null, userParametersSizeShouldBe;
         bool hasComponent = false, hasRole = false;
 
         if typeof roleName === "object" {
@@ -702,12 +702,16 @@ class Memory extends AbstractAdapter
                 userParametersSizeShouldBe = parameterNumber;
 
             for reflectionParameter in reflectionParameters {
-                let reflectionClass  = reflectionParameter->getClass(),
-                    parameterToCheck = reflectionParameter->getName();
+                let reflectionType   = reflectionParameter->getType();
+                let parameterToCheck = reflectionParameter->getName();
 
-                if reflectionClass !== null {
+
+                if null !== reflectionType {
+                    let className       = reflectionType->getName();
+                    let reflectionClass = new ReflectionClass(className);
                     // roleObject is this class
-                    if (roleObject !== null &&
+                    if (
+                        null !== roleObject &&
                         reflectionClass->isInstance(roleObject) &&
                         !hasRole
                     ) {

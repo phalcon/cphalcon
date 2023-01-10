@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct)
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "check", NULL, 405);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "check", NULL, 409);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("file"), &file);
 	ZEPHIR_INIT_VAR(&_0);

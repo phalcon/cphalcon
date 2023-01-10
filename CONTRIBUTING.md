@@ -51,5 +51,5 @@ Please report bugs when you've exhausted all of the above options.
 If you have a change or new feature in mind, please fill a [NFR](https://docs.phalcon.io/en/latest/new-feature-request) on the GitHub. Alternatively you may also request features via [the FeatHub page](https://feathub.com/phalcon/cphalcon).
 
 
-Thanks! <br />
+Thanks! 
 Phalcon Team
