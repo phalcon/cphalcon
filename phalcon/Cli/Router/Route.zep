@@ -547,12 +547,9 @@ class Route implements RouteInterface
      * Sets the route's name
      *
      *```php
-     * $router->add(
-     *     "/about",
-     *     [
-     *         "controller" => "about",
-     *     ]
+     *
      * )->setName("about");
+     * $router->add("/about", "About::main")->setName("about");
      *```
      */
     public function setName(string! name) -> <RouteInterface>
