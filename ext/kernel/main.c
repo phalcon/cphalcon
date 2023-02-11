@@ -568,9 +568,15 @@ void zephir_get_arg(zval *return_value, zend_long idx)
 	}
 
 	arg_count = ZEND_CALL_NUM_ARGS(ex);
-    if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
-        RETURN_FALSE;
-    }
+#if PHP_VERSION_ID >= 80200
+	if (zend_forbid_dynamic_call() == FAILURE) {
+		RETURN_FALSE;
+	}
+#else
+	if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
+		RETURN_FALSE;
+	}
+#endif
 
 	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
 		zend_error(E_WARNING, "func_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);
