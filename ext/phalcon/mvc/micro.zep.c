@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct)
 /**
  * Appends an 'after' middleware to be called after execute the route
  *
- * @param callable handler
+ * @param callable|MiddlewareInterface handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro, after)
 {
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, afterBinding)
 /**
  * Appends a before middleware to be called before execute the route
  *
- * @param callable handler
+ * @param callable|MiddlewareInterface handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro, before)
 {

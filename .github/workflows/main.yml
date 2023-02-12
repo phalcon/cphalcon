@@ -20,8 +20,8 @@ on:
 env:
   # All versions should be declared here
   PHALCON_VERSION: 5.1.4
-  ZEPHIR_PARSER_VERSION: 1.5.1
-  ZEPHIR_VERSION: 0.16.3
+  ZEPHIR_PARSER_VERSION: 1.5.3
+  ZEPHIR_VERSION: 0.17.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -85,8 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
-#        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
@@ -108,8 +107,11 @@ jobs:
           - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-#          - { php: '8.2', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-#          - { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          # Most of the extensions wasn't compiled for PHP 8.2.
+          # So it is not possible to test in this version, inside Windows OS.
+          # List of .dlls - https://windows.php.net/downloads/pecl/releases/
+          #- { php: '8.2', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
       - uses: actions/checkout@v3
@@ -265,8 +267,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
-#        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
 
     steps:
       - uses: actions/checkout@v3
