@@ -231,7 +231,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     services:
       mysql:
@@ -377,7 +377,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
