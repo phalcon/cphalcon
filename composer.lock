@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "268738016771a81f1c6a9decc7763eed",
+    "content-hash": "4a7a516afe5b3dcf149d770fb710a6c5",
     "packages": [],
     "packages-dev": [
         {
@@ -2636,16 +2636,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "0.16.3",
+            "version": "0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "5099f34531cf0772ea0da1f8be6c6d9b7622dc79"
+                "reference": "9f99da6da419a6f243a85645ae500e4ac76b7225"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/5099f34531cf0772ea0da1f8be6c6d9b7622dc79",
-                "reference": "5099f34531cf0772ea0da1f8be6c6d9b7622dc79",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/9f99da6da419a6f243a85645ae500e4ac76b7225",
+                "reference": "9f99da6da419a6f243a85645ae500e4ac76b7225",
                 "shasum": ""
             },
             "require": {
@@ -2666,7 +2666,7 @@
                 "ext-pdo": "*",
                 "ext-pdo_sqlite": "*",
                 "ext-zip": "*",
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "9.5.28",
                 "psr/log": "1.1.*"
             },
             "bin": [
@@ -2720,7 +2720,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-17T09:19:40+00:00"
+            "time": "2023-02-11T20:14:50+00:00"
         },
         {
             "name": "phar-io/manifest",
