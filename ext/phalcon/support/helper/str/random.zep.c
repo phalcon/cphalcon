@@ -17,6 +17,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "kernel/math.h"
 #include "kernel/object.h"
 
 
@@ -61,8 +62,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 {
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_20 = NULL;
-	zval *type_param = NULL, *length_param = NULL, end, pools, text, _0, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16$$3, _17$$3, _18$$3, _19$$3;
+	zval *type_param = NULL, *length_param = NULL, end, pools, text, _0, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16$$3, _17$$3, _18$$3;
 	zend_long type, length, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -87,7 +87,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	ZVAL_UNDEF(&_16$$3);
 	ZVAL_UNDEF(&_17$$3);
 	ZVAL_UNDEF(&_18$$3);
-	ZVAL_UNDEF(&_19$$3);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
@@ -200,9 +199,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 		}
 		zephir_array_fetch_long(&_16$$3, &pools, type, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Random.zep", 69);
 		ZVAL_LONG(&_18$$3, 0);
-		ZEPHIR_CALL_FUNCTION(&_19$$3, "mt_rand", &_20, 0, &_18$$3, &end);
-		zephir_check_call_status();
-		zephir_array_fetch(&_17$$3, &_16$$3, &_19$$3, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Random.zep", 69);
+		zephir_array_fetch_long(&_17$$3, &_16$$3, zephir_mt_rand(zephir_get_intval(&_18$$3), zephir_get_intval(&end)), PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Random.zep", 69);
 		zephir_concat_self(&text, &_17$$3);
 	}
 	RETURN_CCTOR(&text);

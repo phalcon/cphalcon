@@ -371,13 +371,15 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
-	zval *text_param = NULL, *raw_param = NULL, _0, _1;
+	zval *text_param = NULL, *raw_param = NULL, prepend, _0, _1, _2;
 	zval text;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
+	ZVAL_UNDEF(&prepend);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -407,7 +409,13 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 		zephir_check_call_status();
 	}
 	zephir_get_strval(&text, &_0);
-	zephir_update_property_array_append(this_ptr, SL("prepend"), &text);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("prepend"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&prepend, &_2);
+	ZEPHIR_MAKE_REF(&prepend);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 270, &prepend, &text);
+	ZEPHIR_UNREF(&prepend);
+	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, ZEND_STRL("prepend"), &prepend);
 	RETURN_THIS();
 }
 

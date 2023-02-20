@@ -79,7 +79,7 @@
  * @method Meta          meta(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Ol            ol(string $text, array $attributes = [], bool $raw = false)
  * @method Script        script(string $indent = '    ', string $delimiter = PHP_EOL)
- * @method Stype         style(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method Style         style(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Title         title(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Ul            ul(string $text, array $attributes = [], bool $raw = false)
  */
