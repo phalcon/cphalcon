@@ -99,7 +99,7 @@ class FromInputCest
                 'inv_status_flag' => 3,
                 'inv_title'       => 'title',
                 'inv_total'       => '%100.1%',
-                'inv_created_at'  => '2020-12-25 01:02:03',
+                'inv_created_at'  => '%2020-12-25 01:02:03%',
             ];
         } else {
             $expected = [
