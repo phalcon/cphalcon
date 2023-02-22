@@ -10,7 +10,7 @@
  */
 
 #ifndef ZEPHIR_RELEASE
-#if defined(linux) || defined(DARWIN) || defined(__APPLE__)
+#if defined(linux) && !defined(ALPINE_LINUX) || defined(DARWIN) || defined(__APPLE__)
 
 #include <execinfo.h>
 #include <Zend/zend.h>
