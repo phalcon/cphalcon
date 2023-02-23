@@ -38,7 +38,7 @@ runs:
       shell: powershell
       run: |
         Write-Output "::group::Install dependencies"
-        mkdir ${{ env.CACHE_DIR }}\Choco
+        if not exist "${{ env.CACHE_DIR }}\Choco\" mkdir ${{ env.CACHE_DIR }}\Choco
         choco install --no-progress -y --cache-location=${{ env.CACHE_DIR }}\Choco re2c
         Write-Output "::endgroup::"
 
