@@ -97,7 +97,7 @@ class FromInputCest
                 'inv_id'          => 1,
                 'inv_cst_id'      => 2,
                 'inv_status_flag' => 3,
-                'inv_title'       => 'title',
+                'inv_title'       => '%title%',
                 'inv_total'       => '%100.1%',
                 'inv_created_at'  => '%2020-12-25 01:02:03%',
             ];
