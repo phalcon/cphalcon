@@ -36,7 +36,7 @@ class GetSetHashAlgorithmCest
     {
         $I->wantToTest('Encryption\Crypt - getHashAlgorithm() / setHashAlgorithm()');
 
-        $cipher = 'sha512';
+        $cipher = 'ripemd128';
         $crypt  = new Crypt();
         $crypt->setHashAlgorithm($cipher);
 
