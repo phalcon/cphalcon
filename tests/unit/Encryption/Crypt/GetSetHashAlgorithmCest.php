@@ -38,7 +38,6 @@ class GetSetHashAlgorithmCest
 
         $cipher = 'sha512';
         $crypt  = new Crypt();
-        var_dump($crypt->getAvailableHashAlgorithms());
 
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
