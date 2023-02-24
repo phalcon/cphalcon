@@ -36,9 +36,9 @@ class GetSetHashAlgorithmCest
     {
         $I->wantToTest('Encryption\Crypt - getHashAlgorithm() / setHashAlgorithm()');
 
-        $cipher = 'blowfish';
+        $cipher = 'sha512';
         $crypt  = new Crypt();
-        $crypt->setHashAlgorithm($cipher);
+        var_dump($crypt->getAvailableHashAlgorithms());
 
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
