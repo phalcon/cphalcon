@@ -38,6 +38,7 @@ class GetSetHashAlgorithmCest
 
         $cipher = 'ripemd128';
         $crypt  = new Crypt();
+        var_dump($crypt->getAvailableHashAlgorithms());
         $crypt->setHashAlgorithm($cipher);
 
         $expected = $cipher;
