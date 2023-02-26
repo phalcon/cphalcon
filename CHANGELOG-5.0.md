@@ -5,6 +5,7 @@
 ### Fixed
  
 - Fixed `Phalcon\Html\Helper\Title::prepend` to correctly prepend text in subsequent calls [#16283](https://github.com/phalcon/cphalcon/issues/16283)
+- Fixed CLI full namespace handler `:class` loading [#16285](https://github.com/phalcon/cphalcon/issues/16285)
 
 ## [5.1.4](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-01-10)
 
