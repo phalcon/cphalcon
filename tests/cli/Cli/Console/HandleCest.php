@@ -22,6 +22,7 @@ use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
+use Phalcon\Tests\Fixtures\Tasks\Issue16285Task;
 use Phalcon\Tests\Fixtures\Tasks\Issue787Task;
 use Phalcon\Tests\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Modules\Frontend\Module as FrontendModule;
@@ -476,6 +477,19 @@ class HandleCest
             'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
             Issue787Task::$output
         );
+    }
+
+    public function cliConsoleHandle16285(CliTester $I)
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+        $console->handle(
+            [
+                'task'   => Issue16285Task::class,
+                'action' => 'main',
+            ]
+        );
+
+        $I->assertSame('main', Issue16285Task::$output);
     }
 
     /**
