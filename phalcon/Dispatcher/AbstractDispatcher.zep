@@ -934,6 +934,10 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             handlerName = this->handlerName,
             namespaceName = this->namespaceName;
 
+        if class_exists(handlerName) {
+            return handlerName;
+        }
+
         // We don't camelize the classes if they are in namespaces
         if !memstr(handlerName, "\\") {
             let camelizedClass = this->toCamelCase(handlerName);
