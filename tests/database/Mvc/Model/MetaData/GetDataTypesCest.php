@@ -72,9 +72,9 @@ class GetDataTypesCest
                     'inv_id'          => 0,
                     'inv_cst_id'      => 0,
                     'inv_status_flag' => 0,
-                    'inv_title'       => 6,
+                    'inv_title'       => 2,
                     'inv_total'       => 2,
-                    'inv_created_at'  => 6,
+                    'inv_created_at'  => 2,
                 ];
             default:
                 return [

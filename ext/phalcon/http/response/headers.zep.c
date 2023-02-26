@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, has)
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
-	RETURN_MM_BOOL(zephir_array_isset(&_0, &name));
+	RETURN_MM_BOOL(zephir_array_key_exists(&_0, &name));
 }
 
 /**
