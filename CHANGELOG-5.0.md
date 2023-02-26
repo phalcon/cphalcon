@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.1.5](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-02-26)
+## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
 
 ### Fixed
  
