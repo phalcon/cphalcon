@@ -693,15 +693,19 @@ void zephir_eval_php(zval *str, zval *retval_ptr, char *context)
 
 	original_compiler_options = CG(compiler_options);
 	CG(compiler_options) = ZEND_COMPILE_DEFAULT_FOR_EVAL;
-#if PHP_VERSION_ID < 80000
-	new_op_array = zend_compile_string(str, context);
+#if PHP_VERSION_ID >= 80200
+	new_op_array = zend_compile_string(Z_STR_P(str), context, ZEND_COMPILE_POSITION_AFTER_OPEN_TAG);
 #else
+#if PHP_VERSION_ID >= 80000
 	new_op_array = zend_compile_string(Z_STR_P(str), context);
+#else
+	new_op_array = zend_compile_string(str, context);
 #endif
+#endif
+
 	CG(compiler_options) = original_compiler_options;
 
-	if (new_op_array)
-	{
+	if (new_op_array) {
 		EG(no_extensions) = 1;
 		zend_try {
 			zend_execute(new_op_array, &local_retval);

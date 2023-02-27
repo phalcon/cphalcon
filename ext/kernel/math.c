@@ -181,20 +181,6 @@ void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3)
 	}
 }
 
-zend_long zephir_mt_rand(zend_long min, zend_long max)
-{
-	if (max < min) {
-		php_error_docref(NULL, E_WARNING, "max(" ZEND_LONG_FMT ") is smaller than min(" ZEND_LONG_FMT ")", max, min);
-		return 0;
-	}
-
-	if (!BG(mt_rand_is_seeded)) {
-		php_mt_srand(GENERATE_SEED());
-	}
-
-	return php_mt_rand_range(min, max);
-}
-
 double zephir_ldexp(zval *value, zval *expval)
 {
 	int exp = (int) zephir_get_numberval(expval);

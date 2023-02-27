@@ -19,9 +19,9 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.1.4
-  ZEPHIR_PARSER_VERSION: 1.5.1
-  ZEPHIR_VERSION: 0.16.3
+  PHALCON_VERSION: 5.2.0
+  ZEPHIR_PARSER_VERSION: 1.5.3
+  ZEPHIR_VERSION: 0.17.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -69,9 +69,10 @@ jobs:
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-8.1.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+      php_version: '8.2'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -85,8 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
-#        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
@@ -108,8 +108,11 @@ jobs:
           - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-#          - { php: '8.2', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-#          - { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          # Most of the extensions wasn't compiled for PHP 8.2.
+          # So it is not possible to test in this version, inside Windows OS.
+          # List of .dlls - https://windows.php.net/downloads/pecl/releases/
+          #- { php: '8.2', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
       - uses: actions/checkout@v3
@@ -228,7 +231,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     services:
       mysql:
@@ -265,8 +268,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
-#        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
 
     steps:
       - uses: actions/checkout@v3
@@ -375,7 +377,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
