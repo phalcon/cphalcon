@@ -56,6 +56,10 @@ return <<<HEADER
 #include <ext/spl/spl_iterators.h>
 #include <ext/spl/spl_array.h>
 
+#if defined ZEPHIR_USE_PHP_PCRE && ZEPHIR_USE_PHP_PCRE
+#include <ext/pcre/php_pcre.h>
+#endif
+
 #include <ext/pdo/php_pdo_driver.h>
 #include <ext/hash/php_hash.h>
 #include <ext/date/php_date.h>
