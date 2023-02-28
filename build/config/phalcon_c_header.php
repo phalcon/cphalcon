@@ -56,7 +56,7 @@ return <<<HEADER
 #include <ext/spl/spl_iterators.h>
 #include <ext/spl/spl_array.h>
 
-#if PHP_VERSION_ID >= 80200
+#if defined ZEPHIR_USE_PHP_PCRE && ZEPHIR_USE_PHP_PCRE
 #include <ext/pcre/php_pcre.h>
 #endif
 
