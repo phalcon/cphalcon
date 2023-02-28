@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2023-02-26</date>
+  <date>2023-02-28</date>
   <time>17:00:00</time>
   <version>
-    <release>5.2.0</release>
-    <api>5.2.0</api>
+    <release>5.2.1</release>
+    <api>5.2.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -37,10 +37,7 @@
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
     ### Fixed
-    - Fixed `Phalcon\Html\Helper\Title::prepend` to correctly prepend text in subsequent calls [#16283](https://github.com/phalcon/cphalcon/issues/16283)
-
-    ### Added
-    - Added support for PHP 8.2 [#15973](https://github.com/phalcon/cphalcon/issues/15973)
+    - Fixed compilation under PHP 8.2 [#16293](https://github.com/phalcon/cphalcon/issues/16293), [#16295](https://github.com/phalcon/cphalcon/issues/16295)
 
   </notes>
   <contents>
