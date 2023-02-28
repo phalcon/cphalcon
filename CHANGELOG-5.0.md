@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
+
+### Fixed
+ 
+- Fixed compilation under PHP 8.2 [#16293](https://github.com/phalcon/cphalcon/issues/16293), [#16295](https://github.com/phalcon/cphalcon/issues/16295) 
+
 ## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
 
 ### Fixed
