@@ -99,7 +99,6 @@ Thanks for the support
 <a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
 <a href="https://github.com/DestinyMKas"><img src="https://avatars.githubusercontent.com/u/170159?v=4" title="Karolis Mačiulskis" width="60" height="60"></a>
 <a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
-<a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
 <a href="https://github.com/Ultimater"><img src="https://avatars.githubusercontent.com/u/1922199?v=4" title="Kevin Yarmak" width="60" height="60"></a>
@@ -113,7 +112,6 @@ Thanks for the support
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
-<a href="https://github.com/aircodepl"><img src="https://avatars.githubusercontent.com/u/17483386?v=4" title="Mateusz" width="60" height="60"></a>
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
