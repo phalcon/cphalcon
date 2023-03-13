@@ -97,7 +97,6 @@ Thanks for the support
 
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
-<a href="https://github.com/DestinyMKas"><img src="https://avatars.githubusercontent.com/u/170159?v=4" title="Karolis Mačiulskis" width="60" height="60"></a>
 <a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
@@ -109,7 +108,6 @@ Thanks for the support
 <a href="https://github.com/stdnk"><img src="https://avatars.githubusercontent.com/u/5130969?v=4" title="Vasily Stadnik" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
-<a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
