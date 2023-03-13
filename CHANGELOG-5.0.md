@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (xxxx-xx-xx)
+
+### Fixed
+ 
+- Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314) 
+
 ## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
 
 ### Fixed
