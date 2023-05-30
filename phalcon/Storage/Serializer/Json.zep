@@ -65,7 +65,7 @@ class Json extends AbstractSerializer
 
         let decoded = json_decode(data, associative, depth, options);
 
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
+        if JSON_ERROR_NONE !== json_last_error() {
             throw new InvalidArgumentException(
                 "json_decode error: " . json_last_error_msg()
             );
@@ -86,7 +86,7 @@ class Json extends AbstractSerializer
 
         let encoded = json_encode(data, options, depth);
 
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
+        if JSON_ERROR_NONE !== json_last_error() {
             throw new InvalidArgumentException(
                 "json_encode error: " . json_last_error_msg()
             );
