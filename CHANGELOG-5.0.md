@@ -5,6 +5,7 @@
 ### Fixed
  
 - Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314) 
+- Removed `unlikely` from `if` statements from the Stream storage adapter and Json serializer [#16339](https://github.com/phalcon/cphalcon/issues/16339)
 
 ## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
 
