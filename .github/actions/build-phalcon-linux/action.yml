@@ -18,6 +18,10 @@ runs:
         sudo pecl -v install ${{ inputs.pecl }}
         echo "::endgroup::"
 
+    - name: Enable extension
+      shell: bash
+      run: sudo phpenmod phalcon
+
     - name: Check Extension
       shell: bash
       run: php --ri phalcon
