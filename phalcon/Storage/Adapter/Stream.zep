@@ -83,7 +83,7 @@ class Stream extends AbstractAdapter
             iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if unlikely true === file->isFile() && true !== this->phpUnlink(file->getPathName()) {
+            if true === file->isFile() && true !== this->phpUnlink(file->getPathName()) {
                 let result = false;
             }
         }
@@ -103,7 +103,7 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        if unlikely true !== this->has(key) {
+        if true !== this->has(key) {
             return false;
         }
 
@@ -235,7 +235,7 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        if unlikely true !== this->has(key) {
+        if true !== this->has(key) {
             return false;
         }
 
