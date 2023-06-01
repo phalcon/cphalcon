@@ -42,7 +42,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamConstructException(IntegrationTester $I)
+    public function cacheAdapterStreamConstructException(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - __construct() - exception');
 
@@ -66,7 +66,7 @@ class ConstructCest
      *
      * @throws SupportException
      */
-    public function storageAdapterLibmemcachedConstructEmptyOptions(IntegrationTester $I)
+    public function cacheAdapterLibmemcachedConstructEmptyOptions(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - empty options');
 
@@ -98,7 +98,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterLibmemcachedConstructGetTtl(IntegrationTester $I)
+    public function cacheAdapterLibmemcachedConstructGetTtl(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - getTtl');
 
@@ -131,7 +131,7 @@ class ConstructCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterConstruct(IntegrationTester $I, Example $example)
+    public function cacheAdapterConstruct(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
