@@ -39,7 +39,7 @@ class GetAdapterCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetAdapter(IntegrationTester $I, Example $example)
+    public function cacheAdapterGetAdapter(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(

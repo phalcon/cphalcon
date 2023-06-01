@@ -41,7 +41,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterLibmemcachedGetSet(IntegrationTester $I, Example $example)
+    public function cacheAdapterLibmemcachedGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - ' . $example[0]);
 
@@ -72,7 +72,7 @@ class GetSetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterLibmemcachedGetSetCustomSerializer(IntegrationTester $I)
+    public function cacheAdapterLibmemcachedGetSetCustomSerializer(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - custom serializer');
 

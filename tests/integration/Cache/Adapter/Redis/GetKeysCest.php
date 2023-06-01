@@ -37,7 +37,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterRedisGetKeys(IntegrationTester $I)
+    public function cacheAdapterRedisGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getKeys()');
 

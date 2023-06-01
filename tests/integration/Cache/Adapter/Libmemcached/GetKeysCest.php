@@ -37,7 +37,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterLibmemcachedGetKeys(IntegrationTester $I)
+    public function cacheAdapterLibmemcachedGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getKeys()');
 

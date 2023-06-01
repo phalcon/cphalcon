@@ -36,7 +36,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamGetKeys(IntegrationTester $I)
+    public function cacheAdapterStreamGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getKeys()');
 
@@ -102,7 +102,7 @@ class GetKeysCest
      * @since  2020-09-09
      * @issue  cphalcon/#14190
      */
-    public function storageAdapterStreamGetKeysIssue14190(IntegrationTester $I)
+    public function cacheAdapterStreamGetKeysIssue14190(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getKeys() - issue 14190');
 
@@ -152,7 +152,7 @@ class GetKeysCest
      * @since  2020-09-09
      * @issue  cphalcon/#14190
      */
-    public function storageAdapterStreamGetKeysPrefix(IntegrationTester $I)
+    public function cacheAdapterStreamGetKeysPrefix(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getKeys() - prefix');
 

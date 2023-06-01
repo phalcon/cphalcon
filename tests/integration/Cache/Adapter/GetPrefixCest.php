@@ -37,7 +37,7 @@ class GetPrefixCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetSetPrefix(IntegrationTester $I, Example $example)
+    public function cacheAdapterGetSetPrefix(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
