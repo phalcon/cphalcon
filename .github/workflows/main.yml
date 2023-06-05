@@ -147,6 +147,7 @@ jobs:
         if: runner.os == 'Linux'
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          php-version: ${{ matrix.php }}
 
       - name: Build Phalcon Extension (macOS)
         uses: ./.github/actions/build-phalcon-mac
