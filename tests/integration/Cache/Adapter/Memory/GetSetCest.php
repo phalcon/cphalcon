@@ -35,7 +35,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterMemoryGetSet(IntegrationTester $I, Example $example)
+    public function cacheAdapterMemoryGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Memory - get()/set() - ' . $example[0]);
 

@@ -39,7 +39,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamHasCannotOpenFile(IntegrationTester $I)
+    public function cacheAdapterStreamHasCannotOpenFile(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - has() - cannot open file');
 
@@ -76,7 +76,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamHasEmptyPayload(IntegrationTester $I)
+    public function cacheAdapterStreamHasEmptyPayload(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - has() - empty payload');
 
@@ -110,7 +110,7 @@ class HasCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterHas(IntegrationTester $I, Example $example)
+    public function cacheAdapterHas(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(

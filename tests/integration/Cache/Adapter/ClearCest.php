@@ -40,7 +40,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterApcuClearIteratorError(IntegrationTester $I)
+    public function cacheAdapterApcuClearIteratorError(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - clear() - iterator error');
 
@@ -81,7 +81,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterApcuClearDeleteError(IntegrationTester $I)
+    public function cacheAdapterApcuClearDeleteError(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - clear() - delete error');
 
@@ -123,7 +123,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamClearCannotDeleteFile(IntegrationTester $I)
+    public function cacheAdapterStreamClearCannotDeleteFile(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - clear() - cannot delete file');
 
@@ -165,7 +165,7 @@ class ClearCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterClear(IntegrationTester $I, Example $example)
+    public function cacheAdapterClear(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(

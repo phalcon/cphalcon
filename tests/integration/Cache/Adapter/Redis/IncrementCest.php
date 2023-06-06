@@ -38,7 +38,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterRedisIncrement(IntegrationTester $I)
+    public function cacheAdapterRedisIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - increment()');
 

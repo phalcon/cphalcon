@@ -40,7 +40,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetSetWithZeroTtl(IntegrationTester $I, Example $example)
+    public function cacheAdapterGetSetWithZeroTtl(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(

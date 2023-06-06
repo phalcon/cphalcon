@@ -30,7 +30,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterMemoryGetKeys(IntegrationTester $I)
+    public function cacheAdapterMemoryGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getKeys()');
 
