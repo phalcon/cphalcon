@@ -115,14 +115,14 @@ class Checkbox extends AbstractInput
 
         let attributes = this->attributes;
         if !fetch checked, attributes["checked"] {
-            let checked = "";
+            let checked = null;
         }
 
         unset attributes["checked"];
 
-        if !empty checked {
+        if checked !== null {
             if !fetch value, attributes["value"] {
-                let value = "";
+                let value = null;
             }
             if checked === value {
                 let attributes["checked"] = "checked";
