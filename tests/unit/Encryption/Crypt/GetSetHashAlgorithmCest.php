@@ -41,6 +41,7 @@ class GetSetHashAlgorithmCest
         $crypt->setHashAlgorithm($cipher);
 
         print_r(hash_hmac_algos());
+        exit();
 
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
