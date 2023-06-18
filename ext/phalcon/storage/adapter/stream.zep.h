@@ -15,6 +15,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, setForever);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeyWithoutPrefix);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired);
@@ -85,6 +86,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_g
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_getkeywithoutprefix, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_stream_getiterator, 0, 1, Iterator, 0)
 	ZEND_ARG_TYPE_INFO(0, dir, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -147,6 +152,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Stream, setForever, arginfo_phalcon_storage_adapter_stream_setforever, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getDir, arginfo_phalcon_storage_adapter_stream_getdir, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getFilepath, arginfo_phalcon_storage_adapter_stream_getfilepath, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, getKeyWithoutPrefix, arginfo_phalcon_storage_adapter_stream_getkeywithoutprefix, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getIterator, arginfo_phalcon_storage_adapter_stream_getiterator, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getPayload, arginfo_phalcon_storage_adapter_stream_getpayload, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, isExpired, arginfo_phalcon_storage_adapter_stream_isexpired, ZEND_ACC_PRIVATE)
