@@ -40,6 +40,8 @@ class GetSetHashAlgorithmCest
         $crypt  = new Crypt();
         $crypt->setHashAlgorithm($cipher);
 
+        print_r(hash_hmac_algos());
+
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
         $I->assertSame($expected, $actual);
