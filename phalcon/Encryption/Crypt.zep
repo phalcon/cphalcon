@@ -598,7 +598,7 @@ class Crypt implements CryptInterface
 
         let available = this->{method}(),
             lower     = mb_strtolower(cipher);
-        if true !== isset(available[lower]) {
+        if true !== in_array(lower, available) {
             throw new Exception(
                 sprintf(
                     "The %s algorithm '%s' is not supported on this system.",
