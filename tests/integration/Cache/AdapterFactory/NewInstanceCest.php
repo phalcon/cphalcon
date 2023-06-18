@@ -66,7 +66,7 @@ class NewInstanceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
+    public function cacheSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 

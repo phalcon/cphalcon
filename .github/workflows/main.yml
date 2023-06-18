@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.2.1
+  PHALCON_VERSION: 5.2.2
   ZEPHIR_PARSER_VERSION: 1.5.3
   ZEPHIR_VERSION: 0.17.0
 
@@ -32,7 +32,7 @@ env:
   TOOLS_DIR: 'C:\tools'
 
   # PHP extensions required by Composer
-  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis, :memcache
+  EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, sqlite3, yaml, redis, :memcache, openssl
 
 permissions: {}
 jobs:
@@ -98,7 +98,7 @@ jobs:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-18.04, compiler: gcc }
+          - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
           # macOS
           - { name: macos-clang, os: macos-11, compiler: clang }
           # Windows
@@ -147,6 +147,7 @@ jobs:
         if: runner.os == 'Linux'
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          php-version: ${{ matrix.php }}
 
       - name: Build Phalcon Extension (macOS)
         uses: ./.github/actions/build-phalcon-mac
@@ -293,6 +294,7 @@ jobs:
         uses: ./.github/actions/build-phalcon-linux
         with:
           pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          php-version: ${{ matrix.php }}
 
       - name: Prepare test Environment
         run: |
