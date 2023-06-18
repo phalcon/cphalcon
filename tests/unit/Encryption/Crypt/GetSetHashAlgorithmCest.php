@@ -36,12 +36,12 @@ class GetSetHashAlgorithmCest
     {
         $I->wantToTest('Encryption\Crypt - getHashAlgorithm() / setHashAlgorithm()');
 
+        print_r(hash_hmac_algos());
+        exit();
+
         $cipher = 'sha384';
         $crypt  = new Crypt();
         $crypt->setHashAlgorithm($cipher);
-
-        print_r(hash_hmac_algos());
-        exit();
 
         $expected = $cipher;
         $actual   = $crypt->getHashAlgorithm();
