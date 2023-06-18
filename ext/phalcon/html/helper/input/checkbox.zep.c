@@ -231,14 +231,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processChecked)
 	ZEPHIR_OBS_VAR(&checked);
 	if (!(zephir_array_isset_string_fetch(&checked, &attributes, SL("checked"), 0))) {
 		ZEPHIR_INIT_NVAR(&checked);
-		ZVAL_STRING(&checked, "");
+		ZVAL_NULL(&checked);
 	}
 	zephir_array_unset_string(&attributes, SL("checked"), PH_SEPARATE);
-	if (!(ZEPHIR_IS_EMPTY(&checked))) {
+	if (Z_TYPE_P(&checked) != IS_NULL) {
 		ZEPHIR_OBS_VAR(&value);
 		if (!(zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0))) {
 			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_STRING(&value, "");
+			ZVAL_NULL(&value);
 		}
 		if (ZEPHIR_IS_IDENTICAL(&checked, &value)) {
 			ZEPHIR_INIT_VAR(&_1$$6);
