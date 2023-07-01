@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, getDecode)
 	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
 	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 193);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0)) {
+	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
 		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 194);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, getEncode)
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
 	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 193);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0)) {
+	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
 		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 194);

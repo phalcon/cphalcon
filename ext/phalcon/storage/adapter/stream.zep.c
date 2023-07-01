@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear)
 				zephir_check_call_status();
 				_4$$3 = !ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3);
 			}
-			if (_4$$3) {
+			if (UNEXPECTED(_4$$3)) {
 				result = 0;
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear)
 					zephir_check_call_status();
 					_9$$5 = !ZEPHIR_IS_TRUE_IDENTICAL(&_10$$5);
 				}
-				if (_9$$5) {
+				if (UNEXPECTED(_9$$5)) {
 					result = 0;
 				}
 			ZEPHIR_CALL_METHOD(NULL, &iterator, "next", NULL, 0);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, decrement)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &key);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "get", NULL, 0, &key);
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, increment)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &key);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "get", NULL, 0, &key);
