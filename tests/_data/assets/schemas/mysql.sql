@@ -1,5 +1,38 @@
 
 
+drop table if exists `album`;
+            
+CREATE TABLE `album` (
+	`id`       int(11) UNSIGNED not null AUTO_INCREMENT,
+	`name`     varchar(100)     not null collate 'utf8mb4_unicode_520_ci',
+	`album_id` int(11) unsigned null default null,
+	`photo_id` int(11) unsigned null default null COMMENT 'The ID of the featured photo',
+	primary key (`id`) using BTREE,
+	index `index_foreignkey_album_album` (`album_id`) using BTREE,
+	index `album_ibfk_2` (`photo_id`) using BTREE,
+	constraint `album_ibfk_1` foreign key (`album_id`) references `album` (`id`) on update cascade on delete cascade,
+	constraint `album_ibfk_2` foreign key (`photo_id`) references `photo` (`id`) on update cascade on delete set null
+) collate='utf8mb4_unicode_520_ci';
+            
+
+
+drop table if exists `album_photo`;
+            
+CREATE TABLE `album_photo` (
+	`id`       int(11) unsigned not null AUTO_INCREMENT,
+	`photo_id` int(11) unsigned null default null,
+	`album_id` int(11) unsigned null default null,
+	`position` int(10) unsigned not null default '999999999',
+	primary key (`id`) using BTREE,
+	unique index `UQ_cadf1c545153612614511f15197cae7b6dacac97` (`album_id`, `photo_id`) using BTREE,
+	index `index_foreignkey_album_photo_photo` (`photo_id`) using BTREE,
+	index `index_foreignkey_album_photo_album` (`album_id`) using BTREE,
+	constraint `c_fk_album_photo_album_id` foreign key (`album_id`) references `album` (`id`) on update cascade on delete cascade,
+	constraint `c_fk_album_photo_photo_id` foreign key (`photo_id`) references `photo` (`id`) on update cascade on delete cascade
+) collate='utf8mb4_unicode_520_ci';
+            
+
+
 drop table if exists `complex_default`;
             
 create table complex_default
@@ -169,6 +202,31 @@ CREATE TABLE private.`co_orders_x_products` (
   `oxp_quantity` int(10) unsigned NOT NULL,
   PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+drop table if exists `photo`;
+            
+CREATE TABLE `photo` (
+	`id`                int(10) unsigned not null auto_increment,
+	`date_uploaded`     datetime not null default current_timestamp(),
+	`original_filename` text not null collate 'utf8mb4_unicode_520_ci',
+	`path`              text not null collate 'utf8mb4_unicode_520_ci',
+	`width`             smallint(11) unsigned not null,
+	`height`            smallint(11) unsigned not null,
+	`thumb_path`        text not null collate 'utf8mb4_unicode_520_ci',
+	`thumb_width`       smallint(5) unsigned not null,
+	`thumb_height`      smallint(5) unsigned not null,
+	`display_path`      text not null collate 'utf8mb4_unicode_520_ci',
+	`display_width`     smallint(5) unsigned not null,
+	`display_height`    smallint(5) unsigned not null,
+	`mime_type`         VARCHAR(255) not null collate 'utf8mb4_unicode_520_ci',
+	`filesize`          int(11) unsigned NULL DEFAULT NULL comment 'In bytes',
+	`phash`             bigint(255) unsigned not null,
+	`battles`           int(10) unsigned not null DEFAULT '0',
+	`wins`              int(10) unsigned not null DEFAULT '0',
+	primary key (`id`) using BTREE
+) collate='utf8mb4_unicode_520_ci';
             
 
 

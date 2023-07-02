@@ -18,6 +18,7 @@ use PDO;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cli\Console;
 use Phalcon\Db\Profiler;
 use Phalcon\Encryption\Crypt;
@@ -35,6 +36,8 @@ use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\Metadata\Memory as MetadataMemory;
+use Phalcon\Mvc\Model\Metadata\Libmemcached as MetadataMemcached;
+use Phalcon\Mvc\Model\Metadata\Redis as MetadataRedis;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
@@ -171,6 +174,16 @@ trait DiTrait
                 return (new Filter\FilterFactory())->newInstance();
             case 'metadataMemory':
                 return new MetadataMemory();
+            case 'metadataLibmemcached':
+                return new MetadataMemcached(
+                    new AdapterFactory(new SerializerFactory()),
+                    getOptionsLibmemcached()
+                );
+            case 'metadataRedis':
+                return new MetadataRedis(
+                    new AdapterFactory(new SerializerFactory()),
+                    getOptionsRedis()
+                );
             case 'modelsCacheLibmemcached':
                 return new StorageLibmemcached(
                     new SerializerFactory(),

@@ -42,7 +42,7 @@ abstract class AbstractMigration
     {
         $this->connection = $connection;
 
-        $this->clear();
+        //$this->clear();
     }
 
     /**
