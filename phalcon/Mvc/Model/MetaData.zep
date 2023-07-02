@@ -81,6 +81,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     protected strategy = null;
 
+    public function getAdapter() -> var
+    {
+        return this->adapter;
+    }
+
     /**
      * Returns table attributes names (fields)
      *
