@@ -390,6 +390,6 @@ class ReadMetadataCest
             ],
             13 => [],
         ],
-    ];
+        ];
     }
 }
