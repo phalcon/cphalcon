@@ -19,16 +19,13 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Storage\Exception;
 use Phalcon\Tests\Fixtures\Migrations\AlbumMigration;
 use Phalcon\Tests\Fixtures\Migrations\AlbumPhotoMigration;
-use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Migrations\PhotoMigration;
 use Phalcon\Tests\Fixtures\models\Album;
 use Phalcon\Tests\Fixtures\models\AlbumPhoto;
 use Phalcon\Tests\Fixtures\models\Photo;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
-use Phalcon\Tests\Models\Invoices;
+
 use function array_keys;
-use function uniqid;
-use function unserialize;
 
 class ReadMetadataCest
 {
@@ -48,19 +45,19 @@ class ReadMetadataCest
      * @param DatabaseTester $I
      * @param Example $example
      *
+     * @return void
+     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-07-01
      *
      * @group  mysql
      *
-     * @return void
-     * @throws Exception
      */
     public function mvcModelMetadataGetAttributesRedis(
         DatabaseTester $I,
         Example $example
     ) {
-        $keys    = $example['keys'];
+        $keys = $example['keys'];
         $service = $example['service'];
 
         $I->wantToTest('Mvc\Model\MetaData - readMetadata() - ' . $service);
@@ -153,7 +150,7 @@ class ReadMetadataCest
         return [
             [
                 'service' => 'metadataRedis',
-                'keys'    => [
+                'keys' => [
                     'meta-phalcon\tests\fixtures\models\albumphoto-album_photo' => [
                         0 => [
                             'id',
@@ -201,11 +198,11 @@ class ReadMetadataCest
                         ],
                         13 => [],
                     ],
-                    'map-phalcon\tests\fixtures\models\album'        => [
+                    'map-phalcon\tests\fixtures\models\album' => [
                         0 => null,
                         1 => null,
                     ],
-                    'map-phalcon\tests\fixtures\models\albumphoto'   => [
+                    'map-phalcon\tests\fixtures\models\albumphoto' => [
                         0 => null,
                         1 => null,
                     ],
@@ -269,68 +266,68 @@ class ReadMetadataCest
                             'wins',
                         ],
                         4 => [
-                            'id'                => 0,
-                            'date_uploaded'     => 4,
+                            'id' => 0,
+                            'date_uploaded' => 4,
                             'original_filename' => 6,
-                            'path'              => 6,
-                            'width'             => 22,
-                            'height'            => 22,
-                            'thumb_path'        => 6,
-                            'thumb_width'       => 22,
-                            'thumb_height'      => 22,
-                            'display_path'      => 6,
-                            'display_width'     => 22,
-                            'display_height'    => 22,
-                            'mime_type'         => 2,
-                            'filesize'          => 0,
-                            'phash'             => 14,
-                            'battles'           => 0,
-                            'wins'              => 0,
+                            'path' => 6,
+                            'width' => 22,
+                            'height' => 22,
+                            'thumb_path' => 6,
+                            'thumb_width' => 22,
+                            'thumb_height' => 22,
+                            'display_path' => 6,
+                            'display_width' => 22,
+                            'display_height' => 22,
+                            'mime_type' => 2,
+                            'filesize' => 0,
+                            'phash' => 14,
+                            'battles' => 0,
+                            'wins' => 0,
                         ],
                         5 => [
-                            'id'             => true,
-                            'width'          => true,
-                            'height'         => true,
-                            'thumb_width'    => true,
-                            'thumb_height'   => true,
-                            'display_width'  => true,
+                            'id' => true,
+                            'width' => true,
+                            'height' => true,
+                            'thumb_width' => true,
+                            'thumb_height' => true,
+                            'display_width' => true,
                             'display_height' => true,
-                            'filesize'       => true,
-                            'phash'          => true,
-                            'battles'        => true,
-                            'wins'           => true,
+                            'filesize' => true,
+                            'phash' => true,
+                            'battles' => true,
+                            'wins' => true,
                         ],
                         8 => 'id',
                         9 => [
-                            'id'                => 1,
-                            'date_uploaded'     => 2,
+                            'id' => 1,
+                            'date_uploaded' => 2,
                             'original_filename' => 2,
-                            'path'              => 2,
-                            'width'             => 1,
-                            'height'            => 1,
-                            'thumb_path'        => 2,
-                            'thumb_width'       => 1,
-                            'thumb_height'      => 1,
-                            'display_path'      => 2,
-                            'display_width'     => 1,
-                            'display_height'    => 1,
-                            'mime_type'         => 2,
-                            'filesize'          => 1,
-                            'phash'             => 2,
-                            'battles'           => 1,
-                            'wins'              => 1,
+                            'path' => 2,
+                            'width' => 1,
+                            'height' => 1,
+                            'thumb_path' => 2,
+                            'thumb_width' => 1,
+                            'thumb_height' => 1,
+                            'display_path' => 2,
+                            'display_width' => 1,
+                            'display_height' => 1,
+                            'mime_type' => 2,
+                            'filesize' => 1,
+                            'phash' => 2,
+                            'battles' => 1,
+                            'wins' => 1,
                         ],
                         10 => [],
                         11 => [],
                         12 => [
                             'date_uploaded' => 'CURRENT_TIMESTAMP',
-                            'filesize'      => null,
-                            'battles'       => '0',
-                            'wins'          => '0',
+                            'filesize' => null,
+                            'battles' => '0',
+                            'wins' => '0',
                         ],
                         13 => [],
                     ],
-                    'map-phalcon\tests\fixtures\models\photo'        => [
+                    'map-phalcon\tests\fixtures\models\photo' => [
                         0 => null,
                         1 => null,
                     ],
@@ -354,20 +351,20 @@ class ReadMetadataCest
                             'name',
                         ],
                         4 => [
-                            'id'       => 0,
-                            'name'     => 2,
+                            'id' => 0,
+                            'name' => 2,
                             'album_id' => 0,
                             'photo_id' => 0,
                         ],
                         5 => [
-                            'id'       => true,
+                            'id' => true,
                             'album_id' => true,
                             'photo_id' => true,
                         ],
                         8 => 'id',
                         9 => [
-                            'id'       => 1,
-                            'name'     => 2,
+                            'id' => 1,
+                            'name' => 2,
                             'album_id' => 1,
                             'photo_id' => 1,
                         ],
@@ -383,7 +380,7 @@ class ReadMetadataCest
             ],
             [
                 'service' => 'metadataLibmemcached',
-                'keys'    => [
+                'keys' => [
                     'meta-phalcon\tests\fixtures\models\albumphoto-album_photo' => [
                         0 => [
                             'id',
@@ -431,11 +428,11 @@ class ReadMetadataCest
                         ],
                         13 => [],
                     ],
-                    'map-phalcon\tests\fixtures\models\album'        => [
+                    'map-phalcon\tests\fixtures\models\album' => [
                         0 => null,
                         1 => null,
                     ],
-                    'map-phalcon\tests\fixtures\models\albumphoto'   => [
+                    'map-phalcon\tests\fixtures\models\albumphoto' => [
                         0 => null,
                         1 => null,
                     ],
@@ -499,68 +496,68 @@ class ReadMetadataCest
                             'wins',
                         ],
                         4 => [
-                            'id'                => 0,
-                            'date_uploaded'     => 4,
+                            'id' => 0,
+                            'date_uploaded' => 4,
                             'original_filename' => 6,
-                            'path'              => 6,
-                            'width'             => 22,
-                            'height'            => 22,
-                            'thumb_path'        => 6,
-                            'thumb_width'       => 22,
-                            'thumb_height'      => 22,
-                            'display_path'      => 6,
-                            'display_width'     => 22,
-                            'display_height'    => 22,
-                            'mime_type'         => 2,
-                            'filesize'          => 0,
-                            'phash'             => 14,
-                            'battles'           => 0,
-                            'wins'              => 0,
+                            'path' => 6,
+                            'width' => 22,
+                            'height' => 22,
+                            'thumb_path' => 6,
+                            'thumb_width' => 22,
+                            'thumb_height' => 22,
+                            'display_path' => 6,
+                            'display_width' => 22,
+                            'display_height' => 22,
+                            'mime_type' => 2,
+                            'filesize' => 0,
+                            'phash' => 14,
+                            'battles' => 0,
+                            'wins' => 0,
                         ],
                         5 => [
-                            'id'             => true,
-                            'width'          => true,
-                            'height'         => true,
-                            'thumb_width'    => true,
-                            'thumb_height'   => true,
-                            'display_width'  => true,
+                            'id' => true,
+                            'width' => true,
+                            'height' => true,
+                            'thumb_width' => true,
+                            'thumb_height' => true,
+                            'display_width' => true,
                             'display_height' => true,
-                            'filesize'       => true,
-                            'phash'          => true,
-                            'battles'        => true,
-                            'wins'           => true,
+                            'filesize' => true,
+                            'phash' => true,
+                            'battles' => true,
+                            'wins' => true,
                         ],
                         8 => 'id',
                         9 => [
-                            'id'                => 1,
-                            'date_uploaded'     => 2,
+                            'id' => 1,
+                            'date_uploaded' => 2,
                             'original_filename' => 2,
-                            'path'              => 2,
-                            'width'             => 1,
-                            'height'            => 1,
-                            'thumb_path'        => 2,
-                            'thumb_width'       => 1,
-                            'thumb_height'      => 1,
-                            'display_path'      => 2,
-                            'display_width'     => 1,
-                            'display_height'    => 1,
-                            'mime_type'         => 2,
-                            'filesize'          => 1,
-                            'phash'             => 2,
-                            'battles'           => 1,
-                            'wins'              => 1,
+                            'path' => 2,
+                            'width' => 1,
+                            'height' => 1,
+                            'thumb_path' => 2,
+                            'thumb_width' => 1,
+                            'thumb_height' => 1,
+                            'display_path' => 2,
+                            'display_width' => 1,
+                            'display_height' => 1,
+                            'mime_type' => 2,
+                            'filesize' => 1,
+                            'phash' => 2,
+                            'battles' => 1,
+                            'wins' => 1,
                         ],
                         10 => [],
                         11 => [],
                         12 => [
                             'date_uploaded' => 'CURRENT_TIMESTAMP',
-                            'filesize'      => null,
-                            'battles'       => '0',
-                            'wins'          => '0',
+                            'filesize' => null,
+                            'battles' => '0',
+                            'wins' => '0',
                         ],
                         13 => [],
                     ],
-                    'map-phalcon\tests\fixtures\models\photo'        => [
+                    'map-phalcon\tests\fixtures\models\photo' => [
                         0 => null,
                         1 => null,
                     ],
@@ -584,20 +581,20 @@ class ReadMetadataCest
                             'name',
                         ],
                         4 => [
-                            'id'       => 0,
-                            'name'     => 2,
+                            'id' => 0,
+                            'name' => 2,
                             'album_id' => 0,
                             'photo_id' => 0,
                         ],
                         5 => [
-                            'id'       => true,
+                            'id' => true,
                             'album_id' => true,
                             'photo_id' => true,
                         ],
                         8 => 'id',
                         9 => [
-                            'id'       => 1,
-                            'name'     => 2,
+                            'id' => 1,
+                            'name' => 2,
                             'album_id' => 1,
                             'photo_id' => 1,
                         ],
