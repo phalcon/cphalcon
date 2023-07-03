@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (xxxx-xx-xx)
+
+### Fixed
+- Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+- Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
 ### Fixed
