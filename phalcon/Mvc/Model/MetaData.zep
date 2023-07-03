@@ -81,7 +81,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     protected strategy = null;
 
-    public function getAdapter() -> var
+    /**
+     * Return the internal cache adapter
+     */
+    public function getAdapter() -> <CacheAdapterInterface> | null
     {
         return this->adapter;
     }
