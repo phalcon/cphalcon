@@ -501,7 +501,7 @@ class Postgresql extends PdoAdapter
              */
             if field[9] !== null {
                 let definition["default"] = preg_replace(
-                    "/^'|'?::[[:alnum:]+[:space:]]+(\\[\\])?$/",
+                    "/^'|'?::[[:alnum:][:space:]]+(\\[\\])?$/",
                     "",
                     field[9]
                 );
