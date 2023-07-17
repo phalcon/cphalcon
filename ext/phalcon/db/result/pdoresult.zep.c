@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 5)
-		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
 		Z_PARAM_OBJECT_OF_CLASS(result, zephir_get_internal_ce(SL("pdostatement")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(sqlStatement)

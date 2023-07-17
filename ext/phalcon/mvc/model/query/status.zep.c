@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_BOOL(success)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

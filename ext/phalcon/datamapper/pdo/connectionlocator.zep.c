@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_OBJECT_OF_CLASS(master, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(master, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection\\connectioninterface")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(read)
 		Z_PARAM_ARRAY(write)
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(callableObject, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(callableObject, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection\\connectioninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &requested)) {
-		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 200, &collection);
+		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 194, &collection);
 		zephir_check_call_status();
 	}
 	if (!(zephir_array_isset(&collection, &requested))) {
