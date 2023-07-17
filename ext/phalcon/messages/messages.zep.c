@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_messages_messageinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\messages\\messageinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset)
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 418, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 412, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

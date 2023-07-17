@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(token, phalcon_encryption_security_jwt_token_token_ce)
+		Z_PARAM_OBJECT_OF_CLASS(token, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\token")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(timeShift)
 	ZEND_PARSE_PARAMETERS_END();
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, setToken)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(token, phalcon_encryption_security_jwt_token_token_ce)
+		Z_PARAM_OBJECT_OF_CLASS(token, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\token")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 	_7 = zephir_is_true(&_6);
 	if (_7) {
 		ZVAL_LONG(&_9, timestamp);
-		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 267, &_9);
+		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 261, &_9);
 		zephir_check_call_status();
 		_7 = ZEPHIR_GT_LONG(&_8, tokenExpirationTime);
 	}
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 	zephir_check_call_status();
 	tokenIssuedAt = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 267, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 261, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenIssuedAt)) {
 		ZEPHIR_INIT_ZVAL_NREF(_6$$3);
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
 	zephir_check_call_status();
 	tokenNotBefore = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 267, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 261, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenNotBefore)) {
 		ZEPHIR_INIT_ZVAL_NREF(_6$$3);
@@ -624,7 +624,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSignature)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_encryption_security_jwt_signer_signerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(signer, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\signer\\signerinterface")))
 		Z_PARAM_STR(passphrase)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

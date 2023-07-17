@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Email, validate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Email, validate)
 		RETURN_MM_BOOL(1);
 	}
 	ZVAL_LONG(&_1, 274);
-	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 284, &value, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 278, &value, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_2))) {
 		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "messagefactory", NULL, 0, validation, field);

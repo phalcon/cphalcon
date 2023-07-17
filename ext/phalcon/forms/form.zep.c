@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Forms_Form, add)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_OBJECT_OF_CLASS(element, phalcon_forms_element_elementinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(element, zephir_get_internal_ce(SL("phalcon\\forms\\element\\elementinterface")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(position)
 		Z_PARAM_BOOL_OR_NULL(type, is_null_true)
@@ -1430,7 +1430,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 	if (_7) {
 		ZEPHIR_INIT_NVAR(&validation);
 		object_init_ex(&validation, phalcon_filter_validation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 319);
+		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 313);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
@@ -1453,7 +1453,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				{
 					ZEPHIR_INIT_NVAR(&validator);
 					ZVAL_COPY(&validator, _11$$10);
-					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 320, &name, &validator);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 314, &name, &validator);
 					zephir_check_call_status();
 				} ZEND_HASH_FOREACH_END();
 			} else {
@@ -1467,7 +1467,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 					}
 					ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 320, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 314, &name, &validator);
 						zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 					zephir_check_call_status();
@@ -1477,7 +1477,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 			ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&filters) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 321, &name, &filters);
+				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 315, &name, &filters);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -1505,7 +1505,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 					{
 						ZEPHIR_INIT_NVAR(&validator);
 						ZVAL_COPY(&validator, _15$$15);
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 320, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 314, &name, &validator);
 						zephir_check_call_status();
 					} ZEND_HASH_FOREACH_END();
 				} else {
@@ -1519,7 +1519,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 						}
 						ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 320, &name, &validator);
+							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_13, 314, &name, &validator);
 							zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 						zephir_check_call_status();
@@ -1529,7 +1529,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&filters) == IS_ARRAY) {
-					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 321, &name, &filters);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_14, 315, &name, &filters);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_8, "next", NULL, 0);
@@ -1537,7 +1537,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 322, data, entity);
+	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 316, data, entity);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_17, &messages, "count", NULL, 0);
 	zephir_check_call_status();
@@ -1854,7 +1854,7 @@ PHP_METHOD(Phalcon_Forms_Form, setAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(attributes, phalcon_html_attributes_ce)
+		Z_PARAM_OBJECT_OF_CLASS(attributes, zephir_get_internal_ce(SL("phalcon\\html\\attributes")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1904,7 +1904,7 @@ PHP_METHOD(Phalcon_Forms_Form, setTagFactory)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(tagFactory, phalcon_html_tagfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(tagFactory, zephir_get_internal_ce(SL("phalcon\\html\\tagfactory")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1930,7 +1930,7 @@ PHP_METHOD(Phalcon_Forms_Form, setValidation)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_validationinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation\\validationinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

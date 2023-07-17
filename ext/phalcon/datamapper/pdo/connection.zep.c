@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		Z_PARAM_STR_OR_NULL(password)
 		Z_PARAM_ARRAY(options)
 		Z_PARAM_ARRAY(queries)
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\profiler\\profilerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 67);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVS(&_3$$3, "Driver not supported [", &_2$$3, "]");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 195, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 189, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection.zep", 68);
 		ZEPHIR_MM_RESTORE();
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 199);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 193);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);

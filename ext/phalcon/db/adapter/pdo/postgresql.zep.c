@@ -788,7 +788,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 524);
 			ZEPHIR_INIT_NVAR(&_61$$3);
 			object_init_ex(&_61$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 212, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 206, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_61$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 525);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1087,7 +1087,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 524);
 				ZEPHIR_INIT_NVAR(&_118$$41);
 				object_init_ex(&_118$$41, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_118$$41, "__construct", &_62, 212, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_118$$41, "__construct", &_62, 206, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_118$$41, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 525);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1487,9 +1487,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn)
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

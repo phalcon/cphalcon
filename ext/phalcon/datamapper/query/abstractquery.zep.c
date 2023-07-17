@@ -78,8 +78,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
-		Z_PARAM_OBJECT_OF_CLASS(bind, phalcon_datamapper_query_bind_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
+		Z_PARAM_OBJECT_OF_CLASS(bind, zephir_get_internal_ce(SL("phalcon\\datamapper\\query\\bind")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

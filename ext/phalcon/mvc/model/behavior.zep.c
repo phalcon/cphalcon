@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 		Z_PARAM_STR(method)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(arguments)
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

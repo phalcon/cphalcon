@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\cache\\adapterfactory")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 185, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 179, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 }

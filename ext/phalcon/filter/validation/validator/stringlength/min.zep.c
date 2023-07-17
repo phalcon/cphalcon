@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
 		zephir_cast_to_string(&_1$$4, &value);
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 233, &_1$$4);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 227, &_1$$4);
 		zephir_check_call_status();
 	} else {
 		zephir_cast_to_string(&_2$$5, &value);

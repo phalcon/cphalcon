@@ -1227,7 +1227,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSize)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1258,7 +1258,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1290,7 +1290,7 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnType)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1326,7 +1326,7 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
