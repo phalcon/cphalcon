@@ -20,6 +20,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 
 use function array_merge;
@@ -230,6 +231,35 @@ class GetPrefixCest
                     'prefix'     => 'my-prefix',
                 ],
                 'expected'  => 'my-prefix',
+                'extension' => '',
+            ],
+            [
+                'className' => 'Weak',
+                'label'     => 'default',
+                'class'     => Weak::class,
+                'options'   => [
+                ],
+                'expected'  => '',
+                'extension' => '',
+            ],
+            [
+                'className' => 'Weak',
+                'label'     => 'empty',
+                'class'     => Weak::class,
+                'options'   => [
+                    'prefix' => '',
+                ],
+                'expected'  => '',
+                'extension' => '',
+            ],
+            [
+                'className' => 'Weak',
+                'label'     => 'prefix set',
+                'class'     => Weak::class,
+                'options'   => [
+                    'prefix' => 'my-prefix',
+                ],
+                'expected'  => '',
                 'extension' => '',
             ],
         ];

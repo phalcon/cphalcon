@@ -22,6 +22,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\Exception as CacheException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
@@ -194,6 +195,13 @@ class ConstructCest
                 'options'   => [
                     'storageDir' => outputDir(),
                 ],
+                'extension' => '',
+            ],
+            [
+                'className' => 'Weak',
+                'label'     => 'default',
+                'class'     => Weak::class,
+                'options'   => [],
                 'extension' => '',
             ],
         ];

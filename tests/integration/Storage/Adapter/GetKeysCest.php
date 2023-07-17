@@ -21,6 +21,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception;
@@ -276,6 +277,59 @@ class GetKeysCest
         }
 
         $I->safeDeleteDirectory(outputDir('basePrefix-'));
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Weak :: getKeys()
+     *
+     * @param IntegrationTester $I
+     *
+     * @throws HelperException
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterWeakGetKeys(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Weak - getKeys()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $I->assertTrue($adapter->clear());
+
+        $obj1 = new \stdClass();
+        $obj2 = new \stdClass();
+        $obj3 = new \stdClass();
+
+
+        $adapter->set('key-1', $obj1);
+        $adapter->set('key-2', $obj2);
+        $adapter->set('key-3', $obj3);
+        $adapter->set('one-1', $obj1);
+        $adapter->set('one-2', $obj2);
+        $adapter->set('one-3', $obj3);
+
+        $expected = [
+            'key-1',
+            'key-2',
+            'key-3',
+            'one-1',
+            'one-2',
+            'one-3',
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $I->assertSame($expected, $actual);
+
+        $expected = [
+            'one-1',
+            'one-2',
+            'one-3',
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $I->assertSame($expected, $actual);
     }
 
     /**

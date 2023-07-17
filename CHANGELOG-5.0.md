@@ -5,6 +5,7 @@
 ### Fixed
 - Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
 - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+- Added `Phalcon\Storage\Adapter\Weak` implemented with WeakReference has a cache/retrieval solution for objects not yet collected by the Garbage Collection. [#16372] (https://github.com/phalcon/cphalcon/issues/16372)
 - Extended `Phalcon\Di\Injectable` from `stdClass` to remove the deprecation warning (dynamic properties) for PHP 8.2 [#16308](https://github.com/phalcon/cphalcon/issues/16308)
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
