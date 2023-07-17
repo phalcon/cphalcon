@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\logger\\adapterfactory")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 
 
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 417, &name, &adapters, timezone);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 411, &name, &adapters, timezone);
 	zephir_check_call_status();
 	RETURN_MM();
 }

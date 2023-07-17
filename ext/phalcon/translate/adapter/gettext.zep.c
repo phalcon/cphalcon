@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, zephir_get_internal_ce(SL("phalcon\\translate\\interpolatorfactory")))
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
 		Z_PARAM_ZVAL(field)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(replacements)

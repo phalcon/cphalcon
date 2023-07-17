@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(autoBegin)
 		Z_PARAM_STR(service)
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("rollbackOnAbort"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 483);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 477);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(rollbackMessage)
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(rollbackRecord, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(rollbackRecord, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 			ZEPHIR_INIT_VAR(&_3$$7);
 			object_init_ex(&_3$$7, phalcon_mvc_model_transaction_failed_ce);
 			zephir_read_property(&_4$$7, this_ptr, ZEND_STRL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 484, &rollbackMessage, &_4$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 478, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 215);
 			ZEPHIR_MM_RESTORE();
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(record, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_mvc_model_transaction_managerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(manager, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transaction\\managerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

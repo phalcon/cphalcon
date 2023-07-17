@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(columnTypes)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(result, phalcon_db_resultinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(result, zephir_get_internal_ce(SL("phalcon\\db\\resultinterface")))
 		Z_PARAM_ZVAL_OR_NULL(cache)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 		if (!(zephir_is_true(&_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 482);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 476);
 		zephir_check_call_status();
 		zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset/Complex.zep", 279);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);

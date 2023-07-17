@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Url, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(router, phalcon_mvc_routerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(router, zephir_get_internal_ce(SL("phalcon\\mvc\\routerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 490, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 484, args);
 		zephir_check_call_status();
 		_20$$16 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_20$$16) {

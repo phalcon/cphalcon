@@ -36,7 +36,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, zend_standard_class_def, phalcon_mvc_model_row_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_model_resultinterface_ce);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 429, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 423, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }

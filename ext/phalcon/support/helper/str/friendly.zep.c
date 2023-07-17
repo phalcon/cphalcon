@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 
 
 	ZEPHIR_INIT_VAR(&matrix);
-	zephir_create_array(&matrix, 79, 0);
+	zephir_create_array(&matrix, 78, 0);
 	add_assoc_stringl_ex(&matrix, SL("Š"), SL("S"));
 	add_assoc_stringl_ex(&matrix, SL("š"), SL("s"));
 	add_assoc_stringl_ex(&matrix, SL("Đ"), SL("Dj"));

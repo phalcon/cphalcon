@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_filter_validation_validatorinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validator, zephir_get_internal_ce(SL("phalcon\\filter\\validation\\validatorinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, appendMessage)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_messages_messageinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\messages\\messageinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setForm)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(form, phalcon_forms_form_ce)
+		Z_PARAM_OBJECT_OF_CLASS(form, zephir_get_internal_ce(SL("phalcon\\forms\\form")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -950,7 +950,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setMessages)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(messages, phalcon_messages_messages_ce)
+		Z_PARAM_OBJECT_OF_CLASS(messages, zephir_get_internal_ce(SL("phalcon\\messages\\messages")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1010,7 +1010,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setTagFactory)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(tagFactory, phalcon_html_tagfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(tagFactory, zephir_get_internal_ce(SL("phalcon\\html\\tagfactory")))
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

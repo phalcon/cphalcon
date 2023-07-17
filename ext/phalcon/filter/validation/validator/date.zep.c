@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 		ZEPHIR_INIT_NVAR(&format);
 		ZVAL_STRING(&format, "Y-m-d");
 	}
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "checkdate", NULL, 299, &value, &format);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "checkdate", NULL, 293, &value, &format);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_3))) {
 		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
