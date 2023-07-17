@@ -21,6 +21,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
@@ -142,6 +143,34 @@ class HasCest
 
         $adapter->set($key, 'test');
         $actual = $adapter->has($key);
+        $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Weak :: has()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function storageAdapterWeakHas(IntegrationTester $I)
+    {
+
+        $I->wantToTest('Storage\Adapter\Weak - has()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1 = new \stdClass();
+
+        $key1 = uniqid();
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+
+        $adapter->set($key1, $obj1);
+
+        $actual = $adapter->has($key1);
         $I->assertTrue($actual);
     }
 
