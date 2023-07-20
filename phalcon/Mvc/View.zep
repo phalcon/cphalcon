@@ -536,8 +536,10 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
     /**
      * Returns a parameter previously set in the view
+     *
+     * @return mixed|null
      */
-    public function getVar(string! key)
+    public function getVar(string! key) -> var | null
     {
         var value;
 
