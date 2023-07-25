@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Helper\Json;
 
 use InvalidArgumentException;
+
 /**
  * Encodes a string using `json_encode` and throws an exception if the
  * JSON data cannot be encoded
