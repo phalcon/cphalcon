@@ -19,7 +19,11 @@ use InvalidArgumentException;
  * The following options are used if none specified for json_encode
  *
  * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
- * JSON_UNESCAPED_SLASHES, JSON_THROW_ON_ERROR
+ * JSON_UNESCAPED_SLASHES
+ *
+ * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
+ * thrown in the case of an error. Otherwise, any error will throw
+ * InvalidArgumentException
  *
  * @see  https://www.ietf.org/rfc/rfc4627.txt
  */
@@ -27,7 +31,7 @@ class Encode
 {
     /**
      * @param mixed $data    JSON data to parse
-     * @param int   $options Bitmask of JSON decode options.
+     * @param int   $options Bitmask of JSON encode options.
      * @param int   $depth   Recursion depth.
      *
      * @return string
@@ -37,7 +41,7 @@ class Encode
      */
     public function __invoke(
         var data,
-        int options = 4194383,
+        int options = 79,
         int depth = 512
     ) -> string {
         var encoded, error, message;
@@ -45,7 +49,7 @@ class Encode
         /**
          * Need to clear the json_last_error() before the code below
          */
-        let encoded = json_encode(""),
+        let encoded = json_encode(null),
             encoded = json_encode(data, options, depth),
             error   = json_last_error(),
             message = json_last_error_msg();
@@ -56,7 +60,7 @@ class Encode
          * an error occurs
          */
         if (JSON_ERROR_NONE !== error) {
-            json_encode("");
+            json_encode(null);
             throw new InvalidArgumentException(message, error);
         }
 
