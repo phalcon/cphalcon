@@ -31,7 +31,7 @@ class Encode
      *
      * @return string
      *
-     * @throws JsonException if the JSON cannot be encoded.
+     * @throws InvalidArgumentException if the JSON cannot be encoded.
      * @link https://www.php.net/manual/en/function.json-encode.php
      */
     public function __invoke(
