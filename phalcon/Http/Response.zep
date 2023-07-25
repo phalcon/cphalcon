@@ -12,19 +12,19 @@ namespace Phalcon\Http;
 
 use DateTime;
 use DateTimeZone;
-use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Http\Message\ResponseStatusCodeInterface;
-use Phalcon\Http\Response\Exception;
-use Phalcon\Http\Response\HeadersInterface;
-use Phalcon\Http\Response\CookiesInterface;
-use Phalcon\Mvc\Url\UrlInterface;
-use Phalcon\Mvc\ViewInterface;
-use Phalcon\Http\Response\Headers;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Http\Message\ResponseStatusCodeInterface;
+use Phalcon\Http\Response\CookiesInterface;
+use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Response\HeadersInterface;
+use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\Mvc\ViewInterface;
+use Phalcon\Http\Response\Headers;
+use Phalcon\Support\Helper\Json\Encode;
 
 /**
  * Part of the HTTP cycle is return responses to the clients.
@@ -83,6 +83,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     protected statusCodes = [];
 
     /**
+     * @var Encode
+     */
+    private encode;
+
+    /**
      * Phalcon\Http\Response constructor
      */
     public function __construct(string! content = null, code = null, status = null)
@@ -91,7 +96,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         // A Phalcon\Http\Response\Headers bag is temporary used to manage
         // the headers before sent them to the client
-        let this->headers = new Headers();
+        let this->headers = new Headers(),
+            this->encode  = new Encode();
 
         if content !== null {
             this->setContent(content);
@@ -638,7 +644,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         this->setContentType("application/json");
 
-        this->setContent(this->encode(content, jsonOptions, depth));
+        this->setContent(this->encode->__invoke(content, jsonOptions, depth));
 
         return this;
     }
@@ -864,27 +870,5 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
 
         return filename;
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function encode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
-    {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
     }
 }

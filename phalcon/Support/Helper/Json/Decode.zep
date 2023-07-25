@@ -35,14 +35,24 @@ class Decode
         int depth = 512,
         int options = 0
     ) {
-        var decoded;
+        var decoded, error, message;
 
-        let decoded = json_decode(data, associative, depth, options);
+        /**
+         * Need to clear the json_last_error() before the code below
+         */
+        let decoded = json_encode(null),
+            decoded = json_decode(data, associative, depth, options),
+            error   = json_last_error(),
+            message = json_last_error_msg();
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidArgumentException(
-                "json_decode error: " . json_last_error_msg()
-            );
+        /**
+         * The above will throw an exception when JSON_THROW_ON_ERROR is
+         * specified. If not, the code below will handle the exception when
+         * an error occurs
+         */
+        if (JSON_ERROR_NONE !== error) {
+            json_encode(null);
+            throw new InvalidArgumentException(message, error);
         }
 
         return decoded;

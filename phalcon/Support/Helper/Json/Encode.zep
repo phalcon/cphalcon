@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
-use JsonException;
+use InvalidArgumentException;
 /**
  * Encodes a string using `json_encode` and throws an exception if the
  * JSON data cannot be encoded
@@ -39,21 +39,24 @@ class Encode
         int options = 4194383,
         int depth = 512
     ) -> string {
-        var encoded;
+        var encoded, error, message;
 
         /**
          * Need to clear the json_last_error() before the code below
          */
         let encoded = json_encode(""),
-            encoded = json_encode(data, options, depth);
+            encoded = json_encode(data, options, depth),
+            error   = json_last_error(),
+            message = json_last_error_msg();
 
         /**
          * The above will throw an exception when JSON_THROW_ON_ERROR is
          * specified. If not, the code below will handle the exception when
          * an error occurs
          */
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new JsonException(json_last_error_msg(), 5);
+        if (JSON_ERROR_NONE !== error) {
+            json_encode("");
+            throw new InvalidArgumentException(message, error);
         }
 
         return (string) encoded;
