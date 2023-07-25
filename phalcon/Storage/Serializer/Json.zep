@@ -12,6 +12,7 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use Phalcon\Support\Helper\Json\Decode;
 use Phalcon\Support\Helper\Json\Encode;
 
 class Json extends AbstractSerializer
