@@ -55,8 +55,9 @@ class DecodeCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                "json_decode error: Control character error, " .
-                "possibly incorrectly encoded"
+                "Control character error, " .
+                "possibly incorrectly encoded",
+                3
             ),
             function () {
                 $data = '{"one';
