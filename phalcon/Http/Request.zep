@@ -579,6 +579,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             return false;
         }
 
+        if rawBody == "" {
+            let rawBody = "{}";
+        }
+
         return json_decode(rawBody, associative);
     }
 
