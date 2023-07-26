@@ -19,8 +19,6 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -66,7 +64,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *filePath_param = NULL, _1, _2, _3;
+	zval *filePath_param = NULL, _1, _2, _3, _4;
 	zval filePath;
 	zval *this_ptr = getThis();
 
@@ -74,6 +72,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -95,97 +94,20 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	}
 
 
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_file_get_contents(&_2, &filePath);
-	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "decode", NULL, 192, &_2, &_3);
+	ZEPHIR_INIT_VAR(&_1);
+	object_init_ex(&_1, phalcon_support_helper_json_decode_ce);
+	if (zephir_has_constructor(&_1)) {
+		ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_file_get_contents(&_3, &filePath);
+	ZVAL_BOOL(&_4, 1);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "__invoke", NULL, 192, &_3, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * @todo This will be removed when traits are introduced
- */
-PHP_METHOD(Phalcon_Config_Adapter_Json, decode)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long depth, options, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool associative;
-	zval *data_param = NULL, *associative_param = NULL, *depth_param = NULL, *options_param = NULL, decoded, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3;
-	zval data;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&decoded);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 4)
-		Z_PARAM_STR(data)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(associative)
-		Z_PARAM_LONG(depth)
-		Z_PARAM_LONG(options)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &data_param, &associative_param, &depth_param, &options_param);
-	if (UNEXPECTED(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(data_param) == IS_STRING)) {
-		zephir_get_strval(&data, data_param);
-	} else {
-		ZEPHIR_INIT_VAR(&data);
-	}
-	if (!associative_param) {
-		associative = 0;
-	} else {
-		associative = zephir_get_boolval(associative_param);
-	}
-	if (!depth_param) {
-		depth = 512;
-	} else {
-		depth = zephir_get_intval(depth_param);
-	}
-	if (!options_param) {
-		options = 0;
-	} else {
-		options = zephir_get_intval(options_param);
-	}
-
-
-	ZVAL_BOOL(&_0, (associative ? 1 : 0));
-	ZVAL_LONG(&_1, depth);
-	ZVAL_LONG(&_2, options);
-	ZEPHIR_INIT_VAR(&decoded);
-	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 193);
-	zephir_check_call_status();
-	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0))) {
-		ZEPHIR_INIT_VAR(&_4$$3);
-		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 194);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_6$$3);
-		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 195, &_6$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Config/Adapter/Json.zep", 68);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETURN_CCTOR(&decoded);
 }
 

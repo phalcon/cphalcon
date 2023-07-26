@@ -1,5 +1,9 @@
 
 
+
+
+
+
 drop table if exists complex_default;
             
 create table complex_default
@@ -126,6 +130,8 @@ create table private.co_orders_x_products
     oxp_quantity int not null
 );
             
+
+
 
 
 drop table if exists co_products;

@@ -21,6 +21,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 
 use function getOptionsLibmemcached;
@@ -100,6 +101,34 @@ class HasCest
 
         $actual = $adapter->has($key);
         $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Weak :: has()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function cacheAdapterWeakHas(IntegrationTester $I)
+    {
+
+        $I->wantToTest('Cache\Adapter\Weak - has()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1 = new \stdClass();
+
+        $key1 = uniqid();
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+
+        $adapter->set($key1, $obj1);
+
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
     }
 
     /**

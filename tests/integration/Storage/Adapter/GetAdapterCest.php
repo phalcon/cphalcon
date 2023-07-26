@@ -21,6 +21,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Redis as NativeRedis;
 
@@ -112,6 +113,14 @@ class GetAdapterCest
                 'options'   => [
                     'storageDir' => outputDir(),
                 ],
+                'expected'  => null,
+                'extension' => '',
+            ],
+            [
+                'className' => 'Weak',
+                'label'     => 'default',
+                'class'     => Weak::class,
+                'options'   => [],
                 'expected'  => null,
                 'extension' => '',
             ],

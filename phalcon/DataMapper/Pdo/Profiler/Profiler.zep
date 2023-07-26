@@ -15,10 +15,10 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
-use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\DataMapper\Pdo\Exception\Exception;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\LoggerInterface;
+use Phalcon\Support\Helper\Json\Encode;
 
 /**
  * Sends query profiles to a logger.
@@ -51,6 +51,11 @@ class Profiler implements ProfilerInterface
     protected logger;
 
     /**
+     * @var Encode
+     */
+    private encode;
+
+    /**
      * Constructor.
      *
      * @param LoggerInterface $logger
@@ -63,7 +68,8 @@ class Profiler implements ProfilerInterface
 
         let this->logFormat = "{method} ({duration}s): {statement} {backtrace}",
             this->logLevel  = Enum::DEBUG,
-            this->logger    = logger;
+            this->logger    = logger,
+            this->encode    = new Encode();
     }
 
     /**
@@ -85,7 +91,7 @@ class Profiler implements ProfilerInterface
                 this->context["duration"]  = finish - this->context["start"],
                 this->context["finish"]    = finish,
                 this->context["statement"] = statement,
-                this->context["values"]    = empty(values) ? "" : this->encode(values);
+                this->context["values"]    = empty(values) ? "" : this->encode->__invoke(values);
 
             this->logger->log(this->logLevel, this->logFormat, this->context);
 
@@ -188,27 +194,5 @@ class Profiler implements ProfilerInterface
                 "start"  : hrtime(true)
             ];
         }
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function encode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
-    {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
     }
 }

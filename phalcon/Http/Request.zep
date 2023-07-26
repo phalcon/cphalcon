@@ -18,6 +18,7 @@ use Phalcon\Http\Message\RequestMethodInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
+use Phalcon\Support\Helper\Json\Decode;
 use UnexpectedValueException;
 use stdClass;
 
@@ -579,7 +580,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             return false;
         }
 
-        return json_decode(rawBody, associative);
+        if rawBody == "" {
+            let rawBody = "{}";
+        }
+
+        return (new Decode())->__invoke(rawBody, associative);
     }
 
     /**

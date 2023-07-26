@@ -2,6 +2,10 @@
 
 
 
+
+
+
+
 drop table if exists co_customers_defaults;
             
 create table co_customers_defaults
@@ -80,6 +84,8 @@ create table objects
     obj_type   integer not null
 );
             
+
+
 
 
 

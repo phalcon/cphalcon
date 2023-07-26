@@ -82,6 +82,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     protected strategy = null;
 
     /**
+     * Return the internal cache adapter
+     */
+    public function getAdapter() -> <CacheAdapterInterface> | null
+    {
+        return this->adapter;
+    }
+
+    /**
      * Returns table attributes names (fields)
      *
      *```php

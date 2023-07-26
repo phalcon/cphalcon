@@ -401,9 +401,7 @@ class UnderscoreSetCest
             new Models\Invoices()
         ];
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $I->assertTrue($customer->save());
 
         $I->assertCount(
             2,

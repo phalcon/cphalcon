@@ -20,6 +20,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 
 use function getOptionsLibmemcached;
@@ -65,6 +66,30 @@ class GetSetDefaultSerializerCest
         $expected = 'base64';
         $actual   = $adapter->getDefaultSerializer();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Weak :: GetSetDefaultSerializer()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function cacheAdapterWeakGetSetDefaultSerializerNone(IntegrationTester $I)
+    {
+
+        $I->wantToTest('Cache\Adapter\Weak - GetSetDefaultSerializer()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $actual = $adapter->getDefaultSerializer();
+        $I->assertEquals('none', $actual);
+
+        $adapter->setDefaultSerializer('Base64');
+        $actual = $adapter->getDefaultSerializer();
+        $I->assertEquals('none', $actual);
     }
 
     /**

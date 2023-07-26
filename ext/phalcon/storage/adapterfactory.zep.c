@@ -185,12 +185,13 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, getServices)
 
 
 
-	zephir_create_array(return_value, 5, 0);
+	zephir_create_array(return_value, 6, 0);
 	add_assoc_stringl_ex(return_value, SL("apcu"), SL("Phalcon\\Storage\\Adapter\\Apcu"));
 	add_assoc_stringl_ex(return_value, SL("libmemcached"), SL("Phalcon\\Storage\\Adapter\\Libmemcached"));
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Storage\\Adapter\\Memory"));
 	add_assoc_stringl_ex(return_value, SL("redis"), SL("Phalcon\\Storage\\Adapter\\Redis"));
 	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Storage\\Adapter\\Stream"));
+	add_assoc_stringl_ex(return_value, SL("weak"), SL("Phalcon\\Storage\\Adapter\\Weak"));
 	return;
 }
 

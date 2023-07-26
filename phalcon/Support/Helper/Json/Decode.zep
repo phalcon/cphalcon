@@ -15,6 +15,15 @@ use InvalidArgumentException;
 /**
  * Decodes a string using `json_decode` and throws an exception if the
  * JSON data cannot be decoded
+ *
+ * The following options are used if none specified for json_encode
+ *
+ * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
+ * JSON_UNESCAPED_SLASHES
+ *
+ * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
+ * thrown in the case of an error. Otherwise, any error will throw
+ * InvalidArgumentException
  */
 class Decode
 {
@@ -33,16 +42,26 @@ class Decode
         string data,
         bool associative = false,
         int depth = 512,
-        int options = 0
+        int options = 79
     ) {
-        var decoded;
+        var decoded, error, message;
 
-        let decoded = json_decode(data, associative, depth, options);
+        /**
+         * Need to clear the json_last_error() before the code below
+         */
+        let decoded = json_encode(null),
+            decoded = json_decode(data, associative, depth, options),
+            error   = json_last_error(),
+            message = json_last_error_msg();
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidArgumentException(
-                "json_decode error: " . json_last_error_msg()
-            );
+        /**
+         * The above will throw an exception when JSON_THROW_ON_ERROR is
+         * specified. If not, the code below will handle the exception when
+         * an error occurs
+         */
+        if (JSON_ERROR_NONE !== error) {
+            json_encode(null);
+            throw new InvalidArgumentException(message, error);
         }
 
         return decoded;

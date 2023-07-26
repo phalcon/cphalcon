@@ -376,4 +376,41 @@ class FindCest
         $result = $cache->delete($cacheKey);
         $I->assertTrue($result);
     }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find() - specific column
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-06-30
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindWithSpecificColumn(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - find() - with specific column');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+        $migration->insert(2, 'random data 2', 1);
+        $migration->insert(4, 'random data 4', 1);
+
+        /**
+         * Get the records (should cache the resultset)
+         */
+        $data = Objects::find(
+            [
+                'columns' => 'obj_id',
+                'conditions' => 'obj_id IN ({ids:array})',
+                'bind' => ['ids' => [1, 2, 3]],
+            ]
+        );
+
+        $I->assertEquals(2, count($data));
+        $I->assertEquals(1, $data[0]->obj_id);
+        $I->assertEquals(2, $data[1]->obj_id);
+    }
 }
