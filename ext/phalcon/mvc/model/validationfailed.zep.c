@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(validationMessages)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

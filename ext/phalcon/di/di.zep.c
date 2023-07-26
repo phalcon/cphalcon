@@ -684,7 +684,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromConfig)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(config, zephir_get_internal_ce(SL("phalcon\\config\\configinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(config, phalcon_config_configinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1097,7 +1097,7 @@ PHP_METHOD(Phalcon_Di_Di, register)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(provider, zephir_get_internal_ce(SL("phalcon\\di\\serviceproviderinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(provider, phalcon_di_serviceproviderinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1248,7 +1248,7 @@ PHP_METHOD(Phalcon_Di_Di, setDefault)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1271,7 +1271,7 @@ PHP_METHOD(Phalcon_Di_Di, setInternalEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1298,7 +1298,7 @@ PHP_METHOD(Phalcon_Di_Di, setService)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
-		Z_PARAM_OBJECT_OF_CLASS(rawDefinition, zephir_get_internal_ce(SL("phalcon\\di\\serviceinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(rawDefinition, phalcon_di_serviceinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

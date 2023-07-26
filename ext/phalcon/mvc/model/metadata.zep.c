@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -814,7 +814,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_STR(attribute)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -926,7 +926,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -985,7 +985,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_LONG(index)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1048,7 +1048,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1110,7 +1110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_LONG(index)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1196,7 +1196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1239,7 +1239,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1282,7 +1282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -1311,7 +1311,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1334,7 +1334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(strategy, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\metadata\\strategy\\strategyinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(strategy, phalcon_mvc_model_metadata_strategy_strategyinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1452,7 +1452,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_LONG(index)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1527,7 +1527,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ZVAL(key)
 		Z_PARAM_ZVAL(table)
 		Z_PARAM_ZVAL(schema)

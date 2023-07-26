@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(reference, zephir_get_internal_ce(SL("phalcon\\db\\referenceinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(reference, phalcon_db_referenceinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addIndex)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(index, zephir_get_internal_ce(SL("phalcon\\db\\indexinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(index, zephir_get_internal_ce(SL("phalcon\\db\\indexinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1858,7 +1858,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getColumnDefinition)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2756,9 +2756,9 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn)
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2919,7 +2919,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2942,7 +2942,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(dialect, zephir_get_internal_ce(SL("phalcon\\db\\dialectinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(dialect, phalcon_db_dialectinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

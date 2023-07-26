@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\storage\\serializerfactory")))
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
@@ -192,12 +192,13 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, getServices)
 
 
 
-	zephir_create_array(return_value, 5, 0);
+	zephir_create_array(return_value, 6, 0);
 	add_assoc_stringl_ex(return_value, SL("apcu"), SL("Phalcon\\Cache\\Adapter\\Apcu"));
 	add_assoc_stringl_ex(return_value, SL("libmemcached"), SL("Phalcon\\Cache\\Adapter\\Libmemcached"));
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Cache\\Adapter\\Memory"));
 	add_assoc_stringl_ex(return_value, SL("redis"), SL("Phalcon\\Cache\\Adapter\\Redis"));
 	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Cache\\Adapter\\Stream"));
+	add_assoc_stringl_ex(return_value, SL("weak"), SL("Phalcon\\Cache\\Adapter\\Weak"));
 	return;
 }
 

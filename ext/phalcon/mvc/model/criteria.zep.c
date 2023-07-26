@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 4)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 		Z_PARAM_STR(modelName)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_OPTIONAL
@@ -1459,11 +1459,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 279, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 280, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 279, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 280, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {
@@ -1853,7 +1853,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

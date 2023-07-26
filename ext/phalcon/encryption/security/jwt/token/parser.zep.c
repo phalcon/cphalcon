@@ -12,15 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -42,7 +41,52 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Parser)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\JWT\\Token, Parser, phalcon, encryption_security_jwt_token_parser, phalcon_encryption_security_jwt_token_parser_method_entry, 0);
 
+	/**
+	 * @var Decode
+	 */
+	zend_declare_property_null(phalcon_encryption_security_jwt_token_parser_ce, SL("decode"), ZEND_ACC_PRIVATE);
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, __construct)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *decode = NULL, decode_sub, __$null, service;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&decode_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&service);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(decode, phalcon_support_helper_json_decode_ce)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &decode);
+	if (!decode) {
+		decode = &decode_sub;
+		decode = &__$null;
+	}
+
+
+	ZEPHIR_CPY_WRT(&service, decode);
+	if (Z_TYPE_P(&service) == IS_NULL) {
+		ZEPHIR_INIT_NVAR(&service);
+		object_init_ex(&service, phalcon_support_helper_json_decode_ce);
+		if (zephir_has_constructor(&service)) {
+			ZEPHIR_CALL_METHOD(NULL, &service, "__construct", NULL, 0);
+			zephir_check_call_status();
+		}
+
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("decode"), &service);
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
@@ -89,22 +133,22 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parse)
 	}
 
 
-	ZEPHIR_CALL_METHOD(&results, this_ptr, "parsetoken", NULL, 255, &token);
+	ZEPHIR_CALL_METHOD(&results, this_ptr, "parsetoken", NULL, 257, &token);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&encodedHeaders);
-	zephir_array_fetch_long(&encodedHeaders, &results, 0, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 37);
+	zephir_array_fetch_long(&encodedHeaders, &results, 0, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 55);
 	ZEPHIR_OBS_VAR(&encodedClaims);
-	zephir_array_fetch_long(&encodedClaims, &results, 1, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 38);
+	zephir_array_fetch_long(&encodedClaims, &results, 1, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 56);
 	ZEPHIR_OBS_VAR(&encodedSignature);
-	zephir_array_fetch_long(&encodedSignature, &results, 2, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 39);
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "decodeheaders", NULL, 256, &encodedHeaders);
+	zephir_array_fetch_long(&encodedSignature, &results, 2, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 57);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "decodeheaders", NULL, 258, &encodedHeaders);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&claims, this_ptr, "decodeclaims", NULL, 257, &encodedClaims);
+	ZEPHIR_CALL_METHOD(&claims, this_ptr, "decodeclaims", NULL, 259, &encodedClaims);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&signature, this_ptr, "decodesignature", NULL, 258, &headers, &encodedSignature);
+	ZEPHIR_CALL_METHOD(&signature, this_ptr, "decodesignature", NULL, 260, &headers, &encodedSignature);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_token_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 253, &headers, &claims, &signature);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 255, &headers, &claims, &signature);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -118,11 +162,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parse)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims)
 {
-	zval _4$$4;
-	zend_bool _2;
+	zval _5$$4;
+	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *claims_param = NULL, decoded, _0, _1, _3, _5$$4;
+	zval *claims_param = NULL, decoded, _0, _1, _2, _4, _6$$4;
 	zval claims;
 	zval *this_ptr = getThis();
 
@@ -130,9 +174,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims)
 	ZVAL_UNDEF(&decoded);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_4$$4);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -146,31 +191,32 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims)
 	zephir_get_strval(&claims, claims_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "decodeurl", NULL, 259, &claims);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("decode"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "decodeurl", NULL, 261, &claims);
 	zephir_check_call_status();
-	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decode", NULL, 260, &_0, &_1);
+	ZVAL_BOOL(&_2, 1);
+	ZEPHIR_CALL_METHOD(&decoded, &_0, "__invoke", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 63);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 81);
 		return;
 	}
-	_2 = zephir_array_isset_string(&decoded, SL("aud"));
-	if (_2) {
-		ZEPHIR_OBS_VAR(&_3);
-		zephir_array_fetch_string(&_3, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 69);
-		_2 = Z_TYPE_P(&_3) != IS_ARRAY;
+	_3 = zephir_array_isset_string(&decoded, SL("aud"));
+	if (_3) {
+		ZEPHIR_OBS_VAR(&_4);
+		zephir_array_fetch_string(&_4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 87);
+		_3 = Z_TYPE_P(&_4) != IS_ARRAY;
 	}
-	if (_2) {
-		ZEPHIR_INIT_VAR(&_4$$4);
-		zephir_create_array(&_4$$4, 1, 0);
-		ZEPHIR_OBS_VAR(&_5$$4);
-		zephir_array_fetch_string(&_5$$4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 70);
-		zephir_array_fast_append(&_4$$4, &_5$$4);
-		zephir_array_update_string(&decoded, SL("aud"), &_4$$4, PH_COPY | PH_SEPARATE);
+	if (_3) {
+		ZEPHIR_INIT_VAR(&_5$$4);
+		zephir_create_array(&_5$$4, 1, 0);
+		ZEPHIR_OBS_VAR(&_6$$4);
+		zephir_array_fetch_string(&_6$$4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 88);
+		zephir_array_fast_append(&_5$$4, &_6$$4);
+		zephir_array_update_string(&decoded, SL("aud"), &_5$$4, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_item_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 251, &decoded, &claims);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 253, &decoded, &claims);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -186,7 +232,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *headers_param = NULL, decoded, _0, _1;
+	zval *headers_param = NULL, decoded, _0, _1, _2;
 	zval headers;
 	zval *this_ptr = getThis();
 
@@ -194,6 +240,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders)
 	ZVAL_UNDEF(&decoded);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -207,21 +254,22 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders)
 	zephir_get_strval(&headers, headers_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "decodeurl", NULL, 259, &headers);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("decode"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "decodeurl", NULL, 261, &headers);
 	zephir_check_call_status();
-	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decode", NULL, 260, &_0, &_1);
+	ZVAL_BOOL(&_2, 1);
+	ZEPHIR_CALL_METHOD(&decoded, &_0, "__invoke", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 110);
 		return;
 	}
 	if (!(zephir_array_isset_string(&decoded, SL("typ")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (missing 'typ' element)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 98);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (missing 'typ' element)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 116);
 		return;
 	}
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_item_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 251, &decoded, &headers);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 253, &decoded, &headers);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -252,7 +300,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeSignature)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(headers, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\item")))
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_encryption_security_jwt_token_item_ce)
 		Z_PARAM_STR(signature)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -276,11 +324,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeSignature)
 		ZVAL_STRING(&decoded, "");
 		ZEPHIR_INIT_NVAR(&signature);
 	} else {
-		ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decodeurl", NULL, 259, &signature);
+		ZEPHIR_CALL_METHOD(&decoded, this_ptr, "decodeurl", NULL, 261, &signature);
 		zephir_check_call_status();
 	}
 	object_init_ex(return_value, phalcon_encryption_security_jwt_token_signature_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 252, &decoded, &signature);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 254, &decoded, &signature);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -325,94 +373,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken)
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("."), &token, LONG_MAX);
 	if (zephir_fast_count_int(&parts) != 3) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid JWT string (dots misalignment)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 144);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid JWT string (dots misalignment)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 162);
 		return;
 	}
 	RETURN_CCTOR(&parts);
-}
-
-/**
- * @todo This will be removed when traits are introduced
- */
-PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decode)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long depth, options, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool associative;
-	zval *data_param = NULL, *associative_param = NULL, *depth_param = NULL, *options_param = NULL, decoded, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3;
-	zval data;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&decoded);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 4)
-		Z_PARAM_STR(data)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(associative)
-		Z_PARAM_LONG(depth)
-		Z_PARAM_LONG(options)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &data_param, &associative_param, &depth_param, &options_param);
-	if (UNEXPECTED(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(data_param) == IS_STRING)) {
-		zephir_get_strval(&data, data_param);
-	} else {
-		ZEPHIR_INIT_VAR(&data);
-	}
-	if (!associative_param) {
-		associative = 0;
-	} else {
-		associative = zephir_get_boolval(associative_param);
-	}
-	if (!depth_param) {
-		depth = 512;
-	} else {
-		depth = zephir_get_intval(depth_param);
-	}
-	if (!options_param) {
-		options = 0;
-	} else {
-		options = zephir_get_intval(options_param);
-	}
-
-
-	ZVAL_BOOL(&_0, (associative ? 1 : 0));
-	ZVAL_LONG(&_1, depth);
-	ZVAL_LONG(&_2, options);
-	ZEPHIR_INIT_VAR(&decoded);
-	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 187);
-	zephir_check_call_status();
-	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0))) {
-		ZEPHIR_INIT_VAR(&_4$$3);
-		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 188);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_6$$3);
-		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 189, &_6$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 167);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETURN_CCTOR(&decoded);
 }
 
 /**
@@ -470,7 +434,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl)
 	ZVAL_STRING(&_4, "+/");
 	ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 5, &input, &_3, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 223, &_5);
+	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 226, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 		ZEPHIR_INIT_NVAR(&data);

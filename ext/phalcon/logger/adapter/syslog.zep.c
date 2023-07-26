@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(item, zephir_get_internal_ce(SL("phalcon\\logger\\item")))
+		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		zephir_cast_to_string(&_6$$3, &_5$$3);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 107, &_7$$3, &_4$$3, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 113, &_7$$3, &_4$$3, &_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 406, &_8$$3);
 		zephir_check_call_status();

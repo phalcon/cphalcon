@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(transaction, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transactioninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(transaction, phalcon_mvc_model_transactioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(transaction, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transactioninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(transaction, phalcon_mvc_model_transactioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -797,7 +797,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransaction)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(transaction, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transactioninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(transaction, phalcon_mvc_model_transactioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

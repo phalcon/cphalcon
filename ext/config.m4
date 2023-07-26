@@ -15,18 +15,18 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/abstractvalidator.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
 	phalcon/events/eventsawareinterface.zep.c
+	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
-	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractfactory.zep.c
 	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/forms/element/abstractelement.zep.c
-	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
+	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
 	phalcon/storage/serializer/none.zep.c
@@ -34,9 +34,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/assets/assetinterface.zep.c
+	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/configinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
-	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
@@ -180,6 +180,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/memory.zep.c
 	phalcon/storage/adapter/redis.zep.c
 	phalcon/storage/adapter/stream.zep.c
+	phalcon/storage/adapter/weak.zep.c
 	phalcon/storage/serializer/igbinary.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/component.zep.c
@@ -214,6 +215,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/adapter/memory.zep.c
 	phalcon/cache/adapter/redis.zep.c
 	phalcon/cache/adapter/stream.zep.c
+	phalcon/cache/adapter/weak.zep.c
 	phalcon/cache/adapterfactory.zep.c
 	phalcon/cache/cache.zep.c
 	phalcon/cache/cachefactory.zep.c

@@ -1037,7 +1037,7 @@ PHP_METHOD(Phalcon_Mvc_Router, attach)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(route, zephir_get_internal_ce(SL("phalcon\\mvc\\router\\routeinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(route, phalcon_mvc_router_routeinterface_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
@@ -2335,7 +2335,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(group, zephir_get_internal_ce(SL("phalcon\\mvc\\router\\groupinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(group, phalcon_mvc_router_groupinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2746,7 +2746,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

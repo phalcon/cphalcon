@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2023-06-18</date>
+  <date>2023-07-26</date>
   <time>17:00:00</time>
   <version>
-    <release>5.2.2</release>
-    <api>5.2.2</api>
+    <release>5.2.3</release>
+    <api>5.2.3</api>
   </version>
   <stability>
     <release>stable</release>
@@ -37,10 +37,16 @@
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
     ### Fixed
-    - Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314)
-    - Removed `unlikely` from `if` statements from the Stream storage adapter and Json serializer [#16339](https://github.com/phalcon/cphalcon/issues/16339)
-    - Fixed `Storage\Adapter\Stream::get()/set()` to correctly calculate the path if the prefix is present in the key [#16348](https://github.com/phalcon/cphalcon/issues/16348)
-    - Fixed `Html\Helper\Input\Checkbox` to correctly process empty values [#15959](https://github.com/phalcon/cphalcon/issues/15959)
+    - Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+    - Extended `Phalcon\Di\Injectable` from `stdClass` to remove the deprecation warning (dynamic properties) for PHP 8.2 [#16308](https://github.com/phalcon/cphalcon/issues/16308)
+    - Corrected the return type of `Phalcon\Mvc\View::getVar()` so that stubs can be accurate. [#16276](https://github.com/phalcon/cphalcon/issues/16276)
+    - Changed all the `encode`/`decode` methods for JSON to use the `Phalcon\Support\Helper\Json\*` classes. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
+    - Changed the `Phalcon\Support\Helper\Json\*` classes to clear up `json_last_error()` before doing any conversions. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
+    - Fixed `Phalcon\Http\Request::getJsonRawBody` to protect from empty body [#16373](https://github.com/phalcon/cphalcon/issues/16373)
+
+    ### Added
+    - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+    - Added `Phalcon\Storage\Adapter\Weak` implemented with WeakReference has a cache/retrieval solution for objects not yet collected by the Garbage Collection. [#16372](https://github.com/phalcon/cphalcon/issues/16372)
 
   </notes>
   <contents>

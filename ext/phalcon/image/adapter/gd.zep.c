@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct)
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("realpath"), &_2$$3);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&imageInfo, "getimagesize", NULL, 309, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&imageInfo, "getimagesize", NULL, 310, &_3$$3);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&imageInfo)) {
 			zephir_array_fetch_long(&_4$$4, &imageInfo, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 42);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, getVersion)
 	ZVAL_NULL(&version);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "GD_VERSION");
-	ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 108, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 114, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_NVAR(&version);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processBackground)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_DOUBLE(&_1, ((zephir_safe_div_long_long((opacity * 127), 100)) - (double) (127)));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 279, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 280, &_1);
 	zephir_check_call_status();
 	zephir_round(&_0, &_2, NULL, NULL);
 	opacity = zephir_get_intval(&_0);
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processMask)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(mask, zephir_get_internal_ce(SL("phalcon\\image\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(mask, phalcon_image_adapter_adapterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -946,7 +946,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processReflection)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_DOUBLE(&_1, ((zephir_safe_div_long_long((opacity * 127), 100)) - (double) (127)));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 279, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 280, &_1);
 	zephir_check_call_status();
 	zephir_round(&_0, &_2, NULL, NULL);
 	opacity = zephir_get_intval(&_0);
@@ -1448,7 +1448,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSharpen)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_LONG(&_1, (-18 + ((amount * 0.08))));
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 279, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 280, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 2);
 	zephir_round(&_0, &_2, &_1, NULL);
@@ -1617,7 +1617,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processText)
 	ZVAL_LONG(offsetY, _1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_DOUBLE(&_3, ((zephir_safe_div_long_long((opacity * 127), 100)) - (double) (127)));
-	ZEPHIR_CALL_FUNCTION(&_4, "abs", NULL, 279, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "abs", NULL, 280, &_3);
 	zephir_check_call_status();
 	zephir_round(&_2, &_4, NULL, NULL);
 	opacity = zephir_get_intval(&_2);
@@ -1646,11 +1646,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processText)
 			topRightY = zephir_get_intval(&_10$$5);
 		}
 		ZVAL_LONG(&_5$$3, (topRightX - bottomLeftX));
-		ZEPHIR_CALL_FUNCTION(&_11$$3, "abs", NULL, 279, &_5$$3);
+		ZEPHIR_CALL_FUNCTION(&_11$$3, "abs", NULL, 280, &_5$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&width, (zephir_get_numberval(&_11$$3) + 10));
 		ZVAL_LONG(&_5$$3, (topRightY - bottomLeftY));
-		ZEPHIR_CALL_FUNCTION(&_12$$3, "abs", NULL, 279, &_5$$3);
+		ZEPHIR_CALL_FUNCTION(&_12$$3, "abs", NULL, 280, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&height);
 		ZVAL_LONG(&height, (zephir_get_numberval(&_12$$3) + 10));
@@ -1754,7 +1754,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processWatermark)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_OBJECT_OF_CLASS(watermark, zephir_get_internal_ce(SL("phalcon\\image\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(watermark, phalcon_image_adapter_adapterinterface_ce)
 		Z_PARAM_LONG(offsetX)
 		Z_PARAM_LONG(offsetY)
 		Z_PARAM_LONG(opacity)
@@ -1784,7 +1784,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processWatermark)
 	if (opacity < 100) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_DOUBLE(&_4$$3, ((zephir_safe_div_long_long((opacity * 127), 100)) - (double) (127)));
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "abs", NULL, 279, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "abs", NULL, 280, &_4$$3);
 		zephir_check_call_status();
 		zephir_round(&_3$$3, &_5$$3, NULL, NULL);
 		opacity = zephir_get_intval(&_3$$3);
@@ -1852,7 +1852,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check)
 	ZVAL_STRING(&_0, "2.0.1");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, ">=");
-	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", NULL, 124, &version, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", NULL, 130, &version, &_0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_2)) {
 		ZEPHIR_INIT_VAR(&_3$$3);

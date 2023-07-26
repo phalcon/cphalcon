@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 178, &macro, &arguments);
+	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 184, &macro, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -195,12 +195,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding)
 		_1 = ZEPHIR_IS_STRING_IDENTICAL(&from, "utf8");
 	}
 	if (_1) {
-		ZEPHIR_RETURN_CALL_FUNCTION("utf8_decode", NULL, 280, &text);
+		ZEPHIR_RETURN_CALL_FUNCTION("utf8_decode", NULL, 281, &text);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_convert_encoding")) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 324, &text, &from, &to);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 325, &text, &from, &to);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length)
 		RETURN_MM_LONG(zephir_fast_count_int(item));
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 227, item);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 230, item);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -799,12 +799,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_substr")) == SUCCESS)) {
 		if (Z_TYPE_P(&length) != IS_NULL) {
 			ZVAL_LONG(&_6$$11, start);
-			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 221, value, &_6$$11, &length);
+			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 224, value, &_6$$11, &length);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZVAL_LONG(&_7$$10, start);
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 221, value, &_7$$10);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 224, value, &_7$$10);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

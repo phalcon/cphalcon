@@ -61,9 +61,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(view, zephir_get_internal_ce(SL("phalcon\\mvc\\viewbaseinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(view, phalcon_mvc_viewbaseinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
