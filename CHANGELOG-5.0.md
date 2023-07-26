@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (xxxx-xx-xx)
+## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (xxxx-xx-xx)
 
 ### Fixed
 - Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
@@ -10,7 +10,7 @@
 - Corrected the return type of `Phalcon\Mvc\View::getVar()` so that stubs can be accurate. [#16276](https://github.com/phalcon/cphalcon/issues/16276)
 - Changed all the `encode`/`decode` methods for JSON to use the `Phalcon\Support\Helper\Json\*` classes. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
 - Changed the `Phalcon\Support\Helper\Json\*` classes to clear up `json_last_error()` before doing any conversions. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
-
+- Fixed `Phalcon\Http\Request::getJsonRawBody` to protect from empty body [#16373](https://github.com/phalcon/cphalcon/issues/16373)
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
