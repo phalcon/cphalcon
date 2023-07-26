@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\logger\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_logger_adapter_adapterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

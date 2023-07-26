@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(reference, zephir_get_internal_ce(SL("phalcon\\db\\referenceinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(reference, phalcon_db_referenceinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(index, zephir_get_internal_ce(SL("phalcon\\db\\indexinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey)
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(index, zephir_get_internal_ce(SL("phalcon\\db\\indexinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1512,7 +1512,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1657,7 +1657,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 						ZVAL_COPY(&value$$38, _8$$38);
 						ZEPHIR_INIT_NVAR(&_10$$39);
 						ZVAL_STRING(&_10$$39, "\'");
-						ZEPHIR_CALL_FUNCTION(&_11$$39, "addcslashes", &_12, 208, &value$$38, &_10$$39);
+						ZEPHIR_CALL_FUNCTION(&_11$$39, "addcslashes", &_12, 211, &value$$38, &_10$$39);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_13$$39);
 						ZEPHIR_CONCAT_SVS(&_13$$39, "'", &_11$$39, "', ");
@@ -1676,7 +1676,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_14$$40);
 							ZVAL_STRING(&_14$$40, "\'");
-							ZEPHIR_CALL_FUNCTION(&_15$$40, "addcslashes", &_12, 208, &value$$38, &_14$$40);
+							ZEPHIR_CALL_FUNCTION(&_15$$40, "addcslashes", &_12, 211, &value$$38, &_14$$40);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_16$$40);
 							ZEPHIR_CONCAT_SVS(&_16$$40, "'", &_15$$40, "', ");
@@ -1696,7 +1696,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 			} else {
 				ZEPHIR_INIT_VAR(&_21$$41);
 				ZVAL_STRING(&_21$$41, "\'");
-				ZEPHIR_CALL_FUNCTION(&_22$$41, "addcslashes", &_12, 208, &typeValues, &_21$$41);
+				ZEPHIR_CALL_FUNCTION(&_22$$41, "addcslashes", &_12, 211, &typeValues, &_21$$41);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_23$$41);
 				ZEPHIR_CONCAT_SVS(&_23$$41, "('", &_22$$41, "')");
@@ -1849,9 +1849,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn)
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_STR(tableName)
 		Z_PARAM_STR(schemaName)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2258,7 +2258,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(column, zephir_get_internal_ce(SL("phalcon\\db\\columninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2305,7 +2305,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	} else {
 		ZEPHIR_INIT_VAR(&_7$$6);
 		ZVAL_STRING(&_7$$6, "\'");
-		ZEPHIR_CALL_FUNCTION(&_8$$6, "addcslashes", NULL, 208, &defaultValue, &_7$$6);
+		ZEPHIR_CALL_FUNCTION(&_8$$6, "addcslashes", NULL, 211, &defaultValue, &_7$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_9$$6);
 		ZEPHIR_CONCAT_SVS(&_9$$6, "'", &_8$$6, "'");

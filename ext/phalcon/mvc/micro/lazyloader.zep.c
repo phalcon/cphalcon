@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 		Z_PARAM_STR(method)
 		Z_PARAM_ZVAL(arguments)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelBinder, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\binderinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelBinder, phalcon_mvc_model_binderinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

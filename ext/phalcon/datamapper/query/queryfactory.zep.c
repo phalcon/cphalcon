@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 	object_init_ex(return_value, phalcon_datamapper_query_delete_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 199, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 202, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 	object_init_ex(return_value, phalcon_datamapper_query_insert_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 200, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 203, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate)
 	object_init_ex(return_value, phalcon_datamapper_query_update_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 201, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 204, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

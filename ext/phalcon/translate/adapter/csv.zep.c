@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(interpolator, zephir_get_internal_ce(SL("phalcon\\translate\\interpolatorfactory")))
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	zephir_get_strval(&mode, mode_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 130, &filename, &mode);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 136, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 }

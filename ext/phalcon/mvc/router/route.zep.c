@@ -1021,7 +1021,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(group, zephir_get_internal_ce(SL("phalcon\\mvc\\router\\groupinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(group, phalcon_mvc_router_groupinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

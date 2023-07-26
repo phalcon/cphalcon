@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(validation, zephir_get_internal_ce(SL("phalcon\\filter\\validation")))
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &value);
 	zephir_cast_to_string(&_4, &valueWith);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 288, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 289, &_3, &_4);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_5$$4);
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 		zephir_check_call_status();
 		zephir_get_strval(&b, &_5$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 289, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 290, &a, &b);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_6, 0));
 }

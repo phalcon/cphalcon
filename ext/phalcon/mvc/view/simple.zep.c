@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 							ZEPHIR_CALL_CE_STATIC(&_7$$9, _8$$9, "bind", &_9, 0, &engineService, &di);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&engineService, &_7$$9);
-							ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_10, 178, &engineService, this_ptr);
+							ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_10, 184, &engineService, this_ptr);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_CPY_WRT(&engineObject, &engineService);
@@ -923,7 +923,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 								ZEPHIR_CALL_CE_STATIC(&_15$$15, _16$$15, "bind", &_9, 0, &engineService, &di);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&engineService, &_15$$15);
-								ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_10, 178, &engineService, this_ptr);
+								ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_10, 184, &engineService, this_ptr);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&engineObject, &engineService);

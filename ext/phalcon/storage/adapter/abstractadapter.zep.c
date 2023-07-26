@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\storage\\serializerfactory")))
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
@@ -801,7 +801,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getArrVal)
 	}
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 12, &value, &cast);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 11, &value, &cast);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

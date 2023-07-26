@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

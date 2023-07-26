@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create)
 
 	ZEPHIR_INIT_VAR(&form);
 	object_init_ex(&form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 317, entity);
+	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 318, entity);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("forms"), &name, &form);
 	RETURN_CCTOR(&form);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
-		Z_PARAM_OBJECT_OF_CLASS(form, zephir_get_internal_ce(SL("phalcon\\forms\\form")))
+		Z_PARAM_OBJECT_OF_CLASS(form, phalcon_forms_form_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

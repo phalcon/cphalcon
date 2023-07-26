@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(parameters)
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 					zephir_check_call_status();
 				}
 
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 215, container, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 218, container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;

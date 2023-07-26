@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(columnTypes)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(result, zephir_get_internal_ce(SL("phalcon\\db\\resultinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(result, phalcon_db_resultinterface_ce)
 		Z_PARAM_ZVAL_OR_NULL(cache)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

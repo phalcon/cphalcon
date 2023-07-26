@@ -177,8 +177,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct)
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(data)
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelsManager, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelsManager, phalcon_mvc_model_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set)
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_15, "property_exists", NULL, 285, this_ptr, &property);
+	ZEPHIR_CALL_FUNCTION(&_15, "property_exists", NULL, 286, this_ptr, &property);
 	zephir_check_call_status();
 	if (zephir_is_true(&_15)) {
 		ZEPHIR_CALL_METHOD(&manager, this_ptr, "getmodelsmanager", NULL, 0);
@@ -937,7 +937,7 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(behavior, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\behaviorinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(behavior, phalcon_mvc_model_behaviorinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -983,7 +983,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\messages\\messageinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_messages_messageinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1393,7 +1393,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(base, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(base, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(dirtyState)
@@ -4035,7 +4035,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -4716,7 +4716,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -5175,7 +5175,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(transaction, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transactioninterface")))
+		Z_PARAM_OBJECT_OF_CLASS(transaction, phalcon_mvc_model_transactioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -6460,8 +6460,8 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_OBJECT_OF_CLASS(metaData, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\metadatainterface")))
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(metaData, phalcon_mvc_model_metadatainterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_ZVAL(table)
 		Z_PARAM_ZVAL(identityField)
 	ZEND_PARSE_PARAMETERS_END();
@@ -6919,8 +6919,8 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(metaData, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\metadatainterface")))
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(metaData, phalcon_mvc_model_metadatainterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_ZVAL(table)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -7417,8 +7417,8 @@ PHP_METHOD(Phalcon_Mvc_Model, has)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(metaData, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\metadatainterface")))
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(metaData, phalcon_mvc_model_metadatainterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -8180,7 +8180,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSave)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(metaData, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\metadatainterface")))
+		Z_PARAM_OBJECT_OF_CLASS(metaData, phalcon_mvc_model_metadatainterface_ce)
 		Z_PARAM_BOOL(exists)
 		Z_PARAM_ZVAL(identityField)
 	ZEND_PARSE_PARAMETERS_END();
@@ -8555,7 +8555,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSaveRelatedRecords)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_ZVAL(related)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -8988,7 +8988,7 @@ PHP_METHOD(Phalcon_Mvc_Model, postSaveRelatedRecords)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_ZVAL(related)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -11003,7 +11003,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, zephir_get_internal_ce(SL("phalcon\\filter\\validation\\validationinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_filter_validation_validationinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

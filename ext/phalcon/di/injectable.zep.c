@@ -61,7 +61,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, Injectable, phalcon, di_injectable, zend_standard_class_def, phalcon_di_injectable_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * Dependency Injector
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection container is required to access internal services", "phalcon/Di/Injectable.zep", 125);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection container is required to access internal services", "phalcon/Di/Injectable.zep", 126);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdi", NULL, 0, &container);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

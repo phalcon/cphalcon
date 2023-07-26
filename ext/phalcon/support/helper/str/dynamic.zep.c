@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				ZEPHIR_INIT_NVAR(&words);
 				zephir_fast_explode(&words, &separator, &_9$$6, LONG_MAX);
 				ZEPHIR_OBS_NVAR(&word);
-				ZEPHIR_CALL_FUNCTION(&_10$$6, "array_rand", &_11, 194, &words);
+				ZEPHIR_CALL_FUNCTION(&_10$$6, "array_rand", &_11, 198, &words);
 				zephir_check_call_status();
 				zephir_array_fetch(&word, &words, &_10$$6, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 62);
 				zephir_array_fetch_long(&_12$$6, &match, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 63);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 					ZEPHIR_INIT_NVAR(&words);
 					zephir_fast_explode(&words, &separator, &_18$$8, LONG_MAX);
 					ZEPHIR_OBS_NVAR(&word);
-					ZEPHIR_CALL_FUNCTION(&_19$$8, "array_rand", &_11, 194, &words);
+					ZEPHIR_CALL_FUNCTION(&_19$$8, "array_rand", &_11, 198, &words);
 					zephir_check_call_status();
 					zephir_array_fetch(&word, &words, &_19$$8, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 62);
 					zephir_array_fetch_long(&_20$$8, &match, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 63);

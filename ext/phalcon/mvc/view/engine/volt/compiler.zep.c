@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(view, zephir_get_internal_ce(SL("phalcon\\mvc\\viewbaseinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(view, phalcon_mvc_viewbaseinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3556,7 +3556,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -4070,7 +4070,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 			zephir_array_update_string(&_4$$7, SL("file"), &file, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_4$$7, SL("line"), &line, PH_COPY | PH_SEPARATE);
 			ZEPHIR_MAKE_REF(&funcArguments);
-			ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 265, &funcArguments, &_4$$7);
+			ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 266, &funcArguments, &_4$$7);
 			ZEPHIR_UNREF(&funcArguments);
 			zephir_check_call_status();
 		}

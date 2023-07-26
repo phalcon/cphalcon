@@ -66,8 +66,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, __construct)
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection")))
-		Z_PARAM_OBJECT_OF_CLASS(bind, zephir_get_internal_ce(SL("phalcon\\datamapper\\query\\bind")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
+		Z_PARAM_OBJECT_OF_CLASS(bind, phalcon_datamapper_query_bind_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Update.zep", 101);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 205);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 208);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "WHERE");
