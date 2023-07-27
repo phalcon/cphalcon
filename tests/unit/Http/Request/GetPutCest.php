@@ -127,4 +127,66 @@ class GetPutCest
 
         $_SERVER = $store;
     }
+
+    /**
+     * Tests Phalcon\Http\Request :: getPut() - multipart/form-data
+     *
+     * @issue  @16271
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-07-28
+     */
+    public function httpRequestGetPutMultipartFormData(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getPut() - multipart/form-data');
+
+        stream_wrapper_unregister('php');
+        stream_wrapper_register('php', PhpStream::class);
+
+        $boundary = md5(microtime());
+
+        $data = <<<EOF
+                ----------------------------{$boundary}
+                Content-Disposition: form-data; name="fruit"
+
+                orange
+                ----------------------------$boundary
+                Content-Disposition: form-data; name="quantity"
+
+                4
+                ----------------------------$boundary
+                EOF;
+
+        file_put_contents(
+            'php://input',
+            $data
+        );
+
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_METHOD'     => 'PUT',
+            'CONTENT_TYPE'       => "multipart/form-data; boundary={$boundary}",
+        ];
+
+        $request = new Request();
+
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
+
+        $actual = file_get_contents('php://input');
+
+        $I->assertSame($data, $actual);
+
+        $I->assertSame(
+            $expected,
+            $request->getPut()
+        );
+
+        stream_wrapper_restore('php');
+
+        $_SERVER = $store;
+    }
 }
