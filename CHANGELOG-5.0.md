@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.4](https://github.com/phalcon/cphalcon/releases/tag/v5.2.4) (xxxx-xx-xx)
+
+### Fixed
+
+- Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)
+
+
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
 ### Fixed
