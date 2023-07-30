@@ -123,15 +123,15 @@ class DeleteCest
 
         $expected = 2;
         $actual   = $customer->invoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $expected = 1;
         $actual   = $customer->paidInvoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $expected = 1;
         $actual   = $customer->unpaidInvoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $actual = $customer->delete();
         $I->assertTrue($actual);
@@ -140,11 +140,11 @@ class DeleteCest
 
         $expected = 1;
         $actual   = $invoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $expected = $unpaidInvoiceId;
         $actual   = $invoices[0]->inv_id;
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -230,7 +230,7 @@ class DeleteCest
          */
         $expected = 5;
         $actual   = $customer->invoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         /**
          * Get paid invoices using the property
@@ -256,7 +256,7 @@ class DeleteCest
          */
         $expected = 3;
         $actual   = $customer->invoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         /**
          * Get unpaid invoices using getRelated()
@@ -273,7 +273,7 @@ class DeleteCest
          */
         $expected = 0;
         $actual   = $customer->invoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -318,7 +318,7 @@ class DeleteCest
 
         $expected = 1;
         $actual   = $customer->inactiveInvoices->count();
-        $I->assertSame($expected, $actual);
+        $I->assertEquals($expected, $actual);
 
         $actual = $customer->delete();
         $I->assertFalse($actual);
