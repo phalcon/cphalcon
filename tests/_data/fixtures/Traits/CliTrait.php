@@ -20,6 +20,7 @@ use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\Filter;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory as MetadataMemory;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
@@ -123,6 +124,10 @@ trait CliTrait
             [
                 'service' => 'security',
                 'class'   => Security::class,
+            ],
+            [
+                'service' => 'tag',
+                'class'   => TagFactory::class,
             ],
             [
                 'service' => 'transactionManager',
