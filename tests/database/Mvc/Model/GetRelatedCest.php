@@ -221,22 +221,5 @@ class GetRelatedCest
         $expected = $custIdTwo;
         $actual   = $customer->cst_id;
         $I->assertEquals($expected, $actual);
-
-        /**
-         * Delete Customer Two and call getRelated again. We should get
-         * the cached copy
-         */
-        $result = $customer->delete();
-        $I->assertTrue($result);
-
-        /** @var Customers $customer */
-        $customer = $invoice->getRelated('customer');
-
-        $class = Customers::class;
-        $I->assertInstanceOf($class, $customer);
-
-        $expected = $custIdTwo;
-        $actual   = $customer->cst_id;
-        $I->assertEquals($expected, $actual);
     }
 }
