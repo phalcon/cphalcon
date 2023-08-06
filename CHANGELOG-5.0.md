@@ -2,6 +2,13 @@
 
 ## [5.2.4](https://github.com/phalcon/cphalcon/releases/tag/v5.2.4) (xxxx-xx-xx)
 
+### Added
+- Added `Phalcon\Mvc\Model::appendMessagedFrom` for code consistency and to add messages from another another model. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+- Added `Phalcon\Autoload\Loader::isRegistered` for debugging purposes [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+
+### Changed
+- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer seperation of behaviour although it lead to partially repeated code.[#16391](https://github.com/phalcon/cphalcon/issues/16391)
+
 ### Fixed
 
 - Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)

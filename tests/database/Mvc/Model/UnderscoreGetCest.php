@@ -302,7 +302,7 @@ class UnderscoreGetCest
 
         $I->expectThrowable(
             new Exception(
-                "Cannot access property 'superSecret' (not public)."
+                "Cannot access property 'superSecret' (not public) in '" . Invoices::class . "'"
             ),
             function () {
                 $model              = new Invoices();
