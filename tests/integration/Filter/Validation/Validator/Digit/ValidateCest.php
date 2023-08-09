@@ -175,8 +175,10 @@ class ValidateCest
     /**
      * @dataProvider shouldValidateIntOrStringOfDigitsProvider
      */
-    public function filterValidationValidatorDigitShouldValidateIntOrStringOfDigits(IntegrationTester $I, Example $example)
-    {
+    public function filterValidationValidatorDigitShouldValidateIntOrStringOfDigits(
+        IntegrationTester $I,
+        Example $example
+    ) {
         $digit = $example[0];
 
         $validation = new Validation();
