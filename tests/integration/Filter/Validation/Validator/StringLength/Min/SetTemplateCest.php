@@ -36,7 +36,7 @@ class SetTemplateCest
 
         $I->assertInstanceOf(Min::class, $actual, 'Instance of Min');
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplate(),
             'Get equals template message'

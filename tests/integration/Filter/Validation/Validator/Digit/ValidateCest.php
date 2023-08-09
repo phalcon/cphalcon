@@ -13,7 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Filter\Validation\Validator\Digit;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Validator\Digit;
+use stdClass;
+
+use const PHP_INT_MAX;
 
 /**
  * Class ValidateCest
@@ -21,15 +28,188 @@ use IntegrationTester;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Digit :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Digit :: validate() - empty
+     *
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws Exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2023-08-03
      */
-    public function filterValidationValidatorDigitValidate(IntegrationTester $I)
+    public function filterValidationValidatorDigitValidateEmpty(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\Digit - validate()');
+        $I->wantToTest("Validation\Validator\Digit - validate() - empty");
 
-        $I->skipTest('Need implementation');
+        $validation = new Validation();
+        $validator  = new Digit(['allowEmpty' => true,]);
+        $validation->add('price', $validator);
+        $entity = new stdClass();
+        $entity->price = '';
+
+        $validation->bind($entity, []);
+        $result = $validator->validate($validation, 'price');
+        $I->assertTrue($result);
+    }
+
+    /**
+     * Tests digit validator with single field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function filterValidationValidatorDigitSingleField(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Digit()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123',
+            ]
+        );
+
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+            ]
+        );
+
+        $I->assertSame(
+            1,
+            $messages->count()
+        );
+    }
+
+    /**
+     * Tests digit validator with multiple field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function filterValidationValidatorDigitMultipleField(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $validationMessages = [
+            'amount' => 'Amount must be digit.',
+            'price'  => 'Price must be digit.',
+        ];
+
+        $validation->add(
+            ['amount', 'price'],
+            new Digit(
+                [
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123',
+                'price'  => '123',
+            ]
+        );
+
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => '123',
+            ]
+        );
+
+        $I->assertSame(
+            1,
+            $messages->count()
+        );
+
+        $I->assertSame(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => '123abc',
+            ]
+        );
+
+        $I->assertSame(
+            2,
+            $messages->count()
+        );
+
+        $I->assertSame(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertSame(
+            $validationMessages['price'],
+            $messages->offsetGet(1)->getMessage()
+        );
+    }
+
+    /**
+     * @dataProvider shouldValidateIntOrStringOfDigitsProvider
+     */
+    public function filterValidationValidatorDigitShouldValidateIntOrStringOfDigits(IntegrationTester $I, Example $example)
+    {
+        $digit = $example[0];
+
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Digit()
+        );
+
+        $messages = $validation->validate(
+            [
+                'amount' => $digit,
+            ]
+        );
+
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
+    }
+
+    private function shouldValidateIntOrStringOfDigitsProvider()
+    {
+        return [
+            ['123'],
+            [123],
+            [PHP_INT_MAX],
+            [0xFFFFFF],
+            [100000],
+            [-100000],
+            [0],
+            ['0'],
+            ['00001233422003400'],
+        ];
     }
 }

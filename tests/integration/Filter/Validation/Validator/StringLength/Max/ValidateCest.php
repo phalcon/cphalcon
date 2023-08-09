@@ -15,19 +15,36 @@ namespace Phalcon\Tests\Integration\Filter\Validation\Validator\StringLength\Max
 
 use IntegrationTester;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
+use stdClass;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: validate()
+     * Tests Phalcon\Filter\Validation\Validator\Min :: validate() - empty
+     *
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws Exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-23
+     * @since  2023-08-03
      */
-    public function filterValidationValidatorStringLengthMaxValidate(IntegrationTester $I)
+    public function filterValidationValidatorMaxValidateEmpty(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Max - validate()');
+        $I->wantToTest("Validation\Validator\Max - validate() - empty");
+
+        $validation = new Validation();
+        $validator  = new Max(['allowEmpty' => true,]);
+        $validation->add('name', $validator);
+        $entity = new stdClass();
+        $entity->name = '';
+
+        $validation->bind($entity, []);
+        $result = $validator->validate($validation, 'name');
+        $I->assertTrue($result);
     }
 
     /**
@@ -59,7 +76,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -71,7 +88,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
@@ -107,7 +124,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -118,7 +135,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
@@ -130,7 +147,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );

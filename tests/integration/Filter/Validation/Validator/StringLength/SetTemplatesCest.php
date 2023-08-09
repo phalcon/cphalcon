@@ -40,7 +40,7 @@ class SetTemplatesCest
 
         $I->assertInstanceOf(StringLength::class, $actual, 'Instance of StringLenght');
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplates(),
             'Get equals templates'

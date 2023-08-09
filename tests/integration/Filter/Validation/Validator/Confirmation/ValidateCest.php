@@ -57,7 +57,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -70,7 +70,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
@@ -84,7 +84,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count(),
             "Phalcon\Filter\Validation\Validator\Confirmation failed to compare 000012345=12345"
@@ -97,7 +97,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count(),
             "Phalcon\Filter\Validation\Validator\Confirmation failed to compare asd=asdß"
@@ -149,7 +149,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -164,12 +164,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -184,17 +184,17 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['type'],
             $messages->offsetGet(1)->getMessage()
         );
@@ -231,6 +231,7 @@ class ValidateCest
             new Confirmation(
                 [
                     'allowEmpty' => true,
+                    'ignoreCase' => true,
                     'with'       => 'password2',
                 ]
             )
@@ -239,12 +240,12 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'password'  => 'test123',
+                'password'  => 'TEST123',
                 'password2' => 'test123',
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -257,7 +258,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -283,7 +284,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -296,7 +297,7 @@ class ValidateCest
                 ]
             );
 
-            $I->assertEquals(
+            $I->assertSame(
                 1,
                 $messages->count()
             );
@@ -323,7 +324,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -336,7 +337,7 @@ class ValidateCest
                 ]
             );
 
-            $I->assertEquals(
+            $I->assertSame(
                 1,
                 $messages->count()
             );

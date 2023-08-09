@@ -414,4 +414,38 @@ class ValidateCest
             }
         );
     }
+
+    /**
+     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - no callback
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-08-08
+     */
+    public function filterValidationValidatorCallbackValidateNoCallback(IntegrationTester $I)
+    {
+        $I->wantToTest(
+            "Validation\Validator\Callback - validate() - no callback"
+        );
+
+        $validation = new Validation();
+
+        $validation->add(
+            'user',
+            new Callback(
+                [
+                    'callback' => 'test',
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'user'  => 'u',
+                'admin' => 'admin',
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+    }
 }
