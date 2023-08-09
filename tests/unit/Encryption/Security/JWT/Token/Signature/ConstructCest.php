@@ -22,7 +22,8 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Signature :: __construct()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Signature ::
+     * __construct()
      *
      * @param UnitTester $I
      *

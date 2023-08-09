@@ -23,7 +23,8 @@ use UnitTester;
 class GetSetSubjectCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getSubject()/setSubject()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getSubject()/setSubject()
      *
      * @param UnitTester $I
      *

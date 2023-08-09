@@ -38,5 +38,18 @@ class GetClaimsCest
         $builder = new Builder($signer);
 
         $I->assertEmpty($builder->getClaims());
+
+        $builder = new Builder($signer);
+        $builder
+            ->addClaim('aud', 'Phalcon')
+            ->addClaim('xyz', 'Other')
+        ;
+
+        $expected = [
+            'aud' => 'Phalcon',
+            'xyz' => 'Other',
+        ];
+        $actual   = $builder->getClaims();
+        $I->assertSame($expected, $actual);
     }
 }

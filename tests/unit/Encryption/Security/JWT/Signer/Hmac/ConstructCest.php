@@ -39,7 +39,8 @@ class ConstructCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Signer\Hmac :: __construct() - exception
+     * Unit Tests Phalcon\Encryption\Security\JWT\Signer\Hmac :: __construct()
+     * - exception
      *
      * @param UnitTester $I
      *

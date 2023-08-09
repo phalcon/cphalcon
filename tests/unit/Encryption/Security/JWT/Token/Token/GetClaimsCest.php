@@ -46,7 +46,9 @@ class GetClaimsCest
         $I->assertInstanceOf($expected, $actual);
 
         $expected = "valid-subject";
-        $actual   = $token->getClaims()->get('sub');
+        $actual   = $token->getClaims()
+                          ->get('sub')
+        ;
         $I->assertSame($expected, $actual);
     }
 }

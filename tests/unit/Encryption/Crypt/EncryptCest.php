@@ -184,7 +184,8 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - gcm/ccm exception without data
+     * Tests Phalcon\Encryption\Crypt :: encrypt() - gcm/ccm exception without
+     * data
      *
      * @param UnitTester $I
      *
@@ -222,7 +223,8 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - exception invalid padding size
+     * Tests Phalcon\Encryption\Crypt :: encrypt() - exception invalid padding
+     * size
      *
      * @param UnitTester $I
      *
@@ -284,7 +286,8 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - cannot calculate Random Pseudo Bytes
+     * Tests Phalcon\Encryption\Crypt :: encrypt() - cannot calculate Random
+     * Pseudo Bytes
      *
      * @param UnitTester $I
      *

@@ -23,7 +23,8 @@ use UnitTester;
 class GetSetIssuedAtCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getIssuedAt()/setIssuedAt()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getIssuedAt()/setIssuedAt()
      *
      * @param UnitTester $I
      *

@@ -24,7 +24,8 @@ use UnitTester;
 class GetSetNotBeforeCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getNotBefore()/setNotBefore()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getNotBefore()/setNotBefore()
      *
      * @param UnitTester $I
      *
@@ -47,7 +48,8 @@ class GetSetNotBeforeCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setNotBefore() - exception
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setNotBefore() -
+     * exception
      *
      * @param UnitTester $I
      *
