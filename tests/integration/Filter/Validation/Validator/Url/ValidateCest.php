@@ -20,7 +20,6 @@ use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-
 use stdClass;
 
 use const FILTER_FLAG_PATH_REQUIRED;
