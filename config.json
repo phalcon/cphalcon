@@ -149,6 +149,10 @@
       "type": "bool",
       "default": true
     },
+    "orm.dynamic_update": {
+      "type": "bool",
+      "default": true
+    },
     "warning.enable": {
       "type": "bool",
       "default": true

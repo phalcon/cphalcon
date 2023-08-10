@@ -16,6 +16,7 @@
 ### Fixed
 
 - Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)
+- Set Dynamic Update by default system wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
 
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
