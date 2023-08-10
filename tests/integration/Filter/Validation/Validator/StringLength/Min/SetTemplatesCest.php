@@ -40,7 +40,7 @@ class SetTemplatesCest
 
         $I->assertInstanceOf(Min::class, $actual, 'Instance of Min');
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplates(),
             'Get equals templates'

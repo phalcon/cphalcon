@@ -23,7 +23,8 @@ use UnitTester;
 class GetSetIssuerCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getIssuer()/setIssuer()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getIssuer()/setIssuer()
      *
      * @param UnitTester $I
      *

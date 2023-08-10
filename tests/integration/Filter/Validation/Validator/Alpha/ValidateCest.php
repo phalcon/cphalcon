@@ -16,12 +16,40 @@ namespace Phalcon\Tests\Integration\Filter\Validation\Validator\Alpha;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Alpha;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use stdClass;
 
 class ValidateCest
 {
+    /**
+     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - empty
+     *
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-08-03
+     */
+    public function filterValidationValidatorAlphaValidateEmpty(IntegrationTester $I)
+    {
+        $I->wantToTest("Validation\Validator\Alpha - validate() - empty");
+
+        $validation = new Validation();
+        $validator  = new Alpha(['allowEmpty' => true,]);
+        $validation->add('name', $validator);
+        $entity = new stdClass();
+        $entity->name = '';
+
+        $validation->bind($entity, []);
+        $result = $validator->validate($validation, 'name');
+        $I->assertTrue($result);
+    }
+
     /**
      * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - single field
      *
@@ -46,7 +74,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -58,7 +86,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
@@ -98,7 +126,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -111,12 +139,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -129,17 +157,17 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['type'],
             $messages->offsetGet(1)->getMessage()
         );
@@ -225,7 +253,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -263,7 +291,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );

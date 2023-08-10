@@ -48,7 +48,8 @@ class GetTokenCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getToken() - exception
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getToken() -
+     * exception
      *
      * @param UnitTester $I
      *

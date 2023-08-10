@@ -48,7 +48,8 @@ class UuidCest
     }
 
     /**
-     * Tests Phalcon\Encryption\Security\Random :: uuid() produces different results
+     * Tests Phalcon\Encryption\Security\Random :: uuid() produces different
+     * results
      *
      * @param UnitTester $I
      *

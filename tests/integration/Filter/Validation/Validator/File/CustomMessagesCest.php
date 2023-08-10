@@ -49,9 +49,9 @@ class CustomMessagesCest
             $messageIniSize = $validator->getMessageIniSize();
             $messageValid = $validator->getMessageValid();
 
-            $I->assertEquals($options['messageFileEmpty'], $messageFileEmpty);
-            $I->assertEquals($options['messageIniSize'], $messageIniSize);
-            $I->assertEquals($options['messageValid'], $messageValid);
+            $I->assertSame($options['messageFileEmpty'], $messageFileEmpty);
+            $I->assertSame($options['messageIniSize'], $messageIniSize);
+            $I->assertSame($options['messageValid'], $messageValid);
         }
     }
 }

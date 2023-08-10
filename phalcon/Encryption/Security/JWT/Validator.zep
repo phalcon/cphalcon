@@ -64,11 +64,23 @@ class Validator
             ];
     }
 
+    /**
+     * Return an array with validation errors (if any)
+     *
+     * @return array
+     */
     public function getErrors() -> array
     {
         return this->errors;
     }
 
+    /**
+     * Return the value of a claim
+     *
+     * @param string $claim
+     *
+     * @return mixed
+     */
     public function get(string claim) -> mixed | null
     {
         if isset this->claims[claim] {
@@ -78,6 +90,14 @@ class Validator
         return null;
     }
 
+    /**
+     * Set the value of a claim, for comparison with the token values
+     *
+     * @param string $claim
+     * @param mixed  $value
+     *
+     * @return Validator
+     */
     public function set(string claim, var value) -> <Validator>
     {
         let this->claims[claim] = value;
@@ -86,6 +106,8 @@ class Validator
     }
 
     /**
+     * Set the token to be validated
+     *
      * @param Token $token
      *
      * @return Validator
@@ -98,6 +120,8 @@ class Validator
     }
 
     /**
+     * Validate the audience
+     *
      * @param string|array $audience
      *
      * @return Validator
@@ -129,6 +153,8 @@ class Validator
     }
 
     /**
+     * Validate the expiration time of the token
+     *
      * @param int $timestamp
      *
      * @return Validator
@@ -151,6 +177,8 @@ class Validator
     }
 
     /**
+     * Validate the id of the token
+     *
      * @param string $id
      *
      * @return Validator
@@ -170,6 +198,8 @@ class Validator
     }
 
     /**
+     * Validate the issued at (iat) of the token
+     *
      * @param int $timestamp
      *
      * @return Validator
@@ -189,6 +219,8 @@ class Validator
     }
 
     /**
+     * Validate the issuer of the token
+     *
      * @param string $issuer
      *
      * @return Validator
@@ -208,6 +240,8 @@ class Validator
     }
 
     /**
+     * Validate the notbefore (nbf) of the token
+     *
      * @param int $timestamp
      *
      * @return Validator
@@ -227,6 +261,8 @@ class Validator
     }
 
     /**
+     * Validate the signature of the token
+     *
      * @param SignerInterface $signer
      * @param string          $passphrase
      *

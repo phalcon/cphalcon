@@ -40,7 +40,7 @@ class SetTemplatesCest
 
         $I->assertInstanceOf(Max::class, $actual, 'Instance of Max');
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplates(),
             'Get equals templates'

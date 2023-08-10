@@ -51,6 +51,7 @@ foreach ($documents as $document) {
 layout: default
 title: '{$document['title']}'
 ---
+{%- include env-setup.html -%}
 ";
     foreach ($document['docs'] as $file) {
         $link   = str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $file);
@@ -86,7 +87,7 @@ title: '{$document['title']}'
 
 <h1 id=\"{$href}\">{$signature}</h1>
 
-[Source on GitHub](https://github.com/phalcon/cphalcon/blob/v{{ pageVersion }}.0/phalcon/{$github})
+[Source on GitHub](https://github.com/phalcon/cphalcon/blob/{{ pageVersion }}.x/phalcon/{$github})
 ";
 
         if (!empty($namespace)) {

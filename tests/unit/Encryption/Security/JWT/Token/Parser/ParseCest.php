@@ -67,18 +67,19 @@ class ParseCest
 
         $I->assertSame(['my-audience'], $claims->get('aud'));
         $I->assertSame($token->getClaims()
-                               ->get('exp'), $claims->get('exp'));
+                             ->get('exp'), $claims->get('exp'));
         $I->assertSame('PH-JWT', $claims->get('jti'));
         $I->assertSame($token->getClaims()
-                               ->get('iat'), $claims->get('iat'));
+                             ->get('iat'), $claims->get('iat'));
         $I->assertSame('Phalcon JWT', $claims->get('iss'));
         $I->assertSame($token->getClaims()
-                               ->get('nbf'), $claims->get('nbf'));
+                             ->get('nbf'), $claims->get('nbf'));
         $I->assertSame('Mary had a little lamb', $claims->get('sub'));
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - no signature
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - no
+     * signature
      *
      * @param UnitTester $I
      *
@@ -116,21 +117,21 @@ class ParseCest
 
         $I->assertSame(['my-audience'], $claims->get('aud'));
         $I->assertSame($token->getClaims()
-                               ->get('exp'), $claims->get('exp'));
+                             ->get('exp'), $claims->get('exp'));
         $I->assertSame('PH-JWT', $claims->get('jti'));
         $I->assertSame($token->getClaims()
-                               ->get('iat'), $claims->get('iat'));
+                             ->get('iat'), $claims->get('iat'));
         $I->assertSame('Phalcon JWT', $claims->get('iss'));
         $I->assertSame($token->getClaims()
-                               ->get('nbf'), $claims->get('nbf'));
+                             ->get('nbf'), $claims->get('nbf'));
         $I->assertSame('Mary had a little lamb', $claims->get('sub'));
 
         $I->assertEmpty($signature->getEncoded());
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - aud not an
-     * array
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - aud
+     * not an array
      *
      * @param UnitTester $I
      *
@@ -175,19 +176,19 @@ class ParseCest
 
         $I->assertSame(['my-audience'], $claims->get('aud'));
         $I->assertSame($token->getClaims()
-                               ->get('exp'), $claims->get('exp'));
+                             ->get('exp'), $claims->get('exp'));
         $I->assertSame('PH-JWT', $claims->get('jti'));
         $I->assertSame($token->getClaims()
-                               ->get('iat'), $claims->get('iat'));
+                             ->get('iat'), $claims->get('iat'));
         $I->assertSame('Phalcon JWT', $claims->get('iss'));
         $I->assertSame($token->getClaims()
-                               ->get('nbf'), $claims->get('nbf'));
+                             ->get('nbf'), $claims->get('nbf'));
         $I->assertSame('Mary had a little lamb', $claims->get('sub'));
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - exception
-     * claims not array
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
+     * exception claims not array
      *
      * @param UnitTester $I
      *
@@ -215,8 +216,8 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - exception
-     * headers not array
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
+     * exception headers not array
      *
      * @param UnitTester $I
      *
@@ -247,8 +248,8 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - exception no
-     * typ
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
+     * exception no typ
      *
      * @param UnitTester $I
      *
@@ -280,8 +281,8 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - exception
-     * wrong JWT
+     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
+     * exception wrong JWT
      *
      * @param UnitTester $I
      *

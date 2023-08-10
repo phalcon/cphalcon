@@ -80,7 +80,7 @@ class ValidateCest
 
         $I->assertNotEmpty($messages);
 
-        $I->assertEquals(
+        $I->assertSame(
             'This is a test message',
             (string) $messages[0]
         );

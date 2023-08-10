@@ -29,7 +29,8 @@ use function str_repeat;
 class DecryptCest
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: decrypt() - no exception on key mismatch
+     * Tests Phalcon\Encryption\Crypt :: decrypt() - no exception on key
+     * mismatch
      *
      * @param UnitTester $I
      *
