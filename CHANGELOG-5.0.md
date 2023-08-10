@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+
+### Fixed
+- Infinite save loop in Model::save() [#16395](https://github.com/phalcon/cphalcon/issues/16395)
+
+
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
 
 ### Added
