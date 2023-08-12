@@ -117,6 +117,10 @@ class GlobalsCest
                 'setting' => 'phalcon.orm.virtual_foreign_keys',
                 'value'   => '1',
             ],
+            [
+                'setting' => 'phalcon.orm.dynamic_update',
+                'value'   => '1',
+            ],
         ];
     }
 }

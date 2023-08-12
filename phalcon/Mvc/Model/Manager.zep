@@ -1848,6 +1848,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var isKeeping;
 
+        if globals_get("orm.dynamic_update") {
+            return true;
+        }
+
         if !fetch isKeeping, this->keepSnapshots[get_class_lower(model)] {
             return false;
         }
@@ -1865,6 +1869,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function isUsingDynamicUpdate(<ModelInterface> model) -> bool
     {
         var isUsing;
+
+        if globals_get("orm.dynamic_update") {
+            return true;
+        }
 
         if !fetch isUsing, this->dynamicUpdate[get_class_lower(model)] {
             return false;

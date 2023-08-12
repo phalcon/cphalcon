@@ -3973,7 +3973,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let columnMap = null;
         }
 
-        if useDynamicUpdate && typeof snapshot !== "array" {
+        if likely useDynamicUpdate && typeof snapshot === "array" {
             for field in nonPrimary {
                 let changed = false;
                 if typeof columnMap === "array" {
