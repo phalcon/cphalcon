@@ -1,26 +1,26 @@
 # Changelog
 
-## [5.2.4](https://github.com/phalcon/cphalcon/releases/tag/v5.2.4) (xxxx-xx-xx)
+## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (xxxx-xx-xx)
 
 ### Added
-- Added `Phalcon\Mvc\Model::appendMessagedFrom` for code consistency and to add messages from another another model. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+
+- Added `Phalcon\Mvc\Model::appendMessagedFrom` for code consistency and to add messages from another model [#16391](https://github.com/phalcon/cphalcon/issues/16391)
 - Added `Phalcon\Autoload\Loader::isRegistered` for debugging purposes [#16391](https://github.com/phalcon/cphalcon/issues/16391)
 - Added `Phalcon\Mvc\Model\Metadata::initializeMetadata` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
 - Added `Phalcon\Mvc\Model\Metadata::getMetaDataUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
 - Added `Phalcon\Mvc\Model\Metadata::getColumnMapUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Encryption\Security\JWT\Builder::addHeader()` to allow adding custom headers [#16396](https://github.com/phalcon/cphalcon/issues/16396)
 
 ### Changed
-- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer seperation of behaviour although it lead to partially repeated code.[#16391](https://github.com/phalcon/cphalcon/issues/16391)
+
+- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer separation of behaviour, although it lead to partially repeated code. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
 - Cleaned `Phalcon\Mvc\Model\Metadata::initialize` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
 
 ### Fixed
 
 - Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)
-- Set Dynamic Update by default system wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
-
-### Added
-
-- Added `Phalcon\Encryption\Security\JWT\Builder::addHeader()` to allow adding custom headers [#16396](https://github.com/phalcon/cphalcon/issues/16396)
+- Set Dynamic Update by default system-wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
+- Fixed memory leak in Micro application [#16404](https://github.com/phalcon/cphalcon/pull/16404)
 
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
