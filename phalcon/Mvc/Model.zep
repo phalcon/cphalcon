@@ -412,97 +412,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function __set(string property, value)
     {
-        var lowerProperty, modelName, manager, relation, referencedModel, item,
-            dirtyState;
-        array related;
+        var manager, related;
 
         /**
          * Values are probably relationships if they are objects
          */
-        if typeof value === "object" && value instanceof ModelInterface {
-            let lowerProperty = strtolower(property),
-                modelName     = get_class(this),
-                manager       = this->getModelsManager(),
-                relation      = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
-
-            if typeof relation === "object" {
-                let dirtyState = this->dirtyState;
-
-                if (value->getDirtyState() != dirtyState) {
-                    let dirtyState = self::DIRTY_STATE_TRANSIENT;
-                }
-
-                unset this->related[lowerProperty];
-
-                let this->dirtyRelated[lowerProperty] = value,
-                    this->dirtyState                  = dirtyState;
-
-                return value;
-            }
-        }
-
-        /**
-         * Check if the value is an array
-         */
-        elseif typeof value === "array" {
-            let lowerProperty = strtolower(property),
-                modelName = get_class(this),
-                manager   = this->getModelsManager(),
-                relation  = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
-
-            if typeof relation === "object" {
-                switch relation->getType() {
-                    case Relation::BELONGS_TO:
-                    case Relation::HAS_ONE:
-                        /**
-                         * Load referenced model from local cache if its possible
-                         */
-                         let referencedModel = manager->load(
-                            relation->getReferencedModel()
-                        );
-
-                        if typeof referencedModel === "object" {
-                            referencedModel->assign(value);
-
-                            unset this->related[lowerProperty];
-
-                            let this->dirtyRelated[lowerProperty] = referencedModel,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
-
-                            return value;
-                        }
-
-                        break;
-
-                    case Relation::HAS_MANY:
-                    case Relation::HAS_MANY_THROUGH:
-                        let related = [];
-
-                        for item in value {
-                            if typeof item === "object" {
-                                if item instanceof ModelInterface {
-                                    let related[] = item;
-                                }
-                            }
-                        }
-
-                        unset this->related[lowerProperty];
-
-                        if count(related) > 0 {
-                            let this->dirtyRelated[lowerProperty] = related,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
-                        } else {
-                            unset this->dirtyRelated[lowerProperty];
-                        }
-
-                        return value;
-                }
+        if (typeof value === "object" && value instanceof ModelInterface ) ||  typeof value === "array" {
+            let related = this->setRelated(property, value);
+            if null !== related {
+                return related;
             }
         }
 
@@ -2113,6 +2031,105 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return result;
+    }
+
+    /**
+     * Sets related objects based on Alias and type of value (Model or array),
+     * by setting relations, the dirtyState are set acordingly to Transient has opt-in
+     *
+     * @param string alias
+     * @param mixed value
+     * @return \Phalcon\Mvc\Model|array|null Null is returned if no relation was found
+     */
+    public function setRelated(string alias, value) -> mixed
+    {
+        var relation, className, manager, lowerAlias, referencedModel, item, related;
+
+        let manager = this->getModelsManager();
+        let className = get_class(this);
+        let lowerAlias = strtolower(alias);
+        /**
+         * Query the relation by alias
+         */
+        let relation = <RelationInterface> manager->getRelationByAlias(
+            className,
+            lowerAlias
+        );
+
+        if likely typeof relation === "object" {
+            let className = get_class(this),
+            manager = <ManagerInterface> this->modelsManager,
+            lowerAlias = strtolower(alias);
+            
+            if typeof value === "object" && value instanceof ModelInterface {
+                /**
+                 * Opt-in dirty state
+                 */
+                value->setDirtyState(self::DIRTY_STATE_TRANSIENT);
+                let this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                /**
+                 * Add to dirtyRelated and remove from related.
+                 */
+                let this->dirtyRelated[lowerAlias] = value;
+                unset(this->related[lowerAlias]);
+                return value;
+            }
+
+            /**
+            * Check if the value is an array
+            */
+            elseif typeof value === "array" {
+                switch relation->getType() {
+                    case Relation::BELONGS_TO:
+                    case Relation::HAS_ONE:
+                        /**
+                        * Load referenced model from local cache if its possible
+                        */
+                        let referencedModel = manager->load(
+                            relation->getReferencedModel()
+                        );
+
+                        if typeof referencedModel === "object" {
+                            referencedModel->assign(value);
+                            let this->dirtyRelated[lowerAlias] = referencedModel;
+                            /**
+                             * Add to dirtyRelated and remove from related.
+                             */
+                            unset(this->related[lowerAlias]);
+                            return referencedModel;
+                        }
+                        break;
+
+                    case Relation::HAS_MANY:
+                    case Relation::HAS_MANY_THROUGH:
+                        let related = [];
+                        /**
+                         * this is probably not needed
+                         */
+                        for item in value {
+                            if typeof item === "object" {
+                                if item instanceof ModelInterface {
+                                    let related[] = item;
+                                }
+                            }
+                        }
+                        /**
+                         * Add to dirtyRelated and remove from related.
+                         */
+                        unset this->related[lowerAlias];
+
+                        if count(related) > 0 {
+                            let this->dirtyRelated[lowerAlias] = related,
+                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                        } else {
+                            unset this->dirtyRelated[lowerAlias];
+                        }
+
+                        return value;
+                }
+            }
+        }
+        return null;
     }
 
     /**
