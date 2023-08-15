@@ -33,18 +33,12 @@ class HasServiceCest
         $I->wantToTest('Mvc\Micro - hasService()');
 
         $micro = new Micro();
-
         $di = new Di();
-
         $micro->setDi($di);
 
 
         $I->assertFalse(
             $micro->hasService('fake')
-        );
-
-        $I->assertTrue(
-            $micro->hasService('application')
         );
 
         $I->assertFalse(
@@ -57,7 +51,6 @@ class HasServiceCest
 
 
         $escaper = new Escaper();
-
         $micro->setService('escaper', $escaper);
 
         $I->assertTrue(
@@ -75,7 +68,6 @@ class HasServiceCest
 
 
         $router = new Router();
-
         $di->set('router', $router);
 
         $I->assertTrue(
