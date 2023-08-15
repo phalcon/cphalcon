@@ -30,7 +30,7 @@ class GetOptionCest
 
         $validator = new Min();
 
-        $I->assertEquals(null, $validator->getOption('min'), 'Min option is null by default');
+        $I->assertSame(null, $validator->getOption('min'), 'Min option is null by default');
 
         $expected = 1234;
         $validator->setOption('min', $expected);
@@ -38,6 +38,6 @@ class GetOptionCest
 
         $expected = '1234';
         $validator->setOption('min', $expected);
-        $I->assertEquals($expected, $validator->getOption('min'), 'Min option is "1234"');
+        $I->assertSame($expected, $validator->getOption('min'), 'Min option is "1234"');
     }
 }

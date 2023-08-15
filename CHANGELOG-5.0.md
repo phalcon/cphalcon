@@ -1,8 +1,32 @@
 # Changelog
 
+## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
+
+### Added
+
+- Added `Phalcon\Mvc\Model::appendMessagedFrom` for code consistency and to add messages from another model [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+- Added `Phalcon\Autoload\Loader::isRegistered` for debugging purposes [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+- Added `Phalcon\Mvc\Model\Metadata::initializeMetadata` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Mvc\Model\Metadata::getMetaDataUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Mvc\Model\Metadata::getColumnMapUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Encryption\Security\JWT\Builder::addHeader()` to allow adding custom headers [#16396](https://github.com/phalcon/cphalcon/issues/16396)
+
+### Changed
+
+- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer separation of behaviour, although it lead to partially repeated code. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+- Cleaned `Phalcon\Mvc\Model\Metadata::initialize` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+
+### Fixed
+
+- Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)
+- Set Dynamic Update by default system-wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
+- Fixed memory leak in Micro application [#16404](https://github.com/phalcon/cphalcon/pull/16404)
+
+
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
 ### Fixed
+ 
 - Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
 - Extended `Phalcon\Di\Injectable` from `stdClass` to remove the deprecation warning (dynamic properties) for PHP 8.2 [#16308](https://github.com/phalcon/cphalcon/issues/16308)
 - Corrected the return type of `Phalcon\Mvc\View::getVar()` so that stubs can be accurate. [#16276](https://github.com/phalcon/cphalcon/issues/16276)
@@ -11,6 +35,7 @@
 - Fixed `Phalcon\Http\Request::getJsonRawBody` to protect from empty body [#16373](https://github.com/phalcon/cphalcon/issues/16373)
 
 ### Added
+
 - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
 - Added `Phalcon\Storage\Adapter\Weak` implemented with WeakReference has a cache/retrieval solution for objects not yet collected by the Garbage Collection. [#16372](https://github.com/phalcon/cphalcon/issues/16372)
 

@@ -46,7 +46,9 @@ class GetHeadersCest
         $I->assertInstanceOf($expected, $actual);
 
         $expected = "JWT";
-        $actual   = $token->getHeaders()->get('typ');
+        $actual   = $token->getHeaders()
+                          ->get('typ')
+        ;
         $I->assertSame($expected, $actual);
     }
 }

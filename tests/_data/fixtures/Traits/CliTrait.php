@@ -13,12 +13,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Fixtures\Traits;
 
+use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\Filter;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\MetaData\Memory as MetadataMemory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Support\HelperFactory;
 
 trait CliTrait
@@ -81,6 +86,10 @@ trait CliTrait
     {
         return [
             [
+                'service' => 'annotations',
+                'class'   => Memory::class,
+            ],
+            [
                 'service' => 'dispatcher',
                 'class'   => Dispatcher::class,
             ],
@@ -101,12 +110,28 @@ trait CliTrait
                 'class'   => HelperFactory::class,
             ],
             [
+                'service' => 'modelsManager',
+                'class'   => Manager::class,
+            ],
+            [
+                'service' => 'modelsMetadata',
+                'class'   => MetadataMemory::class,
+            ],
+            [
                 'service' => 'router',
                 'class'   => Router::class,
             ],
             [
                 'service' => 'security',
                 'class'   => Security::class,
+            ],
+            [
+                'service' => 'tag',
+                'class'   => TagFactory::class,
+            ],
+            [
+                'service' => 'transactionManager',
+                'class'   => TransactionManager::class,
             ],
         ];
     }

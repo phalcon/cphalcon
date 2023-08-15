@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Integration\Filter\Validation\Validator\Numericality;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Numericality;
 use stdClass;
 
@@ -25,9 +26,35 @@ use stdClass;
 class ValidateCest
 {
     /**
+     * Tests Phalcon\Filter\Validation\Validator\Numericality :: validate() - empty
+     *
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-08-03
+     */
+    public function filterValidationValidatorNumericalityValidateEmpty(IntegrationTester $I)
+    {
+        $I->wantToTest("Validation\Validator\Numericality - validate() - empty");
+
+        $validation = new Validation();
+        $validator  = new Numericality(['allowEmpty' => true,]);
+        $validation->add('price', $validator);
+        $entity = new stdClass();
+        $entity->price = '';
+
+        $validation->bind($entity, []);
+        $result = $validator->validate($validation, 'price');
+        $I->assertTrue($result);
+    }
+
+    /**
      * Tests Phalcon\Filter\Validation\Validator\Numericality :: validate()
      *
-     * @dataProvider getExamples
+     * @dataProvider getMixedExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
@@ -44,10 +71,149 @@ class ValidateCest
         $validator = new Numericality();
 
         $actual = $validator->validate($validation, 'price');
-        $I->assertEquals($actual, $example[1]);
+        $I->assertSame($actual, $example[1]);
     }
 
+    /**
+     * Tests numericality validator with single field
+     *
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @author       Andrey Izman <izmanw@gmail.com>
+     * @since        2016-06-05
+     *
+     * @dataProvider getExamples
+     */
+    public function filterValidationValidatorNumericalitySingleField(IntegrationTester $I, Example $example)
+    {
+        $validation = new Validation();
+        $validation->add('amount', new Numericality());
+
+        $amount   = $example['amount'];
+        $expected = $example['expected'];
+        $messages = $validation->validate(
+            [
+                'amount' => $amount,
+            ]
+        );
+
+        $actual = $messages->count();
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests numericality validator with multiple field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function filterValidationValidatorNumericalityMultipleField(IntegrationTester $I)
+    {
+        $validation = new Validation();
+
+        $validationMessages = [
+            'amount' => 'Amount must be digit.',
+            'price'  => 'Price must be digit.',
+        ];
+
+        $validation->add(
+            [
+                'amount',
+                'price',
+            ],
+            new Numericality(
+                [
+                    'message' => $validationMessages,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'amount' => 123,
+                'price'  => 123,
+            ]
+        );
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => 123,
+            ]
+        );
+
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
+
+        $expected = $validationMessages['amount'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => '123abc',
+            ]
+        );
+
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
+
+        $expected = $validationMessages['amount'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
+
+        $expected = $validationMessages['price'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
     private function getExamples(): array
+    {
+        return [
+            [
+                'amount'   => 123,
+                'expected' => 0,
+            ],
+            [
+                'amount'   => 123.12,
+                'expected' => 0,
+            ],
+            [
+                'amount'   => '-12,000',
+                'expected' => 0,
+            ],
+            [
+                'amount'   => '-12,0@0',
+                'expected' => 1,
+            ],
+            [
+                'amount'   => '-12,0@@0',
+                'expected' => 1,
+            ],
+            [
+                'amount'   => '123abc',
+                'expected' => 1,
+            ],
+            [
+                'amount'   => '123.12e3',
+                'expected' => 1,
+            ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getMixedExamples(): array
     {
         return [
             [1, true],

@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback);
 PHP_METHOD(Phalcon_Autoload_Loader, setFiles);
 PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces);
 PHP_METHOD(Phalcon_Autoload_Loader, unregister);
+PHP_METHOD(Phalcon_Autoload_Loader, isRegistered);
 PHP_METHOD(Phalcon_Autoload_Loader, requireFile);
 PHP_METHOD(Phalcon_Autoload_Loader, addDebug);
 PHP_METHOD(Phalcon_Autoload_Loader, addToCollection);
@@ -130,6 +131,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_unregister, 0, 0, Phalcon\\Autoload\\Loader, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_isregistered, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_requirefile, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -193,6 +197,7 @@ ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
 	PHP_ME(Phalcon_Autoload_Loader, setFiles, arginfo_phalcon_autoload_loader_setfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setNamespaces, arginfo_phalcon_autoload_loader_setnamespaces, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, unregister, arginfo_phalcon_autoload_loader_unregister, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Autoload_Loader, isRegistered, arginfo_phalcon_autoload_loader_isregistered, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, requireFile, arginfo_phalcon_autoload_loader_requirefile, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Autoload_Loader, addDebug, arginfo_phalcon_autoload_loader_adddebug, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Autoload_Loader, addToCollection, arginfo_phalcon_autoload_loader_addtocollection, ZEND_ACC_PRIVATE)

@@ -87,6 +87,7 @@ class ReadMetadataCest
             'photo_id',
         ];
         $actual = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
         $I->assertEquals($expected, $actual);
 
         $model = new AlbumPhoto();
@@ -97,6 +98,7 @@ class ReadMetadataCest
             'position',
         ];
         $actual = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
         $I->assertEquals($expected, $actual);
 
         $model = new Photo();
@@ -120,6 +122,7 @@ class ReadMetadataCest
             'wins',
         ];
         $actual = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
         $I->assertEquals($expected, $actual);
 
         $service = $adapter->getAdapter();
@@ -165,7 +168,7 @@ class ReadMetadataCest
     private function getKeyData(): array
     {
         return [
-        'meta-phalcon\tests\fixtures\models\albumphoto-album_photo' => [
+        'meta-phalcon\tests\fixtures\models\albumphoto' => [
             0 => [
                 'id',
                 'photo_id',
@@ -220,7 +223,7 @@ class ReadMetadataCest
             0 => null,
             1 => null,
         ],
-        'meta-phalcon\tests\fixtures\models\photo-photo' => [
+        'meta-phalcon\tests\fixtures\models\photo' => [
             0 => [
                 'id',
                 'date_uploaded',
@@ -345,7 +348,7 @@ class ReadMetadataCest
             0 => null,
             1 => null,
         ],
-        'meta-phalcon\tests\fixtures\models\album-album' => [
+        'meta-phalcon\tests\fixtures\models\album' => [
             0 => [
                 'id',
                 'name',

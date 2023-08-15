@@ -484,10 +484,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let columnMap = this->getReverseColumnMap(model);
 
         if typeof columnMap == "array" {
-            return isset columnMap[attribute];
+            return isset(columnMap[attribute]);
         }
 
-        return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
+        return isset(this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute]);
     }
 
     /**
@@ -525,21 +525,16 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function readColumnMap(<ModelInterface> model) -> array | null
     {
-        var keyName, data;
+        var keyName;
 
         if !globals_get("orm.column_renaming") {
             return null;
         }
-
-        let keyName = get_class_lower(model);
-
-        if !fetch data, this->columnMap[keyName] {
-            this->initialize(model, null, null, null);
-
-            let data = this->columnMap[keyName];
+        let keyName = this->getColumnMapUniqueKey(model);
+        if likely keyName !== null {
+            return this->columnMap[keyName];
         }
-
-        return data;
+        return null;
     }
 
     /**
@@ -554,25 +549,18 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    final public function readColumnMapIndex(<ModelInterface> model, int index)
+    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | null
     {
-        var keyName, columnMapModel, map;
+        var keyName;
 
         if !globals_get("orm.column_renaming") {
             return null;
         }
-
-        let keyName = get_class_lower(model);
-
-        if !fetch columnMapModel, this->columnMap[keyName] {
-            this->initialize(model, null, null, null);
-
-            let columnMapModel = this->columnMap[keyName];
+        let keyName = this->getColumnMapUniqueKey(model);
+        if likely keyName !== null {
+            return this->columnMap[keyName][index];
         }
-
-        fetch map, columnMapModel[index];
-
-        return map;
+        return null;
     }
 
     /**
@@ -586,24 +574,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    final public function readMetaData(<ModelInterface> model) -> array
+    final public function readMetaData(<ModelInterface> model) -> array | null
     {
-        var source, schema;
-        string key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key] {
-            this->initialize(model, key, source, schema);
+        var key;
+        let key = this->getMetaDataUniqueKey(model);
+        if likely key !== null {
+            return this->metaData[key];
         }
-
-        return this->metaData[key];
+        return null;
     }
 
     /**
@@ -618,24 +596,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    final public function readMetaDataIndex(<ModelInterface> model, int index)
+    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | null
     {
-        var source, schema;
-        string key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key][index] {
-            this->initialize(model, key, source, schema);
+        var key;
+        let key = this->getMetaDataUniqueKey(model);
+        if likely key !== null {
+            return this->metaData[key][index];
         }
-
-        return this->metaData[key][index];
+        return null;
     }
 
     /**
@@ -766,44 +734,36 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
     {
-        var source, schema;
-        string key;
-
-        if unlikely (typeof data != "array" && typeof data != "string" && typeof data != "boolean") {
-            throw new Exception("Invalid data for index");
+        var key;
+        let key = this->getMetaDataUniqueKey(model);
+        if likely key !== null {
+            let this->metaData[key][index] = data;
         }
+    }
 
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-table
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key] {
-            this->initialize(model, key, source, schema);
-        }
-
-        let this->metaData[key][index] = data;
+    /**
+     * Initialize old behaviour for compatability
+     */
+    final protected function initialize(<ModelInterface> model, var key, var table, var schema)
+    {
+        this->initializeMetaData(model, key);
+        this->initializeColumnMap(model, key);
     }
 
     /**
      * Initialize the metadata for certain table
      */
-    final protected function initialize(<ModelInterface> model, var key, var table, var schema)
+    final protected function initializeMetaData(<ModelInterface> model, var key) -> bool
     {
-        var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-            container, keyName;
+        var strategy, metaData, data, modelMetadata, container;
         string prefixKey;
 
-        let strategy = null,
-            className = get_class(model);
+        let strategy = null;
 
-        if key !== null {
+        if likely key !== null {
             let metaData = this->metaData;
 
-            if !isset metaData[key] {
+            if false === isset(metaData[key]) {
                 /**
                  * The meta-data is read from the adapter always if not available in metaData property
                  */
@@ -821,7 +781,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
                         if unlikely typeof modelMetadata != "array" {
                             throw new Exception(
-                                "Invalid meta-data for model " . className
+                                "Invalid meta-data for model " . get_class(model)
                             );
                         }
                     } else {
@@ -847,53 +807,66 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                     this->{"write"}(prefixKey, modelMetadata);
                 }
             }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Initialize ColumnMap for a certain table
+     */
+    final protected function initializeColumnMap(<ModelInterface> model, key) -> bool
+    {
+        var strategy, data, modelColumnMap, container;
+        string prefixKey;
+
+        if unlikely key === null {
+            return false;
         }
 
         /**
          * Check for a column map, store in columnMap in order and reversed order
          */
         if !globals_get("orm.column_renaming") {
-            return null;
+            return false;
         }
 
-        let keyName = strtolower(className);
-
-        if isset this->columnMap[keyName] {
-            return null;
+        if true === isset(this->columnMap[key]) {
+            return false;
         }
 
         /**
          * Create the map key name
          * Check if the meta-data is already in the adapter
          */
-        let prefixKey = "map-" . keyName,
+        let prefixKey = "map-" . key,
             data = this->{"read"}(prefixKey);
 
         if data !== null {
-            let this->columnMap[keyName] = data;
+            let this->columnMap[key] = data;
 
-            return null;
+            return false;
         }
 
         /**
          * Get the meta-data extraction strategy
          */
-        if typeof strategy != "object" {
-            let container = this->getDI(),
-                strategy = this->getStrategy();
-        }
+
+        let container = this->getDI(),
+            strategy = this->getStrategy();
 
         /**
          * Get the meta-data
          * Update the column map locally
          */
         let modelColumnMap = strategy->getColumnMaps(model, container),
-            this->columnMap[keyName] = modelColumnMap;
+            this->columnMap[key] = modelColumnMap;
 
         /**
          * Write the data to the adapter
          */
         this->{"write"}(prefixKey, modelColumnMap);
+        return true;
     }
 
     /**
@@ -928,4 +901,38 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         return value;
     }
+
+    /**
+     * Returns a MetaData Unique key for meta-data is created using className
+     *
+     * @return string
+     */
+    public final function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
+    {
+        string key;
+        let key = get_class_lower(model);
+        if false === isset(this->metaData[key]) {
+            if false === this->initializeMetaData(model, key) {
+                return null;
+            }
+        }
+        return key;
+    }
+
+    /**
+     * Returns a ColumnMap Unique key for meta-data is created using className
+     *
+     * @return string
+     */
+     public final function getColumnMapUniqueKey(<ModelInterface> model) -> string | null
+     {
+        string key;
+        let key = get_class_lower(model);
+        if false === isset(this->columnMap[key]) {
+            if false === this->initializeColumnMap(model, key) {
+                return null;
+            }
+        }
+        return key;
+     }
 }

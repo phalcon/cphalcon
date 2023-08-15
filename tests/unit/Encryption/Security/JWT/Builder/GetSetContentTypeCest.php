@@ -23,7 +23,8 @@ use UnitTester;
 class GetSetContentTypeCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getContentType()/setContentType()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getContentType()/setContentType()
      *
      * @param UnitTester $I
      *

@@ -14,14 +14,8 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Token\Token;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
-use Phalcon\Encryption\Security\JWT\Token\Item;
-use Phalcon\Encryption\Security\JWT\Token\Signature;
-use Phalcon\Encryption\Security\JWT\Token\Token;
 use Phalcon\Encryption\Security\JWT\Validator;
 use UnitTester;
-
-use function strtotime;
-use function usleep;
 
 class ValidateCest
 {
@@ -54,7 +48,8 @@ class ValidateCest
             ->setNotBefore($notBefore)
             ->setSubject('Mary had a little lamb')
             ->setPassphrase($passphrase)
-            ->getToken();
+            ->getToken()
+        ;
 
         $validator = new Validator($token, 10);
 

@@ -1142,13 +1142,6 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function setDI(<DiInterface> container) -> void
     {
-        /**
-         * We automatically set ourselves as application service
-         */
-        if !container->has("application") {
-            container->set("application", this);
-        }
-
         let this->container = container;
     }
 

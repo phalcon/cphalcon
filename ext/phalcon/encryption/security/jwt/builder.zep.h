@@ -6,6 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Builder);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addClaim);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addHeader);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getAudience);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getClaims);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getContentType);
@@ -38,6 +39,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_b
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_addclaim, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_addheader, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
@@ -127,6 +133,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, __construct, arginfo_phalcon_encryption_security_jwt_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, init, arginfo_phalcon_encryption_security_jwt_builder_init, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, addClaim, arginfo_phalcon_encryption_security_jwt_builder_addclaim, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, addHeader, arginfo_phalcon_encryption_security_jwt_builder_addheader, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Encryption_Security_JWT_Builder, getAudience, arginfo_phalcon_encryption_security_jwt_builder_getaudience, ZEND_ACC_PUBLIC)
 #else

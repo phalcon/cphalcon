@@ -46,7 +46,9 @@ class GetSignatureCest
         $I->assertInstanceOf($expected, $actual);
 
         $expected = "signature-encoded";
-        $actual   = $token->getSignature()->getEncoded();
+        $actual   = $token->getSignature()
+                          ->getEncoded()
+        ;
         $I->assertSame($expected, $actual);
     }
 }

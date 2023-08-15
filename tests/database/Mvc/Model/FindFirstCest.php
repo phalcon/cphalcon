@@ -264,7 +264,7 @@ class FindFirstCest
 
         $I->expectThrowable(
             new Exception(
-                'Parameters passed must be of type array, string, numeric or null'
+                "Parameters passed must be of type array, string, numeric or null in '" . Invoices::class . "'"
             ),
             function () {
                 Invoices::findFirst(false);

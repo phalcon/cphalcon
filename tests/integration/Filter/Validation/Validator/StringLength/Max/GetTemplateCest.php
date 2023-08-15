@@ -31,16 +31,16 @@ class GetTemplateCest
         $validator = new Max();
 
         $expected = 'Field :field must not exceed :max characters long';
-        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message for Max');
+        $I->assertSame($expected, $validator->getTemplate(), 'Default template message for Max');
 
         $validator->setTemplate('');
 
         $expected = 'The field :field is not valid for ' . Max::class;
-        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message');
+        $I->assertSame($expected, $validator->getTemplate(), 'Default template message');
 
         $expected = 'New custom template';
         $validator->setTemplate($expected);
 
-        $I->assertEquals($expected, $validator->getTemplate(), 'New template message');
+        $I->assertSame($expected, $validator->getTemplate(), 'New template message');
     }
 }

@@ -54,12 +54,12 @@ class GetTemplatesCest
         );
 
         $I->assertTrue(is_array($validator->getTemplates()), 'Multi templates have to be an array');
-        $I->assertEquals(
+        $I->assertSame(
             $messageLastName,
             $validator->getTemplate('name_last'),
             'Last name template'
         );
-        $I->assertEquals(
+        $I->assertSame(
             $messageFirstName,
             $validator->getTemplate('name_first'),
             'First name template'
