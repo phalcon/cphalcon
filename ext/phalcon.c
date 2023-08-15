@@ -668,6 +668,7 @@ PHP_INI_BEGIN()
 	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.update_snapshot_on_save", "1", PHP_INI_ALL, OnUpdateBool, orm.update_snapshot_on_save, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.dynamic_update", "1", PHP_INI_ALL, OnUpdateBool, orm.dynamic_update, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.warning.enable", "1", PHP_INI_ALL, OnUpdateBool, warning.enable, zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
 
@@ -1343,6 +1344,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 	phalcon_globals->orm.parser_cache = NULL;
 	phalcon_globals->orm.resultset_prefetch_records = ZSTR_VAL(zend_string_init(ZEND_STRL("0"), 0));
 	phalcon_globals->orm.unique_cache_id = 3;
+
 
 
 

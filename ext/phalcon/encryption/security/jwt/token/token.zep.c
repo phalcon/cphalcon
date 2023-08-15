@@ -89,6 +89,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 }
 
 /**
+ * Return the registered claims
+ *
  * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
@@ -101,6 +103,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
 }
 
 /**
+ * Return the registered headers
+ *
  * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
@@ -113,6 +117,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
 }
 
 /**
+ * Return the payload
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
@@ -141,6 +147,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 }
 
 /**
+ * Return the signature
+ *
  * @return Signature
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
@@ -153,6 +161,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
 }
 
 /**
+ * Return the token
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
@@ -245,7 +255,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 121);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 131);
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _4, _5, _2)
 		{

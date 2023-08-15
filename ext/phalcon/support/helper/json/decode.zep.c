@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 		zephir_json_encode(&_3$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 196, &message, &error);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 199, &message, &error);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Support/Helper/Json/Decode.zep", 64);
 		ZEPHIR_MM_RESTORE();
