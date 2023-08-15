@@ -705,9 +705,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _2);
-			ZEPHIR_CALL_METHOD(&prepared, this_ptr, "prepareescapedmessage", &_4, 78, &item);
+			ZEPHIR_CALL_METHOD(&prepared, this_ptr, "prepareescapedmessage", &_4, 81, &item);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&html, this_ptr, "preparehtmlmessage", &_5, 79, &type, &prepared);
+			ZEPHIR_CALL_METHOD(&html, this_ptr, "preparehtmlmessage", &_5, 82, &type, &prepared);
 			zephir_check_call_status();
 			zephir_read_property(&_6$$5, this_ptr, ZEND_STRL("implicitFlush"), PH_NOISY_CC | PH_READONLY);
 			if (ZEPHIR_IS_TRUE_IDENTICAL(&_6$$5)) {
@@ -728,9 +728,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 			}
 			ZEPHIR_CALL_METHOD(&item, message, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&prepared, this_ptr, "prepareescapedmessage", &_4, 78, &item);
+				ZEPHIR_CALL_METHOD(&prepared, this_ptr, "prepareescapedmessage", &_4, 81, &item);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&html, this_ptr, "preparehtmlmessage", &_5, 79, &type, &prepared);
+				ZEPHIR_CALL_METHOD(&html, this_ptr, "preparehtmlmessage", &_5, 82, &type, &prepared);
 				zephir_check_call_status();
 				zephir_read_property(&_7$$8, this_ptr, ZEND_STRL("implicitFlush"), PH_NOISY_CC | PH_READONLY);
 				if (ZEPHIR_IS_TRUE_IDENTICAL(&_7$$8)) {
@@ -952,13 +952,13 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 		RETURN_CTOR(&message);
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("cssClasses"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&cssClasses, this_ptr, "checkclasses", NULL, 80, &_1, &type);
+	ZEPHIR_CALL_METHOD(&cssClasses, this_ptr, "checkclasses", NULL, 83, &_1, &type);
 	zephir_check_call_status();
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("cssIconClasses"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&cssIconClasses, this_ptr, "checkclasses", NULL, 80, &_2, &type);
+	ZEPHIR_CALL_METHOD(&cssIconClasses, this_ptr, "checkclasses", NULL, 83, &_2, &type);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("interpolator"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettemplate", NULL, 81, &cssClasses, &cssIconClasses);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettemplate", NULL, 84, &cssClasses, &cssIconClasses);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_create_array(&_5, 3, 0);

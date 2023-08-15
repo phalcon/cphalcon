@@ -11,7 +11,7 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.2.3"
+#define PHP_PHALCON_VERSION     "5.3.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.17.0-9f99da6"
@@ -43,6 +43,7 @@ typedef struct _zephir_struct_orm {
 	int unique_cache_id;
 	zend_bool update_snapshot_on_save;
 	zend_bool virtual_foreign_keys;
+	zend_bool dynamic_update;
 } zephir_struct_orm;
 
 typedef struct _zephir_struct_warning { 
