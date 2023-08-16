@@ -60,6 +60,16 @@ class Invoices extends Model
                 'reusable' => true,
             ]
         );
+
+        $this->belongsTo(
+            ['inv_cst_id', 'inv_status_flag'],
+            Customers::class,
+            ['cst_id', 'cst_status_flag'],
+            [
+                'alias'    => 'customerMultipleFields',
+                'reusable' => true,
+            ]
+        );
     }
 
     /**

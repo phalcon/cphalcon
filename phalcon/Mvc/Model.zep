@@ -4996,8 +4996,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
     {
-        var className, manager, type, relation, columns, referencedFields, nesting, name, record;
-
+        var className, manager, type, relation, columns, referencedFields, nesting, name, record, columnA, columnB;
+        int columnCount, i;
         let nesting = false;
 
         /**
@@ -5034,17 +5034,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             "Only objects can be stored as part of belongs-to relations in '" . get_class(this) . "' Relation " . name
                         );
                     }
-                    let columns = relation->getFields(),
-                        referencedFields = relation->getReferencedFields();
-//                    let columns = relation->getFields(),
-//                        referencedModel = relation->getReferencedModel(),
-//                        referencedFields = relation->getReferencedFields();
-
-                    if unlikely typeof columns === "array" {
-                        connection->rollback(nesting);
-
-                        throw new Exception("Not implemented in '" . get_class(this) . "' Relation " . name);
-                    }
 
                     /**
                      * If dynamic update is enabled, saving the record must not take any action
@@ -5069,7 +5058,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      * Read the attribute from the referenced model and assign
                      * it to the current model
                      */
-                    let this->{columns} = record->readAttribute(referencedFields);
+                    let columns = relation->getFields(),
+                      referencedFields = relation->getReferencedFields();
+                    if unlikely typeof columns === "array" {
+                        let columnCount = count(columns) - 1;
+                        for i in range(0, columnCount) {
+                            let columnA = columns[i];
+                            let columnB = referencedFields[i];
+                            let this->{columnA} = record->{columnB};
+                        }
+                    } else {
+                        let this->{columns} = record->{referencedFields};
+                    }
                 }
             }
         }
@@ -5105,11 +5105,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function postSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
     {
         var nesting, className, manager, relation, name, record,
-            columns, referencedModel, referencedFields, relatedRecords, value,
+            columns, referencedModel, referencedFields, relatedRecords,
             recordAfter, intermediateModel, intermediateFields,
-            intermediateValue, intermediateModelName,
-            intermediateReferencedFields, existingIntermediateModel;
+            intermediateModelName,
+            intermediateReferencedFields, existingIntermediateModel, columnA, columnB;
         bool isThrough;
+        int columnCount, referencedFieldsCount, i, j, t, h;
+        string intermediateConditions;
+        array conditions, placeholders, placeholdersMany;
 
         let nesting = false,
             className = get_class(this),
@@ -5144,12 +5147,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     referencedModel = relation->getReferencedModel(),
                     referencedFields = relation->getReferencedFields();
 
-                if unlikely typeof columns === "array" {
-                    connection->rollback(nesting);
-
-                    throw new Exception("Not implemented in '" . className . "' on Relation " . name);
-                }
-
                 /**
                  * Create an implicit array for has-many/has-one records
                  */
@@ -5159,18 +5156,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     let relatedRecords = record;
                 }
 
-                if unlikely !fetch value, this->{columns} {
-                    connection->rollback(nesting);
-
-                    throw new Exception(
-                        "The column '" . columns . "' needs to be present in the model '" . className . "'"
-                    );
-                }
-
-                /**
-                 * Get the value of the field from the current model
-                 * Check if the relation is a has-many-to-many
-                 */
                 let isThrough = (bool) relation->isThrough();
 
                 /**
@@ -5180,7 +5165,38 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     let intermediateModelName = relation->getIntermediateModel(),
                         intermediateFields = relation->getIntermediateFields(),
                         intermediateReferencedFields = relation->getIntermediateReferencedFields();
+                    let placeholders = [];
+                    let conditions = [];
 
+                    /**
+                     * Always check for existing intermediate models
+                     * otherwise conflicts will arise on insert instead of update
+                     */
+                    if unlikely typeof columns === "array" {
+                        let columnCount = count(columns) - 1;
+                        for i in range(0, columnCount) {
+                            let columnA = columns[i];
+                            let conditions[] = "[". intermediateFields[i] . "] = :APR" . i . ":";
+                            let placeholders["APR" . i] = this->{columnA};
+                        }
+                        let i = columnCount + 1;
+                    } else {
+                        let conditions[] = "[" . intermediateFields . "] = :APR0:";
+                        let placeholders["APR0"] = this->{columns};
+                        let i = 1;
+                    }
+                    if relation->getType() === Relation::HAS_MANY_THROUGH {
+                        if unlikely typeof referencedFields === "array" {
+                            let referencedFieldsCount = count(referencedFields) - 1;
+                            for j in range(0, referencedFieldsCount) {
+                                let t = j + i;
+                                let conditions[] = "[". intermediateReferencedFields[j] . "] = :APR" . t . ":";
+                            }
+                        } else {
+                            let conditions[] = "[". intermediateReferencedFields . "] = :APR" . i . ":";
+                        }
+                    }
+                    let intermediateConditions = join(" AND ", conditions);
                     for recordAfter in relatedRecords {
                         /**
                          * Save the record and get messages
@@ -5191,13 +5207,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                              * referenced model
                              */
                             this->appendMessagesFrom(recordAfter);
-    
+
                             /**
                              * Rollback the implicit transaction
                              */
                             connection->rollback(nesting);
-    
+
                             return false;
+                        }
+                        if relation->getType() === Relation::HAS_MANY_THROUGH {
+                            if unlikely typeof referencedFields === "array" {
+                                for j in range(0, referencedFieldsCount) {
+                                    let columnA = referencedFields[j];
+                                    let t = j + i;
+                                    let placeholders["APR" . t] = recordAfter->{columnA};
+                                }
+                            } else {
+                                let placeholders["APR" . i] = recordAfter->{referencedFields};
+                            }
                         }
                         /**
                          * Create a new instance of the intermediate model
@@ -5207,44 +5234,42 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         );
 
                         /**
-                         * Has-one-through relations can only use one intermediate model.
                          * If it already exist, it can be updated with the new referenced key.
                          */
-                        if relation->getType() == Relation::HAS_ONE_THROUGH {
-                            let existingIntermediateModel = intermediateModel->findFirst(
-                                [
-                                    "[" . intermediateFields . "] = ?0",
-                                    "bind": [value]
-                                ]
-                            );
+                        let existingIntermediateModel = intermediateModel->findFirst(
+                            [
+                                intermediateConditions,
+                                "bind": placeholders
+                            ]
+                        );
 
-                            if existingIntermediateModel {
-                                let intermediateModel = existingIntermediateModel;
+                        if existingIntermediateModel {
+                            let intermediateModel = existingIntermediateModel;
+                        }
+                        if !existingIntermediateModel || relation->getType() === Relation::HAS_ONE_THROUGH {
+                            /**
+                             * Write value in the intermediate model
+                             */
+                            if unlikely typeof columns === "array" {
+                                for h in range(0, columnCount) {
+                                    let columnA = columns[h];
+                                    let columnB = intermediateFields[h];
+                                    let intermediateModel->{columnB} = this->{columnA};
+                                }
+                            } else {
+                                let intermediateModel->{intermediateFields} = this->{columns};
+                            }
+                            if unlikely typeof referencedFields === "array" {
+                                let referencedFieldsCount = count(referencedFields) - 1;
+                                for h in range(0, referencedFieldsCount) {
+                                    let columnA = referencedFields[h];
+                                    let columnB = intermediateReferencedFields[h];
+                                    let intermediateModel->{columnB} = recordAfter->{columnA};
+                                }
+                            } else {
+                                let intermediateModel->{intermediateReferencedFields} = recordAfter->{referencedFields};
                             }
                         }
-
-                        /**
-                         * Write value in the intermediate model
-                         */
-                        intermediateModel->writeAttribute(
-                            intermediateFields,
-                            value
-                        );
-
-                        /**
-                         * Get the value from the referenced model
-                         */
-                        let intermediateValue = recordAfter->readAttribute(
-                            referencedFields
-                        );
-
-                        /**
-                         * Write the intermediate value in the intermediate model
-                         */
-                        intermediateModel->writeAttribute(
-                            intermediateReferencedFields,
-                            intermediateValue
-                        );
 
                         /**
                          * Save the record and get messages
@@ -5264,27 +5289,56 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         }
                     }
                 } else {
-                    for recordAfter in relatedRecords {
-                        /**
-                         * Assign the value to the
-                         */
-                        recordAfter->writeAttribute(referencedFields, value);
-                        /**
-                         * Save the record and get messages
-                         */
-                        if !recordAfter->doSave(visited) {
+                    if unlikely typeof columns === "array" {
+                        let columnCount = count(columns) - 1;
+                        for recordAfter in relatedRecords {
+                            for i in range(0, columnCount) {
+                                let columnA = columns[i];
+                                let columnB = referencedFields[i];
+                                let recordAfter->{columnB} = this->{columnA};
+                            }
                             /**
-                             * Get the validation messages generated by the
-                             * referenced model
+                             * Save the record and get messages
                              */
-                            this->appendMessagesFrom(recordAfter);
-    
-                            /**
-                             * Rollback the implicit transaction
-                             */
-                            connection->rollback(nesting);
+                            if !recordAfter->doSave(visited) {
+                                /**
+                                 * Get the validation messages generated by the
+                                 * referenced model
+                                 */
+                                this->appendMessagesFrom(recordAfter);
+        
+                                /**
+                                 * Rollback the implicit transaction
+                                 */
+                                connection->rollback(nesting);
 
-                            return false;
+                                return false;
+                            }
+                        }
+                    } else {
+                        for recordAfter in relatedRecords {
+                            /**
+                             * Assign the value to the
+                             */
+                            let recordAfter->{referencedFields} = this->{columns};
+                            /**
+                             * Save the record and get messages
+                             */
+                            if !recordAfter->doSave(visited) {
+
+                                /**
+                                 * Get the validation messages generated by the
+                                 * referenced model
+                                 */
+                                this->appendMessagesFrom(recordAfter);
+        
+                                /**
+                                 * Rollback the implicit transaction
+                                 */
+                                connection->rollback(nesting);
+
+                                return false;
+                            }
                         }
                     }
                 }

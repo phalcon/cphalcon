@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class OrdersProducts
+ * Class OrdersProductsFieldsOneComp
  *
  * @property int    $oxp_ord_id;
  * @property string $oxp_prd_id;
@@ -24,18 +24,15 @@ use Phalcon\Mvc\Model;
  * @property int    $oxp_ord_status_flag;
  * @property int    $oxp_prd_status_flag;
  */
-class OrdersProducts extends Model
+class OrdersProductsFieldsOneComp extends Model
 {
     public $oxp_ord_id;
     public $oxp_prd_id;
     public $oxp_quantity;
-    public $oxp_ord_status_flag;
-    public $oxp_prd_status_flag;
 
 
     public function initialize()
     {
-        $this->setSchema('private');
-        $this->setSource('co_orders_x_products');
+        $this->setSource('co_orders_x_products_one_comp');
     }
 }
