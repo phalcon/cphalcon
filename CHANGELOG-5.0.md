@@ -1,6 +1,9 @@
 # Changelog
 
-## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (xxxx-xx-xx)
+
+### Added
+- Model relations now can have multiple fields[#16029](https://github.com/phalcon/cphalcon/issues/16029)
 
 ### Fixed
 - Model Annotation strategy did not work with empty_string [#16426] (https://github.com/phalcon/cphalcon/issues/16426)

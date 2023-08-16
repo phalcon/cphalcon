@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Fixtures\Migrations;
 
 /**
- * Class OrdersProductsMigration
+ * Class OrdersProductsFieldsOneCompMigration
  */
-class OrdersProductsMigration extends AbstractMigration
+class OrdersProductsFieldsOneCompMigration extends AbstractMigration
 {
-    protected $table = "private.co_orders_x_products";
+    protected $table = "co_orders_x_products_one_comp";
 
     /**
      * @param int $oxp_ord_id
@@ -35,7 +35,7 @@ class OrdersProductsMigration extends AbstractMigration
         $oxp_prd_id   = $oxp_prd_id ?: 'null';
         $oxp_quantity = $oxp_quantity ?: 'null';
         $sql    = <<<SQL
-insert into private.co_orders_x_products (
+insert into co_orders_x_products_one_comp (
     oxp_ord_id, oxp_prd_id, oxp_quantity
 ) values (
     {$oxp_ord_id}, {$oxp_prd_id}, {$oxp_quantity}
@@ -49,14 +49,14 @@ SQL;
     {
         return [
             "
-drop table if exists `private`.`co_orders_x_products`;
+drop table if exists `co_orders_x_products_one_comp`;
             ",
             "
-CREATE TABLE `private`.`co_orders_x_products` (
+CREATE TABLE `co_orders_x_products_one_comp` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
   `oxp_quantity` int(10) unsigned NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
@@ -65,11 +65,12 @@ CREATE TABLE `private`.`co_orders_x_products` (
     protected function getSqlSqlite(): array
     {
         return [
-"drop table if exists co_orders_x_products;",
-"create table co_orders_x_products (
+"drop table if exists co_orders_x_products_one_comp;",
+"create table co_orders_x_products_one_comp (
   `oxp_ord_id` integer NOT NULL,
   `oxp_prd_id` integer NOT NULL,
-  `oxp_quantity` integer NULL
+  `oxp_quantity` integer NULL,
+  primary key (`oxp_ord_id`, `oxp_prd_id`)
 );"
         ];
     }
@@ -78,15 +79,15 @@ CREATE TABLE `private`.`co_orders_x_products` (
     {
         return [
             "
-drop table if exists private.co_orders_x_products;
+drop table if exists co_orders_x_products_one_comp;
             ",
             "
-create table private.co_orders_x_products
+create table co_orders_x_products_one_comp
 (
     oxp_ord_id int not null,
     oxp_prd_id int not null,
-    oxp_quantity int null
-
+    oxp_quantity int null,
+    primary key (oxp_ord_id, oxp_prd_id)
 );
             "
         ];

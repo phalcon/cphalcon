@@ -16,20 +16,22 @@ namespace Phalcon\Tests\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class Products
+ * Class class OrdersProductsFieldsOne
  *
- * @property int    $prd_id;
- * @property string $prd_name;
- * @property int    $prd_status_flag;
+ * @property int    $oxp_ord_id;
+ * @property string $oxp_prd_id;
+ * @property string $oxp_quantity;
  */
-class Products extends Model
+class OrdersProductsFieldsOne extends Model
 {
-    public $prd_id;
-    public $prd_name;
-    public $prd_status_flag;
+    public $oxp_id;
+    public $oxp_ord_id;
+    public $oxp_prd_id;
+    public $oxp_quantity;
+
 
     public function initialize()
     {
-        $this->setSource('co_products');
+        $this->setSource('co_orders_x_products_one');
     }
 }

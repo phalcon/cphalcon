@@ -289,10 +289,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Check if the number of fields are the same
          */
-        if typeof referencedFields == "array" {
+        if unlikely typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the BelongsTo relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -313,7 +313,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string");
+                throw new Exception("Relation alias must be a string in the BelongsTo relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
             }
 
             let lowerAlias = strtolower(alias);
@@ -388,7 +388,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -409,7 +409,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string");
+                throw new Exception("Relation alias must be a string  in the HasMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
             }
 
             let lowerAlias = strtolower(alias);
@@ -492,7 +492,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof intermediateFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -504,7 +504,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof intermediateReferencedFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -534,7 +534,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if typeof alias != "string" {
-                throw new Exception("Relation alias must be a string");
+                throw new Exception("Relation alias must be a string in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
             }
 
             let lowerAlias = strtolower(alias);
@@ -614,7 +614,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasOne relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -635,7 +635,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string");
+                throw new Exception("Relation alias must be a string in the HasOne relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
             }
 
             let lowerAlias = strtolower(alias);
@@ -718,7 +718,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof intermediateFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -730,7 +730,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         if typeof intermediateReferencedFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
-                    "Number of referenced fields are not the same"
+                    "Number of referenced fields are not the same in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
                 );
             }
         }
@@ -760,7 +760,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if typeof alias != "string" {
-                throw new Exception("Relation alias must be a string");
+                throw new Exception("Relation alias must be a string in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
             }
 
             let lowerAlias = strtolower(alias);
@@ -1341,13 +1341,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var parameters = null,
         string method = null
     ) {
-        var referencedModel, intermediateModel, intermediateFields, fields,
+        var referencedModel, intermediateModel, intermediateFields, intermediateReferenceFields, fields,
             builder, extraParameters, refPosition, field, referencedFields,
             findParams, findArguments, uniqueKey, records, arguments, rows,
             firstRow, query;
         array placeholders, conditions, joinConditions;
         bool reusable;
         string retrieveMethod;
+        int i, columnCount;
 
         /**
          * Re-use bound parameters
@@ -1379,26 +1380,32 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              * relation
              */
             let fields = relation->getFields();
-
-            if unlikely typeof fields == "array" {
-                throw new Exception("Not supported");
-            }
-
-            let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
+            if unlikely typeof fields === "array" {
+                let columnCount = count(fields) - 1;
+                for i in range(0, columnCount) {
+                    let conditions[] = "[" . intermediateModel . "].[". intermediateFields[i] . "] = :APR" . i . ":",
+                    placeholders["APR" . i] = record->readAttribute(fields[i]);
+                }
+            } else {
+                let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
                 placeholders["APR0"] = record->readAttribute(fields);
+            }
 
             let joinConditions = [];
 
             /**
              * Create the join conditions
              */
-            let intermediateFields = relation->getIntermediateReferencedFields();
-
-            if unlikely typeof intermediateFields == "array" {
-                throw new Exception("Not supported");
+            let intermediateReferenceFields = relation->getIntermediateReferencedFields();
+            let referencedFields = relation->getReferencedFields();
+            if unlikely typeof intermediateReferenceFields === "array" {
+                let columnCount = count(intermediateReferenceFields) - 1;
+                for i in range(0, columnCount) {
+                    let joinConditions[] = "[" . intermediateModel . "].[" . intermediateReferenceFields[i] . "] = [" . referencedModel . "].[" . referencedFields[i] . "]";
+                }
+            } else {
+                let joinConditions[] = "[" . intermediateModel . "].[" . intermediateReferenceFields . "] = [" . referencedModel . "].[" . referencedFields . "]";
             }
-
-            let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 
             /**
              * We don't trust the user or the database so we use bound parameters
