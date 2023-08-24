@@ -36,7 +36,7 @@ class ProductsMigration extends AbstractMigration
 insert into co_products (
     prd_id, prd_name
 ) values (
-    {$prd_id}, {$prd_name}
+    {$prd_id}, '{$prd_name}'
 )
 SQL;
 
