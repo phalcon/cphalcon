@@ -187,4 +187,17 @@ class Weak extends AbstractAdapter
 
         return true;
     }
+
+    /**
+     * Clean list of any null references, useful if the list gets too big
+     */
+    public function clean() -> void {
+        var value, wr, key;
+        for key, wr in this->weakList {
+            let value = wr->get();
+            if value === null {
+                unset(this->weakList[key]);
+            }
+        }
+    }
 }
