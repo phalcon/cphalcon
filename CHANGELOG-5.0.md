@@ -23,6 +23,13 @@
 - Fixed memory leak in Micro application [#16404](https://github.com/phalcon/cphalcon/pull/16404)
 
 
+## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+
+### Fixed
+
+- Forced `routeId` in `Phalcon\Mvc\Router\Route` to always return a string [#16414](https://github.com/phalcon/cphalcon/pull/16414)
+
+
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
 ### Fixed

@@ -43,9 +43,9 @@ class Route implements RouteInterface
     protected hostname = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected id = null;
+    protected id = "";
 
     /**
      * @var array|string
@@ -94,8 +94,8 @@ class Route implements RouteInterface
         let uniqueId = self::uniqueId;
 
         // TODO: Add a function that increase static members
-        let routeId = uniqueId,
-            this->id = routeId,
+        let routeId        = uniqueId,
+            this->id       = (string) routeId,
             self::uniqueId = uniqueId + 1;
     }
 
@@ -383,9 +383,9 @@ class Route implements RouteInterface
     }
 
     /**
-     * @return string | null
+     * @return string
      */
-    public function getId() -> string | null
+    public function getId() -> string
     {
         return this->id;
     }
