@@ -832,7 +832,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         }
 
         if true === isset(this->columnMap[key]) {
-            return false;
+            return true;
         }
 
         /**
@@ -845,7 +845,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         if data !== null {
             let this->columnMap[key] = data;
 
-            return false;
+            return true;
         }
 
         /**
