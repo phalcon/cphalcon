@@ -252,6 +252,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
          * Check for the number of invoices
          */
         $expected = 0;
+        $customer->invoices->refresh();
         $actual   = $customer->invoices->count();
         $this->assertEquals($expected, $actual);
     }
