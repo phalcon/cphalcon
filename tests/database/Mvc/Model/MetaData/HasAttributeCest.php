@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
@@ -31,8 +32,13 @@ class HasAttributeCest
         $this->setDatabase($I);
     }
 
-    /**
+ /**
      * Tests Phalcon\Mvc\Model\MetaData :: hasAttribute()
+     *
+     * @dataProvider getExamples
+     *
+     * @param DatabaseTester $I
+     * @param Example $example
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -41,10 +47,21 @@ class HasAttributeCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelMetadataHasAttribute(DatabaseTester $I)
-    {
+    public function mvcModelMetadataHasAttribute(
+        DatabaseTester $I,
+        Example $example
+    ) {
         $I->wantToTest('Mvc\Model\MetaData - hasAttribute()');
 
+        $service = $example['service'];
+
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+        $connection = $I->getConnection();
+
+        $adapter->reset();
+
+        $this->container->setShared('modelsMetadata', $adapter);
         /** @var MetaData $metadata */
         $metadata = $this->container->get('modelsMetadata');
 
@@ -57,5 +74,51 @@ class HasAttributeCest
         $I->assertTrue($metadata->hasAttribute($model, 'inv_created_at'));
 
         $I->assertFalse($metadata->hasAttribute($model, 'unknown'));
+        $I->assertFalse($adapter->isEmpty());
+
+        /**
+         * Double check it can get from cache systems and not memory
+         */
+        $adapter = $this->newService($service);
+        $this->container->setShared('modelsMetadata', $adapter);
+        $adapter->setDi($this->container);
+
+        $I->assertNotEquals($adapter, $metadata);
+
+        $I->assertTrue($adapter->isEmpty());
+
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_id'));
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_cst_id'));
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_status_flag'));
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_title'));
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_total'));
+        $I->assertTrue($adapter->hasAttribute($model, 'inv_created_at'));
+
+        $I->assertFalse($adapter->hasAttribute($model, 'unknown'));
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'service' => 'metadataMemory',
+                'className' => 'Memory',
+            ],
+            [
+                'service' => 'metadataApcu',
+                'className' => 'Apcu',
+            ],
+            [
+                'service' => 'metadataRedis',
+                'className' => 'Redis',
+            ],
+            [
+                'service' => 'metadataLibmemcached',
+                'className' => 'Libmemcached',
+            ],
+        ];
     }
 }
