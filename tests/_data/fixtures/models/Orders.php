@@ -20,11 +20,13 @@ use Phalcon\Mvc\Model;
  *
  * @property int    $ord_id;
  * @property string $ord_name;
+ * @property int $ord_status_flag;
  */
 class Orders extends Model
 {
     public $ord_id;
     public $ord_name;
+    public $ord_status_flag;
 
     public function initialize()
     {

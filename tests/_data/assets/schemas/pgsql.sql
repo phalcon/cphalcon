@@ -113,35 +113,69 @@ drop table if exists co_orders;
             
 create table co_orders
 (
-    ord_id serial not null
-    constraint ord_pk
-      primary key,
-      ord_name varchar(70)
+    ord_id serial not null constraint co_ord_pk primary key,
+    ord_name varchar(70),
+    ord_status_flag integer
 );
             
 
 
-drop table if exists private.co_orders_x_products;
+drop table if exists co_orders_x_products_one;
             
-create table private.co_orders_x_products
+create table co_orders_x_products_one
+(
+    oxp_id serial not null constraint co_oxp_one_pk primary key,
+    oxp_ord_id int not null,
+    oxp_prd_id int not null,
+    oxp_quantity int null
+);
+            
+
+drop table if exists co_orders_x_products_mult;
+            
+create table co_orders_x_products_mult
+(
+    oxp_id serial not null constraint co_oxp_mult_pk primary key,
+    oxp_ord_id int not null,
+    oxp_prd_id int not null,
+    oxp_quantity int null,
+    oxp_ord_status_flag integer,
+    oxp_prd_status_flag integer
+);
+            
+
+drop table if exists co_orders_x_products_one_comp;
+            
+create table co_orders_x_products_one_comp
 (
     oxp_ord_id int not null,
     oxp_prd_id int not null,
-    oxp_quantity int not null
+    oxp_quantity int null,
+    primary key (oxp_ord_id, oxp_prd_id)
 );
             
 
-
+drop table if exists co_orders_x_products_mult_comp;
+            
+create table co_orders_x_products_mult_comp
+(
+    oxp_ord_id int not null,
+    oxp_prd_id int not null,
+    oxp_quantity int null,
+    oxp_ord_status_flag integer,
+    oxp_prd_status_flag integer,
+    primary key (oxp_ord_id, oxp_prd_id, oxp_ord_status_flag, oxp_prd_status_flag)
+);
+            
 
 
 drop table if exists co_products;
             
 create table co_products
 (
-    prd_id serial not null
-    constraint prd_pk
-      primary key,
-      prd_name varchar(70)
+    prd_id serial constraint co_prd_pk primary key,
+    prd_name varchar(70),
+    prd_status_flag integer
 );
             
 

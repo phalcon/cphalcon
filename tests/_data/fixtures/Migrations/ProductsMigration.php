@@ -28,15 +28,17 @@ class ProductsMigration extends AbstractMigration
      */
     public function insert(
         $prd_id,
-        string $prd_name = null
+        string $prd_name = null,
+        int $prd_status_flag = 0
     ): int {
         $prd_id    = $prd_id ?: 'null';
         $prd_name  = $prd_name ?: uniqid();
+        $prd_status_flag = $prd_status_flag ?: 0;
         $sql    = <<<SQL
 insert into co_products (
-    prd_id, prd_name
+    prd_id, prd_name, prd_status_flag
 ) values (
-    {$prd_id}, {$prd_name}
+    {$prd_id}, '{$prd_name}', {$prd_status_flag}
 )
 SQL;
 
@@ -53,6 +55,7 @@ drop table if exists `co_products`;
 CREATE TABLE `co_products` (
     `prd_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `prd_name` VARCHAR(70) NULL,
+    `prd_status_flag` tinyint(1) NULL,
     PRIMARY KEY (`prd_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
@@ -61,7 +64,14 @@ CREATE TABLE `co_products` (
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+"drop table if exists `co_products`;",
+"create table `co_products` (
+    `prd_id` integer constraint prd_id_pk primary key autoincrement,
+    `prd_name` text NULL,
+    `prd_status_flag` integer NULL
+);"
+        ];
     }
 
     protected function getSqlPgsql(): array
@@ -73,10 +83,9 @@ drop table if exists co_products;
             "
 create table co_products
 (
-    prd_id serial not null
-    constraint prd_pk
-      primary key,
-      prd_name varchar(70)
+    prd_id serial constraint co_prd_pk primary key,
+    prd_name varchar(70),
+    prd_status_flag integer
 );
             "
         ];

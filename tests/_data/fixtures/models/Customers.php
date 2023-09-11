@@ -124,6 +124,19 @@ class Customers extends Model
                 }
             ]
         );
+
+        $this->hasMany(
+            ['cst_id', 'cst_status_flag'],
+            Invoices::class,
+            ['inv_cst_id', 'inv_status_flag'],
+            [
+                'alias'      => 'invoicesMultipleFields',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::NO_ACTION
+                ]
+            ]
+        );
     }
 
     /**
