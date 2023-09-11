@@ -22,7 +22,8 @@ use function dataDir;
 class SetResourceLimitCest
 {
     /**
-     * Unit Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit() - exception
+     * Unit Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit() -
+     * exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-02

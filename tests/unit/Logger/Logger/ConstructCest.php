@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Logger;
@@ -50,15 +51,15 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - constants');
 
-        $I->assertSame(2, Logger::ALERT);
-        $I->assertSame(1, Logger::CRITICAL);
-        $I->assertSame(7, Logger::DEBUG);
-        $I->assertSame(0, Logger::EMERGENCY);
-        $I->assertSame(3, Logger::ERROR);
-        $I->assertSame(6, Logger::INFO);
-        $I->assertSame(5, Logger::NOTICE);
-        $I->assertSame(4, Logger::WARNING);
-        $I->assertSame(8, Logger::CUSTOM);
+        $I->assertSame(2, Enum::ALERT);
+        $I->assertSame(1, Enum::CRITICAL);
+        $I->assertSame(7, Enum::DEBUG);
+        $I->assertSame(0, Enum::EMERGENCY);
+        $I->assertSame(3, Enum::ERROR);
+        $I->assertSame(6, Enum::INFO);
+        $I->assertSame(5, Enum::NOTICE);
+        $I->assertSame(4, Enum::WARNING);
+        $I->assertSame(8, Enum::CUSTOM);
     }
 
     /**
@@ -89,7 +90,7 @@ class ConstructCest
         $time = time();
 
         $logger->debug('This is a message');
-        $logger->log(Logger::ERROR, 'This is an error');
+        $logger->log(Enum::ERROR, 'This is an error');
         $logger->error('This is another error');
 
         $I->amInPath($outputPath);

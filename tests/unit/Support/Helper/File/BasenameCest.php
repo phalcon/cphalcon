@@ -51,7 +51,8 @@ class BasenameCest
     }
 
     /**
-     * Tests Phalcon\Support\Helper\File :: basename() with non-ASCII $uri support
+     * Tests Phalcon\Support\Helper\File :: basename() with non-ASCII $uri
+     * support
      *
      * @dataProvider getNonAsciiExamples
      *

@@ -43,8 +43,6 @@ class HasCest
             ]
         );
 
-        $expected = $translator->exists('hi');
-        $I->assertTrue($expected);
         $expected = $translator->has('hi');
         $I->assertTrue($expected);
     }

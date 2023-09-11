@@ -53,7 +53,7 @@ class InterpolateCest
                 '%date% is the date',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date/level',
@@ -61,8 +61,8 @@ class InterpolateCest
                 '%date% is the date %level% is the level',
                 [
                     'date'  => '2020-09-09',
-                    'level' => 'CRITICAL'
-                ]
+                    'level' => 'CRITICAL',
+                ],
             ],
             [
                 'empty',
@@ -70,7 +70,7 @@ class InterpolateCest
                 'no format',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date',
@@ -78,7 +78,7 @@ class InterpolateCest
                 '%date% is the date',
                 [
                     'date' => '2020-09-09',
-                ]
+                ],
             ],
             [
                 'date and context',
@@ -87,7 +87,7 @@ class InterpolateCest
                 [
                     'date' => '2020-09-09',
                     'stub' => 'AAA',
-                ]
+                ],
             ],
         ];
     }

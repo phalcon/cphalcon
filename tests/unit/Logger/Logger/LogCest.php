@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Enum;
+use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
 use function logsDir;
 use function sprintf;
 use function strtoupper;
+use function uniqid;
 
 class LogCest
 {
@@ -47,24 +50,24 @@ class LogCest
         );
 
         $levels = [
-            Logger::ALERT     => 'alert',
-            Logger::CRITICAL  => 'critical',
-            Logger::DEBUG     => 'debug',
-            Logger::EMERGENCY => 'emergency',
-            Logger::ERROR     => 'error',
-            Logger::INFO      => 'info',
-            Logger::NOTICE    => 'notice',
-            Logger::WARNING   => 'warning',
-            Logger::CUSTOM    => 'custom',
-            'alert'           => 'alert',
-            'critical'        => 'critical',
-            'debug'           => 'debug',
-            'emergency'       => 'emergency',
-            'error'           => 'error',
-            'info'            => 'info',
-            'notice'          => 'notice',
-            'warning'         => 'warning',
-            'custom'          => 'custom',
+            Enum::ALERT     => 'alert',
+            Enum::CRITICAL  => 'critical',
+            Enum::DEBUG     => 'debug',
+            Enum::EMERGENCY => 'emergency',
+            Enum::ERROR     => 'error',
+            Enum::INFO      => 'info',
+            Enum::NOTICE    => 'notice',
+            Enum::WARNING   => 'warning',
+            Enum::CUSTOM    => 'custom',
+            'alert'         => 'alert',
+            'critical'      => 'critical',
+            'debug'         => 'debug',
+            'emergency'     => 'emergency',
+            'error'         => 'error',
+            'info'          => 'info',
+            'notice'        => 'notice',
+            'warning'       => 'warning',
+            'custom'        => 'custom',
         ];
 
         foreach ($levels as $level => $levelName) {
@@ -111,30 +114,30 @@ class LogCest
             ]
         );
 
-        $logger->setLogLevel(Logger::ALERT);
+        $logger->setLogLevel(Enum::ALERT);
 
         $levelsYes = [
-            Logger::ALERT     => 'alert',
-            Logger::CRITICAL  => 'critical',
-            Logger::EMERGENCY => 'emergency',
-            'alert'           => 'alert',
-            'critical'        => 'critical',
-            'emergency'       => 'emergency',
+            Enum::ALERT     => 'alert',
+            Enum::CRITICAL  => 'critical',
+            Enum::EMERGENCY => 'emergency',
+            'alert'         => 'alert',
+            'critical'      => 'critical',
+            'emergency'     => 'emergency',
         ];
 
         $levelsNo = [
-            Logger::DEBUG   => 'debug',
-            Logger::ERROR   => 'error',
-            Logger::INFO    => 'info',
-            Logger::NOTICE  => 'notice',
-            Logger::WARNING => 'warning',
-            Logger::CUSTOM  => 'custom',
-            'debug'         => 'debug',
-            'error'         => 'error',
-            'info'          => 'info',
-            'notice'        => 'notice',
-            'warning'       => 'warning',
-            'custom'        => 'custom',
+            Enum::DEBUG   => 'debug',
+            Enum::ERROR   => 'error',
+            Enum::INFO    => 'info',
+            Enum::NOTICE  => 'notice',
+            Enum::WARNING => 'warning',
+            Enum::CUSTOM  => 'custom',
+            'debug'       => 'debug',
+            'error'       => 'error',
+            'info'        => 'info',
+            'notice'      => 'notice',
+            'warning'     => 'warning',
+            'custom'      => 'custom',
         ];
 
         foreach ($levelsYes as $level => $levelName) {
@@ -165,6 +168,54 @@ class LogCest
             );
             $I->dontSeeInThisFile($expected);
         }
+
+        $adapter->close();
+        $I->safeDeleteFile($fileName);
+    }
+
+    /**
+     * Tests Phalcon\Logger :: log() - interpolator
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-09-11
+     */
+    public function loggerLogLogInterpolator(UnitTester $I)
+    {
+        $I->wantToTest('Logger - log() - interpolator');
+
+        $logPath   = logsDir();
+        $fileName  = $I->getNewFileName('log', 'log');
+        $formatter = new Line(
+            '%message%-[%level%]-%server%:%user%',
+            'U.u'
+        );
+        $context  = [
+            'server' => uniqid('srv-'),
+            'user'   => uniqid('usr-'),
+        ];
+        $adapter  = new Stream($logPath . $fileName);
+        $adapter->setFormatter($formatter);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $logger->log(Enum::DEBUG, 'log message', $context);
+
+        $I->amInPath($logPath);
+        $I->openFile($fileName);
+
+        $expected = sprintf(
+            'log message-[DEBUG]-%s:%s',
+            $context['server'],
+            $context['user']
+        );
+        $I->seeInThisFile($expected);
 
         $adapter->close();
         $I->safeDeleteFile($fileName);

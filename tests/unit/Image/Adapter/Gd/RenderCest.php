@@ -38,7 +38,7 @@ class RenderCest
             'png'  => [8802, '30787c3c1e181818'],
             'wbmp' => [31761, '00c78ffe78030200'],
             'webp' => [483066, '270640183c3c7c7c'],
-            'xyz'  => [8802, '30787c3c1e181818'] // unknown defaults to png,
+            'xyz'  => [8802, '30787c3c1e181818'], // unknown defaults to png,
         ];
 
         foreach ($this->getImages() as $type => $imagePath) {

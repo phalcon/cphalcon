@@ -73,7 +73,8 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception error loading file
+     * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception error
+     * loading file
      *
      * @param UnitTester $I
      *

@@ -24,7 +24,8 @@ class GetAddSetDirectoriesCest
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getDirectories()/addDirectory()/setDirectories()
+     * Tests Phalcon\Autoload\Loader ::
+     * getDirectories()/addDirectory()/setDirectories()
      *
      * @param UnitTester $I
      *
