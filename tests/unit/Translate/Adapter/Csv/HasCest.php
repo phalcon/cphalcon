@@ -42,8 +42,6 @@ class HasCest
         $language   = $this->getCsvConfig()['en'];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
-        $actual = $translator->exists('hi');
-        $I->assertTrue($actual);
         $actual = $translator->has('hi');
         $I->assertTrue($actual);
     }

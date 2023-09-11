@@ -37,7 +37,7 @@ class GetImageCest
             dataDir('assets/images/example-jpg.jpg')
         );
 
-        $class = \Imagick::class;
+        $class  = \Imagick::class;
         $actual = $image->getImage();
         $I->assertInstanceOf($class, $actual);
     }

@@ -377,8 +377,10 @@ class SanitizeCest
                 'class'    => 'email',
                 'label'    => 'email()',
                 'method'   => 'email',
-                'source'   => ["!(first.guy)
-                    @*my-domain**##.com.rx//"],
+                'source'   => [
+                    "!(first.guy)
+                    @*my-domain**##.com.rx//",
+                ],
                 'expected' => "!first.guy@*my-domain**##.com.rx",
             ],
             [

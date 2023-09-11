@@ -88,7 +88,7 @@ class JsonSerializeCest
 
         $messages = new Messages(
             [
-                $fixture
+                $fixture,
             ]
         );
 

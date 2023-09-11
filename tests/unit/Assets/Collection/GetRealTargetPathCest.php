@@ -50,7 +50,8 @@ class GetRealTargetPathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Collection :: getRealTargetPath() - file does not exist
+     * Tests Phalcon\Assets\Collection :: getRealTargetPath() - file does not
+     * exist
      *
      * @param UnitTester $I
      *

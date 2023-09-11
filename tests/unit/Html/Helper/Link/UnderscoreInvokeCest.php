@@ -93,7 +93,7 @@ class UnderscoreInvokeCest
                 'add'       => [
                     'https://phalcon.io/assets/base.css' => [
                         'rel'   => 'stylesheet',
-                        'media' => 'screen'
+                        'media' => 'screen',
                     ],
                 ],
                 'indent'    => '    ',
