@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Integration\Mvc\Router\Refactor;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
@@ -38,6 +39,7 @@ class GroupCest
         Route::reset();
 
         $router = new Router(false);
+        $router->setDI(new FactoryDefault());
 
         $blog = new Group(
             [
@@ -143,7 +145,6 @@ class GroupCest
         $container = $this->getDi();
 
         $router = new Router(false);
-
         $router->setDI($container);
 
         $router->add(

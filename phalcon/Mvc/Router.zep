@@ -701,8 +701,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let handledUri = "/";
         }
 
-        let request = null,
-            currentHostName = null,
+        let currentHostName = null,
             routeFound = false,
             parts = [],
             params = [],
@@ -711,10 +710,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->matchedRoute = null;
 
         let eventsManager = this->eventsManager;
-
         if eventsManager !== null {
             eventsManager->fire("router:beforeCheckRoutes", this);
         }
+
+        /**
+         * Retrieve the request service from the container
+         */
+        let container = <DiInterface> this->container;
+        if container === null {
+            throw new Exception(
+                "A dependency injection container is required to access the 'request' service"
+            );
+        }
+
+        let request = <RequestInterface> container->get("request");
 
         /**
          * Routes are traversed in reversed order
@@ -729,20 +739,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let methods = route->getHttpMethods();
             if methods !== null {
                 /**
-                 * Retrieve the request service from the container
-                 */
-                if request === null {
-                    let container = <DiInterface> this->container;
-                    if container === null {
-                        throw new Exception(
-                            "A dependency injection container is required to access the 'request' service"
-                        );
-                    }
-
-                    let request = <RequestInterface> container->getShared("request");
-                }
-
-                /**
                  * Check if the current method is allowed by the route
                  */
                 if request->isMethod(methods, true) === false {
@@ -755,20 +751,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              */
             let hostname = route->getHostName();
             if hostname !== null {
-                /**
-                 * Retrieve the request service from the container
-                 */
-                if request === null {
-                    let container = <DiInterface> this->container;
-                    if container === null {
-                        throw new Exception(
-                            "A dependency injection container is required to access the 'request' service"
-                        );
-                    }
-
-                    let request = <RequestInterface> container->getShared("request");
-                }
-
                 /**
                  * Check if the current hostname is the same as the route
                  */
