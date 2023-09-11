@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
@@ -31,14 +32,14 @@ class GetSetLogLevelCest
         $I->wantToTest('Logger - getLogLevel()/setLogLevel()');
         $logger = new Logger('my-name');
 
-        $I->assertSame(Logger::CUSTOM, $logger->getLogLevel());
+        $I->assertSame(Enum::CUSTOM, $logger->getLogLevel());
 
-        $object = $logger->setLogLevel(Logger::INFO);
+        $object = $logger->setLogLevel(Enum::INFO);
         $I->assertInstanceOf(Logger::class, $object);
 
-        $I->assertSame(Logger::INFO, $logger->getLogLevel());
+        $I->assertSame(Enum::INFO, $logger->getLogLevel());
 
         $logger->setLogLevel(99);
-        $I->assertSame(Logger::CUSTOM, $logger->getLogLevel());
+        $I->assertSame(Enum::CUSTOM, $logger->getLogLevel());
     }
 }

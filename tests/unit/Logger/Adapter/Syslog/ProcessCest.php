@@ -18,8 +18,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use LogicException;
 use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
 use UnitTester;
 
 use function date_default_timezone_get;
@@ -46,7 +46,7 @@ class ProcessCest
         $item = new Item(
             'Message 1',
             'debug',
-            Logger::DEBUG,
+            Enum::DEBUG,
             $datetime
         );
 
@@ -88,7 +88,7 @@ class ProcessCest
                 $item     = new Item(
                     'Message 1',
                     'debug',
-                    Logger::DEBUG,
+                    Enum::DEBUG,
                     $datetime
                 );
                 $adapter->process($item);
