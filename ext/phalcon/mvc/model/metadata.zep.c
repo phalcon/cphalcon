@@ -1574,7 +1574,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap)
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 	if (1 == zephir_array_isset(&_0, key)) {
-		RETURN_MM_BOOL(0);
+		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "map-", key);
@@ -1583,7 +1583,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_NULL) {
 		zephir_update_property_array(this_ptr, SL("columnMap"), key, &data);
-		RETURN_MM_BOOL(0);
+		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_CALL_METHOD(&container, this_ptr, "getdi", NULL, 0);
 	zephir_check_call_status();
