@@ -16,9 +16,9 @@ namespace Phalcon\Testss\Unit\Logger\Formatter\Json;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
 use UnitTester;
 
 use function date_default_timezone_get;
@@ -45,7 +45,7 @@ class FormatCest
         $item     = new Item(
             'log message',
             'debug',
-            Logger::DEBUG,
+            Enum::DEBUG,
             $datetime
         );
 
@@ -80,7 +80,7 @@ class FormatCest
         $item     = new Item(
             'log message',
             'debug',
-            Logger::DEBUG,
+            Enum::DEBUG,
             $datetime
         );
 

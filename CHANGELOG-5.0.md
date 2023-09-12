@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)
+
+### Fixed
+- Fixed infinite save loop in `Phalcon\Mvc\Model::save()` [#16395](https://github.com/phalcon/cphalcon/issues/16395)
+- Fixed undefined column with columnMap and model caching [#16420](https://github.com/phalcon/cphalcon/issues/16420)
+- Fixed memory leak in `Phalcon\Mvc\Router::handle()` [#16431](https://github.com/phalcon/cphalcon/pull/16431)
+
+
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
 
 ### Added
@@ -21,6 +29,13 @@
 - Parse multipart/form-data from PUT request [#16271](https://github.com/phalcon/cphalcon/issues/16271)
 - Set Dynamic Update by default system-wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
 - Fixed memory leak in Micro application [#16404](https://github.com/phalcon/cphalcon/pull/16404)
+
+
+## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+
+### Fixed
+
+- Forced `routeId` in `Phalcon\Mvc\Router\Route` to always return a string [#16414](https://github.com/phalcon/cphalcon/pull/16414)
 
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)

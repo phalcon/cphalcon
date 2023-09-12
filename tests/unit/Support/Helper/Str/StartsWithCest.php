@@ -66,7 +66,8 @@ class StartsWithCest
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith() - finding an empty string
+     * Tests Phalcon\Support\Helper\Str :: startsWith() - finding an empty
+     * string
      *
      * @param UnitTester $I
      *

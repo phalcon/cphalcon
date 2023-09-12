@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model\Exception as ExpectedException;
 use Phalcon\Mvc\Model\MetaData\Memory;
@@ -41,19 +42,26 @@ class GetSetDICest
     /**
      * Tests Phalcon\Mvc\Model\MetaData :: getDI() / setDI()
      *
-     * @param  DatabaseTester $I
+     * @dataProvider getExamples
+     *
+     * @param DatabaseTester $I
+     * @param Example $example
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
      * @group  common
      */
-    public function mvcModelMetadataGetSetDI(DatabaseTester $I)
-    {
+    public function mvcModelMetadataGetSetDI(
+        DatabaseTester $I,
+        Example $example
+    ) {
         $I->wantToTest('Mvc\Model\MetaData - getDI() / setDI()');
 
-        $metadata = new Memory();
-        $metadata->setDI($this->container);
+        $service = $example['service'];
+
+        $metadata = $this->newService($service);
+        $metadata->setDi($this->container);
 
         $I->assertEquals($this->container, $metadata->getDI());
     }
@@ -80,5 +88,30 @@ class GetSetDICest
                 (new Memory())->getDI();
             }
         );
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'service' => 'metadataMemory',
+                'className' => 'Memory',
+            ],
+            [
+                'service' => 'metadataApcu',
+                'className' => 'Apcu',
+            ],
+            [
+                'service' => 'metadataRedis',
+                'className' => 'Redis',
+            ],
+            [
+                'service' => 'metadataLibmemcached',
+                'className' => 'Libmemcached',
+            ],
+        ];
     }
 }

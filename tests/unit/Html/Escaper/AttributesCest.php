@@ -39,13 +39,14 @@ class AttributesCest
      */
     public function escaperAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Escaper - attributes()');
-
-        $escaper = new Escaper();
-
         $text  = $example['text'];
         $flags = $example['htmlQuoteType'];
 
+        $I->wantToTest(
+            'Escaper - attributes() - ' . $flags
+        );
+
+        $escaper = new Escaper();
         $escaper->setFlags($flags);
 
         $expected = $example['expected'];

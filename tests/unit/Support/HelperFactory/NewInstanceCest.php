@@ -183,6 +183,7 @@ class NewInstanceCest
             ["random",         Random::class],
             ["reduceSlashes",  ReduceSlashes::class],
             ["startsWith",     StartsWith::class],
+            ["snakeCase",      SnakeCase::class],
             ["suffix",         Suffix::class],
             ["ucwords",        Ucwords::class],
             ["uncamelize",     Uncamelize::class],

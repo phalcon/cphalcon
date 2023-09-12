@@ -45,6 +45,10 @@ class GetSetFlagsCest
         $actual   = $escaper->getFlags();
         $I->assertSame($expected, $actual);
 
+        $expected = 'That&#039;s right';
+        $actual   = $escaper->attributes("That's right");
+        $I->assertSame($expected, $actual);
+
         $escaper->setFlags(ENT_HTML401);
 
         $expected = ENT_HTML401;

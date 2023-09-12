@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
@@ -34,6 +35,11 @@ class GetDataTypesCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData :: getDataTypes()
      *
+     * @dataProvider getExamples
+     *
+     * @param DatabaseTester $I
+     * @param Example $example
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -41,9 +47,22 @@ class GetDataTypesCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelMetadataGetDataTypes(DatabaseTester $I)
-    {
+    public function mvcModelMetadataGetDataTypes(
+        DatabaseTester $I,
+        Example $example
+    ) {
         $I->wantToTest('Mvc\Model\MetaData - getDataTypes()');
+
+        $service = $example['service'];
+
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+        $connection = $I->getConnection();
+
+        $adapter->reset();
+        $I->assertTrue($adapter->isEmpty());
+
+        $this->container->setShared('modelsMetadata', $adapter);
 
         /** @var MetaData $metadata */
         $metadata = $this->container->get('modelsMetadata');
@@ -51,6 +70,22 @@ class GetDataTypesCest
         $model    = new Invoices();
         $expected = $this->getTypes($I);
         $actual   = $metadata->getDataTypes($model);
+        $I->assertEquals($expected, $actual);
+
+        $I->assertFalse($adapter->isEmpty());
+
+        /**
+         * Double check it can get from cache systems and not memory
+         */
+        $adapter = $this->newService($service);
+        $this->container->setShared('modelsMetadata', $adapter);
+        $adapter->setDi($this->container);
+
+        $I->assertNotEquals($adapter, $metadata);
+
+        $I->assertTrue($adapter->isEmpty());
+
+        $actual   = $adapter->getDataTypes($model);
         $I->assertEquals($expected, $actual);
     }
 
@@ -86,5 +121,30 @@ class GetDataTypesCest
                     'inv_created_at'  => 17,
                 ];
         }
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'service' => 'metadataMemory',
+                'className' => 'Memory',
+            ],
+            [
+                'service' => 'metadataApcu',
+                'className' => 'Apcu',
+            ],
+            [
+                'service' => 'metadataRedis',
+                'className' => 'Redis',
+            ],
+            [
+                'service' => 'metadataLibmemcached',
+                'className' => 'Libmemcached',
+            ],
+        ];
     }
 }

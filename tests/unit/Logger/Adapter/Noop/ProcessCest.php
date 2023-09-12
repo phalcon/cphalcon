@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Noop;
 use DateTimeImmutable;
 use DateTimeZone;
 use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
 use UnitTester;
 
 use function date_default_timezone_get;
@@ -43,7 +43,7 @@ class ProcessCest
         $item = new Item(
             'Message 1',
             'debug',
-            Logger::DEBUG,
+            Enum::DEBUG,
             $datetime
         );
 

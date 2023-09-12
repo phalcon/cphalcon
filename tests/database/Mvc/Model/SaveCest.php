@@ -645,6 +645,35 @@ class SaveCest
     }
 
     /**
+     * Tests Phalcon\Mvc\Model\ :: save() Infinite Loop
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-08-09
+     * @issue  https://github.com/phalcon/cphalcon/issues/16395
+     *
+     * @group  mysql
+     * @group  sqlite
+     */
+    public function infiniteSaveLoop(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() infinite Save loop');
+
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
+
+        $customer = Customers::findFirst(1);
+        $invoice = Invoices::findFirst(77);
+        $invoice->customer = $customer;
+        $customer->invoices = [$invoice];
+        $customer->save();
+    }
+
+    /**
      * @return \string[][]
      */
     private function tinyintProvider(): array

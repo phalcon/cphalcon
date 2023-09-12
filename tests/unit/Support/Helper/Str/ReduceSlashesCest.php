@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Helper\Str;
 
+use Page\Http;
 use Phalcon\Support\Helper\Str\ReduceSlashes;
 use UnitTester;
 
@@ -45,8 +46,8 @@ class ReduceSlashesCest
         $actual   = $object('http://foo//bar/baz/buz');
         $I->assertSame($expected, $actual);
 
-        $expected = 'php://memory';
-        $actual   = $object('php://memory');
+        $expected = Http::STREAM_MEMORY;
+        $actual   = $object(Http::STREAM_MEMORY);
         $I->assertSame($expected, $actual);
 
         $expected = 'http/https';

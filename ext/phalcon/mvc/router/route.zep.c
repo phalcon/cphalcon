@@ -61,9 +61,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route)
 	 */
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("hostname"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("id"), ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_mvc_router_route_ce, SL("id"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array|string
 	 */
@@ -102,10 +102,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *httpMethods = NULL, httpMethods_sub, __$null, routeId, uniqueId, _0;
-	zval pattern;
+	zval pattern, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&paths_sub);
 	ZVAL_UNDEF(&httpMethods_sub);
 	ZVAL_NULL(&__$null);
@@ -152,7 +153,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct)
 	zephir_read_static_property_ce(&_0, phalcon_mvc_router_route_ce, SL("uniqueId"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(&uniqueId, &_0);
 	ZEPHIR_CPY_WRT(&routeId, &uniqueId);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("id"), &routeId);
+	zephir_cast_to_string(&_1, &routeId);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("id"), &_1);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, (zephir_get_numberval(&uniqueId) + 1));
 	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, ZEND_STRL("uniqueId"), &_0);
@@ -684,7 +686,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname)
 }
 
 /**
- * @return string | null
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, getId)
 {
