@@ -364,7 +364,7 @@ class Annotations implements StrategyInterface
              * Allow empty strings for column
              */
             if columnAnnotation->getNamedParameter("allow_empty_string") {
-                let emptyStringValues[] = columnName;
+                let emptyStringValues[columnName] = columnName;
             }
 
             /**
