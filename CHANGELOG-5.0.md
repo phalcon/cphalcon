@@ -4,6 +4,7 @@
 
 ### Fixed
 - Model Annotation strategy did not work with empty_string [#16426] (https://github.com/phalcon/cphalcon/issues/16426)
+- View::reset() sets content to null instead of default empty string [#16437] (https://github.com/phalcon/cphalcon/issues/16437)
 
 
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)

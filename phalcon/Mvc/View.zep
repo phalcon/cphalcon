@@ -768,7 +768,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         let this->disabled        = false,
             this->engines         = false,
             this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
-            this->content         = null,
+            this->content         = "",
             this->templatesBefore = [],
             this->templatesAfter  = [];
 
