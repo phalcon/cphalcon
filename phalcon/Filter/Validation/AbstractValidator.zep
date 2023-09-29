@@ -227,7 +227,7 @@ abstract class AbstractValidator implements ValidatorInterface
      * Executes the validation
      *
      * @param Validation $validation
-     * @param string     $field
+     * @param mixed      $field
      *
      * @return bool
      */
