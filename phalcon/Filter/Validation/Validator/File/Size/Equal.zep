@@ -68,7 +68,7 @@ class Equal extends AbstractFile
      * Executes the validation
      *
      * @param Validation $validation
-     * @param string     $field
+     * @param mixed      $field
      *
      * @return bool
      * @throws Validation\Exception
