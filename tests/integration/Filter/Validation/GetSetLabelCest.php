@@ -21,46 +21,44 @@ use Phalcon\Messages\Messages;
 use stdClass;
 
 use function date;
+use function intval;
+use function uniqid;
 
 /**
- * Class ValidateCest
  */
-class ValidateCest
+class GetSetLabelCest
 {
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - message to non object
+     * Tests Phalcon\Filter\Validation :: getLabel()/setLabels()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-06-27
-     * @issue  10405
+     * @since  2019-04-16
      */
-    public function filterValidationValidateMessageToNonObject(IntegrationTester $I)
+    public function filterValidationGetLabel(IntegrationTester $I)
     {
-        $myValidator = new PresenceOf();
-        $validation  = new Validation();
+        $I->wantToTest('Validation - getLabel()');
+        $validator  = new PresenceOf();
+        $validation = new Validation();
 
         $validation->bind(
             new stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),
-                'year'  => (string) (intval(date('Y')) + 1),
+                'year'  => (string)(intval(date('Y')) + 1),
             ]
         );
 
-        $myValidator->validate($validation, 'foo');
-
-        $expectedMessages = new Messages(
+        $label = uniqid('lbl-');
+        $validation->setLabels(
             [
-                new Message(
-                    'Field foo is required',
-                    'foo',
-                    PresenceOf::class,
-                    0
-                ),
+                'foo' => $label,
             ]
         );
+        $validator->validate($validation, 'foo');
 
-        $I->assertEquals($expectedMessages, $validation->getMessages());
+        $expected = $label;
+        $actual = $validation->getLabel('foo');
+        $I->assertSame($expected, $actual);
     }
 }

@@ -45,7 +45,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Date(['allowEmpty' => true,]);
         $validation->add('start_date', $validator);
-        $entity = new stdClass();
+        $entity             = new stdClass();
         $entity->start_date = '';
 
         $validation->bind($entity, []);

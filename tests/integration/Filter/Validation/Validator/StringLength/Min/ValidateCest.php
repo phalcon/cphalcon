@@ -39,7 +39,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Min(['allowEmpty' => true,]);
         $validation->add('name', $validator);
-        $entity = new stdClass();
+        $entity       = new stdClass();
         $entity->name = '';
 
         $validation->bind($entity, []);

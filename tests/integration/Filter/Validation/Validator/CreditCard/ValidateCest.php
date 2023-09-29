@@ -44,7 +44,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new CreditCard(['allowEmpty' => true,]);
         $validation->add('creditCard', $validator);
-        $entity = new stdClass();
+        $entity             = new stdClass();
         $entity->creditCard = '';
 
         $validation->bind($entity, []);

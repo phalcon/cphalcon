@@ -45,7 +45,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new PresenceOf(['allowEmpty' => true,]);
         $validation->add('price', $validator);
-        $entity = new stdClass();
+        $entity        = new stdClass();
         $entity->price = '';
 
         $validation->bind($entity, []);
@@ -252,10 +252,13 @@ class ValidateCest
 
         $validation
             ->add('name', new PresenceOf(['message' => 'The name is required']))
-            ->add('email', new PresenceOf([
-                'message'      => 'The email is required',
-                'cancelOnFail' => true,
-            ]))
+            ->add(
+                'email',
+                new PresenceOf([
+                    'message'      => 'The email is required',
+                    'cancelOnFail' => true,
+                ])
+            )
             ->add('login', new PresenceOf(['message' => 'The login is required']))
         ;
 

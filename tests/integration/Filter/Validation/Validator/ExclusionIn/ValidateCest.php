@@ -44,7 +44,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new ExclusionIn(['allowEmpty' => true,]);
         $validation->add('price', $validator);
-        $entity = new stdClass();
+        $entity        = new stdClass();
         $entity->price = '';
 
         $validation->bind($entity, []);
@@ -78,7 +78,7 @@ class ValidateCest
                     ]
                 );
                 $validation->add('status', $validator);
-                $entity = new stdClass();
+                $entity         = new stdClass();
                 $entity->status = '';
 
                 $validation->bind($entity, []);
@@ -102,7 +102,7 @@ class ValidateCest
                 );
 
                 $validation->add('status', $validator);
-                $entity = new stdClass();
+                $entity         = new stdClass();
                 $entity->status = '';
 
                 $validation->bind($entity, []);
@@ -110,6 +110,7 @@ class ValidateCest
             }
         );
     }
+
     /**
      * Tests exclusion in validator with single field
      *
