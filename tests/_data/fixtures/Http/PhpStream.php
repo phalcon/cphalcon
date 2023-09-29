@@ -36,6 +36,9 @@ class PhpStream
      */
     protected $data = '';
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         if (file_exists($this->getBufferFilename())) {
@@ -48,26 +51,21 @@ class PhpStream
         $this->length = strlen($this->data);
     }
 
-    protected function getBufferFilename(): string
-    {
-        return codecept_output_dir('tests/stream/php_input.txt');
-    }
-
-    public function stream_open($path, $mode, $options, &$opened_path)
-    {
-        return true;
-    }
-
     public function stream_close()
     {
     }
 
-    public function stream_stat()
+    public function stream_eof()
     {
-        return [];
+        return ($this->index >= $this->length);
     }
 
     public function stream_flush()
+    {
+        return true;
+    }
+
+    public function stream_open($path, $mode, $options, &$opened_path)
     {
         return true;
     }
@@ -87,11 +85,6 @@ class PhpStream
         $this->index = $this->index + $length;
 
         return $data;
-    }
-
-    public function stream_eof()
-    {
-        return ($this->index >= $this->length);
     }
 
     public function stream_seek($offset, $whence)
@@ -133,6 +126,17 @@ class PhpStream
         }
     }
 
+    public function stream_stat()
+    {
+        return [];
+    }
+
+    public function stream_tell()
+    {
+        return $this->index;
+    }
+
+
     public function stream_write($data)
     {
         return file_put_contents(
@@ -152,5 +156,10 @@ class PhpStream
         $this->data   = '';
         $this->index  = 0;
         $this->length = 0;
+    }
+
+    protected function getBufferFilename(): string
+    {
+        return codecept_output_dir('tests/stream/php_input.txt');
     }
 }

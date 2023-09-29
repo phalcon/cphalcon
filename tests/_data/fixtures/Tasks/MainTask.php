@@ -45,7 +45,7 @@ class MainTask extends Task
         string $world,
         string $symbol,
         string $country,
-        $last
+        mixed $last
     ) {
         return '-' . $world . '-' . $symbol . '-' . $country . '-' . (string) $last . '-';
     }
