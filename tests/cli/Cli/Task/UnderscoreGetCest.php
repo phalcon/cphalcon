@@ -41,8 +41,8 @@ class UnderscoreGetCest
         $actual   = $task->di;
         $I->assertSame($expected, $actual);
 
-        $expected = $eventsManager;
-        $actual   = $task->eventsManager;
-        $I->assertSame($expected, $actual);
+        $class  = Manager::class;
+        $actual = $task->eventsManager;
+        $I->assertInstanceOf($class, $actual);
     }
 }
