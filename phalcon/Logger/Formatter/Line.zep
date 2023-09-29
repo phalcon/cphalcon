@@ -19,6 +19,13 @@ use Phalcon\Logger\Item;
 class Line extends AbstractFormatter
 {
     /**
+     * Format applied to each message
+     *
+     * @var string
+     */
+    protected format;
+
+    /**
      * Line constructor.
      *
      * @param string $format

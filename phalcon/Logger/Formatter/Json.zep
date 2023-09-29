@@ -26,9 +26,9 @@ class Json extends AbstractFormatter
      * @param string $interpolatorRight
      */
     public function __construct(
-        string dateFormat = 'c',
-        string interpolatorLeft = '%',
-        string interpolatorRight = '%'
+        string dateFormat = "c",
+        string interpolatorLeft = "%",
+        string interpolatorRight = "%"
     ) {
         let this->dateFormat        = dateFormat;
         let this->interpolatorLeft  = interpolatorLeft;
