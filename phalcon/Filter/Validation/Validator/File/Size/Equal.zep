@@ -73,7 +73,7 @@ class Equal extends AbstractFile
      * @return bool
      * @throws Validation\Exception
      */
-    public function validate(<Validation> validation, string field) -> bool
+    public function validate(<Validation> validation, var field) -> bool
     {
         var bytes, included, fileSize, replacePairs, size, value;
 
