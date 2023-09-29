@@ -41,11 +41,11 @@ class NewInstanceCest
     {
         $I->wantToTest('Logger\LoggerFactory - newInstance()');
 
-        $logPath  = logsDir();
+        $logPath = logsDir();
         $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new Stream($logPath . $fileName);
-        $factory  = new LoggerFactory(new AdapterFactory());
-        $logger   = $factory->newInstance(
+        $adapter = new Stream($logPath . $fileName);
+        $factory = new LoggerFactory(new AdapterFactory());
+        $logger = $factory->newInstance(
             'my-logger',
             [
                 'one' => $adapter,

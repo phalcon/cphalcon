@@ -37,7 +37,7 @@ class GetBestCharsetCest
 
         $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
-            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_TIME_FLOAT'  => $time,
             'HTTP_ACCEPT_CHARSET' => 'iso-8859-5,unicode-1-1;q=0.8',
         ];
 

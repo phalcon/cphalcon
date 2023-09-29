@@ -63,7 +63,7 @@ class GetActiveFunctionCest
 
         $returnedFunction = $acl->getActiveFunction();
 
-        $class  = Closure::class;
+        $class = Closure::class;
         $actual = $returnedFunction;
         $I->assertInstanceOf($class, $actual);
 

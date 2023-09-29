@@ -65,9 +65,9 @@ class GetTokenCest
                 'Invalid passphrase (empty)'
             ),
             function () {
-                $signer  = new Hmac();
+                $signer = new Hmac();
                 $builder = new Builder($signer);
-                $token   = $builder->getToken();
+                $token = $builder->getToken();
             }
         );
     }

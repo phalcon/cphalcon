@@ -14,8 +14,6 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Token\Token;
 use Codeception\Stub;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon\Encryption\Security\JWT\Token\Enum;
-use Phalcon\Encryption\Security\JWT\Validator;
 use UnitTester;
 
 class VerifyCest
@@ -88,7 +86,7 @@ class VerifyCest
             ->getToken()
         ;
 
-        $signer     = Stub::make(
+        $signer = Stub::make(
             Hmac::class,
             [
                 'getAlgHeader' => 'xyz',

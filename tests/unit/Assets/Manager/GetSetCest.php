@@ -34,7 +34,7 @@ class GetSetCest
     {
         $I->wantToTest('Assets\Manager - get()/set()');
 
-        $manager    = new Manager(new TagFactory(new Escaper()));
+        $manager = new Manager(new TagFactory(new Escaper()));
         $collection = new Collection();
 
         $manager->set('hangout', $collection);

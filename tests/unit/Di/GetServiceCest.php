@@ -44,7 +44,7 @@ class GetServiceCest
         $container = new Di();
 
         // set a service and get it to check
-        $class  = Service::class;
+        $class = Service::class;
         $actual = $container->set('escaper', Escaper::class);
         $I->assertInstanceOf($class, $actual);
 

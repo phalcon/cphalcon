@@ -53,7 +53,8 @@ class GetFilteredPutCest
         /** @var Request $request */
         $request = $container->get('request');
         $request
-            ->setParameterFilters('id', ['absint'], ['put']);
+            ->setParameterFilters('id', ['absint'], ['put'])
+        ;
 
         $expected = 24;
         $actual   = $request->getFilteredPut('id', 24);

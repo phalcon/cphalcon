@@ -43,7 +43,7 @@ class ConstructCest
         $this->config['database']['num6'] = true;
         $this->config['database']['num7'] = null;
         $this->config['database']['num8'] = 123;
-        $this->config['database']['num9'] = (float) 123.45;
+        $this->config['database']['num9'] = (float)123.45;
 
         $config = $this->getConfig('Ini');
 

@@ -20,8 +20,8 @@ use UnitTester;
 
 use function session_abort;
 use function session_destroy;
-use function session_status;
 use function session_name;
+use function session_status;
 
 class ManagerCest
 {
@@ -61,7 +61,7 @@ class ManagerCest
      * @example {"session": "valid", "expected": true}
      * @example {"session": "./invalid", "expected": false}
      *
-     * @since 2021-02-02
+     * @since   2021-02-02
      */
     public function validateSessionValue(UnitTester $I, Example $example)
     {

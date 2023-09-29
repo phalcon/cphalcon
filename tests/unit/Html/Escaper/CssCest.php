@@ -37,10 +37,10 @@ class CssCest
             . '\27 http\3a \2f \2f phalcon\2e io\2f a\2e php'
             . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
 
-        $actual   = $escaper->css($source);
+        $actual = $escaper->css($source);
         $I->assertSame($expected, $actual);
 
-        $actual   = $escaper->escapeCss($source);
+        $actual = $escaper->escapeCss($source);
         $I->assertSame($expected, $actual);
     }
 }

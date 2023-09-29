@@ -69,7 +69,7 @@ class GetSetParamsCest
         $actual = $dispatcher->getParams();
         $I->assertEmpty($actual);
 
-        $params     = [
+        $params = [
             "trace" => [],
         ];
         $dispatcher->setParams($params);

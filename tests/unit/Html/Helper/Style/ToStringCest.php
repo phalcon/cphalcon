@@ -39,7 +39,7 @@ class ToStringCest
 
         $result = $helper();
 
-        $actual = (string) $result;
+        $actual = (string)$result;
         $I->assertEmpty($actual);
     }
 }

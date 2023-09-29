@@ -289,7 +289,8 @@ class AuthHeaderCest extends HttpBase
                 ],
                 'getBasicAuth',
                 [
-                    'username' => 'myleft', 'password' => '123456',
+                    'username' => 'myleft',
+                    'password' => '123456',
                 ],
             ],
 

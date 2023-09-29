@@ -43,7 +43,7 @@ class ConstructCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - constructor');
 
-        $params     = $this->getGettextConfig();
+        $params = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
         $I->assertInstanceOf(ArrayAccess::class, $translator);

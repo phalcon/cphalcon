@@ -31,13 +31,13 @@ class DecodeCest
     {
         $I->wantToTest('Support\Helper\Json - decode()');
 
-        $object   = new Decode();
-        $data     = '{"one":"two","0":"three"}';
+        $object = new Decode();
+        $data = '{"one":"two","0":"three"}';
         $expected = [
             'one' => 'two',
             'three',
         ];
-        $actual   = $object($data, true);
+        $actual = $object($data, true);
         $I->assertSame($expected, $actual);
     }
 

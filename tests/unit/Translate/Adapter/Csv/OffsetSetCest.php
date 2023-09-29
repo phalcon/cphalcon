@@ -43,7 +43,7 @@ class OffsetSetCest
         $I->expectThrowable(
             new Exception('Translate is an immutable ArrayAccess object'),
             function () {
-                $language   = $this->getCsvConfig()['en'];
+                $language = $this->getCsvConfig()['en'];
                 $translator = new Csv(new InterpolatorFactory(), $language);
                 $translator->offsetSet('team', 'Team');
             }
