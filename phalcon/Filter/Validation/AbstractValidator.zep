@@ -76,7 +76,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return mixed
      */
-    public function getOption(string! key, var defaultValue = null) -> var
+    public function getOption(string key, var defaultValue = null) -> var
     {
         var value, fieldValue;
 
@@ -88,25 +88,13 @@ abstract class AbstractValidator implements ValidatorInterface
          * If we have `attribute` as a key, it means it is a Uniqueness
          * validator, we can have here multiple fields, so we need to check it
          */
-        if key == "attribute" && typeof value == "array" {
+        if key === "attribute" && typeof value === "array" {
             if fetch fieldValue, value[key] {
                 return fieldValue;
             }
         }
 
         return value;
-    }
-
-    /**
-     * Checks if an option is defined
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasOption(string! key) -> bool
-    {
-        return isset this->options[key];
     }
 
     /**
@@ -143,6 +131,18 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
+     * Checks if an option is defined
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasOption(string key) -> bool
+    {
+        return isset this->options[key];
+    }
+
+    /**
      * Create a default message by factory
      *
      * @param Validation   $validation
@@ -151,8 +151,11 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return Message
      */
-    public function messageFactory(<Validation> validation, var field, array! replacements = []) -> <Message>
-    {
+    public function messageFactory(
+        <Validation> validation,
+        var field,
+        array replacements = []
+    ) -> <Message> {
         var singleField;
 
         if typeof field == "array" {
@@ -186,7 +189,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return void
      */
-    public function setOption(string! key, value) -> void
+    public function setOption(string key, value) -> void
     {
         let this->options[key] = value;
     }
@@ -239,8 +242,8 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * Checks if field can be empty.
      *
-     * @param string $field
-     * @param mixed  $value
+     * @param mixed $field
+     * @param mixed $value
      *
      * @return bool
      */
@@ -305,7 +308,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return mixed
      */
-    protected function prepareLabel(<Validation> validation, string! field) -> var
+    protected function prepareLabel(<Validation> validation, string field) -> var
     {
         var label;
 
