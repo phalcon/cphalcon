@@ -23,46 +23,34 @@ class ConstructCest
 {
     /**
      * Tests Phalcon\Filter\Validation\Validator :: __construct()
+     * with message option
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function filterValidationValidatorConstruct(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator - __construct()');
-        $I->skipTest('Need implementation');
-    }
+        $message = uniqid('mes-');
+        $default = new PresenceOf();                        // default message
+        $custom  = new PresenceOf(['message' => $message]); // custom message
 
-    /**
-     * Tests Phalcon\Filter\Validation\Validator :: __construct() with message option
-     */
-    public function filterValidationValidatorConstructWithMessage(IntegrationTester $I)
-    {
-        $validator_default = new PresenceOf(); // default message
-        $validator_custom = new PresenceOf(['message' => 'Custom message']); // custom message
-
-        // expected: FALSE - empty message for default text (not set)
-        $I->assertEquals(
-            false,
-            $validator_default->getOption('message')
-        );
+        // expected: null - empty message for default text (not set)
+        $actual = $default->getOption('message');
+        $I->assertNull($actual);
 
         // expected: text message - has custom message (developer set this message)
-        $I->assertEquals(
-            'Custom message',
-            $validator_custom->getOption('message')
-        );
+        $expected = $message;
+        $actual   = $custom->getOption('message');
+        $I->assertSame($expected, $actual);
 
-        $validator_custom = new PresenceOf(['template' => 'Custom message']); // custom message
-        $I->assertEquals(
-            'Custom message',
-            $validator_custom->getOption('message')
-        );
+        $custom   = new PresenceOf(['template' => $message]); // custom message
+        $expected = $message;
+        $actual   = $custom->getOption('message');
+        $I->assertSame($expected, $actual);
 
-        $validator_custom = new PresenceOf(['Custom message']); // custom message
-        $I->assertEquals(
-            'Custom message',
-            $validator_custom->getOption('message')
-        );
+        $custom   = new PresenceOf([$message]); // custom message
+        $expected = $message;
+        $actual   = $custom->getOption('message');
+        $I->assertSame($expected, $actual);
     }
 }

@@ -15,15 +15,9 @@ namespace Phalcon\Tests\Integration\Filter\Validation\Validator\File;
 
 use IntegrationTester;
 use Phalcon\Filter\Validation\Validator\File;
-use Phalcon\Tests\Fixtures\Traits\ValidationTrait;
 
-/**
- * Class CustomMessagesCest
- */
 class CustomMessagesCest
 {
-    use ValidationTrait;
-
     /**
      * Tests Phalcon\Filter\Validation\Validator\File :: customMessages[]
      *
@@ -34,24 +28,28 @@ class CustomMessagesCest
     {
         $I->wantToTest('Validation\Validator\File - customMessages[]');
 
-        $options = [
-            'maxSize' => '0.5M',
+        $options    = [
+            'maxSize'          => '0.5M',
             'messageFileEmpty' => 'File is empty',
-            'messageIniSize' => 'Ini size is not valid',
-            'messageValid' => 'File is not valid',
+            'messageIniSize'   => 'Ini size is not valid',
+            'messageValid'     => 'File is not valid',
         ];
-        $file = new File($options);
+        $file       = new File($options);
         $validators = $file->getValidators();
 
         /** @var File\AbstractFile $validator */
         foreach ($validators as $validator) {
-            $messageFileEmpty = $validator->getMessageFileEmpty();
-            $messageIniSize = $validator->getMessageIniSize();
-            $messageValid = $validator->getMessageValid();
+            $expected = $options['messageFileEmpty'];
+            $actual   = $validator->getMessageFileEmpty();
+            $I->assertSame($expected, $actual);
 
-            $I->assertSame($options['messageFileEmpty'], $messageFileEmpty);
-            $I->assertSame($options['messageIniSize'], $messageIniSize);
-            $I->assertSame($options['messageValid'], $messageValid);
+            $expected = $options['messageIniSize'];
+            $actual   = $validator->getMessageIniSize();
+            $I->assertSame($expected, $actual);
+
+            $expected = $options['messageValid'];
+            $actual   = $validator->getMessageValid();
+            $I->assertSame($expected, $actual);
         }
     }
 }

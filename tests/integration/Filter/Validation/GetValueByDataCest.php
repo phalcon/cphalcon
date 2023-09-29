@@ -39,7 +39,7 @@ class GetValueByDataCest
         ];
 
         $validation = new Validation();
-        $value = $validation->getValueByData($data, 'name');
+        $value      = $validation->getValueByData($data, 'name');
 
         $I->assertSame($data['name'], $value);
     }
@@ -51,7 +51,7 @@ class GetValueByDataCest
         $data = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByData($data, 'name');
+        $value      = $validation->getValueByData($data, 'name');
 
         $I->assertSame($data->name, $value);
     }

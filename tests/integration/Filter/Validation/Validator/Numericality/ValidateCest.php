@@ -43,7 +43,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Numericality(['allowEmpty' => true,]);
         $validation->add('price', $validator);
-        $entity = new stdClass();
+        $entity        = new stdClass();
         $entity->price = '';
 
         $validation->bind($entity, []);
