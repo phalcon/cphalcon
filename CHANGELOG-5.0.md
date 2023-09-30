@@ -4,11 +4,11 @@
 
 ### Changed
 
+- Changed `Phalcon\Mvc\Model::getMessages()` to also filter with an array of fields [#16265](https://github.com/phalcon/cphalcon/issues/16265)
 
 ### Added
 
 - Added the ability to define interpolator characters for the `Phalcon\Logger\Formatter\Line` [#16430](https://github.com/phalcon/cphalcon/issues/16430)
-- Added the ability filter with an array of fields when using `Phalcon\Mvc\Model::getMessages()` [#16265](https://github.com/phalcon/cphalcon/issues/16265)
 
 ### Fixed
 
