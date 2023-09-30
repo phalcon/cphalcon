@@ -58,7 +58,77 @@ class GetMessagesCest
 
         $messages = $record->getMessages();
 
-        $I->assertCount(2, $messages);
+        $expectedCount = 2;
+        $I->assertCount($expectedCount, $messages);
+
+        $expected = 'obj_name is required';
+        $actual   = $messages[0]->getMessage();
+        $I->assertSame($expected, $actual);
+
+        $expected = 'obj_type is required';
+        $actual   = $messages[1]->getMessage();
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: getMessages() - filtered
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-09-30
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelGetMessagesFiltered(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - getMessages() - filtered');
+
+        $record         = new Objects();
+        $record->obj_id = 1;
+        $result         = $record->save();
+        $I->assertFalse($result);
+
+        $messages = $record->getMessages();
+
+        $expectedCount = 2;
+        $I->assertCount($expectedCount, $messages);
+
+        /**
+         * Filter by field obj_id
+         */
+        $messages = $record->getMessages('obj_id');
+
+        $expectedCount = 1;
+        $I->assertCount($expectedCount, $messages);
+
+        $expected = 'obj_name is required';
+        $actual   = $messages[0]->getMessage();
+        $I->assertSame($expected, $actual);
+
+        /**
+         * Filter by field obj_name
+         */
+        $messages = $record->getMessages('obj_name');
+
+        $expectedCount = 1;
+        $I->assertCount($expectedCount, $messages);
+
+        $expected = 'obj_name is required';
+        $actual   = $messages[0]->getMessage();
+        $I->assertSame($expected, $actual);
+
+        /**
+         * Filter by both fields
+         */
+
+
+        $expected = 'obj_type is required';
+        $actual   = $messages[1]->getMessage();
+        $I->assertSame($expected, $actual);
+
+
+
         $I->assertEquals(
             'obj_name is required',
             $messages[0]->getMessage()
