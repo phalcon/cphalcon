@@ -18,7 +18,6 @@ use Phalcon\Flash\Direct;
 use Phalcon\Html\Escaper;
 use UnitTester;
 
-use function MongoDB\BSON\toRelaxedExtendedJSON;
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;

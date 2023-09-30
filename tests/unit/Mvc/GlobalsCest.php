@@ -28,8 +28,8 @@ class GlobalsCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-10-24
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2021-10-24
      * @issue  https://github.com/phalcon/cphalcon/issues/15269
      */
     public function mvcModelGlobals(UnitTester $I, Example $example)
@@ -53,7 +53,7 @@ class GlobalsCest
                 'setting' => 'phalcon.db.escape_identifiers',
                 'value'   => '1',
             ],
-                [
+            [
                 'setting' => 'phalcon.db.force_casting',
                 'value'   => '0',
             ],

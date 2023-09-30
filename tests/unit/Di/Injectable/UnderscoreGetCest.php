@@ -49,7 +49,7 @@ class UnderscoreGetCest
         $actual    = $component->getDI();
         $I->assertSame($container, $actual);
 
-        $class  = stdClass::class;
+        $class = stdClass::class;
         $actual = $component->std;
         $I->assertInstanceOf($class, $actual);
 

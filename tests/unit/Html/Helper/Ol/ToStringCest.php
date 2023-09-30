@@ -41,7 +41,7 @@ class ToStringCest
 
         $result = $helper('', PHP_EOL, ['id' => 'carsList']);
 
-        $actual = (string) $result;
+        $actual = (string)$result;
         $I->assertEmpty($actual);
     }
 }

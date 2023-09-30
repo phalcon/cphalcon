@@ -32,9 +32,9 @@ class RemoveCest
         $I->wantToTest('Support\Collection\ReadOnlyCollection - remove()');
 
         $data       = [
-            'one'   => 'two',
+            'one' => 'two',
             'three' => 'four',
-            'five'  => 'six',
+            'five' => 'six',
         ];
         $collection = new ReadOnlyCollection($data);
 

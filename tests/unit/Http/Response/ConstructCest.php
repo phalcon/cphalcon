@@ -22,7 +22,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Response :: __construct()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -42,7 +42,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Response :: __construct(content = [array])
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-02
@@ -75,7 +75,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Response :: __construct(content = null)
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -97,7 +97,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Response :: __construct(content = null, code = null)
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -133,7 +133,7 @@ class ConstructCest
      * Tests Phalcon\Http\Response :: __construct(content = null, code = null,
      * status = null)
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08

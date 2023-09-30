@@ -54,7 +54,7 @@ class UnderscoreInvokeCest
         }
 
         $expected = $example['result'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
         $I->assertSame($expected, $actual);
 
         /**
@@ -69,7 +69,7 @@ class UnderscoreInvokeCest
             $result->add($add[0], $add[1]);
         }
 
-        $actual = (string) $result;
+        $actual = (string)$result;
         $I->assertSame($expected, $actual);
     }
 

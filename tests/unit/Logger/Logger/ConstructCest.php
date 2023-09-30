@@ -74,9 +74,9 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - file with json formatter');
 
-        $fileName   = $I->getNewFileName('log', 'log');
+        $fileName = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
-        $adapter    = new Stream($outputPath . $fileName);
+        $adapter = new Stream($outputPath . $fileName);
 
         $adapter->setFormatter(new Json());
 

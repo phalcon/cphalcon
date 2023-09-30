@@ -62,7 +62,7 @@ class ToStringCest
         );
 
         $expected = 'This is a message #1';
-        $actual   = (string) $message;
+        $actual   = (string)$message;
         $I->assertSame($expected, $actual);
     }
 }

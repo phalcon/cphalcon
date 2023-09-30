@@ -138,6 +138,7 @@ class LogCest
             'notice'      => 'notice',
             'warning'     => 'warning',
             'custom'      => 'custom',
+            99            => 'custom',
         ];
 
         foreach ($levelsYes as $level => $levelName) {
@@ -191,11 +192,61 @@ class LogCest
             '%message%-[%level%]-%server%:%user%',
             'U.u'
         );
-        $context  = [
+        $context   = [
             'server' => uniqid('srv-'),
             'user'   => uniqid('usr-'),
         ];
-        $adapter  = new Stream($logPath . $fileName);
+        $adapter   = new Stream($logPath . $fileName);
+        $adapter->setFormatter($formatter);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $logger->log(Enum::DEBUG, 'log message', $context);
+
+        $I->amInPath($logPath);
+        $I->openFile($fileName);
+
+        $expected = sprintf(
+            'log message-[DEBUG]-%s:%s',
+            $context['server'],
+            $context['user']
+        );
+        $I->seeInThisFile($expected);
+
+        $adapter->close();
+        $I->safeDeleteFile($fileName);
+    }
+
+    /**
+     * Tests Phalcon\Logger :: log() - interpolator custom
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-09-11
+     */
+    public function loggerLogLogInterpolatorCustom(UnitTester $I)
+    {
+        $I->wantToTest('Logger - log() - interpolator custom');
+
+        $logPath   = logsDir();
+        $fileName  = $I->getNewFileName('log', 'log');
+        $formatter = new Line(
+            '{message}-[{level}]-{server}:{user}',
+            'U.u',
+            '{',
+            '}'
+        );
+        $context   = [
+            'server' => uniqid('srv-'),
+            'user'   => uniqid('usr-'),
+        ];
+        $adapter   = new Stream($logPath . $fileName);
         $adapter->setFormatter($formatter);
 
         $logger = new Logger(

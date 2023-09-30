@@ -101,56 +101,56 @@ class RotateCest
 //                'degrees' => 270,
 //                'hash'    => 'ffffffffffffffff',
 //            ],
-            [
-                'label'   => 'jpg',
-                'degrees' => 0,
-                'hash'    => 'fbf9f3e3c3c18183',
-            ],
-            [
-                'label'   => 'jpg',
-                'degrees' => 45,
-                'hash'    => '60f0f83c1c0f0f06',
-            ],
-            [
-                'label'   => 'jpg',
-                'degrees' => 90,
-                'hash'    => 'ff3f0f0703009dff',
-            ],
-            [
-                'label'   => 'jpg',
-                'degrees' => 180,
-                'hash'    => 'c18183c3c7cf9fdf',
-            ],
-            [
-                'label'   => 'jpg',
-                'degrees' => 270,
-                'hash'    => 'ffb900c0e0f0fcff',
-            ],
-            [
-                'label'   => 'png',
-                'degrees' => 0,
-                'hash'    => '30787c3c1e181818',
-            ],
-            [
-                'label'   => 'png',
-                'degrees' => 45,
-                'hash'    => '001c1c1c7c3c0000',
-            ],
-            [
-                'label'   => 'png',
-                'degrees' => 90,
-                'hash'    => '00060ffffe1c1000',
-            ],
-            [
-                'label'   => 'png',
-                'degrees' => 180,
-                'hash'    => '181818783c3e1e0c',
-            ],
-            [
-                'label'   => 'png',
-                'degrees' => 270,
-                'hash'    => '0008387ffff06000',
-            ],
+        [
+        'label'   => 'jpg',
+        'degrees' => 0,
+        'hash'    => 'fbf9f3e3c3c18183',
+        ],
+        [
+        'label'   => 'jpg',
+        'degrees' => 45,
+        'hash'    => '60f0f83c1c0f0f06',
+        ],
+        [
+        'label'   => 'jpg',
+        'degrees' => 90,
+        'hash'    => 'ff3f0f0703009dff',
+        ],
+        [
+        'label'   => 'jpg',
+        'degrees' => 180,
+        'hash'    => 'c18183c3c7cf9fdf',
+        ],
+        [
+        'label'   => 'jpg',
+        'degrees' => 270,
+        'hash'    => 'ffb900c0e0f0fcff',
+        ],
+        [
+        'label'   => 'png',
+        'degrees' => 0,
+        'hash'    => '30787c3c1e181818',
+        ],
+        [
+        'label'   => 'png',
+        'degrees' => 45,
+        'hash'    => '001c1c1c7c3c0000',
+        ],
+        [
+        'label'   => 'png',
+        'degrees' => 90,
+        'hash'    => '00060ffffe1c1000',
+        ],
+        [
+        'label'   => 'png',
+        'degrees' => 180,
+        'hash'    => '181818783c3e1e0c',
+        ],
+        [
+        'label'   => 'png',
+        'degrees' => 270,
+        'hash'    => '0008387ffff06000',
+        ],
 //            [
 //                'label'   => 'wbmp',
 //                'degrees' => 0,

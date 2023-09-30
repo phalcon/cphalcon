@@ -21,7 +21,7 @@ class GetSetContentCest
     /**
      * Tests Phalcon\Http\Response :: getContent() / setContent()
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08

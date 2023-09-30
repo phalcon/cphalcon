@@ -24,6 +24,7 @@ use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
 use UnitTester;
+
 use function date_default_timezone_get;
 
 class AddCest

@@ -22,7 +22,7 @@ class ReflectionCest
     /**
      * Executed before each test.
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      */
     protected function _before(UnitTester $I)
     {
@@ -32,7 +32,7 @@ class ReflectionCest
     /**
      * Tests parsing class annotations
      *
-     * @param  UnitTester $I
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-26

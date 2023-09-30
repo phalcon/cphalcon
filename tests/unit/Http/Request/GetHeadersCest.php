@@ -33,9 +33,9 @@ class GetHeadersCest
         $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
             'REQUEST_TIME_FLOAT' => $time,
-            'HTTP_FOO'     => 'Bar',
-            'HTTP_BLA_BLA' => 'boo',
-            'HTTP_AUTH'    => true,
+            'HTTP_FOO'           => 'Bar',
+            'HTTP_BLA_BLA'       => 'boo',
+            'HTTP_AUTH'          => true,
         ];
 
         $request = new Request();

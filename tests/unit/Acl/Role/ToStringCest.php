@@ -38,6 +38,6 @@ class ToStringCest
         $role = new Role('Administrator');
 
         $I->assertSame('Administrator', $role->__toString());
-        $I->assertSame('Administrator', (string) $role);
+        $I->assertSame('Administrator', (string)$role);
     }
 }

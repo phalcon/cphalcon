@@ -54,7 +54,8 @@ class GetFilteredPatchCest
         /** @var Request $request */
         $request = $container->get('request');
         $request
-            ->setParameterFilters('id', ['absint'], ['patch']);
+            ->setParameterFilters('id', ['absint'], ['patch'])
+        ;
 
         $expected = 24;
         $actual   = $request->getFilteredPut('id', 24);
