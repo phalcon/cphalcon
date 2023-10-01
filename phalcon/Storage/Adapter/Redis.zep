@@ -32,6 +32,7 @@ class Redis extends AbstractAdapter
      *     'host' => '127.0.0.1',
      *     'port' => 6379,
      *     'index' => 0,
+     *     'timeout' => 0,
      *     'persistent' => false,
      *     'auth' => '',
      *     'socket' => '',
@@ -49,6 +50,7 @@ class Redis extends AbstractAdapter
         let options["host"]       = Arr::get(options, "host", "127.0.0.1"),
             options["port"]       = (int) Arr::get(options, "port", 6379),
             options["index"]      = Arr::get(options, "index", 0),
+            options["timeout"]    = Arr::get(options, "timeout", 0),
             options["persistent"] = Arr::get(options, "persistent", false),
             options["auth"]       = Arr::get(options, "auth", ""),
             options["socket"]     = Arr::get(options, "socket", ""),
@@ -122,7 +124,7 @@ class Redis extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var auth, connection, host, index, options, port, result,
+        var auth, connection, host, index, timeout, options, port, result,
             persistent, persistentid;
 
         if null === this->adapter {
@@ -132,13 +134,14 @@ class Redis extends AbstractAdapter
                 host       = options["host"],
                 port       = options["port"],
                 index      = options["index"],
+                timeout    = options["timeout"],
                 persistent = options["persistent"];
 
             if !persistent {
-                let result = connection->connect(host, port, this->lifetime);
+                let result = connection->connect(host, port, timeout);
             } else {
                 let persistentid = "persistentid_" . index;
-                let result = connection->pconnect(host, port, this->lifetime, persistentid);
+                let result = connection->pconnect(host, port, timeout, persistentid);
             }
 
             if !result {
