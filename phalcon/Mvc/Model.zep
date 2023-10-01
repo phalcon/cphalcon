@@ -1948,11 +1948,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var message;
         array filtered;
 
-        if typeof filter === "string" && !empty filter {
+        if (
+            typeof filter === "string" ||
+            typeof filter === "array") && !empty filter
+        {
             let filtered = [];
 
+            if typeof filter === "string" {
+                let filter = [filter];
+            }
+
             for message in this->errorMessages {
-                if message->getField() == filter {
+                if in_array(message->getField(), filter) {
                     let filtered[] = message;
                 }
             }
@@ -5174,7 +5181,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let isThrough = (bool) relation->isThrough();
 
                 /**
-                 * Many-to-Many 
+                 * Many-to-Many
                  */
                 if isThrough {
                     let intermediateModelName = relation->getIntermediateModel(),
@@ -5191,12 +5198,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                              * referenced model
                              */
                             this->appendMessagesFrom(recordAfter);
-    
+
                             /**
                              * Rollback the implicit transaction
                              */
                             connection->rollback(nesting);
-    
+
                             return false;
                         }
                         /**
@@ -5278,7 +5285,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                              * referenced model
                              */
                             this->appendMessagesFrom(recordAfter);
-    
+
                             /**
                              * Rollback the implicit transaction
                              */

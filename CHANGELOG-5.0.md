@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Changed `Phalcon\Mvc\Model::getMessages()` to also filter with an array of fields [#16265](https://github.com/phalcon/cphalcon/issues/16265)
 
 ### Added
 
