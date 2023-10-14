@@ -5,6 +5,7 @@
 ### Changed
 
 - Changed `Phalcon\Mvc\Model::getMessages()` to also filter with an array of fields [#16265](https://github.com/phalcon/cphalcon/issues/16265)
+- Changed `Phalcon\DataMapper\Query\Select::columns()` to accept an array of columns (keys as aliases) instead of `func_get_args` [#16451](https://github.com/phalcon/cphalcon/issues/16451)
 
 ### Added
 
