@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\MemoryLogger;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\MemoryLogger;
-use Phalcon\Logger\LogLevel;
+use Phalcon\Logger\Enum;
 
 class LogCest
 {
@@ -37,7 +37,7 @@ class LogCest
             "backtrace" => "backtrace",
         ];
 
-        $logger->log(LogLevel::INFO, $message, $context);
+        $logger->log(Enum::INFO, $message, $context);
 
         $expected = ["f1 (123 seconds): select backtrace"];
         $message  = $logger->getMessages();
