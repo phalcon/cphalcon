@@ -1,6 +1,9 @@
 # Changelog
 
-## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (xxxx-xx-xx)
+
+### Added
+- Added `Phalcon\Mvc\Model::setRelated()` to allow setting related models and automaticly de added to the dirtyRelated list [#16222] (https://github.com/phalcon/cphalcon/issues/16222)
 
 ### Changed
 
