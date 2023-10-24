@@ -49,9 +49,8 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> $GITHUB_OUTPUT
-
-#        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+#        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV" # Need to change the templates to use this
 
 
   # PHP CodeSniffer inspection
@@ -182,9 +181,8 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extension-path=$PhalconExtPath" >> $GITHUB_OUTPUT
-
-#          echo "::set-output name=extension-path::$PhalconExtPath"
+          echo "::set-output name=extension-path::$PhalconExtPath"
+#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
@@ -392,9 +390,8 @@ jobs:
       - name: Get the release version
         id: get-version
         run: |
-           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-#          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
 
       - name: Download Phalcon build artifacts
         id: download
