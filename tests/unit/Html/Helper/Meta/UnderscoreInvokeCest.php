@@ -72,6 +72,40 @@ class UnderscoreInvokeCest
     }
 
     /**
+     * Tests Phalcon\Html\Helper\Meta :: __invoke() - reset
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-10-24
+     */
+    public function htmlHelperMetaUnderscoreInvokeReset(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Meta - __invoke() - reset');
+
+        $escaper = new Escaper();
+        $helper  = new Meta($escaper);
+        $helper
+            ->add(['charset' => 'utf-8'])
+            ->addName('generator', 'Phalcon')
+        ;
+
+        $expected = "    <meta charset=\"utf-8\">" . PHP_EOL
+            . "    <meta name=\"generator\" content=\"Phalcon\">" . PHP_EOL;
+        $actual = (string)$helper;
+        $I->assertSame($expected, $actual);
+
+        $helper->reset();
+
+        $helper->addName('generator', 'Phalcon Team');
+        $expected = "    <meta name=\"generator\" content=\"Phalcon Team\">" . PHP_EOL;
+        $actual = (string)$helper;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
      * @return array
      */
     private function getExamples(): array
