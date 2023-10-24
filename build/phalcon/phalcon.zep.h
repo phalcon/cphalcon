@@ -126,15 +126,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_geto
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_hasoption, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_validate, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_gettemplate, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -142,22 +133,31 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_gettemplates, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_settemplates, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, templates, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_hasoption, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_settemplate, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_settemplates, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, templates, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_validate, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validatorinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, getOption, arginfo_phalcon_filter_validation_validatorinterface_getoption)
-	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, hasOption, arginfo_phalcon_filter_validation_validatorinterface_hasoption)
-	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, validate, arginfo_phalcon_filter_validation_validatorinterface_validate)
 	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, getTemplate, arginfo_phalcon_filter_validation_validatorinterface_gettemplate)
 	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, getTemplates, arginfo_phalcon_filter_validation_validatorinterface_gettemplates)
-	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, setTemplates, arginfo_phalcon_filter_validation_validatorinterface_settemplates)
+	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, hasOption, arginfo_phalcon_filter_validation_validatorinterface_hasoption)
 	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, setTemplate, arginfo_phalcon_filter_validation_validatorinterface_settemplate)
+	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, setTemplates, arginfo_phalcon_filter_validation_validatorinterface_settemplates)
+	PHP_ABSTRACT_ME(Phalcon_Filter_Validation_ValidatorInterface, validate, arginfo_phalcon_filter_validation_validatorinterface_validate)
 	PHP_FE_END
 };
 
@@ -166,18 +166,19 @@ zend_class_entry *phalcon_filter_validation_abstractvalidator_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractValidator);
 
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, __construct);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getOption);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplates);
-static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates);
-static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplate);
-static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getOption);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, hasOption);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setOption);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplate);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, validate);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, allowEmpty);
+static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel);
-static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, allowEmpty);
-static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory);
 zend_object *zephir_init_properties_Phalcon_Filter_Validation_AbstractValidator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator___construct, 0, 0, 0)
@@ -188,6 +189,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator___con
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_getoption, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_gettemplate, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 1)
 ZEND_END_ARG_INFO()
@@ -195,46 +201,8 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_gettemplates, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_settemplates, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, templates, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_settemplate, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_getoption, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_hasoption, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_setoption, 0, 2, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_validate, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_preparecode, 0, 1, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_preparelabel, 0, 0, 2)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_allowempty, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, field)
-	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_messagefactory, 0, 2, Phalcon\\Messages\\Message, 0)
@@ -247,23 +215,62 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstrac
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_setoption, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_settemplate, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_settemplates, 0, 1, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, templates, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_validate, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_allowempty, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_checkarray, 0, 0, 2)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_preparecode, 0, 1, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_preparelabel, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_zephir_init_properties_phalcon_filter_validation_abstractvalidator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidator_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, __construct, arginfo_phalcon_filter_validation_abstractvalidator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getOption, arginfo_phalcon_filter_validation_abstractvalidator_getoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getTemplate, arginfo_phalcon_filter_validation_abstractvalidator_gettemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getTemplates, arginfo_phalcon_filter_validation_abstractvalidator_gettemplates, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setTemplates, arginfo_phalcon_filter_validation_abstractvalidator_settemplates, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setTemplate, arginfo_phalcon_filter_validation_abstractvalidator_settemplate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getOption, arginfo_phalcon_filter_validation_abstractvalidator_getoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, hasOption, arginfo_phalcon_filter_validation_abstractvalidator_hasoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, messageFactory, arginfo_phalcon_filter_validation_abstractvalidator_messagefactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setOption, arginfo_phalcon_filter_validation_abstractvalidator_setoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setTemplate, arginfo_phalcon_filter_validation_abstractvalidator_settemplate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setTemplates, arginfo_phalcon_filter_validation_abstractvalidator_settemplates, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, validate, arginfo_phalcon_filter_validation_abstractvalidator_validate, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, allowEmpty, arginfo_phalcon_filter_validation_abstractvalidator_allowempty, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, checkArray, arginfo_phalcon_filter_validation_abstractvalidator_checkarray, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, prepareCode, arginfo_phalcon_filter_validation_abstractvalidator_preparecode, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, prepareLabel, arginfo_phalcon_filter_validation_abstractvalidator_preparelabel, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, allowEmpty, arginfo_phalcon_filter_validation_abstractvalidator_allowempty, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, messageFactory, arginfo_phalcon_filter_validation_abstractvalidator_messagefactory, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1693,22 +1700,22 @@ static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIs
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadisempty, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadisvalid, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadmaxsize, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_getfilesizeinbytes, 0, 1, IS_DOUBLE, 0)
@@ -3638,6 +3645,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractSeries);
 
 static PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString);
+static PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, reset);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, getTag);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractSeries(zend_class_entry *class_type);
 
@@ -3653,6 +3661,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_abstractseries___tostring, 0,
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_abstractseries_reset, 0, 0, Phalcon\\Html\\Helper\\AbstractSeries, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstractseries_gettag, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -3666,6 +3677,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_helper_abstractseries_method_entry) {
 #else
 	PHP_ME(Phalcon_Html_Helper_AbstractSeries, __toString, NULL, ZEND_ACC_PUBLIC)
 #endif
+	PHP_ME(Phalcon_Html_Helper_AbstractSeries, reset, arginfo_phalcon_html_helper_abstractseries_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_AbstractSeries, getTag, arginfo_phalcon_html_helper_abstractseries_gettag, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -6876,6 +6888,30 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidatorcomposite_method_en
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_filter_validation_validator_file_size_equal_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Equal);
+
+static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate);
+static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_equal_validate, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_equal_getconditional, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, source, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, target, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, included, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_size_equal_method_entry) {
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate, arginfo_phalcon_filter_validation_validator_file_size_equal_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional, arginfo_phalcon_filter_validation_validator_file_size_equal_getconditional, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_flash_abstractflash_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash);
@@ -7320,14 +7356,11 @@ zend_class_entry *phalcon_logger_formatter_abstractformatter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter);
 
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat);
-static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate);
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, 0, 1, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_setdateformat, 0, 1, IS_VOID, 0)
@@ -7335,10 +7368,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstrac
 	ZEND_ARG_TYPE_INFO(0, format, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getinterpolatedmessage, 0, 2, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_abstractformatter_method_entry) {
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat, arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate, arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat, arginfo_phalcon_logger_formatter_abstractformatter_setdateformat, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate, arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage, arginfo_phalcon_logger_formatter_abstractformatter_getinterpolatedmessage, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -16240,7 +16283,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_a
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_columns, 0, 0, Phalcon\\DataMapper\\Query\\Select, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_columns, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_distinct, 0, 0, Phalcon\\DataMapper\\Query\\Select, 0)
@@ -20444,55 +20488,20 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_resolution_min_method
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_filter_validation_validator_file_size_equal_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Equal);
-
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, __construct);
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_equal___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_equal_validate, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_size_equal_method_entry) {
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Equal, __construct, arginfo_phalcon_filter_validation_validator_file_size_equal___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate, arginfo_phalcon_filter_validation_validator_file_size_equal_validate, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_filter_validation_validator_file_size_max_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Max);
 
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Max, __construct);
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Max, validate);
+static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Max, getConditional);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_max___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_max_validate, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_max_getconditional, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, source, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, target, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, included, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_size_max_method_entry) {
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Max, __construct, arginfo_phalcon_filter_validation_validator_file_size_max___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Max, validate, arginfo_phalcon_filter_validation_validator_file_size_max_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Max, getConditional, arginfo_phalcon_filter_validation_validator_file_size_max_getconditional, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -20500,25 +20509,16 @@ zend_class_entry *phalcon_filter_validation_validator_file_size_min_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Min);
 
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Min, __construct);
-static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Min, validate);
+static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Min, getConditional);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_min___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_min_validate, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_min_getconditional, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, source, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, target, IS_DOUBLE, 0)
+	ZEND_ARG_TYPE_INFO(0, included, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_size_min_method_entry) {
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Min, __construct, arginfo_phalcon_filter_validation_validator_file_size_min___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Min, validate, arginfo_phalcon_filter_validation_validator_file_size_min_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_Size_Min, getConditional, arginfo_phalcon_filter_validation_validator_file_size_min_getconditional, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -24078,6 +24078,8 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, interpolatorLeft, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, interpolatorRight, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_format, 0, 1, IS_STRING, 0)
@@ -24102,6 +24104,8 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO(0, format, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, interpolatorLeft, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, interpolatorRight, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_format, 0, 1, IS_STRING, 0)
@@ -25205,6 +25209,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, query);
 static PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 static PHP_METHOD(Phalcon_Mvc_Model, refresh);
 static PHP_METHOD(Phalcon_Mvc_Model, save);
+static PHP_METHOD(Phalcon_Mvc_Model, doSave);
 static PHP_METHOD(Phalcon_Mvc_Model, serialize);
 static PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 static PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
@@ -25465,6 +25470,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_save, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dosave, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_serialize, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -25601,9 +25610,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3,
 	ZEND_ARG_INFO(0, identityField)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, 0)
@@ -25611,9 +25621,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2
 	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_allowemptystringvalues, 0, 1, IS_VOID, 0)
@@ -25796,6 +25807,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, readAttribute, arginfo_phalcon_mvc_model_readattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, refresh, arginfo_phalcon_mvc_model_refresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, save, arginfo_phalcon_mvc_model_save, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, doSave, arginfo_phalcon_mvc_model_dosave, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, serialize, arginfo_phalcon_mvc_model_serialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_model_setconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
@@ -28771,7 +28783,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_gethostname, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getid, 0, 0, IS_STRING, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getid, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_getmatch, 0, 0, 0)
