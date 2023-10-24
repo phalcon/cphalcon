@@ -59,20 +59,20 @@ jobs:
     permissions:
       contents: read
 
-    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
+    uses: niden/zephir-templates/.github/workflows/phpcs.yml@main
     with:
       standard: ./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
+    uses: niden/zephir-templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: niden/zephir-templates/.github/workflows/phalcon-pecl.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
       php_version: '8.2'
@@ -227,7 +227,7 @@ jobs:
 
   install:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-install-from-build.yml@main
+    uses: niden/zephir-templates/.github/workflows/phalcon-install-from-build.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
