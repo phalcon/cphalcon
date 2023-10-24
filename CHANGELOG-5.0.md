@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
+## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-10-24)
 
 ### Changed
 
