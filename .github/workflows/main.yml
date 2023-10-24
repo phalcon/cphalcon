@@ -182,7 +182,7 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extension-path={$PhalconExtPath}" >> $GITHUB_OUTPUT
+          echo "extension-path=$PhalconExtPath" >> $GITHUB_OUTPUT
 
 #          echo "::set-output name=extension-path::$PhalconExtPath"
 
