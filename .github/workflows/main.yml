@@ -59,7 +59,7 @@ jobs:
     permissions:
       contents: read
 
-    uses: niden/zephir-templates/.github/workflows/phpcs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
     with:
       standard: ./phpcs.xml
 
