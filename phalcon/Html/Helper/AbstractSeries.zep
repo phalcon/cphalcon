@@ -58,9 +58,11 @@ abstract class AbstractSeries extends AbstractHelper
     /**
      * Resets the internal store.
      */
-    public function reset() -> void
+    public function reset() -> <AbstractSeries>
     {
         let this->store = [];
+
+        return this;
     }
 
     /**
