@@ -49,8 +49,9 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
+        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> $GITHUB_ENV
+
 #        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
-        echo "{extensions}=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> $GITHUB_STATE
 
 
   # PHP CodeSniffer inspection
@@ -181,8 +182,9 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
+          echo "extension-path={$PhalconExtPath}" >> $GITHUB_ENV
+
 #          echo "::set-output name=extension-path::$PhalconExtPath"
-          echo "{extension-path}=$PhalconExtPath" >> $GITHUB_STATE
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
@@ -390,8 +392,9 @@ jobs:
       - name: Get the release version
         id: get-version
         run: |
+           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
 #          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-           echo "{version}=${GITHUB_REF#refs/tags/}" >> $GITHUB_STATE
 
       - name: Download Phalcon build artifacts
         id: download
