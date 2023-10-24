@@ -89,6 +89,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/domain/payload/writeableinterface.zep.c
 	phalcon/encryption/security/jwt/token/abstractitem.zep.c
 	phalcon/filter/validation/abstractvalidatorcomposite.zep.c
+	phalcon/filter/validation/validator/file/size/equal.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/html/link/abstractlink.zep.c
 	phalcon/html/link/abstractlinkprovider.zep.c
@@ -347,7 +348,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/validator/file/resolution/equal.zep.c
 	phalcon/filter/validation/validator/file/resolution/max.zep.c
 	phalcon/filter/validation/validator/file/resolution/min.zep.c
-	phalcon/filter/validation/validator/file/size/equal.zep.c
 	phalcon/filter/validation/validator/file/size/max.zep.c
 	phalcon/filter/validation/validator/file/size/min.zep.c
 	phalcon/filter/validation/validator/identical.zep.c

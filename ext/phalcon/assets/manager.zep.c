@@ -2375,11 +2375,12 @@ PHP_METHOD(Phalcon_Assets_Manager, processParameters)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval helperClass, type, name, _13;
 	zend_bool local;
-	zval *parameters, parameters_sub, *local_param = NULL, *helperClass_param = NULL, *type_param = NULL, *name_param = NULL, helper, params, tag, _4, _11, _12, _0$$3, _1$$3, _2$$4, _3$$6, _5$$8, _6$$9, _7$$10, _8$$11, _9$$11, _10$$11;
+	zval *parameters, parameters_sub, *local_param = NULL, *helperClass_param = NULL, *type_param = NULL, *name_param = NULL, helper, output, params, tag, _4, _11, _12, _0$$3, _1$$3, _2$$4, _3$$6, _5$$8, _6$$9, _7$$10, _8$$11, _9$$11, _10$$11;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&parameters_sub);
 	ZVAL_UNDEF(&helper);
+	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&_4);
@@ -2484,7 +2485,10 @@ PHP_METHOD(Phalcon_Assets_Manager, processParameters)
 	ZEPHIR_CALL_METHOD(NULL, &helper, "add", NULL, 0, &tag, &params);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_13, &helper);
-	RETURN_CTOR(&_13);
+	ZEPHIR_CPY_WRT(&output, &_13);
+	ZEPHIR_CALL_METHOD(NULL, &helper, "reset", NULL, 0);
+	zephir_check_call_status();
+	RETURN_CCTOR(&output);
 }
 
 zend_object *zephir_init_properties_Phalcon_Assets_Manager(zend_class_entry *class_type)

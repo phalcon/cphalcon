@@ -56,14 +56,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractSeries)
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *indent_param = NULL, *delimiter_param = NULL, _0, _1;
+	zval *indent_param = NULL, *delimiter_param = NULL, _0;
 	zval indent, delimiter;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&indent);
 	ZVAL_UNDEF(&delimiter);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
@@ -98,9 +97,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("indent"), &indent);
-	ZEPHIR_INIT_VAR(&_1);
-	array_init(&_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &_1);
 	RETURN_THIS();
 }
 
@@ -127,6 +123,26 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderarrayelements", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Resets the internal store.
+ */
+PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, reset)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &_0);
+	RETURN_THIS();
 }
 
 /**

@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 
 
@@ -48,28 +49,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
  *
  * @param string $format
  * @param string $dateFormat
+ * @param string $interpolatorLeft
+ * @param string $interpolatorRight
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *format_param = NULL, *dateFormat_param = NULL;
-	zval format, dateFormat;
+	zval *format_param = NULL, *dateFormat_param = NULL, *interpolatorLeft_param = NULL, *interpolatorRight_param = NULL;
+	zval format, dateFormat, interpolatorLeft, interpolatorRight;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&format);
 	ZVAL_UNDEF(&dateFormat);
+	ZVAL_UNDEF(&interpolatorLeft);
+	ZVAL_UNDEF(&interpolatorRight);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 2)
+	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(format)
 		Z_PARAM_STR(dateFormat)
+		Z_PARAM_STR(interpolatorLeft)
+		Z_PARAM_STR(interpolatorRight)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &format_param, &dateFormat_param);
+	zephir_fetch_params(1, 0, 4, &format_param, &dateFormat_param, &interpolatorLeft_param, &interpolatorRight_param);
 	if (!format_param) {
 		ZEPHIR_INIT_VAR(&format);
 		ZVAL_STRING(&format, "[%date%][%level%] %message%");
@@ -82,10 +89,24 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 	} else {
 		zephir_get_strval(&dateFormat, dateFormat_param);
 	}
+	if (!interpolatorLeft_param) {
+		ZEPHIR_INIT_VAR(&interpolatorLeft);
+		ZVAL_STRING(&interpolatorLeft, "%");
+	} else {
+		zephir_get_strval(&interpolatorLeft, interpolatorLeft_param);
+	}
+	if (!interpolatorRight_param) {
+		ZEPHIR_INIT_VAR(&interpolatorRight);
+		ZVAL_STRING(&interpolatorRight, "%");
+	} else {
+		zephir_get_strval(&interpolatorRight, interpolatorRight_param);
+	}
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorLeft"), &interpolatorLeft);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorRight"), &interpolatorRight);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -102,13 +123,22 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, message, _0, _2;
+	zval *item, item_sub, message, _0, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
@@ -125,20 +155,30 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("format"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatteddate", NULL, 0, item);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("interpolatorLeft"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("interpolatorRight"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_CONCAT_VSV(&_4, &_2, "date", &_3);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getformatteddate", NULL, 0, item);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%date%"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, item, "getlevelname", NULL, 0);
+	zephir_array_update_zval(&_1, &_4, &_5, PH_COPY);
+	zephir_read_property(&_6, this_ptr, ZEND_STRL("interpolatorLeft"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_7, this_ptr, ZEND_STRL("interpolatorRight"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_8);
+	ZEPHIR_CONCAT_VSV(&_8, &_6, "level", &_7);
+	ZEPHIR_CALL_METHOD(&_5, item, "getlevelname", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%level%"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, item, "getmessage", NULL, 0);
+	zephir_array_update_zval(&_1, &_8, &_5, PH_COPY);
+	zephir_read_property(&_9, this_ptr, ZEND_STRL("interpolatorLeft"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_10, this_ptr, ZEND_STRL("interpolatorRight"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_11);
+	ZEPHIR_CONCAT_VSV(&_11, &_9, "message", &_10);
+	ZEPHIR_CALL_METHOD(&_5, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%message%"), &_2, PH_COPY | PH_SEPARATE);
+	zephir_array_update_zval(&_1, &_11, &_5, PH_COPY);
 	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 5, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, item, "getcontext", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getinterpolatedmessage", NULL, 0, item, &message);
 	zephir_check_call_status();
 	RETURN_MM();
 }

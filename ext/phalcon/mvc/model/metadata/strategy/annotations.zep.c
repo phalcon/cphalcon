@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			ZEPHIR_CALL_METHOD(&_69$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_10$$6);
 			zephir_check_call_status();
 			if (zephir_is_true(&_69$$6)) {
-				zephir_array_append(&emptyStringValues, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 367);
+				zephir_array_update_zval(&emptyStringValues, &columnName, &columnName, PH_COPY | PH_SEPARATE);
 			}
 			ZEPHIR_INIT_NVAR(&_10$$6);
 			ZVAL_STRING(&_10$$6, "nullable");
@@ -1140,7 +1140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				ZEPHIR_CALL_METHOD(&_133$$44, &columnAnnotation, "getnamedparameter", NULL, 0, &_74$$44);
 				zephir_check_call_status();
 				if (zephir_is_true(&_133$$44)) {
-					zephir_array_append(&emptyStringValues, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 367);
+					zephir_array_update_zval(&emptyStringValues, &columnName, &columnName, PH_COPY | PH_SEPARATE);
 				}
 				ZEPHIR_INIT_NVAR(&_74$$44);
 				ZVAL_STRING(&_74$$44, "nullable");

@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getdirseparator", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getdirseparator", NULL, 511, &path);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
