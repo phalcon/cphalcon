@@ -37,8 +37,7 @@ env:
 permissions: {}
 jobs:
   # Configure Workflow for correct run reusable workflow
-  # This is required step. It's workaround for non-initialized ENVs
-  # when trying to pass input variables from ENVs.
+  # This is required step. It's workaround for non-initialized ENVs when trying to pass input variables from ENVs.
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
@@ -50,8 +49,8 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV"
-  #        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+#        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV" # Need to change the templates to use this
 
 
   # PHP CodeSniffer inspection
@@ -59,20 +58,20 @@ jobs:
     permissions:
       contents: read
 
-    uses: niden/zephir-templates/.github/workflows/phpcs.yml@main
+    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
     with:
       standard: ./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: niden/zephir-templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
-    uses: niden/zephir-templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
       php_version: '8.2'
@@ -182,14 +181,14 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV"
-      #          echo "::set-output name=extension-path::$PhalconExtPath"
+          echo "::set-output name=extension-path::$PhalconExtPath"
+#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
         with:
           target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-          ext-path: ${{ steps.phalcon-ext-path.extension-path }}
+          ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
 
       - name: "Validate composer"
         run: composer validate --no-check-all --no-check-publish
@@ -227,7 +226,7 @@ jobs:
 
   install:
     needs: setup_workflow
-    uses: niden/zephir-templates/.github/workflows/phalcon-install-from-build.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-install-from-build.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
@@ -391,8 +390,8 @@ jobs:
       - name: Get the release version
         id: get-version
         run: |
-          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
-#          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
 
       - name: Download Phalcon build artifacts
         id: download
