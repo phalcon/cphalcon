@@ -49,7 +49,7 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "extensions=zephir_parser-{${{ env.ZEPHIR_PARSER_VERSION }}}" >> $GITHUB_OUTPUT
+        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> $GITHUB_OUTPUT
 
 #        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
