@@ -45,7 +45,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Digit(['allowEmpty' => true,]);
         $validation->add('price', $validator);
-        $entity = new stdClass();
+        $entity        = new stdClass();
         $entity->price = '';
 
         $validation->bind($entity, []);
@@ -173,12 +173,16 @@ class ValidateCest
     }
 
     /**
-     * @dataProvider shouldValidateIntOrStringOfDigitsProvider
+     * @dataProvider getExamplesIntOrStringOfDigits
+     *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @return void
+     * @throws Exception
      */
-    public function filterValidationValidatorDigitShouldValidateIntOrStringOfDigits(
-        IntegrationTester $I,
-        Example $example
-    ) {
+    public function filterValidationValidatorDigitIntOrStringOfDigits(IntegrationTester $I, Example $example)
+    {
         $digit = $example[0];
 
         $validation = new Validation();
@@ -200,7 +204,10 @@ class ValidateCest
         );
     }
 
-    private function shouldValidateIntOrStringOfDigitsProvider()
+    /**
+     * @return array
+     */
+    private function getExamplesIntOrStringOfDigits()
     {
         return [
             ['123'],

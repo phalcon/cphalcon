@@ -33,13 +33,13 @@ class EncodeCest
     {
         $I->wantToTest('Support\Helper\Json - encode()');
 
-        $object   = new Encode();
-        $data     = [
+        $object = new Encode();
+        $data = [
             'one' => 'two',
             'three',
         ];
         $expected = '{"one":"two","0":"three"}';
-        $actual   = $object($data);
+        $actual = $object($data);
         $I->assertSame($expected, $actual);
     }
 

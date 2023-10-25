@@ -35,9 +35,9 @@ class SerializeUnserializeCest
         $I->expectThrowable(
             new Exception("This object cannot be serialized"),
             function () use ($I) {
-                $fileName   = $I->getNewFileName('log', 'log');
+                $fileName = $I->getNewFileName('log', 'log');
                 $outputPath = logsDir();
-                $adapter    = new Stream($outputPath . $fileName);
+                $adapter = new Stream($outputPath . $fileName);
 
                 $object = serialize($adapter);
             }

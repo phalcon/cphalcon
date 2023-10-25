@@ -14,12 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
+use ReflectionClass;
 use UnitTester;
 
 class GetExpressionCest
 {
     private $PHQL_T_AND = 266;
-    private $PHQL_T_OR = 267;
+    private $PHQL_T_OR  = 267;
 
     /**
      * Tests Phalcon\Mvc\Model\Query :: getExpression()
@@ -33,15 +34,15 @@ class GetExpressionCest
         $I->wantToTest('Phalcon\Mvc\Model\Query - getExpression()');
 
         $valueOne = [
-            'type' => 'binary-op',
-            'op' => 'AND',
-            'left' => null,
+            'type'  => 'binary-op',
+            'op'    => 'AND',
+            'left'  => null,
             'right' => null,
         ];
         $valueTwo = [
-            'type' => 'binary-op',
-            'op' => 'OR',
-            'left' => null,
+            'type'  => 'binary-op',
+            'op'    => 'OR',
+            'left'  => null,
             'right' => null,
         ];
 
@@ -53,8 +54,8 @@ class GetExpressionCest
             'type' => $this->PHQL_T_OR,
         ];
 
-        $query = new Query();
-        $reflection = new \ReflectionClass(Query::class);
+        $query         = new Query();
+        $reflection    = new ReflectionClass(Query::class);
         $getExpression = $reflection->getMethod('getExpression');
         $getExpression->setAccessible(true);
 

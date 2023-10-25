@@ -48,7 +48,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Url(['allowEmpty' => true,]);
         $validation->add('url', $validator);
-        $entity = new stdClass();
+        $entity      = new stdClass();
         $entity->url = '';
 
         $validation->bind($entity, []);

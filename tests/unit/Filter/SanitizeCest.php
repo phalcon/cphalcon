@@ -48,7 +48,7 @@ class SanitizeCest
                 'Filter\Sanitize\* = %s - %s : "%s"',
                 $class,
                 $label,
-                (is_array($source) ? implode(":", $source) : (string) $source)
+                (is_array($source) ? implode(":", $source) : (string)$source)
             )
         );
 

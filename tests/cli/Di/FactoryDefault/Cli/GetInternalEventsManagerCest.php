@@ -37,7 +37,7 @@ class GetInternalEventsManagerCest
 
         $di->setInternalEventsManager(new Manager());
 
-        $class = ManagerInterface::class;
+        $class  = ManagerInterface::class;
         $actual = $di->getInternalEventsManager();
         $I->assertInstanceOf($class, $actual);
     }

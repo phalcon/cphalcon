@@ -42,27 +42,27 @@ class GetPartCest
         $id      = $version->getId();
 
         // The major version is the first digit
-        $expected = (string) $id[0];
+        $expected = (string)$id[0];
         $actual   = $version->getPart(Version::VERSION_MAJOR);
         $I->assertSame($expected, $actual);
 
         // The medium version is the second and third digits
         // This is int to string because we might end up with "00"
-        $expected = (string) intval($id[1] . $id[2]);
+        $expected = (string)intval($id[1] . $id[2]);
         $actual   = $version->getPart(Version::VERSION_MEDIUM);
         $I->assertSame($expected, $actual);
 
         // The minor version is the fourth and fifth digits
-        $expected = (string) intval($id[3] . $id[4]);
+        $expected = (string)intval($id[3] . $id[4]);
         $actual   = $version->getPart(Version::VERSION_MINOR);
         $I->assertSame($expected, $actual);
 
-        $expected = $this->numberToSpecial((string) $id[5]);
+        $expected = $this->numberToSpecial((string)$id[5]);
         $actual   = $version->getPart(Version::VERSION_SPECIAL);
         $I->assertSame($expected, $actual);
 
-        $special  = $this->numberToSpecial((string) $id[6]);
-        $expected = (string) (($special) ? $id[6] : 0);
+        $special  = $this->numberToSpecial((string)$id[6]);
+        $expected = (string)(($special) ? $id[6] : 0);
         $actual   = $version->getPart(Version::VERSION_SPECIAL_NUMBER);
         $I->assertSame($expected, $actual);
 

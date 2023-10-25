@@ -27,6 +27,7 @@ class SetSignKeyCest extends HttpBase
      * Executed before each test
      *
      * @param UnitTester $I
+     *
      * @return void
      */
     public function _before(UnitTester $I): void

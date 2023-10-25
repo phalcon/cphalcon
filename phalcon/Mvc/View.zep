@@ -768,7 +768,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         let this->disabled        = false,
             this->engines         = false,
             this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
-            this->content         = null,
+            this->content         = "",
             this->templatesBefore = [],
             this->templatesAfter  = [];
 
@@ -1127,6 +1127,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         return strlen(path) >= 1 && path[0] == '/';
     }
+
     /**
      * Loads registered template engines, if none is registered it will use
      * Phalcon\Mvc\View\Engine\Php

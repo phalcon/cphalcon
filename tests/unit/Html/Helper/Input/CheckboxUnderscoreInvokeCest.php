@@ -50,7 +50,7 @@ class CheckboxUnderscoreInvokeCest
 
         $I->assertSame(
             sprintf($example['render'], $example['render']),
-            (string) $result
+            (string)$result
         );
     }
 
@@ -80,7 +80,7 @@ class CheckboxUnderscoreInvokeCest
 
         $I->assertSame(
             sprintf($example['render'], $example['render']),
-            (string) $result
+            (string)$result
         );
     }
 

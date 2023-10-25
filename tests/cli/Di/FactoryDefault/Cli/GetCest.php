@@ -41,7 +41,7 @@ class GetCest
         $I->assertFalse($actual->isShared());
 
         // get escaper service
-        $actual   = $di->get('escaper');
+        $actual = $di->get('escaper');
         $expected = new Escaper();
 
         $I->assertInstanceOf(Escaper::class, $actual);

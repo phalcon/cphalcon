@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\Profiler;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
-use Phalcon\Logger\LogLevel;
+use Phalcon\Logger\Enum;
 
 class GetSetLogLevelCest
 {
@@ -30,13 +30,13 @@ class GetSetLogLevelCest
         $profiler = new Profiler();
 
         $I->assertEquals(
-            LogLevel::DEBUG,
+            Enum::DEBUG,
             $profiler->getLogLevel()
         );
 
-        $profiler->setLogLevel(LogLevel::INFO);
+        $profiler->setLogLevel('info');
         $I->assertEquals(
-            LogLevel::INFO,
+            'info',
             $profiler->getLogLevel()
         );
     }

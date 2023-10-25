@@ -53,7 +53,7 @@ class FormatCest
             '[%s][debug] log message',
             $datetime->format('c')
         );
-        $actual = $formatter->format($item);
+        $actual   = $formatter->format($item);
         $I->assertSame($expected, $actual);
     }
 
@@ -84,7 +84,7 @@ class FormatCest
             'log message-[debug]-%s',
             $datetime->format('c')
         );
-        $actual = $formatter->format($item);
+        $actual   = $formatter->format($item);
         $I->assertSame($expected, $actual);
     }
 
@@ -124,11 +124,11 @@ class FormatCest
         $I->assertCount($expected, $actual);
 
         $expected = 0;
-        $actual   = (int) $parts[0];
+        $actual   = (int)$parts[0];
         $I->assertGreaterThan($expected, $actual);
 
         $expected = 0;
-        $actual   = (int) $parts[1];
+        $actual   = (int)$parts[1];
         $I->assertGreaterThan($expected, $actual);
     }
 
@@ -170,7 +170,7 @@ class FormatCest
             $context['server'],
             $context['user']
         );
-        $actual = $formatter->format($item);
+        $actual   = $formatter->format($item);
         $I->assertSame($expected, $actual);
     }
 }

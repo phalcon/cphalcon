@@ -37,7 +37,7 @@ class GetBestLanguageCest
 
         $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $_SERVER = [
-            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_TIME_FLOAT'   => $time,
             'HTTP_ACCEPT_LANGUAGE' => 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9',
         ];
 

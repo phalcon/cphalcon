@@ -45,7 +45,7 @@ class UnderscoreInvokeCest
         }
 
         $expected = $example['result'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
         $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
@@ -56,7 +56,59 @@ class UnderscoreInvokeCest
             $result->add($url, $attributes);
         }
 
-        $actual = (string) $result;
+        $actual = (string)$result;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Helper\Link :: __invoke() - reset
+     *
+     * @param UnitTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-10-24
+     */
+    public function htmlHelperLinkUnderscoreInvokeReset(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Link - __invoke() - reset');
+
+        $escaper = new Escaper();
+        $helper  = new Link($escaper);
+
+        $helper
+            ->add(
+                'https://phalcon.io/page/1',
+                ['rel' => 'prev']
+            )
+        ;
+
+        $expected = "    <link rel=\"prev\" href=\"https://phalcon.io/page/1\" />" . PHP_EOL;
+        $actual = (string)$helper;
+        $I->assertSame($expected, $actual);
+
+        $helper
+            ->add(
+                'https://phalcon.io/page/2',
+                ['rel' => 'next']
+            )
+        ;
+
+        $expected = "    <link rel=\"prev\" href=\"https://phalcon.io/page/1\" />" . PHP_EOL
+            . "    <link rel=\"next\" href=\"https://phalcon.io/page/2\" />" . PHP_EOL;
+        $actual = (string)$helper;
+        $I->assertSame($expected, $actual);
+
+        $helper->reset();
+
+        $helper
+            ->add(
+                'https://phalcon.io/page/2',
+                ['rel' => 'next']
+            )
+        ;
+
+        $expected = "    <link rel=\"next\" href=\"https://phalcon.io/page/2\" />" . PHP_EOL;
+        $actual = (string)$helper;
         $I->assertSame($expected, $actual);
     }
 

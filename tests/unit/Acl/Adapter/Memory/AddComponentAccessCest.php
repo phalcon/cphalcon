@@ -84,7 +84,7 @@ class AddComponentAccessCest
         $I->expectThrowable(
             new Exception('Invalid value for the accessList'),
             function () {
-                $acl  = new Memory();
+                $acl = new Memory();
                 $post = new Component('Post');
 
                 $acl->addComponent($post, ['update']);

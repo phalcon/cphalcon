@@ -31,7 +31,7 @@ class GetSetHandlerSuffixCest
         $dispatcher = new Dispatcher();
 
         $expected = 'Controller';
-        $actual = $dispatcher->getHandlerSuffix();
+        $actual   = $dispatcher->getHandlerSuffix();
         $I->assertSame($expected, $actual);
 
         $dispatcher->setHandlerSuffix('two');

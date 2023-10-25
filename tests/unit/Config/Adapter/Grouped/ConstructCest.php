@@ -48,7 +48,7 @@ class ConstructCest
         $config = [
             dataDir('assets/config/config.php'),
             [
-                'adapter'  => 'json',
+                'adapter' => 'json',
                 'filePath' => dataDir('assets/config/config.json'),
             ],
             [

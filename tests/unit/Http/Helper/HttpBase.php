@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Helper;
 
-use Phalcon\Di\Di;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;

@@ -68,7 +68,7 @@ class ReflectionCest
 
         foreach ($this->getImages() as $type => $imagePath) {
             foreach ($params[$type] as [$height, $opacity, $fade, $hash]) {
-                $resultImage = 'reflection-' . $height . '-' . $opacity . '-' . ((int) $fade) . '.' . $type;
+                $resultImage = 'reflection-' . $height . '-' . $opacity . '-' . ((int)$fade) . '.' . $type;
                 $output      = outputDir($outputDir . '/' . $resultImage);
 
                 $image = new Gd($imagePath);

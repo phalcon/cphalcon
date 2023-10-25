@@ -82,7 +82,7 @@ class ValidateCest
 
         $I->assertSame(
             'This is a test message',
-            (string) $messages[0]
+            (string)$messages[0]
         );
 
 

@@ -38,6 +38,6 @@ class ToStringCest
         $component = new Component('Customers');
 
         $I->assertSame('Customers', $component->__toString());
-        $I->assertSame('Customers', (string) $component);
+        $I->assertSame('Customers', (string)$component);
     }
 }

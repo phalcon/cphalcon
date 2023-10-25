@@ -44,7 +44,7 @@ class ValidateCest
         $validation = new Validation();
         $validator  = new Email(['allowEmpty' => true,]);
         $validation->add('email_one', $validator);
-        $entity = new stdClass();
+        $entity            = new stdClass();
         $entity->email_one = '';
 
         $validation->bind($entity, []);

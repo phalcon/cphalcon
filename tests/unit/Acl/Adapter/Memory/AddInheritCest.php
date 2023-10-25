@@ -150,7 +150,8 @@ class AddInheritCest
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - infinite loop exception
+     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - infinite loop
+     * exception
      *
      * @param UnitTester $I
      *

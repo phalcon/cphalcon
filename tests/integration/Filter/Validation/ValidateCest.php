@@ -28,19 +28,6 @@ use function date;
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Filter\Validation :: validate()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
-     */
-    public function filterValidationValidate(IntegrationTester $I)
-    {
-        $I->wantToTest('Validation - validate()');
-
-        $I->skipTest('Need implementation');
-    }
-
-    /**
      * Tests Phalcon\Filter\Validation :: validate() - message to non object
      *
      * @author Phalcon Team <team@phalcon.io>

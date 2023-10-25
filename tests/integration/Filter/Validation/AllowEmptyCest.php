@@ -29,9 +29,9 @@ class AllowEmptyCest
     {
         $I->wantToTest('Validation - allowEmpty() - false');
 
-        $data = ['name' => ''];
+        $data       = ['name' => ''];
         $validation = new Validation();
-        $validator = new Alpha(['allowEmpty' => false]);
+        $validator  = new Alpha(['allowEmpty' => false]);
         $validation->add('name', $validator);
         $messages = $validation->validate($data);
 
@@ -42,9 +42,9 @@ class AllowEmptyCest
     {
         $I->wantToTest('Validation - allowEmpty() - true');
 
-        $data = ['name' => ''];
+        $data       = ['name' => ''];
         $validation = new Validation();
-        $validator = new Alpha(['allowEmpty' => true]);
+        $validator  = new Alpha(['allowEmpty' => true]);
         $validation->add('name', $validator);
         $messages = $validation->validate($data);
 

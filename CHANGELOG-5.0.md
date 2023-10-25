@@ -1,28 +1,49 @@
 # Changelog
 
+## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
+
+### Changed
+
+- Changed `Phalcon\Mvc\Model::getMessages()` to also filter with an array of fields [#16265](https://github.com/phalcon/cphalcon/issues/16265)
+- Changed `Phalcon\DataMapper\Query\Select::columns()` to accept an array of columns (keys as aliases) instead of `func_get_args` [#16451](https://github.com/phalcon/cphalcon/issues/16451)
+- Changed `Phalcon\Html\Helper\AbstractSeries::__invoke()` to no longer clear the internal store when called [#16441](https://github.com/phalcon/cphalcon/issues/16441)
+
+### Added
+
+- Added the ability to define interpolator characters for the `Phalcon\Logger\Formatter\Line` [#16430](https://github.com/phalcon/cphalcon/issues/16430)
+- Added `Phalcon\Html\Helper\AbstractSeries::reset()` to clear the internal store when needed [#16441](https://github.com/phalcon/cphalcon/issues/16441)
+
+### Fixed
+
+- Model Annotation strategy did not work with empty_string [#16426](https://github.com/phalcon/cphalcon/issues/16426)
+- View::reset() sets content to null instead of default empty string [#16437](https://github.com/phalcon/cphalcon/issues/16437)
+- Fixed `Phalcon\Filter\Validation\Validator\Size\*` validators to correctly detect the size of uploaded files [#16390](https://github.com/phalcon/cphalcon/issues/16390)
+
+### Removed
+
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)
 
 ### Fixed
+ 
 - Fixed infinite save loop in `Phalcon\Mvc\Model::save()` [#16395](https://github.com/phalcon/cphalcon/issues/16395)
 - Fixed undefined column with columnMap and model caching [#16420](https://github.com/phalcon/cphalcon/issues/16420)
 - Fixed memory leak in `Phalcon\Mvc\Router::handle()` [#16431](https://github.com/phalcon/cphalcon/pull/16431)
 
-
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
+
+### Changed
+
+- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer separation of behaviour, although it lead to partially repeated code. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
+- Cleaned `Phalcon\Mvc\Model\Metadata::initialize` [#16393](https://github.com/phalcon/cphalcon/issues/16393)
 
 ### Added
 
 - Added `Phalcon\Mvc\Model::appendMessagedFrom` for code consistency and to add messages from another model [#16391](https://github.com/phalcon/cphalcon/issues/16391)
 - Added `Phalcon\Autoload\Loader::isRegistered` for debugging purposes [#16391](https://github.com/phalcon/cphalcon/issues/16391)
-- Added `Phalcon\Mvc\Model\Metadata::initializeMetadata` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
-- Added `Phalcon\Mvc\Model\Metadata::getMetaDataUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
-- Added `Phalcon\Mvc\Model\Metadata::getColumnMapUniqueKey` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Mvc\Model\Metadata::initializeMetadata` [#16393](https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Mvc\Model\Metadata::getMetaDataUniqueKey` [#16393](https://github.com/phalcon/cphalcon/issues/16393)
+- Added `Phalcon\Mvc\Model\Metadata::getColumnMapUniqueKey` [#16393](https://github.com/phalcon/cphalcon/issues/16393)
 - Added `Phalcon\Encryption\Security\JWT\Builder::addHeader()` to allow adding custom headers [#16396](https://github.com/phalcon/cphalcon/issues/16396)
-
-### Changed
-
-- Refactored `Phalcon\Mvc\Model::doLowUpdate` and `Phalcon\Mvc\Model::postSaveRelatedRecords` for better code logic and a clearer separation of behaviour, although it lead to partially repeated code. [#16391](https://github.com/phalcon/cphalcon/issues/16391)
-- Cleaned `Phalcon\Mvc\Model\Metadata::initialize` [#16393] (https://github.com/phalcon/cphalcon/issues/16393)
 
 ### Fixed
 
@@ -40,19 +61,19 @@
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
+### Added
+
+- Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
+- Added `Phalcon\Storage\Adapter\Weak` implemented with WeakReference has a cache/retrieval solution for objects not yet collected by the Garbage Collection. [#16372](https://github.com/phalcon/cphalcon/issues/16372)
+
 ### Fixed
- 
+
 - Tried to reproduce the behavior described in #16244 but had no success. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
 - Extended `Phalcon\Di\Injectable` from `stdClass` to remove the deprecation warning (dynamic properties) for PHP 8.2 [#16308](https://github.com/phalcon/cphalcon/issues/16308)
 - Corrected the return type of `Phalcon\Mvc\View::getVar()` so that stubs can be accurate. [#16276](https://github.com/phalcon/cphalcon/issues/16276)
 - Changed all the `encode`/`decode` methods for JSON to use the `Phalcon\Support\Helper\Json\*` classes. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
 - Changed the `Phalcon\Support\Helper\Json\*` classes to clear up `json_last_error()` before doing any conversions. [#15608](https://github.com/phalcon/cphalcon/issues/15608)
 - Fixed `Phalcon\Http\Request::getJsonRawBody` to protect from empty body [#16373](https://github.com/phalcon/cphalcon/issues/16373)
-
-### Added
-
-- Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
-- Added `Phalcon\Storage\Adapter\Weak` implemented with WeakReference has a cache/retrieval solution for objects not yet collected by the Garbage Collection. [#16372](https://github.com/phalcon/cphalcon/issues/16372)
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
@@ -71,13 +92,13 @@
 
 ## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
 
-### Fixed
- 
-- Fixed `Phalcon\Html\Helper\Title::prepend` to correctly prepend text in subsequent calls [#16283](https://github.com/phalcon/cphalcon/issues/16283)
-
 ### Added
- 
+
 - Added support for PHP 8.2 [#15973](https://github.com/phalcon/cphalcon/issues/15973)
+
+### Fixed
+
+- Fixed `Phalcon\Html\Helper\Title::prepend` to correctly prepend text in subsequent calls [#16283](https://github.com/phalcon/cphalcon/issues/16283)
 
 ## [5.1.4](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-01-10)
 
@@ -95,7 +116,7 @@
 ## [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
 
 ### Fixed
-- 
+ 
 - Fixed `Phalcon\Support\Debug` to correctly calculate the documents URL for the hyperlinks [#16223](https://github.com/phalcon/cphalcon/issues/16223)
 - Fixed `Phalcon\Html\TagFactory` docblock for autocompletion (https://github.com/phalcon/cphalcon/commit/0129658f3ac468dcc5294d401403e166302a8069)
 - Fixed `Phalcon\Db\Profiler` by correctly calculating the seconds (reapplied changes) [#15822](https://github.com/phalcon/cphalcon/issues/15822)
@@ -110,17 +131,17 @@
 
 ## [5.1.0](https://github.com/phalcon/cphalcon/releases/tag/v5.1.0) (2022-11-01)
 
-### Fixed
- 
-- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::isTagFactory` to correctly detect a `TagFactory` object without throwing an error [#16097](https://github.com/phalcon/cphalcon/issues/16097)
-- Fixed default values for `Phalcon\Cli`, `Phalcon\Dispatcher` and `Phalcon\Application` components to ensure not `null` values are passed to methods [#16186](https://github.com/phalcon/cphalcon/issues/16186)
-- Fixed `Phalcon\Form::clear` to correctly clear the elements and not recurse [#15956](https://github.com/phalcon/cphalcon/issues/15956)
-
 ### Added
 
 - Added `Phalcon\Http\Request::getPatch()` to get a value from a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
 - Added `Phalcon\Http\Request::getFilteredPatch()` to get a value filtered from a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
 - Added `Phalcon\Http\Request::hasPatch()` to check if a value exist in a PATCH request [#16188](https://github.com/phalcon/cphalcon/issues/16188)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::isTagFactory` to correctly detect a `TagFactory` object without throwing an error [#16097](https://github.com/phalcon/cphalcon/issues/16097)
+- Fixed default values for `Phalcon\Cli`, `Phalcon\Dispatcher` and `Phalcon\Application` components to ensure not `null` values are passed to methods [#16186](https://github.com/phalcon/cphalcon/issues/16186)
+- Fixed `Phalcon\Form::clear` to correctly clear the elements and not recurse [#15956](https://github.com/phalcon/cphalcon/issues/15956)
 
 ## [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 
@@ -162,13 +183,13 @@
 
 # [5.0.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.1) (2022-09-23)
 
-### Fixed
-
-- Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
-
 ### Added
 
 - Added `Phalcon\Encryption\Security\JWT\Validator::get()` and `Phalcon\Encryption\Security\JWT\Validator::set()` for validation data [#16115](https://github.com/phalcon/cphalcon/issues/16115)
+
+### Fixed
+
+- Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
 
 ## [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
 
@@ -179,6 +200,12 @@
 - Changed return types to `array` in `Phalcon\Annotations\Reflection` class methods [#16106](https://github.com/phalcon/cphalcon/issues/16106)
 - Changed `Phalcon\Html\Escaper::attributes()` to also accept an array of attributes [#16108](https://github.com/phalcon/cphalcon/issues/16108)
 
+### Added
+
+- Added `Phalcon\Encryption\Security\JWT\Token::validate()` to validate a token's claims [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Token::verify()` to verify a token's signature [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+- Added `Phalcon\Encryption\Security\JWT\Validator::getErrors()` to return any errors with the validation as an array [#16094](https://github.com/phalcon/cphalcon/issues/16094)
+
 ### Fixed
 
 - Fixed and improved return type of `object` & `?object` [#16023](https://github.com/phalcon/cphalcon/issues/16023)
@@ -187,12 +214,6 @@
 - Fixed `Phalcon\Filter\Validation\Validator\Numericality` to correctly detect illegal characters within string numbers [#16070](https://github.com/phalcon/cphalcon/issues/16070)
 - Fixed segmentation fault on Reflection of `Phalcon\Mvc\Model` class [#16080](https://github.com/phalcon/cphalcon/issues/16080)
 - Fixed segmentation fault on Reflection [#16096](https://github.com/phalcon/cphalcon/issues/16096)
-
-### Added
-
-- Added `Phalcon\Encryption\Security\JWT\Token::validate()` to validate a token's claims [#16094](https://github.com/phalcon/cphalcon/issues/16094)
-- Added `Phalcon\Encryption\Security\JWT\Token::verify()` to verify a token's signature [#16094](https://github.com/phalcon/cphalcon/issues/16094)
-- Added `Phalcon\Encryption\Security\JWT\Validator::getErrors()` to return any errors with the validation as an array [#16094](https://github.com/phalcon/cphalcon/issues/16094)
 
 ## [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
@@ -221,6 +242,12 @@
 
 ## [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
 
+### Added
+
+- Added support for `webp` images for `Phalcon\Image\Adapter\Gd` [#15977](https://github.com/phalcon/cphalcon/issues/15977)
+- Added `Phalcon\Mvc\Model\ManagerInterface::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
+- Added `Phalcon\Mvc\Model\Manager::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
+
 ### Fixed
 
 - Fixed `Phalcon\Tag::textArea()` to check if the value is `null` before calling `htmlspecialchars` [#15992](https://github.com/phalcon/cphalcon/issues/15992)
@@ -240,25 +267,19 @@
 - Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModuleName()` to accept `null` [#15997](https://github.com/phalcon/cphalcon/issues/15997)
 - Fixed `Phalcon\Dispatcher\AbstractDispatcher::getModuleName()` to also return `null` [#15997](https://github.com/phalcon/cphalcon/issues/15997)
 
-### Added
-
-- Added support for `webp` images for `Phalcon\Image\Adapter\Gd` [#15977](https://github.com/phalcon/cphalcon/issues/15977)
-- Added `Phalcon\Mvc\Model\ManagerInterface::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
-- Added `Phalcon\Mvc\Model\Manager::getBuilder()` to return the existing builder (created by `createBuilder()`) [#15966](https://github.com/phalcon/cphalcon/issues/15966)
-
 ## [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (2022-06-09)
 
 ### Changed
 
 - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978) 
 
+### Added
+
+- Added `StringValLegacy` filter using `filter_var()` for PHP < 8.1 [#15978](https://github.com/phalcon/cphalcon/issues/15978)
+
 ### Fixed
 
 - Fixed `Phalcon\Http\Response::getQualityHeader()` to check if the server variable is `null` before performing `preg_split` [#15984](https://github.com/phalcon/cphalcon/issues/15984) 
-
-### Added
-
-- Added `StringValLegacy` filter using `filter_var()` for PHP < 8.1 [#15978](https://github.com/phalcon/cphalcon/issues/15978) 
 
 ## [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC1) (2022-05-31)
 
@@ -268,11 +289,6 @@
 - Changed `Phalcon\Logger\Logger` to no longer depend on PSR interfaces [#15925](https://github.com/phalcon/cphalcon/issues/15925)
 - Changed `Phalcon\Cache\Cache` to no longer depend on PSR interfaces [#15927](https://github.com/phalcon/cphalcon/issues/15927)
 - Changed `Phalcon\Html\Link` to no longer depend on PSR interfaces [#15930](https://github.com/phalcon/cphalcon/issues/15930)
-
-### Fixed
-
-- Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
-- Fixed `Phalcon\Storage\Adapter\*` to correctly store `null` values [#15904](https://github.com/phalcon/cphalcon/issues/15904)
 
 ### Added
 
@@ -302,6 +318,11 @@
   - `Phalcon\Html\Link\AbstractLinkProvider` to be used in the link class but also the proxy-psr13 repo [#15930](https://github.com/phalcon/cphalcon/issues/15930)
 - Added `Phalcon\Translate\Adapter\Csv::toArray()` and `Phalcon\Translate\Adapter\NativeArray::toArray()` to return the translation array back  [#15902](https://github.com/phalcon/cphalcon/issues/15902)
 
+### Fixed
+
+- Fixed `Phalcon\Html\Helper\Input\Numeric` to produce correct elements [#15896](https://github.com/phalcon/cphalcon/issues/15896)
+- Fixed `Phalcon\Storage\Adapter\*` to correctly store `null` values [#15904](https://github.com/phalcon/cphalcon/issues/15904)
+
 ### Removed
 
 - Removed `Phalcon\Container\Container` and moved its contents to the `proxy-psr11` repo [#15928](https://github.com/phalcon/cphalcon/issues/15928)
@@ -313,6 +334,10 @@
 
 - Renamed `Phalcon\Db\Result\Pdo` to `Phalcon\Db\Result\PdoResult` to avoid collisions with `\PDO` [#15874](https://github.com/phalcon/cphalcon/issues/15854)
 - Moved `Phalcon\Validation` to `Phalcon\Filter\Validation` 
+
+### Added
+
+- Added `Phalcon\Html\Helper\Title:setSeparator` to allow setting the separator independently [#15866](https://github.com/phalcon/cphalcon/issues/15866)
 
 ### Fixed
 
@@ -332,11 +357,11 @@
 - Fixed `Phalcon\Mvc\Model\Manager::addHasOneThrough()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 - Fixed `Phalcon\Mvc\Model\Manager::addBelongsTo()` parameter `options` array by default [#15971](https://github.com/phalcon/cphalcon/issues/15971)
 
+## [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)
+
 ### Added
 
-- Added `Phalcon\Html\Helper\Title:setSeparator` to allow setting the separator independently [#15866](https://github.com/phalcon/cphalcon/issues/15866)
-
-## [5.0.0beta2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta2) (2022-01-06)
+- Added `Phalcon\Support\Helper\Str\KebabCase`, `Phalcon\Support\Helper\Str\PascalCase` and `Phalcon\Support\Helper\Str\SnakeCase` helpers [#15850](https://github.com/phalcon/cphalcon/issues/15850)
 
 ### Fixed
 
@@ -345,10 +370,6 @@
 - `Phalcon\Forms\Element\AbstractElement::getLocalTagFactory()` to return the tagFactory from itself, the form, the DI or a new instance [#15847](https://github.com/phalcon/cphalcon/issues/15847)
 - Changed references to `sha1` with `hash("sha256", $data)` to ensure that there are no collisions from the hashing algorithm  [#15844](https://github.com/phalcon/cphalcon/issues/15844)
 - Changed `Phalcon\Support\Helper\Str\Camelize` to accept a third boolean parameter indicating whether the result will have the first letter capitalized or not [#15850](https://github.com/phalcon/cphalcon/issues/15850)
-
-### Added
-
-- Added `Phalcon\Support\Helper\Str\KebabCase`, `Phalcon\Support\Helper\Str\PascalCase` and `Phalcon\Support\Helper\Str\SnakeCase` helpers [#15850](https://github.com/phalcon/cphalcon/issues/15850)
 
 ## [5.0.0beta1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0beta1) (2021-12-24)
 
@@ -379,10 +400,6 @@
 - `Phalcon\Forms\Form` requires a `Phalcon\Html\TagFactory` to be set before it can render elements [#15801](https://github.com/phalcon/cphalcon/issues/15801)
 - `Phalcon\Di\FactoryDefault` will now return a `Phalcon\Html\TagFactory` for the `tag` service [#15801](https://github.com/phalcon/cphalcon/issues/15801)
 
-### Fixed
-
-- `Phalcon\Logger\LoggerFactory::load()` to correctly use the key of the adapters array as the name of the adapter [#15831](https://github.com/phalcon/cphalcon/issues/15831)
-
 ### Added
 
 - Added:
@@ -399,6 +416,7 @@
 
 ### Fixed
 
+- `Phalcon\Logger\LoggerFactory::load()` to correctly use the key of the adapters array as the name of the adapter [#15831](https://github.com/phalcon/cphalcon/issues/15831)
 - Fixed `Phalcon\Dispatcher\Dispatcher::setParams()` not updating local params during `dispatch()` loop [#15603](https://github.com/phalcon/cphalcon/issues/15603)
 - Fixed related records auto-save with `belongsTo()` relation [#15148](https://github.com/phalcon/cphalcon/issues/15148)
 

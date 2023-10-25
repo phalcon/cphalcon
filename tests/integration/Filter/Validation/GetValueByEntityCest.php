@@ -39,7 +39,7 @@ class GetValueByEntityCest
         $entity = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->name, $value);
     }
@@ -51,7 +51,7 @@ class GetValueByEntityCest
         $entity = new EntityWithGetter(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->getName(), $value);
     }
@@ -63,7 +63,7 @@ class GetValueByEntityCest
         $entity = new EntityWithHook(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->readAttribute('name'), $value);
     }

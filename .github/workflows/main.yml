@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.3.1
+  PHALCON_VERSION: 5.4.0
   ZEPHIR_PARSER_VERSION: 1.5.3
   ZEPHIR_VERSION: 0.17.0
 
@@ -50,6 +50,8 @@ jobs:
       name: Setup Zephir Extensions
       run: |
         echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
+#        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV" # Need to change the templates to use this
+
 
   # PHP CodeSniffer inspection
   phpcs:
@@ -100,7 +102,7 @@ jobs:
           # Linux
           - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
           # macOS
-          - { name: macos-clang, os: macos-11, compiler: clang }
+          - { name: macos-clang, os: macos-12, compiler: clang }
           # Windows
           - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
           - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
@@ -137,7 +139,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -180,6 +182,7 @@ jobs:
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
           echo "::set-output name=extension-path::$PhalconExtPath"
+#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
@@ -388,6 +391,7 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
 
       - name: Download Phalcon build artifacts
         id: download
