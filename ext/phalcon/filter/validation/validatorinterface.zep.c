@@ -38,18 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getOption);
 /**
- * Checks if an option is defined
- *
- * @return boolean
- */
-ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, hasOption);
-/**
- * Executes the validation
- *
- * @return boolean
- */
-ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, validate);
-/**
  * Get the template message
  *
  * @return string
@@ -63,14 +51,26 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getTemplate);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getTemplates);
 /**
- * Clear current template and set new from an array,
+ * Checks if an option is defined
  *
- * @return ValidatorInterface
+ * @return boolean
  */
-ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, setTemplates);
+ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, hasOption);
 /**
  * Set a new template message
  *
  * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, setTemplate);
+/**
+ * Clear current template and set new from an array,
+ *
+ * @return ValidatorInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, setTemplates);
+/**
+ * Executes the validation
+ *
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, validate);

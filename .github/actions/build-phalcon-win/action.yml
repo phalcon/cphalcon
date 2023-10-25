@@ -25,7 +25,7 @@ runs:
   using: 'composite'
   steps:
     - name: Setup Downloads Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ env.CACHE_DIR }}
         key: ${{ runner.os }}-downloads-${{ hashFiles('**/.github/actions/build-phalcon-win/action.yml') }}

@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.3.1
+  PHALCON_VERSION: 5.4.0
   ZEPHIR_PARSER_VERSION: 1.5.3
   ZEPHIR_VERSION: 0.17.0
 
@@ -139,7 +139,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
