@@ -50,8 +50,6 @@ jobs:
       name: Setup Zephir Extensions
       run: |
         echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_OUTPUT"
-        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
-
 #        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
 
@@ -183,8 +181,9 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "::set-output name=extension-path::$PhalconExtPath"
-#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
+          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV"
+          echo "extension-path=$PhalconExtPath"
+#          echo "::set-output name=extension-path::$PhalconExtPath"
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
