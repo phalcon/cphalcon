@@ -50,7 +50,6 @@ jobs:
       name: Setup Zephir Extensions
       run: |
         echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_OUTPUT"
-#        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
 
   # PHP CodeSniffer inspection
@@ -181,14 +180,18 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "::set-output name=extension-path::$PhalconExtPath"
-#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
+          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
+          echo "extension-path2=$PhalconExtPath" >> "$GITHUB_ENV"
+#          echo "::set-output name=extension-path::$PhalconExtPath"
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
         with:
           target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
           ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
+        run: |
+          echo "${{ steps.phalcon-ext-path.outputs }}"
+          echo "${{ extension-path2 }}"
 
       - name: "Validate composer"
         run: composer validate --no-check-all --no-check-publish
