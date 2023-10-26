@@ -180,14 +180,14 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
-          echo "ex-path2=$PhalconExtPath" >> "$GITHUB_ENV"
+          echo "extension_path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
+          echo "ex_path2=$PhalconExtPath" >> "$GITHUB_ENV"
 #          echo "::set-output name=extension-path::$PhalconExtPath"
 
       - name: Creates build artifact with Phalcon extension
         run: |
-          echo "${{ steps.phalcon-ext-path.outputs.extension-path }}"
-          echo "$ex-path2"
+          echo "${{ steps.phalcon-ext-path.outputs.extension_path }}"
+          echo "$ex_path2"
 
 #      - name: Creates build artifact with Phalcon extension
 #        uses: ./.github/actions/pack-phalcon-ext
