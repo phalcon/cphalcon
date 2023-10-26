@@ -187,7 +187,7 @@ jobs:
       - name: Creates build artifact with Phalcon extension
         run: |
           echo "${{ steps.phalcon-ext-path.outputs }}"
-          echo "${{ extension-path2 }}"
+          echo "$extension-path2"
 
 #      - name: Creates build artifact with Phalcon extension
 #        uses: ./.github/actions/pack-phalcon-ext
