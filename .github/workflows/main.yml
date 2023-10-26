@@ -49,8 +49,8 @@ jobs:
     - id: setup-zephir-ext
       name: Setup Zephir Extensions
       run: |
-        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
-#        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV" # Need to change the templates to use this
+        echo "extensions=zephir_parser-${ env.ZEPHIR_PARSER_VERSION }" >> "$GITHUB_OUTPUT" # Need to change the templates to use this
+#        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
 
 
   # PHP CodeSniffer inspection
