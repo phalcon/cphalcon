@@ -180,20 +180,14 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extension_path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
-          echo "ex_path2=$PhalconExtPath" >> "$GITHUB_ENV"
-#          echo "::set-output name=extension-path::$PhalconExtPath"
+          echo "::set-output name=extension-path::$PhalconExtPath"
+#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
 
       - name: Creates build artifact with Phalcon extension
-        run: |
-          echo "${{ steps.phalcon-ext-path.outputs.extension_path }}"
-          echo "$ex_path2"
-
-#      - name: Creates build artifact with Phalcon extension
-#        uses: ./.github/actions/pack-phalcon-ext
-#        with:
-#          target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-#          ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
+        uses: ./.github/actions/pack-phalcon-ext
+        with:
+          target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+          ext-path: ${{ steps.phalcon-ext-path.outputs.extension-path }}
 
       - name: "Validate composer"
         run: composer validate --no-check-all --no-check-publish
