@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.4.1](https://github.com/phalcon/cphalcon/releases/tag/v5.4.1) (xxxx-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Filter\Validation\Validator\Numericality` to return false when input has spaces [#16461](https://github.com/phalcon/cphalcon/issues/16461)
+
+### Removed
+
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
 
 ### Changed
