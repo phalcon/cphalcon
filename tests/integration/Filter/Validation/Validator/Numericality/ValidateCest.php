@@ -219,7 +219,7 @@ class ValidateCest
             [1, true],
             [123, true],
             [123.45, true],
-            ['1 234.56', true],
+            ['1 234.56', false],
             ['1,234.56', true],
             ['1.23', true],
             ['1.123,56', true],
@@ -230,7 +230,7 @@ class ValidateCest
             [-1, true],
             [-123, true],
             [-123.45, true],
-            ['-1 234.56', true],
+            ['-1 234.56', false],
             ['-1,234.56', true],
             ['-1.23', true],
             ['-1.123,56', true],
@@ -241,6 +241,9 @@ class ValidateCest
             ['-12,000', true],
             ['-12,0@0', false],
             ['-12,0@@0', false],
+            [' 1', false],
+            ['1 ', false],
+            ['1 1', false],
         ];
     }
 }
