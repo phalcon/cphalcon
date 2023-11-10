@@ -17,6 +17,7 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Message\RequestMethodInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
+use Phalcon\Filter\FilterFactory;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Support\Helper\Json\Decode;
 use UnexpectedValueException;
@@ -1646,15 +1647,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         if typeof filterService != "object" {
             let container = <DiInterface> this->container;
-
-            if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'filter' service"
-                );
+            if typeof container == "object" && container->has("filter") {
+                let filter = <FilterInterface> container->getShared("filter"),
+                this->filterService = filter;
+            } else {
+                this->filterService = (new FilterFactory())->newInstance();
             }
-
-            let filterService       = <FilterInterface> container->getShared("filter"),
-                this->filterService = filterService;
+            this->filterService = filterService;
         }
 
         return this->filterService;
