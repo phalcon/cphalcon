@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
+use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
@@ -247,7 +248,7 @@ class ToArrayCest
                 'inv_title'       => $title,
                 'inv_total'       => 222.19,
                 'inv_created_at'  => $date,
-            ]
+            ],
         ];
         $actual   = $invoices->toArray();
         $I->assertSame($expected, $actual);
@@ -258,5 +259,67 @@ class ToArrayCest
                 'castOnHydrate' => false,
             ]
         );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: toArray() - execute column not in columnMap
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-11-21
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/16467
+     *
+     * @group  mysql
+     */
+    public function mvcModelToArrayExecuteColumnNotInColumnMap(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray() - execute - column not in columnMap');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $title      = uniqid('inv-');
+        $date       = date('Y-m-d H:i:s');
+
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 0, $title, 111.26, $date);
+        $migration->insert(5, 2, 1, $title, 222.19, $date);
+
+        $manager = $this->getService('modelsManager');
+        $class   = Manager::class;
+        $I->assertInstanceOf($class, $manager);
+
+
+        $result = $manager
+            ->createBuilder()
+            ->addFrom(InvoicesMap::class, 'i')
+            ->limit(10)
+            ->getQuery()
+            ->execute()
+        ;
+
+        $result->rewind();
+        $result->next();
+        $result->rewind();
+
+        $expected = [
+            [
+                'id'          => 4,
+                'cst_id'      => 1,
+                'status_flag' => 0,
+                'title'       => $title,
+                'total'       => 111.26,
+                'created_at'  => $date,
+            ],
+            [
+                'id'          => 5,
+                'cst_id'      => 2,
+                'status_flag' => 1,
+                'title'       => $title,
+                'total'       => 222.19,
+                'created_at'  => $date,
+            ],
+        ];
+        $actual   = $result->toArray();
+        $I->assertSame($expected, $actual);
     }
 }
