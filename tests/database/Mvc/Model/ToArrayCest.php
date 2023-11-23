@@ -22,7 +22,6 @@ use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\InvoicesMap;
 
 use function uniqid;
-use function var_dump;
 
 class ToArrayCest
 {
@@ -249,7 +248,7 @@ class ToArrayCest
                 'inv_title'       => $title,
                 'inv_total'       => 222.19,
                 'inv_created_at'  => $date,
-            ]
+            ],
         ];
         $actual   = $invoices->toArray();
         $I->assertSame($expected, $actual);
@@ -295,7 +294,8 @@ class ToArrayCest
             ->addFrom(InvoicesMap::class, 'i')
             ->limit(10)
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
 
         $result->rewind();
         $result->next();
@@ -319,7 +319,7 @@ class ToArrayCest
                 'created_at'  => $date,
             ],
         ];
-        $actual = $result->toArray();
+        $actual   = $result->toArray();
         $I->assertSame($expected, $actual);
     }
 }
