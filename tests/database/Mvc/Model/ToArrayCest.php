@@ -360,30 +360,20 @@ class ToArrayCest
         $actual   = $model->inv_id;
         $I->assertEquals($expected, $actual);
 
-        /**
-         * sqlite returns strings
-         */
-        if ('sqlite' === $I->getDriver()) {
-            $expected = [
-                'inv_id'          => '4',
-                'inv_cst_id'      => '1',
-                'inv_status_flag' => '0',
-                'inv_title'       => $title . '!4',
-                'inv_total'       => '111.26',
-                'inv_created_at'  => $date,
-            ];
-        } else {
-            $expected = [
-                'inv_id'          => 4,
-                'inv_cst_id'      => 1,
-                'inv_status_flag' => 0,
-                'inv_title'       => $title . '!4',
-                'inv_total'       => 111.26,
-                'inv_created_at'  => $date,
-            ];
-        };
+        $expected = [
+            'inv_id'          => '4',
+            'inv_cst_id'      => '1',
+            'inv_status_flag' => '0',
+            'inv_title'       => $title . '!4',
+            'inv_total'       => '111.26',
+            'inv_created_at'  => $date,
+        ];
 
         $actual   = $model->toArray();
-        $I->assertSame($expected, $actual);
+        /**
+         * assertEquals here because sqlite returns strings in different
+         * PHP versions
+         */
+        $I->assertEquals($expected, $actual);
     }
 }
