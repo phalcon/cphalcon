@@ -3277,7 +3277,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function toArray(columns = null) -> array
     {
-        var metaData, columnMap, attribute, attributeField, value;
+        var attribute, attributeField, columnMap, metaData, method, value;
         array data;
 
         let data = [],
@@ -3316,7 +3316,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
             }
 
-            if fetch value, this->{attributeField} {
+            /**
+             * Check if there is a getter for this property
+             */
+            let method = "get" . camelize(attributeField);
+
+            if method_exists(this, method) {
+                let data[attributeField] = this->{method}();
+            } elseif fetch value, this->{attributeField} {
                 let data[attributeField] = value;
             } else {
                 let data[attributeField] = null;
