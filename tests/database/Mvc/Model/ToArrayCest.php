@@ -24,7 +24,6 @@ use Phalcon\Tests\Fixtures\models\SourcesGetters;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\InvoicesMap;
-
 use Phalcon\Tests\Models\Sources;
 
 use function date;
