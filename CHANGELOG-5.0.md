@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Changed `Phalcon\Mvc\Model::toArray` to use getters if present [#16320](https://github.com/phalcon/cphalcon/issues/16320)
+
 ### Added
 
 ### Fixed
