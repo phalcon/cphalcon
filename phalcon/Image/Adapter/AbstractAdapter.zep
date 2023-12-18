@@ -130,14 +130,14 @@ abstract class AbstractAdapter implements AdapterInterface
         int offsetX = null,
         int offsetY = null
     ) -> <AdapterInterface> {
-        if (null === offsetX) {
+        if (null === offsetX || 0 ===  offsetX) {
             let offsetX = ((this->width - width) / 2);
         } else {
             let offsetX = (offsetX < 0) ? this->width - width + offsetX : offsetX;
             let offsetX = (offsetX > this->width) ? this->width : offsetX;
         }
 
-        if (null === offsetY) {
+        if (null === offsetY || 0 ===  offsetY) {
             let offsetY = ((this->height - height) / 2);
         } else {
             let offsetY = (offsetY < 0) ? this->height - height + offsetY : offsetY;
