@@ -1,5 +1,5 @@
 FROM composer:latest as composer
-FROM php:7.4-fpm
+FROM php:8.3-fpm
 
 ADD ./extra.ini /usr/local/etc/php/conf.d/
 
@@ -8,7 +8,7 @@ ENV MY_USER="phalcon" \
 	MY_GROUP="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
-	PHP_VERSION="7.4" \
+	PHP_VERSION="8.3" \
 	LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
@@ -38,17 +38,22 @@ RUN apt update -y && \
         nano \
         sudo \
         wget \
-        zip \
-        zlib1g
+        zip
+
+# Remove this RUN when imagick will be available via pecl
+RUN cd /opt && \
+    git clone https://github.com/Imagick/imagick.git && \
+    cd imagick && \
+    phpize && ./configure && \
+    make && make install
 
 # PECL Packages
-RUN pecl install \
-      redis \
-      igbinary \
+RUN pecl install -o -f redis && \
+    pecl install igbinary \
       msgpack \
       apcu \
       yaml \
-      imagick \
+#      imagick \
       memcached \
       zephir_parser
 
@@ -79,12 +84,11 @@ RUN docker-php-ext-install \
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
-        gettext \
         redis \
         igbinary \
         msgpack \
         apcu \
-        imagick \
+#        imagick \
         yaml \
         memcached \
         zephir_parser
