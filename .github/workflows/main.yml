@@ -70,10 +70,10 @@ jobs:
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.2'
+      php_version: '8.3'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
