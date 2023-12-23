@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, *separator_param = NULL, parts, _1, _2, _0$$3;
 	zval text, separator;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&separator);
@@ -59,17 +58,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(separator)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &text_param, &separator_param);
 	zephir_get_strval(&text, text_param);
 	if (!separator_param) {
@@ -78,13 +73,11 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	} else {
 		zephir_get_strval(&separator, separator_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode(&parts, &separator, &text, LONG_MAX);
 	number = 1;
 	if (1 == zephir_array_isset_long(&parts, 1)) {
-		ZEPHIR_OBS_VAR(&_0$$3);
+		zephir_memory_observe(&_0$$3);
 		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
 		number = (zephir_get_intval(&_0$$3) + 1);
 	}

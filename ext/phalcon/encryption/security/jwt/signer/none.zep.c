@@ -45,9 +45,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_None)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgHeader)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("none");
 }
@@ -59,9 +56,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgHeader)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgorithm)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("None");
 }
@@ -79,20 +73,15 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, sign)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *payload_param = NULL, *passphrase_param = NULL;
 	zval payload, passphrase;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(payload)
 		Z_PARAM_STR(passphrase)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &payload_param, &passphrase_param);
 	if (UNEXPECTED(Z_TYPE_P(payload_param) != IS_STRING && Z_TYPE_P(payload_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'payload' must be of the type string"));
@@ -104,8 +93,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, sign)
 		ZEPHIR_INIT_VAR(&payload);
 	}
 	zephir_get_strval(&passphrase, passphrase_param);
-
-
 	RETURN_MM_STRING("");
 }
 
@@ -123,29 +110,22 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, verify)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *source_param = NULL, *payload_param = NULL, *passphrase_param = NULL, _0;
 	zval source, payload, passphrase;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&source);
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(source)
 		Z_PARAM_STR(payload)
 		Z_PARAM_STR(passphrase)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &source_param, &payload_param, &passphrase_param);
 	zephir_get_strval(&source, source_param);
 	zephir_get_strval(&payload, payload_param);
 	zephir_get_strval(&passphrase, passphrase_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "");
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_0, &source));

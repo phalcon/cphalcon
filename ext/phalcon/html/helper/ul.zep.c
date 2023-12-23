@@ -38,9 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ul)
  */
 PHP_METHOD(Phalcon_Html_Helper_Ul, getTag)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("ul");
 }

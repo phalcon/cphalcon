@@ -45,22 +45,15 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_ToObject, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(collection)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	zephir_convert_to_object(&collection);
 	RETURN_CTOR(&collection);
 }

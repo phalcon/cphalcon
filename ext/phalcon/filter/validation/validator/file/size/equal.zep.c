@@ -119,19 +119,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
@@ -198,29 +192,20 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional)
 	zend_bool included, _0;
 	zval *source_param = NULL, *target_param = NULL, *included_param = NULL;
 	double source, target;
-	zval *this_ptr = getThis();
 
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ZVAL(source)
 		Z_PARAM_ZVAL(target)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(included)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(2, 1, &source_param, &target_param, &included_param);
 	source = zephir_get_doubleval(source_param);
 	target = zephir_get_doubleval(target_param);
 	if (!included_param) {
 		included = 0;
 	} else {
-		included = zephir_get_boolval(included_param);
-	}
-
-
+		}
 	_0 = included == 0;
 	if (_0) {
 		_0 = source != target;

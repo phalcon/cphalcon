@@ -51,18 +51,13 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *content_param = NULL;
 	zval content;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&content);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &content_param);
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
@@ -73,8 +68,6 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter)
 	} else {
 		ZEPHIR_INIT_VAR(&content);
 	}
-
-
 	RETURN_CTOR(&content);
 }
 

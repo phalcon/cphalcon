@@ -62,7 +62,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&statement);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
@@ -71,10 +70,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 		Z_PARAM_LONG(code)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(previous, zend_ce_exception)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 4, &message_param, &statement_param, &code_param, &previous);
 	if (!message_param) {
 		ZEPHIR_INIT_VAR(&message);
@@ -91,14 +88,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	if (!code_param) {
 		code = 0;
 	} else {
-		code = zephir_get_intval(code_param);
-	}
+		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("statement"), &statement);
 	ZVAL_LONG(&_0, code);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", NULL, 0, &message, &_0, previous);
@@ -119,9 +113,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
 
 	ZVAL_UNDEF(&statement);
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("statement"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&statement, &_0);
@@ -140,7 +133,8 @@ zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception(zend_
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

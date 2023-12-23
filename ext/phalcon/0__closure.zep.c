@@ -30,22 +30,15 @@ PHP_METHOD(phalcon_0__closure, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *element, element_sub, _0;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &element);
-
-
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 10, element);
 	zephir_check_call_status();
 	zephir_ucfirst(return_value, &_0);

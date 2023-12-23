@@ -72,11 +72,10 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __construct)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, 5);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("flag"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -101,32 +100,25 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&delimiter);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(flag)
 		Z_PARAM_STR(delimiter)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 2, &flag_param, &delimiter_param);
 	if (!flag_param) {
 		flag = 5;
 	} else {
-		flag = zephir_get_intval(flag_param);
-	}
+		}
 	if (!delimiter_param) {
 		ZEPHIR_INIT_VAR(&delimiter);
 		ZVAL_STRING(&delimiter, "\n");
 	} else {
 		zephir_get_strval(&delimiter, delimiter_param);
 	}
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, flag);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("flag"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &delimiter);
@@ -160,9 +152,6 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 	ZVAL_UNDEF(&_15$$10);
 	ZVAL_UNDEF(&_16$$11);
 	ZVAL_UNDEF(&_17$$11);
-
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("flag"), PH_NOISY_CC | PH_READONLY);
 	do {
 		if (ZEPHIR_IS_LONG(&_0, 1)) {

@@ -54,7 +54,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	zval context, replace;
 	zval *message_param = NULL, *context_param = NULL, *leftToken_param = NULL, *rightToken_param = NULL, key, value, *_0$$3, _1$$3, _4$$4, _5$$5;
 	zval message, leftToken, rightToken;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&leftToken);
@@ -66,8 +65,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&replace);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(message)
 		Z_PARAM_OPTIONAL
@@ -75,10 +72,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 		Z_PARAM_STR(leftToken)
 		Z_PARAM_STR(rightToken)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 3, &message_param, &context_param, &leftToken_param, &rightToken_param);
 	zephir_get_strval(&message, message_param);
 	if (!context_param) {
@@ -99,8 +94,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	} else {
 		zephir_get_strval(&rightToken, rightToken_param);
 	}
-
-
 	if (!(ZEPHIR_IS_EMPTY(&context))) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);

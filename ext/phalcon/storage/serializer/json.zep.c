@@ -52,7 +52,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Json)
 PHP_METHOD(Phalcon_Storage_Serializer_Json, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL, data_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
@@ -61,23 +60,18 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &data);
 	if (!data) {
 		data = &data_sub;
 		data = &__$null;
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_helper_json_encode_ce);
 	if (zephir_has_constructor(&_0)) {
@@ -94,7 +88,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, __construct)
 	}
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("decode"), &_1);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_serializer_json_ce, getThis(), "__construct", &_2, 0, data);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_serializer_json_ce, getThis(), "__construct", NULL, 0, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -121,15 +115,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(&_0);
+	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
 	_1 = Z_TYPE_P(&_0) == IS_OBJECT;
 	if (_1) {
-		ZEPHIR_OBS_VAR(&_2);
+		zephir_memory_observe(&_2);
 		zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
 		_1 = !(zephir_is_instance_of(&_2, SL("JsonSerializable")));
 	}
@@ -138,7 +131,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SS(&_4$$3, "Data for the JSON serializer cannot be of type 'object' ", "without implementing 'JsonSerializable'");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 199, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 200, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 54);
 		ZEPHIR_MM_RESTORE();
@@ -176,18 +169,12 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {

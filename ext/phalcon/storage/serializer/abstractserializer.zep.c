@@ -60,23 +60,18 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &data);
 	if (!data) {
 		data = &data_sub;
 		data = &__$null;
 	}
-
-
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdata", NULL, 0, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -92,11 +87,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(&_0);
+	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		RETURN_MM_MEMBER(getThis(), "data");
@@ -116,19 +110,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
 	ZEPHIR_MM_RESTORE();
 }
@@ -138,9 +126,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "data");
 }
@@ -153,9 +138,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSuccess)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "isSuccess");
 }
@@ -169,17 +151,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 }
 
@@ -194,20 +169,12 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 {
 	zend_bool _0, _1;
 	zval *data, data_sub;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-
-
 	_0 = Z_TYPE_P(data) == IS_NULL;
 	if (!(_0)) {
 		_0 = 1 == (Z_TYPE_P(data) == IS_TRUE || Z_TYPE_P(data) == IS_FALSE);

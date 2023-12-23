@@ -66,11 +66,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_result_pdoresult_method_entry) {
 	PHP_ME(Phalcon_Db_Result_PdoResult, execute, arginfo_phalcon_db_result_pdoresult_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_PdoResult, fetch, arginfo_phalcon_db_result_pdoresult_fetch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_PdoResult, fetchAll, arginfo_phalcon_db_result_pdoresult_fetchall, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Db_Result_PdoResult, fetchArray, arginfo_phalcon_db_result_pdoresult_fetcharray, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Db_Result_PdoResult, fetchArray, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Db_Result_PdoResult, fetchArray, arginfo_phalcon_db_result_pdoresult_fetcharray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_PdoResult, getInternalResult, arginfo_phalcon_db_result_pdoresult_getinternalresult, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_PdoResult, numRows, arginfo_phalcon_db_result_pdoresult_numrows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_PdoResult, setFetchMode, arginfo_phalcon_db_result_pdoresult_setfetchmode, ZEND_ACC_PUBLIC)

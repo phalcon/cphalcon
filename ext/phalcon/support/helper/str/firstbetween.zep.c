@@ -52,7 +52,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *start_param = NULL, *end_param = NULL, __$true, result, _0, _1;
 	zval text, start, end, _2;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&start);
@@ -62,23 +61,17 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(text)
 		Z_PARAM_STR(start)
 		Z_PARAM_STR(end)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &text_param, &start_param, &end_param);
 	zephir_get_strval(&text, text_param);
 	zephir_get_strval(&start, start_param);
 	zephir_get_strval(&end, end_param);
-
-
 	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 0, &text, &start);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);

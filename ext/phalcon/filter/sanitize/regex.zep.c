@@ -49,26 +49,19 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input, input_sub, *pattern, pattern_sub, *replace, replace_sub;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&pattern_sub);
 	ZVAL_UNDEF(&replace_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ZVAL(input)
 		Z_PARAM_ZVAL(pattern)
 		Z_PARAM_ZVAL(replace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &input, &pattern, &replace);
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 40, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 41, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

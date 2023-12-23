@@ -113,19 +113,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZVAL_UNDEF(&_3$$6);
 	ZVAL_UNDEF(&_4$$8);
 	ZVAL_UNDEF(&_5$$8);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
@@ -137,7 +131,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZVAL_STRING(&_1, "types");
 	ZEPHIR_CALL_METHOD(&types, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(&fieldTypes);
+	zephir_memory_observe(&fieldTypes);
 	if (zephir_array_isset_fetch(&fieldTypes, &types, field, 0)) {
 		ZEPHIR_CPY_WRT(&types, &fieldTypes);
 	}
@@ -147,12 +141,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("finfo_open")) == SUCCESS)) {
 		ZVAL_LONG(&_2$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 307, &_2$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 308, &_2$$6);
 		zephir_check_call_status();
 		zephir_array_fetch_string(&_3$$6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 101);
-		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 308, &tmp, &_3$$6);
+		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 309, &tmp, &_3$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 309, &tmp);
+		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 310, &tmp);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_OBS_NVAR(&mime);

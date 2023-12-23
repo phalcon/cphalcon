@@ -85,29 +85,22 @@ PHP_METHOD(Phalcon_Db_AbstractDb, setup)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, escapeIdentifiers, forceCasting;
 	zval options;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&escapeIdentifiers);
 	ZVAL_UNDEF(&forceCasting);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
-
-
-	ZEPHIR_OBS_VAR(&escapeIdentifiers);
+	zephir_memory_observe(&escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, &options, SL("escapeSqlIdentifiers"), 0)) {
 		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(&escapeIdentifiers);
 	}
-	ZEPHIR_OBS_VAR(&forceCasting);
+	zephir_memory_observe(&forceCasting);
 	if (zephir_array_isset_string_fetch(&forceCasting, &options, SL("forceCasting"), 0)) {
 		ZEPHIR_GLOBAL(db).force_casting = zend_is_true(&forceCasting);
 	}

@@ -19,11 +19,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_doctype___to
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_doctype_method_entry) {
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Html_Helper_Doctype, __construct, arginfo_phalcon_html_helper_doctype___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#else
-	PHP_ME(Phalcon_Html_Helper_Doctype, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#endif
+PHP_ME(Phalcon_Html_Helper_Doctype, __construct, arginfo_phalcon_html_helper_doctype___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Html_Helper_Doctype, __invoke, arginfo_phalcon_html_helper_doctype___invoke, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Doctype, __toString, arginfo_phalcon_html_helper_doctype___tostring, ZEND_ACC_PUBLIC)
 	PHP_FE_END

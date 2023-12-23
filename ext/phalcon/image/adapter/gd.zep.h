@@ -134,11 +134,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Gd, __construct, arginfo_phalcon_image_adapter_gd___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-#else
-	PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-#endif
+PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Phalcon_Image_Adapter_Gd, getVersion, arginfo_phalcon_image_adapter_gd_getversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, processBackground, arginfo_phalcon_image_adapter_gd_processbackground, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Gd, processBlur, arginfo_phalcon_image_adapter_gd_processblur, ZEND_ACC_PROTECTED)

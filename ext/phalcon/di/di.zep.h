@@ -36,11 +36,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di___call, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, arguments, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, arguments, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_attempt, 0, 0, 2)
@@ -89,22 +85,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_loadfromyaml, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, filePath, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, callbacks, IS_ARRAY, 1, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, callbacks, 1)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, callbacks, IS_ARRAY, 1, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_has, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 80000
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_MIXED, 0)
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 0, 1)
-#endif
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
@@ -114,8 +102,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetset, 0, 2, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetunset, 0, 1, IS_VOID, 0)
@@ -165,11 +153,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_zephir_init_properties_phalcon_di_d
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_di_method_entry) {
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Di_Di, __construct, arginfo_phalcon_di_di___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#else
-	PHP_ME(Phalcon_Di_Di, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#endif
+PHP_ME(Phalcon_Di_Di, __construct, arginfo_phalcon_di_di___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Di_Di, __call, arginfo_phalcon_di_di___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, attempt, arginfo_phalcon_di_di_attempt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, get, arginfo_phalcon_di_di_get, ZEND_ACC_PUBLIC)
