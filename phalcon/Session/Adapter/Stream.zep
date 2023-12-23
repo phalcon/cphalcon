@@ -93,7 +93,7 @@ class Stream extends Noop
      * @param int $maxlifetime
      * @return false|int
      */
-    public function gc(int maxlifetime) -> int|bool
+    public function gc(int maxlifetime) -> int|false
     {
         var file, pattern, time;
 

@@ -46,7 +46,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface
      * @param int $maxlifetime
      * @return false|int
      */
-    public function gc(int maxlifetime) -> int|bool
+    public function gc(int maxlifetime) -> int|false
     {
         return true;
     }
