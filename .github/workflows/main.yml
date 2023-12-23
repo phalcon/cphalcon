@@ -308,7 +308,7 @@ jobs:
       - name: "Install development dependencies with Composer"
         uses: ramsey/composer-install@v2
         with:
-          composer-options: "--prefer-dist --ignore-platform-reqs" # TODO: Remove '--ignore-platform-reqs' flag
+          composer-options: "--prefer-dist"
 
       - name: Setup Tests
         run: |
