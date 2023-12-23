@@ -17,9 +17,6 @@ use IntegrationTester;
 use Phalcon\Filter\Validation;
 use stdClass;
 
-/**
- * Class GetEntityCest
- */
 class GetEntityCest
 {
     /**
@@ -28,7 +25,7 @@ class GetEntityCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function filterValidationGetEntity(IntegrationTester $I)
+    public function filterValidationGetEntity(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getEntity()');
 

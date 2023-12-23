@@ -22,9 +22,6 @@ use stdClass;
 
 use function date;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
@@ -34,7 +31,7 @@ class ValidateCest
      * @since  2016-06-27
      * @issue  10405
      */
-    public function filterValidationValidateMessageToNonObject(IntegrationTester $I)
+    public function filterValidationValidateMessageToNonObject(IntegrationTester $I): void
     {
         $myValidator = new PresenceOf();
         $validation  = new Validation();

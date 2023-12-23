@@ -25,7 +25,7 @@ class GetSetFiltersCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */
-    public function filterValidationGetFilters(IntegrationTester $I)
+    public function filterValidationGetFilters(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getFilters()/setFilters()');
 
