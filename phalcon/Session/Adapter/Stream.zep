@@ -116,7 +116,7 @@ class Stream extends Noop
     *
     * @return bool
     */
-    public function open(var savePath, var sessionName) -> bool
+    public function open(var path, var name) -> bool
     {
         return true;
     }
@@ -148,11 +148,11 @@ class Stream extends Noop
         return data;
     }
 
-    public function write(var sessionId, var data) -> bool
+    public function write(var id, var data) -> bool
     {
         var name;
 
-        let name = this->path . this->getPrefixedName(sessionId);
+        let name = this->path . this->getPrefixedName(id);
 
         return false !== this->phpFilePutContents(name, data, LOCK_EX);
     }

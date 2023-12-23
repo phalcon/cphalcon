@@ -65,7 +65,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Open
      */
-    public function open(var savePath, var sessionName) -> bool
+    public function open(var path, var name) -> bool
     {
         return true;
     }
@@ -73,9 +73,9 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Write
      */
-    public function write(var sessionId, var data) -> bool
+    public function write(var id, var data) -> bool
     {
-        return this->adapter->set(sessionId, data);
+        return this->adapter->set(id, data);
     }
 
     /**

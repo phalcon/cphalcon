@@ -253,11 +253,11 @@ class Collection implements
      * Offset to set
      * See [offsetSet](https://php.net/manual/en/arrayaccess.offsetset.php)
      */
-    public function offsetSet(mixed element, mixed value) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
-        let element = (string) element;
+        let offset = (string) offset;
 
-        this->set(element, value);
+        this->set(offset, value);
     }
 
     /**
