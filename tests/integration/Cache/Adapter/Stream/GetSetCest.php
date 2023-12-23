@@ -192,6 +192,10 @@ class GetSetCest
     {
         $I->wantToTest('Cache\Adapter\Stream - get() - errors');
 
+        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
+            $I->markTestSkipped('Since PHP 8.3 warnings causing session ID/Name lock.');
+        }
+
         $serializer = new SerializerFactory();
         $adapter    = new Stream(
             $serializer,
