@@ -88,7 +88,7 @@ RUN docker-php-ext-enable \
         igbinary \
         msgpack \
         apcu \
-#        imagick \
+        imagick \
         yaml \
         memcached \
         zephir_parser
