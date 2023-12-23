@@ -1,7 +1,5 @@
 #!/bin/bash
 
-ZEPHIR_VERSION="0.17.0"
-
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -77,15 +75,10 @@ alias untar='tar xvf'
 NB_CORES=$(grep -c '^processor' /proc/cpuinfo)
 export MAKEFLAGS="-j$((NB_CORES)) -l${NB_CORES}"
 
-if [ ! -f ./zephir ]; then
-    wget --no-clobber -O ./zephir https://github.com/phalcon/zephir/releases/download/$ZEPHIR_VERSION/zephir.phar
-    chmod +x ./zephir
-fi
-
-alias zephir='./zephir '
-alias zf='./zephir fullclean'
-alias zg='./zephir generate'
-alias zs='./zephir stubs'
+alias zephir='./vendor/bin/zephir '
+alias zf='./vendor/bin/zephir fullclean'
+alias zg='./vendor/bin/zephir generate'
+alias zs='./vendor/bin/zephir stubs'
 alias cpl='zf && zg && cd ext/ && ./install && ..'
 alias codecept='php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept '
 alias phpcs='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcs '
