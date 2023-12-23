@@ -1,12 +1,16 @@
 # Changelog
 
-## [5.4.1](https://github.com/phalcon/cphalcon/releases/tag/v5.4.1) (xxxx-xx-xx)
+## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (xxxx-xx-xx)
 
 ### Changed
 
+- Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
 - Changed `Phalcon\Mvc\Model::toArray` to use getters if present [#16320](https://github.com/phalcon/cphalcon/issues/16320)
+- Adjusted return types identical to original interface `int|false` in `Phalcon\Session\Adapter\*::gc()` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
 
 ### Added
+
+- Added support for PHP 8.3 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
 
 ### Fixed
 
