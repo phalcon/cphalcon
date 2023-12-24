@@ -86,9 +86,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Status)
  */
 PHP_METHOD(Phalcon_Domain_Payload_Status, __construct)
 {
-	zval *this_ptr = getThis();
-
-
 
 }
 

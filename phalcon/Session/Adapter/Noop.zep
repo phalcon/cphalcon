@@ -99,7 +99,7 @@ class Noop implements SessionHandlerInterface
      * @param int $maxlifetime
      * @return false|int
      */
-    public function gc(int maxlifetime) -> int|bool
+    public function gc(int maxlifetime) -> int|false
     {
         return true;
     }
@@ -115,7 +115,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Open
      */
-    public function open(var savePath, var sessionName) -> bool
+    public function open(var path, var name) -> bool
     {
         return true;
     }
@@ -123,7 +123,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Write
      */
-    public function write(var sessionId, var data) -> bool
+    public function write(var id, var data) -> bool
     {
         return true;
     }

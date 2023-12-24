@@ -21,7 +21,7 @@
     }
   ],
   "require": {
-    "php": ">=7.4"
+    "php": ">=8.0"
   },
   "require-dev": {
     "ext-apcu": "*",
@@ -50,13 +50,13 @@
     "codeception/module-redis": "^1.0.0",
     "friendsofphp/php-cs-fixer": "~3.0",
     "mustache/mustache": "^2.14.1",
-    "phalcon/ide-stubs": "^4.1",
-    "phalcon/zephir": "^0.17",
+    "phalcon/ide-stubs": "^5.4",
+    "phalcon/zephir": "dev-development",
     "phpunit/phpunit": "^9.0",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",
     "twig/twig": "~1.36",
-    "vimeo/psalm": "^4.7",
+    "vimeo/psalm": "^5.18",
     "vlucas/phpdotenv": "^v5.4"
   },
   "config": {

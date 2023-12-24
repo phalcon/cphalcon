@@ -57,7 +57,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&source);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ARRAY(collection)
@@ -65,18 +64,14 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &collection_param, &value, &index);
 	zephir_get_arrval(&collection, collection_param);
 	if (!index) {
 		index = &index_sub;
 		index = &__$null;
 	}
-
-
 	ZEPHIR_CALL_METHOD(&source, this_ptr, "checknull", NULL, 0, &collection, value, index);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checknotnull", NULL, 0, &source, value, index);
@@ -96,26 +91,19 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *value, value_sub, *index, index_sub;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&index_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &collection_param, &value, &index);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	if (Z_TYPE_P(index) == IS_NULL) {
 		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 47);
 	}
@@ -134,26 +122,19 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *value, value_sub, *index, index_sub;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&index_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &collection_param, &value, &index);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	if (Z_TYPE_P(index) != IS_NULL) {
 		zephir_array_update_zval(&collection, index, value, PH_COPY | PH_SEPARATE);
 	}

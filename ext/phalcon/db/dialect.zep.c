@@ -61,18 +61,13 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -83,8 +78,6 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint)
 	} else {
 		ZEPHIR_INIT_VAR(&name);
 	}
-
-
 	ZEPHIR_CONCAT_SV(return_value, "SAVEPOINT ", &name);
 	RETURN_MM();
 }
@@ -124,17 +117,14 @@ PHP_METHOD(Phalcon_Db_Dialect, escape)
 	ZVAL_UNDEF(&_19$$9);
 	ZVAL_UNDEF(&_21$$9);
 	ZVAL_UNDEF(&_7);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(str)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &str_param, &escapeChar_param);
 	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be of the type string"));
@@ -150,13 +140,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escape)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (!(ZEPHIR_GLOBAL(db).escape_identifiers)) {
 		RETURN_CTOR(&str);
 	}
 	if (ZEPHIR_IS_EMPTY(&escapeChar)) {
-		ZEPHIR_OBS_VAR(&_0$$4);
+		zephir_memory_observe(&_0$$4);
 		zephir_read_property(&_0$$4, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC);
 		zephir_cast_to_string(&_1$$4, &_0$$4);
 		ZEPHIR_CPY_WRT(&escapeChar, &_1$$4);
@@ -270,17 +258,14 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema)
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_0$$4);
 	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(str)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &str_param, &escapeChar_param);
 	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be of the type string"));
@@ -296,13 +281,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (!(ZEPHIR_GLOBAL(db).escape_identifiers)) {
 		RETURN_CTOR(&str);
 	}
 	if (ZEPHIR_IS_STRING(&escapeChar, "")) {
-		ZEPHIR_OBS_VAR(&_0$$4);
+		zephir_memory_observe(&_0$$4);
 		zephir_read_property(&_0$$4, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC);
 		zephir_cast_to_string(&_1$$4, &_0$$4);
 		ZEPHIR_CPY_WRT(&escapeChar, &_1$$4);
@@ -327,18 +310,13 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(sqlQuery)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be of the type string"));
@@ -349,8 +327,6 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate)
 	} else {
 		ZEPHIR_INIT_VAR(&sqlQuery);
 	}
-
-
 	ZEPHIR_CONCAT_VS(return_value, &sqlQuery, " FOR UPDATE");
 	RETURN_MM();
 }
@@ -385,7 +361,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(columnList)
@@ -393,10 +368,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &columnList_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&columnList, columnList_param);
 	if (!escapeChar_param) {
@@ -410,8 +383,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&columns);
 	array_init(&columns);
 	zephir_is_iterable(&columnList, 0, "phalcon/Db/Dialect.zep", 128);
@@ -420,7 +391,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 		{
 			ZEPHIR_INIT_NVAR(&column);
 			ZVAL_COPY(&column, _0);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getsqlcolumn", &_3, 43, &column, &escapeChar, &bindCounts);
+			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getsqlcolumn", &_3, 44, &column, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_2$$3, PH_SEPARATE, "phalcon/Db/Dialect.zep", 125);
 		} ZEND_HASH_FOREACH_END();
@@ -435,7 +406,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 			}
 			ZEPHIR_CALL_METHOD(&column, &columnList, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "getsqlcolumn", &_3, 43, &column, &escapeChar, &bindCounts);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "getsqlcolumn", &_3, 44, &column, &escapeChar, &bindCounts);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_4$$4, PH_SEPARATE, "phalcon/Db/Dialect.zep", 125);
 			ZEPHIR_CALL_METHOD(NULL, &columnList, "next", NULL, 0);
@@ -452,9 +423,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
  */
 PHP_METHOD(Phalcon_Db_Dialect, getCustomFunctions)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "customFunctions");
 }
@@ -489,7 +457,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 	ZVAL_UNDEF(&_2$$7);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&bindCounts);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(column)
@@ -497,10 +464,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &column, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_SEPARATE_PARAM(column);
 	if (!escapeChar_param) {
@@ -514,8 +479,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	if (Z_TYPE_P(column) != IS_ARRAY) {
 		ZVAL_NULL(&_0$$3);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "preparequalified", NULL, 0, column, &_0$$3, &escapeChar);
@@ -523,7 +486,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 		RETURN_MM();
 	}
 	if (!(zephir_array_isset_string(column, SL("type")))) {
-		ZEPHIR_OBS_VAR(&columnField);
+		zephir_memory_observe(&columnField);
 		zephir_array_fetch_long(&columnField, column, 0, PH_NOISY, "phalcon/Db/Dialect.zep", 160);
 		if (Z_TYPE_P(&columnField) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&columnExpression);
@@ -542,7 +505,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 			zephir_array_update_string(&_2$$7, SL("name"), &columnField, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CPY_WRT(&columnExpression, &_2$$7);
 		}
-		ZEPHIR_OBS_VAR(&columnDomain);
+		zephir_memory_observe(&columnDomain);
 		_3$$4 = zephir_array_isset_long_fetch(&columnDomain, column, 1, 0);
 		if (_3$$4) {
 			_3$$4 = !ZEPHIR_IS_STRING_IDENTICAL(&columnDomain, "");
@@ -550,7 +513,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 		if (_3$$4) {
 			zephir_array_update_string(&columnExpression, SL("domain"), &columnDomain, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_OBS_VAR(&columnAlias);
+		zephir_memory_observe(&columnAlias);
 		_4$$4 = zephir_array_isset_long_fetch(&columnAlias, column, 2, 0);
 		if (_4$$4) {
 			_4$$4 = zephir_is_true(&columnAlias);
@@ -613,7 +576,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 	ZVAL_UNDEF(&_9$$18);
 	ZVAL_UNDEF(&_10$$18);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -621,10 +583,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -638,26 +598,24 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&type);
+	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &expression, SL("type"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/Db/Dialect.zep", 224);
 		return;
 	}
 	do {
 		if (ZEPHIR_IS_STRING(&type, "scalar")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionscalar", NULL, 44, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionscalar", NULL, 45, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "object")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionobject", NULL, 45, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionobject", NULL, 46, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "qualified")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionqualified", NULL, 46, &expression, &escapeChar);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionqualified", NULL, 47, &expression, &escapeChar);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -666,15 +624,15 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 			RETURN_CTOR(&_0$$7);
 		}
 		if (ZEPHIR_IS_STRING(&type, "placeholder")) {
-			ZEPHIR_OBS_VAR(&times);
+			zephir_memory_observe(&times);
 			if (zephir_array_isset_string_fetch(&times, &expression, SL("times"), 0)) {
 				ZEPHIR_INIT_VAR(&placeholders);
 				array_init(&placeholders);
-				ZEPHIR_OBS_VAR(&rawValue);
+				zephir_memory_observe(&rawValue);
 				zephir_array_fetch_string(&rawValue, &expression, SL("rawValue"), PH_NOISY, "phalcon/Db/Dialect.zep", 264);
-				ZEPHIR_OBS_VAR(&value);
+				zephir_memory_observe(&value);
 				zephir_array_fetch_string(&value, &expression, SL("value"), PH_NOISY, "phalcon/Db/Dialect.zep", 265);
-				ZEPHIR_OBS_VAR(&postTimes);
+				zephir_memory_observe(&postTimes);
 				if (zephir_array_isset_fetch(&postTimes, &bindCounts, &rawValue, 0)) {
 					ZEPHIR_CPY_WRT(&times, &postTimes);
 				}
@@ -706,34 +664,34 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 			RETURN_CTOR(&_6$$8);
 		}
 		if (ZEPHIR_IS_STRING(&type, "binary-op")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionbinaryoperations", NULL, 47, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionbinaryoperations", NULL, 48, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "unary-op")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionunaryoperations", NULL, 48, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionunaryoperations", NULL, 49, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "parentheses")) {
 			zephir_array_fetch_string(&_8$$14, &expression, SL("left"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 304);
-			ZEPHIR_CALL_METHOD(&_7$$14, this_ptr, "getsqlexpression", NULL, 49, &_8$$14, &escapeChar, &bindCounts);
+			ZEPHIR_CALL_METHOD(&_7$$14, this_ptr, "getsqlexpression", NULL, 50, &_8$$14, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			ZEPHIR_CONCAT_SVS(return_value, "(", &_7$$14, ")");
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "functionCall")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionfunctioncall", NULL, 50, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionfunctioncall", NULL, 51, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "list")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionlist", NULL, 51, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionlist", NULL, 52, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "all")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionall", NULL, 52, &expression, &escapeChar);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionall", NULL, 53, &expression, &escapeChar);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -745,17 +703,17 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "cast")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressioncastvalue", NULL, 53, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressioncastvalue", NULL, 54, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "convert")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionconvertvalue", NULL, 54, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressionconvertvalue", NULL, 55, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(&type, "case")) {
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressioncase", NULL, 55, &expression, &escapeChar, &bindCounts);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlexpressioncase", NULL, 56, &expression, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -765,7 +723,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 	object_init_ex(&_11, phalcon_db_exception_ce);
 	ZEPHIR_INIT_VAR(&_12);
 	ZEPHIR_CONCAT_SVS(&_12, "Invalid SQL expression type '", &type, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_11, "__construct", NULL, 32, &_12);
+	ZEPHIR_CALL_METHOD(NULL, &_11, "__construct", NULL, 33, &_12);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_11, "phalcon/Db/Dialect.zep", 369);
 	ZEPHIR_MM_RESTORE();
@@ -789,37 +747,32 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable)
 	ZVAL_UNDEF(&schemaName);
 	ZVAL_UNDEF(&aliasName);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(table)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &table, &escapeChar_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (Z_TYPE_P(table) == IS_ARRAY) {
-		ZEPHIR_OBS_VAR(&tableName);
+		zephir_memory_observe(&tableName);
 		zephir_array_fetch_long(&tableName, table, 0, PH_NOISY, "phalcon/Db/Dialect.zep", 385);
-		ZEPHIR_OBS_VAR(&schemaName);
+		zephir_memory_observe(&schemaName);
 		zephir_array_isset_long_fetch(&schemaName, table, 1, 0);
-		ZEPHIR_OBS_VAR(&aliasName);
+		zephir_memory_observe(&aliasName);
 		zephir_array_isset_long_fetch(&aliasName, table, 2, 0);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "preparetable", NULL, 0, &tableName, &schemaName, &aliasName, &escapeChar);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 56, table, &escapeChar);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 57, table, &escapeChar);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -847,7 +800,6 @@ PHP_METHOD(Phalcon_Db_Dialect, limit)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL, *number, number_sub, _0$$3, _1$$3, _3$$3, _4$$4, _5$$4;
 	zval sqlQuery;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery);
 	ZVAL_UNDEF(&number_sub);
@@ -856,16 +808,12 @@ PHP_METHOD(Phalcon_Db_Dialect, limit)
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(sqlQuery)
 		Z_PARAM_ZVAL(number)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &sqlQuery_param, &number);
 	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be of the type string"));
@@ -876,8 +824,6 @@ PHP_METHOD(Phalcon_Db_Dialect, limit)
 	} else {
 		ZEPHIR_INIT_VAR(&sqlQuery);
 	}
-
-
 	if (Z_TYPE_P(number) == IS_ARRAY) {
 		zephir_array_fetch_long(&_0$$3, number, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 428);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -912,20 +858,14 @@ PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction)
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&customFunction_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(customFunction)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &customFunction);
 	zephir_get_strval(&name, name_param);
-
-
 	zephir_update_property_array(this_ptr, SL("customFunctions"), &name, customFunction);
 	RETURN_THIS();
 }
@@ -938,18 +878,13 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -960,8 +895,6 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint)
 	} else {
 		ZEPHIR_INIT_VAR(&name);
 	}
-
-
 	ZEPHIR_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", &name);
 	RETURN_MM();
 }
@@ -974,18 +907,13 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -996,8 +924,6 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint)
 	} else {
 		ZEPHIR_INIT_VAR(&name);
 	}
-
-
 	ZEPHIR_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", &name);
 	RETURN_MM();
 }
@@ -1045,30 +971,24 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 	ZVAL_UNDEF(&_17$$13);
 	ZVAL_UNDEF(&_19$$14);
 	ZVAL_UNDEF(&_20$$14);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(definition)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &definition_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
-
-
-	ZEPHIR_OBS_VAR(&tables);
+	zephir_memory_observe(&tables);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&tables, &definition, SL("tables"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array", "phalcon/Db/Dialect.zep", 477);
 		return;
 	}
-	ZEPHIR_OBS_VAR(&columns);
+	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/Db/Dialect.zep", 483);
 		return;
 	}
-	ZEPHIR_OBS_VAR(&distinct);
+	zephir_memory_observe(&distinct);
 	if (zephir_array_isset_string_fetch(&distinct, &definition, SL("distinct"), 0)) {
 		ZEPHIR_INIT_VAR(&sql);
 		if (zephir_is_true(&distinct)) {
@@ -1080,7 +1000,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 		ZEPHIR_INIT_NVAR(&sql);
 		ZVAL_STRING(&sql, "SELECT");
 	}
-	ZEPHIR_OBS_VAR(&bindCounts);
+	zephir_memory_observe(&bindCounts);
 	zephir_array_isset_string_fetch(&bindCounts, &definition, SL("bindCounts"), 0);
 	if (Z_TYPE_P(&bindCounts) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&bindCounts);
@@ -1088,78 +1008,78 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&escapeChar, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 57, &columns, &escapeChar, &bindCounts);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 58, &columns, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SV(&_2, " ", &_1);
 	zephir_concat_self(&sql, &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getsqlexpressionfrom", NULL, 58, &tables, &escapeChar);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getsqlexpressionfrom", NULL, 59, &tables, &escapeChar);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SV(&_4, " ", &_3);
 	zephir_concat_self(&sql, &_4);
-	ZEPHIR_OBS_VAR(&joins);
+	zephir_memory_observe(&joins);
 	_5 = zephir_array_isset_string_fetch(&joins, &definition, SL("joins"), 0);
 	if (_5) {
 		_5 = zephir_is_true(&joins);
 	}
 	if (_5) {
 		zephir_array_fetch_string(&_7$$10, &definition, SL("joins"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 517);
-		ZEPHIR_CALL_METHOD(&_6$$10, this_ptr, "getsqlexpressionjoins", NULL, 59, &_7$$10, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&_6$$10, this_ptr, "getsqlexpressionjoins", NULL, 60, &_7$$10, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$10);
 		ZEPHIR_CONCAT_SV(&_8$$10, " ", &_6$$10);
 		zephir_concat_self(&sql, &_8$$10);
 	}
-	ZEPHIR_OBS_VAR(&where);
+	zephir_memory_observe(&where);
 	_9 = zephir_array_isset_string_fetch(&where, &definition, SL("where"), 0);
 	if (_9) {
 		_9 = zephir_is_true(&where);
 	}
 	if (_9) {
-		ZEPHIR_CALL_METHOD(&_10$$11, this_ptr, "getsqlexpressionwhere", NULL, 60, &where, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&_10$$11, this_ptr, "getsqlexpressionwhere", NULL, 61, &where, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$11);
 		ZEPHIR_CONCAT_SV(&_11$$11, " ", &_10$$11);
 		zephir_concat_self(&sql, &_11$$11);
 	}
-	ZEPHIR_OBS_VAR(&groupBy);
+	zephir_memory_observe(&groupBy);
 	_12 = zephir_array_isset_string_fetch(&groupBy, &definition, SL("group"), 0);
 	if (_12) {
 		_12 = zephir_is_true(&groupBy);
 	}
 	if (_12) {
-		ZEPHIR_CALL_METHOD(&_13$$12, this_ptr, "getsqlexpressiongroupby", NULL, 61, &groupBy, &escapeChar);
+		ZEPHIR_CALL_METHOD(&_13$$12, this_ptr, "getsqlexpressiongroupby", NULL, 62, &groupBy, &escapeChar);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_14$$12);
 		ZEPHIR_CONCAT_SV(&_14$$12, " ", &_13$$12);
 		zephir_concat_self(&sql, &_14$$12);
 	}
-	ZEPHIR_OBS_VAR(&having);
+	zephir_memory_observe(&having);
 	_15 = zephir_array_isset_string_fetch(&having, &definition, SL("having"), 0);
 	if (_15) {
 		_15 = zephir_is_true(&having);
 	}
 	if (_15) {
-		ZEPHIR_CALL_METHOD(&_16$$13, this_ptr, "getsqlexpressionhaving", NULL, 62, &having, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&_16$$13, this_ptr, "getsqlexpressionhaving", NULL, 63, &having, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_17$$13);
 		ZEPHIR_CONCAT_SV(&_17$$13, " ", &_16$$13);
 		zephir_concat_self(&sql, &_17$$13);
 	}
-	ZEPHIR_OBS_VAR(&orderBy);
+	zephir_memory_observe(&orderBy);
 	_18 = zephir_array_isset_string_fetch(&orderBy, &definition, SL("order"), 0);
 	if (_18) {
 		_18 = zephir_is_true(&orderBy);
 	}
 	if (_18) {
-		ZEPHIR_CALL_METHOD(&_19$$14, this_ptr, "getsqlexpressionorderby", NULL, 63, &orderBy, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&_19$$14, this_ptr, "getsqlexpressionorderby", NULL, 64, &orderBy, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_20$$14);
 		ZEPHIR_CONCAT_SV(&_20$$14, " ", &_19$$14);
 		zephir_concat_self(&sql, &_20$$14);
 	}
-	ZEPHIR_OBS_VAR(&limit);
+	zephir_memory_observe(&limit);
 	_21 = zephir_array_isset_string_fetch(&limit, &definition, SL("limit"), 0);
 	if (_21) {
 		_21 = zephir_is_true(&limit);
@@ -1169,7 +1089,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 		zephir_create_array(&_22$$15, 2, 0);
 		zephir_array_update_string(&_22$$15, SL("sql"), &sql, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_22$$15, SL("value"), &limit, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&sql, this_ptr, "getsqlexpressionlimit", NULL, 64, &_22$$15, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&sql, this_ptr, "getsqlexpressionlimit", NULL, 65, &_22$$15, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 	}
 	_23 = zephir_array_isset_string_fetch(&forUpdate, &definition, SL("forUpdate"), 1);
@@ -1187,9 +1107,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
  */
 PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_BOOL(1);
 }
@@ -1202,10 +1119,8 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
-
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "supportssavepoints", NULL, 0);
 	zephir_check_call_status();
@@ -1220,22 +1135,15 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSize)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column);
-
-
 	ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "(", &_0, ")");
@@ -1250,23 +1158,16 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0, _1;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column);
-
-
 	ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, column, "getscale", NULL, 0);
@@ -1283,22 +1184,15 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnType)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column);
-
-
 	ZEPHIR_CALL_METHOD(&_0, column, "gettype", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
@@ -1319,22 +1213,15 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column);
-
-
 	ZEPHIR_CALL_METHOD(&_0, column, "gettype", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) != IS_STRING) {
@@ -1361,17 +1248,14 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll)
 	ZVAL_UNDEF(&domain);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(expression)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &expression_param, &escapeChar_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1379,9 +1263,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&domain);
+	zephir_memory_observe(&domain);
 	zephir_array_isset_string_fetch(&domain, &expression, SL("domain"), 0);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "*");
@@ -1416,7 +1298,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -1424,10 +1305,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1441,13 +1320,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	zephir_array_fetch_string(&_0, &expression, SL("left"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 654);
 	ZEPHIR_CALL_METHOD(&left, this_ptr, "getsqlexpression", NULL, 0, &_0, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &expression, SL("right"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 660);
-	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 49, &_1, &escapeChar, &bindCounts);
+	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 50, &_1, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_2, &expression, SL("op"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 665);
 	ZEPHIR_CONCAT_VSVSV(return_value, &left, " ", &_2, " ", &right);
@@ -1500,7 +1377,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 	ZVAL_UNDEF(&_23$$8);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&sql);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -1508,10 +1384,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1525,8 +1399,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	zephir_array_fetch_string(&_1, &expression, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 682);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getsqlexpression", NULL, 0, &_1, &escapeChar, &bindCounts);
 	zephir_check_call_status();
@@ -1543,17 +1415,17 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 			zephir_array_fetch_string(&_6$$3, &whenClause, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 685);
 			if (ZEPHIR_IS_STRING(&_6$$3, "when")) {
 				zephir_array_fetch_string(&_8$$4, &whenClause, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 687);
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "getsqlexpression", NULL, 49, &_8$$4, &escapeChar, &bindCounts);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "getsqlexpression", NULL, 50, &_8$$4, &escapeChar, &bindCounts);
 				zephir_check_call_status();
 				zephir_array_fetch_string(&_10$$4, &whenClause, SL("then"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 689);
-				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "getsqlexpression", NULL, 49, &_10$$4, &escapeChar, &bindCounts);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "getsqlexpression", NULL, 50, &_10$$4, &escapeChar, &bindCounts);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				ZEPHIR_CONCAT_SVSV(&_11$$4, " WHEN ", &_7$$4, " THEN ", &_9$$4);
 				zephir_concat_self(&sql, &_11$$4);
 			} else {
 				zephir_array_fetch_string(&_13$$5, &whenClause, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 691);
-				ZEPHIR_CALL_METHOD(&_12$$5, this_ptr, "getsqlexpression", NULL, 49, &_13$$5, &escapeChar, &bindCounts);
+				ZEPHIR_CALL_METHOD(&_12$$5, this_ptr, "getsqlexpression", NULL, 50, &_13$$5, &escapeChar, &bindCounts);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_14$$5);
 				ZEPHIR_CONCAT_SV(&_14$$5, " ELSE ", &_12$$5);
@@ -1574,17 +1446,17 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 				zephir_array_fetch_string(&_15$$6, &whenClause, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 685);
 				if (ZEPHIR_IS_STRING(&_15$$6, "when")) {
 					zephir_array_fetch_string(&_17$$7, &whenClause, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 687);
-					ZEPHIR_CALL_METHOD(&_16$$7, this_ptr, "getsqlexpression", NULL, 49, &_17$$7, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&_16$$7, this_ptr, "getsqlexpression", NULL, 50, &_17$$7, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					zephir_array_fetch_string(&_19$$7, &whenClause, SL("then"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 689);
-					ZEPHIR_CALL_METHOD(&_18$$7, this_ptr, "getsqlexpression", NULL, 49, &_19$$7, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&_18$$7, this_ptr, "getsqlexpression", NULL, 50, &_19$$7, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_20$$7);
 					ZEPHIR_CONCAT_SVSV(&_20$$7, " WHEN ", &_16$$7, " THEN ", &_18$$7);
 					zephir_concat_self(&sql, &_20$$7);
 				} else {
 					zephir_array_fetch_string(&_22$$8, &whenClause, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 691);
-					ZEPHIR_CALL_METHOD(&_21$$8, this_ptr, "getsqlexpression", NULL, 49, &_22$$8, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&_21$$8, this_ptr, "getsqlexpression", NULL, 50, &_22$$8, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_23$$8);
 					ZEPHIR_CONCAT_SV(&_23$$8, " ELSE ", &_21$$8);
@@ -1624,7 +1496,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -1632,10 +1503,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1649,13 +1518,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	zephir_array_fetch_string(&_0, &expression, SL("left"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 712);
 	ZEPHIR_CALL_METHOD(&left, this_ptr, "getsqlexpression", NULL, 0, &_0, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &expression, SL("right"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 718);
-	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 49, &_1, &escapeChar, &bindCounts);
+	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 50, &_1, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVS(return_value, "CAST(", &left, " AS ", &right, ")");
 	RETURN_MM();
@@ -1686,7 +1553,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -1694,10 +1560,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1711,13 +1575,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	zephir_array_fetch_string(&_0, &expression, SL("left"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 740);
 	ZEPHIR_CALL_METHOD(&left, this_ptr, "getsqlexpression", NULL, 0, &_0, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &expression, SL("right"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 746);
-	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 49, &_1, &escapeChar, &bindCounts);
+	ZEPHIR_CALL_METHOD(&right, this_ptr, "getsqlexpression", NULL, 50, &_1, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVS(return_value, "CONVERT(", &left, " USING ", &right, ")");
 	RETURN_MM();
@@ -1743,25 +1605,20 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(expression)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &expression, &escapeChar_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (Z_TYPE_P(expression) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&tables);
 		array_init(&tables);
@@ -1771,7 +1628,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom)
 			{
 				ZEPHIR_INIT_NVAR(&table);
 				ZVAL_COPY(&table, _0$$3);
-				ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getsqltable", &_3, 65, &table, &escapeChar);
+				ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getsqltable", &_3, 66, &table, &escapeChar);
 				zephir_check_call_status();
 				zephir_array_append(&tables, &_2$$4, PH_SEPARATE, "phalcon/Db/Dialect.zep", 765);
 			} ZEND_HASH_FOREACH_END();
@@ -1786,7 +1643,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom)
 				}
 				ZEPHIR_CALL_METHOD(&table, expression, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "getsqltable", &_3, 65, &table, &escapeChar);
+					ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "getsqltable", &_3, 66, &table, &escapeChar);
 					zephir_check_call_status();
 					zephir_array_append(&tables, &_4$$5, PH_SEPARATE, "phalcon/Db/Dialect.zep", 765);
 				ZEPHIR_CALL_METHOD(NULL, expression, "next", NULL, 0);
@@ -1833,7 +1690,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -1841,10 +1697,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -1858,18 +1712,16 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&name);
+	zephir_memory_observe(&name);
 	zephir_array_fetch_string(&name, &expression, SL("name"), PH_NOISY, "phalcon/Db/Dialect.zep", 789);
-	ZEPHIR_OBS_VAR(&customFunction);
+	zephir_memory_observe(&customFunction);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("customFunctions"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&customFunction, &_0, &name, 0)) {
 		ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&customFunction, NULL, 0, this_ptr, &expression, &escapeChar);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_OBS_VAR(&arguments);
+	zephir_memory_observe(&arguments);
 	_1 = zephir_array_isset_string_fetch(&arguments, &expression, SL("arguments"), 0);
 	if (_1) {
 		_1 = Z_TYPE_P(&arguments) == IS_ARRAY;
@@ -1926,7 +1778,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy)
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&bindCounts);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(expression)
@@ -1934,10 +1785,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression, &escapeChar_param, &bindCounts_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
@@ -1950,8 +1799,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	if (Z_TYPE_P(expression) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&fields);
 		array_init(&fields);
@@ -1984,7 +1831,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy)
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL-GROUP-BY expression", "phalcon/Db/Dialect.zep", 834);
 						return;
 					}
-					ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "getsqlexpression", &_3, 49, &field, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "getsqlexpression", &_3, 50, &field, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					zephir_array_append(&fields, &_4$$6, PH_SEPARATE, "phalcon/Db/Dialect.zep", 841);
 				ZEPHIR_CALL_METHOD(NULL, expression, "next", NULL, 0);
@@ -2024,7 +1871,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving)
 	ZVAL_UNDEF(&bindCounts);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -2032,10 +1878,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2049,8 +1893,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getsqlexpression", NULL, 0, &expression, &escapeChar, &bindCounts);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SV(return_value, "HAVING ", &_0);
@@ -2100,7 +1942,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&bindCounts);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(expression)
@@ -2108,10 +1949,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression, &escapeChar_param, &bindCounts_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
@@ -2124,8 +1963,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&joinType);
 	ZVAL_STRING(&joinType, "");
 	ZEPHIR_INIT_VAR(&sql);
@@ -2153,7 +1990,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 						{
 							ZEPHIR_INIT_NVAR(&condition);
 							ZVAL_COPY(&condition, _4$$6);
-							ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "getsqlexpression", &_3, 49, &condition, &escapeChar, &bindCounts);
+							ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "getsqlexpression", &_3, 50, &condition, &escapeChar, &bindCounts);
 							zephir_check_call_status();
 							zephir_array_append(&joinCondition, &_6$$7, PH_SEPARATE, "phalcon/Db/Dialect.zep", 900);
 						} ZEND_HASH_FOREACH_END();
@@ -2168,7 +2005,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 							}
 							ZEPHIR_CALL_METHOD(&condition, &joinConditionsArray, "current", NULL, 0);
 							zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&_7$$8, this_ptr, "getsqlexpression", &_3, 49, &condition, &escapeChar, &bindCounts);
+								ZEPHIR_CALL_METHOD(&_7$$8, this_ptr, "getsqlexpression", &_3, 50, &condition, &escapeChar, &bindCounts);
 								zephir_check_call_status();
 								zephir_array_append(&joinCondition, &_7$$8, PH_SEPARATE, "phalcon/Db/Dialect.zep", 900);
 							ZEPHIR_CALL_METHOD(NULL, &joinConditionsArray, "next", NULL, 0);
@@ -2193,7 +2030,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 				zephir_concat_self_str(&joinType, SL(" "));
 			}
 			zephir_array_fetch_string(&_10$$3, &join, SL("source"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 913);
-			ZEPHIR_CALL_METHOD(&joinTable, this_ptr, "getsqltable", &_11, 65, &_10$$3, &escapeChar);
+			ZEPHIR_CALL_METHOD(&joinTable, this_ptr, "getsqltable", &_11, 66, &_10$$3, &escapeChar);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_12$$3);
 			ZEPHIR_CONCAT_SVSVSV(&_12$$3, " ", &joinType, "JOIN ", &joinTable, " ON ", &joinCondition);
@@ -2217,7 +2054,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 				}
 				if (_13$$11) {
 					if (!(zephir_array_isset_long(&joinConditionsArray, 0))) {
-						ZEPHIR_CALL_METHOD(&joinCondition, this_ptr, "getsqlexpression", &_3, 49, &joinConditionsArray, &escapeChar, &bindCounts);
+						ZEPHIR_CALL_METHOD(&joinCondition, this_ptr, "getsqlexpression", &_3, 50, &joinConditionsArray, &escapeChar, &bindCounts);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(&joinCondition);
@@ -2228,7 +2065,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 							{
 								ZEPHIR_INIT_NVAR(&condition);
 								ZVAL_COPY(&condition, _14$$14);
-								ZEPHIR_CALL_METHOD(&_16$$15, this_ptr, "getsqlexpression", &_3, 49, &condition, &escapeChar, &bindCounts);
+								ZEPHIR_CALL_METHOD(&_16$$15, this_ptr, "getsqlexpression", &_3, 50, &condition, &escapeChar, &bindCounts);
 								zephir_check_call_status();
 								zephir_array_append(&joinCondition, &_16$$15, PH_SEPARATE, "phalcon/Db/Dialect.zep", 900);
 							} ZEND_HASH_FOREACH_END();
@@ -2243,7 +2080,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 								}
 								ZEPHIR_CALL_METHOD(&condition, &joinConditionsArray, "current", NULL, 0);
 								zephir_check_call_status();
-									ZEPHIR_CALL_METHOD(&_17$$16, this_ptr, "getsqlexpression", &_3, 49, &condition, &escapeChar, &bindCounts);
+									ZEPHIR_CALL_METHOD(&_17$$16, this_ptr, "getsqlexpression", &_3, 50, &condition, &escapeChar, &bindCounts);
 									zephir_check_call_status();
 									zephir_array_append(&joinCondition, &_17$$16, PH_SEPARATE, "phalcon/Db/Dialect.zep", 900);
 								ZEPHIR_CALL_METHOD(NULL, &joinConditionsArray, "next", NULL, 0);
@@ -2268,7 +2105,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins)
 					zephir_concat_self_str(&joinType, SL(" "));
 				}
 				zephir_array_fetch_string(&_20$$11, &join, SL("source"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 913);
-				ZEPHIR_CALL_METHOD(&joinTable, this_ptr, "getsqltable", &_11, 65, &_20$$11, &escapeChar);
+				ZEPHIR_CALL_METHOD(&joinTable, this_ptr, "getsqltable", &_11, 66, &_20$$11, &escapeChar);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_21$$11);
 				ZEPHIR_CONCAT_SVSVSV(&_21$$11, " ", &joinType, "JOIN ", &joinTable, " ON ", &joinCondition);
@@ -2311,7 +2148,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit)
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&bindCounts);
 	ZVAL_UNDEF(&_4);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(expression)
@@ -2319,10 +2155,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression, &escapeChar_param, &bindCounts_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
@@ -2335,20 +2169,18 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&sql);
 	ZVAL_STRING(&sql, "");
 	ZEPHIR_INIT_VAR(&offset);
 	ZVAL_NULL(&offset);
-	ZEPHIR_OBS_VAR(&value);
+	zephir_memory_observe(&value);
 	zephir_array_fetch_string(&value, expression, SL("value"), PH_NOISY, "phalcon/Db/Dialect.zep", 934);
 	if (zephir_array_isset_string(expression, SL("sql"))) {
 		ZEPHIR_OBS_NVAR(&sql);
 		zephir_array_fetch_string(&sql, expression, SL("sql"), PH_NOISY, "phalcon/Db/Dialect.zep", 937);
 	}
 	if (Z_TYPE_P(&value) == IS_ARRAY) {
-		ZEPHIR_OBS_VAR(&_0$$4);
+		zephir_memory_observe(&_0$$4);
 		zephir_array_fetch_string(&_0$$4, &value, SL("number"), PH_NOISY, "phalcon/Db/Dialect.zep", 941);
 		if (Z_TYPE_P(&_0$$4) == IS_ARRAY) {
 			zephir_array_fetch_string(&_1$$5, &value, SL("number"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 943);
@@ -2364,7 +2196,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit)
 			_2$$4 = Z_TYPE_P(&offset) == IS_ARRAY;
 		}
 		if (_2$$4) {
-			ZEPHIR_CALL_METHOD(&_3$$7, this_ptr, "getsqlexpression", NULL, 49, &offset, &escapeChar, &bindCounts);
+			ZEPHIR_CALL_METHOD(&_3$$7, this_ptr, "getsqlexpression", NULL, 50, &offset, &escapeChar, &bindCounts);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&offset, &_3$$7);
 		}
@@ -2412,7 +2244,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList)
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_6$$6);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -2420,10 +2251,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2437,8 +2266,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&items);
 	array_init(&items);
 	ZEPHIR_INIT_VAR(&separator);
@@ -2447,7 +2274,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList)
 		ZEPHIR_OBS_NVAR(&separator);
 		zephir_array_fetch_string(&separator, &expression, SL("separator"), PH_NOISY, "phalcon/Db/Dialect.zep", 987);
 	}
-	ZEPHIR_OBS_VAR(&values);
+	zephir_memory_observe(&values);
 	_0 = zephir_array_isset_long_fetch(&values, &expression, 0, 0);
 	if (!(_0)) {
 		ZEPHIR_OBS_NVAR(&values);
@@ -2479,7 +2306,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList)
 				}
 				ZEPHIR_CALL_METHOD(&item, &values, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "getsqlexpression", &_5, 49, &item, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "getsqlexpression", &_5, 50, &item, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					zephir_array_append(&items, &_6$$6, PH_SEPARATE, "phalcon/Db/Dialect.zep", 993);
 				ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
@@ -2529,7 +2356,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject)
 	ZVAL_UNDEF(&domain);
 	ZVAL_UNDEF(&objectExpression);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -2537,10 +2363,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2554,8 +2378,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&domain);
 	ZVAL_NULL(&domain);
 	ZEPHIR_INIT_VAR(&objectExpression);
@@ -2612,7 +2434,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy)
 	ZVAL_UNDEF(&_8$$9);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&bindCounts);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(expression)
@@ -2620,10 +2441,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression, &escapeChar_param, &bindCounts_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
@@ -2636,8 +2455,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&fieldSql);
 	ZVAL_NULL(&fieldSql);
 	if (Z_TYPE_P(expression) == IS_ARRAY) {
@@ -2684,7 +2501,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy)
 						return;
 					}
 					zephir_array_fetch_long(&_6$$7, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 1053);
-					ZEPHIR_CALL_METHOD(&fieldSql, this_ptr, "getsqlexpression", &_3, 49, &_6$$7, &escapeChar, &bindCounts);
+					ZEPHIR_CALL_METHOD(&fieldSql, this_ptr, "getsqlexpression", &_3, 50, &_6$$7, &escapeChar, &bindCounts);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&type);
 					_7$$7 = zephir_array_isset_long_fetch(&type, &field, 1, 0);
@@ -2728,17 +2545,14 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionQualified)
 	ZVAL_UNDEF(&column);
 	ZVAL_UNDEF(&domain);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(expression)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &expression_param, &escapeChar_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2746,11 +2560,9 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionQualified)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&column);
+	zephir_memory_observe(&column);
 	zephir_array_fetch_string(&column, &expression, SL("name"), PH_NOISY, "phalcon/Db/Dialect.zep", 1083);
-	ZEPHIR_OBS_VAR(&domain);
+	zephir_memory_observe(&domain);
 	if (!(zephir_array_isset_string_fetch(&domain, &expression, SL("domain"), 0))) {
 		ZEPHIR_INIT_NVAR(&domain);
 		ZVAL_NULL(&domain);
@@ -2781,7 +2593,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionScalar)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -2789,10 +2600,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionScalar)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2806,15 +2615,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionScalar)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	if (zephir_array_isset_string(&expression, SL("column"))) {
 		zephir_array_fetch_string(&_0$$3, &expression, SL("column"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 1107);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlcolumn", NULL, 43, &_0$$3);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsqlcolumn", NULL, 44, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_OBS_VAR(&value);
+	zephir_memory_observe(&value);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&value, &expression, SL("value"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/Db/Dialect.zep", 1111);
 		return;
@@ -2854,7 +2661,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&escapeChar);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(expression)
@@ -2862,10 +2668,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression_param, &escapeChar_param, &bindCounts_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&expression, expression_param);
 	if (!escapeChar_param) {
@@ -2879,9 +2683,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&left);
+	zephir_memory_observe(&left);
 	if (zephir_array_isset_string_fetch(&left, &expression, SL("left"), 0)) {
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getsqlexpression", NULL, 0, &left, &escapeChar, &bindCounts);
 		zephir_check_call_status();
@@ -2889,10 +2691,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations)
 		ZEPHIR_CONCAT_VSV(return_value, &_0$$3, " ", &_1$$3);
 		RETURN_MM();
 	}
-	ZEPHIR_OBS_VAR(&right);
+	zephir_memory_observe(&right);
 	if (zephir_array_isset_string_fetch(&right, &expression, SL("right"), 0)) {
 		zephir_array_fetch_string(&_2$$4, &expression, SL("op"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 1145);
-		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getsqlexpression", NULL, 49, &right, &escapeChar, &bindCounts);
+		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getsqlexpression", NULL, 50, &right, &escapeChar, &bindCounts);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VSV(return_value, &_2$$4, " ", &_3$$4);
 		RETURN_MM();
@@ -2923,7 +2725,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere)
 	ZVAL_UNDEF(&whereSql);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&bindCounts);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(expression)
@@ -2931,10 +2732,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 		Z_PARAM_ARRAY(bindCounts)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &expression, &escapeChar_param, &bindCounts_param);
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(&escapeChar);
@@ -2947,8 +2746,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&bindCounts, bindCounts_param);
 	}
-
-
 	if (Z_TYPE_P(expression) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&whereSql, this_ptr, "getsqlexpression", NULL, 0, expression, &escapeChar, &bindCounts);
 		zephir_check_call_status();
@@ -2974,7 +2771,6 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias)
 	ZVAL_UNDEF(&alias);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&_0$$3);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(qualified)
@@ -2982,10 +2778,8 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias)
 		Z_PARAM_STR_OR_NULL(alias)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &qualified_param, &alias_param, &escapeChar_param);
 	if (UNEXPECTED(Z_TYPE_P(qualified_param) != IS_STRING && Z_TYPE_P(qualified_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'qualified' must be of the type string"));
@@ -3006,10 +2800,8 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (!ZEPHIR_IS_STRING(&alias, "")) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escape", NULL, 56, &alias, &escapeChar);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escape", NULL, 57, &alias, &escapeChar);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VSV(return_value, &qualified, " AS ", &_0$$3);
 		RETURN_MM();
@@ -3037,7 +2829,6 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareTable)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(table)
@@ -3046,10 +2837,8 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareTable)
 		Z_PARAM_STR_OR_NULL(alias)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 3, &table_param, &schema_param, &alias_param, &escapeChar_param);
 	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be of the type string"));
@@ -3075,20 +2864,18 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareTable)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 56, &table, &escapeChar);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 57, &table, &escapeChar);
 	zephir_check_call_status();
 	zephir_get_strval(&table, &_0);
 	if (!ZEPHIR_IS_STRING(&schema, "")) {
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapeschema", NULL, 66, &schema, &escapeChar);
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapeschema", NULL, 67, &schema, &escapeChar);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_VSV(&_2$$3, &_1$$3, ".", &table);
 		zephir_get_strval(&table, &_2$$3);
 	}
 	if (!ZEPHIR_IS_STRING(&alias, "")) {
-		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "escape", NULL, 56, &alias, &escapeChar);
+		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "escape", NULL, 57, &alias, &escapeChar);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZEPHIR_CONCAT_VSV(&_4$$4, &table, " AS ", &_3$$4);
@@ -3112,7 +2899,6 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareQualified)
 	ZVAL_UNDEF(&domain);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&_0$$3);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(column)
@@ -3120,10 +2906,8 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareQualified)
 		Z_PARAM_STR_OR_NULL(domain)
 		Z_PARAM_STR_OR_NULL(escapeChar)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &column_param, &domain_param, &escapeChar_param);
 	if (UNEXPECTED(Z_TYPE_P(column_param) != IS_STRING && Z_TYPE_P(column_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'column' must be of the type string"));
@@ -3144,16 +2928,14 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareQualified)
 	} else {
 		zephir_get_strval(&escapeChar, escapeChar_param);
 	}
-
-
 	if (!ZEPHIR_IS_STRING(&domain, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_VSV(&_0$$3, &domain, ".", &column);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 56, &_0$$3, &escapeChar);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 57, &_0$$3, &escapeChar);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 56, &column, &escapeChar);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 57, &column, &escapeChar);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -3166,7 +2948,8 @@ zend_object *zephir_init_properties_Phalcon_Db_Dialect(zend_class_entry *class_t
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

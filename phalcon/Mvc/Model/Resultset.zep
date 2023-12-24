@@ -517,10 +517,10 @@ abstract class Resultset
     /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param int index
+     * @param int offset
      * @param \Phalcon\Mvc\ModelInterface value
      */
-    public function offsetSet(var index, var value) -> void
+    public function offsetSet(var offset, var value) -> void
     {
         throw new Exception("Cursor is an immutable ArrayAccess object");
     }

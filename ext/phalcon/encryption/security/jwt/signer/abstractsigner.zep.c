@@ -40,9 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner)
 
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner, getAlgorithm)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "algorithm");
 }

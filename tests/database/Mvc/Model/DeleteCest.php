@@ -82,7 +82,7 @@ class DeleteCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelDeleteCascadeRelated(DatabaseTester $I)
+    public function mvcModelDeleteCascadeRelated(DatabaseTester $I): void
     {
         $I->wantToTest('Mvc\Model - delete() with related items');
 

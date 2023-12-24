@@ -20,8 +20,7 @@ on:
 env:
   # All versions should be declared here
   PHALCON_VERSION: 5.4.0
-  ZEPHIR_PARSER_VERSION: 1.5.3
-  ZEPHIR_VERSION: 0.17.0
+  ZEPHIR_PARSER_VERSION: 1.6.0
 
   # For tests
   LANG: en_US.UTF-8
@@ -70,10 +69,10 @@ jobs:
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.2'
+      php_version: '8.3'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '8.0', '8.1', '8.2', '8.3' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
@@ -103,12 +102,10 @@ jobs:
           # macOS
           - { name: macos-clang, os: macos-12, compiler: clang }
           # Windows
-          - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
-          - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
           - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           # Most of the extensions wasn't compiled for PHP 8.2.
           # So it is not possible to test in this version, inside Windows OS.
           # List of .dlls - https://windows.php.net/downloads/pecl/releases/
@@ -271,7 +268,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
       - uses: actions/checkout@v3
@@ -308,7 +305,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: "ramsey/composer-install@v2"
+        uses: ramsey/composer-install@v2
         with:
           composer-options: "--prefer-dist"
 

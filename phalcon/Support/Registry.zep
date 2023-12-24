@@ -193,9 +193,9 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetset.php
      */
-    final public function offsetSet(var element, var value) -> void
+    final public function offsetSet(var offset, var value) -> void
     {
-        parent::set(element, value);
+        parent::set(offset, value);
     }
 
     /**

@@ -36,11 +36,6 @@ extern zend_string* i_self;
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
-/* Deprecated */
-#ifndef zend_uint
- #define zend_uint uint32_t
-#endif
-
 #ifndef ZEND_ACC_FINAL_CLASS
  #define ZEND_ACC_FINAL_CLASS ZEND_ACC_FINAL
 #endif
@@ -198,7 +193,6 @@ extern zend_string* i_self;
 #define RETURN_MM_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \
-			ZEPHIR_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -289,7 +283,7 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 	    zval _null; \
 		ZVAL_NULL(&_null); \
 		ZVAL_COPY(return_value, &_null); \
-		zephir_ptr_dtor(&_null); \
+		zval_ptr_dtor(&_null); \
 	} else { \
 	    ZVAL_COPY(return_value, _constant_ptr); \
 	} \

@@ -79,17 +79,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
 	ZVAL_UNDEF(&facility);
 	ZVAL_UNDEF(&option);
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -106,14 +102,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&facility);
+	zephir_memory_observe(&facility);
 	if (!(zephir_array_isset_string_fetch(&facility, &options, SL("facility"), 0))) {
 		ZEPHIR_INIT_NVAR(&facility);
 		ZVAL_LONG(&facility, 8);
 	}
-	ZEPHIR_OBS_VAR(&option);
+	zephir_memory_observe(&option);
 	if (!(zephir_array_isset_string_fetch(&option, &options, SL("option"), 0))) {
 		ZEPHIR_INIT_NVAR(&option);
 		ZVAL_LONG(&option, 4);
@@ -135,15 +129,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("opened"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 409);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 410);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -179,18 +172,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_6$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-
-
 	ZEPHIR_CALL_METHOD(&message, this_ptr, "getformatteditem", NULL, 0, item);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
@@ -202,14 +189,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_LogicException);
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&_5$$3);
+		zephir_memory_observe(&_5$$3);
 		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("facility"), PH_NOISY_CC);
 		zephir_cast_to_string(&_6$$3, &_5$$3);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 116, &_7$$3, &_4$$3, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 117, &_7$$3, &_4$$3, &_6$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 408, &_8$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 409, &_8$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 106);
 		ZEPHIR_MM_RESTORE();
@@ -222,9 +209,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	}
 	ZEPHIR_CALL_METHOD(&_9, item, "getlevel", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 410, &_9);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 411, &_9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 411, &level, &message);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 412, &level, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -246,31 +233,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 	zend_long option, facility, ZEPHIR_LAST_CALL_STATUS;
 	zval *ident_param = NULL, *option_param = NULL, *facility_param = NULL, _0, _1;
 	zval ident;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ident);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(ident)
 		Z_PARAM_LONG(option)
 		Z_PARAM_LONG(facility)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &ident_param, &option_param, &facility_param);
 	zephir_get_strval(&ident, ident_param);
-	option = zephir_get_intval(option_param);
-	facility = zephir_get_intval(facility_param);
-
-
 	ZVAL_LONG(&_0, option);
 	ZVAL_LONG(&_1, facility);
-	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 412, &ident, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 413, &ident, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -288,23 +266,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *level_param = NULL, result;
 	zend_long level;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&levels);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(level)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &level_param);
-	level = zephir_get_intval(level_param);
-
-
 	ZEPHIR_INIT_VAR(&levels);
 	zephir_create_array(&levels, 9, 0);
 	add_index_long(&levels, 2, 1);
@@ -316,7 +286,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 	add_index_long(&levels, 6, 6);
 	add_index_long(&levels, 5, 5);
 	add_index_long(&levels, 4, 4);
-	ZEPHIR_OBS_VAR(&result);
+	zephir_memory_observe(&result);
 	if (!(zephir_array_isset_long_fetch(&result, &levels, level, 0))) {
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_LONG(&result, 3);

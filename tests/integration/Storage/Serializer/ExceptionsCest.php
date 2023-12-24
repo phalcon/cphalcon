@@ -316,6 +316,11 @@ class ExceptionsCest
     public function storageSerializerPhpUnserializeError(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Php - unserialize() - error');
+
+        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
+            $I->markTestSkipped('Invalid `unserialize()` will generate warning but still works.');
+        }
+
         $serializer = new Php();
 
         $serialized = '{??hello?unserialize"';

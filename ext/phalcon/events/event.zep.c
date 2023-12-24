@@ -103,7 +103,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(type)
@@ -112,10 +111,8 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		Z_PARAM_ZVAL_OR_NULL(data)
 		Z_PARAM_BOOL(cancelable)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 3, &type_param, &source, &data, &cancelable_param);
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
@@ -137,10 +134,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	if (!cancelable_param) {
 		cancelable = 1;
 	} else {
-		cancelable = zephir_get_boolval(cancelable_param);
-	}
-
-
+		}
 	_0 = Z_TYPE_P(source) != IS_NULL;
 	if (_0) {
 		_0 = Z_TYPE_P(source) != IS_OBJECT;
@@ -152,7 +146,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		zephir_gettype(&_2$$3, source);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "The source of ", &type, " event must be an object, got ", &_2$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
 		ZEPHIR_MM_RESTORE();
@@ -171,27 +165,18 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 
 PHP_METHOD(Phalcon_Events_Event, getData)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "data");
 }
 
 PHP_METHOD(Phalcon_Events_Event, getSource)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "source");
 }
 
 PHP_METHOD(Phalcon_Events_Event, getType)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "type");
 }
@@ -207,9 +192,6 @@ PHP_METHOD(Phalcon_Events_Event, getType)
  */
 PHP_METHOD(Phalcon_Events_Event, isCancelable)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "cancelable");
 }
@@ -219,9 +201,6 @@ PHP_METHOD(Phalcon_Events_Event, isCancelable)
  */
 PHP_METHOD(Phalcon_Events_Event, isStopped)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "stopped");
 }
@@ -236,22 +215,16 @@ PHP_METHOD(Phalcon_Events_Event, setData)
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(data)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(0, 1, &data);
 	if (!data) {
 		data = &data_sub;
 		data = &__$null;
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	RETURN_THISW();
 }
@@ -267,15 +240,11 @@ PHP_METHOD(Phalcon_Events_Event, setType)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &type_param);
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
@@ -286,8 +255,6 @@ PHP_METHOD(Phalcon_Events_Event, setType)
 	} else {
 		ZEPHIR_INIT_VAR(&type);
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	RETURN_THIS();
 }
@@ -309,9 +276,6 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
-
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 150);

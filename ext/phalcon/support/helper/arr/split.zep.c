@@ -49,24 +49,17 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Split, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, _0, _1;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(collection)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	zephir_create_array(return_value, 2, 0);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, &collection);

@@ -26,7 +26,7 @@ class GetSetValidatorsCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function filterValidationGetSetValidators(IntegrationTester $I)
+    public function filterValidationGetSetValidators(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValidators()/setValidators()');
 

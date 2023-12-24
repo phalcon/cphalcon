@@ -25,7 +25,7 @@ class GetDataCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function filterValidationGetData(IntegrationTester $I)
+    public function filterValidationGetData(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getData()');
 

@@ -25,7 +25,7 @@ class AllowEmptyCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
-    public function filterValidationAllowEmptyFalse(IntegrationTester $I)
+    public function filterValidationAllowEmptyFalse(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - allowEmpty() - false');
 
@@ -38,7 +38,7 @@ class AllowEmptyCest
         $I->assertCount(0, $messages);
     }
 
-    public function filterValidationAllowEmptyTrue(IntegrationTester $I)
+    public function filterValidationAllowEmptyTrue(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - allowEmpty() - true');
 

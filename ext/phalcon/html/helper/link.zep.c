@@ -56,17 +56,13 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &url_param, &attributes_param);
 	zephir_get_strval(&url, url_param);
 	if (!attributes_param) {
@@ -75,8 +71,6 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -106,9 +100,6 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
  */
 PHP_METHOD(Phalcon_Html_Helper_Link, getTag)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("link");
 }
@@ -127,26 +118,19 @@ PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 	zval attributes, required;
 	zval *url_param = NULL, *attributes_param = NULL;
 	zval url;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&url);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&required);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(url)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &url_param, &attributes_param);
 	zephir_get_strval(&url, url_param);
 	zephir_get_arrval(&attributes, attributes_param);
-
-
 	ZEPHIR_INIT_VAR(&required);
 	zephir_create_array(&required, 1, 0);
 	zephir_array_update_string(&required, SL("href"), &url, PH_COPY | PH_SEPARATE);

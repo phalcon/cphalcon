@@ -338,11 +338,7 @@ int zephir_clone(zval *destination, zval *obj)
 			status = FAILURE;
 		} else {
 			if (!EG(exception)) {
-#if PHP_VERSION_ID >= 80000
 				ZVAL_OBJ(destination, clone_call(Z_OBJ_P(obj)));
-#else
-				ZVAL_OBJ(destination, clone_call(obj));
-#endif
 				if (EG(exception)) {
 					zval_ptr_dtor(destination);
 				}
@@ -363,19 +359,11 @@ int zephir_isset_property(zval *object, const char *property_name, unsigned int 
 			return 1;
 		}
 
-#if PHP_VERSION_ID >= 80000
 		return zend_hash_str_exists(
 			Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 			property_name,
 			property_length
 		);
-#else
-		return zend_hash_str_exists(
-			Z_OBJ_HT_P(object)->get_properties(object),
-			property_name,
-			property_length
-		);
-#endif
 	}
 
 	return 0;
@@ -391,19 +379,11 @@ int zephir_isset_property_zval(zval *object, const zval *property)
 			if (EXPECTED(zend_hash_str_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)))) {
 				return 1;
 			} else {
-#if PHP_VERSION_ID >= 80000
 				return zend_hash_str_exists(
 					Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 					Z_STRVAL_P(property),
 					Z_STRLEN_P(property)
 				);
-#else
-				return zend_hash_str_exists(
-					Z_OBJ_HT_P(object)->get_properties(object),
-					Z_STRVAL_P(property),
-					Z_STRLEN_P(property)
-				);
-#endif
 			}
 		}
 	}
@@ -523,15 +503,9 @@ int zephir_read_property(
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
-#if PHP_VERSION_ID >= 80000
 	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), Z_STR(property),
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
-#else
-	res = Z_OBJ_HT_P(object)->read_property(object, &property,
-											flags ? BP_VAR_IS : BP_VAR_R,
-											NULL, &tmp);
-#endif
 
 	if ((flags & PH_READONLY) == PH_READONLY) {
 		ZVAL_COPY_VALUE(result, res);
@@ -674,11 +648,7 @@ int zephir_update_property_zval(
 
 	/* write_property will add 1 to refcount,
 	   so no Z_TRY_ADDREF_P(value) is necessary */
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), Z_STR(property), &sep_value, 0);
-#else
-	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
-#endif
 
 	zval_ptr_dtor(&property);
 
@@ -770,7 +740,7 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -858,7 +828,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -920,7 +890,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp_arr);
-			zephir_ptr_dtor(&tmp_arr);
+			zval_ptr_dtor(&tmp_arr);
 		}
 	}
 
@@ -943,11 +913,7 @@ int zephir_unset_property(zval* object, const char* name)
 
 	/* Use caller's scope */
 	zephir_set_scope(Z_OBJCE_P(object));
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR(member), 0);
-#else
-	Z_OBJ_HT_P(object)->unset_property(object, &member, 0);
-#endif
 	/* Restore original scope */
 	zephir_set_scope(scope);
 
@@ -1296,11 +1262,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 			fci.retval           = 0;
 			fci.param_count      = 0;
 			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
+			fci.named_params 	 = NULL;
 
 			ZVAL_NULL(&fci.function_name);
 
@@ -1358,11 +1320,8 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 			fci.retval           = 0;
 			fci.param_count      = 0;
 			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
+			fci.named_params 	 = NULL;
+
 			ZVAL_NULL(&fci.function_name);
 
 			fcc.object           = obj;

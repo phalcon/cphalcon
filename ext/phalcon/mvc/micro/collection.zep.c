@@ -95,7 +95,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -103,10 +102,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -122,8 +119,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DELETE");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -152,7 +147,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -160,10 +154,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -179,8 +171,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "GET");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -195,9 +185,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "handler");
 }
@@ -207,9 +194,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "handlers");
 }
@@ -219,9 +203,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "prefix");
 }
@@ -247,7 +228,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -255,10 +235,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -274,8 +252,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "HEAD");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -288,9 +264,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "lazy");
 }
@@ -316,7 +289,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -324,10 +296,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -343,8 +313,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZVAL_NULL(&_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
 	zephir_check_call_status();
@@ -382,7 +350,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&method_sub);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_STR(routePattern)
@@ -391,10 +358,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -410,8 +375,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, method, &routePattern, handler, &name);
 	zephir_check_call_status();
 	RETURN_THIS();
@@ -439,7 +402,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -447,10 +409,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -466,8 +426,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "OPTIONS");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -496,7 +454,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -504,10 +461,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -523,8 +478,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PATCH");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -553,7 +506,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -561,10 +513,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -580,8 +530,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "POST");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -610,7 +558,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(routePattern)
@@ -618,10 +565,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -637,8 +582,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PUT");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern, handler, &name);
@@ -663,24 +606,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(handler)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(lazy)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 1, &handler, &lazy_param);
 	if (!lazy_param) {
 		lazy = 0;
 	} else {
-		lazy = zephir_get_boolval(lazy_param);
-	}
-
-
+		}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("handler"), handler);
 	if (lazy) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$true);
@@ -705,22 +640,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(lazy)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &lazy_param);
 	if (UNEXPECTED(Z_TYPE_P(lazy_param) != IS_TRUE && Z_TYPE_P(lazy_param) != IS_FALSE)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'lazy' must be of the type bool"));
 		RETURN_NULL();
 	}
 	lazy = (Z_TYPE_P(lazy_param) == IS_TRUE);
-
-
 	if (lazy) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$true);
 	} else {
@@ -744,15 +672,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&prefix);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &prefix_param);
 	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be of the type string"));
@@ -763,8 +687,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix)
 	} else {
 		ZEPHIR_INIT_VAR(&prefix);
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &prefix);
 	RETURN_THIS();
 }
@@ -790,7 +712,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 	ZVAL_UNDEF(&routePattern);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_ZVAL(method)
@@ -799,10 +720,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 1, &method, &routePattern_param, &handler, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be of the type string"));
@@ -818,8 +737,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 	} else {
 		zephir_get_strval(&name, name_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 4, 0);
 	zephir_array_fast_append(&_0, method);
@@ -838,7 +755,8 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entr
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
