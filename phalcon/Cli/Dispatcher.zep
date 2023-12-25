@@ -39,6 +39,9 @@ use Phalcon\Filter\FilterInterface;
  */
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
+    /**
+     * @var string
+     */
     protected defaultHandler = "main";
 
     /**

@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2023-10-25</date>
+  <date>2023-12-25</date>
   <time>17:00:00</time>
   <version>
-    <release>5.4.0</release>
-    <api>5.4.0</api>
+    <release>5.5.0</release>
+    <api>5.5.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -38,20 +38,19 @@
 
     ### Changed
 
-    - Changed `Phalcon\Mvc\Model::getMessages()` to also filter with an array of fields [#16265](https://github.com/phalcon/cphalcon/issues/16265)
-    - Changed `Phalcon\DataMapper\Query\Select::columns()` to accept an array of columns (keys as aliases) instead of `func_get_args` [#16451](https://github.com/phalcon/cphalcon/issues/16451)
-    - Changed `Phalcon\Html\Helper\AbstractSeries::__invoke()` to no longer clear the internal store when called [#16441](https://github.com/phalcon/cphalcon/issues/16441)
+    - Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+    - Changed `Phalcon\Mvc\Model::toArray` to use getters if present [#16320](https://github.com/phalcon/cphalcon/issues/16320)
+    - Adjusted return types identical to original interface `int|false` in `Phalcon\Session\Adapter\*::gc()` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+    - Changed return type of `Phalcon\Config\Adapter\Ini::cast()` to `mixed` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
 
     ### Added
 
-    - Added the ability to define interpolator characters for the `Phalcon\Logger\Formatter\Line` [#16430](https://github.com/phalcon/cphalcon/issues/16430)
-    - Added `Phalcon\Html\Helper\AbstractSeries::reset()` to clear the internal store when needed [#16441](https://github.com/phalcon/cphalcon/issues/16441)
+    - Added support for PHP 8.3 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
 
     ### Fixed
 
-    - Model Annotation strategy did not work with empty_string [#16426](https://github.com/phalcon/cphalcon/issues/16426)
-    - View::reset() sets content to null instead of default empty string [#16437](https://github.com/phalcon/cphalcon/issues/16437)
-    - Fixed `Phalcon\Filter\Validation\Validator\Size\*` validators to correctly detect the size of uploaded files [#16390](https://github.com/phalcon/cphalcon/issues/16390)
+    - Fixed `Phalcon\Filter\Validation\Validator\Numericality` to return false when input has spaces [#16461](https://github.com/phalcon/cphalcon/issues/16461)
+    - Fixed `Phalcon\Mvc\Model\ResultsetSimple::toArray` to ignore numeric indexes in case results come as not `fetch_assoc` [#16467](https://github.com/phalcon/cphalcon/issues/16467)
 
   </notes>
   <contents>

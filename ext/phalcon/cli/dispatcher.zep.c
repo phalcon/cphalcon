@@ -55,6 +55,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_abstractdispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("defaultHandler"), "main", ZEND_ACC_PROTECTED);
 	/**
 	 * @var string
@@ -423,7 +426,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 221);
+	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 224);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
