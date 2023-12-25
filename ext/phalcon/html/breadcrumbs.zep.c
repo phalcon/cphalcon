@@ -83,17 +83,13 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, add)
 
 	ZVAL_UNDEF(&label);
 	ZVAL_UNDEF(&link);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(label)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(link)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &label_param, &link_param);
 	zephir_get_strval(&label, label_param);
 	if (!link_param) {
@@ -102,8 +98,6 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, add)
 	} else {
 		zephir_get_strval(&link, link_param);
 	}
-
-
 	zephir_update_property_array(this_ptr, SL("elements"), &link, &label);
 	RETURN_THIS();
 }
@@ -122,9 +116,8 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
@@ -139,9 +132,6 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear)
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, getSeparator)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "separator");
 }
@@ -166,19 +156,13 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove)
 	ZVAL_UNDEF(&link);
 	ZVAL_UNDEF(&elements);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(link)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link_param);
 	zephir_get_strval(&link, link_param);
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&elements, &_0);
 	zephir_array_unset(&elements, &link, PH_SEPARATE);
@@ -228,9 +212,8 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZVAL_UNDEF(&_12$$4);
 	ZVAL_UNDEF(&_15$$6);
 	ZVAL_UNDEF(&_17$$6);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&output);
 	array_init(&output);
@@ -241,10 +224,10 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_INIT_VAR(&urls);
 	zephir_array_keys(&urls, &elements);
 	ZEPHIR_MAKE_REF(&urls);
-	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 319, &urls);
+	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 320, &urls);
 	ZEPHIR_UNREF(&urls);
 	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(&lastLabel);
+	zephir_memory_observe(&lastLabel);
 	zephir_array_fetch(&lastLabel, &elements, &lastUrl, PH_NOISY, "phalcon/Html/Breadcrumbs.zep", 122);
 	zephir_array_unset(&elements, &lastUrl, PH_SEPARATE);
 	zephir_is_iterable(&elements, 0, "phalcon/Html/Breadcrumbs.zep", 143);
@@ -352,19 +335,13 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&separator);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(separator)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &separator_param);
 	zephir_get_strval(&separator, separator_param);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("separator"), &separator);
 	RETURN_THIS();
 }
@@ -374,9 +351,6 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator)
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, toArray)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "elements");
 }
@@ -389,7 +363,8 @@ zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *c
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

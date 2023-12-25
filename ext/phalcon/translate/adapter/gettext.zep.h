@@ -50,21 +50,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettex
 	ZEND_ARG_TYPE_INFO(0, msgid1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, msgid2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, count, IS_LONG, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_query, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, translateKey, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_resetdomain, 0, 0, IS_STRING, 0)
@@ -86,11 +78,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setlocale, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, category, IS_LONG, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, localeArray, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, localeArray, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, localeArray, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_getoptionsdefault, 0, 0, IS_ARRAY, 0)
@@ -110,11 +98,7 @@ ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_gettext_method_entry) {
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, exists, arginfo_phalcon_translate_adapter_gettext_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, getCategory, arginfo_phalcon_translate_adapter_gettext_getcategory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDefaultDomain, arginfo_phalcon_translate_adapter_gettext_getdefaultdomain, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDirectory, arginfo_phalcon_translate_adapter_gettext_getdirectory, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDirectory, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Translate_Adapter_Gettext, getDirectory, arginfo_phalcon_translate_adapter_gettext_getdirectory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, getLocale, arginfo_phalcon_translate_adapter_gettext_getlocale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, has, arginfo_phalcon_translate_adapter_gettext_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, nquery, arginfo_phalcon_translate_adapter_gettext_nquery, ZEND_ACC_PUBLIC)

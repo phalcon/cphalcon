@@ -126,11 +126,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_zephir_init_properties_phal
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_debug_method_entry) {
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Support_Debug, __construct, arginfo_phalcon_support_debug___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#else
-	PHP_ME(Phalcon_Support_Debug, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#endif
+PHP_ME(Phalcon_Support_Debug, __construct, arginfo_phalcon_support_debug___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Support_Debug, clearVars, arginfo_phalcon_support_debug_clearvars, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, debugVar, arginfo_phalcon_support_debug_debugvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, getCssSources, arginfo_phalcon_support_debug_getcsssources, ZEND_ACC_PUBLIC)

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-ZEPHIR_VERSION="0.17.0"
-
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -77,27 +75,9 @@ alias untar='tar xvf'
 NB_CORES=$(grep -c '^processor' /proc/cpuinfo)
 export MAKEFLAGS="-j$((NB_CORES)) -l${NB_CORES}"
 
-if [ ! -f ./zephir ]; then
-    wget --no-clobber -O ./zephir https://github.com/phalcon/zephir/releases/download/$ZEPHIR_VERSION/zephir.phar
-    chmod +x ./zephir
-fi
-
-alias zephir='./zephir '
-alias zf='./zephir fullclean'
-alias zg='./zephir generate'
-alias zs='./zephir stubs'
+alias zephir='./vendor/bin/zephir '
+alias zf='./vendor/bin/zephir fullclean'
+alias zg='./vendor/bin/zephir generate'
+alias zs='./vendor/bin/zephir stubs'
 alias cpl='zf && zg && cd ext/ && ./install && ..'
 alias codecept='php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept '
-alias phpcs='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcs '
-alias phpcbf='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcbf '
-alias psalm='php ./vendor/bin/psalm '
-
-alias test-unit='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter unit'
-alias test-cli='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter cli'
-alias test-integration='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter integration'
-alias test-db-common='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter database -g common'
-alias test-db-mysql='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql'
-alias test-db-pgsql='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql'
-alias test-db-sqlite='php -d extension=ext/modules/phalcon.so vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite'
-alias test-db='test-db-common && test-db-mysql && test-db-pgsql && test-db-sqlite'
-alias test-all='test-unit && test-cli && test-integration && test-db'

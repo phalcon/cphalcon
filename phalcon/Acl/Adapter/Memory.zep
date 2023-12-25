@@ -424,6 +424,7 @@ class Memory extends AbstractAdapter
      *
      * // Allow access to any role to browse on any component
      * $acl->allow("*", "*", "browse");
+     * ```
      */
     public function allow(string roleName, string componentName, var access, var func = null) -> void
     {

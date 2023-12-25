@@ -19,9 +19,6 @@ use Phalcon\Tests\Models\EntityWithGetter;
 use Phalcon\Tests\Models\EntityWithHook;
 use Phalcon\Tests\Models\EntityWithPublic;
 
-/**
- * Class GetValueByEntityCest
- */
 class GetValueByEntityCest
 {
     public const NAME = 'John Doe';

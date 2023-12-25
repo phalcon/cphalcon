@@ -52,9 +52,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 28);
 	RETURN_CTORW(&_1);
@@ -68,7 +65,8 @@ zend_object *zephir_init_properties_Phalcon_Encryption_Security_JWT_Token_Abstra
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

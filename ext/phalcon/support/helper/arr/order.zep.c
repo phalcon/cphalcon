@@ -69,8 +69,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_7$$6);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 4)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ZVAL(attribute)
@@ -78,24 +76,18 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		Z_PARAM_LONG(order)
 		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 2, &collection_param, &attribute, &order_param, &flags_param);
 	zephir_get_arrval(&collection, collection_param);
 	if (!order_param) {
 		order = 1;
 	} else {
-		order = zephir_get_intval(order_param);
-	}
+		}
 	if (!flags_param) {
 		flags = 0;
 	} else {
-		flags = zephir_get_intval(flags_param);
-	}
-
-
+		}
 	ZEPHIR_INIT_VAR(&sorted);
 	array_init(&sorted);
 	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 45);
@@ -163,29 +155,22 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkObject)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sorted_param = NULL, *attribute, attribute_sub, *item, item_sub, key;
 	zval sorted;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sorted);
 	ZVAL_UNDEF(&attribute_sub);
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&key);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(sorted)
 		Z_PARAM_ZVAL(attribute)
 		Z_PARAM_ZVAL(item)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &sorted_param, &attribute, &item);
 	zephir_get_arrval(&sorted, sorted_param);
-
-
 	if (Z_TYPE_P(item) == IS_OBJECT) {
-		ZEPHIR_OBS_VAR(&key);
+		zephir_memory_observe(&key);
 		zephir_read_property_zval(&key, item, attribute, PH_NOISY_CC);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
 	}
@@ -204,29 +189,23 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkNonObject)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sorted_param = NULL, *attribute, attribute_sub, *item, item_sub, key;
 	zval sorted;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sorted);
 	ZVAL_UNDEF(&attribute_sub);
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&key);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(sorted)
 		Z_PARAM_ZVAL(attribute)
 		Z_PARAM_ZVAL(item)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &sorted_param, &attribute, &item);
 	zephir_get_arrval(&sorted, sorted_param);
-
-
 	if (Z_TYPE_P(item) != IS_OBJECT) {
-		zephir_array_fetch(&key, item, attribute, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Arr/Order.zep", 85);
+		zephir_memory_observe(&key);
+		zephir_array_fetch(&key, item, attribute, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 85);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CTOR(&sorted);

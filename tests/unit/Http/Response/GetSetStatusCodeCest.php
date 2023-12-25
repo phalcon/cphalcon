@@ -146,6 +146,10 @@ class GetSetStatusCodeCest extends HttpBase
      */
     public function testHttpResponseSetStatusCodeSend(UnitTester $I)
     {
+        if (!function_exists('xdebug_get_headers')) {
+            $I->skipTest('xdebug extension is not installed');
+        }
+
         $response = $this->getResponseObject();
 
         $body = ['test' => 123];
@@ -180,6 +184,10 @@ class GetSetStatusCodeCest extends HttpBase
      */
     public function testHttpResponseSetStatusCodeSendMicro(UnitTester $I)
     {
+        if (!function_exists('xdebug_get_headers')) {
+            $I->skipTest('xdebug extension is not installed');
+        }
+
         $application = new Micro($this->container);
 
         $application->before(new HttpResponseContentMiddleware());

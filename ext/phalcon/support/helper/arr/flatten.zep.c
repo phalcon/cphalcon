@@ -64,26 +64,19 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(deep)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &collection_param, &deep_param);
 	zephir_get_arrval(&collection, collection_param);
 	if (!deep_param) {
 		deep = 0;
 	} else {
-		deep = zephir_get_boolval(deep_param);
-	}
-
-
+		}
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
 	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Flatten.zep", 37);
@@ -161,24 +154,17 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *data_param = NULL, *item, item_sub;
 	zval data;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&item_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_ZVAL(item)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &data_param, &item);
 	zephir_get_arrval(&data, data_param);
-
-
 	if (Z_TYPE_P(item) != IS_ARRAY) {
 		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 49);
 	}
@@ -199,28 +185,20 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArray)
 	zend_bool deep, _0;
 	zval *data_param = NULL, *item, item_sub, *deep_param = NULL, _1$$3, _2$$3;
 	zval data;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_ZVAL(item)
 		Z_PARAM_BOOL(deep)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &data_param, &item, &deep_param);
 	zephir_get_arrval(&data, data_param);
-	deep = zephir_get_boolval(deep_param);
-
-
 	_0 = Z_TYPE_P(item) == IS_ARRAY;
 	if (_0) {
 		_0 = !deep;
@@ -256,22 +234,15 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArrayDeep)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_ZVAL(item)
 		Z_PARAM_BOOL(deep)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &data_param, &item, &deep_param);
 	zephir_get_arrval(&data, data_param);
-	deep = zephir_get_boolval(deep_param);
-
-
 	_0 = Z_TYPE_P(item) == IS_ARRAY;
 	if (_0) {
 		_0 = deep;

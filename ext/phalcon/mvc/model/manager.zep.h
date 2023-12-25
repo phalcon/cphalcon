@@ -91,11 +91,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addbelo
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasmany, 0, 4, Phalcon\\Mvc\\Model\\RelationInterface, 0)
@@ -103,11 +99,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasm
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasmanytomany, 0, 7, Phalcon\\Mvc\\Model\\RelationInterface, 0)
@@ -118,11 +110,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasm
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasone, 0, 4, Phalcon\\Mvc\\Model\\RelationInterface, 0)
@@ -130,11 +118,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhaso
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasonethrough, 0, 7, Phalcon\\Mvc\\Model\\RelationInterface, 0)
@@ -145,11 +129,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_addhaso
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_clearreusableobjects, 0, 0, IS_VOID, 0)
@@ -470,11 +450,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_zephir_init_properties_
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
-#endif
+PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBehavior, arginfo_phalcon_mvc_model_manager_addbehavior, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBelongsTo, arginfo_phalcon_mvc_model_manager_addbelongsto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasMany, arginfo_phalcon_mvc_model_manager_addhasmany, ZEND_ACC_PUBLIC)

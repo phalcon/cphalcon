@@ -25,7 +25,7 @@ class NewInstanceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
-    public function filterValidationValidatorFactoryNewInstance(IntegrationTester $I)
+    public function filterValidationValidatorFactoryNewInstance(IntegrationTester $I): void
     {
         $I->wantToTest('Validation\ValidatorFactory - newInstance()');
 

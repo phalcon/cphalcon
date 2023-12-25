@@ -27,7 +27,7 @@ class AddCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */
-    public function filterValidationAdd(IntegrationTester $I)
+    public function filterValidationAdd(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - add()');
 

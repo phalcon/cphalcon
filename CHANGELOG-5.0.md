@@ -1,5 +1,25 @@
 # Changelog
 
+## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
+
+### Changed
+
+- Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+- Changed `Phalcon\Mvc\Model::toArray` to use getters if present [#16320](https://github.com/phalcon/cphalcon/issues/16320)
+- Adjusted return types identical to original interface `int|false` in `Phalcon\Session\Adapter\*::gc()` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+- Changed return type of `Phalcon\Config\Adapter\Ini::cast()` to `mixed` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+
+### Added
+
+- Added support for PHP 8.3 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+
+### Fixed
+
+- Fixed `Phalcon\Filter\Validation\Validator\Numericality` to return false when input has spaces [#16461](https://github.com/phalcon/cphalcon/issues/16461)
+- Fixed `Phalcon\Mvc\Model\ResultsetSimple::toArray` to ignore numeric indexes in case results come as not `fetch_assoc` [#16467](https://github.com/phalcon/cphalcon/issues/16467)
+
+### Removed
+
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
 
 ### Changed

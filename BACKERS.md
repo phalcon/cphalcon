@@ -105,13 +105,11 @@ Thanks for the support
 <a href="https://github.com/SliceOfLife"><img src="https://avatars.githubusercontent.com/u/3955618?v=4" title="SliceOfLife" width="60" height="60"></a>
 <a href="https://github.com/f-do"><img src="https://avatars.githubusercontent.com/u/4299065?v=4" title="Florian" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
-<a href="https://github.com/stdnk"><img src="https://avatars.githubusercontent.com/u/5130969?v=4" title="Vasily Stadnik" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
-<a href="https://github.com/elstin"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
 <a href="https://github.com/housesigma"><img src="https://avatars.githubusercontent.com/u/50630040?s=200&v=4" title="HouseSigma" width="60" height="60"></a>
 <a href="https://github.com/markofo"><img src="https://avatars.githubusercontent.com/u/59839390?v=4" title="markofo" width="60" height="60"></a>

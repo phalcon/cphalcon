@@ -27,7 +27,7 @@ class RuleCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */
-    public function filterValidationRule(IntegrationTester $I)
+    public function filterValidationRule(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - rule()');
 

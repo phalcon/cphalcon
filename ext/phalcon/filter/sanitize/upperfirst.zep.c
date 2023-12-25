@@ -50,18 +50,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperFirst, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input_param = NULL;
 	zval input;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input_param);
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
@@ -72,8 +67,6 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperFirst, __invoke)
 	} else {
 		ZEPHIR_INIT_VAR(&input);
 	}
-
-
 	zephir_ucfirst(return_value, &input);
 	RETURN_MM();
 }

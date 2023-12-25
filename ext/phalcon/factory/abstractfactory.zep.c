@@ -73,15 +73,11 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -92,8 +88,6 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 	} else {
 		ZEPHIR_INIT_VAR(&name);
 	}
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -130,16 +124,12 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
@@ -147,8 +137,6 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
 	}
-
-
 	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
@@ -207,7 +195,8 @@ zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_e
 	ZVAL_UNDEF(&_3$$4);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

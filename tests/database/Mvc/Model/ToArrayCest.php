@@ -15,11 +15,18 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
+use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Tests\Fixtures\Migrations\SettersMigration;
+use Phalcon\Tests\Fixtures\Migrations\SourcesMigration;
+use Phalcon\Tests\Fixtures\models\InvoicesGetters;
+use Phalcon\Tests\Fixtures\models\SourcesGetters;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\InvoicesMap;
+use Phalcon\Tests\Models\Sources;
 
+use function date;
 use function uniqid;
 
 class ToArrayCest
@@ -247,7 +254,7 @@ class ToArrayCest
                 'inv_title'       => $title,
                 'inv_total'       => 222.19,
                 'inv_created_at'  => $date,
-            ]
+            ],
         ];
         $actual   = $invoices->toArray();
         $I->assertSame($expected, $actual);
@@ -258,5 +265,115 @@ class ToArrayCest
                 'castOnHydrate' => false,
             ]
         );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: toArray() - execute column not in columnMap
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-11-21
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/16467
+     *
+     * @group  mysql
+     */
+    public function mvcModelToArrayExecuteColumnNotInColumnMap(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray() - execute - column not in columnMap');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $title      = uniqid('inv-');
+        $date       = date('Y-m-d H:i:s');
+
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 0, $title, 111.26, $date);
+        $migration->insert(5, 2, 1, $title, 222.19, $date);
+
+        $manager = $this->getService('modelsManager');
+        $class   = Manager::class;
+        $I->assertInstanceOf($class, $manager);
+
+
+        $result = $manager
+            ->createBuilder()
+            ->addFrom(InvoicesMap::class, 'i')
+            ->limit(10)
+            ->getQuery()
+            ->execute()
+        ;
+
+        $result->rewind();
+        $result->next();
+        $result->rewind();
+
+        $expected = [
+            [
+                'id'          => 4,
+                'cst_id'      => 1,
+                'status_flag' => 0,
+                'title'       => $title,
+                'total'       => 111.26,
+                'created_at'  => $date,
+            ],
+            [
+                'id'          => 5,
+                'cst_id'      => 2,
+                'status_flag' => 1,
+                'title'       => $title,
+                'total'       => 222.19,
+                'created_at'  => $date,
+            ],
+        ];
+        $actual   = $result->toArray();
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\ :: save() with property source
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-16
+     * @issue  #11922
+     *
+     * @group  mysql
+     * @group  sqlite
+     */
+    public function mvcModelToArrayModelWithGetters(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray - model with getters');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $title      = uniqid('inv-');
+        $date       = date('Y-m-d H:i:s');
+
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 0, $title, 111.26, $date);
+
+        $model = InvoicesGetters::findFirst(4);
+
+        $class = InvoicesGetters::class;
+        $I->assertInstanceOf($class, $model);
+
+        $expected = 4;
+        $actual   = $model->inv_id;
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'inv_id'          => '4',
+            'inv_cst_id'      => '1',
+            'inv_status_flag' => '0',
+            'inv_title'       => $title . '!4',
+            'inv_total'       => '111.26',
+            'inv_created_at'  => $date,
+        ];
+
+        $actual   = $model->toArray();
+        /**
+         * assertEquals here because sqlite returns strings in different
+         * PHP versions
+         */
+        $I->assertEquals($expected, $actual);
     }
 }

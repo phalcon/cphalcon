@@ -48,26 +48,19 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input, input_sub, *from, from_sub, *to, to_sub, _0;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&from_sub);
 	ZVAL_UNDEF(&to_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ZVAL(input)
 		Z_PARAM_ZVAL(from)
 		Z_PARAM_ZVAL(to)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &input, &from, &to);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_str_replace(&_0, from, to, input);
 	RETURN_CCTOR(&_0);

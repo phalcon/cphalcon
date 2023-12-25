@@ -137,26 +137,17 @@ void zephir_fast_count(zval *result, zval *value)
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-
 		zval retval;
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
 			ZVAL_LONG(result, 1);
-#if PHP_VERSION_ID >= 80000
 			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &Z_LVAL_P(result))) {
-#else
-			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result))) {
-#endif
 				return;
 			}
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
-#if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
-#else
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
-#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				ZVAL_LONG(result, Z_LVAL(retval));
@@ -189,24 +180,15 @@ int zephir_fast_count_ev(zval *value)
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-
 		zval retval;
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
-#if PHP_VERSION_ID >= 80000
 			Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &count);
-#else
-			Z_OBJ_HT(*value)->count_elements(value, &count);
-#endif
 			return (int) count > 0;
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
-#if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
-#else
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
-#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
@@ -241,20 +223,12 @@ int zephir_fast_count_int(zval *value)
 		zval retval;
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
-#if PHP_VERSION_ID >= 80000
 			Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &count);
-#else
-			Z_OBJ_HT(*value)->count_elements(value, &count);
-#endif
 			return (int) count;
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), zend_ce_countable)) {
-#if PHP_VERSION_ID >= 80000
 			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
-#else
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
-#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
@@ -282,7 +256,7 @@ int zephir_fast_count_int(zval *value)
  */
 int zephir_function_exists(const zval *function_name)
 {
-	if (zend_hash_str_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name)) != NULL) {
+	if (zend_hash_str_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
 		return SUCCESS;
 	}
 
@@ -406,7 +380,6 @@ zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int cl
 /* Declare constants */
 int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t name_length, zval *value)
 {
-#if PHP_VERSION_ID >= 80000
 	zend_string *key;
 
 	if (ce->type == ZEND_INTERNAL_CLASS) {
@@ -422,24 +395,6 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 	}
 
 	return SUCCESS;
-#else
-	int ret;
-	zend_string *key;
-
-	if (ce->type == ZEND_INTERNAL_CLASS) {
-		key = zend_string_init_interned(name, name_length, 1);
-	} else {
-		key = zend_string_init(name, name_length, 0);
-	}
-
-	ret = zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
-
-	if (ce->type != ZEND_INTERNAL_CLASS) {
-		zend_string_release(key);
-	}
-
-	return ret;
-#endif
 }
 
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length)

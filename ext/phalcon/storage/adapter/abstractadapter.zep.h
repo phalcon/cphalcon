@@ -28,11 +28,7 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_AbstractAdapter(zend
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_abstractadapter___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_abstractadapter_clear, 0, 0, _IS_BOOL, 0)
@@ -130,11 +126,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, decrement, arginfo_phalcon_storage_adapter_abstractadapter_decrement, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, delete, arginfo_phalcon_storage_adapter_abstractadapter_delete, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, get, arginfo_phalcon_storage_adapter_abstractadapter_get, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter, arginfo_phalcon_storage_adapter_abstractadapter_getadapter, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter, arginfo_phalcon_storage_adapter_abstractadapter_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer, arginfo_phalcon_storage_adapter_abstractadapter_getdefaultserializer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getKeys, arginfo_phalcon_storage_adapter_abstractadapter_getkeys, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getPrefix, arginfo_phalcon_storage_adapter_abstractadapter_getprefix, ZEND_ACC_PUBLIC)

@@ -29,28 +29,21 @@ PHP_METHOD(phalcon_9__closure, __invoke)
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element, element_sub, _0, _2;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &element);
-
-
-	ZEPHIR_OBS_VAR(&_0);
+	zephir_memory_observe(&_0);
 	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 88);
 	_1 = Z_TYPE_P(&_0) == IS_ARRAY;
 	if (_1) {
-		ZEPHIR_OBS_VAR(&_2);
+		zephir_memory_observe(&_2);
 		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 88);
 		_1 = zephir_instance_of_ev(&_2, phalcon_filter_validation_abstractcombinedfieldsvalidator_ce);
 	}

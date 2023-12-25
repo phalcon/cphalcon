@@ -48,7 +48,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_CountVowels, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, matches, _0, _1, _2, _3;
 	zval text;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&matches);
@@ -56,19 +55,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_CountVowels, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(text)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &text_param);
 	zephir_get_strval(&text, text_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "/[aeiouy]/i");
 	ZEPHIR_INIT_VAR(&_1);

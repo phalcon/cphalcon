@@ -54,7 +54,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	zval argument, arguments, delimiter, data, first, last, prefix, suffix, _0, _1, *_2, _3, _6, _4$$6, _5$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&argument);
 	ZVAL_UNDEF(&arguments);
@@ -70,9 +69,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_5$$7);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&arguments);
 	zephir_get_args(&arguments);
@@ -81,19 +79,19 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 		return;
 	}
 	ZEPHIR_MAKE_REF(&arguments);
-	ZEPHIR_CALL_FUNCTION(&delimiter, "reset", NULL, 476, &arguments);
+	ZEPHIR_CALL_FUNCTION(&delimiter, "reset", NULL, 477, &arguments);
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_slice", NULL, 500, &arguments, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_slice", NULL, 501, &arguments, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&arguments, &_1);
 	ZEPHIR_MAKE_REF(&arguments);
-	ZEPHIR_CALL_FUNCTION(&first, "reset", NULL, 476, &arguments);
+	ZEPHIR_CALL_FUNCTION(&first, "reset", NULL, 477, &arguments);
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&arguments);
-	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 319, &arguments);
+	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 320, &arguments);
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&prefix);

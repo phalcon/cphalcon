@@ -47,24 +47,13 @@ PHP_METHOD(Phalcon_Support_Helper_Number_IsBetween, __invoke)
 	zend_bool _0;
 	zval *value_param = NULL, *start_param = NULL, *end_param = NULL;
 	zend_long value, start, end;
-	zval *this_ptr = getThis();
 
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_LONG(value)
 		Z_PARAM_LONG(start)
 		Z_PARAM_LONG(end)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(3, 0, &value_param, &start_param, &end_param);
-	value = zephir_get_intval(value_param);
-	start = zephir_get_intval(start_param);
-	end = zephir_get_intval(end_param);
-
-
 	_0 = value >= start;
 	if (_0) {
 		_0 = value <= end;

@@ -52,17 +52,10 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
 }
 
@@ -108,19 +101,13 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
@@ -129,9 +116,9 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
-	ZEPHIR_OBS_VAR(&name);
+	zephir_memory_observe(&name);
 	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 73);
-	ZEPHIR_OBS_VAR(&options);
+	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
 		array_init(&options);
@@ -182,17 +169,13 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	ZVAL_UNDEF(&adapter);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -209,13 +192,11 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 188, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 189, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -225,9 +206,6 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Phalcon\\Cache\\Exception\\Exception");
 }

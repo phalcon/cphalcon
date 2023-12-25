@@ -114,9 +114,9 @@ class Ini extends Config
      *
      * @param mixed $ini
      *
-     * @return array|float|int|mixed|string|null
+     * @return mixed
      */
-    protected function cast(var ini) -> bool | null | double | int | string
+    protected function cast(var ini) -> mixed
     {
         var lowerIni;
         array castMap;

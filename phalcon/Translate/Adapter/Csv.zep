@@ -15,10 +15,6 @@ use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class Csv
- *
- * @package Phalcon\Translate\Adapter
- *
  * @property array $translate
  */
 class Csv extends AbstractAdapter implements ArrayAccess

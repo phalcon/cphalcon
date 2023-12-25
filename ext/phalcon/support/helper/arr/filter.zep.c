@@ -53,25 +53,20 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(method)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &collection_param, &method);
 	zephir_get_arrval(&collection, collection_param);
 	if (!method) {
 		method = &method_sub;
 		method = &__$null;
 	}
-
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
