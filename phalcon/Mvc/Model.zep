@@ -1191,7 +1191,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             unset parameters["order"];
         }
 
-        let result = self::groupResult("COUNT", "rowcount", params);
+        let result = self::groupResult("COUNT", "rowcount", parameters);
 
         if typeof result === "string" {
             return (int) result;
