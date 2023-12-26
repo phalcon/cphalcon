@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.1) (xxxx-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+### Removed
+
 ## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
 
 ### Changed
