@@ -95,17 +95,17 @@ class CountCest
         );
         $I->assertInstanceOf(Simple::class, $results);
 
-        if ('mysql' !== $I->getDriver()) {
-            $matrix = [
-                0 => [3, 1],
-                1 => [2, 12],
-                2 => [1, 20],
-            ];
-        } else {
+        if ('mysql' === $I->getDriver()) {
             $matrix = [
                 0 => [1, 20],
                 1 => [2, 12],
                 2 => [3, 1],
+            ];
+        } else {
+            $matrix = [
+                0 => [3, 1],
+                1 => [2, 12],
+                2 => [1, 20],
             ];
         }
 
