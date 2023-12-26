@@ -159,7 +159,7 @@ class CountCest
      * @group  mysql
      * @group  pgsql
      */
-    public function mvcModelCountColumnMap(DatabaseTester $I):void
+    public function mvcModelCountColumnMap(DatabaseTester $I): void
     {
         /**
          * @todo The following tests need to skip sqlite because we will get
@@ -224,7 +224,7 @@ class CountCest
      * @group  mysql
      * @group  pgsql
      */
-    public function mvcModelCountWithOrder(DatabaseTester $I):void
+    public function mvcModelCountWithOrder(DatabaseTester $I): void
     {
         $invId = 'default';
         $this->seed($invId);
