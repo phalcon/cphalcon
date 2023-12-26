@@ -19,7 +19,7 @@ runs:
         if (-not (Test-Path -Path $Destination -PathType Container)) {
           New-Item $Destination -ItemType Directory | Out-Null
         }
-        Copy-Item -Path "${{ inputs.ext-path }}" -Destination $Destination
+        Copy-Item -Path "${{ env.EXTENSION_PATH }}" -Destination $Destination
         Copy-Item -Path "./3rdparty/licenses/*.txt" -Destination $Destination
         Set-Location $Destination
         & 7z a "${{ inputs.target-name }}.zip" *

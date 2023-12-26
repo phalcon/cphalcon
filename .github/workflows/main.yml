@@ -177,7 +177,7 @@ jobs:
           } else {
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
-          echo "extensionPath=$PhalconExtPath" >> $GITHUB_OUTPUT
+          echo "EXTENSION_PATH=$PhalconExtPath" >> $GITHUB_ENV
 #          echo "::set-output name=extension-path::$PhalconExtPath"
 #          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
 
@@ -185,7 +185,7 @@ jobs:
         uses: ./.github/actions/pack-phalcon-ext
         with:
           target-name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-          ext-path: ${{ needs.phalcon-ext-path.outputs.extensionPath }}
+          ext-path: ${{ env.EXTENSION_PATH }}
 
       - name: "Validate composer"
         run: composer validate --no-check-all --no-check-publish
