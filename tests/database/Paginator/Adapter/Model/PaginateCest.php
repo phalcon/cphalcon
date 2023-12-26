@@ -337,6 +337,10 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-12-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/16471
+     *
      * @group mysql
      * @group pgsql
      */
