@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.1) (xxxx-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Model::count` to ignore the `order` parameter (needed for Posgresql) [#16471](https://github.com/phalcon/cphalcon/issues/16471)
+
+### Removed
+
 ## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
 
 ### Changed
