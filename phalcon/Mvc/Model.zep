@@ -1182,15 +1182,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
-        var params, result;
-
-        let params = parameters;
+        var result;
 
         /**
          * Removing `order by` for postgresql
          */
-        if (isset(params["order"])) {
-            unset params["order"];
+        if (isset(parameters["order"])) {
+            unset parameters["order"];
         }
 
         let result = self::groupResult("COUNT", "rowcount", params);
