@@ -30,7 +30,7 @@ class CountCest
     /**
      * @var InvoicesMigration
      */
-    private $invoiceMigration;
+    private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test
@@ -63,7 +63,7 @@ class CountCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelCount(DatabaseTester $I)
+    public function mvcModelCount(DatabaseTester $I): void
     {
         /**
          * TODO: The following tests need to skip sqlite because we will get
@@ -159,7 +159,7 @@ class CountCest
      * @group  mysql
      * @group  pgsql
      */
-    public function mvcModelCountColumnMap(DatabaseTester $I)
+    public function mvcModelCountColumnMap(DatabaseTester $I):void
     {
         /**
          * @todo The following tests need to skip sqlite because we will get
@@ -210,6 +210,35 @@ class CountCest
         $I->assertEquals(12, (int) $results[1]->rowcount);
         $I->assertEquals(1, (int) $results[2]->cst_id);
         $I->assertEquals(20, (int) $results[2]->rowcount);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: count() - with order
+     *
+     * @param  DatabaseTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-12-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/16471
+     *
+     * @group  mysql
+     * @group  pgsql
+     */
+    public function mvcModelCountWithOrder(DatabaseTester $I):void
+    {
+        $invId = 'default';
+        $this->seed($invId);
+
+        $total = InvoicesMap::count();
+        $I->assertEquals(33, $total);
+
+        $total = InvoicesMap::count(
+            [
+                'distinct' => 'cst_id',
+                'order'    => 'cst_id',
+            ]
+        );
+        $I->assertEquals(3, $total);
     }
 
     /**
