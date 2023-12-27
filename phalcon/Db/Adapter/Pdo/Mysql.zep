@@ -52,30 +52,30 @@ class Mysql extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
      *
-     * @param array descriptor = [
-     *     'host' => 'localhost',
-     *     'port' => '3306',
-     *     'dbname' => 'blog',
-     *     'username' => 'sigma'
-     *     'password' => 'secret'
+     * @param array $descriptor = [
+     *     'host'         => 'localhost',
+     *     'port'         => '3306',
+     *     'dbname'       => 'blog',
+     *     'username'     => 'sigma'
+     *     'password'     => 'secret'
      *     'dialectClass' => null,
-     *     'options' => [],
-     *     'dsn' => null,
-     *     'charset' => 'utf8mb4'
+     *     'options'      => [],
+     *     'dsn'          => null,
+     *     'charset'      => 'utf8mb4',
      * ]
      */
     public function __construct(array! descriptor)
     {
         /**
-         * Returning numbers as numbers and not strings. If the user already
-         * set this option in the descriptor["options"], we do not have to set
-         * anything
+         * Keeping `ATTR_EMULATE_PREPARES` set to `true` for performance
+         * reasons. If numbers need to be returned and not strings (default)
+         * then the user needs to set such options in the connection
          */
         if (!isset(descriptor["options"][\PDO::ATTR_EMULATE_PREPARES])) {
-            let descriptor["options"][\PDO::ATTR_EMULATE_PREPARES]  = false;
+            let descriptor["options"][\PDO::ATTR_EMULATE_PREPARES]  = true;
         }
         if (!isset(descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES])) {
-            let descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES]  = false;
+            let descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES]  = true;
         }
 
         parent::__construct(descriptor);

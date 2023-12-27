@@ -15,18 +15,17 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
+use Phalcon\Db\Adapter\AbstractAdapter;
+use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Tests\Fixtures\Migrations\SettersMigration;
-use Phalcon\Tests\Fixtures\Migrations\SourcesMigration;
 use Phalcon\Tests\Fixtures\models\InvoicesGetters;
-use Phalcon\Tests\Fixtures\models\SourcesGetters;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\InvoicesMap;
-use Phalcon\Tests\Models\Sources;
 
 use function date;
+use function getOptionsMysql;
 use function uniqid;
 
 class ToArrayCest
@@ -216,12 +215,15 @@ class ToArrayCest
         $migration->insert(4, 1, 0, $title, 111.26, $date);
         $migration->insert(5, 2, 1, $title, 222.19, $date);
 
-        Invoices::setup(
-            [
-                'forceCasting'  => true,
-                'castOnHydrate' => true,
-            ]
-        );
+        $options = getOptionsMysql();
+        $options['persistent'] = true;
+        $options['options']    = [
+            PDO::ATTR_EMULATE_PREPARES  => false,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+        ];
+
+        $db = (new PdoFactory())->newInstance('mysql', $options);
+        $this->container->set('db', $db);
 
         $invoices = Invoices::findFirst();
 
@@ -309,19 +311,19 @@ class ToArrayCest
 
         $expected = [
             [
-                'id'          => 4,
-                'cst_id'      => 1,
-                'status_flag' => 0,
+                'id'          => '4',
+                'cst_id'      => '1',
+                'status_flag' => '0',
                 'title'       => $title,
-                'total'       => 111.26,
+                'total'       => '111.26',
                 'created_at'  => $date,
             ],
             [
-                'id'          => 5,
-                'cst_id'      => 2,
-                'status_flag' => 1,
+                'id'          => '5',
+                'cst_id'      => '2',
+                'status_flag' => '1',
                 'title'       => $title,
-                'total'       => 222.19,
+                'total'       => '222.19',
                 'created_at'  => $date,
             ],
         ];
