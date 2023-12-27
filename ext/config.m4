@@ -251,7 +251,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/query/queryfactory.zep.c
 	phalcon/datamapper/query/select.zep.c
 	phalcon/datamapper/query/update.zep.c
-	phalcon/db/abstractdb.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
 	phalcon/db/adapter/pdo/postgresql.zep.c
 	phalcon/db/adapter/pdo/sqlite.zep.c

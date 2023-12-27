@@ -66,27 +66,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql)
 /**
  * Constructor for Phalcon\Db\Adapter\Pdo
  *
- * @param array descriptor = [
- *     'host' => 'localhost',
- *     'port' => '3306',
- *     'dbname' => 'blog',
- *     'username' => 'sigma'
- *     'password' => 'secret'
+ * @param array $descriptor = [
+ *     'host'         => 'localhost',
+ *     'port'         => '3306',
+ *     'dbname'       => 'blog',
+ *     'username'     => 'sigma'
+ *     'password'     => 'secret'
  *     'dialectClass' => null,
- *     'options' => [],
- *     'dsn' => null,
- *     'charset' => 'utf8mb4'
+ *     'options'      => [],
+ *     'dsn'          => null,
+ *     'charset'      => 'utf8mb4',
  * ]
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, __$false, _0, _1;
+	zval *descriptor_param = NULL, __$true, _0, _1;
 	zval descriptor;
 
 	ZVAL_UNDEF(&descriptor);
-	ZVAL_BOOL(&__$false, 0);
+	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -98,11 +98,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, __construct)
 	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
 	zephir_array_fetch_string(&_0, &descriptor, SL("options"), PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 74);
 	if (!(zephir_array_isset_long(&_0, 20))) {
-		zephir_array_update_multi(&descriptor, &__$false, SL("sl"), 3, SL("options"), 20);
+		zephir_array_update_multi(&descriptor, &__$true, SL("sl"), 3, SL("options"), 20);
 	}
 	zephir_array_fetch_string(&_1, &descriptor, SL("options"), PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 77);
 	if (!(zephir_array_isset_long(&_1, 17))) {
-		zephir_array_update_multi(&descriptor, &__$false, SL("sl"), 3, SL("options"), 17);
+		zephir_array_update_multi(&descriptor, &__$true, SL("sl"), 3, SL("options"), 17);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_mysql_ce, getThis(), "__construct", NULL, 0, &descriptor);
 	zephir_check_call_status();

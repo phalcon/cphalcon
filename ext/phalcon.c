@@ -287,7 +287,6 @@ zend_class_entry *phalcon_datamapper_query_insert_ce;
 zend_class_entry *phalcon_datamapper_query_queryfactory_ce;
 zend_class_entry *phalcon_datamapper_query_select_ce;
 zend_class_entry *phalcon_datamapper_query_update_ce;
-zend_class_entry *phalcon_db_abstractdb_ce;
 zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
 zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
@@ -924,7 +923,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_DataMapper_Query_QueryFactory);
 	ZEPHIR_INIT(Phalcon_DataMapper_Query_Select);
 	ZEPHIR_INIT(Phalcon_DataMapper_Query_Update);
-	ZEPHIR_INIT(Phalcon_Db_AbstractDb);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_PdoFactory);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Mysql);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Postgresql);
