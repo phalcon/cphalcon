@@ -26,7 +26,11 @@ use Phalcon\Tests\Models\InvoicesMap;
 
 use function date;
 use function getOptionsMysql;
+use function phpversion;
 use function uniqid;
+use function version_compare;
+
+use const PHP_VERSION;
 
 class ToArrayCest
 {
@@ -309,24 +313,50 @@ class ToArrayCest
         $result->next();
         $result->rewind();
 
-        $expected = [
-            [
-                'id'          => '4',
-                'cst_id'      => '1',
-                'status_flag' => '0',
-                'title'       => $title,
-                'total'       => '111.26',
-                'created_at'  => $date,
-            ],
-            [
-                'id'          => '5',
-                'cst_id'      => '2',
-                'status_flag' => '1',
-                'title'       => $title,
-                'total'       => '222.19',
-                'created_at'  => $date,
-            ],
-        ];
+        /**
+         * This needs to be here because of how PDO works in PHP 8.0 vs 8.1+
+         */
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            // PHP 8.0.x
+            $expected = [
+                [
+                    'id'          => '4',
+                    'cst_id'      => '1',
+                    'status_flag' => '0',
+                    'title'       => $title,
+                    'total'       => '111.26',
+                    'created_at'  => $date,
+                ],
+                [
+                    'id'          => '5',
+                    'cst_id'      => '2',
+                    'status_flag' => '1',
+                    'title'       => $title,
+                    'total'       => '222.19',
+                    'created_at'  => $date,
+                ],
+            ];
+        } else {
+            // PHP 8.1.x+
+            $expected = [
+                [
+                    'id'          => 4,
+                    'cst_id'      => 1,
+                    'status_flag' => 0,
+                    'title'       => $title,
+                    'total'       => 111.26,
+                    'created_at'  => $date,
+                ],
+                [
+                    'id'          => 5,
+                    'cst_id'      => 2,
+                    'status_flag' => 1,
+                    'title'       => $title,
+                    'total'       => 222.19,
+                    'created_at'  => $date,
+                ],
+            ];
+        }
         $actual   = $result->toArray();
         $I->assertSame($expected, $actual);
     }
