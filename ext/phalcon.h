@@ -246,7 +246,6 @@
 #include "phalcon/datamapper/query/queryfactory.zep.h"
 #include "phalcon/datamapper/query/select.zep.h"
 #include "phalcon/datamapper/query/update.zep.h"
-#include "phalcon/db/abstractdb.zep.h"
 #include "phalcon/db/adapter/pdo/mysql.zep.h"
 #include "phalcon/db/adapter/pdo/postgresql.zep.h"
 #include "phalcon/db/adapter/pdo/sqlite.zep.h"
