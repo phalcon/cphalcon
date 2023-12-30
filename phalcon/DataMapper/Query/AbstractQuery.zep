@@ -180,6 +180,47 @@ abstract class AbstractQuery
             this->store["WHERE"]   = [];
     }
 
+    public function resetColumns()
+    {
+        let this->store["COLUMNS"] = [];
+    }
+
+    public function resetFrom()
+    {
+        let this->store["FROM"] = [];
+    }
+
+    public function resetWhere()
+    {
+        let this->store["WHERE"] = [];
+    }
+
+    public function resetGroupBy()
+    {
+        let this->store["GROUP"] = [];
+    }
+
+    public function resetHaving()
+    {
+        let this->store["HAVING"] = [];
+    }
+
+    public function resetOrderBy()
+    {
+        let this->store["ORDER"] = [];
+    }
+
+    public function resetLimit()
+    {
+        let this->store["LIMIT"]  = 0,
+            this->store["OFFSET"] = 0;
+    }
+
+    public function resetFlags()
+    {
+        let this->store["FLAGS"] = [];
+    }
+
     /**
      * Builds the flags statement(s)
      *

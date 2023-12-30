@@ -41,9 +41,49 @@ interface BuilderInterface
     public function betweenWhere(string! expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
-     * Sets the columns to be queried
+     * Sets the columns to be queried. The columns can be either a `string` or
+     * an `array`. The string can specify one or more columns, separated by
+     * commas, the same way that one uses the SQL select statement. You can
+     * use aliases, aggregate functions etc. If you need to reference other
+     * models you will need to reference them with their namespaces.
      *
-     * @param string|array columns
+     * When using an array as a parameter, you will need to specify one field
+     * per element. If a key is defined in our array, it will be used as the
+     * alias in the query
+     *
+     *```php
+     * <?php
+     *
+     * // String, comma separated values
+     * $builder->columns("id, name");
+     *
+     * // Array, one column per element
+     * $builder->columns(
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
+     * );
+     *
+     * // Array, named keys. The name of the key acts as an alias (`AS` clause)
+     * $builder->columns(
+     *     [
+     *         "name",
+     *         "number" => "COUNT(*)",
+     *     ]
+     * );
+     *
+     * // Different models
+     * $builder->columns(
+     *     [
+     *         "\Phalcon\Models\Invoices.*",
+     *         "\Phalcon\Models\Customers.cst_name_first",
+     *         "\Phalcon\Models\Customers.cst_name_last",
+     *     ]
+     * );
+     *```
+     *
+     * @param string|array $columns
      */
     public function columns(columns) -> <BuilderInterface>;
 

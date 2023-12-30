@@ -285,7 +285,8 @@ class Complex extends Resultset implements ResultsetInterface
     }
 
     /**
-     * Serializing a resultset will dump all related rows into a big array
+     * Serializing a resultset will dump all related rows into a big array,
+     * serialize it and return the resulting string
      */
     public function serialize() -> string
     {
