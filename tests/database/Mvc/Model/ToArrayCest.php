@@ -407,5 +407,58 @@ class ToArrayCest
          * PHP versions
          */
         $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'inv_id'          => '4',
+            'inv_cst_id'      => '1',
+            'inv_status_flag' => '0',
+            'inv_title'       => $title,
+            'inv_total'       => '111.26',
+            'inv_created_at'  => $date,
+        ];
+        $actual = $model->toArray(null, false);
+        $I->assertEquals($expected, $actual);
+    }
+
+        /**
+     * Tests Phalcon\Mvc\Model\ :: save() with property source
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-16
+     * @issue  #11922
+     *
+     * @group  mysql
+     * @group  sqlite
+     */
+    public function mvcModelToArrayModelWithGettersSerialize(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray - model with getters serialize');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $title      = uniqid('inv-');
+        $date       = date('Y-m-d H:i:s');
+
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 0, $title, 111.26, $date);
+
+        $model = InvoicesGetters::findFirst(4);
+
+        $class = InvoicesGetters::class;
+        $I->assertInstanceOf($class, $model);
+
+        $expected = 4;
+        $actual   = $model->inv_id;
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * assertEquals here because sqlite returns strings in different
+         * PHP versions
+         */
+
+        $serialize = $model->serialize();
+        $unserialize = new InvoicesGetters();
+        $unserialize->unserialize($serialize);
+        $I->assertEquals($title, $unserialize->inv_title);
     }
 }
