@@ -34,9 +34,9 @@ Please report bugs when you've exhausted all of the above options.
 ## Bug Report Checklist
 
 * Make sure you are using the latest released version of Phalcon before submitting a bug report. Bugs in versions older than the latest released one will not be addressed by the core team (so long as the version is not LTS).
-* If you have found a bug it is important to add relevant reproducibility information to your issue to allow us to reproduce the bug and fix it quicker. Add a script, small program or repository providing the necessary code to make everyone reproduce the issue reported easily. If a bug cannot be reproduced by the development it would be difficult provide corrections and solutions. [Submit Reproducible Test](https://docs.phalcon.io/en/latest/reproducible-tests) for more information
+* If you have found a bug it is important to add relevant reproducibility information to your issue to allow us to reproduce the bug and fix it quicker. Add a script, small program or repository providing the necessary code to make everyone reproduce the issue reported easily. If a bug cannot be reproduced by the development it would be difficult provide corrections and solutions. [Submit Reproducible Test](https://docs.phalcon.io/latest/reproducible-tests/) for more information
 * Be sure that information such as OS, Phalcon version and PHP version are part of the bug report
-* If you're submitting a [Segmentation Fault](https://en.wikipedia.org/wiki/Segmentation_fault) error, we would require a backtrace, please see [Generating a Backtrace](https://docs.phalcon.io/en/latest/generating-backtrace)
+* If you're submitting a [Segmentation Fault](https://en.wikipedia.org/wiki/Segmentation_fault) error, we would require a backtrace, please see [Generating a Backtrace](https://docs.phalcon.io/latest/generating-backtrace)
 
 ## Pull Request Checklist
 
@@ -48,7 +48,7 @@ Please report bugs when you've exhausted all of the above options.
 
 ## Requesting Features
 
-If you have a change or new feature in mind, please fill a [NFR](https://docs.phalcon.io/en/latest/new-feature-request) on the GitHub. Alternatively you may also request features via [the FeatHub page](https://feathub.com/phalcon/cphalcon).
+If you have a change or new feature in mind, please fill a [NFR](https://docs.phalcon.io/latest/new-feature-request) on the GitHub. Alternatively you may also request features via [the FeatHub page](https://feathub.com/phalcon/cphalcon).
 
 
 Thanks! 
