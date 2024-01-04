@@ -650,7 +650,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromConfig)
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _2, _3, _0)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_3 != NULL) { 
+			if (_3 != NULL) {
 				ZVAL_STR_COPY(&name, _3);
 			} else {
 				ZVAL_LONG(&name, _2);
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromConfig)
  * ];
  * ```
  *
- * @link https://docs.phalcon.io/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/latest/di/
  */
 PHP_METHOD(Phalcon_Di_Di, loadFromPhp)
 {
@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromPhp)
  *    className: \Acme\User
  * ```
  *
- * @link https://docs.phalcon.io/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/latest/di/
  */
 PHP_METHOD(Phalcon_Di_Di, loadFromYaml)
 {
@@ -1230,11 +1230,11 @@ zend_object *zephir_init_properties_Phalcon_Di_Di(zend_class_entry *class_type)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-	
+
 
 		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
+
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
