@@ -1670,6 +1670,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @param string $modelName
      * @param string $key
+	 *
+	 * @return mixed
      */
     public function getReusableRecords(string! modelName, string! key)
     {
