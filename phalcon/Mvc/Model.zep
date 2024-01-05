@@ -390,7 +390,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -1183,6 +1183,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
         var result;
+
+        /**
+         * Removing `order by` for postgresql
+         */
+        if (isset(parameters["order"])) {
+            unset parameters["order"];
+        }
 
         let result = self::groupResult("COUNT", "rowcount", parameters);
 
@@ -2784,7 +2791,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -3275,7 +3282,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array $columns
      */
-    public function toArray(columns = null) -> array
+    public function toArray(columns = null, useGetter = true) -> array
     {
         var attribute, attributeField, columnMap, metaData, method, value;
         array data;
@@ -3321,7 +3328,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             let method = "get" . camelize(attributeField);
 
-            if method_exists(this, method) {
+            if true === useGetter && method_exists(this, method) {
                 let data[attributeField] = this->{method}();
             } elseif fetch value, this->{attributeField} {
                 let data[attributeField] = value;

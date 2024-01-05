@@ -333,4 +333,53 @@ class PaginateCest
         $actual = $view->getVar('paginate');
         $I->assertInstanceOf(Repository::class, $actual);
     }
+
+    /**
+     * @param DatabaseTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-12-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/16471
+     *
+     * @group mysql
+     * @group pgsql
+     */
+    public function paginatorAdapterModelPaginateWithOrder(DatabaseTester $I)
+    {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - with order');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
+
+        $paginator = new Model(
+            [
+                'model'      => Invoices::class,
+                'parameters' => [
+                    'inv_cst_id >= 2',
+                    'order' => 'inv_cst_id'
+                ],
+                'limit'      => 5,
+                'page'       => 1,
+            ]
+        );
+
+        // First Page
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+
+        $I->assertCount(5, $page->getItems());
+        $I->assertEquals(1, $page->getPrevious());
+        $I->assertEquals(2, $page->getNext());
+        $I->assertEquals(9, $page->getLast());
+        $I->assertEquals(5, $page->getLimit());
+        $I->assertEquals(1, $page->getCurrent());
+    }
 }
