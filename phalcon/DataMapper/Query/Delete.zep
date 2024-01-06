@@ -82,11 +82,13 @@ class Delete extends AbstractConditions
     /**
      * Resets the internal store
      */
-    public function reset() -> void
+    public function reset() -> <Delete>
     {
         parent::reset();
 
         let this->store["FROM"]      = "",
             this->store["RETURNING"] = [];
+
+        return this;
     }
 }

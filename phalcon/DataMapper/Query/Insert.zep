@@ -134,12 +134,14 @@ class Insert extends AbstractQuery
     /**
      * Resets the internal store
      */
-    public function reset() -> void
+    public function reset() -> <Insert>
     {
         parent::reset();
 
         let this->store["FROM"]      = "",
             this->store["RETURNING"] = [];
+
+        return this;
     }
 
     /**

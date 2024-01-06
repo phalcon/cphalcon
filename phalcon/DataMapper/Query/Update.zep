@@ -133,12 +133,14 @@ class Update extends AbstractConditions
     /**
      * Resets the internal store
      */
-    public function reset() -> void
+    public function reset() -> <Update>
     {
         parent::reset();
 
         let this->store["FROM"]      = "",
             this->store["RETURNING"] = [];
+
+        return this;
     }
 
     /**
