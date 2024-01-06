@@ -214,9 +214,9 @@ class Apcu extends AbstractAdapter
     /**
      * @todo Remove the below once we get traits
      */
-    protected function phpApcuDec(var key, int step = 1, var success = null, int ttl = 0) -> bool | int
+    protected function phpApcuDec(var key, int step = 1) -> bool | int
     {
-        return apcu_dec(key, step, success, ttl);
+        return apcu_dec(key, step);
     }
 
     protected function phpApcuDelete(var key) ->  bool | array
@@ -229,14 +229,14 @@ class Apcu extends AbstractAdapter
         return apcu_exists(key);
     }
 
-    protected function phpApcuInc(var key, int step = 1, var success = null, int ttl = 0) -> bool | int
+    protected function phpApcuInc(var key, int step = 1) -> bool | int
     {
-        return apcu_inc(key, step, success, ttl);
+        return apcu_inc(key, step);
     }
 
-    protected function phpApcuFetch(var key, var success = null) -> var
+    protected function phpApcuFetch(var key) -> var
     {
-        return apcu_fetch(key, success);
+        return apcu_fetch(key);
     }
 
     protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
