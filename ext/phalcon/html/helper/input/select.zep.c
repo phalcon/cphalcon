@@ -29,10 +29,6 @@
  */
 /**
  * Class Select
- *
- * @property string $elementTag
- * @property bool   $inOptGroup
- * @property string $selected
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select)
 {
