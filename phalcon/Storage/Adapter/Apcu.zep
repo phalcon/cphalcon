@@ -234,9 +234,9 @@ class Apcu extends AbstractAdapter
         return apcu_inc(key, step, success, ttl);
     }
 
-    protected function phpApcuFetch(var key, var success = null) -> var
+    protected function phpApcuFetch(var key) -> var
     {
-        return apcu_fetch(key, success);
+        return apcu_fetch(key);
     }
 
     protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
