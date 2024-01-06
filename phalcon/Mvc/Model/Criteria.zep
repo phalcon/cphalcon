@@ -17,19 +17,19 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
- * Phalcon\Mvc\Model\Criteria
- *
  * This class is used to build the array parameter required by
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
  * object-oriented interface.
  *
  * ```php
- * $robots = Robots::query()
- *     ->where("type = :type:")
- *     ->andWhere("year < 2000")
- *     ->bind(["type" => "mechanical"])
+ * <?php
+ *
+ * $invoices = Invoices::query()
+ *     ->where("inv_cst_id = :customerId:")
+ *     ->andWhere("inv_created_date < '2000-01-01'")
+ *     ->bind(["customerId" => 1])
  *     ->limit(5, 10)
- *     ->orderBy("name")
+ *     ->orderBy("inv_title")
  *     ->execute();
  * ```
  */
@@ -159,34 +159,36 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Sets the columns to be queried. The columns can be either a `string` or
-     * an `array`. The string can specify one or more columns, separated by
-     * commas, the same way that one uses the SQL select statement. You can
-     * use aliases, aggregate functions etc. If you need to reference other
-     * models you will need to reference them with their namespaces.
+     * an `array` of strings. If the argument is a (single, non-embedded) string,
+     * its content can specify one or more columns, separated by commas, the same
+     * way that one uses the SQL select statement. You can use aliases, aggregate
+     * functions, etc. If you need to reference other models you will need to
+     * reference them with their namespaces.
      *
      * When using an array as a parameter, you will need to specify one field
-     * per element. If a key is defined in our array, it will be used as the
-     * alias in the query
+     * per array element. If a non-numeric key is defined in the array, it will
+     * be used as the alias in the query
      *
      *```php
      * <?php
      *
      * // String, comma separated values
-     * $criteria->columns("id, name");
+     * $criteria->columns("id, category");
      *
      * // Array, one column per element
      * $criteria->columns(
      *     [
-     *         "id",
-     *         "name",
+     *         "inv_id",
+     *         "inv_total",
      *     ]
      * );
      *
-     * // Array, named keys. The name of the key acts as an alias (`AS` clause)
+     * // Array with named key. The name of the key acts as an
+     * // alias (`AS` clause)
      * $criteria->columns(
      *     [
-     *         "name",
-     *         "number" => "COUNT(*)",
+     *         "inv_cst_id",
+     *         "total_invoices" => "COUNT(*)",
      *     ]
      * );
      *
@@ -222,10 +224,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Creates a query builder from criteria.
      *
-     * ```php
-     * $builder = Robots::query()
-     *     ->where("type = :type:")
-     *     ->bind(["type" => "mechanical"])
+     * <?php
+     *
+     * $invoices = Invoices::query()
+     *     ->where("inv_cst_id = :customerId:")
+     *     ->bind(["customerId" => 1])
      *     ->createBuilder();
      * ```
      */
@@ -524,19 +527,21 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds an INNER join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->innerJoin(
-     *     Robots::class
+     *     Invoices::class
      * );
      *
      * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
      * );
      *
      * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *```
      */
@@ -601,25 +606,27 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds an INNER join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->join(
-     *     Robots::class
+     *     Invoices::class
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r",
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i",
      *     "LEFT"
      * );
      *```
@@ -650,10 +657,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds a LEFT join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->leftJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *```
      */
@@ -808,10 +817,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds a RIGHT join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->rightJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *```
      */

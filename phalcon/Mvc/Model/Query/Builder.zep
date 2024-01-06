@@ -448,34 +448,36 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Sets the columns to be queried. The columns can be either a `string` or
-     * an `array`. The string can specify one or more columns, separated by
-     * commas, the same way that one uses the SQL select statement. You can
-     * use aliases, aggregate functions etc. If you need to reference other
-     * models you will need to reference them with their namespaces.
+     * an `array` of strings. If the argument is a (single, non-embedded) string,
+     * its content can specify one or more columns, separated by commas, the same
+     * way that one uses the SQL select statement. You can use aliases, aggregate
+     * functions, etc. If you need to reference other models you will need to
+     * reference them with their namespaces.
      *
      * When using an array as a parameter, you will need to specify one field
-     * per element. If a key is defined in our array, it will be used as the
-     * alias in the query
+     * per array element. If a non-numeric key is defined in the array, it will
+     * be used as the alias in the query
      *
      *```php
      * <?php
      *
      * // String, comma separated values
-     * $builder->columns("id, name");
+     * $builder->columns("id, category");
      *
      * // Array, one column per element
      * $builder->columns(
      *     [
-     *         "id",
-     *         "name",
+     *         "inv_id",
+     *         "inv_total",
      *     ]
      * );
      *
-     * // Array, named keys. The name of the key acts as an alias (`AS` clause)
+     * // Array with named key. The name of the key acts as an
+     * // alias (`AS` clause)
      * $builder->columns(
      *     [
-     *         "name",
-     *         "number" => "COUNT(*)",
+     *         "inv_cst_id",
+     *         "total_invoices" => "COUNT(*)",
      *     ]
      * );
      *

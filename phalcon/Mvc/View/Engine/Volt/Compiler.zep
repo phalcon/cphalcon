@@ -1195,6 +1195,7 @@ class Compiler implements InjectionAwareInterface
      *
      * echo $compiler->compileSet($source);
      * // <?php $a = ['first' => 1]; ?>";
+     * ```
      *
      * @param array $statement
      *

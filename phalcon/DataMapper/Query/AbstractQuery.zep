@@ -167,7 +167,7 @@ abstract class AbstractQuery
     /**
      * Resets the internal array
      */
-    public function reset()
+    public function reset() -> <AbstractQuery>
     {
         let this->store["COLUMNS"] = [],
             this->store["FLAGS"]   = [],
@@ -178,47 +178,89 @@ abstract class AbstractQuery
             this->store["ORDER"]   = [],
             this->store["OFFSET"]  = 0,
             this->store["WHERE"]   = [];
+
+        return this;
     }
 
-    public function resetColumns()
+    /**
+     * Resets the columns
+     */
+    public function resetColumns() -> <AbstractQuery>
     {
         let this->store["COLUMNS"] = [];
+
+        return this;
     }
 
-    public function resetFrom()
+    /**
+     * Resets the from
+     */
+    public function resetFrom() -> <AbstractQuery>
     {
         let this->store["FROM"] = [];
+
+        return this;
     }
 
-    public function resetWhere()
+    /**
+     * Resets the where
+     */
+    public function resetWhere() -> <AbstractQuery>
     {
         let this->store["WHERE"] = [];
+
+        return this;
     }
 
-    public function resetGroupBy()
+    /**
+     * Resets the group by
+     */
+    public function resetGroupBy() -> <AbstractQuery>
     {
         let this->store["GROUP"] = [];
+
+        return this;
     }
 
-    public function resetHaving()
+    /**
+     * Resets the having
+     */
+    public function resetHaving() -> <AbstractQuery>
     {
         let this->store["HAVING"] = [];
+
+        return this;
     }
 
-    public function resetOrderBy()
+    /**
+     * Resets the order by
+     */
+    public function resetOrderBy() -> <AbstractQuery>
     {
         let this->store["ORDER"] = [];
+
+        return this;
     }
 
-    public function resetLimit()
+    /**
+     * Resets the limit and offset
+     */
+    public function resetLimit() -> <AbstractQuery>
     {
         let this->store["LIMIT"]  = 0,
             this->store["OFFSET"] = 0;
+
+        return this;
     }
 
-    public function resetFlags()
+    /**
+     * Resets the flags
+     */
+    public function resetFlags() -> <AbstractQuery>
     {
         let this->store["FLAGS"] = [];
+
+        return this;
     }
 
     /**
