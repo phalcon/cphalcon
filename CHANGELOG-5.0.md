@@ -13,6 +13,7 @@
 
 - Fixed `Phalcon\Mvc\Model::count` to ignore the `order` parameter (needed for Posgresql) [#16471](https://github.com/phalcon/cphalcon/issues/16471)
 - Fixed `Phalcon\Mvc\Model::toArray` added parameter to ignore getters in order not to break serialize. [#16490](https://github.com/phalcon/cphalcon/issues/16490)
+- Fixed `Phalcon\Storage\Adapter\Apcu::phpApcuFetch` to stop producing warnings due to the second parameter. [#16489](https://github.com/phalcon/cphalcon/issues/16489)
 
 ### Removed
 
