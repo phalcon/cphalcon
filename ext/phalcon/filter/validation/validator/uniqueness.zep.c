@@ -116,13 +116,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Uniqueness)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
+ * @param array $options = [
+ *     'message'    => '',
+ *     'template'   => '',
  *     'allowEmpty' => false,
- *     'convert' => null,
- *     'model' => null,
- *     'except' => null
+ *     'convert'    => null,
+ *     'model'      => null,
+ *     'except'     => null
  * ]
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, __construct)

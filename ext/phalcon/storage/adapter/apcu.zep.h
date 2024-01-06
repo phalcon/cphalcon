@@ -90,7 +90,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcufetch, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, success)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcuiterator, 0, 0, 1)

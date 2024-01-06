@@ -513,7 +513,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 }
 
 /**
- * Serializing a resultset will dump all related rows into a big array
+ * Serializing a resultset will dump all related rows into a big array,
+ * serialize it and return the resulting string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize)
 {
@@ -537,7 +538,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize)
 	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&container) == IS_NULL) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector container is not valid", "phalcon/Mvc/Model/Resultset/Complex.zep", 299);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector container is not valid", "phalcon/Mvc/Model/Resultset/Complex.zep", 300);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&data);
@@ -615,7 +616,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize)
 	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&container) == IS_NULL) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector container is not valid", "phalcon/Mvc/Model/Resultset/Complex.zep", 335);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector container is not valid", "phalcon/Mvc/Model/Resultset/Complex.zep", 336);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -637,20 +638,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize)
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/Mvc/Model/Resultset/Complex.zep", 348);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/Mvc/Model/Resultset/Complex.zep", 349);
 		return;
 	}
-	zephir_array_fetch_string(&_4, &resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 351);
+	zephir_array_fetch_string(&_4, &resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 352);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_4);
-	zephir_array_fetch_string(&_5, &resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 352);
+	zephir_array_fetch_string(&_5, &resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 353);
 	ZVAL_UNDEF(&_6);
 	ZVAL_LONG(&_6, zephir_fast_count_int(&_5));
 	zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &_6);
-	zephir_array_fetch_string(&_7, &resultset, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 353);
+	zephir_array_fetch_string(&_7, &resultset, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 354);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), &_7);
-	zephir_array_fetch_string(&_8, &resultset, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 354);
+	zephir_array_fetch_string(&_8, &resultset, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 355);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columnTypes"), &_8);
-	zephir_array_fetch_string(&_9, &resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 355);
+	zephir_array_fetch_string(&_9, &resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 356);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("hydrateMode"), &_9);
 	ZEPHIR_MM_RESTORE();
 }
@@ -714,17 +715,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __unserialize)
 	} else {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("disableHydration"), &__$false);
 	}
-	zephir_array_fetch_string(&_0, &data, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 386);
+	zephir_array_fetch_string(&_0, &data, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 387);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_0);
-	zephir_array_fetch_string(&_1, &data, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 387);
+	zephir_array_fetch_string(&_1, &data, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 388);
 	ZVAL_UNDEF(&_2);
 	ZVAL_LONG(&_2, zephir_fast_count_int(&_1));
 	zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &_2);
-	zephir_array_fetch_string(&_3, &data, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 388);
+	zephir_array_fetch_string(&_3, &data, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 389);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), &_3);
-	zephir_array_fetch_string(&_4, &data, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 389);
+	zephir_array_fetch_string(&_4, &data, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 390);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columnTypes"), &_4);
-	zephir_array_fetch_string(&_5, &data, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 390);
+	zephir_array_fetch_string(&_5, &data, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Resultset/Complex.zep", 391);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("hydrateMode"), &_5);
 	ZEPHIR_MM_RESTORE();
 }

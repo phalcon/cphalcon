@@ -685,27 +685,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuFetch)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key, key_sub, *success = NULL, success_sub, __$null;
+	zval *key, key_sub;
 
 	ZVAL_UNDEF(&key_sub);
-	ZVAL_UNDEF(&success_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 2)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(key)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(success)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 1, &key, &success);
-	if (!success) {
-		success = &success_sub;
-		success = &__$null;
-	}
-	ZEPHIR_MAKE_REF(success);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 107, key, success);
-	ZEPHIR_UNREF(success);
+	zephir_fetch_params(1, 1, 0, &key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 107, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }

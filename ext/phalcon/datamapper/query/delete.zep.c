@@ -211,6 +211,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, reset)
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "RETURNING");
 	zephir_update_property_array(this_ptr, SL("store"), &_3, &_2);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 }
 

@@ -43,7 +43,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_r
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, Phalcon\\DataMapper\\Query\\Update, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_set, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
