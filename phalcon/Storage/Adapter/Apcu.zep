@@ -208,7 +208,7 @@ class Apcu extends AbstractAdapter
      */
     protected function doGet(string key)
     {
-        return this->phpApcuFetch(this->getPrefixedKey(key));
+        return apcu_fetch(this->getPrefixedKey(key));
     }
 
     /**
@@ -232,11 +232,6 @@ class Apcu extends AbstractAdapter
     protected function phpApcuInc(var key, int step = 1, var success = null, int ttl = 0) -> bool | int
     {
         return apcu_inc(key, step, success, ttl);
-    }
-
-    protected function phpApcuFetch(var key, var success = null) -> var
-    {
-        return apcu_fetch(key, success);
     }
 
     protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
