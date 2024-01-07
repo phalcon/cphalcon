@@ -167,7 +167,7 @@ abstract class AbstractQuery
     /**
      * Resets the internal array
      */
-    public function reset()
+    public function reset() -> void
     {
         let this->store["COLUMNS"] = [],
             this->store["FLAGS"]   = [],
@@ -178,6 +178,71 @@ abstract class AbstractQuery
             this->store["ORDER"]   = [],
             this->store["OFFSET"]  = 0,
             this->store["WHERE"]   = [];
+    }
+
+    /**
+     * Resets the columns
+     */
+    public function resetColumns() -> void
+    {
+        let this->store["COLUMNS"] = [];
+    }
+
+    /**
+     * Resets the from
+     */
+    public function resetFrom() -> void
+    {
+        let this->store["FROM"] = [];
+    }
+
+    /**
+     * Resets the where
+     */
+    public function resetWhere() -> void
+    {
+        let this->store["WHERE"] = [];
+    }
+
+    /**
+     * Resets the group by
+     */
+    public function resetGroupBy() -> void
+    {
+        let this->store["GROUP"] = [];
+    }
+
+    /**
+     * Resets the having
+     */
+    public function resetHaving() -> void
+    {
+        let this->store["HAVING"] = [];
+    }
+
+    /**
+     * Resets the order by
+     */
+    public function resetOrderBy() -> void
+    {
+        let this->store["ORDER"] = [];
+    }
+
+    /**
+     * Resets the limit and offset
+     */
+    public function resetLimit() -> void
+    {
+        let this->store["LIMIT"]  = 0,
+            this->store["OFFSET"] = 0;
+    }
+
+    /**
+     * Resets the flags
+     */
+    public function resetFlags() -> void
+    {
+        let this->store["FLAGS"] = [];
     }
 
     /**
