@@ -5501,12 +5501,12 @@ PHP_METHOD(Phalcon_Mvc_Model, sum)
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray)
 {
-	zend_bool _3$$4, _11$$3, _13$$15, _19$$14;
+	zend_bool _3$$4, _11$$3, _14$$15, _20$$14;
 	zval data;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *columns = NULL, columns_sub, *useGetter = NULL, useGetter_sub, __$null, __$true, attribute, attributeField, columnMap, metaData, method, value, _0, *_1, _2, _4$$5, _6$$7, _7$$7, _8$$7, _10$$3, _12$$11, _14$$16, _15$$18, _16$$18, _17$$18, _18$$14, _20$$22;
+	zval *columns = NULL, columns_sub, *useGetter = NULL, useGetter_sub, __$null, __$true, attribute, attributeField, columnMap, metaData, method, _0, *_1, _2, _4$$5, _6$$7, _7$$7, _8$$7, _10$$3, _12$$11, _13$$12, _15$$16, _16$$18, _17$$18, _18$$18, _19$$14, _21$$22, _22$$23;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&columns_sub);
@@ -5518,7 +5518,6 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 	ZVAL_UNDEF(&columnMap);
 	ZVAL_UNDEF(&metaData);
 	ZVAL_UNDEF(&method);
-	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4$$5);
@@ -5527,12 +5526,14 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 	ZVAL_UNDEF(&_8$$7);
 	ZVAL_UNDEF(&_10$$3);
 	ZVAL_UNDEF(&_12$$11);
-	ZVAL_UNDEF(&_14$$16);
-	ZVAL_UNDEF(&_15$$18);
+	ZVAL_UNDEF(&_13$$12);
+	ZVAL_UNDEF(&_15$$16);
 	ZVAL_UNDEF(&_16$$18);
 	ZVAL_UNDEF(&_17$$18);
-	ZVAL_UNDEF(&_18$$14);
-	ZVAL_UNDEF(&_20$$22);
+	ZVAL_UNDEF(&_18$$18);
+	ZVAL_UNDEF(&_19$$14);
+	ZVAL_UNDEF(&_21$$22);
+	ZVAL_UNDEF(&_22$$23);
 	ZVAL_UNDEF(&data);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
@@ -5608,13 +5609,14 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 			if (_11$$3) {
 				_11$$3 = (zephir_method_exists(this_ptr, &method)  == SUCCESS);
 			}
-			ZEPHIR_OBS_NVAR(&value);
 			if (_11$$3) {
 				ZEPHIR_CALL_METHOD_ZVAL(&_12$$11, this_ptr, &method, NULL, 0);
 				zephir_check_call_status();
 				zephir_array_update_zval(&data, &attributeField, &_12$$11, PH_COPY | PH_SEPARATE);
-			} else if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
-				zephir_array_update_zval(&data, &attributeField, &value, PH_COPY | PH_SEPARATE);
+			} else if (zephir_isset_property_zval(this_ptr, &attributeField)) {
+				ZEPHIR_OBS_NVAR(&_13$$12);
+				zephir_read_property_zval(&_13$$12, this_ptr, &attributeField, PH_NOISY_CC);
+				zephir_array_update_zval(&data, &attributeField, &_13$$12, PH_COPY | PH_SEPARATE);
 			} else {
 				zephir_array_update_zval(&data, &attributeField, &__$null, PH_COPY | PH_SEPARATE);
 			}
@@ -5631,27 +5633,27 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 			ZEPHIR_CALL_METHOD(&attribute, &_0, "current", NULL, 0);
 			zephir_check_call_status();
 				if (Z_TYPE_P(&columnMap) == IS_ARRAY) {
-					_13$$15 = !(zephir_array_isset(&columnMap, &attribute));
-					if (_13$$15) {
-						_13$$15 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
+					_14$$15 = !(zephir_array_isset(&columnMap, &attribute));
+					if (_14$$15) {
+						_14$$15 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 					}
-					if (_13$$15) {
-						ZEPHIR_CALL_SELF(&_14$$16, "caseinsensitivecolumnmap", &_5, 420, &columnMap, &attribute);
+					if (_14$$15) {
+						ZEPHIR_CALL_SELF(&_15$$16, "caseinsensitivecolumnmap", &_5, 420, &columnMap, &attribute);
 						zephir_check_call_status();
-						ZEPHIR_CPY_WRT(&attribute, &_14$$16);
+						ZEPHIR_CPY_WRT(&attribute, &_15$$16);
 					}
 					ZEPHIR_OBS_NVAR(&attributeField);
 					if (!(zephir_array_isset_fetch(&attributeField, &columnMap, &attribute, 0))) {
 						if (UNEXPECTED(!(ZEPHIR_GLOBAL(orm).ignore_unknown_columns))) {
-							ZEPHIR_INIT_NVAR(&_15$$18);
-							object_init_ex(&_15$$18, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_NVAR(&_16$$18);
-							zephir_get_class(&_16$$18, this_ptr, 0);
+							object_init_ex(&_16$$18, phalcon_mvc_model_exception_ce);
 							ZEPHIR_INIT_NVAR(&_17$$18);
-							ZEPHIR_CONCAT_SVSVS(&_17$$18, "Column '", &attribute, "' doesn't make part of the column map in '", &_16$$18, "'");
-							ZEPHIR_CALL_METHOD(NULL, &_15$$18, "__construct", &_9, 33, &_17$$18);
+							zephir_get_class(&_17$$18, this_ptr, 0);
+							ZEPHIR_INIT_NVAR(&_18$$18);
+							ZEPHIR_CONCAT_SVSVS(&_18$$18, "Column '", &attribute, "' doesn't make part of the column map in '", &_17$$18, "'");
+							ZEPHIR_CALL_METHOD(NULL, &_16$$18, "__construct", &_9, 33, &_18$$18);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_15$$18, "phalcon/Mvc/Model.zep", 3311);
+							zephir_throw_exception_debug(&_16$$18, "phalcon/Mvc/Model.zep", 3311);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -5665,21 +5667,22 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 						continue;
 					}
 				}
-				ZEPHIR_INIT_NVAR(&_18$$14);
-				zephir_camelize(&_18$$14, &attributeField, NULL );
+				ZEPHIR_INIT_NVAR(&_19$$14);
+				zephir_camelize(&_19$$14, &attributeField, NULL );
 				ZEPHIR_INIT_NVAR(&method);
-				ZEPHIR_CONCAT_SV(&method, "get", &_18$$14);
-				_19$$14 = ZEPHIR_IS_TRUE_IDENTICAL(useGetter);
-				if (_19$$14) {
-					_19$$14 = (zephir_method_exists(this_ptr, &method)  == SUCCESS);
+				ZEPHIR_CONCAT_SV(&method, "get", &_19$$14);
+				_20$$14 = ZEPHIR_IS_TRUE_IDENTICAL(useGetter);
+				if (_20$$14) {
+					_20$$14 = (zephir_method_exists(this_ptr, &method)  == SUCCESS);
 				}
-				ZEPHIR_OBS_NVAR(&value);
-				if (_19$$14) {
-					ZEPHIR_CALL_METHOD_ZVAL(&_20$$22, this_ptr, &method, NULL, 0);
+				if (_20$$14) {
+					ZEPHIR_CALL_METHOD_ZVAL(&_21$$22, this_ptr, &method, NULL, 0);
 					zephir_check_call_status();
-					zephir_array_update_zval(&data, &attributeField, &_20$$22, PH_COPY | PH_SEPARATE);
-				} else if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
-					zephir_array_update_zval(&data, &attributeField, &value, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&data, &attributeField, &_21$$22, PH_COPY | PH_SEPARATE);
+				} else if (zephir_isset_property_zval(this_ptr, &attributeField)) {
+					ZEPHIR_OBS_NVAR(&_22$$23);
+					zephir_read_property_zval(&_22$$23, this_ptr, &attributeField, PH_NOISY_CC);
+					zephir_array_update_zval(&data, &attributeField, &_22$$23, PH_COPY | PH_SEPARATE);
 				} else {
 					zephir_array_update_zval(&data, &attributeField, &__$null, PH_COPY | PH_SEPARATE);
 				}
