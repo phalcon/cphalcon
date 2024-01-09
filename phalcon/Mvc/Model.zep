@@ -3284,7 +3284,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function toArray(columns = null, useGetter = true) -> array
     {
-        var attribute, attributeField, columnMap, metaData, method, value;
+        var attribute, attributeField, columnMap, metaData, method;
         array data;
 
         let data = [],
@@ -3330,8 +3330,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if true === useGetter && method_exists(this, method) {
                 let data[attributeField] = this->{method}();
-            } elseif fetch value, this->{attributeField} {
-                let data[attributeField] = value;
+            } elseif isset(this->{attributeField}) {
+                let data[attributeField] = this->{attributeField};
             } else {
                 let data[attributeField] = null;
             }
