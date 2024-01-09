@@ -390,7 +390,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -1183,6 +1183,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
         var result;
+
+        /**
+         * Removing `order by` for postgresql
+         */
+        if (isset(parameters["order"])) {
+            unset parameters["order"];
+        }
 
         let result = self::groupResult("COUNT", "rowcount", parameters);
 
@@ -2784,7 +2791,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -3275,9 +3282,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array $columns
      */
-    public function toArray(columns = null) -> array
+    public function toArray(columns = null, useGetter = true) -> array
     {
-        var attribute, attributeField, columnMap, metaData, method, value;
+        var attribute, attributeField, columnMap, metaData, method;
         array data;
 
         let data = [],
@@ -3321,10 +3328,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             let method = "get" . camelize(attributeField);
 
-            if method_exists(this, method) {
+            if true === useGetter && method_exists(this, method) {
                 let data[attributeField] = this->{method}();
-            } elseif fetch value, this->{attributeField} {
-                let data[attributeField] = value;
+            } elseif isset(this->{attributeField}) {
+                let data[attributeField] = this->{attributeField};
             } else {
                 let data[attributeField] = null;
             }
@@ -3335,17 +3342,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Updates a model instance. If the instance doesn't exist in the
-     * persistence it will throw an exception. Returning true on success or
-     * false otherwise.
+     * persistence it will throw an exception. Returning `true` on success or
+     * `false` otherwise.
      *
-     *```php
-     * // Updating a robot name
-     * $robot = Robots::findFirst("id = 100");
+     * ```php
+     * <?php
      *
-     * $robot->name = "Biomass";
+     * use MyApp\Models\Invoices;
      *
-     * $robot->update();
-     *```
+     * $invoice = Invoices::findFirst('inv_id = 4');
+     *
+     * $invoice->inv_total = 120;
+     *
+     * $invoice->update();
+     * ```
+     *
+     * !!! warning "NOTE"
+     *
+     *     When retrieving the record with `findFirst()`, you need to get the full
+     *     object back (no `columns` definition) but also retrieve it using the
+     *     primary key. If not, the ORM will issue an `INSERT` instead of `UPDATE`.
      */
     public function update() -> bool
     {

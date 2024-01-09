@@ -1144,9 +1144,60 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a "set" statement returning PHP code
+     * Compiles a "set" statement returning PHP code. The method accepts an
+     * array produced by the Volt parser and creates the `set` statement in PHP.
+     * This method is not particularly useful in development, since it requires
+     * advanced knowledge of the Volt parser.
      *
-     * @param array statement
+     * ```php
+     * <?php
+     *
+     * use Phalcon\Mvc\View\Engine\Volt\Compiler;
+     *
+     * $compiler = new Compiler();
+     *
+     * // {% set a = ['first': 1] %}
+
+     * $source = [
+     *     "type" => 306,
+     *     "assignments" => [
+     *         [
+     *             "variable" => [
+     *                 "type" => 265,
+     *                 "value" => "a",
+     *                 "file" => "eval code",
+     *                 "line" => 1
+     *             ],
+     *             "op" => 61,
+     *             "expr" => [
+     *                 "type" => 360,
+     *                 "left" => [
+     *                     [
+     *                         "expr" => [
+     *                             "type" => 258,
+     *                             "value" => "1",
+     *                             "file" => "eval code",
+     *                             "line" => 1
+     *                         ],
+     *                         "name" => "first",
+     *                         "file" => "eval code",
+     *                         "line" => 1
+     *                     ]
+     *                 ],
+     *                 "file" => "eval code",
+     *                 "line" => 1
+     *             ],
+     *             "file" => "eval code",
+     *             "line" => 1
+     *         ]
+     *     ]
+     * ];
+     *
+     * echo $compiler->compileSet($source);
+     * // <?php $a = ['first' => 1]; ?>";
+     * ```
+     *
+     * @param array $statement
      *
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string

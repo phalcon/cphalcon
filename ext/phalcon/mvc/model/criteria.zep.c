@@ -32,19 +32,19 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Criteria
- *
  * This class is used to build the array parameter required by
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
  * object-oriented interface.
  *
  * ```php
- * $robots = Robots::query()
- *     ->where("type = :type:")
- *     ->andWhere("year < 2000")
- *     ->bind(["type" => "mechanical"])
+ * <?php
+ *
+ * $invoices = Invoices::query()
+ *     ->where("inv_cst_id = :customerId:")
+ *     ->andWhere("inv_created_date < '2000-01-01'")
+ *     ->bind(["customerId" => 1])
  *     ->limit(5, 10)
- *     ->orderBy("name")
+ *     ->orderBy("inv_title")
  *     ->execute();
  * ```
  */
@@ -320,18 +320,51 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache)
 }
 
 /**
- * Sets the columns to be queried
+ * Sets the columns to be queried. The columns can be either a `string` or
+ * an `array` of strings. If the argument is a (single, non-embedded) string,
+ * its content can specify one or more columns, separated by commas, the same
+ * way that one uses the SQL select statement. You can use aliases, aggregate
+ * functions, etc. If you need to reference other models you will need to
+ * reference them with their namespaces.
+ *
+ * When using an array as a parameter, you will need to specify one field
+ * per array element. If a non-numeric key is defined in the array, it will
+ * be used as the alias in the query
  *
  *```php
+ * <?php
+ *
+ * // String, comma separated values
+ * $criteria->columns("id, category");
+ *
+ * // Array, one column per element
  * $criteria->columns(
  *     [
- *         "id",
- *         "name",
+ *         "inv_id",
+ *         "inv_total",
+ *     ]
+ * );
+ *
+ * // Array with named key. The name of the key acts as an
+ * // alias (`AS` clause)
+ * $criteria->columns(
+ *     [
+ *         "inv_cst_id",
+ *         "total_invoices" => "COUNT(*)",
+ *     ]
+ * );
+ *
+ * // Different models
+ * $criteria->columns(
+ *     [
+ *         "\Phalcon\Models\Invoices.*",
+ *         "\Phalcon\Models\Customers.cst_name_first",
+ *         "\Phalcon\Models\Customers.cst_name_last",
  *     ]
  * );
  *```
  *
- * @param string|array columns
+ * @param string|array $columns
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns)
 {
@@ -389,10 +422,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions)
 /**
  * Creates a query builder from criteria.
  *
- * ```php
- * $builder = Robots::query()
- *     ->where("type = :type:")
- *     ->bind(["type" => "mechanical"])
+ * <?php
+ *
+ * $invoices = Invoices::query()
+ *     ->where("inv_cst_id = :customerId:")
+ *     ->bind(["customerId" => 1])
  *     ->createBuilder();
  * ```
  */
@@ -477,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute)
 	ZEPHIR_CALL_METHOD(&model, this_ptr, "getmodelname", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&model) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Model name must be string", "phalcon/Mvc/Model/Criteria.zep", 245);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Model name must be string", "phalcon/Mvc/Model/Criteria.zep", 279);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getparams", NULL, 0);
@@ -614,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&bind);
 		array_init(&bind);
-		zephir_is_iterable(&data, 0, "phalcon/Mvc/Model/Criteria.zep", 322);
+		zephir_is_iterable(&data, 0, "phalcon/Mvc/Model/Criteria.zep", 356);
 		if (Z_TYPE_P(&data) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _4$$3, _5$$3, _2$$3)
 			{
@@ -632,7 +666,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 				}
 				if (_6$$4) {
 					ZEPHIR_OBS_NVAR(&attribute);
-					zephir_array_fetch(&attribute, &columnMap, &field, PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 297);
+					zephir_array_fetch(&attribute, &columnMap, &field, PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 331);
 				} else {
 					ZEPHIR_CPY_WRT(&attribute, &field);
 				}
@@ -646,7 +680,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 						if (ZEPHIR_IS_LONG(&type, 2)) {
 							ZEPHIR_INIT_NVAR(&_8$$9);
 							ZEPHIR_CONCAT_SVSVS(&_8$$9, "[", &field, "] LIKE :", &field, ":");
-							zephir_array_append(&conditions, &_8$$9, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 308);
+							zephir_array_append(&conditions, &_8$$9, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 342);
 							ZEPHIR_INIT_NVAR(&_9$$9);
 							ZEPHIR_CONCAT_SVS(&_9$$9, "%", &value, "%");
 							zephir_array_update_zval(&bind, &field, &_9$$9, PH_COPY | PH_SEPARATE);
@@ -654,7 +688,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 						}
 						ZEPHIR_INIT_NVAR(&_10$$8);
 						ZEPHIR_CONCAT_SVSVS(&_10$$8, "[", &field, "] = :", &field, ":");
-						zephir_array_append(&conditions, &_10$$8, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 317);
+						zephir_array_append(&conditions, &_10$$8, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 351);
 						zephir_array_update_zval(&bind, &field, &value, PH_COPY | PH_SEPARATE);
 					}
 				}
@@ -678,7 +712,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 					}
 					if (_11$$10) {
 						ZEPHIR_OBS_NVAR(&attribute);
-						zephir_array_fetch(&attribute, &columnMap, &field, PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 297);
+						zephir_array_fetch(&attribute, &columnMap, &field, PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 331);
 					} else {
 						ZEPHIR_CPY_WRT(&attribute, &field);
 					}
@@ -692,7 +726,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 							if (ZEPHIR_IS_LONG(&type, 2)) {
 								ZEPHIR_INIT_NVAR(&_13$$15);
 								ZEPHIR_CONCAT_SVSVS(&_13$$15, "[", &field, "] LIKE :", &field, ":");
-								zephir_array_append(&conditions, &_13$$15, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 308);
+								zephir_array_append(&conditions, &_13$$15, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 342);
 								ZEPHIR_INIT_NVAR(&_14$$15);
 								ZEPHIR_CONCAT_SVS(&_14$$15, "%", &value, "%");
 								zephir_array_update_zval(&bind, &field, &_14$$15, PH_COPY | PH_SEPARATE);
@@ -700,7 +734,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 							}
 							ZEPHIR_INIT_NVAR(&_15$$14);
 							ZEPHIR_CONCAT_SVSVS(&_15$$14, "[", &field, "] = :", &field, ":");
-							zephir_array_append(&conditions, &_15$$14, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 317);
+							zephir_array_append(&conditions, &_15$$14, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 351);
 							zephir_array_update_zval(&bind, &field, &value, PH_COPY | PH_SEPARATE);
 						}
 					}
@@ -790,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("di"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Criteria.zep", 379);
+	zephir_array_fetch_string(&_1, &_0, SL("di"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Criteria.zep", 413);
 	RETURN_CTORW(&_1);
 }
 
@@ -976,19 +1010,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, having)
  * Adds an INNER join to the query
  *
  *```php
+ * <?php
+ *
  * $criteria->innerJoin(
- *     Robots::class
+ *     Invoices::class
  * );
  *
  * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id"
+ *     Invoices::class,
+ *     "inv_cst_id = Customers.cst_id"
  * );
  *
  * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r"
+ *     Invoices::class,
+ *     "i.inv_cst_id = Customers.cst_id",
+ *     "i"
  * );
  *```
  */
@@ -1099,7 +1135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 559);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 595);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _1)
 		{
@@ -1110,7 +1146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 			zephir_get_strval(&key, &_3$$4);
 			ZEPHIR_INIT_NVAR(&queryKey);
 			ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 549);
+			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 585);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			SEPARATE_ZVAL(&hiddenParam);
 			zephir_increment(&hiddenParam);
@@ -1131,7 +1167,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 				zephir_get_strval(&key, &_4$$5);
 				ZEPHIR_INIT_NVAR(&queryKey);
 				ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 549);
+				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 585);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				SEPARATE_ZVAL(&hiddenParam);
 				zephir_increment(&hiddenParam);
@@ -1154,25 +1190,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
  * Adds an INNER join to the query
  *
  *```php
+ * <?php
+ *
  * $criteria->join(
- *     Robots::class
+ *     Invoices::class
  * );
  *
  * $criteria->join(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id"
+ *     Invoices::class,
+ *     "inv_cst_id = Customers.cst_id"
  * );
  *
  * $criteria->join(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r"
+ *     Invoices::class,
+ *     "i.inv_cst_id = Customers.cst_id",
+ *     "i"
  * );
  *
  * $criteria->join(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r",
+ *     Invoices::class,
+ *     "i.inv_cst_id = Customers.cst_id",
+ *     "i",
  *     "LEFT"
  * );
  *```
@@ -1267,10 +1305,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
  * Adds a LEFT join to the query
  *
  *```php
+ * <?php
+ *
  * $criteria->leftJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r"
+ *     Invoices::class,
+ *     "i.inv_cst_id = Customers.cst_id",
+ *     "i"
  * );
  *```
  */
@@ -1511,7 +1551,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 742);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 782);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _0)
 		{
@@ -1522,7 +1562,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 			zephir_get_strval(&key, &_2$$3);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVS(&_3$$3, ":", &key, ":");
-			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 732);
+			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 772);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			SEPARATE_ZVAL(&hiddenParam);
 			zephir_increment(&hiddenParam);
@@ -1543,7 +1583,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 				zephir_get_strval(&key, &_4$$4);
 				ZEPHIR_INIT_NVAR(&_5$$4);
 				ZEPHIR_CONCAT_SVS(&_5$$4, ":", &key, ":");
-				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 732);
+				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 772);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				SEPARATE_ZVAL(&hiddenParam);
 				zephir_increment(&hiddenParam);
@@ -1656,10 +1696,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere)
  * Adds a RIGHT join to the query
  *
  *```php
+ * <?php
+ *
  * $criteria->rightJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r"
+ *     Invoices::class,
+ *     "i.inv_cst_id = Customers.cst_id",
+ *     "i"
  * );
  *```
  */

@@ -101,13 +101,13 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
+     * @param array $options = [
+     *     'message'    => '',
+     *     'template'   => '',
      *     'allowEmpty' => false,
-     *     'convert' => null,
-     *     'model' => null,
-     *     'except' => null
+     *     'convert'    => null,
+     *     'model'      => null,
+     *     'except'     => null
      * ]
      */
     public function __construct(array! options = [])

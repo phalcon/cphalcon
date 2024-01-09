@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.5.0
+  PHALCON_VERSION: 5.6.0
   ZEPHIR_PARSER_VERSION: 1.6.0
 
   # For tests
@@ -284,7 +284,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -386,12 +386,13 @@ jobs:
       - name: Get the release version
         id: get-version
         run: |
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+#          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
 #          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           path: ./build-artifacts
 
@@ -407,8 +408,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: ${{ steps.get-version.outputs.version }}
-          tag: ${{ steps.get-version.outputs.version }}
+          name: ${{ env.version }}
+          tag: ${{ env.version }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
           artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
