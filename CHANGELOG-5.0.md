@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.5.1](https://github.com/phalcon/cphalcon/releases/tag/v5.5.1) (xxxx-xx-xx)
+## [5.5.1](https://github.com/phalcon/cphalcon/releases/tag/v5.5.1) (2024-01-09)
 
 ### Changed
  
@@ -13,6 +13,7 @@
 
 - Fixed `Phalcon\Mvc\Model::count` to ignore the `order` parameter (needed for Posgresql) [#16471](https://github.com/phalcon/cphalcon/issues/16471)
 - Fixed `Phalcon\Mvc\Model::toArray` added parameter to ignore getters in order not to break serialize. [#16490](https://github.com/phalcon/cphalcon/issues/16490)
+- Fixed `Phalcon\Mvc\Model::toArray` changing the conditionals for population to remove segfault. [#16498](https://github.com/phalcon/cphalcon/issues/16498)
 
 ### Removed
 
