@@ -1,4 +1,21 @@
-# [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (xxxx-xx-xx)
+# [4.1.4](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (xxxx-xx-xx)
+
+# [4.1.3](https://github.com/phalcon/cphalcon/releases/tag/v4.1.3) (2022-01-06)
+
+## Fixed
+
+- Fixed `Phalcon\Mvc\Model::getRelated()` to correctly return relationships (cached or not) when the foreign key has changed [#15649](https://github.com/phalcon/cphalcon/issues/15649)
+
+
+# [4.1.2](https://github.com/phalcon/cphalcon/releases/tag/v4.1.2) (2021-04-22)
+
+## Changed
+- Corrected version in package.xml
+
+# [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.1) (2021-04-21)
+
+## Changed
+- Corrected max PHP version for PECL
 
 ## Fixed
 - Fixed `Logger\Log::log()` `log` to recognize all log levels [#15214](https://github.com/phalcon/cphalcon/issues/15214)
