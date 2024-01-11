@@ -3,12 +3,14 @@
 ## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (xxxx-xx-xx)
 
 ### Changed
- 
+- 
+- Changed `Phalcon\Cli\Router::setDefaultAction` and `Phalcon\Cli\Router::setDefaultModule` to return the object back for a fluent interface [#16328](https://github.com/phalcon/cphalcon/issues/16328)
+
 ### Added
  
 ### Fixed
 
-- Fixed `/Db/Adapter/Pdo/Postgresql::describeColumns` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
+- Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
 
 ### Removed
 
