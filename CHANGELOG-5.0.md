@@ -1,19 +1,5 @@
 # Changelog
 
-## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (xxxx-xx-xx)
-
-### Changed
- 
-### Added
- 
-### Fixed
-
-- Fixed `/Db/Adapter/Pdo/Postgresql::describeColumns` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
-
-### Removed
-
-# Changelog
-
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
 
 ### Changed
