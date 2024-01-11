@@ -106,5 +106,5 @@ interface ValidationInterface
      *
      * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages> | false;
+    public function validate(var data = null, var entity = null) -> <Messages> | bool;
 }

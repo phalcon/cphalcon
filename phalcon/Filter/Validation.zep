@@ -481,7 +481,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages> | false
+    public function validate(var data = null, var entity = null) -> <Messages> | bool
     {
         var combinedFieldsValidators, field, messages, scope, status, validator,
             validatorData, validators;
