@@ -62,36 +62,60 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
         let container = <DiInterface> this->getDI();
 
         if propertyName === "di" {
-            let this->{"di"} = container;
-
             return container;
         }
 
+//        if propertyName === "di" {
+//            let this->{"di"} = container;
+//
+//            return container;
+//        }
+//
         /**
          * Accessing the persistent property will create a session bag on any class
          */
         if propertyName === "persistent" {
-            let this->{"persistent"} = <BagInterface> container->get(
+            return <BagInterface> container->get(
                 "sessionBag",
                 [
                     get_class(this),
                     container
                 ]
             );
-
-            return this->{"persistent"};
         }
+
+//        /**
+//         * Accessing the persistent property will create a session bag on any class
+//         */
+//        if propertyName === "persistent" {
+//            let this->{"persistent"} = <BagInterface> container->get(
+//                "sessionBag",
+//                [
+//                    get_class(this),
+//                    container
+//                ]
+//            );
+//
+//            return this->{"persistent"};
+//        }
 
         /**
          * Fallback to the PHP userland if the cache is not available
          */
         if container->has(propertyName) {
-            let service = container->getShared(propertyName);
-            let this->{propertyName} = service;
-
-            return service;
+            return container->getShared(propertyName);
         }
 
+//        /**
+//         * Fallback to the PHP userland if the cache is not available
+//         */
+//        if container->has(propertyName) {
+//            let service = container->getShared(propertyName);
+//            let this->{propertyName} = service;
+//
+//            return service;
+//        }
+//
         /**
          * A notice is shown if the property is not defined and isn't a valid service
          */

@@ -341,6 +341,14 @@ class Di implements DiInterface
     }
 
     /**
+     * Check whether the DI contains a service by a name
+     */
+    public function has(string! name) -> bool
+    {
+        return isset this->services[name];
+    }
+
+    /**
      * Loads services from a Config object.
      */
     protected function loadFromConfig(<ConfigInterface> config) -> void
@@ -439,14 +447,6 @@ class Di implements DiInterface
         let services = new Yaml(filePath, callbacks);
 
         this->loadFromConfig(services);
-    }
-
-    /**
-     * Check whether the DI contains a service by a name
-     */
-    public function has(string! name) -> bool
-    {
-        return isset this->services[name];
     }
 
     /**
