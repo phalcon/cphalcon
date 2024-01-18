@@ -3328,7 +3328,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             let method = "get" . camelize(attributeField);
 
-            if true === useGetter && method_exists(this, method) {
+            /**
+             * Do not use the getter if the field name is `source` (getSource)
+             */
+            if true === useGetter && "getSource" !== method && method_exists(this, method) {
                 let data[attributeField] = this->{method}();
             } elseif isset(this->{attributeField}) {
                 let data[attributeField] = this->{attributeField};
