@@ -144,7 +144,7 @@ abstract class AbstractCache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    protected function doGet(string key, var defaultValue = null)
+    protected function doGet(string key, var defaultValue = null) -> var
     {
         this->checkKey(key);
 
@@ -154,7 +154,7 @@ abstract class AbstractCache implements CacheInterface
     /**
      * Obtains multiple cache items by their unique keys.
      */
-    protected function doGetMultiple(var keys, var defaultValue = null)
+    protected function doGetMultiple(var keys, var defaultValue = null) -> array
     {
         var element, results;
 

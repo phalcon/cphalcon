@@ -12,6 +12,7 @@
 
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
 - Fixed `Phalcon/Filter/Validation::validate()` and `Phalcon/Filter/Validation/ValidationInterface::validate()` to return also `bool` [#16337](https://github.com/phalcon/cphalcon/issues/16337)
+- Fixed `Phalcon\Mvc\Model::toArray` to ignore getters when the field name is `source`. [#16514](https://github.com/phalcon/cphalcon/issues/16514)
 
 ### Removed
 
