@@ -35,9 +35,7 @@
 #include <ext/pcre/php_pcre.h>
 #endif
 
-#if defined ZEPHIR_USE_PHP_JSON && ZEPHIR_USE_PHP_JSON
 #include <ext/json/php_json.h>
-#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -1128,8 +1126,6 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 #endif /* ZEPHIR_USE_PHP_PCRE */
 
-#if defined ZEPHIR_USE_PHP_JSON && ZEPHIR_USE_PHP_JSON
-
 int zephir_json_encode(zval *return_value, zval *v, int opts)
 {
 	smart_str buf = { 0 };
@@ -1161,38 +1157,6 @@ int zephir_json_decode(zval *return_value, zval *v, zend_bool assoc)
 
 	return SUCCESS;
 }
-
-#else
-
-int zephir_json_encode(zval *return_value, zval *v, int opts)
-{
-	zval zopts;
-	zval *params[2];
-
-	ZVAL_NULL(&zopts);
-	ZVAL_LONG(&zopts, opts);
-
-	params[0] = v;
-	params[1] = &zopts;
-
-	return zephir_return_call_function(return_value, SL("json_encode"), NULL, 0, 2, params);
-}
-
-int zephir_json_decode(zval *return_value, zval *v, zend_bool assoc)
-{
-	zval zassoc;
-	zval *params[2];
-
-	ZVAL_NULL(&zassoc);
-	ZVAL_BOOL(&zassoc, assoc);
-
-	params[0] = v;
-	params[1] = &zassoc;
-
-	return zephir_return_call_function(return_value, SL("json_decode"), NULL, 0, 2, params);
-}
-
-#endif /* ZEPHIR_USE_PHP_JSON */
 
 void zephir_md5(zval *return_value, zval *str)
 {
