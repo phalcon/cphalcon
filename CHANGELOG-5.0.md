@@ -14,6 +14,7 @@
 - Fixed `Phalcon/Filter/Validation::validate()` and `Phalcon/Filter/Validation/ValidationInterface::validate()` to return also `bool` [#16337](https://github.com/phalcon/cphalcon/issues/16337)
 - Fixed `Phalcon\Mvc\Model::toArray` to ignore getters when the field name is `source`. [#16514](https://github.com/phalcon/cphalcon/issues/16514)
 - Fixed `Phalcon\Http\Request::getPut` to correctly get form encoded data [#16519](https://github.com/phalcon/cphalcon/issues/16519)
+- Fixed deprecation warning in callables `Use of "static" in callables is deprecated` for PHP 8.2+ [#16263](https://github.com/phalcon/cphalcon/issues/16263)
 
 ### Removed
 
