@@ -101,5 +101,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setLabels);
  *
  * @param array|object data
  * @param object entity
+ *
+ * @return Messages|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, validate);

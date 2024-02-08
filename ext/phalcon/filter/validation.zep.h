@@ -107,7 +107,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_setvali
 	ZEND_ARG_ARRAY_INFO(0, validators, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validate, 0, 0, Phalcon\\Messages\\Messages, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validate, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()

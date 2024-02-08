@@ -905,7 +905,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction)
 	zephir_fetch_params(1, 1, 0, &actionName_param);
 	zephir_get_strval(&actionName, actionName_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAction"), &actionName);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**
@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule)
 	zephir_fetch_params(1, 1, 0, &moduleName_param);
 	zephir_get_strval(&moduleName, moduleName_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultModule"), &moduleName);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**
