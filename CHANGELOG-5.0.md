@@ -18,8 +18,6 @@
 
 ### Removed
 
-# Changelog
-
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
 
 ### Changed
