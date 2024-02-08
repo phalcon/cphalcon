@@ -3,7 +3,7 @@
   "name": "phalcon",
   "description": "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance.",
   "author": "Phalcon Team and contributors",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "verbose": false,
   "stubs": {
     "path": "ide\/%version%\/%namespace%\/",

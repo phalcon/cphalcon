@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2024-01-09</date>
+  <date>2024-02-08</date>
   <time>17:00:00</time>
   <version>
-    <release>5.6.0</release>
-    <api>5.6.0</api>
+    <release>5.6.1</release>
+    <api>5.6.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -38,18 +38,15 @@
 
     ### Changed
 
-    - Changed `Phalcon\Db\Adapter\Pdo\Mysql` to not use specific flags for `PDO` (`PDO::ATTR_EMULATE_PREPARES` or `PDO::ATTR_STRINGIFY_FETCHES`) for performance reasons [#16474](https://github.com/phalcon/cphalcon/issues/16474)
-    - Merged `Phalcon\Db\AbstractDb` with `Phalcon\Db\Adapter\AbstractAdapter` since the former was not used [#16474](https://github.com/phalcon/cphalcon/issues/16474)
-
-    ### Added
-
-    - Added `resetColumns()`, `resetFrom()`, `resetWhere()`, `resetGroupBy()`, `resetHaving()`, `resetOrderBy()`, `resetLimit()`, `resetFlags()` to the `Phalcon\Datamapper\Query\AbstractQuery` to allow resetting query filters.
+    - Changed `Phalcon\Cli\Router::setDefaultAction` and `Phalcon\Cli\Router::setDefaultModule` to return the object back for a fluent interface [#16328](https://github.com/phalcon/cphalcon/issues/16328)
 
     ### Fixed
 
-    - Fixed `Phalcon\Mvc\Model::count` to ignore the `order` parameter (needed for Posgresql) [#16471](https://github.com/phalcon/cphalcon/issues/16471)
-    - Fixed `Phalcon\Mvc\Model::toArray` added parameter to ignore getters in order not to break serialize. [#16490](https://github.com/phalcon/cphalcon/issues/16490)
-    - Fixed `Phalcon\Mvc\Model::toArray` changing the conditionals for population to remove segfault. [#16498](https://github.com/phalcon/cphalcon/issues/16498)
+    - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
+    - Fixed `Phalcon/Filter/Validation::validate()` and `Phalcon/Filter/Validation/ValidationInterface::validate()` to return also `bool` [#16337](https://github.com/phalcon/cphalcon/issues/16337)
+    - Fixed `Phalcon\Mvc\Model::toArray` to ignore getters when the field name is `source`. [#16514](https://github.com/phalcon/cphalcon/issues/16514)
+    - Fixed `Phalcon\Http\Request::getPut` to correctly get form encoded data [#16519](https://github.com/phalcon/cphalcon/issues/16519)
+    - Fixed deprecation warning in callables `Use of "static" in callables is deprecated` for PHP 8.2+ [#16263](https://github.com/phalcon/cphalcon/issues/16263)
 
   </notes>
   <contents>
