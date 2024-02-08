@@ -50,7 +50,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache_doget, 0, 0, 1)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache_dogetmultiple, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_dogetmultiple, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, keys)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()

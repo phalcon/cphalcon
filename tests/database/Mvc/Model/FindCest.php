@@ -18,6 +18,7 @@ use PDO;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Router;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
@@ -28,8 +29,13 @@ use Phalcon\Tests\Models\Invoices;
 use Phalcon\Tests\Models\Objects;
 
 use function getOptionsRedis;
+use function ob_end_clean;
+use function ob_end_flush;
+use function ob_get_contents;
+use function ob_start;
 use function outputDir;
 use function uniqid;
+use function var_dump;
 
 /**
  * Class FindCest
@@ -412,5 +418,53 @@ class FindCest
         $I->assertEquals(2, count($data));
         $I->assertEquals(1, $data[0]->obj_id);
         $I->assertEquals(2, $data[1]->obj_id);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find() - deprecation warning PHP 8.2
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-08-02
+     *
+     * @group  mysql
+     */
+    public function mvcModelFindDeprecationWarning(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - find() - deprecation warning');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+        $migration->insert(2, 'random data 2', 1);
+        $migration->insert(4, 'random data 4', 1);
+
+        /**
+         * Calling `findFirst()` in the router callable will produce
+         * a deprecation warning. If so, this test will fail.
+         */
+
+        $this->container->set(
+            'router',
+            function () {
+                var_dump('inside callable');
+                $results = Objects::find();
+                var_dump($results->toArray());
+
+                return new Router();
+            }
+        );
+
+        ob_start();
+        $router = $this->container->get('router');
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $expected = 'inside callable';
+        $I->assertStringContainsString($expected, $actual);
+        $expected = 'Deprecated';
+        $I->assertStringNotContainsString($expected, $actual);
+        $expected = 'Use of "static" in callables in deprecated';
+        $I->assertStringNotContainsString($expected, $actual);
     }
 }

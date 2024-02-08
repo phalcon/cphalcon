@@ -7645,7 +7645,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache_doget, 0, 0, 1)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache_dogetmultiple, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_dogetmultiple, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, keys)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
@@ -8422,7 +8422,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_ARRAY_INFO(0, labels, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_validate, 0, 0, Phalcon\\Messages\\Messages, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_validate, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
@@ -14281,11 +14281,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_handle, 0, 0, 0)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 1, Phalcon\\Cli\\Router, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaultmodule, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultmodule, 0, 1, Phalcon\\Cli\\Router, 0)
 	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -18960,7 +18960,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_setvali
 	ZEND_ARG_ARRAY_INFO(0, validators, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validate, 0, 0, Phalcon\\Messages\\Messages, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validate, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()

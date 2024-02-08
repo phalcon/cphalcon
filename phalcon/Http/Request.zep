@@ -1721,8 +1721,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if null === cached {
             let contentType = this->getContentType();
 
-            if typeof contentType == "string" {
-
+            if (
+                typeof contentType == "string" &&
+                (
+                    stripos(contentType, "json") != false ||
+                    stripos(contentType, "multipart/form-data") !== false
+                )
+            ) {
                 if (stripos(contentType, "json") != false) {
                     let cached = this->getJsonRawBody(true);
                 }

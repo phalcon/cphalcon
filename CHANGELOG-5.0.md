@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-02-08)
+
+### Changed
+ 
+- Changed `Phalcon\Cli\Router::setDefaultAction` and `Phalcon\Cli\Router::setDefaultModule` to return the object back for a fluent interface [#16328](https://github.com/phalcon/cphalcon/issues/16328)
+
+### Added
+ 
+### Fixed
+
+- Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
+- Fixed `Phalcon/Filter/Validation::validate()` and `Phalcon/Filter/Validation/ValidationInterface::validate()` to return also `bool` [#16337](https://github.com/phalcon/cphalcon/issues/16337)
+- Fixed `Phalcon\Mvc\Model::toArray` to ignore getters when the field name is `source`. [#16514](https://github.com/phalcon/cphalcon/issues/16514)
+- Fixed `Phalcon\Http\Request::getPut` to correctly get form encoded data [#16519](https://github.com/phalcon/cphalcon/issues/16519)
+- Fixed deprecation warning in callables `Use of "static" in callables is deprecated` for PHP 8.2+ [#16263](https://github.com/phalcon/cphalcon/issues/16263)
+
+### Removed
+
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
 
 ### Changed

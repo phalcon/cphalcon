@@ -371,7 +371,11 @@ int zephir_call_user_function(
 
 		char *is_callable_error = NULL;
 		zend_execute_data *frame = EG(current_execute_data);
+#if PHP_VERSION_ID >= 80200
+		if (obj_ce || !zend_is_callable_at_frame(&callable, fci.object, frame, IS_CALLABLE_SUPPRESS_DEPRECATIONS, &fcic, &is_callable_error)) {
+#else
 		if (obj_ce || !zend_is_callable_at_frame(&callable, fci.object, frame, 0, &fcic, &is_callable_error)) {
+#endif
 			if (is_callable_error) {
 				zend_error(E_WARNING, "%s", is_callable_error);
 				efree(is_callable_error);
@@ -591,7 +595,11 @@ int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *pa
 	}
 
 	zend_execute_data *frame = EG(current_execute_data);
+#if PHP_VERSION_ID >= 80200
+	if (!zend_is_callable_at_frame(handler, NULL, frame, IS_CALLABLE_SUPPRESS_DEPRECATIONS, &fci_cache, &is_callable_error)) {
+#else
 	if (!zend_is_callable_at_frame(handler, NULL, frame, 0, &fci_cache, &is_callable_error)) {
+#endif
 		if (is_callable_error) {
 			zend_error(E_WARNING, "%s", is_callable_error);
 			efree(is_callable_error);
