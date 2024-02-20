@@ -11,9 +11,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.0", "8.1", "8.2", "8.3"]
-        arch: [x64, x86]
-        ts: [nts,ts]
+        php: ["8.0"]
+        arch: [x64]
+        ts: [nts]
         experimental: [false]
     steps:
       - name: Checkout Xdebug
@@ -71,7 +71,7 @@ jobs:
           $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
           echo $phalconDllOpt >> $env:GITHUB_ENV
 
-          $artifactName = 'php_phalcon-${{env.XDEBUG_VERSION}}-${{matrix.php}}'
+          $artifactName = 'php_phalcon-${{matrix.php}}'
 
           if ('8.0' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.1' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
@@ -85,7 +85,7 @@ jobs:
           echo $phalconArtifactName >> $env:GITHUB_ENV
 
           $from = $dir + '\php_phalcon.dll'
-          $to = $dir + '\' + $artifactName + ".dll"
+          $to = $dir + '\' + $artifactName + '\' + "php_phalcon.dll"
           Copy-Item $from -Destination $to
           $phalconArtifact = "ARTIFACT=" + $to
           echo $phalconArtifact >> $env:GITHUB_ENV
