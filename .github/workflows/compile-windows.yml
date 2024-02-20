@@ -77,14 +77,13 @@ jobs:
           $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
           echo $phalconDllOpt >> $env:GITHUB_ENV
 
-          $artifactName = 'php_phalcon-${{matrix.php}}'
-
+          $artifactName = 'phalcon-php${{matrix.php}}'
+          
+          if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
           if ('8.0' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.1' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.2' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.3' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
-
-          if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
           if ('x64' -eq '${{matrix.arch}}') { $artifactName = $artifactName + '-x86_64' }
 
           $phalconArtifactName = "ARTIFACT_NAME=" + $artifactName
