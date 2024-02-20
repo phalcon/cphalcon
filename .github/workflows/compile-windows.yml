@@ -37,7 +37,7 @@ jobs:
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
           deps: zlib
-      
+
       - name: Generate build folder
         run: |
           cd build/
@@ -48,7 +48,6 @@ jobs:
         with:
           arch: ${{matrix.arch}}
           toolset: ${{steps.setup-php.outputs.toolset}}
-
 
       - name: Phpize
         run: |
@@ -77,14 +76,19 @@ jobs:
           $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
           echo $phalconDllOpt >> $env:GITHUB_ENV
 
-          $artifactName = 'phalcon-php${{matrix.php}}'
-          
+          $artifactName = 'php_phalcon-php${{matrix.php}}'
+
+          if ('nts' -ne '${{matrix.ts}}') { $artifactName = $artifactName + '-ts' }
           if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
+
+          $artifactName = $artifactName + '-windows'
+
           if ('8.0' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.1' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.2' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
           if ('8.3' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
-          if ('x64' -eq '${{matrix.arch}}') { $artifactName = $artifactName + '-x86_64' }
+
+          if ('x64' -eq '${{matrix.arch}}') { $artifactName = $artifactName + '-x64' }
 
           $phalconArtifactName = "ARTIFACT_NAME=" + $artifactName
           echo $phalconArtifactName >> $env:GITHUB_ENV
@@ -96,9 +100,9 @@ jobs:
           echo $phalconArtifact >> $env:GITHUB_ENV
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-            name: ${{env.ARTIFACT_NAME}}
-            path: |
-              ${{env.ARTIFACT}}
-              LICENSE.txt
+          name: ${{env.ARTIFACT_NAME}}
+          path: |
+            ${{env.ARTIFACT}}
+            LICENSE.txt
