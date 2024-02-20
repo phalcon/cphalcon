@@ -37,12 +37,18 @@ jobs:
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
           deps: zlib
+      
+      - name: Generate build folder
+        run: |
+          cd build/
+          php gen-build.php
 
       - name: Enable Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{matrix.arch}}
           toolset: ${{steps.setup-php.outputs.toolset}}
+
 
       - name: Phpize
         run: |
