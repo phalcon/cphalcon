@@ -85,7 +85,7 @@ jobs:
           echo $phalconArtifactName >> $env:GITHUB_ENV
 
           $from = $dir + '\php_phalcon.dll'
-          $to = $dir + '\' + $artifactName + ".dll"
+          $to = $dir + '\' + $artifactName + '\' + "php_phalcon.dll"
           Copy-Item $from -Destination $to
           $phalconArtifact = "ARTIFACT=" + $to
           echo $phalconArtifact >> $env:GITHUB_ENV
