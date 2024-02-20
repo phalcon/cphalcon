@@ -55,7 +55,6 @@ jobs:
         run: |
           cd build/phalcon/
           ./configure --enable-phalcon --with-prefix=${{steps.setup-php.outputs.prefix}}
-          nmake
 
       - name: Make
         run: |
@@ -67,7 +66,7 @@ jobs:
         run: |
           chcp 65001
 
-          $dir = (Get-Location).Path + '\'
+          $dir = (Get-Location).Path + '\phalcon\build\'
           if ('x64' -eq '${{matrix.arch}}') { $dir = $dir + 'x64\' }
           $dir = $dir + 'Release'
           if ('ts' -eq '${{matrix.ts}}') { $dir = $dir + '_TS' }
