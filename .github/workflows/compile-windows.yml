@@ -91,13 +91,15 @@ jobs:
           echo $phalconArtifactName >> $env:GITHUB_ENV
 
           $from = $dir + '\php_phalcon.dll'
-          $to = $dir + '\' + $artifactName + "\php_phalcon.dll"
+          $to = '.\php_phalcon.dll'
           Copy-Item $from -Destination $to
-          $phalconArtifact = "ARTIFACT=" + $to
+          $phalconArtifact = "ARTIFACT=" + '.\php_phalcon.dll'
           echo $phalconArtifact >> $env:GITHUB_ENV
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
             name: ${{env.ARTIFACT_NAME}}
-            path: ${{env.ARTIFACT}}
+            path: |
+              ${{env.ARTIFACT}}
+              LICENSE.txt
