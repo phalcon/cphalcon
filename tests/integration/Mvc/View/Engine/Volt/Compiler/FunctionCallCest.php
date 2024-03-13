@@ -299,22 +299,22 @@ class FunctionCallCest
             [
                 'label'    => 'lower',
                 'source'   => '{{ "abc" | lower }}',
-                'expected' => '<?= strtolower(\'abc\') ?>',
+                'expected' => '<?= $this->helper->lower(\'abc\') ?>',
             ],
             [
                 'label'    => 'lowercase',
                 'source'   => '{{ "abc" | lowercase }}',
-                'expected' => '<?= strtolower(\'abc\') ?>',
+                'expected' => '<?= $this->helper->lower(\'abc\') ?>',
             ],
             [
                 'label'    => 'upper',
                 'source'   => '{{ "abc" | upper }}',
-                'expected' => '<?= strtoupper(\'abc\') ?>',
+                'expected' => '<?= $this->helper->upper(\'abc\') ?>',
             ],
             [
                 'label'    => 'uppercase',
                 'source'   => '{{ "abc" | uppercase }}',
-                'expected' => '<?= strtoupper(\'abc\') ?>',
+                'expected' => '<?= $this->helper->upper(\'abc\') ?>',
             ],
             [
                 'label'    => 'capitalize',

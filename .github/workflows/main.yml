@@ -113,7 +113,7 @@ jobs:
           #- { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -271,7 +271,7 @@ jobs:
         php: [ '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -381,7 +381,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get the release version
         id: get-version
