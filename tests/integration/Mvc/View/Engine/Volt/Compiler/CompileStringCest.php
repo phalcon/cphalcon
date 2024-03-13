@@ -24,6 +24,7 @@ use function ob_clean;
 use function ob_end_clean;
 use function ob_get_clean;
 use function ob_start;
+use function str_replace;
 use function substr;
 
 use const PHP_EOL;
@@ -452,11 +453,11 @@ class CompileStringCest
             ],
             [
                 '{{ "hello"|uppercase }}',
-                '<?= strtoupper(\'hello\') ?>',
+                "<?= \$this->helper->upper('hello') ?>",
             ],
             [
                 '{{ "hello"|lowercase }}',
-                '<?= strtolower(\'hello\') ?>',
+                "<?= \$this->helper->lower('hello') ?>",
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',

@@ -2550,7 +2550,11 @@ class Compiler implements InjectionAwareInterface
                 return "$this->length(" . arguments . ")";
             case "lower":
             case "lowercase":
-                return "strtolower(" . arguments . ")";
+                if this->container !== null && true === this->container->has("helper") {
+                    return "$this->helper->lower(" . arguments . ")";
+                } else {
+                    return "strtolower(" . arguments . ")";
+                }
             case "right_trim":
                 return "rtrim(" . arguments . ")";
             case "nl2br":
@@ -2569,7 +2573,11 @@ class Compiler implements InjectionAwareInterface
                 return "trim(" . arguments . ")";
             case "upper":
             case "uppercase":
-                return "strtoupper(" . arguments . ")";
+                if this->container !== null && true === this->container->has("helper") {
+                    return "$this->helper->upper(" . arguments . ")";
+                } else {
+                    return "strtoupper(" . arguments . ")";
+                }
             case "url_encode":
                 return "urlencode(" . arguments . ")";
         }
