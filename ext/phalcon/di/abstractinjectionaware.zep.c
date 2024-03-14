@@ -29,7 +29,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_AbstractInjectionAware)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, AbstractInjectionAware, phalcon, di_abstractinjectionaware, phalcon_di_abstractinjectionaware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, AbstractInjectionAware, phalcon, di_abstractinjectionaware, zend_standard_class_def, phalcon_di_abstractinjectionaware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * Dependency Injector

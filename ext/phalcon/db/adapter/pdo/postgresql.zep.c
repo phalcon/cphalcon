@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 			if (Z_TYPE_P(&_50$$3) != IS_NULL) {
 				zephir_array_fetch_long(&_51$$38, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507);
 				ZEPHIR_INIT_NVAR(&_52$$38);
-				ZVAL_STRING(&_52$$38, "/^'|'?::[[:alnum:][:space:]]+(\\[\\])?$/");
+				ZVAL_STRING(&_52$$38, "/^'|'?::[[:alnum:][:space:]]+$/");
 				ZEPHIR_INIT_NVAR(&_53$$38);
 				ZVAL_STRING(&_53$$38, "");
 				ZEPHIR_CALL_FUNCTION(&_54$$38, "preg_replace", &_55, 41, &_52$$38, &_53$$38, &_51$$38);
@@ -1037,7 +1037,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 				if (Z_TYPE_P(&_109$$41) != IS_NULL) {
 					zephir_array_fetch_long(&_110$$76, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507);
 					ZEPHIR_INIT_NVAR(&_111$$76);
-					ZVAL_STRING(&_111$$76, "/^'|'?::[[:alnum:][:space:]]+(\\[\\])?$/");
+					ZVAL_STRING(&_111$$76, "/^'|'?::[[:alnum:][:space:]]+$/");
 					ZEPHIR_INIT_NVAR(&_112$$76);
 					ZVAL_STRING(&_112$$76, "");
 					ZEPHIR_CALL_FUNCTION(&_113$$76, "preg_replace", &_55, 41, &_111$$76, &_112$$76, &_110$$76);
