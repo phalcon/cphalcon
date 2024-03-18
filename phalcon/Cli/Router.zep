@@ -139,8 +139,8 @@ class Router extends AbstractInjectionAware implements RouterInterface
      * $router->add("/about", "About::main");
      *```
      *
-     * @param string       $pattern
-     * @param string|array $paths
+     * @param string     $pattern
+     * @param mixed|null $paths
      */
     public function add(string! pattern, paths = null) -> <RouteInterface>
     {
