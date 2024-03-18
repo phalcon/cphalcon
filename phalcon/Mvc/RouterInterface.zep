@@ -197,7 +197,7 @@ interface RouterInterface
      *
      * @return RouteInterface|bool
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool;
+    public function getRouteByName(string name) -> <RouteInterface> | bool;
 
     /**
      * Handles routing information received from the rewrite engine

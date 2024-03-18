@@ -15,6 +15,7 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\RouteInterface;
+use Phalcon\Cli\RouterInterface;
 
 /**
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
@@ -36,7 +37,7 @@ use Phalcon\Cli\Router\RouteInterface;
  * echo $router->getTaskName();
  *```
  */
-class Router extends AbstractInjectionAware
+class Router extends AbstractInjectionAware implements RouterInterface
 {
     /**
      * @var string
@@ -203,14 +204,16 @@ class Router extends AbstractInjectionAware
     /**
      * Returns a route object by its id
      *
-     * @param int id
+     * @param int|string $id
      */
     public function getRouteById(var id) -> <RouteInterface> | bool
     {
-        var route;
+        var route, routeId;
+
+        let routeId = (string) id;
 
         for route in this->routes {
-            if route->getRouteId() == id {
+            if route->getRouteId() == routeId {
                 return route;
             }
         }
@@ -221,7 +224,7 @@ class Router extends AbstractInjectionAware
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
+    public function getRouteByName(string name) -> <RouteInterface> | bool
     {
         var route;
 
@@ -461,17 +464,17 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName) -> <Router>
+    public function setDefaultAction(string actionName) -> <RouterInterface>
     {
         let this->defaultAction = actionName;
-        
+
         return this;
     }
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string moduleName) -> <Router>
+    public function setDefaultModule(string moduleName) -> <RouterInterface>
     {
         let this->defaultModule = moduleName;
         return this;
@@ -491,7 +494,7 @@ class Router extends AbstractInjectionAware
      * );
      *```
      */
-    public function setDefaults(array! defaults) -> <Router>
+    public function setDefaults(array defaults) -> <RouterInterface>
     {
         var module, task, action, params;
 
