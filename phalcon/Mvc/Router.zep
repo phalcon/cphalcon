@@ -602,7 +602,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns a route object by its id
      *
-     * @param mixed id
+     * @param mixed $id
      *
      * @return RouteInterface|bool
      */

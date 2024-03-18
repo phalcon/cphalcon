@@ -204,7 +204,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Returns a route object by its id
      *
-     * @param int|string $id
+     * @param mixed $id
      */
     public function getRouteById(var id) -> <RouteInterface> | bool
     {
