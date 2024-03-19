@@ -56,12 +56,12 @@ interface RouterInterface
     /**
      * Returns a route object by its id
      */
-    public function getRouteById(var id) -> <RouteInterface>;
+    public function getRouteById(var id) -> <RouteInterface> | bool;
 
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface>;
+    public function getRouteByName(string name) -> <RouteInterface> | bool;
 
     /**
      * Return all the routes defined in the router
@@ -83,17 +83,17 @@ interface RouterInterface
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string! actionName) -> void;
+    public function setDefaultAction(string! actionName) -> <RouterInterface>;
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string! moduleName) -> void;
+    public function setDefaultModule(string! moduleName) -> <RouterInterface>;
 
     /**
      * Sets an array of default paths
      */
-    public function setDefaults(array! defaults) -> void;
+    public function setDefaults(array defaults) -> <RouterInterface>;
 
     /**
      * Sets the default task name
