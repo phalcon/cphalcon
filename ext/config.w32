@@ -5,10 +5,6 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c math.c concat.c variables.c filter.c iterator.c exit.c time.c", "phalcon");
   /* PCRE is always included on WIN32 */
   AC_DEFINE("ZEPHIR_USE_PHP_PCRE", 1, "Whether PHP pcre extension is present at compile time");
-  if (PHP_JSON != "no") {
-    ADD_EXTENSION_DEP("phalcon", "json");
-    AC_DEFINE("ZEPHIR_USE_PHP_JSON", 1, "Whether PHP json extension is present at compile time");
-  }
   ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "scanner.c parser.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model", "orm.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "scanner.c parser.c", "phalcon");

@@ -31,7 +31,6 @@
     "ext-igbinary": "*",
     "ext-imagick": "*",
     "ext-intl": "*",
-    "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
     "ext-msgpack": "*",
