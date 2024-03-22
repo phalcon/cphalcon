@@ -53,7 +53,9 @@ class Complex extends Resultset implements ResultsetInterface
     public function __construct(
         var columnTypes,
         <ResultInterface> result = null,
-        var cache = null
+        var cache = null,
+        manager = null,
+        metaData = null
     )
     {
         /**
@@ -61,7 +63,7 @@ class Complex extends Resultset implements ResultsetInterface
          */
         let this->columnTypes = columnTypes;
 
-        parent::__construct(result, cache);
+        parent::__construct(result, cache, manager, metaData);
     }
 
     /**
@@ -71,7 +73,7 @@ class Complex extends Resultset implements ResultsetInterface
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
-            rowModel, keepSnapshots, sqlAlias, modelName;
+            rowModel, keepSnapshots, sqlAlias, modelName, uuid, model;
 
         let activeRow = this->activeRow;
 
@@ -170,35 +172,50 @@ class Complex extends Resultset implements ResultsetInterface
                         if !fetch keepSnapshots, column["keepSnapshots"] {
                             let keepSnapshots = false;
                         }
-
-                        if globals_get("orm.late_state_binding") {
-                            if column["instance"] instanceof Model {
-                                let modelName = get_class(column["instance"]);
-                            } else {
-                                let modelName = "Phalcon\\Mvc\\Model";
-                            }
-
-                            let value = {modelName}::cloneResultMap(
-                                column["instance"],
-                                rowModel,
-                                columnMap,
-                                dirtyState,
-                                keepSnapshots
-                            );
-                        } else {
-                            /**
-                             * Get the base instance. Assign the values to the
-                             * attributes using a column map
-                             */
-                            let value = Model::cloneResultMap(
-                                column["instance"],
-                                rowModel,
-                                columnMap,
-                                dirtyState,
-                                keepSnapshots
-                            );
+                        /**
+                         * checks for session cache and returns already in memory models
+                         */
+                        let value = null;
+                        if true === globals_get("orm.session_cache") {
+                            let modelName = get_class(column["instance"]);
+                            let model = new {modelName}();
+                            let uuid = this->metaData->getModelUUID(model, row);
+                            let value = this->sessionCache->get(uuid);
                         }
 
+                        if null ===  value {
+                            if globals_get("orm.late_state_binding") {
+                                if column["instance"] instanceof Model {
+                                    let modelName = get_class(column["instance"]);
+                                } else {
+                                    let modelName = "Phalcon\\Mvc\\Model";
+                                }
+    
+                                let value = {modelName}::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            } else {
+                                /**
+                                 * Get the base instance. Assign the values to the
+                                 * attributes using a column map
+                                 */
+                                let value = Model::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            }
+                            if true === globals_get("orm.session_cache") {
+                                this->sessionCache->set(uuid, value);
+                                value->setModelUUID(uuid);
+                            }
+                        }
                         break;
 
                     default:

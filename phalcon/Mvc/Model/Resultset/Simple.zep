@@ -56,7 +56,9 @@ class Simple extends Resultset
         var model,
         result,
         var cache = null,
-        bool keepSnapshots = false
+        bool keepSnapshots = false,
+        manager = null,
+        metaData = null
     )
     {
         let this->model     = model,
@@ -66,7 +68,7 @@ class Simple extends Resultset
          */
         let this->keepSnapshots = keepSnapshots;
 
-        parent::__construct(result, cache);
+        parent::__construct(result, cache, manager, metaData);
     }
 
     /**
@@ -74,7 +76,7 @@ class Simple extends Resultset
      */
     final public function current() -> <ModelInterface> | null
     {
-        var row, hydrateMode, columnMap, activeRow, modelName;
+        var row, hydrateMode, columnMap, activeRow, modelName, uuid;
 
         let activeRow = this->activeRow;
 
@@ -112,6 +114,18 @@ class Simple extends Resultset
         switch hydrateMode {
             case Resultset::HYDRATE_RECORDS:
                 /**
+                 * checks for session cache and returns already in memory models
+                 */
+                 if true === globals_get("orm.session_cache") {
+                    let uuid = this->metaData->getModelUUID(this->model, row);
+                    let activeRow = this->sessionCache->get(uuid);
+                    if null !== activeRow {
+                        let this->activeRow = activeRow;
+                        return activeRow;
+                    }
+                }
+
+                /**
                  * Set records as dirty state PERSISTENT by default
                  * Performs the standard hydration based on objects
                  */
@@ -138,7 +152,10 @@ class Simple extends Resultset
                         this->keepSnapshots
                     );
                 }
-
+                if true === globals_get("orm.session_cache") {
+                    this->sessionCache->set(uuid, activeRow);
+                    activeRow->setModelUUID(uuid);
+                }
                 break;
 
             default:
