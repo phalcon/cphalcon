@@ -146,7 +146,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'user'  => 'user',
+                'user'  => '12345',
                 'admin' => null,
             ]
         );

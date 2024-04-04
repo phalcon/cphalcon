@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (xxxx-xx-xx)
+
+### Changed
+ 
+### Added
+ 
+### Fixed
+
+- Fixed `Phalcon\Mvc\Cli\Router` to extend the `Phalcon\Mvc\Cli\RouterInterface` [#16551](https://github.com/phalcon/cphalcon/issues/16551)
+- Fixed `Phalcon\Filter\Validation\Validator\StringLength::validate()` to correctly use the `include` parameter [#16560](https://github.com/phalcon/cphalcon/issues/16560)
+
+### Removed
+
+# Changelog
+
 ## [5.6.2](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-03-14)
 
 ### Changed

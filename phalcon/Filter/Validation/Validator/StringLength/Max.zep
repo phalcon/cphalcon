@@ -86,7 +86,7 @@ class Max extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, maximum, replacePairs, included, result;
+        var failed, included, length, maximum, replacePairs, value;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
@@ -115,12 +115,12 @@ class Max extends AbstractValidator
         }
 
         if included {
-            let result = length >= maximum;
+            let failed = length > maximum;
         } else {
-            let result = length > maximum;
+            let failed = length >= maximum;
         }
 
-        if result {
+        if failed {
             let replacePairs = [
                 ":max" : maximum
             ];

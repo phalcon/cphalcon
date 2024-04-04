@@ -72,26 +72,23 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
+                'name' => '12345678',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
+                'name' => '123456789',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -120,26 +117,23 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'short',
+                'name' => '12345',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
+                'name' => '1234567890',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
-
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
@@ -147,9 +141,8 @@ class ValidateCest
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
     }
 }
