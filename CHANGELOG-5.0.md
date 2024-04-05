@@ -10,6 +10,7 @@
 
 - Fixed `Phalcon\Mvc\Cli\Router` to extend the `Phalcon\Mvc\Cli\RouterInterface` [#16551](https://github.com/phalcon/cphalcon/issues/16551)
 - Fixed `Phalcon\Filter\Validation\Validator\StringLength::validate()` to correctly use the `include` parameter [#16560](https://github.com/phalcon/cphalcon/issues/16560)
+- Fixed `Phalcon\Db\Column::TYPE_BINARY` and `Phalcon\Db\Column::TYPE_TINYINTEGER` to have unique values [#16532](https://github.com/phalcon/cphalcon/issues/16532)
 
 ### Removed
 
