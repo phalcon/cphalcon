@@ -11,7 +11,6 @@
 namespace Phalcon\Translate\Adapter;
 
 use ArrayAccess;
-use Phalcon\Translate\Adapter\AbstractAdapter;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 
@@ -114,7 +113,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     * @param string $translateKey
+     * @param string $index
      * @param array  $placeholders
      *
      * @return string

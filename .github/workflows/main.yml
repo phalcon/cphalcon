@@ -135,7 +135,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -284,7 +284,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -392,7 +392,7 @@ jobs:
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           path: ./build-artifacts
 

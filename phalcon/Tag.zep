@@ -684,7 +684,7 @@ class Tag
     /**
      * Builds a HTML A tag using framework conventions
      *
-     * @param array|string $parameters = [
+     * @param parameters array|string = [
      *     'action' => '',
      *     'text' => '',
      *     'local' => false,
@@ -694,8 +694,6 @@ class Tag
      *     'href' => '',
      *     'id' => ''
      * ]
-     * @param string text
-     * @param bool local
      */
     public static function linkTo(parameters, text = null, local = true) -> string
     {
