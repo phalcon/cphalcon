@@ -43,8 +43,8 @@ class ValidateCest
         $entity->name = '';
 
         $validation->bind($entity, []);
-        $actual = $validator->validate($validation, 'name');
-        $I->assertTrue($actual);
+        $result = $validator->validate($validation, 'name');
+        $I->assertTrue($result);
     }
 
     /**
@@ -69,26 +69,29 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(
-            [
-                'name' => '1234567890',
-            ]
-        );
-
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertSame($expected, $actual);
-
 
         $messages = $validation->validate(
             [
-                'name' => '123456789',
+                'name' => 'SomeValue',
             ]
         );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertSame($expected, $actual);
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -117,23 +120,25 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => '12345678',
+                'name' => 'SomeValue',
             ]
         );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertSame($expected, $actual);
+        $I->assertSame(
+            1,
+            $messages->count()
+        );
 
 
         $messages = $validation->validate(
             [
-                'name' => '1234567890',
+                'name' => 'SomeValue123',
             ]
         );
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertSame($expected, $actual);
+        $I->assertSame(
+            0,
+            $messages->count()
+        );
     }
 }
