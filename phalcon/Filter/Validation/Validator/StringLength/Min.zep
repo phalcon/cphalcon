@@ -86,7 +86,7 @@ class Min extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, minimum, replacePairs, included, result;
+        var failed, included, length, minimum, replacePairs, value;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
@@ -115,12 +115,12 @@ class Min extends AbstractValidator
         }
 
         if included {
-            let result = length <= minimum;
+            let failed = length < minimum;
         } else {
-            let result = length < minimum;
+            let failed = length <= minimum;
         }
 
-        if result {
+        if failed {
             let replacePairs = [
                 ":min"   : minimum
             ];

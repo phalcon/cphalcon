@@ -602,7 +602,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns a route object by its id
      *
-     * @param mixed id
+     * @param mixed $id
      *
      * @return RouteInterface|bool
      */
@@ -633,7 +633,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @return RouteInterface|bool
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
+    public function getRouteByName(string name) -> <RouteInterface> | bool
     {
         var route, routeName, key;
 
