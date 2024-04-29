@@ -111,7 +111,12 @@ class HelperFactory extends AbstractFactory
      */
     public function newInstance(string name)
     {
-        return create_instance(this->getService(name));
+        if (true !== isset(this->services[name])) {
+            let this->services[name] = create_instance(this->getService(name));
+        }
+
+        return this->services[name];
+
     }
 
     /**
