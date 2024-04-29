@@ -4,6 +4,8 @@
 
 ### Changed
  
+- Changed `Phalcon\Support\HelperFactory` to use the internal mapper for better memory management [#16571](https://github.com/phalcon/cphalcon/issues/16571)
+
 ### Added
  
 ### Fixed
