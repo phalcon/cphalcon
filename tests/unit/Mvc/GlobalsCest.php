@@ -58,6 +58,10 @@ class GlobalsCest
                 'value'   => '0',
             ],
             [
+                'setting' => 'phalcon.form.strict_entity_property_check',
+                'value'   => '0',
+            ],
+            [
                 'setting' => 'phalcon.orm.cast_last_insert_id_to_int',
                 'value'   => '0',
             ],
