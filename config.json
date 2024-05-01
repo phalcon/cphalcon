@@ -69,6 +69,10 @@
       "type": "bool",
       "default": false
     },
+    "form.strict_entity_property_check": {
+      "type": "bool",
+      "default": false
+    },
     "orm.ast_cache": {
       "type": "hash",
       "default": "NULL"
