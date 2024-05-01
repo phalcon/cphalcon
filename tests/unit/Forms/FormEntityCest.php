@@ -96,6 +96,7 @@ class FormEntityCest
 
         $I->assertFalse(property_exists($product, 'prd_not_exists'));
 
+        // Set setting for GlobalsCest.php
         ini_set('phalcon.form.strict_entity_property_check', '1');
 
         $form = new Form($product);
@@ -105,6 +106,9 @@ class FormEntityCest
         $exists = new Text('prd_name');
         $form->add($exists);
         $form->bind(['prd_name' => 'Test', 'prd_not_exists' => 'TestValue'], $product);
+
+        // Reset setting for GlobalsCest.php
+        ini_set('phalcon.form.strict_entity_property_check', '0');
 
         $I->assertEquals('Test', $product->prd_name);
         $I->assertFalse(property_exists($product, "prd_not_exists"));
