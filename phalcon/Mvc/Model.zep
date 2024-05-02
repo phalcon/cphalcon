@@ -81,6 +81,7 @@ use Serializable;
  *     echo "Great, a new robot was saved successfully!";
  * }
  * ```
+ * @template T of static
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
@@ -1630,6 +1631,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ],
      *     'hydration' => null
      * ]
+     * @return T[]|\Phalcon\Mvc\Model\ResultsetInterface
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
@@ -1748,7 +1750,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'hydration' => null
      * ]
      *
-     * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+     * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
      */
     public static function findFirst(var parameters = null) -> var | null
     {
