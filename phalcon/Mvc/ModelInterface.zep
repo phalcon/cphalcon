@@ -107,7 +107,7 @@ interface ModelInterface
      *
      * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
      */
-    public static function find(var parameters = null) -> <Resultset>;
+    public static function find(var parameters = null);
 
     /**
      * Allows to query the first record that match the specified conditions

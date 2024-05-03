@@ -51,6 +51,9 @@ ext/run-tests.php
 *.deps
 .ci/lemon
 
+# local tests
+.local/
+
 .libs/
 autom4te.cache/
 /vendor
