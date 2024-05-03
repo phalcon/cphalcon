@@ -64,6 +64,9 @@ use Serializable;
  *     $robots->next();
  * }
  * ```
+ * @template TKey
+ * @template TValue
+ * @implements Iterator<TKey, TValue>
  */
 abstract class Resultset
     implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
@@ -468,6 +471,8 @@ abstract class Resultset
 
     /**
      * Gets pointer number of active row in the resultset
+     *
+     * @return TKey|null
      */
     public function key() -> int | null
     {
