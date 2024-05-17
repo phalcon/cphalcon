@@ -62,7 +62,9 @@ class GetRouteByIdCest
          * We reverse routes so we first check last added route
          */
         foreach (array_reverse($router->getRoutes()) as $route) {
-            $actual = $router->getRoutebyId($route->getRouteId());
+            $actual = $router->getRoutebyId(
+                $route->getId()
+            );
 
             $I->assertEquals($route, $actual);
         }

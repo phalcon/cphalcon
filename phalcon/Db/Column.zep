@@ -84,7 +84,7 @@ class Column implements ColumnInterface
     /**
      * Binary abstract data type
      */
-    const TYPE_BINARY = 27;
+    const TYPE_BINARY = 26;
 
     /**
      * Blob abstract data type
@@ -209,7 +209,7 @@ class Column implements ColumnInterface
     /**
      * Varbinary abstract data type
      */
-    const TYPE_VARBINARY = 28;
+    const TYPE_VARBINARY = 27;
 
     /**
      * Varchar abstract data type

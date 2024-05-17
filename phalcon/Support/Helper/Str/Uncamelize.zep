@@ -17,7 +17,7 @@ class Uncamelize
 {
     /**
      * @param string $text
-     * @param string $delimiter
+     * @param string $delimiters
      *
      * @return string
      */

@@ -112,7 +112,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
      *
      * @param string $file
      * @param int    $length
-     * @param string $delimiter
+     * @param string $separator
      * @param string $enclosure
      *
      * @throws Exception
