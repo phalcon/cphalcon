@@ -25,7 +25,7 @@ runs:
         & 7z a "${{ inputs.target-name }}.zip" *
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.target-name }}.zip
         path: ./build-artifacts/phalcon*.zip
