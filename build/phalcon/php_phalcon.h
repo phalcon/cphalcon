@@ -103,7 +103,7 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.6.2"
+#define PHP_PHALCON_VERSION     "5.7.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.18.0-$Id$"
@@ -113,6 +113,10 @@ typedef struct _zephir_struct_db {
 	zend_bool escape_identifiers;
 	zend_bool force_casting;
 } zephir_struct_db;
+
+typedef struct _zephir_struct_form { 
+	zend_bool strict_entity_property_check;
+} zephir_struct_form;
 
 typedef struct _zephir_struct_orm { 
 	HashTable*  ast_cache;
@@ -161,6 +165,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	
 	zephir_struct_db db;
+	zephir_struct_form form;
 	zephir_struct_orm orm;
 	zephir_struct_warning warning;
 

@@ -14,6 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
@@ -45,19 +47,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 {
+	zend_bool _1, _2, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *input, input_sub, falseArray, trueArray, _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *input = NULL, input_sub, falseArray, trueArray, _0, _3;
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&falseArray);
 	ZVAL_UNDEF(&trueArray);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(input)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input);
+	ZEPHIR_SEPARATE_PARAM(input);
 	ZEPHIR_INIT_VAR(&trueArray);
 	zephir_create_array(&trueArray, 5, 0);
 	ZEPHIR_INIT_VAR(&_0);
@@ -92,10 +98,39 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "0");
 	zephir_array_fast_append(&falseArray, &_0);
-	if (1 == zephir_fast_in_array(input, &trueArray)) {
+	_1 = Z_TYPE_P(input) == IS_STRING;
+	if (!(_1)) {
+		_1 = Z_TYPE_P(input) == IS_LONG;
+	}
+	_2 = _1;
+	if (!(_2)) {
+		_2 = (Z_TYPE_P(input) == IS_TRUE || Z_TYPE_P(input) == IS_FALSE);
+	}
+	if (1 != _2) {
+		RETURN_MM_BOOL(0);
+	}
+	ZEPHIR_INIT_VAR(&_3);
+	if (Z_TYPE_P(input) == IS_STRING) {
+		ZEPHIR_INIT_NVAR(&_0);
+		zephir_fast_trim(&_0, input, NULL , ZEPHIR_TRIM_BOTH);
+		ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 10, &_0);
+		zephir_check_call_status();
+	} else {
+		ZEPHIR_CPY_WRT(&_3, input);
+	}
+	ZEPHIR_CPY_WRT(input, &_3);
+	_4 = ZEPHIR_IS_TRUE_IDENTICAL(input);
+	if (!(_4)) {
+		_4 = 1 == zephir_fast_in_array(input, &trueArray);
+	}
+	if (_4) {
 		RETURN_MM_BOOL(1);
 	}
-	if (1 == zephir_fast_in_array(input, &falseArray)) {
+	_5 = ZEPHIR_IS_FALSE_IDENTICAL(input);
+	if (!(_5)) {
+		_5 = 1 == zephir_fast_in_array(input, &falseArray);
+	}
+	if (_5) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(zephir_get_boolval(input));

@@ -203,7 +203,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	/**
 	 * Binary abstract data type
 	 */
-	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BINARY"), 26);
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BINARY"), 27);
 
 	/**
 	 * Blob abstract data type
@@ -328,7 +328,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	/**
 	 * Varbinary abstract data type
 	 */
-	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARBINARY"), 27);
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARBINARY"), 28);
 
 	/**
 	 * Varchar abstract data type

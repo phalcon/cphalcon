@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
  *
  * @param string $file
  * @param int    $length
- * @param string $separator
+ * @param string $delimiter
  * @param string $enclosure
  *
  * @throws Exception

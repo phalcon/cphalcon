@@ -3600,72 +3600,6 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_adapterinterface_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface);
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_delete, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_filter, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, filter)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getcache, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getfirst, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode, 0, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getlast, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getmessages, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gettype, 0, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_isfresh, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_sethydratemode, 0, 1, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, hydrateMode, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_setisfresh, 0, 1, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, isFresh, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_toarray, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_update, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultsetinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, delete, arginfo_phalcon_mvc_model_resultsetinterface_delete)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, filter, arginfo_phalcon_mvc_model_resultsetinterface_filter)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getCache, arginfo_phalcon_mvc_model_resultsetinterface_getcache)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, arginfo_phalcon_mvc_model_resultsetinterface_getfirst)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode, arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getLast, arginfo_phalcon_mvc_model_resultsetinterface_getlast)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getMessages, arginfo_phalcon_mvc_model_resultsetinterface_getmessages)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getType, arginfo_phalcon_mvc_model_resultsetinterface_gettype)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, isFresh, arginfo_phalcon_mvc_model_resultsetinterface_isfresh)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode, arginfo_phalcon_mvc_model_resultsetinterface_sethydratemode)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh, arginfo_phalcon_mvc_model_resultsetinterface_setisfresh)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, toArray, arginfo_phalcon_mvc_model_resultsetinterface_toarray)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, update, arginfo_phalcon_mvc_model_resultsetinterface_update)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_paginator_adapter_adapterinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AdapterInterface);
@@ -4920,6 +4854,72 @@ zend_class_entry *phalcon_mvc_model_exception_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Exception);
 
+
+zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_delete, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_filter, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, filter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getcache, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getfirst, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getlast, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getmessages, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gettype, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_isfresh, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_sethydratemode, 0, 1, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, hydrateMode, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_setisfresh, 0, 1, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, isFresh, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_toarray, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_update, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultsetinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, delete, arginfo_phalcon_mvc_model_resultsetinterface_delete)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, filter, arginfo_phalcon_mvc_model_resultsetinterface_filter)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getCache, arginfo_phalcon_mvc_model_resultsetinterface_getcache)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, arginfo_phalcon_mvc_model_resultsetinterface_getfirst)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode, arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getLast, arginfo_phalcon_mvc_model_resultsetinterface_getlast)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getMessages, arginfo_phalcon_mvc_model_resultsetinterface_getmessages)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getType, arginfo_phalcon_mvc_model_resultsetinterface_gettype)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, isFresh, arginfo_phalcon_mvc_model_resultsetinterface_isfresh)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode, arginfo_phalcon_mvc_model_resultsetinterface_sethydratemode)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh, arginfo_phalcon_mvc_model_resultsetinterface_setisfresh)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, toArray, arginfo_phalcon_mvc_model_resultsetinterface_toarray)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, update, arginfo_phalcon_mvc_model_resultsetinterface_update)
+	PHP_FE_END
+};
 
 zend_class_entry *phalcon_mvc_view_engine_engineinterface_ce;
 
@@ -7805,6 +7805,92 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_routeinterface_method_entry) {
 	ZEND_FENTRY(reset, NULL, arginfo_phalcon_cli_router_routeinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setDescription, arginfo_phalcon_cli_router_routeinterface_setdescription)
 	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setName, arginfo_phalcon_cli_router_routeinterface_setname)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_cli_routerinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_add, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getactionname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatchedroute, 0, 0, Phalcon\\Cli\\Router\\RouteInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatches, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmodulename, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparams, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparameters, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyid, 0, 0, 1)
+	ZEND_ARG_INFO(0, id)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyname, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutes, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_gettaskname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_handle, 0, 0, 0)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultaction, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultmodule, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaults, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaulttask, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_wasmatched, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_cli_routerinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, add, arginfo_phalcon_cli_routerinterface_add)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getActionName, arginfo_phalcon_cli_routerinterface_getactionname)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatchedRoute, arginfo_phalcon_cli_routerinterface_getmatchedroute)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatches, arginfo_phalcon_cli_routerinterface_getmatches)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getModuleName, arginfo_phalcon_cli_routerinterface_getmodulename)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParams, arginfo_phalcon_cli_routerinterface_getparams)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParameters, arginfo_phalcon_cli_routerinterface_getparameters)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteById, arginfo_phalcon_cli_routerinterface_getroutebyid)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteByName, arginfo_phalcon_cli_routerinterface_getroutebyname)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRoutes, arginfo_phalcon_cli_routerinterface_getroutes)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getTaskName, arginfo_phalcon_cli_routerinterface_gettaskname)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, handle, arginfo_phalcon_cli_routerinterface_handle)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultAction, arginfo_phalcon_cli_routerinterface_setdefaultaction)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultModule, arginfo_phalcon_cli_routerinterface_setdefaultmodule)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaults, arginfo_phalcon_cli_routerinterface_setdefaults)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultTask, arginfo_phalcon_cli_routerinterface_setdefaulttask)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, wasMatched, arginfo_phalcon_cli_routerinterface_wasmatched)
 	PHP_FE_END
 };
 
@@ -10696,7 +10782,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_delete, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_find, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_find, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -14281,15 +14367,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_handle, 0, 0, 0)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 1, Phalcon\\Cli\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultmodule, 0, 1, Phalcon\\Cli\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaultmodule, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaults, 0, 1, Phalcon\\Cli\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_setdefaults, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
@@ -14455,95 +14541,6 @@ PHP_ME(Phalcon_Cli_Router_Route, getBeforeMatch, arginfo_phalcon_cli_router_rout
 	PHP_ME(Phalcon_Cli_Router_Route, reset, arginfo_phalcon_cli_router_route_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Router_Route, setDescription, arginfo_phalcon_cli_router_route_setdescription, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, setName, arginfo_phalcon_cli_router_route_setname, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-zend_class_entry *phalcon_cli_routerinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface);
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_add, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-	ZEND_ARG_INFO(0, paths)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getactionname, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatchedroute, 0, 0, Phalcon\\Cli\\Router\\RouteInterface, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatches, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmodulename, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparams, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparameters, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyid, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
-	ZEND_ARG_INFO(0, id)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyname, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutes, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_gettaskname, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_handle, 0, 0, 0)
-	ZEND_ARG_INFO(0, arguments)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultaction, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultmodule, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaults, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaulttask, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_wasmatched, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_cli_routerinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, add, arginfo_phalcon_cli_routerinterface_add)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getActionName, arginfo_phalcon_cli_routerinterface_getactionname)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatchedRoute, arginfo_phalcon_cli_routerinterface_getmatchedroute)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatches, arginfo_phalcon_cli_routerinterface_getmatches)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getModuleName, arginfo_phalcon_cli_routerinterface_getmodulename)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParams, arginfo_phalcon_cli_routerinterface_getparams)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParameters, arginfo_phalcon_cli_routerinterface_getparameters)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteById, arginfo_phalcon_cli_routerinterface_getroutebyid)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteByName, arginfo_phalcon_cli_routerinterface_getroutebyname)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRoutes, arginfo_phalcon_cli_routerinterface_getroutes)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getTaskName, arginfo_phalcon_cli_routerinterface_gettaskname)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, handle, arginfo_phalcon_cli_routerinterface_handle)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultAction, arginfo_phalcon_cli_routerinterface_setdefaultaction)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultModule, arginfo_phalcon_cli_routerinterface_setdefaultmodule)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaults, arginfo_phalcon_cli_routerinterface_setdefaults)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, setDefaultTask, arginfo_phalcon_cli_routerinterface_setdefaulttask)
-	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, wasMatched, arginfo_phalcon_cli_routerinterface_wasmatched)
 	PHP_FE_END
 };
 
@@ -23899,7 +23896,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dump, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 

@@ -1140,7 +1140,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getParams)
 /**
  * Returns a route object by its id
  *
- * @param mixed id
+ * @param mixed $id
  *
  * @return RouteInterface|bool
  */
@@ -1255,15 +1255,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
-	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
-	} else {
-		ZEPHIR_INIT_VAR(&name);
-	}
+	zephir_get_strval(&name, name_param);
 	zephir_memory_observe(&key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("keyRouteNames"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&key, &_0, &name, 0)) {

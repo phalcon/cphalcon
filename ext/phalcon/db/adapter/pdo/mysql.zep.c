@@ -508,13 +508,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 				}
 				if (_5$$3 == zephir_start_with_str(&columnType, SL("varbinary"))) {
 					ZEPHIR_INIT_NVAR(&_39$$29);
-					ZVAL_LONG(&_39$$29, 26);
+					ZVAL_LONG(&_39$$29, 27);
 					zephir_array_update_string(&definition, SL("type"), &_39$$29, PH_COPY | PH_SEPARATE);
 					break;
 				}
 				if (_5$$3 == zephir_start_with_str(&columnType, SL("binary"))) {
 					ZEPHIR_INIT_NVAR(&_40$$30);
-					ZVAL_LONG(&_40$$30, 26);
+					ZVAL_LONG(&_40$$30, 27);
 					zephir_array_update_string(&definition, SL("type"), &_40$$30, PH_COPY | PH_SEPARATE);
 					break;
 				}
@@ -809,13 +809,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 					}
 					if (_66$$49 == zephir_start_with_str(&columnType, SL("varbinary"))) {
 						ZEPHIR_INIT_NVAR(&_100$$75);
-						ZVAL_LONG(&_100$$75, 26);
+						ZVAL_LONG(&_100$$75, 27);
 						zephir_array_update_string(&definition, SL("type"), &_100$$75, PH_COPY | PH_SEPARATE);
 						break;
 					}
 					if (_66$$49 == zephir_start_with_str(&columnType, SL("binary"))) {
 						ZEPHIR_INIT_NVAR(&_101$$76);
-						ZVAL_LONG(&_101$$76, 26);
+						ZVAL_LONG(&_101$$76, 27);
 						zephir_array_update_string(&definition, SL("type"), &_101$$76, PH_COPY | PH_SEPARATE);
 						break;
 					}
