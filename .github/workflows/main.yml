@@ -92,7 +92,9 @@ jobs:
 
         name:
           - ubuntu-gcc
-          - macos-clang
+
+# Removing temporarily macos builds since it fails due to the container setup
+#          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
