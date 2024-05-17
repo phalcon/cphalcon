@@ -184,12 +184,16 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, _0;
+	zval *name_param = NULL, _0, _3, _4, _1$$3, _2$$3;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -197,11 +201,18 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getservice", NULL, 0, &name);
-	zephir_check_call_status();
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	if (1 != zephir_array_isset(&_0, &name)) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name);
+		zephir_check_call_status();
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
+	}
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 118);
+	RETURN_CTOR(&_4);
 }
 
 /**
