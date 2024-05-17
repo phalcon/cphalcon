@@ -32,28 +32,28 @@
 /**
  * Lazy loads, stores and exposes sanitizer objects
  *
- * @method absint(mixed $input): int
- * @method alnum(mixed $input): string
- * @method alpha(mixed $input): string
- * @method bool(mixed $input): bool
- * @method email(string $input): string
- * @method float(mixed $input): float
- * @method int(string $input): int
- * @method lower(string $input): string
- * @method lowerfirst(string $input): string
- * @method regex(mixed $input, mixed $pattern, mixed $replace): mixed
- * @method remove(mixed $input, mixed $replace): mixed
- * @method replace(mixed $input, mixed $source, mixed $target): mixed
- * @method special(string $input): string
- * @method specialfull(string $input): string
- * @method string(string $input): string
- * @method stringlegacy(mixed $input): string
- * @method striptags(string $input): string
- * @method trim(string $input): string
- * @method upper(string $input): string
- * @method upperFirst(string $input): string
- * @method upperWords(string $input): string|null
- * @method url(string $input): string|null
+ * @method int absint(mixed $input)
+ * @method string alnum(mixed $input)
+ * @method string alpha(mixed $input)
+ * @method bool bool(mixed $input)
+ * @method string email(string $input)
+ * @method float float(mixed $input)
+ * @method int int(string $input)
+ * @method string lower(string $input)
+ * @method string lowerfirst(string $input)
+ * @method mixed regex(mixed $input, mixed $pattern, mixed $replace)
+ * @method mixed remove(mixed $input, mixed $replace)
+ * @method mixed replace(mixed $input, mixed $source, mixed $target)
+ * @method string special(string $input)
+ * @method string specialfull(string $input)
+ * @method string string(string $input)
+ * @method string stringlegacy(mixed $input)
+ * @method string striptags(string $input)
+ * @method string trim(string $input)
+ * @method string upper(string $input)
+ * @method string upperFirst(string $input)
+ * @method string|null upperWords(string $input)
+ * @method string|null url(string $input)
  *
  * @property array $mapper
  * @property array $services

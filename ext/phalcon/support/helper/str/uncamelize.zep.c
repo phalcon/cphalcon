@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Uncamelize)
 
 /**
  * @param string $text
- * @param string $delimiters
+ * @param string $delimiter
  *
  * @return string
  */

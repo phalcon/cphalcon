@@ -24,6 +24,8 @@
  * Phalcon\Mvc\ModelInterface
  *
  * Interface for Phalcon\Mvc\Model
+ *
+ * @template T
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface)
 {
@@ -100,14 +102,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
  *
  * @param array|string|int|null parameters
  *
- * @return ResultsetInterface
+ * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 /**
  * Allows to query the first record that match the specified conditions
  *
  * @param array parameters
- * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+ * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
  *
  * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface (it also returns Row).
  * @see https://github.com/phalcon/cphalcon/issues/15212

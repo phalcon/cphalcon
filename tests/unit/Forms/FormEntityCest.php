@@ -51,4 +51,66 @@ class FormEntityCest
         $I->assertNotNull($validator->getEntity());
         $I->assertSame($product->prd_name, $validator->getEntity()->prd_name);
     }
+
+    /**
+     * Tests Phalcon\Forms\Form :: bind()
+     *
+     * @author noone-silent <lominum@protonmail.com>
+     * @since  2024-05-01
+     */
+    public function bindDisabledStrictCheck(UnitTester $I): void
+    {
+        $I->wantToTest('Phalcon\Forms\Form - bind() with disabled strict property check');
+
+        $this->setNewFactoryDefault(); //create default DI
+
+        $product = new Products();
+
+        $I->assertFalse(property_exists($product, 'prd_not_exists'));
+
+        $form = new Form($product);
+        $form->setTagFactory($this->container->get("tag"));
+        $dynamic = new Text('prd_not_exists');
+        $form->add($dynamic);
+        $exists = new Text('prd_name');
+        $form->add($exists);
+        $form->bind(['prd_name' => 'Test', 'prd_not_exists' => 'TestValue'], $product);
+
+        $I->assertEquals('Test', $product->prd_name);
+        $I->assertEquals('TestValue', $product->prd_not_exists);
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: bind()
+     *
+     * @author noone-silent <lominum@protonmail.com>
+     * @since  2024-05-01
+     */
+    public function bindEnabledStrictCheck(UnitTester $I): void
+    {
+        $I->wantToTest('Phalcon\Forms\Form - bind() with enabled strict property check');
+
+        $this->setNewFactoryDefault(); //create default DI
+
+        $product = new Products();
+
+        $I->assertFalse(property_exists($product, 'prd_not_exists'));
+
+        // Set setting for GlobalsCest.php
+        ini_set('phalcon.form.strict_entity_property_check', '1');
+
+        $form = new Form($product);
+        $form->setTagFactory($this->container->get("tag"));
+        $dynamic = new Text('prd_not_exists');
+        $form->add($dynamic);
+        $exists = new Text('prd_name');
+        $form->add($exists);
+        $form->bind(['prd_name' => 'Test', 'prd_not_exists' => 'TestValue'], $product);
+
+        // Reset setting for GlobalsCest.php
+        ini_set('phalcon.form.strict_entity_property_check', '0');
+
+        $I->assertEquals('Test', $product->prd_name);
+        $I->assertFalse(property_exists($product, "prd_not_exists"));
+    }
 }

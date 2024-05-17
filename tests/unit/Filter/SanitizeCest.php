@@ -283,6 +283,20 @@ class SanitizeCest
             ],
             [
                 'class'    => 'bool',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 0,
+                'expected' => false,
+            ],
+            [
+                'class'    => 'bool',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 1,
+                'expected' => true,
+            ],
+            [
+                'class'    => 'bool',
                 'label'    => 'bool()',
                 'method'   => 'bool',
                 'source'   => [1000],
@@ -349,6 +363,20 @@ class SanitizeCest
                 'label'    => 'bool()',
                 'method'   => 'bool',
                 'source'   => ['n'],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'bool',
+                'label'    => 'bool()',
+                'method'   => 'bool',
+                'source'   => [1],
+                'expected' => true,
+            ],
+            [
+                'class'    => 'bool',
+                'label'    => 'bool()',
+                'method'   => 'bool',
+                'source'   => [0],
                 'expected' => false,
             ],
             [

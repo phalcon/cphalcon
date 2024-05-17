@@ -128,19 +128,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
 {
 	double _6$$7, _7$$8;
 	zval _1$$4, _2$$5;
-	zend_bool result = 0;
+	zend_bool failed = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, length, minimum, replacePairs, included, _0, _3, _4$$6, _5$$7, _8$$11;
+	zval *validation, validation_sub, *field, field_sub, included, length, minimum, replacePairs, value, _0, _3, _4$$6, _5$$7, _8$$11;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
-	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&included);
 	ZVAL_UNDEF(&length);
 	ZVAL_UNDEF(&minimum);
 	ZVAL_UNDEF(&replacePairs);
-	ZVAL_UNDEF(&included);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4$$6);
@@ -195,11 +195,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
 		ZVAL_BOOL(&included, _7$$8);
 	}
 	if (zephir_is_true(&included)) {
-		result = ZEPHIR_LE(&length, &minimum);
+		failed = ZEPHIR_LT(&length, &minimum);
 	} else {
-		result = ZEPHIR_LT(&length, &minimum);
+		failed = ZEPHIR_LE(&length, &minimum);
 	}
-	if (result) {
+	if (failed) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);

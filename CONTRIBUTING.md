@@ -15,13 +15,12 @@ We use the GitHub issues for tracking bugs and feature requests and have limited
 
 _Please use the [Documentation](https://phalcon.io/docs) before anything else. You can also use the search feature in our documents to find what you are looking for. If your question is still not answered, there are more options below._
 
-* Questions should go to [Official Forums](https://phalcon.io/forum)
+* Questions should go to [GitHub Discussions](https://phalcon.io/discussions)
 * Another way is to ask a question on [Stack Overflow](https://stackoverflow.com/) and tag it with
   [`phalcon`](https://stackoverflow.com/questions/tagged/phalcon)
 * Come join the Phalcon [Discord](https://phalcon.io/discord)
 * Our social network accounts are:
   * [Telegram](https://phalcon.io/telegram)
-  * [Parler](https://phalcon.io/parler)
   * [Gab](https://phalcon.io/gab)
   * [MeWe](https://phalcon.io/mewe)
   * [Twitter](https://phalcon.io/t)
@@ -42,13 +41,13 @@ Please report bugs when you've exhausted all of the above options.
 
 * Don't submit your pull requests to the `master` branch. Branch from the required branch and, if needed, rebase to the proper branch before submitting your pull request. If it doesn't merge cleanly with master you may be asked to rebase your changes
 * Don't put submodule updates in your pull request unless they are to landed commits 
-* Add tests relevant to the fixed bug or new feature. Test classes should follow the [PSR-2 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md). See our [testing guide](https://github.com/phalcon/cphalcon/blob/master/tests/README.md) for more information
+* Add tests relevant to the fixed bug or new feature. Test classes should follow the [PSR-12 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-coding-style-guide.md). 
 * Phalcon is written in [Zephir](https://zephir-lang.com/), please do not submit commits that modify C generated files directly or those whose functionality/fixes are implemented in the C programming language
 * Remove any change to `ext/kernel`, `*.zep.c` and `*.zep.h` files before submitting the pull request
 
 ## Requesting Features
 
-If you have a change or new feature in mind, please fill a [NFR](https://docs.phalcon.io/latest/new-feature-request) on the GitHub. Alternatively you may also request features via [the FeatHub page](https://feathub.com/phalcon/cphalcon).
+If you have a change or new feature in mind, please fill a [NFR](https://docs.phalcon.io/latest/new-feature-request) on the GitHub. 
 
 
 Thanks! 
