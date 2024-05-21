@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (XXXX-XX-XX)
+
+### Changed
+
+- Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement 
+  `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
+
+### Added
+ 
+### Fixed
+
+### Removed
+
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
 
 ### Changed
