@@ -30,40 +30,52 @@ class ConstantsCest
     {
         $I->wantToTest("Db\Column :: constants");
 
-        $I->assertEquals(3, Column::BIND_PARAM_BLOB);
-        $I->assertEquals(5, Column::BIND_PARAM_BOOL);
-        $I->assertEquals(32, Column::BIND_PARAM_DECIMAL);
-        $I->assertEquals(1, Column::BIND_PARAM_INT);
-        $I->assertEquals(0, Column::BIND_PARAM_NULL);
-        $I->assertEquals(2, Column::BIND_PARAM_STR);
-        $I->assertEquals(1024, Column::BIND_SKIP);
+        $bind = [
+            [Column::BIND_PARAM_BLOB, 3],
+            [Column::BIND_PARAM_BOOL, 5],
+            [Column::BIND_PARAM_DECIMAL, 32],
+            [Column::BIND_PARAM_INT, 1],
+            [Column::BIND_PARAM_NULL, 0],
+            [Column::BIND_PARAM_STR, 2],
+            [Column::BIND_SKIP, 1024],
+        ];
+        foreach ($bind as $item) {
+            $I->assertEquals($item[1], $item[0]);
+        }
 
-        $I->assertEquals(14, Column::TYPE_BIGINTEGER);
-        $I->assertEquals(19, Column::TYPE_BIT);
-        $I->assertEquals(11, Column::TYPE_BLOB);
-        $I->assertEquals(8, Column::TYPE_BOOLEAN);
-        $I->assertEquals(5, Column::TYPE_CHAR);
-        $I->assertEquals(1, Column::TYPE_DATE);
-        $I->assertEquals(4, Column::TYPE_DATETIME);
-        $I->assertEquals(3, Column::TYPE_DECIMAL);
-        $I->assertEquals(9, Column::TYPE_DOUBLE);
-        $I->assertEquals(18, Column::TYPE_ENUM);
-        $I->assertEquals(7, Column::TYPE_FLOAT);
-        $I->assertEquals(0, Column::TYPE_INTEGER);
-        $I->assertEquals(15, Column::TYPE_JSON);
-        $I->assertEquals(16, Column::TYPE_JSONB);
-        $I->assertEquals(13, Column::TYPE_LONGBLOB);
-        $I->assertEquals(24, Column::TYPE_LONGTEXT);
-        $I->assertEquals(12, Column::TYPE_MEDIUMBLOB);
-        $I->assertEquals(21, Column::TYPE_MEDIUMINTEGER);
-        $I->assertEquals(23, Column::TYPE_MEDIUMTEXT);
-        $I->assertEquals(22, Column::TYPE_SMALLINTEGER);
-        $I->assertEquals(6, Column::TYPE_TEXT);
-        $I->assertEquals(20, Column::TYPE_TIME);
-        $I->assertEquals(17, Column::TYPE_TIMESTAMP);
-        $I->assertEquals(10, Column::TYPE_TINYBLOB);
-        $I->assertEquals(26, Column::TYPE_TINYINTEGER);
-        $I->assertEquals(25, Column::TYPE_TINYTEXT);
-        $I->assertEquals(2, Column::TYPE_VARCHAR);
+        $type = [
+            [Column::TYPE_BIGINTEGER, 14],
+            [Column::TYPE_BIT, 19],
+            [Column::TYPE_BINARY, 27],
+            [Column::TYPE_BLOB, 11],
+            [Column::TYPE_BOOLEAN, 8],
+            [Column::TYPE_CHAR, 5],
+            [Column::TYPE_DATE, 1],
+            [Column::TYPE_DATETIME, 4],
+            [Column::TYPE_DECIMAL, 3],
+            [Column::TYPE_DOUBLE, 9],
+            [Column::TYPE_ENUM, 18],
+            [Column::TYPE_FLOAT, 7],
+            [Column::TYPE_INTEGER, 0],
+            [Column::TYPE_JSON, 15],
+            [Column::TYPE_JSONB, 16],
+            [Column::TYPE_LONGBLOB, 13],
+            [Column::TYPE_LONGTEXT, 24],
+            [Column::TYPE_MEDIUMBLOB, 12],
+            [Column::TYPE_MEDIUMINTEGER, 21],
+            [Column::TYPE_MEDIUMTEXT, 23],
+            [Column::TYPE_SMALLINTEGER, 22],
+            [Column::TYPE_TEXT, 6],
+            [Column::TYPE_TIME, 20],
+            [Column::TYPE_TIMESTAMP, 17],
+            [Column::TYPE_TINYBLOB, 10],
+            [Column::TYPE_TINYINTEGER, 26],
+            [Column::TYPE_TINYTEXT, 25],
+            [Column::TYPE_VARBINARY, 28],
+            [Column::TYPE_VARCHAR, 2],
+        ];
+        foreach ($type as $item) {
+            $I->assertEquals($item[1], $item[0]);
+        }
     }
 }
