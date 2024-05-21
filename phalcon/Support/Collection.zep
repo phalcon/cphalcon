@@ -305,7 +305,7 @@ class Collection implements
      * String representation of object
      * See [serialize](https://php.net/manual/en/serializable.serialize.php)
      */
-    public function serialize() -> string
+    public function serialize() -> string | null
     {
         return serialize(this->toArray());
     }
@@ -345,13 +345,13 @@ class Collection implements
      * Constructs the object
      * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
      */
-    public function unserialize(string serialized) -> void
+    public function unserialize(string data) -> void
     {
-        var data;
+        var unserialized;
 
-        let data = unserialize(serialized);
+        let unserialized = unserialize(data);
 
-        this->init(data);
+        this->init(unserialized);
     }
 
     public function __serialize() -> array
