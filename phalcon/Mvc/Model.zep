@@ -2786,7 +2786,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Serializes the object ignoring connections, services, related objects or
      * static properties
      */
-    public function serialize() -> string
+    public function serialize() -> string | null
     {
         /**
          * Use the standard serialize function to serialize the array data
@@ -2813,7 +2813,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Unserializes the object from a serialized string
      */
-    public function unserialize(var data)
+    public function unserialize(string data) -> void
     {
         var attributes, container, manager, key, value, snapshot, properties, dirtyState;
 
