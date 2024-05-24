@@ -1,11 +1,14 @@
 # Changelog
 
-## [5.7.1](https://github.com/phalcon/cphalcon/releases/tag/v5.7.1) (XXXX-XX-XX)
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (XXXX-XX-XX)
 
 ### Changed
 
-### Added
+- Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement 
+  `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
 
+### Added
+ 
 ### Fixed
 
 - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
