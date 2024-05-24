@@ -25,18 +25,16 @@ class PascalCase
         string text,
         string delimiters = null
     ) -> string {
-        var exploded, output;
+        var exploded, output, element;
 
         let exploded = this->processArray(text, delimiters);
 
-        let output = array_map(
-            function (element) {
-                return ucfirst(mb_strtolower(element));
-            },
-            exploded
-        );
+        let output = "";
+        for element in exploded {
+            let output = output . ucfirst(mb_strtolower(element));
+        }
 
-        return implode("", output);
+        return output;
     }
 
     /**
