@@ -339,7 +339,7 @@ class Group implements GroupInterface
     /**
      * Returns the hostname restriction
      */
-    public function getHostname() -> string
+    public function getHostname() -> string | null
     {
         return this->hostname;
     }
