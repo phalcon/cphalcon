@@ -1,7 +1,5 @@
 # For local development only.
 
-version: '3'
-
 services:
   cphalcon-8.0:
     container_name: cphalcon-8.0

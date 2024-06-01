@@ -8,6 +8,7 @@
   `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
 
 ### Added
+ 
 ### Fixed
 
 - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
