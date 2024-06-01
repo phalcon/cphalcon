@@ -12,6 +12,7 @@
 ### Fixed
 
 - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed return type in `Phalcon\Mvc\Router:getHostname()` method [#16601](https://github.com/phalcon/cphalcon/issues/16601)
 
 ### Removed
 
