@@ -858,22 +858,22 @@ PHP_METHOD(Phalcon_Support_Collection, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *serialized_param = NULL, data;
-	zval serialized;
+	zval *data_param = NULL, unserialized;
+	zval data;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&serialized);
 	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&unserialized);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(serialized)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &serialized_param);
-	zephir_get_strval(&serialized, serialized_param);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 16, &serialized);
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_strval(&data, data_param);
+	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 16, &data);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &unserialized);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

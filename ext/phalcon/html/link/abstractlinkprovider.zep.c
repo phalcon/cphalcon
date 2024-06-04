@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, getKey)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 81, link);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 80, link);
 	zephir_check_call_status();
 	RETURN_MM();
 }
