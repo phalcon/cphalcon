@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 	ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 89, &filePath, &_1);
 	zephir_check_call_status();
 	if (1 == ZEPHIR_IS_EMPTY(&_2)) {
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "lcfirst", NULL, 77, &adapter);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "lcfirst", NULL, 76, &adapter);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SV(&_4$$3, ".", &_3$$3);

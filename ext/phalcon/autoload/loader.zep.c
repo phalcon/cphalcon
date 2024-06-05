@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, __construct)
 	ZVAL_STRING(&_0, "sha256");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "php");
-	ZEPHIR_CALL_FUNCTION(&_2, "hash", NULL, 72, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "hash", NULL, 71, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "php");
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addDirectory)
 	zephir_get_strval(&directory, directory_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 72, &_0, &directory);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 71, &_0, &directory);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("directories"), &_1, &directory);
 	RETURN_THIS();
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addExtension)
 	zephir_get_strval(&extension, extension_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 72, &_0, &extension);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 71, &_0, &extension);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("extensions"), &_1, &extension);
 	RETURN_THIS();
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addFile)
 	zephir_get_strval(&file, file_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 72, &_0, &file);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 71, &_0, &file);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("files"), &_1, &file);
 	RETURN_THIS();
@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions)
 		ZVAL_STRING(&_1$$3, "sha256");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "php");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "hash", NULL, 72, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "hash", NULL, 71, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "php");
@@ -907,7 +907,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback)
 	} else if (Z_TYPE_P(method) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_6__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("fileCheckingCallback"), &_0$$4);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The 'method' parameter must be either a callable or NULL", "phalcon/Autoload/Loader.zep", 441);
@@ -1742,7 +1742,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 			ZEPHIR_CPY_WRT(&directory, &_5$$5);
 			ZEPHIR_INIT_NVAR(&_6$$5);
 			ZVAL_STRING(&_6$$5, "sha256");
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "hash", &_8, 72, &_6$$5, &directory);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "hash", &_8, 71, &_6$$5, &directory);
 			zephir_check_call_status();
 			zephir_array_update_zval(&results, &_7$$5, &directory, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -1764,7 +1764,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 				ZEPHIR_CPY_WRT(&directory, &_10$$6);
 				ZEPHIR_INIT_NVAR(&_11$$6);
 				ZVAL_STRING(&_11$$6, "sha256");
-				ZEPHIR_CALL_FUNCTION(&_12$$6, "hash", &_8, 72, &_11$$6, &directory);
+				ZEPHIR_CALL_FUNCTION(&_12$$6, "hash", &_8, 71, &_11$$6, &directory);
 				zephir_check_call_status();
 				zephir_array_update_zval(&results, &_12$$6, &directory, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, directories, "next", NULL, 0);

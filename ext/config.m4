@@ -112,7 +112,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/abstractcache.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/router/routeinterface.zep.c
-	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
 	phalcon/datamapper/pdo/connectionlocatorinterface.zep.c
 	phalcon/datamapper/pdo/profiler/profilerinterface.zep.c
@@ -230,6 +229,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/router.zep.c
 	phalcon/cli/router/exception.zep.c
 	phalcon/cli/router/route.zep.c
+	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
 	phalcon/config/adapter/grouped.zep.c
 	phalcon/config/adapter/ini.zep.c
@@ -624,8 +624,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/10__closure.zep.c
 	phalcon/11__closure.zep.c
 	phalcon/12__closure.zep.c
-	phalcon/13__closure.zep.c
-	phalcon/14__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/13__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

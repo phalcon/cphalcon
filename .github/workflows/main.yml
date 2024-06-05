@@ -20,7 +20,7 @@ on:
 env:
   # All versions should be declared here
   PHALCON_VERSION: 5.7.0
-  ZEPHIR_PARSER_VERSION: 1.6.0
+  ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
   LANG: en_US.UTF-8
@@ -92,9 +92,7 @@ jobs:
 
         name:
           - ubuntu-gcc
-
-# Removing temporarily macos builds since it fails due to the container setup
-#          - macos-clang
+          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
