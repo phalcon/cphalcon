@@ -13,6 +13,7 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Exception;
+use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
@@ -31,7 +32,7 @@ use Phalcon\Support\Exception as SupportException;
  * @property SerializerInterface $serializer
  * @property SerializerFactory   $serializerFactory
  */
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * @var mixed

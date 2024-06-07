@@ -13,13 +13,14 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\InvalidArgumentException;
+use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Traversable;
 
 /**
  * This component offers caching capabilities for your application.
  */
-abstract class AbstractCache implements CacheInterface
+abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 {
     /**
      * The adapter
