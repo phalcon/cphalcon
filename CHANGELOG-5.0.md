@@ -8,6 +8,20 @@
 - Changed the `Phalcon\Mvc\Router\Group::getHostname()` to return `null` also. [#16601](https://github.com/phalcon/cphalcon/issues/16601)
 
 ### Added
+
+- Added events and `Phalcon\Events\Manager` for `Phalcon\Storage\Adapter\Apcu`,
+  `Phalcon\Storage\Adapter\Redis`,
+  `Phalcon\Storage\Adapter\Memory`,
+  `Phalcon\Storage\Adapter\Libmemcached`,
+  `Phalcon\Storage\Adapter\Stream`,
+  `Phalcon\Storage\Adapter\Weak`,
+  `Phalcon\Cache\Adapter\Apcu`,
+  `Phalcon\Cache\Adapter\Redis`,
+  `Phalcon\Cache\Adapter\Memory`,
+  `Phalcon\Cache\Adapter\Libmemcached`,
+  `Phalcon\Cache\Adapter\Stream`,
+  `Phalcon\Cache\Adapter\Weak`
+  `Phalcon\Cache\AbstractCache`. [#16606](https://github.com/phalcon/cphalcon/issues/16606)
  
 ### Fixed
 

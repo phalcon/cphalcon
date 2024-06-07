@@ -13,6 +13,7 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Exception;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
@@ -74,6 +75,20 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var SerializerFactory
      */
     protected serializerFactory;
+
+    /**
+     * Event Manager
+     *
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
+
+    /**
+     * EventType prefix.
+     *
+     * @var string
+     */
+    protected eventType = "storage";
 
     /**
      * AbstractAdapter constructor.
@@ -143,15 +158,23 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function get(string key, defaultValue = null) -> var
     {
-        var content;
+        var content, result;
+
+        this->fire(this->eventType . ":beforeGet");
 
         if (true !== this->has(key)) {
+            this->fire(this->eventType . ":afterGet");
+
             return defaultValue;
         }
 
         let content  = this->doGet(key);
 
-        return this->getUnserializedData(content, defaultValue);
+        let result = this->getUnserializedData(content, defaultValue);
+
+        this->fire(this->eventType . ":afterGet");
+
+        return result;
     }
 
     /**
@@ -383,5 +406,35 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return value;
+    }
+
+    /**
+     * Sets the event manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Get the event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Trigger an event for the eventsManager.
+     *
+     * @var string $eventName
+     */
+    protected function fire(string eventName) -> void
+    {
+        if (this->eventsManager === null) {
+            return;
+        }
+
+        this->eventsManager->fire(eventName, this);
     }
 }

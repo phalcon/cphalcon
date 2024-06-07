@@ -73,6 +73,9 @@ class Weak extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
+        this->fire(this->eventType . ":beforeDecrement");
+        this->fire(this->eventType . ":afterDecrement");
+
         return false;
     }
 
@@ -86,11 +89,19 @@ class Weak extends AbstractAdapter
     public function delete(string! key) -> bool
     {
         var exists;
+
+        this->fire(this->eventType . ":beforeDelete");
+
         if key === this->fetching {
+            this->fire(this->eventType . ":afterDelete");
+
             return false;
         }
         let exists = isset this->weakList[key];
         unset(this->weakList[key]);
+
+        this->fire(this->eventType . ":afterDelete");
+
         return exists;
     }
 
@@ -128,6 +139,9 @@ class Weak extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
+        this->fire(this->eventType . ":beforeIncrement");
+        this->fire(this->eventType . ":afterIncrement");
+
         return false;
     }
 
@@ -142,6 +156,9 @@ class Weak extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
         var value, wr;
+
+        this->fire(this->eventType . ":beforeGet");
+
         /**
          * while getting a key, garbage collection might be triggered,
          * this will stop unsetting the key, will not stop however the model gets destroid by GC,
@@ -151,6 +168,9 @@ class Weak extends AbstractAdapter
         let this->fetching = key;
         if false === isset this->weakList[key] {
             let this->fetching = null;
+
+            this->fire(this->eventType . ":afterGet");
+
             return defaultValue;
         }
         let wr = this->weakList[key];
@@ -162,6 +182,9 @@ class Weak extends AbstractAdapter
         if null === value {
             this->delete(key);
         }
+
+        this->fire(this->eventType . ":afterGet");
+
         return value;
     }
 
@@ -174,7 +197,15 @@ class Weak extends AbstractAdapter
     */
     public function has(string! key) -> bool
     {
-        return isset this->weakList[key];
+        var result;
+
+        this->fire(this->eventType . ":beforeHas");
+
+        let result = isset this->weakList[key];
+
+        this->fire(this->eventType . ":afterHas");
+
+        return result;
     }
 
     /**
@@ -193,12 +224,19 @@ class Weak extends AbstractAdapter
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
+        this->fire(this->eventType . ":beforeSet");
+
         if typeof value !== "object" {
+            this->fire(this->eventType . ":afterSet");
+
             return false;
         }
         if false === isset this->weakList[key] {
             let this->weakList[key] = \WeakReference::create(value);
         }
+
+        this->fire(this->eventType . ":afterSet");
+
         return true;
     }
 
@@ -214,7 +252,7 @@ class Weak extends AbstractAdapter
     {
         return this->set(key, value);
     }
-    
+
     /**
      * will never set a serializer, WeakReference cannot be serialized
      * @param string $serializer

@@ -71,7 +71,15 @@ class Libmemcached extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->decrement(key, value);
+        var result;
+
+        this->fire(this->eventType . ":beforeDecrement");
+
+        let result = this->getAdapter()->decrement(key, value);
+
+        this->fire(this->eventType . ":afterDecrement");
+
+        return result;
     }
 
     /**
@@ -84,7 +92,15 @@ class Libmemcached extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return this->getAdapter()->delete(key, 0);
+        var result;
+
+        this->fire(this->eventType . ":beforeDelete");
+
+        let result = this->getAdapter()->delete(key, 0);
+
+        this->fire(this->eventType . ":afterDelete");
+
+        return result;
     }
 
     /**
@@ -163,12 +179,17 @@ class Libmemcached extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var connection, result;
+        var connection, result, code;
+
+        this->fire(this->eventType . ":beforeHas");
 
         let connection = this->getAdapter(),
-            result     = connection->get(key);
+            result     = connection->get(key),
+            code       = connection->getResultCode();
 
-        return \Memcached::RES_NOTFOUND !== connection->getResultCode();
+        this->fire(this->eventType . ":afterHas");
+
+        return \Memcached::RES_NOTFOUND !== code;
     }
 
     /**
@@ -182,7 +203,15 @@ class Libmemcached extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->increment(key, value);
+        var result;
+
+        this->fire(this->eventType . ":beforeIncrement");
+
+        let result = this->getAdapter()->increment(key, value);
+
+        this->fire(this->eventType . ":afterIncrement");
+
+        return result;
     }
 
     /**
@@ -204,8 +233,14 @@ class Libmemcached extends AbstractAdapter
     {
         var result;
 
+        this->fire(this->eventType . ":beforeSet");
+
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+
+            this->fire(this->eventType . ":afterSet");
+
+            return result;
         }
 
         let result = this->getAdapter()
@@ -215,6 +250,8 @@ class Libmemcached extends AbstractAdapter
                              this->getTtl(ttl)
                          )
         ;
+
+        this->fire(this->eventType . ":afterSet");
 
         return typeof result === "bool" ? result : false;
     }

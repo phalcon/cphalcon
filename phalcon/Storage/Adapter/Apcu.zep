@@ -78,7 +78,15 @@ class Apcu extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->phpApcuDec(this->getPrefixedKey(key), value);
+        var result;
+
+        this->fire(this->eventType . ":beforeDecrement");
+
+        let result = this->phpApcuDec(this->getPrefixedKey(key), value);
+
+        this->fire(this->eventType . ":afterDecrement");
+
+        return result;
     }
 
     /**
@@ -90,7 +98,15 @@ class Apcu extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
+        var result;
+
+        this->fire(this->eventType . ":beforeDelete");
+
+        let result = (bool) this->phpApcuDelete(this->getPrefixedKey(key));
+
+        this->fire(this->eventType . ":afterDelete");
+
+        return result;
     }
 
     /**
@@ -131,7 +147,11 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
+        this->fire(this->eventType . ":beforeHas");
+
         let result = this->phpApcuExists(this->getPrefixedKey(key));
+
+        this->fire(this->eventType . ":afterHas");
 
         return typeof result === "bool" ? result : false;
     }
@@ -146,7 +166,15 @@ class Apcu extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->phpApcuInc(this->getPrefixedKey(key), value);
+        var result;
+
+        this->fire(this->eventType . ":beforeIncrement");
+
+        let result = this->phpApcuInc(this->getPrefixedKey(key), value);
+
+        this->fire(this->eventType . ":afterIncrement");
+
+        return result;
     }
 
     /**
@@ -167,8 +195,14 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
+        this->fire(this->eventType . ":beforeSet");
+
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+
+            this->fire(this->eventType . ":afterSet");
+
+            return result;
         }
 
         let result = this->phpApcuStore(
@@ -176,6 +210,8 @@ class Apcu extends AbstractAdapter
             this->getSerializedData(value),
             this->getTtl(ttl)
         );
+
+        this->fire(this->eventType . ":afterSet");
 
         return typeof result === "bool" ? result : false;
     }

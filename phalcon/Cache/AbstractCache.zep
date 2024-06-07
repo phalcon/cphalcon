@@ -13,6 +13,7 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\InvalidArgumentException;
+use Phalcon\Events\ManagerInterface;
 use Traversable;
 
 /**
@@ -26,6 +27,13 @@ abstract class AbstractCache implements CacheInterface
      * @var AdapterInterface
      */
     protected adapter;
+
+    /**
+     * Event Manager
+     *
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
 
     /**
      * Constructor.
@@ -45,6 +53,22 @@ abstract class AbstractCache implements CacheInterface
     public function getAdapter() -> <AdapterInterface>
     {
         return this->adapter;
+    }
+
+    /**
+     * Sets the event manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Get the event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
     }
 
     /**
@@ -108,9 +132,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doDelete(string key) -> bool
     {
+        var result;
+
+        this->fire("cache:beforeDelete");
+
         this->checkKey(key);
 
-        return this->adapter->delete(key);
+        let result = this->adapter->delete(key);
+
+        this->fire("cache:afterDelete");
+
+        return result;
     }
 
     /**
@@ -122,12 +154,16 @@ abstract class AbstractCache implements CacheInterface
 
         this->checkKeys(keys);
 
+        this->fire("cache:beforeDeleteMultiple");
+
         let result = true;
         for key in keys {
             if (true !== this->adapter->delete(key)) {
                 let result = false;
             }
         }
+
+        this->fire("cache:afterDeleteMultiple");
 
         return result;
     }
@@ -146,9 +182,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doGet(string key, var defaultValue = null) -> var
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->get(key, defaultValue);
+        this->fire("cache:beforeGet");
+
+        let result = this->adapter->get(key, defaultValue);
+
+        this->fire("cache:afterGet");
+
+        return result;
     }
 
     /**
@@ -160,10 +204,14 @@ abstract class AbstractCache implements CacheInterface
 
         this->checkKeys(keys);
 
+        this->fire("cache:beforeGetMultiple");
+
         let results = [];
         for element in keys {
             let results[element] = this->get(element, defaultValue);
         }
+
+        this->fire("cache:afterGetMultiple");
 
         return results;
     }
@@ -180,9 +228,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doHas(string key) -> bool
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->has(key);
+        this->fire("cache:beforeHas");
+
+        let result = this->adapter->has(key);
+
+        this->fire("cache:afterHas");
+
+        return result;
     }
 
     /**
@@ -205,9 +261,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doSet(string key, var value, var ttl = null) -> bool
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->set(key, value, ttl);
+        this->fire("cache:beforeSet");
+
+        let result = this->adapter->set(key, value, ttl);
+
+        this->fire("cache:afterSet");
+
+        return result;
     }
 
     /**
@@ -219,6 +283,8 @@ abstract class AbstractCache implements CacheInterface
 
         this->checkKeys(values);
 
+        this->fire("cache:beforeSetMultiple");
+
         let result = true;
         for key, value in values {
             if (true !== this->set(key, value, ttl)) {
@@ -226,7 +292,23 @@ abstract class AbstractCache implements CacheInterface
             }
         }
 
+        this->fire("cache:afterSetMultiple");
+
         return result;
+    }
+
+    /**
+     * Trigger an event for the eventsManager.
+     *
+     * @var string $eventName
+     */
+    protected function fire(string eventName) -> void
+    {
+        if (this->eventsManager === null) {
+            return;
+        }
+
+        this->eventsManager->fire(eventName, this);
     }
 
     /**

@@ -103,7 +103,11 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
+        this->fire(this->eventType . ":beforeDecrement");
+
         if unlikely true !== this->has(key) {
+            this->fire(this->eventType . ":afterDecrement");
+
             return false;
         }
 
@@ -114,6 +118,8 @@ class Stream extends AbstractAdapter
         if likely result !== false {
             let result = data;
         }
+
+        this->fire(this->eventType . ":afterDecrement");
 
         return result;
     }
@@ -127,15 +133,23 @@ class Stream extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        var filepath;
+        var filepath, result;
+
+        this->fire(this->eventType . ":beforeDelete");
 
         if true !== this->has(key) {
+            this->fire(this->eventType . ":afterDelete");
+
             return false;
         }
 
         let filepath = this->getFilepath(key);
 
-        return unlink(filepath);
+        let result = unlink(filepath);
+
+        this->fire(this->eventType . ":afterDelete");
+
+        return result;
     }
 
     /**
@@ -148,11 +162,15 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, filepath, payload;
+        var content, filepath, payload, result;
+
+        this->fire(this->eventType . ":beforeGet");
 
         let filepath = this->getFilepath(key);
 
         if (true !== file_exists(filepath)) {
+            this->fire(this->eventType . ":afterGet");
+
             return defaultValue;
         }
 
@@ -164,7 +182,11 @@ class Stream extends AbstractAdapter
 
         let content = this->getArrVal(payload, "content");
 
-        return this->getUnserializedData(content, defaultValue);
+        let result = this->getUnserializedData(content, defaultValue);
+
+        this->fire(this->eventType . ":afterGet");
+
+        return result;
     }
 
     /**
@@ -206,21 +228,31 @@ class Stream extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var payload, filepath;
+        var payload, filepath, result;
+
+        this->fire(this->eventType . ":beforeHas");
 
         let filepath = this->getFilepath(key);
 
         if unlikely true !== this->phpFileExists(filepath) {
+            this->fire(this->eventType . ":afterHas");
+
             return false;
         }
 
         let payload = this->getPayload(filepath);
 
         if unlikely empty payload {
+            this->fire(this->eventType . ":afterHas");
+
             return false;
         }
 
-        return !this->isExpired(payload);
+        let result = !this->isExpired(payload);
+
+        this->fire(this->eventType . ":afterHas");
+
+        return result;
     }
 
     /**
@@ -235,7 +267,11 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
+        this->fire(this->eventType . ":beforeIncrement");
+
         if unlikely true !== this->has(key) {
+            this->fire(this->eventType . ":afterIncrement");
+
             return false;
         }
 
@@ -246,6 +282,8 @@ class Stream extends AbstractAdapter
         if likely result !== false {
             let result = data;
         }
+
+        this->fire(this->eventType . ":afterIncrement");
 
         return result;
     }
@@ -266,9 +304,16 @@ class Stream extends AbstractAdapter
     public function set(string! key, var value, var ttl = null) -> bool
     {
         array payload;
+        var result;
+
+        this->fire(this->eventType . ":beforeSet");
 
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+
+            this->fire(this->eventType . ":afterSet");
+
+            return result;
         }
 
         let payload   = [
@@ -277,7 +322,11 @@ class Stream extends AbstractAdapter
             "content" : this->getSerializedData(value)
         ];
 
-        return this->storePayload(payload, key);
+        let result = this->storePayload(payload, key);
+
+        this->fire(this->eventType . ":afterSet");
+
+        return result;
     }
 
     /**
