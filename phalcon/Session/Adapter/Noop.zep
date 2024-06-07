@@ -88,7 +88,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Destroy
      */
-    public function destroy(var sessionId) -> bool
+    public function destroy(var id) -> bool
     {
         return true;
     }
@@ -96,10 +96,10 @@ class Noop implements SessionHandlerInterface
     /**
      * Garbage Collector
      *
-     * @param int $maxlifetime
+     * @param int $max_lifetime
      * @return false|int
      */
-    public function gc(int maxlifetime) -> int|false
+    public function gc(int max_lifetime) -> int|false
     {
         return true;
     }
@@ -107,7 +107,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Read
      */
-    public function read(var sessionId) -> string
+    public function read(var id) -> string
     {
         return "";
     }
