@@ -90,7 +90,15 @@ class Redis extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->decrBy(key, value);
+        var result;
+
+        this->fire(this->eventType . ":beforeDecrement", key);
+
+        let result = this->getAdapter()->decrBy(key, value);
+
+        this->fire(this->eventType . ":afterDecrement", key);
+
+        return result;
     }
 
     /**
@@ -103,7 +111,15 @@ class Redis extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return (bool) this->getAdapter()->del(key);
+        var result;
+
+        this->fire(this->eventType . ":beforeDelete", key);
+
+        let result = (bool) this->getAdapter()->del(key);
+
+        this->fire(this->eventType . ":afterDelete", key);
+
+        return result;
     }
 
     /**
@@ -161,7 +177,15 @@ class Redis extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        return (bool) this->getAdapter()->exists(key);
+        var result;
+
+        this->fire(this->eventType . ":beforeHas", key);
+
+        let result = (bool) this->getAdapter()->exists(key);
+
+        this->fire(this->eventType . ":afterHas", key);
+
+        return result;
     }
 
     /**
@@ -175,7 +199,15 @@ class Redis extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->incrBy(key, value);
+        var result;
+
+        this->fire(this->eventType . ":beforeIncrement", key);
+
+        let result = this->getAdapter()->incrBy(key, value);
+
+        this->fire(this->eventType . ":afterIncrement", key);
+
+        return result;
     }
 
     /**
@@ -196,8 +228,13 @@ class Redis extends AbstractAdapter
     {
         var result;
 
+        this->fire(this->eventType . ":beforeSet", key);
+
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+            this->fire(this->eventType . ":afterSet", key);
+
+            return result;
         }
 
         let result = this->getAdapter()
@@ -207,6 +244,8 @@ class Redis extends AbstractAdapter
                              this->getTtl(ttl)
                          )
         ;
+
+        this->fire(this->eventType . ":afterSet", key);
 
         return typeof result === "bool" ? result : false;
     }
