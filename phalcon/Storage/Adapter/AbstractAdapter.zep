@@ -161,10 +161,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var content, result;
 
-        this->fire(this->eventType . ":beforeGet");
+        this->fire(this->eventType . ":beforeGet", key);
 
         if (true !== this->has(key)) {
-            this->fire(this->eventType . ":afterGet");
+            this->fire(this->eventType . ":afterGet", key);
 
             return defaultValue;
         }
@@ -173,7 +173,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
         let result = this->getUnserializedData(content, defaultValue);
 
-        this->fire(this->eventType . ":afterGet");
+        this->fire(this->eventType . ":afterGet", key);
 
         return result;
     }
@@ -429,13 +429,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Trigger an event for the eventsManager.
      *
      * @var string $eventName
+     * @var mixed $keys
      */
-    protected function fire(string eventName) -> void
+    protected function fire(string eventName, var keys) -> void
     {
         if (this->eventsManager === null) {
             return;
         }
 
-        this->eventsManager->fire(eventName, this);
+        this->eventsManager->fire(eventName, this, keys, false);
     }
 }

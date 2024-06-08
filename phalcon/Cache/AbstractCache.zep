@@ -135,13 +135,13 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     {
         var result;
 
-        this->fire("cache:beforeDelete");
+        this->fire("cache:beforeDelete", key);
 
         this->checkKey(key);
 
         let result = this->adapter->delete(key);
 
-        this->fire("cache:afterDelete");
+        this->fire("cache:afterDelete", key);
 
         return result;
     }
@@ -155,7 +155,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fire("cache:beforeDeleteMultiple");
+        this->fire("cache:beforeDeleteMultiple", keys);
 
         let result = true;
         for key in keys {
@@ -164,7 +164,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fire("cache:afterDeleteMultiple");
+        this->fire("cache:afterDeleteMultiple", keys);
 
         return result;
     }
@@ -187,11 +187,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeGet");
+        this->fire("cache:beforeGet", key);
 
         let result = this->adapter->get(key, defaultValue);
 
-        this->fire("cache:afterGet");
+        this->fire("cache:afterGet", key);
 
         return result;
     }
@@ -205,14 +205,14 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fire("cache:beforeGetMultiple");
+        this->fire("cache:beforeGetMultiple", keys);
 
         let results = [];
         for element in keys {
             let results[element] = this->get(element, defaultValue);
         }
 
-        this->fire("cache:afterGetMultiple");
+        this->fire("cache:afterGetMultiple", keys);
 
         return results;
     }
@@ -233,11 +233,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeHas");
+        this->fire("cache:beforeHas", key);
 
         let result = this->adapter->has(key);
 
-        this->fire("cache:afterHas");
+        this->fire("cache:afterHas", key);
 
         return result;
     }
@@ -266,11 +266,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeSet");
+        this->fire("cache:beforeSet", key);
 
         let result = this->adapter->set(key, value, ttl);
 
-        this->fire("cache:afterSet");
+        this->fire("cache:afterSet", key);
 
         return result;
     }
@@ -284,7 +284,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(values);
 
-        this->fire("cache:beforeSetMultiple");
+        this->fire("cache:beforeSetMultiple", array_keys(values));
 
         let result = true;
         for key, value in values {
@@ -293,7 +293,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fire("cache:afterSetMultiple");
+        this->fire("cache:afterSetMultiple", array_keys(values));
 
         return result;
     }
@@ -302,14 +302,15 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      * Trigger an event for the eventsManager.
      *
      * @var string $eventName
+     * @var mixed $keys
      */
-    protected function fire(string eventName) -> void
+    protected function fire(string eventName, var keys) -> void
     {
         if (this->eventsManager === null) {
             return;
         }
 
-        this->eventsManager->fire(eventName, this);
+        this->eventsManager->fire(eventName, this, keys, false);
     }
 
     /**

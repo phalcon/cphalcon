@@ -14,6 +14,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Libmemcached;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Storage\SerializerFactory;
 
@@ -30,7 +31,7 @@ class EventsCest
         $I->wantToTest('Cache\Adapter\Libmemcached - getEventsManager() - not set');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $I->assertNull($adapter->getEventsManager());
     }
@@ -46,7 +47,7 @@ class EventsCest
         $I->wantToTest('Cache\Adapter\Libmemcached - getEventsManager() - set');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $adapter->setEventsManager(new Manager());
 
@@ -65,7 +66,7 @@ class EventsCest
         $I->wantToTest('Cache\Adapter\Libmemcached - triggered ' . $example->offsetGet(0));
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $counter = 0;
         $manager = new Manager();
@@ -73,8 +74,10 @@ class EventsCest
 
         $manager->attach(
             'cache:' . $example->offsetGet(0),
-            static function () use (&$counter): void {
+            static function (Event $event) use (&$counter, $example): void {
                 $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
             }
         );
 

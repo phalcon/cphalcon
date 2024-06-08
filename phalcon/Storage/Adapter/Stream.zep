@@ -103,10 +103,10 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        this->fire(this->eventType . ":beforeDecrement");
+        this->fire(this->eventType . ":beforeDecrement", key);
 
         if unlikely true !== this->has(key) {
-            this->fire(this->eventType . ":afterDecrement");
+            this->fire(this->eventType . ":afterDecrement", key);
 
             return false;
         }
@@ -119,7 +119,7 @@ class Stream extends AbstractAdapter
             let result = data;
         }
 
-        this->fire(this->eventType . ":afterDecrement");
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return result;
     }
@@ -135,10 +135,10 @@ class Stream extends AbstractAdapter
     {
         var filepath, result;
 
-        this->fire(this->eventType . ":beforeDelete");
+        this->fire(this->eventType . ":beforeDelete", key);
 
         if true !== this->has(key) {
-            this->fire(this->eventType . ":afterDelete");
+            this->fire(this->eventType . ":afterDelete", key);
 
             return false;
         }
@@ -147,7 +147,7 @@ class Stream extends AbstractAdapter
 
         let result = unlink(filepath);
 
-        this->fire(this->eventType . ":afterDelete");
+        this->fire(this->eventType . ":afterDelete", key);
 
         return result;
     }
@@ -164,12 +164,12 @@ class Stream extends AbstractAdapter
     {
         var content, filepath, payload, result;
 
-        this->fire(this->eventType . ":beforeGet");
+        this->fire(this->eventType . ":beforeGet", key);
 
         let filepath = this->getFilepath(key);
 
         if (true !== file_exists(filepath)) {
-            this->fire(this->eventType . ":afterGet");
+            this->fire(this->eventType . ":afterGet", key);
 
             return defaultValue;
         }
@@ -184,7 +184,7 @@ class Stream extends AbstractAdapter
 
         let result = this->getUnserializedData(content, defaultValue);
 
-        this->fire(this->eventType . ":afterGet");
+        this->fire(this->eventType . ":afterGet", key);
 
         return result;
     }
@@ -230,12 +230,12 @@ class Stream extends AbstractAdapter
     {
         var payload, filepath, result;
 
-        this->fire(this->eventType . ":beforeHas");
+        this->fire(this->eventType . ":beforeHas", key);
 
         let filepath = this->getFilepath(key);
 
         if unlikely true !== this->phpFileExists(filepath) {
-            this->fire(this->eventType . ":afterHas");
+            this->fire(this->eventType . ":afterHas", key);
 
             return false;
         }
@@ -243,14 +243,14 @@ class Stream extends AbstractAdapter
         let payload = this->getPayload(filepath);
 
         if unlikely empty payload {
-            this->fire(this->eventType . ":afterHas");
+            this->fire(this->eventType . ":afterHas", key);
 
             return false;
         }
 
         let result = !this->isExpired(payload);
 
-        this->fire(this->eventType . ":afterHas");
+        this->fire(this->eventType . ":afterHas", key);
 
         return result;
     }
@@ -267,10 +267,10 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        this->fire(this->eventType . ":beforeIncrement");
+        this->fire(this->eventType . ":beforeIncrement", key);
 
         if unlikely true !== this->has(key) {
-            this->fire(this->eventType . ":afterIncrement");
+            this->fire(this->eventType . ":afterIncrement", key);
 
             return false;
         }
@@ -283,7 +283,7 @@ class Stream extends AbstractAdapter
             let result = data;
         }
 
-        this->fire(this->eventType . ":afterIncrement");
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -306,12 +306,12 @@ class Stream extends AbstractAdapter
         array payload;
         var result;
 
-        this->fire(this->eventType . ":beforeSet");
+        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
             let result = this->delete(key);
 
-            this->fire(this->eventType . ":afterSet");
+            this->fire(this->eventType . ":afterSet", key);
 
             return result;
         }
@@ -324,7 +324,7 @@ class Stream extends AbstractAdapter
 
         let result = this->storePayload(payload, key);
 
-        this->fire(this->eventType . ":afterSet");
+        this->fire(this->eventType . ":afterSet", key);
 
         return result;
     }

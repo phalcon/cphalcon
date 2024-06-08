@@ -80,11 +80,11 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeDecrement");
+        this->fire(this->eventType . ":beforeDecrement", key);
 
         let result = this->phpApcuDec(this->getPrefixedKey(key), value);
 
-        this->fire(this->eventType . ":afterDecrement");
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return result;
     }
@@ -100,11 +100,11 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeDelete");
+        this->fire(this->eventType . ":beforeDelete", key);
 
         let result = (bool) this->phpApcuDelete(this->getPrefixedKey(key));
 
-        this->fire(this->eventType . ":afterDelete");
+        this->fire(this->eventType . ":afterDelete", key);
 
         return result;
     }
@@ -147,11 +147,11 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeHas");
+        this->fire(this->eventType . ":beforeHas", key);
 
         let result = this->phpApcuExists(this->getPrefixedKey(key));
 
-        this->fire(this->eventType . ":afterHas");
+        this->fire(this->eventType . ":afterHas", key);
 
         return typeof result === "bool" ? result : false;
     }
@@ -168,11 +168,11 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeIncrement");
+        this->fire(this->eventType . ":beforeIncrement", key);
 
         let result = this->phpApcuInc(this->getPrefixedKey(key), value);
 
-        this->fire(this->eventType . ":afterIncrement");
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -195,12 +195,12 @@ class Apcu extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeSet");
+        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
             let result = this->delete(key);
 
-            this->fire(this->eventType . ":afterSet");
+            this->fire(this->eventType . ":afterSet", key);
 
             return result;
         }
@@ -211,7 +211,7 @@ class Apcu extends AbstractAdapter
             this->getTtl(ttl)
         );
 
-        this->fire(this->eventType . ":afterSet");
+        this->fire(this->eventType . ":afterSet", key);
 
         return typeof result === "bool" ? result : false;
     }

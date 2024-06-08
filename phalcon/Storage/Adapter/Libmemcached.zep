@@ -73,11 +73,11 @@ class Libmemcached extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeDecrement");
+        this->fire(this->eventType . ":beforeDecrement", key);
 
         let result = this->getAdapter()->decrement(key, value);
 
-        this->fire(this->eventType . ":afterDecrement");
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return result;
     }
@@ -94,11 +94,11 @@ class Libmemcached extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeDelete");
+        this->fire(this->eventType . ":beforeDelete", key);
 
         let result = this->getAdapter()->delete(key, 0);
 
-        this->fire(this->eventType . ":afterDelete");
+        this->fire(this->eventType . ":afterDelete", key);
 
         return result;
     }
@@ -181,13 +181,13 @@ class Libmemcached extends AbstractAdapter
     {
         var connection, result, code;
 
-        this->fire(this->eventType . ":beforeHas");
+        this->fire(this->eventType . ":beforeHas", key);
 
         let connection = this->getAdapter(),
             result     = connection->get(key),
             code       = connection->getResultCode();
 
-        this->fire(this->eventType . ":afterHas");
+        this->fire(this->eventType . ":afterHas", key);
 
         return \Memcached::RES_NOTFOUND !== code;
     }
@@ -205,11 +205,11 @@ class Libmemcached extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeIncrement");
+        this->fire(this->eventType . ":beforeIncrement", key);
 
         let result = this->getAdapter()->increment(key, value);
 
-        this->fire(this->eventType . ":afterIncrement");
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -233,12 +233,12 @@ class Libmemcached extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeSet");
+        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
             let result = this->delete(key);
 
-            this->fire(this->eventType . ":afterSet");
+            this->fire(this->eventType . ":afterSet", key);
 
             return result;
         }
@@ -251,7 +251,7 @@ class Libmemcached extends AbstractAdapter
                          )
         ;
 
-        this->fire(this->eventType . ":afterSet");
+        this->fire(this->eventType . ":afterSet", key);
 
         return typeof result === "bool" ? result : false;
     }

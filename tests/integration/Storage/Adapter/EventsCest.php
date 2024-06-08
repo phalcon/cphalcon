@@ -13,6 +13,7 @@ namespace Phalcon\Tests\Integration\Storage\Adapter;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
@@ -60,9 +61,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeGet', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeGet',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -103,9 +109,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterGet', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterGet',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -146,9 +157,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeHas', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeHas',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -189,9 +205,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterHas', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterHas',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -232,9 +253,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeDelete', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeDelete',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -275,9 +301,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterDelete', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterDelete',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -318,9 +349,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeIncrement', function () use (&$counter) {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeIncrement',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -361,9 +397,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterIncrement', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterIncrement',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -404,9 +445,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeDecrement', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeDecrement',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -447,9 +493,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterDecrement', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterDecrement',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -490,9 +541,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:beforeSet', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:beforeSet',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 
@@ -533,9 +589,14 @@ class EventsCest
             )
         );
 
-        $manager->attach('storage:afterSet', function () use (&$counter): void {
-            $counter++;
-        });
+        $manager->attach(
+            'storage:afterSet',
+            static function (Event $event) use (&$counter, $example): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
+            }
+        );
 
         $adapter->setEventsManager($manager);
 

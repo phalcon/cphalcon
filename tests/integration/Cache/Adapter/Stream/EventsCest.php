@@ -14,6 +14,7 @@ namespace Phalcon\Tests\Integration\Cache\Adapter\Stream;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Storage\SerializerFactory;
 
@@ -88,8 +89,10 @@ class EventsCest
 
         $manager->attach(
             'cache:' . $example->offsetGet(0),
-            static function () use (&$counter): void {
+            static function (Event $event) use (&$counter, $example): void {
                 $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new \RuntimeException('wrong key');
             }
         );
 

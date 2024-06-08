@@ -73,8 +73,8 @@ class Weak extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        this->fire(this->eventType . ":beforeDecrement");
-        this->fire(this->eventType . ":afterDecrement");
+        this->fire(this->eventType . ":beforeDecrement", key);
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return false;
     }
@@ -90,17 +90,17 @@ class Weak extends AbstractAdapter
     {
         var exists;
 
-        this->fire(this->eventType . ":beforeDelete");
+        this->fire(this->eventType . ":beforeDelete", key);
 
         if key === this->fetching {
-            this->fire(this->eventType . ":afterDelete");
+            this->fire(this->eventType . ":afterDelete", key);
 
             return false;
         }
         let exists = isset this->weakList[key];
         unset(this->weakList[key]);
 
-        this->fire(this->eventType . ":afterDelete");
+        this->fire(this->eventType . ":afterDelete", key);
 
         return exists;
     }
@@ -139,8 +139,8 @@ class Weak extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        this->fire(this->eventType . ":beforeIncrement");
-        this->fire(this->eventType . ":afterIncrement");
+        this->fire(this->eventType . ":beforeIncrement", key);
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return false;
     }
@@ -157,7 +157,7 @@ class Weak extends AbstractAdapter
     {
         var value, wr;
 
-        this->fire(this->eventType . ":beforeGet");
+        this->fire(this->eventType . ":beforeGet", key);
 
         /**
          * while getting a key, garbage collection might be triggered,
@@ -169,7 +169,7 @@ class Weak extends AbstractAdapter
         if false === isset this->weakList[key] {
             let this->fetching = null;
 
-            this->fire(this->eventType . ":afterGet");
+            this->fire(this->eventType . ":afterGet", key);
 
             return defaultValue;
         }
@@ -183,7 +183,7 @@ class Weak extends AbstractAdapter
             this->delete(key);
         }
 
-        this->fire(this->eventType . ":afterGet");
+        this->fire(this->eventType . ":afterGet", key);
 
         return value;
     }
@@ -199,11 +199,11 @@ class Weak extends AbstractAdapter
     {
         var result;
 
-        this->fire(this->eventType . ":beforeHas");
+        this->fire(this->eventType . ":beforeHas", key);
 
         let result = isset this->weakList[key];
 
-        this->fire(this->eventType . ":afterHas");
+        this->fire(this->eventType . ":afterHas", key);
 
         return result;
     }
@@ -224,10 +224,10 @@ class Weak extends AbstractAdapter
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        this->fire(this->eventType . ":beforeSet");
+        this->fire(this->eventType . ":beforeSet", key);
 
         if typeof value !== "object" {
-            this->fire(this->eventType . ":afterSet");
+            this->fire(this->eventType . ":afterSet", key);
 
             return false;
         }
@@ -235,7 +235,7 @@ class Weak extends AbstractAdapter
             let this->weakList[key] = \WeakReference::create(value);
         }
 
-        this->fire(this->eventType . ":afterSet");
+        this->fire(this->eventType . ":afterSet", key);
 
         return true;
     }
