@@ -66,6 +66,10 @@ autom4te.cache/
 .zephir/
 .temp/
 
+# JetBrains IDE
+*.iml
+.idea/
+
 # Zephir compiler
 zephir.phar
 zephir-*.phar

@@ -2246,7 +2246,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a Volt source code returning a PHP plain version
      */
-    protected function compileSource(string! viewCode, bool extendsMode = false) -> string
+    protected function compileSource(string! viewCode, bool extendsMode = false) -> array | string
     {
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,

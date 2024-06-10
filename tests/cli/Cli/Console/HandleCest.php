@@ -495,6 +495,7 @@ class HandleCest
         $script = codecept_root_dir() . 'tests/testbed/cli.php ';
 
         ob_start();
+        // If we do not have install phalcon extension, this will run into an error without -d extension.
         $actual = shell_exec('sudo php -d extension=ext/modules/phalcon.so ' . $script . 'print');
         ob_end_clean();
 

@@ -100,8 +100,23 @@
     "test-db-mysql": "php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql",
     "test-db-pgsql": "php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql",
     "test-db-sqlite": "php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite",
-    "test-db": "composer test-db-common && composer test-db-mysql && composer test-db-sqlite",
-    "test-all": "composer test-unit && composer test-cli && composer test-integration && composer test-db",
-    "analyze": "php -d extension=ext/modules/phalcon.so ./vendor/bin/psalm --no-cache"
+    "test-db": [
+      "@test-db-common",
+      "@test-db-mysql",
+      "@test-db-sqlite"
+    ],
+    "test-all": [
+      "@test-unit",
+      "@test-cli",
+      "@test-integration",
+      "@test-db"
+    ],
+    "analyze": "php -d extension=ext/modules/phalcon.so ./vendor/bin/psalm --no-cache",
+    "clean-build-stubs": [
+      "./vendor/bin/zephir fullclean",
+      "Composer\\Config::disableProcessTimeout",
+      "./vendor/bin/zephir build",
+      "./vendor/bin/zephir stubs"
+    ]
   }
 }
