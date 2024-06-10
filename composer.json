@@ -102,6 +102,6 @@
     "test-db-sqlite": "php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite",
     "test-db": "composer test-db-common && composer test-db-mysql && composer test-db-sqlite",
     "test-all": "composer test-unit && composer test-cli && composer test-integration && composer test-db",
-    "analyze": "php -d extension=ext/modules/phalcon.so ./vendor/bin/psalm"
+    "analyze": "php -d extension=ext/modules/phalcon.so ./vendor/bin/psalm --no-cache"
   }
 }

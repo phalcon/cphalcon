@@ -18,7 +18,6 @@ use Phalcon\Storage\Exception;
 use Phalcon\Tests\Fixtures\Migrations\RollbackTestMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Fixtures\Traits\RecordsTrait;
-
 use PDOException;
 
 class RollbackOnExceptionCest
