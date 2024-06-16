@@ -752,7 +752,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function executeDelete(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
-        var models, modelName, model, records, connection, record;
+        var models, modelName, model, records, connection, record, exception;
 
         let models = intermediate["models"];
 
@@ -802,21 +802,27 @@ class Query implements QueryInterface, InjectionAwareInterface
         records->rewind();
 
         while records->valid() {
-            let record = records->current();
+            try {
+                let record = records->current();
 
-            /**
-             * We delete every record found
-             */
-            if !record->delete() {
                 /**
-                 * Rollback the transaction
+                 * We delete every record found
                  */
+                if !record->delete() {
+                    /**
+                     * Rollback the transaction
+                     */
+                    connection->rollback();
+
+                    return new Status(false, record);
+                }
+
+                records->next();
+            } catch \PDOException, exception {
                 connection->rollback();
 
-                return new Status(false, record);
+                throw exception;
             }
-
-            records->next();
         }
 
         /**
@@ -1356,7 +1362,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
-            number, field, records, exprValue, updateValue, wildcard, record;
+            number, field, records, exprValue, updateValue, wildcard, record,
+            exception;
 
         let models = intermediate["models"];
 
@@ -1486,25 +1493,30 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         records->rewind();
 
-        //for record in iterator(records) {
         while records->valid() {
-            let record = records->current();
+            try {
+                let record = records->current();
 
-            record->assign(updateValues);
+                record->assign(updateValues);
 
-            /**
-             * We apply the executed values to every record found
-             */
-            if !record->update() {
                 /**
-                 * Rollback the transaction on failure
+                 * We apply the executed values to every record found
                  */
+                if !record->update() {
+                    /**
+                     * Rollback the transaction on failure
+                     */
+                    connection->rollback();
+
+                    return new Status(false, record);
+                }
+
+                records->next();
+            } catch \PDOException, exception {
                 connection->rollback();
 
-                return new Status(false, record);
+                throw exception;
             }
-
-            records->next();
         }
 
         /**

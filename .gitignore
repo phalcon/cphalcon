@@ -59,6 +59,10 @@ autom4te.cache/
 /vendor
 /ide/
 
+# Jetbrains IDE
+.idea/
+*.iml
+
 .zephir/
 .temp/
 
