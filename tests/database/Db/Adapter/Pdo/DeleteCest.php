@@ -32,7 +32,7 @@ final class DeleteCest
      * Tests Phalcon\Db\Adapter\AbstractAdapter :: delete()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since 2021-05-10
+     * @since  2021-05-10
      *
      * @group  pgsql
      * @group  mysql

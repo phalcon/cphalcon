@@ -34,7 +34,7 @@ class ToStringCest
 
         $I->assertEquals(
             'example string',
-            (string) $rawValue
+            (string)$rawValue
         );
     }
 }

@@ -53,6 +53,6 @@ class GetExprArgumentsCest
             'arguments' => $expr,
         ]);
 
-        $I->assertEquals($annotation->getExprArguments(), $expr);
+        $I->assertSame($annotation->getExprArguments(), $expr);
     }
 }

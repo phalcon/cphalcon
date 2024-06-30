@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Column;
 use Phalcon\Tests\Fixtures\Migrations\ComplexDefaultMigration;
 use Phalcon\Tests\Fixtures\Migrations\DialectMigration;
@@ -50,6 +51,7 @@ class DescribeColumnsCest
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns() - supported');
 
+        /** @var Mysql $db */
         $db        = $this->container->get('db');
         $migration = new DialectMigration($I->getConnection());
         $columns   = $db->describeColumns($migration->getTable());
@@ -58,7 +60,7 @@ class DescribeColumnsCest
         $I->assertCount($expected, $columns);
 
         $expected = Column::class;
-        $actual = $columns[1];
+        $actual   = $columns[1];
         $I->assertInstanceOf($expected, $actual);
 
         foreach ($columns as $index => $column) {
@@ -67,8 +69,6 @@ class DescribeColumnsCest
 
             $I->assertEquals($expected, $actual);
         }
-
-        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -85,8 +85,8 @@ class DescribeColumnsCest
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns()');
 
-        $db  = $this->container->get('db');
-        $now = date('Y-m-d H:i:s');
+        $db        = $this->container->get('db');
+        $now       = date('Y-m-d H:i:s');
         $migration = new ComplexDefaultMigration($I->getConnection());
         $migration->insert(1, $now, $now);
 
@@ -110,8 +110,8 @@ class DescribeColumnsCest
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns() - CheckPostgres Default value');
 
-        $db  = $this->container->get('db');
-        $now = date('Y-m-d H:i:s');
+        $db        = $this->container->get('db');
+        $now       = date('Y-m-d H:i:s');
         $migration = new ComplexDefaultMigration($I->getConnection());
         $migration->insert(1, $now, $now);
 

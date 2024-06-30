@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
 use UnitTester;
 
@@ -42,18 +41,19 @@ class ValidCest
             $dataAnnotation1,
         ];
 
-        $collection  = new Collection($reflectionData);
-        $annotation  = new Annotation($dataAnnotation);
-        $annotation1 = new Annotation($dataAnnotation1);
+        $collection = new Collection($reflectionData);
 
-        $I->assertTrue($collection->valid());
-
-        $collection->next();
-
-        $I->assertTrue($collection->valid());
+        $actual = $collection->valid();
+        $I->assertTrue($actual);
 
         $collection->next();
 
-        $I->assertFalse($collection->valid());
+        $actual = $collection->valid();
+        $I->assertTrue($actual);
+
+        $collection->next();
+
+        $actual = $collection->valid();
+        $I->assertFalse($actual);
     }
 }

@@ -26,7 +26,8 @@ use UnitTester;
 class GetSetInternalEventsManagerCest
 {
     /**
-     * Unit Tests Phalcon\Di\Di :: getInternalEventsManager()/setInternalEventsManager()
+     * Unit Tests Phalcon\Di\Di ::
+     * getInternalEventsManager()/setInternalEventsManager()
      *
      * @param UnitTester $I
      *

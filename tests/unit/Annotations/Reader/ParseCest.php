@@ -99,175 +99,491 @@ class ParseCest
         $reader  = new Reader();
         $parsing = $reader->parse('TestClass');
 
-        $I->assertTrue(
-            isset($parsing['class'])
-        );
+        $actual = isset($parsing['class']);
+        $I->assertTrue($actual);
 
-        $I->assertCount(9, $parsing['class']);
+        $expected = 9;
+        $actual   = $parsing['class'];
+        $I->assertCount($expected, $actual);
 
         // Simple
-        $I->assertEquals('Simple', $parsing['class'][0]['name']);
-        $I->assertFalse(isset($parsing['class'][0]['arguments']));
+        $expected = 'Simple';
+        $actual   = $parsing['class'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $actual = isset($parsing['class'][0]['arguments']);
+        $I->assertFalse($actual);
 
         // Single Param
-        $I->assertEquals('SingleParam', $parsing['class'][1]['name']);
-        $I->assertTrue(isset($parsing['class'][1]['arguments']));
-        $I->assertCount(1, $parsing['class'][1]['arguments']);
-        $I->assertEquals('Param', $parsing['class'][1]['arguments'][0]['expr']['value']);
+        $expected = 'SingleParam';
+        $actual   = $parsing['class'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $actual = isset($parsing['class'][1]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 1;
+        $actual   = $parsing['class'][1]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Param';
+        $actual   = $parsing['class'][1]['arguments'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
 
         // Multiple Params
-        $I->assertEquals('MultipleParams', $parsing['class'][2]['name']);
-        $I->assertTrue(isset($parsing['class'][2]['arguments']));
-        $I->assertCount(8, $parsing['class'][2]['arguments']);
-        $I->assertEquals('First', $parsing['class'][2]['arguments'][0]['expr']['value']);
-        $I->assertEquals('Second', $parsing['class'][2]['arguments'][1]['expr']['value']);
-        $I->assertEquals('1', $parsing['class'][2]['arguments'][2]['expr']['value']);
-        $I->assertEquals('1.1', $parsing['class'][2]['arguments'][3]['expr']['value']);
-        $I->assertEquals('-10', $parsing['class'][2]['arguments'][4]['expr']['value']);
-        $I->assertEquals(305, $parsing['class'][2]['arguments'][5]['expr']['type']);
-        $I->assertEquals(306, $parsing['class'][2]['arguments'][6]['expr']['type']);
-        $I->assertEquals(304, $parsing['class'][2]['arguments'][7]['expr']['type']);
+        $expected = 8;
+        $actual   = $parsing['class'][2]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][2]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['class'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'First';
+        $actual   = $parsing['class'][2]['arguments'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'Second';
+        $actual   = $parsing['class'][2]['arguments'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = '1';
+        $actual   = $parsing['class'][2]['arguments'][2]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = '1.1';
+        $actual   = $parsing['class'][2]['arguments'][3]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = '-10';
+        $actual   = $parsing['class'][2]['arguments'][4]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 305;
+        $actual   = $parsing['class'][2]['arguments'][5]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 306;
+        $actual   = $parsing['class'][2]['arguments'][6]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 304;
+        $actual   = $parsing['class'][2]['arguments'][7]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
 
         // Single Array Param
-        $I->assertEquals('Params', $parsing['class'][3]['name']);
-        $I->assertTrue(isset($parsing['class'][3]['arguments']));
-        $I->assertCount(1, $parsing['class'][3]['arguments']);
-        $I->assertEquals(308, $parsing['class'][3]['arguments'][0]['expr']['type']);
-        $I->assertCount(3, $parsing['class'][3]['arguments'][0]['expr']['items']);
-        $I->assertEquals('key1', $parsing['class'][3]['arguments'][0]['expr']['items'][0]['expr']['value']);
-        $I->assertEquals('key2', $parsing['class'][3]['arguments'][0]['expr']['items'][1]['expr']['value']);
-        $I->assertEquals('key3', $parsing['class'][3]['arguments'][0]['expr']['items'][2]['expr']['value']);
+        $expected = 1;
+        $actual   = $parsing['class'][3]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 3;
+        $actual   = $parsing['class'][3]['arguments'][0]['expr']['items'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][3]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'Params';
+        $actual   = $parsing['class'][3]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 308;
+        $actual   = $parsing['class'][3]['arguments'][0]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key1';
+        $actual   = $parsing['class'][3]['arguments'][0]['expr']['items'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key2';
+        $actual   = $parsing['class'][3]['arguments'][0]['expr']['items'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key3';
+        $actual   = $parsing['class'][3]['arguments'][0]['expr']['items'][2]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
 
         // Hash Params
-        $I->assertEquals('HashParams', $parsing['class'][4]['name']);
-        $I->assertTrue(isset($parsing['class'][4]['arguments']));
-        $I->assertCount(1, $parsing['class'][8]['arguments']);
-        $I->assertEquals(308, $parsing['class'][4]['arguments'][0]['expr']['type']);
-        $I->assertCount(3, $parsing['class'][4]['arguments'][0]['expr']['items']);
-        $I->assertEquals('key1', $parsing['class'][4]['arguments'][0]['expr']['items'][0]['name']);
-        $I->assertEquals('value', $parsing['class'][4]['arguments'][0]['expr']['items'][0]['expr']['value']);
-        $I->assertEquals('key2', $parsing['class'][4]['arguments'][0]['expr']['items'][1]['name']);
-        $I->assertEquals('value', $parsing['class'][4]['arguments'][0]['expr']['items'][1]['expr']['value']);
-        $I->assertEquals('key3', $parsing['class'][4]['arguments'][0]['expr']['items'][2]['name']);
-        $I->assertEquals('value', $parsing['class'][4]['arguments'][0]['expr']['items'][2]['expr']['value']);
+        $expected = 1;
+        $actual   = $parsing['class'][8]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 3;
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][4]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'HashParams';
+        $actual   = $parsing['class'][4]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 308;
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key1';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key2';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key3';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][4]['arguments'][0]['expr']['items'][2]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
 
         // Named Params
-        $I->assertEquals('NamedParams', $parsing['class'][5]['name']);
-        $I->assertTrue(isset($parsing['class'][5]['arguments']));
-        $I->assertCount(2, $parsing['class'][5]['arguments']);
-        $I->assertEquals('second', $parsing['class'][5]['arguments'][1]['name']);
-        $I->assertEquals('other', $parsing['class'][5]['arguments'][1]['expr']['value']);
-        $I->assertEquals('second', $parsing['class'][5]['arguments'][1]['name']);
-        $I->assertEquals('other', $parsing['class'][5]['arguments'][1]['expr']['value']);
+        $expected = 2;
+        $actual   = $parsing['class'][5]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][5]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'NamedParams';
+        $actual   = $parsing['class'][5]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'second';
+        $actual   = $parsing['class'][5]['arguments'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'other';
+        $actual   = $parsing['class'][5]['arguments'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'second';
+        $actual   = $parsing['class'][5]['arguments'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'other';
+        $actual   = $parsing['class'][5]['arguments'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
 
         // Alternative Named Params
-        $I->assertEquals('AlternativeNamedParams', $parsing['class'][6]['name']);
-        $I->assertTrue(isset($parsing['class'][6]['arguments']));
-        $I->assertCount(2, $parsing['class'][6]['arguments']);
-        $I->assertEquals('second', $parsing['class'][6]['arguments'][1]['name']);
-        $I->assertEquals('other', $parsing['class'][6]['arguments'][1]['expr']['value']);
-        $I->assertEquals('second', $parsing['class'][6]['arguments'][1]['name']);
-        $I->assertEquals('other', $parsing['class'][6]['arguments'][1]['expr']['value']);
+        $expected = 2;
+        $actual   = $parsing['class'][6]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][6]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'AlternativeNamedParams';
+        $actual   = $parsing['class'][6]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'second';
+        $actual   = $parsing['class'][6]['arguments'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'other';
+        $actual   = $parsing['class'][6]['arguments'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'second';
+        $actual   = $parsing['class'][6]['arguments'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'other';
+        $actual   = $parsing['class'][6]['arguments'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
 
         // Alternative Hash Params
-        $I->assertEquals('AlternativeHashParams', $parsing['class'][7]['name']);
-        $I->assertTrue(isset($parsing['class'][7]['arguments']));
-        $I->assertCount(1, $parsing['class'][7]['arguments']);
-        $I->assertEquals(308, $parsing['class'][7]['arguments'][0]['expr']['type']);
-        $I->assertCount(3, $parsing['class'][7]['arguments'][0]['expr']['items']);
-        $I->assertEquals('key1', $parsing['class'][7]['arguments'][0]['expr']['items'][0]['name']);
-        $I->assertEquals('value', $parsing['class'][7]['arguments'][0]['expr']['items'][0]['expr']['value']);
-        $I->assertEquals('key2', $parsing['class'][7]['arguments'][0]['expr']['items'][1]['name']);
-        $I->assertEquals('value', $parsing['class'][7]['arguments'][0]['expr']['items'][1]['expr']['value']);
-        $I->assertEquals('key3', $parsing['class'][7]['arguments'][0]['expr']['items'][2]['name']);
-        $I->assertEquals('value', $parsing['class'][7]['arguments'][0]['expr']['items'][2]['expr']['value']);
+        $expected = 1;
+        $actual   = $parsing['class'][7]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 3;
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][7]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'AlternativeHashParams';
+        $actual   = $parsing['class'][7]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 308;
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key1';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key2';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key3';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][7]['arguments'][0]['expr']['items'][2]['expr']['value'];
+        $I->assertSame($expected, $actual);
 
         // Recursive Hash
-        $I->assertEquals('RecursiveHash', $parsing['class'][8]['name']);
-        $I->assertTrue(isset($parsing['class'][8]['arguments']));
-        $I->assertCount(1, $parsing['class'][8]['arguments']);
-        $I->assertEquals(308, $parsing['class'][8]['arguments'][0]['expr']['type']);
-        $I->assertCount(3, $parsing['class'][8]['arguments'][0]['expr']['items']);
-        $I->assertEquals('key1', $parsing['class'][8]['arguments'][0]['expr']['items'][0]['name']);
-        $I->assertEquals('value', $parsing['class'][8]['arguments'][0]['expr']['items'][0]['expr']['value']);
-        $I->assertEquals('key2', $parsing['class'][8]['arguments'][0]['expr']['items'][1]['name']);
-        $I->assertEquals('value', $parsing['class'][8]['arguments'][0]['expr']['items'][1]['expr']['value']);
-        $I->assertEquals('key3', $parsing['class'][8]['arguments'][0]['expr']['items'][2]['name']);
-        $I->assertEquals(308, $parsing['class'][8]['arguments'][0]['expr']['items'][2]['expr']['type']);
+        $expected = 1;
+        $actual   = $parsing['class'][8]['arguments'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 3;
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['class'][8]['arguments']);
+        $I->assertTrue($actual);
+
+        $expected = 'RecursiveHash';
+        $actual   = $parsing['class'][8]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 308;
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key1';
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][0]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key2';
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'value';
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][1]['expr']['value'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'key3';
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 308;
+        $actual   = $parsing['class'][8]['arguments'][0]['expr']['items'][2]['expr']['type'];
+        $I->assertSame($expected, $actual);
+
 
         // Constants
-        $I->assertTrue(isset($parsing['constants']));
-        $I->assertCount(1, $parsing['constants']);
-        $I->assertFalse(isset($parsing['constants']['TEST_CONST2']));
-        $I->assertEquals('Simple', $parsing['constants']['TEST_CONST1'][0]['name']);
+        $expected = 1;
+        $actual   = $parsing['constants'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['constants']);
+        $I->assertTrue($actual);
+
+        $actual = isset($parsing['constants']['TEST_CONST2']);
+        $I->assertFalse($actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['constants']['TEST_CONST1'][0]['name'];
+        $I->assertSame($expected, $actual);
 
         // Properties
-        $I->assertTrue(isset($parsing['properties']));
-        $I->assertCount(3, $parsing['properties']);
+        $expected = 3;
+        $actual   = $parsing['properties'];
+        $I->assertCount($expected, $actual);
 
-        // Multiple well ordered annotations
-        $I->assertTrue(isset($parsing['properties']['testProp1']));
-        $I->assertCount(4, $parsing['properties']['testProp1']);
-        $I->assertEquals('var', $parsing['properties']['testProp1'][0]['name']);
-        $I->assertEquals('Simple', $parsing['properties']['testProp1'][1]['name']);
-        $I->assertEquals('SingleParam', $parsing['properties']['testProp1'][2]['name']);
-        $I->assertEquals('MultipleParams', $parsing['properties']['testProp1'][3]['name']);
+        $actual = isset($parsing['properties']);
+        $I->assertTrue($actual);
+
+        // Multiple well-ordered annotations
+        $expected = 4;
+        $actual   = $parsing['properties']['testProp1'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['properties']['testProp1']);
+        $I->assertTrue($actual);
+
+        $expected = 'var';
+        $actual   = $parsing['properties']['testProp1'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['properties']['testProp1'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['properties']['testProp1'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['properties']['testProp1'][3]['name'];
+        $I->assertSame($expected, $actual);
 
         // Comment without content
-        $I->assertFalse(isset($parsing['properties']['testProp2']));
+        $actual = isset($parsing['properties']['testProp2']);
+        $I->assertFalse($actual);
 
         // Same line annotations
-        $I->assertCount(3, $parsing['properties']['testProp3']);
-        $I->assertEquals('Simple', $parsing['properties']['testProp3'][0]['name']);
-        $I->assertEquals('SingleParam', $parsing['properties']['testProp3'][1]['name']);
-        $I->assertEquals('MultipleParams', $parsing['properties']['testProp3'][2]['name']);
+        $expected = 3;
+        $actual   = $parsing['properties']['testProp3'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['properties']['testProp3'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['properties']['testProp3'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['properties']['testProp3'][2]['name'];
+        $I->assertSame($expected, $actual);
 
         // Same line annotations
-        $I->assertCount(3, $parsing['properties']['testProp4']);
-        $I->assertEquals('Simple', $parsing['properties']['testProp4'][0]['name']);
-        $I->assertEquals('SingleParam', $parsing['properties']['testProp4'][1]['name']);
-        $I->assertEquals('MultipleParams', $parsing['properties']['testProp4'][2]['name']);
+        $expected = 3;
+        $actual   = $parsing['properties']['testProp4'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['properties']['testProp4'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['properties']['testProp4'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['properties']['testProp4'][2]['name'];
+        $I->assertSame($expected, $actual);
+
 
         // No docblock
-        $I->assertFalse(isset($parsing['properties']['testMethod5']));
+        $actual = isset($parsing['properties']['testMethod5']);
+        $I->assertFalse($actual);
 
         // No annotations
-        $I->assertFalse(isset($parsing['properties']['testMethod6']));
+        $actual = isset($parsing['properties']['testMethod6']);
+        $I->assertFalse($actual);
 
         // Properties
-        $I->assertTrue(isset($parsing['methods']));
-        $I->assertCount(4, $parsing['methods']);
+        $expected = 4;
+        $actual   = $parsing['methods'];
+        $I->assertCount($expected, $actual);
 
-        // Multiple well ordered annotations
-        $I->assertTrue(isset($parsing['methods']['testMethod1']));
-        $I->assertCount(5, $parsing['methods']['testMethod1']);
-        $I->assertEquals('return', $parsing['methods']['testMethod1'][0]['name']);
-        $I->assertEquals('Simple', $parsing['methods']['testMethod1'][1]['name']);
-        $I->assertEquals('SingleParam', $parsing['methods']['testMethod1'][2]['name']);
-        $I->assertEquals('MultipleParams', $parsing['methods']['testMethod1'][3]['name']);
-        $I->assertEquals('NamedMultipleParams', $parsing['methods']['testMethod1'][4]['name']);
+        $actual = isset($parsing['methods']);
+        $I->assertTrue($actual);
+
+        // Multiple well-ordered annotations
+        $expected = 5;
+        $actual   = $parsing['methods']['testMethod1'];
+        $I->assertCount($expected, $actual);
+
+        $actual = isset($parsing['methods']['testMethod1']);
+        $I->assertTrue($actual);
+
+        $expected = 'return';
+        $actual   = $parsing['methods']['testMethod1'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['methods']['testMethod1'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['methods']['testMethod1'][2]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['methods']['testMethod1'][3]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'NamedMultipleParams';
+        $actual   = $parsing['methods']['testMethod1'][4]['name'];
+        $I->assertSame($expected, $actual);
 
         // Comment without content
-        $I->assertFalse(
-            isset($parsing['methods']['testMethod2'])
-        );
+        $actual = isset($parsing['methods']['testMethod2']);
+        $I->assertFalse($actual);
 
         // Same line annotations
-        $I->assertCount(3, $parsing['methods']['testMethod3']);
-        $I->assertEquals('Simple', $parsing['methods']['testMethod3'][0]['name']);
-        $I->assertEquals('SingleParam', $parsing['methods']['testMethod3'][1]['name']);
-        $I->assertEquals('MultipleParams', $parsing['methods']['testMethod3'][2]['name']);
+        $expected = 3;
+        $actual   = $parsing['methods']['testMethod3'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['methods']['testMethod3'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['methods']['testMethod3'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['methods']['testMethod3'][2]['name'];
+        $I->assertSame($expected, $actual);
 
         // Unordered annotations
-        $I->assertCount(3, $parsing['methods']['testMethod4']);
-        $I->assertEquals('Simple', $parsing['methods']['testMethod4'][0]['name']);
-        $I->assertEquals('SingleParam', $parsing['methods']['testMethod4'][1]['name']);
-        $I->assertEquals('MultipleParams', $parsing['methods']['testMethod4'][2]['name']);
+        $expected = 3;
+        $actual   = $parsing['methods']['testMethod4'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['methods']['testMethod4'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['methods']['testMethod4'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['methods']['testMethod4'][2]['name'];
+        $I->assertSame($expected, $actual);
+
 
         // Unordered annotations + extra content
-        $I->assertCount(3, $parsing['methods']['testMethod5']);
-        $I->assertEquals('Simple', $parsing['methods']['testMethod5'][0]['name']);
-        $I->assertEquals('SingleParam', $parsing['methods']['testMethod5'][1]['name']);
-        $I->assertEquals('MultipleParams', $parsing['methods']['testMethod5'][2]['name']);
+        $expected = 3;
+        $actual   = $parsing['methods']['testMethod5'];
+        $I->assertCount($expected, $actual);
+
+        $expected = 'Simple';
+        $actual   = $parsing['methods']['testMethod5'][0]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'SingleParam';
+        $actual   = $parsing['methods']['testMethod5'][1]['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = 'MultipleParams';
+        $actual   = $parsing['methods']['testMethod5'][2]['name'];
+        $I->assertSame($expected, $actual);
     }
 }

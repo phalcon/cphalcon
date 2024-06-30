@@ -30,10 +30,9 @@ class ConstructCest
 
         $collection = new Collection();
 
-        $I->assertInstanceOf(
-            Collection::class,
-            $collection
-        );
+        $expected = Collection::class;
+        $actual   = $collection;
+        $I->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -55,9 +54,8 @@ class ConstructCest
             ]
         );
 
-        $I->assertInstanceOf(
-            Collection::class,
-            $collection
-        );
+        $expected = Collection::class;
+        $actual   = $collection;
+        $I->assertInstanceOf($expected, $actual);
     }
 }

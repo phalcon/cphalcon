@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Attributes;
 
 use Phalcon\Html\Attributes;
+use Phalcon\Html\Exception;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -48,6 +49,33 @@ class ToStringCest
         $I->assertSame(
             'type="text" name="q" value="" class="form-control" ',
             (string)$attributes
+        );
+    }
+
+    /**
+     * Tests Phalcon\Html\Attributes :: __toString() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-09-26
+     */
+    public function htmlAttributesToStringException(UnitTester $I)
+    {
+        $I->wantToTest('Html\Attributes - __toString() - exception');
+
+        $I->expectThrowable(
+            new Exception(
+                'Value at index: "value" type: "array" cannot be rendered'
+            ),
+            function () {
+                $attributes = new Attributes(
+                    [
+                        'name'  => 'q',
+                        'value' => ['one' => 'two'],
+                    ]
+                );
+
+                (string)$attributes;
+            }
         );
     }
 }

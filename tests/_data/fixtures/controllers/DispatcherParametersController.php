@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Controllers;
 
+use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Dispatcher;
 
-class DispatcherParametersController
+class DispatcherParametersController extends Controller
 {
     public function afterExecuteRoute(Dispatcher $dispatcher)
     {

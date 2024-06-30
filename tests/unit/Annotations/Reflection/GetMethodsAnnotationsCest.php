@@ -40,12 +40,9 @@ class GetMethodsAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertIsArray(
-            $reflection->getMethodsAnnotations()
-        );
-        $I->assertIsEmpty(
-            $reflection->getMethodsAnnotations()
-        );
+        $actual = $reflection->getMethodsAnnotations();
+        $I->assertIsArray($actual);
+        $I->assertIsEmpty($actual);
     }
 
     /**
@@ -65,21 +62,24 @@ class GetMethodsAnnotationsCest
         );
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
-
         $I->assertIsArray($methodsAnnotations);
 
         $number = 0;
 
         foreach ($methodsAnnotations as $annotation) {
-            $I->assertInstanceOf(
-                Collection::class,
-                $annotation
-            );
+            $expected = Collection::class;
+            $actual   = $annotation;
+            $I->assertInstanceOf($expected, $actual);
 
             $number++;
         }
 
-        $I->assertEquals(4, $number);
-        $I->assertCount(4, $methodsAnnotations);
+        $expected = 4;
+        $actual   = $number;
+        $I->assertSame($expected, $actual);
+
+        $expected = 4;
+        $actual   = $methodsAnnotations;
+        $I->assertCount($expected, $actual);
     }
 }

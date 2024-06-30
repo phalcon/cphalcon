@@ -96,12 +96,12 @@ class GetNamedParameterCest
             $name1 => $value1,
         ];
 
-        $I->assertEquals($annotation->getNamedParameter($exprName), $result);
+        $I->assertSame($annotation->getNamedParameter($exprName), $result);
 
         $result1 = [
             $name2 => $value2,
         ];
 
-        $I->assertEquals($annotation->getNamedParameter($exprName1), $result1);
+        $I->assertSame($annotation->getNamedParameter($exprName1), $result1);
     }
 }

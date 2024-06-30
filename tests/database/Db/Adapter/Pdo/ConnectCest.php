@@ -50,7 +50,7 @@ class ConnectCest
     {
         $I->wantToTest('Db\Adapter\Pdo - connect() - supported');
 
-        $options = getOptionsMysql();
+        $options               = getOptionsMysql();
         $options['persistent'] = true;
         $options['options']    = [
             PDO::ATTR_EMULATE_PREPARES  => false,

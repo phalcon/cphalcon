@@ -15,6 +15,8 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Meta;
 use UnitTester;
 
+use const PHP_EOL;
+
 /**
  * Class ToStringCest
  *
@@ -41,5 +43,43 @@ class ToStringCest
 
         $actual = (string)$result;
         $I->assertEmpty($actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Helper\Meta :: __toString() - retains value
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-09-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/16441
+     */
+    public function htmlHelperMetaToStringRetainsValue(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Meta - __toString() - retains value');
+
+        $escaper = new Escaper();
+        $meta    = new Meta($escaper);
+        $meta
+            ->addName('robots', 'index, nofollow')
+            ->addName('author', 'Me')
+        ;
+
+        $expected = '    <meta name="robots" content="index, nofollow">'
+            . PHP_EOL
+            . '    <meta name="author" content="Me">'
+            . PHP_EOL;
+        $actual   = (string)$meta;
+        $I->assertSame($expected, $actual);
+
+        $meta = new Meta($escaper);
+        $meta->addName('robots', 'index, nofollow');
+
+        $expected = '    <meta name="robots" content="index, nofollow">'
+            . PHP_EOL
+            . '    <meta name="author" content="Me">'
+            . PHP_EOL;
+        $actual   = (string)$meta->addName('author', 'Me');
+        $I->assertSame($expected, $actual);
     }
 }

@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Http\Cookie\CookieInterface;
+use Phalcon\Tests\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class ConstructCest
-{
-    use DiTrait;
+use function uniqid;
 
+class ConstructCest extends HttpBase
+{
     /**
      * Tests Phalcon\Http\Cookie :: __construct()
      *
@@ -31,11 +32,12 @@ class ConstructCest
     {
         $I->wantToTest('Http\Cookie - __construct()');
 
-        $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
 
-        $cookie = new Cookie('test');
-        $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
+        $name   = uniqid('nam-');
+        $cookie = new Cookie($name);
+
+        $I->assertInstanceOf(CookieInterface::class, $cookie);
         $I->assertInstanceOf(Cookie::class, $cookie);
     }
 }

@@ -39,9 +39,8 @@ class GetClassAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertNull(
-            $reflection->getClassAnnotations()
-        );
+        $actual = $reflection->getClassAnnotations();
+        $I->assertNull($actual);
     }
 
     /**
@@ -60,23 +59,26 @@ class GetClassAnnotationsCest
 
         $classAnnotations = $reflection->getClassAnnotations();
 
-        $I->assertInstanceOf(
-            Collection::class,
-            $classAnnotations
-        );
+        $expected = Collection::class;
+        $actual   = $classAnnotations;
+        $I->assertInstanceOf($expected, $actual);
 
         $number = 0;
 
         foreach ($classAnnotations as $annotation) {
-            $I->assertInstanceOf(
-                Annotation::class,
-                $annotation
-            );
+            $expected = Annotation::class;
+            $actual   = $annotation;
+            $I->assertInstanceOf($expected, $actual);
 
             $number++;
         }
 
-        $I->assertEquals(9, $number);
-        $I->assertCount(9, $classAnnotations);
+        $expected = 9;
+        $actual   = $number;
+        $I->assertSame($expected, $actual);
+
+        $expected = 9;
+        $actual   = $classAnnotations;
+        $I->assertCount($expected, $actual);
     }
 }

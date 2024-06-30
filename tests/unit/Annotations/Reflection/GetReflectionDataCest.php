@@ -30,7 +30,8 @@ class GetReflectionDataCest
 
         $reflection = new Reflection();
 
-        $I->assertIsArray($reflection->getReflectionData());
-        $I->assertIsEmpty($reflection->getReflectionData());
+        $actual = $reflection->getReflectionData();
+        $I->assertIsArray($actual);
+        $I->assertIsEmpty($actual);
     }
 }

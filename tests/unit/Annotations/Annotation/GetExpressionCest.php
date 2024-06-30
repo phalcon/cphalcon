@@ -57,7 +57,7 @@ class GetExpressionCest
             'arguments' => $expr,
         ]);
 
-        $I->assertEquals($annotation->GetExpression($oneExpr), $value);
-        $I->assertEquals($annotation->GetExpression($twoExpr), $value1);
+        $I->assertSame($annotation->GetExpression($oneExpr), $value);
+        $I->assertSame($annotation->GetExpression($twoExpr), $value1);
     }
 }

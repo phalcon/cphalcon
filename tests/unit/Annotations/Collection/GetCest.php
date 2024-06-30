@@ -46,11 +46,13 @@ class GetCest
         $collection = new Collection($reflectionData);
         $annotation = new Annotation($dataAnnotation1);
 
-        $I->assertEquals($annotation, $collection->get('Phalconatation'));
+        $expected = $annotation;
+        $actual   = $collection->get('Phalconatation');
+        $I->assertEquals($expected, $actual);
 
         //Check what happens if collection doesn't find an annotation
         $I->expectThrowable(
-            new Exception('Collection doesn\'t have an annotation called \'NoExist\''),
+            new Exception("Collection does not have an annotation called 'NoExist'"),
             function () {
                 $collection = new Collection();
                 $collection->get('NoExist');

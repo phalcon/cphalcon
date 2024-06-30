@@ -51,6 +51,6 @@ class NumberArgumentsCest
             ],
         ]);
 
-        $I->assertEquals($annotation->numberArguments(), 2);
+        $I->assertSame($annotation->numberArguments(), 2);
     }
 }

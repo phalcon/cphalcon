@@ -67,7 +67,7 @@ class ExecInsertCest
 
         $connection = $I->getConnection();
         $migration  = new DialectMigration($connection);
-        $sql    = <<<SQL
+        $sql        = <<<SQL
 insert into co_dialect (
     field_primary,
     field_blob,
@@ -122,7 +122,7 @@ insert into co_dialect (
     ?
 )
 SQL;
-        $values        = [
+        $values     = [
             10,                          // field_primary,
             'abcdefgh',                  // field_blob,
             'bin',                       // field_binary,
@@ -149,7 +149,7 @@ SQL;
             'vbin',                      // field_varbinary,
             'abcdef',                    // field_varchar
         ];
-        $types        = [
+        $types      = [
             Column::BIND_PARAM_INT,      // field_primary,
             Column::BIND_PARAM_BLOB,     // field_blob,
             Column::BIND_PARAM_BLOB,     // field_binary,

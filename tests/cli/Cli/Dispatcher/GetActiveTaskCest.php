@@ -38,7 +38,7 @@ class GetActiveTaskCest
         $dispatcher->setTaskName("main");
         $dispatcher->dispatch();
 
-        $class = MainTask::class;
+        $class  = MainTask::class;
         $actual = $dispatcher->getActiveTask();
         $I->assertInstanceOf($class, $actual);
     }

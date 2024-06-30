@@ -39,6 +39,8 @@ class CountCest
 
         $collection = new Collection($reflectionData);
 
-        $I->assertEquals(count($reflectionData), $collection->count());
+        $expected = count($reflectionData);
+        $actual   = $collection->count();
+        $I->assertSame($expected, $actual);
     }
 }

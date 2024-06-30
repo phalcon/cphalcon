@@ -59,7 +59,9 @@ class GetAnnotationsCest
             $annotation2,
         ];
 
-        //Need to find two annotations with the name NovAnnotation
-        $I->assertEquals($resultAnnotation, $collection->getAnnotations());
+        // Need to find two annotations with the name NovAnnotation
+        $expected = $resultAnnotation;
+        $actual   = $collection->getAnnotations();
+        $I->assertEquals($expected, $actual);
     }
 }

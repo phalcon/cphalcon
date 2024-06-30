@@ -51,6 +51,6 @@ class GetArgumentsCest
             ],
         ]);
 
-        $I->assertEquals([$value, $value1], $annotation->getArguments());
+        $I->assertSame([$value, $value1], $annotation->getArguments());
     }
 }

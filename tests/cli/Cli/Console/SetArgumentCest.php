@@ -111,7 +111,7 @@ class SetArgumentCest
 
         $expected = [
             'country' => 'usa',
-            'last' => true,
+            'last'    => true,
         ];
         $actual   = $dispatcher->getOptions();
         $I->assertSame($expected, $actual);

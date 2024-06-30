@@ -96,12 +96,12 @@ class GetNamedArgumentCest
             $name1 => $value1,
         ];
 
-        $I->assertEquals($annotation->getNamedArgument($exprName), $result);
+        $I->assertSame($annotation->getNamedArgument($exprName), $result);
 
         $result1 = [
             $name2 => $value2,
         ];
 
-        $I->assertEquals($annotation->getNamedArgument($exprName1), $result1);
+        $I->assertSame($annotation->getNamedArgument($exprName1), $result1);
     }
 }

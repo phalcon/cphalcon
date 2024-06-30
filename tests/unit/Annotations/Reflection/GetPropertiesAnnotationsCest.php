@@ -40,12 +40,9 @@ class GetPropertiesAnnotationsCest
     {
         $reflection = new Reflection();
 
-        $I->assertIsArray(
-            $reflection->getPropertiesAnnotations()
-        );
-        $I->assertIsEmpty(
-            $reflection->getPropertiesAnnotations()
-        );
+        $actual = $reflection->getPropertiesAnnotations();
+        $I->assertIsArray($actual);
+        $I->assertIsEmpty($actual);
     }
 
     /**
@@ -71,15 +68,19 @@ class GetPropertiesAnnotationsCest
         $number = 0;
 
         foreach ($propertiesAnnotations as $annotation) {
-            $I->assertInstanceOf(
-                Collection::class,
-                $annotation
-            );
+            $expected = Collection::class;
+            $actual   = $annotation;
+            $I->assertInstanceOf($expected, $actual);
 
             $number++;
         }
 
-        $I->assertEquals(3, $number);
-        $I->assertCount(3, $propertiesAnnotations);
+        $expected = 3;
+        $actual   = $number;
+        $I->assertSame($expected, $actual);
+
+        $expected = 3;
+        $actual   = $propertiesAnnotations;
+        $I->assertCount($expected, $actual);
     }
 }

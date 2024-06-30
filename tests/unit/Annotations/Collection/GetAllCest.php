@@ -57,10 +57,13 @@ class GetAllCest
             $annotation2,
         ];
 
-        //Check the result if the annotation doesn't exist
-        $I->assertEmpty($collection->getAll('Phalconatation'));
+        // Check the result if the annotation doesn't exist
+        $actual = $collection->getAll('Phalconatation');
+        $I->assertEmpty($actual);
 
-        //Need to find two annotations with the name NovAnnotation
-        $I->assertEquals($resultAnnotation, $collection->getAll('NovAnnotation'));
+        // Need to find two annotations with the name NovAnnotation
+        $expected = $resultAnnotation;
+        $actual   = $collection->getAll('NovAnnotation');
+        $I->assertEquals($expected, $actual);
     }
 }

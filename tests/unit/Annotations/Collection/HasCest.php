@@ -43,8 +43,10 @@ class HasCest
 
         $collection = new Collection($reflectionData);
 
-        $I->assertTrue($collection->has('Phalconatation'));
+        $actual = $collection->has('Phalconatation');
+        $I->assertTrue($actual);
 
-        $I->assertFalse($collection->has('Phalcony'));
+        $actual = $collection->has('Phalcony');
+        $I->assertFalse($actual);
     }
 }

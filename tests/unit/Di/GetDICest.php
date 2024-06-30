@@ -25,9 +25,9 @@ final class GetDICest
     /**
      * Unit Tests Phalcon\Di\Injectable :: getDI()
      *
-     * Test when an Injectable object has no DI set and a call has been made to getDI(),
-     * should set the container property.
-     * It's tested with the Controller class
+     * Test when an Injectable object has no DI set and a call has been made to
+     * getDI(), should set the container property. It's tested with the
+     * Controller class
      *
      * @throws ReflectionException
      * @since  2020-08-13

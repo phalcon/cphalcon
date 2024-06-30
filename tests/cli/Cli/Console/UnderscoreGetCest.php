@@ -36,7 +36,7 @@ class UnderscoreGetCest
         $container = new DiFactoryDefault();
         $console   = new CliConsole($container);
 
-        $class = Dispatcher::class;
+        $class  = Dispatcher::class;
         $actual = $console->dispatcher;
         $I->assertInstanceOf($class, $actual);
 

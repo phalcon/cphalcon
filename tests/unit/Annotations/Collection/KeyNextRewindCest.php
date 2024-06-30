@@ -46,20 +46,32 @@ class KeyNextRewindCest
         $annotation  = new Annotation($dataAnnotation);
         $annotation1 = new Annotation($dataAnnotation1);
 
-        $I->assertEquals(0, $collection->key());
+        $expected = 0;
+        $actual   = $collection->key();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals($annotation, $collection->current());
+        $expected = $annotation;
+        $actual   = $collection->current();
+        $I->assertEquals($expected, $actual);
 
         $collection->next();
 
-        $I->assertEquals(1, $collection->key());
+        $expected = 1;
+        $actual   = $collection->key();
 
-        $I->assertEquals($annotation1, $collection->current());
+        $I->assertSame($expected, $actual);
+        $expected = $annotation1;
+        $actual   = $collection->current();
+        $I->assertEquals($expected, $actual);
 
         $collection->rewind();
 
-        $I->assertEquals(0, $collection->key());
+        $expected = 0;
+        $actual   = $collection->key();
+        $I->assertSame($expected, $actual);
 
-        $I->assertEquals($annotation, $collection->current());
+        $expected = $annotation;
+        $actual   = $collection->current();
+        $I->assertEquals($expected, $actual);
     }
 }
