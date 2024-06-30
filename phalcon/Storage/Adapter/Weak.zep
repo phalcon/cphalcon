@@ -26,7 +26,7 @@ class Weak extends AbstractAdapter
     /**
      *
      *
-     * @var int|null
+     * @var string|null
      */
     protected fetching = null;
 

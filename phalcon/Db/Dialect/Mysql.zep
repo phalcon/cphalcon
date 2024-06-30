@@ -49,9 +49,14 @@ class Mysql extends Dialect
 
         if column->hasDefault() {
             let defaultValue = column->getDefault();
-            let upperDefaultValue = strtoupper(defaultValue);
+            let upperDefaultValue = is_string(defaultValue) ? strtoupper(defaultValue) : defaultValue;
 
-            if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+            if (
+                    memstr((string) upperDefaultValue, "CURRENT_TIMESTAMP") ||
+                    memstr((string) upperDefaultValue, "NULL") ||
+                    is_int(defaultValue) ||
+                    is_float(defaultValue)
+            ) {
                 let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
