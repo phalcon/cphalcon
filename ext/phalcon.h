@@ -6,10 +6,10 @@
 
 #include "phalcon/di/injectionawareinterface.zep.h"
 #include "phalcon/html/helper/abstracthelper.zep.h"
+#include "phalcon/events/eventsawareinterface.zep.h"
 #include "phalcon/filter/validation/validatorinterface.zep.h"
 #include "phalcon/filter/validation/abstractvalidator.zep.h"
 #include "phalcon/html/helper/input/abstractinput.zep.h"
-#include "phalcon/events/eventsawareinterface.zep.h"
 #include "phalcon/storage/adapter/adapterinterface.zep.h"
 #include "phalcon/factory/abstractconfigfactory.zep.h"
 #include "phalcon/support/collection/collectioninterface.zep.h"

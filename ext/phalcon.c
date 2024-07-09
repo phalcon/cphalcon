@@ -25,8 +25,8 @@
 #include "phalcon/mvc/model/orm.h"
 
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
-zend_class_entry *phalcon_filter_validation_validatorinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
+zend_class_entry *phalcon_filter_validation_validatorinterface_ce;
 zend_class_entry *phalcon_storage_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_support_collection_collectioninterface_ce;
 zend_class_entry *phalcon_storage_serializer_serializerinterface_ce;
@@ -676,8 +676,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	REGISTER_INI_ENTRIES();
 	zephir_module_init();
 	ZEPHIR_INIT(Phalcon_Di_InjectionAwareInterface);
-	ZEPHIR_INIT(Phalcon_Filter_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
+	ZEPHIR_INIT(Phalcon_Filter_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Support_Collection_CollectionInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_SerializerInterface);
