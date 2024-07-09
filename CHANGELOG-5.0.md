@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (XXXX-XX-XX)
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
 
 ### Changed
 
