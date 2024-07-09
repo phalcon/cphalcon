@@ -63,13 +63,19 @@ class Attributes extends Collection implements RenderInterface
          */
         unset results["escape"];
 
-
         let result = "";
         for key, value in results {
-            if typeof key === "string" && null !== value {
+            if (typeof key === "string" && null !== value) {
+                if (typeof value === "array" || typeof value === "resource") {
+                    throw new Exception(
+                        "Value at index: \"" . key . "\" type: \"" .
+                        gettype(value) . "\" cannot be rendered"
+                    );
+                }
+
                 let result .= key . "=\""
-                . htmlspecialchars(value, ENT_QUOTES, "utf-8", true)
-                . "\" ";
+                    . htmlspecialchars(value, ENT_QUOTES, "utf-8", true)
+                    . "\" ";
             }
         }
 
