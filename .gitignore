@@ -59,8 +59,16 @@ autom4te.cache/
 /vendor
 /ide/
 
+# Jetbrains IDE
+.idea/
+*.iml
+
 .zephir/
 .temp/
+
+# JetBrains IDE
+*.iml
+.idea/
 
 # Zephir compiler
 zephir.phar
@@ -75,3 +83,6 @@ tests/_output/*
 .php_cs.cache
 .env
 zephir
+
+# Docker
+docker-compose.override.yml

@@ -143,22 +143,22 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *sessionId, sessionId_sub, file, _0, _1, _3;
+	zval *id, id_sub, file, _0, _1, _3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&sessionId_sub);
+	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(sessionId)
+		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &sessionId);
+	zephir_fetch_params(1, 1, 0, &id);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, sessionId);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&file);
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 /**
  * Garbage Collector
  *
- * @param int $maxlifetime
+ * @param int $max_lifetime
  * @return false|int
  */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
@@ -186,8 +186,8 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 	zend_bool _6$$3, _9$$3, _12$$5, _14$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_11 = NULL;
-	zval *maxlifetime_param = NULL, file, pattern, time, _0, _1, _2, _3, *_4, _5, _7$$3, _10$$3, _13$$5, _15$$5;
-	zend_long maxlifetime, ZEPHIR_LAST_CALL_STATUS;
+	zval *max_lifetime_param = NULL, file, pattern, time, _0, _1, _2, _3, *_4, _5, _7$$3, _10$$3, _13$$5, _15$$5;
+	zend_long max_lifetime, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&file);
@@ -203,11 +203,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 	ZVAL_UNDEF(&_13$$5);
 	ZVAL_UNDEF(&_15$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_LONG(maxlifetime)
+		Z_PARAM_LONG(max_lifetime)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &maxlifetime_param);
+	zephir_fetch_params(1, 1, 0, &max_lifetime_param);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_time(&_2);
 	ZEPHIR_INIT_VAR(&time);
-	ZVAL_LONG(&time, (zephir_get_numberval(&_2) - maxlifetime));
+	ZVAL_LONG(&time, (zephir_get_numberval(&_2) - max_lifetime));
 	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 0, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 111);
@@ -302,10 +302,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *sessionId, sessionId_sub, data, name, pointer, _0, _1, _2, _3$$3, _4$$3, _5$$3;
+	zval *id, id_sub, data, name, pointer, _0, _1, _2, _3$$3, _4$$3, _5$$3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&sessionId_sub);
+	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&pointer);
@@ -316,13 +316,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(sessionId)
+		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &sessionId);
+	zephir_fetch_params(1, 1, 0, &id);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, sessionId);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);

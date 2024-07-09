@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Uncamelize)
 
 /**
  * @param string $text
- * @param string $delimiter
+ * @param string $delimiters
  *
  * @return string
  */
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VS(&_0, &delimiter, "\\0");
-	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 77, &text);
+	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 76, &text);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/[A-Z]/");

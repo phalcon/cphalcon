@@ -6,10 +6,10 @@
 
 #include "phalcon/di/injectionawareinterface.zep.h"
 #include "phalcon/html/helper/abstracthelper.zep.h"
+#include "phalcon/events/eventsawareinterface.zep.h"
 #include "phalcon/filter/validation/validatorinterface.zep.h"
 #include "phalcon/filter/validation/abstractvalidator.zep.h"
 #include "phalcon/html/helper/input/abstractinput.zep.h"
-#include "phalcon/events/eventsawareinterface.zep.h"
 #include "phalcon/storage/adapter/adapterinterface.zep.h"
 #include "phalcon/factory/abstractconfigfactory.zep.h"
 #include "phalcon/support/collection/collectioninterface.zep.h"
@@ -107,7 +107,6 @@
 #include "phalcon/cache/abstractcache.zep.h"
 #include "phalcon/cli/dispatcherinterface.zep.h"
 #include "phalcon/cli/router/routeinterface.zep.h"
-#include "phalcon/cli/routerinterface.zep.h"
 #include "phalcon/cli/taskinterface.zep.h"
 #include "phalcon/datamapper/pdo/connectionlocatorinterface.zep.h"
 #include "phalcon/datamapper/pdo/profiler/profilerinterface.zep.h"
@@ -225,6 +224,7 @@
 #include "phalcon/cli/router.zep.h"
 #include "phalcon/cli/router/exception.zep.h"
 #include "phalcon/cli/router/route.zep.h"
+#include "phalcon/cli/routerinterface.zep.h"
 #include "phalcon/cli/task.zep.h"
 #include "phalcon/config/adapter/grouped.zep.h"
 #include "phalcon/config/adapter/ini.zep.h"
@@ -620,6 +620,5 @@
 #include "phalcon/11__closure.zep.h"
 #include "phalcon/12__closure.zep.h"
 #include "phalcon/13__closure.zep.h"
-#include "phalcon/14__closure.zep.h"
 
 #endif

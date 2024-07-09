@@ -38,11 +38,11 @@ abstract class AbstractMigration
      *
      * @param PDO|null $connection
      */
-    final public function __construct(PDO $connection = null)
+    final public function __construct(PDO $connection = null, bool $withClear = true)
     {
         $this->connection = $connection;
 
-        $this->clear();
+        $withClear && $this->clear();
     }
 
     /**

@@ -1,5 +1,36 @@
 # Changelog
 
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+
+### Changed
+
+- Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement   `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
+- Changed the `Phalcon\Mvc\Router\Group::getHostname()` to return `null` also. [#16601](https://github.com/phalcon/cphalcon/issues/16601)
+- Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource` to also return `array` [#16608](https://github.com/phalcon/cphalcon/issues/16608)
+
+### Added
+
+- Added events and `Phalcon\Events\Manager` for `Phalcon\Storage\Adapter\Apcu`,
+  `Phalcon\Storage\Adapter\Redis`,
+  `Phalcon\Storage\Adapter\Memory`,
+  `Phalcon\Storage\Adapter\Libmemcached`,
+  `Phalcon\Storage\Adapter\Stream`,
+  `Phalcon\Storage\Adapter\Weak`,
+  `Phalcon\Cache\Adapter\Apcu`,
+  `Phalcon\Cache\Adapter\Redis`,
+  `Phalcon\Cache\Adapter\Memory`,
+  `Phalcon\Cache\Adapter\Libmemcached`,
+  `Phalcon\Cache\Adapter\Stream`,
+  `Phalcon\Cache\Adapter\Weak`
+  `Phalcon\Cache\AbstractCache`. [#16606](https://github.com/phalcon/cphalcon/issues/16606)
+ 
+### Fixed
+
+- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+
+### Removed
+
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
 
 ### Changed

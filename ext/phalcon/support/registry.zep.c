@@ -652,16 +652,18 @@ PHP_METHOD(Phalcon_Support_Registry, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *serialized, serialized_sub;
+	zval *data_param = NULL;
+	zval data;
 
-	ZVAL_UNDEF(&serialized_sub);
+	ZVAL_UNDEF(&data);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(serialized)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &serialized);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "unserialize", NULL, 0, serialized);
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_strval(&data, data_param);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "unserialize", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

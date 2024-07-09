@@ -25,8 +25,8 @@
 #include "phalcon/mvc/model/orm.h"
 
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
-zend_class_entry *phalcon_filter_validation_validatorinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
+zend_class_entry *phalcon_filter_validation_validatorinterface_ce;
 zend_class_entry *phalcon_storage_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_support_collection_collectioninterface_ce;
 zend_class_entry *phalcon_storage_serializer_serializerinterface_ce;
@@ -73,7 +73,6 @@ zend_class_entry *phalcon_acl_roleinterface_ce;
 zend_class_entry *phalcon_annotations_readerinterface_ce;
 zend_class_entry *phalcon_cli_dispatcherinterface_ce;
 zend_class_entry *phalcon_cli_router_routeinterface_ce;
-zend_class_entry *phalcon_cli_routerinterface_ce;
 zend_class_entry *phalcon_cli_taskinterface_ce;
 zend_class_entry *phalcon_datamapper_pdo_connectionlocatorinterface_ce;
 zend_class_entry *phalcon_datamapper_pdo_profiler_profilerinterface_ce;
@@ -125,6 +124,7 @@ zend_class_entry *phalcon_session_baginterface_ce;
 zend_class_entry *phalcon_session_managerinterface_ce;
 zend_class_entry *phalcon_acl_componentawareinterface_ce;
 zend_class_entry *phalcon_acl_roleawareinterface_ce;
+zend_class_entry *phalcon_cli_routerinterface_ce;
 zend_class_entry *phalcon_di_initializationawareinterface_ce;
 zend_class_entry *phalcon_di_serviceproviderinterface_ce;
 zend_class_entry *phalcon_mvc_controller_bindmodelinterface_ce;
@@ -212,7 +212,6 @@ zend_class_entry *phalcon_10__closure_ce;
 zend_class_entry *phalcon_11__closure_ce;
 zend_class_entry *phalcon_12__closure_ce;
 zend_class_entry *phalcon_13__closure_ce;
-zend_class_entry *phalcon_14__closure_ce;
 zend_class_entry *phalcon_1__closure_ce;
 zend_class_entry *phalcon_2__closure_ce;
 zend_class_entry *phalcon_3__closure_ce;
@@ -677,8 +676,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	REGISTER_INI_ENTRIES();
 	zephir_module_init();
 	ZEPHIR_INIT(Phalcon_Di_InjectionAwareInterface);
-	ZEPHIR_INIT(Phalcon_Filter_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
+	ZEPHIR_INIT(Phalcon_Filter_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Support_Collection_CollectionInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_SerializerInterface);
@@ -724,7 +723,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Acl_RoleInterface);
 	ZEPHIR_INIT(Phalcon_Annotations_ReaderInterface);
 	ZEPHIR_INIT(Phalcon_Cli_DispatcherInterface);
-	ZEPHIR_INIT(Phalcon_Cli_RouterInterface);
 	ZEPHIR_INIT(Phalcon_Cli_Router_RouteInterface);
 	ZEPHIR_INIT(Phalcon_Cli_TaskInterface);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface);
@@ -777,6 +775,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Session_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Acl_ComponentAwareInterface);
 	ZEPHIR_INIT(Phalcon_Acl_RoleAwareInterface);
+	ZEPHIR_INIT(Phalcon_Cli_RouterInterface);
 	ZEPHIR_INIT(Phalcon_Di_InitializationAwareInterface);
 	ZEPHIR_INIT(Phalcon_Di_ServiceProviderInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Controller_BindModelInterface);
@@ -1283,7 +1282,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_11__closure);
 	ZEPHIR_INIT(phalcon_12__closure);
 	ZEPHIR_INIT(phalcon_13__closure);
-	ZEPHIR_INIT(phalcon_14__closure);
 	ZEPHIR_INIT(phalcon_1__closure);
 	ZEPHIR_INIT(phalcon_2__closure);
 	ZEPHIR_INIT(phalcon_3__closure);

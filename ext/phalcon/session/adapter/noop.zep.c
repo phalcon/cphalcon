@@ -133,31 +133,31 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, close)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, destroy)
 {
-	zval *sessionId, sessionId_sub;
+	zval *id, id_sub;
 
-	ZVAL_UNDEF(&sessionId_sub);
+	ZVAL_UNDEF(&id_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(sessionId)
+		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &sessionId);
+	zephir_fetch_params_without_memory_grow(1, 0, &id);
 	RETURN_BOOL(1);
 }
 
 /**
  * Garbage Collector
  *
- * @param int $maxlifetime
+ * @param int $max_lifetime
  * @return false|int
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, gc)
 {
-	zval *maxlifetime_param = NULL;
-	zend_long maxlifetime;
+	zval *max_lifetime_param = NULL;
+	zend_long max_lifetime;
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_LONG(maxlifetime)
+		Z_PARAM_LONG(max_lifetime)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &maxlifetime_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &max_lifetime_param);
 	RETURN_BOOL(1);
 }
 
@@ -166,13 +166,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, gc)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, read)
 {
-	zval *sessionId, sessionId_sub;
+	zval *id, id_sub;
 
-	ZVAL_UNDEF(&sessionId_sub);
+	ZVAL_UNDEF(&id_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(sessionId)
+		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &sessionId);
+	zephir_fetch_params_without_memory_grow(1, 0, &id);
 	RETURN_STRING("");
 }
 

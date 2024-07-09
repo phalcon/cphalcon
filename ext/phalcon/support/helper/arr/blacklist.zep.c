@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Blacklist, __invoke)
 	zephir_get_arrval(&blackList, blackList_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_13__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_12__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&blackListed, this_ptr, "tofilter", NULL, 0, &blackList, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 100, &blackListed);

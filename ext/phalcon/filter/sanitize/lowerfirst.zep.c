@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke)
 	} else {
 		ZEPHIR_INIT_VAR(&input);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 77, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 76, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

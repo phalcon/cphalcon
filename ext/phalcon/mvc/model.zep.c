@@ -4608,10 +4608,11 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize)
 	zend_ulong _11$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, attributes, container, manager, key, value, snapshot, properties, dirtyState, _0$$4, _1$$5, _2$$5, _3$$5, _4$$3, _5$$3, _6$$6, _7$$6, _8$$6, *_9$$7, _10$$7;
+	zval *data_param = NULL, attributes, container, manager, key, value, snapshot, properties, dirtyState, _0$$4, _1$$5, _2$$5, _3$$5, _4$$3, _5$$3, _6$$6, _7$$6, _8$$6, *_9$$7, _10$$7;
+	zval data;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&manager);
@@ -4631,12 +4632,13 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize)
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_10$$7);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &data);
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 16, data);
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_strval(&data, data_param);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 16, &data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		if (!(zephir_array_isset_string(&attributes, SL("attributes")))) {
@@ -8322,7 +8324,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 77, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 76, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);

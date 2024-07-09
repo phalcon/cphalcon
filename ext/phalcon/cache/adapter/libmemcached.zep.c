@@ -29,6 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Libmemcached)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Libmemcached, phalcon, cache_adapter_libmemcached, phalcon_storage_adapter_libmemcached_ce, NULL, 0);
 
+	zend_declare_property_string(phalcon_cache_adapter_libmemcached_ce, SL("eventType"), "cache", ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_cache_adapter_libmemcached_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
 }
