@@ -1340,7 +1340,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 resultObject,
                 resultData,
                 cache,
-                isKeepingSnapshots
+                isKeepingSnapshots,
+                manager,
+                metaData
             );
         }
 
@@ -1350,7 +1352,9 @@ class Query implements QueryInterface, InjectionAwareInterface
         return new Complex(
             columns1,
             resultData,
-            cache
+            cache,
+            manager,
+            metaData
         );
     }
 
