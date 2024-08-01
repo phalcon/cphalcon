@@ -97,12 +97,11 @@ Thanks for the support
 
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
-<a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
+<a href="https://github.com/shenyman"><img src="https://avatars.githubusercontent.com/u/31950816?v=4" title="Sea Man" width="60" height="60"></a>
 <a href="https://github.com/Ultimater"><img src="https://avatars.githubusercontent.com/u/1922199?v=4" title="Kevin Yarmak" width="60" height="60"></a>
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
-<a href="https://github.com/SliceOfLife"><img src="https://avatars.githubusercontent.com/u/3955618?v=4" title="SliceOfLife" width="60" height="60"></a>
 <a href="https://github.com/f-do"><img src="https://avatars.githubusercontent.com/u/4299065?v=4" title="Florian" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
