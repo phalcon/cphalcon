@@ -659,23 +659,6 @@ if test "$PHP_PHALCON" = "yes"; then
 		[[#include "php_config.h"]]
 	)
 
-	AC_CHECK_DECL(
-		[HAVE_JSON],
-		[
-			AC_CHECK_HEADERS(
-				[ext/json/php_json.h],
-				[
-					PHP_ADD_EXTENSION_DEP([phalcon], [json])
-					AC_DEFINE([ZEPHIR_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
-				],
-				,
-				[[#include "main/php.h"]]
-			)
-		],
-		,
-		[[#include "php_config.h"]]
-	)
-
 	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_INSTALL_HEADERS([ext/phalcon], [php_PHALCON.h])
