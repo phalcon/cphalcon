@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Profiler\Item;
+namespace Phalcon\Tests\Database\Db\Profiler\Item;
 
 use DatabaseTester;
 use Phalcon\Db\Profiler\Item;

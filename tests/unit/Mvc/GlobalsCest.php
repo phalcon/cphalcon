@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Phalcon\Tests\Unit\Mvc;
 
 use Codeception\Example;
 use UnitTester;
