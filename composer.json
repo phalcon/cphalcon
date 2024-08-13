@@ -8,6 +8,7 @@
     "high load",
     "mvc"
   ],
+  "version": "5.8.0",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -76,6 +77,11 @@
       "Phalcon\\Tests\\Database\\": "tests/database/",
       "Phalcon\\Tests\\Controllers\\": "tests/_data/fixtures/controllers/",
       "Phalcon\\Tests\\Fixtures\\": "tests/_data/fixtures/",
+      "Phalcon\\Tests\\Modules\\Frontend\\": "tests/_data/fixtures/modules/frontend/",
+      "Phalcon\\Tests\\Modules\\Backend\\": "tests/_data/fixtures//modules/backend/",
+      "Phalcon\\Tests\\Modules\\Frontend\\Controllers\\": "tests/_data/fixtures/modules/frontend/controllers/",
+      "Phalcon\\Tests\\Modules\\Backend\\Controllers\\": "tests/_data/fixtures//modules/backend/controllers/",
+      "Phalcon\\Tests\\Modules\\Backend\\Tasks\\": "tests/_data/fixtures//modules/backend/tasks/",
       "Phalcon\\Tests\\Models\\": "tests/_data/fixtures/models/",
       "Phalcon\\Tests\\Module\\": "tests/_support/Module/",
       "Phalcon\\Tests\\Listener\\": "tests/_data/listener/",
