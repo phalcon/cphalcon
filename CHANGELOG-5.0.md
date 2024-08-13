@@ -4,6 +4,18 @@
 
 ### Changed
 
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
+
+### Removed
+
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+
+### Changed
+
 - Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement   `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
 - Changed the `Phalcon\Mvc\Router\Group::getHostname()` to return `null` also. [#16601](https://github.com/phalcon/cphalcon/issues/16601)
 - Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource` to also return `array` [#16608](https://github.com/phalcon/cphalcon/issues/16608)
