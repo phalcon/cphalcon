@@ -46,6 +46,16 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *         ]
  *     )
  * );
+ *
+ * $validator->add(
+ *     "täst@example.com",
+ *     new EmailValidator(
+ *         [
+ *             "message" => "The e-mail is not valid",
+ *             "allowUTF8" => true,
+ *         ]
+ *     )
+ * );
  * ```
  */
 class Email extends AbstractValidator
@@ -58,7 +68,8 @@ class Email extends AbstractValidator
      * @param array options = [
      *     'message' => '',
      *     'template' => '',
-     *     'allowEmpty' => false
+     *     'allowEmpty' => false,
+     *     'allowUTF8' => false,
      * ]
      */
     public function __construct(array! options = [])
@@ -71,12 +82,19 @@ class Email extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value = validation->getValue(field);
+        var value, flags;
+
+        let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
             return true;
         }
 
-        if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+        let flags = FILTER_DEFAULT;
+        if (this->getOption("allowUTF8")) {
+            let flags = FILTER_FLAG_EMAIL_UNICODE;
+        }
+
+        if !filter_var(value, FILTER_VALIDATE_EMAIL, flags) {
             validation->appendMessage(
                 this->messageFactory(validation, field)
             );
