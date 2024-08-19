@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.8.x](https://github.com/phalcon/cphalcon/releases/tag/v5.8.x) (xxxx-xx-xx)
+
+### Changed
+
+- Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
+
 ## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
 
 ### Changed
