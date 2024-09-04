@@ -450,7 +450,7 @@ class Crypt implements CryptInterface
             return false;
         }
 
-        return length <= mb_strlen(input);
+        return length <= strlen(input);
     }
 
     /**
@@ -633,7 +633,7 @@ class Crypt implements CryptInterface
             paddingSize = 0;
 
         if true === this->checkIsMode(["cbc", "ecb"], mode) {
-            let paddingSize = blockSize - (mb_strlen(input) % blockSize);
+            let paddingSize = blockSize - (strlen(input) % blockSize);
 
             if paddingSize >= 256 || paddingSize < 0 {
                 throw new Exception(
