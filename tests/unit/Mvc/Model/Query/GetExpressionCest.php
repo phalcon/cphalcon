@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Mvc\Model\Query;
+namespace Phalcon\Tests\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
 use ReflectionClass;
