@@ -100,9 +100,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         var value = null,
         int expire = 0,
         string path = "/",
-        bool secure = null,
-        string domain = null,
-        bool httpOnly = null,
+        bool secure = false,
+        string domain = "",
+        bool httpOnly = false,
         array options = []
     ) {
         let this->name     = name,
