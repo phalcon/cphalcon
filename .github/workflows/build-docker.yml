@@ -10,16 +10,16 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
+        php: [ '8.0', '8.1', '8.2', '8.3' ]
 
     name: Build Dockerfile PHP ${{ matrix.php }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build Dockerfile
         run: docker build docker/${{ matrix.php }}

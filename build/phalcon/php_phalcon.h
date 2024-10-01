@@ -103,16 +103,20 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.1.3"
+#define PHP_PHALCON_VERSION     "5.8.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.16.0-4fac47b"
+#define PHP_PHALCON_ZEPVERSION  "0.18.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
 	zend_bool force_casting;
 } zephir_struct_db;
+
+typedef struct _zephir_struct_form { 
+	zend_bool strict_entity_property_check;
+} zephir_struct_form;
 
 typedef struct _zephir_struct_orm { 
 	HashTable*  ast_cache;
@@ -135,6 +139,7 @@ typedef struct _zephir_struct_orm {
 	int unique_cache_id;
 	zend_bool update_snapshot_on_save;
 	zend_bool virtual_foreign_keys;
+	zend_bool dynamic_update;
 } zephir_struct_orm;
 
 typedef struct _zephir_struct_warning { 
@@ -160,6 +165,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	
 	zephir_struct_db db;
+	zephir_struct_form form;
 	zephir_struct_orm orm;
 	zephir_struct_warning warning;
 

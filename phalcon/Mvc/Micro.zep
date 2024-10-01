@@ -139,7 +139,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Appends an 'after' middleware to be called after execute the route
      *
-     * @param callable handler
+     * @param callable|MiddlewareInterface handler
      */
     public function after(handler) -> <Micro>
     {
@@ -163,7 +163,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Appends a before middleware to be called before execute the route
      *
-     * @param callable handler
+     * @param callable|MiddlewareInterface handler
      */
     public function before(handler) -> <Micro>
     {
@@ -1142,13 +1142,6 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function setDI(<DiInterface> container) -> void
     {
-        /**
-         * We automatically set ourselves as application service
-         */
-        if !container->has("application") {
-            container->set("application", this);
-        }
-
         let this->container = container;
     }
 

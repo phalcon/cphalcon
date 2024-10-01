@@ -128,7 +128,10 @@ class IsAllowedCest
             'Admin',
             'User',
             ['update'],
-            function (TestRoleComponentAware $admin, TestRoleComponentAware $user) {
+            function (
+                TestRoleComponentAware $admin,
+                TestRoleComponentAware $user
+            ) {
                 return $admin->getUser() == $user->getUser();
             }
         );
@@ -182,8 +185,9 @@ class IsAllowedCest
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */
-    public function aclAdapterMemoryIsAllowedFunctionMoreParameters(UnitTester $I)
-    {
+    public function aclAdapterMemoryIsAllowedFunctionMoreParameters(
+        UnitTester $I
+    ) {
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - more parameters');
 
         $errorMessage = "Number of parameters in array is higher than the "
@@ -239,16 +243,19 @@ class IsAllowedCest
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
-    public function aclAdapterMemoryIsAllowedFunctionNotEnoughParameters(UnitTester $I)
-    {
-        $I->wantToTest('Acl\Adapter\Memory - isAllowed() - not enough parameters');
+    public function aclAdapterMemoryIsAllowedFunctionNotEnoughParameters(
+        UnitTester $I
+    ) {
+        $I->wantToTest(
+            'Acl\Adapter\Memory - isAllowed() - not enough parameters'
+        );
 
         $I->expectThrowable(
             new AclException(
                 "You did not provide all necessary parameters for the " .
                 "defined function when checking if 'Members' can 'update' for 'Post'."
             ),
-            function () use ($I) {
+            function () {
                 $acl = new Memory();
 
                 $acl->setDefaultAction(Enum::ALLOW);
@@ -335,7 +342,9 @@ class IsAllowedCest
      */
     public function aclAdapterMemoryIsAllowedFireEventFalse(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isAllowed() - fireEvent returns false');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - isAllowed() - fireEvent returns false'
+        );
 
         $acl = Stub::make(
             Memory::class,
@@ -362,7 +371,9 @@ class IsAllowedCest
      */
     public function aclAdapterMemoryIsAllowedDocumentationExample(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - isAllowed() - documentation example');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - isAllowed() - documentation example'
+        );
 
         $acl = new Memory();
 

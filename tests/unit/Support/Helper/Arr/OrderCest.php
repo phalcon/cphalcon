@@ -86,30 +86,30 @@ class OrderCest
         $I->assertSame($expected, $actual);
 
         $collection = [
-            (object) [
+            (object)[
                 'id'   => 2,
                 'name' => 'Paul',
             ],
-            (object) [
+            (object)[
                 'id'   => 3,
                 'name' => 'Peter',
             ],
-            (object) [
+            (object)[
                 'id'   => 1,
                 'name' => 'John',
             ],
         ];
 
         $expected = [
-            (object) [
+            (object)[
                 'id'   => 1,
                 'name' => 'John',
             ],
-            (object) [
+            (object)[
                 'id'   => 2,
                 'name' => 'Paul',
             ],
-            (object) [
+            (object)[
                 'id'   => 3,
                 'name' => 'Peter',
             ],

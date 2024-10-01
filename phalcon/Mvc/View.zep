@@ -536,8 +536,10 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
     /**
      * Returns a parameter previously set in the view
+     *
+     * @return mixed|null
      */
-    public function getVar(string! key)
+    public function getVar(string! key) -> var | null
     {
         var value;
 
@@ -766,7 +768,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         let this->disabled        = false,
             this->engines         = false,
             this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
-            this->content         = null,
+            this->content         = "",
             this->templatesBefore = [],
             this->templatesAfter  = [];
 
@@ -1125,6 +1127,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         return strlen(path) >= 1 && path[0] == '/';
     }
+
     /**
      * Loads registered template engines, if none is registered it will use
      * Phalcon\Mvc\View\Engine\Php

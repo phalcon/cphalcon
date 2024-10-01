@@ -19,9 +19,6 @@ use Phalcon\Tests\Models\EntityWithGetter;
 use Phalcon\Tests\Models\EntityWithHook;
 use Phalcon\Tests\Models\EntityWithPublic;
 
-/**
- * Class GetValueByEntityCest
- */
 class GetValueByEntityCest
 {
     public const NAME = 'John Doe';
@@ -39,7 +36,7 @@ class GetValueByEntityCest
         $entity = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->name, $value);
     }
@@ -51,7 +48,7 @@ class GetValueByEntityCest
         $entity = new EntityWithGetter(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->getName(), $value);
     }
@@ -63,7 +60,7 @@ class GetValueByEntityCest
         $entity = new EntityWithHook(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByEntity($entity, 'name');
+        $value      = $validation->getValueByEntity($entity, 'name');
 
         $I->assertSame($entity->readAttribute('name'), $value);
     }

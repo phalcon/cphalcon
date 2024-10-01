@@ -48,7 +48,7 @@ class Headers implements HeadersInterface
      */
     public function has(string name) -> bool
     {
-        return isset this->headers[name];
+        return array_key_exists(name, this->headers);
     }
 
     /**

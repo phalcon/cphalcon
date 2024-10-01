@@ -30,13 +30,19 @@ class Line extends AbstractFormatter
      *
      * @param string $format
      * @param string $dateFormat
+     * @param string $interpolatorLeft
+     * @param string $interpolatorRight
      */
     public function __construct(
         string format = "[%date%][%level%] %message%",
-        string dateFormat = "c"
+        string dateFormat = "c",
+        string interpolatorLeft = "%",
+        string interpolatorRight = "%"
     ) {
-        let this->format     = format,
-            this->dateFormat = dateFormat;
+        let this->format            = format;
+        let this->dateFormat        = dateFormat;
+        let this->interpolatorLeft  = interpolatorLeft;
+        let this->interpolatorRight = interpolatorRight;
     }
 
     /**
@@ -54,13 +60,13 @@ class Line extends AbstractFormatter
         let message = strtr(
             this->format,
             [
-                "%date%"    : this->getFormattedDate(item),
-                "%level%"   : item->getLevelName(),
-                "%message%" : item->getMessage()
+                this->interpolatorLeft . "date"    . this->interpolatorRight : this->getFormattedDate(item),
+                this->interpolatorLeft . "level"   . this->interpolatorRight : item->getLevelName(),
+                this->interpolatorLeft . "message" . this->interpolatorRight : item->getMessage()
             ]
         );
 
-        return this->toInterpolate(message, item->getContext());
+        return this->getInterpolatedMessage(item, message);
     }
 
     /**

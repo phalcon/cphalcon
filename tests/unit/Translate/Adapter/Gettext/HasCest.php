@@ -42,8 +42,6 @@ class HasCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $actual = $translator->exists('hi');
-        $I->assertTrue($actual);
         $actual = $translator->has('hi');
         $I->assertTrue($actual);
     }

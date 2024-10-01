@@ -21,6 +21,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 
 use function getOptionsLibmemcached;
@@ -39,7 +40,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamHasCannotOpenFile(IntegrationTester $I)
+    public function cacheAdapterStreamHasCannotOpenFile(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - has() - cannot open file');
 
@@ -76,7 +77,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterStreamHasEmptyPayload(IntegrationTester $I)
+    public function cacheAdapterStreamHasEmptyPayload(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - has() - empty payload');
 
@@ -103,6 +104,34 @@ class HasCest
     }
 
     /**
+     * Tests Phalcon\Cache\Adapter\Weak :: has()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function cacheAdapterWeakHas(IntegrationTester $I)
+    {
+
+        $I->wantToTest('Cache\Adapter\Weak - has()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1 = new \stdClass();
+
+        $key1 = uniqid();
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+
+        $adapter->set($key1, $obj1);
+
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+    }
+
+    /**
      * Tests Phalcon\Cache\Adapter\* :: has()
      *
      * @dataProvider getExamples
@@ -110,7 +139,7 @@ class HasCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterHas(IntegrationTester $I, Example $example)
+    public function cacheAdapterHas(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(

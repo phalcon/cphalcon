@@ -60,9 +60,9 @@ class DetachAllCest
     {
         $I->wantToTest('Events\Manager - detachAll() - with type');
 
-        $uploadType   = 'some:upload';
+        $uploadType = 'some:upload';
         $downloadType = 'some:download';
-        $manager      = new Manager();
+        $manager = new Manager();
         $manager->attach(
             $uploadType,
             function () {

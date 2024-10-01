@@ -80,7 +80,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml)
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, ndocs;
 	zval callbacks;
 	zval *filePath_param = NULL, *callbacks_param = NULL, yamlConfig, _0, _1, _2$$5, _3$$5, _4$$6, _5$$6, _6$$6;
@@ -97,17 +96,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$6);
 	ZVAL_UNDEF(&callbacks);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(filePath)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY_OR_NULL(callbacks)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &filePath_param, &callbacks_param);
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
@@ -123,8 +119,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&callbacks, callbacks_param);
 	}
-
-
 	ndocs = 0;
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "yaml");
@@ -150,13 +144,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		zephir_basename(&_5$$6, &filePath);
 		ZEPHIR_INIT_VAR(&_6$$6);
 		ZEPHIR_CONCAT_SVS(&_6$$6, "Configuration file ", &_5$$6, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 29, &_6$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 33, &_6$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$6, "phalcon/Config/Adapter/Yaml.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, getThis(), "__construct", &_7, 0, &yamlConfig);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, getThis(), "__construct", NULL, 0, &yamlConfig);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -169,14 +163,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filename, filename_sub, *pos = NULL, pos_sub, *ndocs = NULL, ndocs_sub, *callbacks = NULL, callbacks_sub, __$null;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filename_sub);
 	ZVAL_UNDEF(&pos_sub);
 	ZVAL_UNDEF(&ndocs_sub);
 	ZVAL_UNDEF(&callbacks_sub);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_ZVAL(filename)
@@ -185,10 +177,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 		Z_PARAM_ZVAL_OR_NULL(ndocs)
 		Z_PARAM_ZVAL(callbacks)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 3, &filename, &pos, &ndocs, &callbacks);
 	if (!pos) {
 		pos = &pos_sub;
@@ -204,10 +194,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 		ZEPHIR_INIT_VAR(callbacks);
 		array_init(callbacks);
 	}
-
-
 	ZEPHIR_MAKE_REF(ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 193, filename, pos, ndocs, callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 197, filename, pos, ndocs, callbacks);
 	ZEPHIR_UNREF(ndocs);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -219,23 +207,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 194, &name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 198, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 }

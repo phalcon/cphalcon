@@ -164,18 +164,29 @@ class Select extends AbstractConditions
     }
 
     /**
-     * The columns to select from. If a key is set in an array element, the
+     * The columns to select from. If a key is set in the array element, the
      * key will be used as the alias
      *
-     * @param string ...$column
+     * @param array $columns
      *
      * @return Select
      */
-    public function columns() -> <Select>
+    public function columns(array columns) -> <Select>
     {
+        var key, value;
+        array localColumns = [];
+
+        for key, value in columns {
+            if is_int(key) {
+                let localColumns[] = value;
+            } else {
+                let localColumns[] = value . " AS " . key;
+            }
+        }
+
         let this->store["COLUMNS"] = array_merge(
             this->store["COLUMNS"],
-            func_get_args()
+            localColumns
         );
 
         return this;
@@ -341,17 +352,13 @@ class Select extends AbstractConditions
 
     /**
      * Resets the internal collections
-     *
-     * @return Select
      */
-    public function reset() -> <Select>
+    public function reset() -> void
     {
         parent::reset();
 
         let this->asAlias   = "",
             this->forUpdate = false;
-
-        return this;
     }
 
     /**

@@ -112,6 +112,10 @@ class ExceptionsCest
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 
+        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
+            $I->markTestSkipped('Invalid `unserialize()` will generate warning but still works.');
+        }
+
         $serializer = new SerializerFactory();
         $adapter    = new Stream(
             $serializer,

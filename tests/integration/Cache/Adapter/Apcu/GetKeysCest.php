@@ -34,7 +34,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterApcuGetKeys(IntegrationTester $I)
+    public function cacheAdapterApcuGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getKeys()');
 
@@ -82,7 +82,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageAdapterApcuGetKeysIteratorError(IntegrationTester $I)
+    public function cacheAdapterApcuGetKeysIteratorError(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getKeys() - iterator error');
 

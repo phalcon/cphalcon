@@ -18,6 +18,7 @@ use Phalcon\Http\Message\RequestMethodInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
+use Phalcon\Support\Helper\Json\Decode;
 use UnexpectedValueException;
 use stdClass;
 
@@ -579,7 +580,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             return false;
         }
 
-        return json_decode(rawBody, associative);
+        if rawBody == "" {
+            let rawBody = "{}";
+        }
+
+        return (new Decode())->__invoke(rawBody, associative);
     }
 
     /**
@@ -1716,12 +1721,25 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if null === cached {
             let contentType = this->getContentType();
 
-            if typeof contentType == "string" && stripos(contentType, "json") != false {
-                let cached = this->getJsonRawBody(true);
+            if (
+                typeof contentType == "string" &&
+                (
+                    stripos(contentType, "json") != false ||
+                    stripos(contentType, "multipart/form-data") !== false
+                )
+            ) {
+                if (stripos(contentType, "json") != false) {
+                    let cached = this->getJsonRawBody(true);
+                }
+
+                if (stripos(contentType, "multipart/form-data") !== false) {
+                    let cached = this->getFormData();
+                }
 
                 if typeof cached != "array" {
                     let cached = [];
                 }
+
             } else {
                 let cached = [];
 
@@ -1739,5 +1757,78 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             notAllowEmpty,
             noRecursive
         );
+    }
+
+    /**
+     * parse multipart/form-data from raw data
+     */
+    private function getFormData() -> array
+    {
+        var boundary, matches;
+
+        preg_match("/boundary=(.*)$/is", this->getContentType(), matches);
+
+        let boundary = matches[1];
+
+        var bodyParts;
+
+        let bodyParts = preg_split("/\\R?-+" . preg_quote(boundary, "/") . "/s", this->getRawBody());
+
+        array_pop(bodyParts);
+
+        array dataset = [];
+        var bodyPart;
+
+        for bodyPart in bodyParts {
+            if empty(bodyPart) {
+                continue;
+            }
+
+            var splited;
+            let splited = preg_split("/\\R\\R/", bodyPart, 2);
+
+            array headers = [];
+            var headerParts, headerPart;
+
+            let headerParts = preg_split("/\\R/s", splited[0], -1, PREG_SPLIT_NO_EMPTY);
+
+            for headerPart in headerParts {
+                if (strpos(headerPart, ":") === false) {
+                    continue;
+                }
+
+                var exploded, headerName, headerValue;
+
+                let exploded = explode(":", headerPart, 2),
+                    headerName = strtolower(trim(exploded[0])),
+                    headerValue = trim(exploded[1]);
+
+                if strpos(headerValue, ";") !== false {
+                    var explodedHeader, part;
+                    let explodedHeader = explode(";", headerValue);
+
+                    for part in explodedHeader  {
+                        let part = preg_replace("/\"/", "", trim(part));
+
+                        if strpos(part, "=") !== false {
+                             var explodedPart, namePart, valuePart;
+                             let explodedPart = explode("=", part, 2),
+                                 namePart = strtolower(trim(explodedPart[0])),
+                                 valuePart =  trim(trim(explodedPart[1]), '"'),
+                                 headers[headerName][namePart] = valuePart;
+
+                        } else {
+                            let headers[headerName][] = part;
+                        }
+                    }
+                } else {
+                    let headers[headerName] = headerValue;
+                }
+            }
+
+            let dataset[headers["content-disposition"]["name"]] = splited[1];
+        }
+
+        return dataset;
     }
 }

@@ -22,24 +22,8 @@ use stdClass;
 
 use function date;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
-    /**
-     * Tests Phalcon\Filter\Validation :: validate()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
-     */
-    public function filterValidationValidate(IntegrationTester $I)
-    {
-        $I->wantToTest('Validation - validate()');
-
-        $I->skipTest('Need implementation');
-    }
-
     /**
      * Tests Phalcon\Filter\Validation :: validate() - message to non object
      *
@@ -47,7 +31,7 @@ class ValidateCest
      * @since  2016-06-27
      * @issue  10405
      */
-    public function filterValidationValidateMessageToNonObject(IntegrationTester $I)
+    public function filterValidationValidateMessageToNonObject(IntegrationTester $I): void
     {
         $myValidator = new PresenceOf();
         $validation  = new Validation();

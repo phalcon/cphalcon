@@ -10,18 +10,25 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
-use InvalidArgumentException; // @todo this will also be removed when traits are available
-use Phalcon\Support\Collection;
-use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Item;
 use Phalcon\Encryption\Security\JWT\Token\Signature;
 use Phalcon\Encryption\Security\JWT\Token\Token;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\CollectionInterface;
+use Phalcon\Support\Helper\Json\Encode;
 
 /**
- * JWT Builder
+ * Builder
+ *
+ * The builder offers
+ *
+ * @property CollectionInterface $claims
+ * @property CollectionInterface $jose
+ * @property string              $passphrase
+ * @property SignerInterface     $signer
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
@@ -31,6 +38,11 @@ class Builder
      * @var CollectionInterface
      */
     private claims;
+
+    /**
+     * @var Encode
+     */
+    private encode;
 
     /**
      * @var CollectionInterface
@@ -57,7 +69,8 @@ class Builder
     ) {
         this->init();
 
-        let this->signer = signer;
+        let this->signer = signer,
+            this->encode = new Encode();
 
         this->jose->set(
             Enum::ALGO,
@@ -93,6 +106,21 @@ class Builder
     public function addClaim(string! name, var value) -> <Builder>
     {
         this->claims->set(name, value);
+
+        return this;
+    }
+
+    /**
+     * Adds a custom claim
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return Builder
+     */
+    public function addHeader(string! name, var value) -> <Builder>
+    {
+        this->jose->set(name, value);
 
         return this;
     }
@@ -192,9 +220,9 @@ class Builder
             );
         }
 
-        let encodedClaims    = this->encodeUrl(this->encode(this->getClaims())),
+        let encodedClaims    = this->encodeUrl(this->encode->__invoke(this->getClaims())),
             claims           = new Item(this->getClaims(), encodedClaims),
-            encodedHeaders   = this->encodeUrl(this->encode(this->getHeaders())),
+            encodedHeaders   = this->encodeUrl(this->encode->__invoke(this->getHeaders())),
             headers          = new Item(this->getHeaders(), encodedHeaders),
             signatureHash    = this->signer->sign(
                 encodedHeaders . "." . encodedClaims,
@@ -425,27 +453,5 @@ class Builder
     private function encodeUrl(string! input) -> string
     {
         return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function encode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
-    {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
     }
 }

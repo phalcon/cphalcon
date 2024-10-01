@@ -51,24 +51,17 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval input_sub, major, minor, _2$$3;
 	zval *input;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&major);
 	ZVAL_UNDEF(&minor);
 	ZVAL_UNDEF(&_2$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input);
-
-
 	ZEPHIR_INIT_VAR(&major);
 	ZEPHIR_GET_CONSTANT(&major, "PHP_MAJOR_VERSION");
 	ZEPHIR_INIT_VAR(&minor);
@@ -83,7 +76,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	}
 	if (_0) {
 		ZVAL_LONG(&_2$$3, 513);
-		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 281, input, &_2$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 283, input, &_2$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

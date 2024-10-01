@@ -52,7 +52,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *container, container_sub, orderedColumnMap, userColumnMap, reversedColumnMap, name, userName, *_0$$3, _1$$3;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&container_sub);
@@ -62,19 +61,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&userName);
 	ZVAL_UNDEF(&_1$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &container);
-
-
 	ZEPHIR_INIT_VAR(&orderedColumnMap);
 	ZVAL_NULL(&orderedColumnMap);
 	ZEPHIR_INIT_VAR(&reversedColumnMap);
@@ -140,7 +133,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *container, container_sub, __$true, schema, table, readConnection, columns, attributes, primaryKeys, nonPrimaryKeys, numericTyped, notNull, fieldTypes, automaticDefault, identityField, fieldBindTypes, defaultValues, column, fieldName, defaultValue, emptyStringValues, _0, *_9, _10, _1$$4, _2$$3, _3$$3, _4$$3, _5$$7, _6$$6, _7$$6, _8$$6, _11$$9, _12$$9, _13$$9, _14$$9, _15$$9, _16$$9, _18$$9, _19$$15, _20$$17, _21$$17, _22$$17, _23$$17, _24$$17, _25$$17, _27$$17, _28$$23;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&container_sub);
@@ -190,19 +182,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 	ZVAL_UNDEF(&_27$$17);
 	ZVAL_UNDEF(&_28$$23);
 	ZVAL_UNDEF(&completeTable);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &container);
-
-
 	ZEPHIR_CALL_METHOD(&schema, model, "getschema", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&table, model, "getsource", NULL, 0);
@@ -225,7 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		zephir_get_class(&_3$$3, model, 0);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SVSV(&_4$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_3$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 29, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 33, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 92);
 		ZEPHIR_MM_RESTORE();
@@ -247,7 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		zephir_get_class(&_7$$6, model, 0);
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZEPHIR_CONCAT_SVSV(&_8$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_7$$6);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 29, &_8$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 33, &_8$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 112);
 		ZEPHIR_MM_RESTORE();

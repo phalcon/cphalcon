@@ -39,13 +39,14 @@ class AttributesCest
      */
     public function escaperAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Escaper - attributes()');
-
-        $escaper = new Escaper();
-
         $text  = $example['text'];
         $flags = $example['htmlQuoteType'];
 
+        $I->wantToTest(
+            'Escaper - attributes() - ' . $flags
+        );
+
+        $escaper = new Escaper();
         $escaper->setFlags($flags);
 
         $expected = $example['expected'];
@@ -93,11 +94,11 @@ class AttributesCest
                 'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'maxlength="10" cols="5" rows="3" min="1" max="100"',
                 'text'          => [
-                    'maxlength'  => 10,
-                    'cols'       => 5,
-                    'rows'       => 3,
-                    'min'        => 1,
-                    'max'        => 100,
+                    'maxlength'   => 10,
+                    'cols'        => 5,
+                    'rows'        => 3,
+                    'min'         => 1,
+                    'max'         => 100,
                     'notPrinted'  => false,
                     'notPrinted2' => null,
                 ],
@@ -111,11 +112,11 @@ class AttributesCest
                 'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'maxlength="10" cols="5" rows="3" min="1" max="100"',
                 'text'          => [
-                    'maxlength'  => 10,
-                    'cols'       => 5,
-                    'rows'       => 3,
-                    'min'        => 1,
-                    'max'        => 100,
+                    'maxlength'   => 10,
+                    'cols'        => 5,
+                    'rows'        => 3,
+                    'min'         => 1,
+                    'max'         => 100,
                     'notPrinted'  => false,
                     'notPrinted2' => null,
                 ],

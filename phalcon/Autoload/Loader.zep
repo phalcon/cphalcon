@@ -511,6 +511,16 @@ class Loader extends AbstractEventsAware
     }
 
     /**
+     * returns isRegister
+     *
+     * @return bool
+     */
+     public function isRegistered() -> bool
+     {
+        return this->isRegistered;
+     }
+
+    /**
      * If the file exists, require it and return true; false otherwise
      *
      * @param string $file The file to require

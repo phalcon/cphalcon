@@ -48,27 +48,20 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Includes, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *haystack_param = NULL, *needle_param = NULL, _0;
 	zval haystack, needle;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&haystack);
 	ZVAL_UNDEF(&needle);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(haystack)
 		Z_PARAM_STR(needle)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &haystack_param, &needle_param);
 	zephir_get_strval(&haystack, haystack_param);
 	zephir_get_strval(&needle, needle_param);
-
-
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 82, &haystack, &needle);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 86, &haystack, &needle);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_0));
 }

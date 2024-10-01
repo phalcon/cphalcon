@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Tests\Integration\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model;
@@ -401,9 +401,7 @@ class UnderscoreSetCest
             new Models\Invoices()
         ];
 
-        $I->assertTrue(
-            $customer->save()
-        );
+        $I->assertTrue($customer->save());
 
         $I->assertCount(
             2,

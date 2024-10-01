@@ -56,16 +56,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &options_param);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -73,8 +69,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 }
@@ -95,16 +89,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&eventOptions);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(eventName)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &eventName_param);
 	if (!eventName_param) {
 		ZEPHIR_INIT_VAR(&eventName);
@@ -119,15 +110,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 		ZEPHIR_INIT_VAR(&eventName);
 	}
 	}
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_NULL(&eventName)) {
-		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1))) {
+		zephir_memory_observe(&eventOptions);
+		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 0))) {
 			RETURN_MM_NULL();
 		}
-		RETURN_CTOR(&eventOptions);
+		RETURN_CCTOR(&eventOptions);
 	}
 	RETURN_CCTOR(&options);
 }
@@ -141,23 +131,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 	zval arguments;
 	zval method;
 	zval *model, model_sub, *method_param = NULL, *arguments_param = NULL;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&arguments);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_STR(method)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(arguments)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &model, &method_param, &arguments_param);
 	zephir_get_strval(&method, method_param);
 	if (!arguments_param) {
@@ -166,8 +151,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 	} else {
 		zephir_get_arrval(&arguments, arguments_param);
 	}
-
-
 	RETURN_MM_NULL();
 }
 
@@ -183,15 +166,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 
 	ZVAL_UNDEF(&eventName);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(eventName)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string"));
@@ -202,8 +181,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 	} else {
 		ZEPHIR_INIT_VAR(&eventName);
 	}
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &eventName));
 }
@@ -216,24 +193,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL, *model, model_sub;
 	zval type;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&model_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 	zephir_get_strval(&type, type_param);
-
-
 	RETURN_MM_NULL();
 }
 

@@ -15,9 +15,6 @@ namespace Phalcon\Tests\Integration\Filter\Validation;
 
 use IntegrationTester;
 
-/**
- * Class GetValueCest
- */
 class GetValueCest
 {
     /**
@@ -26,7 +23,7 @@ class GetValueCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function filterValidationGetValue(IntegrationTester $I)
+    public function filterValidationGetValue(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValue()');
 

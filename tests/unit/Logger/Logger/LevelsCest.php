@@ -84,7 +84,8 @@ class LevelsCest
         $logDateTime      = new DateTime($date);
         $dateTimeAfterLog = new DateTime($logTime);
         $nInterval        = $logDateTime->diff($dateTimeAfterLog)
-                                        ->format('%s');
+                                        ->format('%s')
+        ;
         $nSecondThreshold = 60;
 
         $I->assertLessThan($nSecondThreshold, $nInterval);

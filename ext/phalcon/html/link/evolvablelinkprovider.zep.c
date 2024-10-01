@@ -58,18 +58,12 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithlink", NULL, 0, link);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -95,18 +89,12 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithoutlink", NULL, 0, link);
 	zephir_check_call_status();
 	RETURN_MM();

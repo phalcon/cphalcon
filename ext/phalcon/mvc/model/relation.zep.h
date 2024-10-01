@@ -26,11 +26,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_getfields, 0, 0, 0)
@@ -87,40 +83,16 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Relation, __construct, arginfo_phalcon_mvc_model_relation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getFields, arginfo_phalcon_mvc_model_relation_getfields, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getFields, NULL, ZEND_ACC_PUBLIC)
-#endif
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, arginfo_phalcon_mvc_model_relation_getforeignkey, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, NULL, ZEND_ACC_PUBLIC)
-#endif
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateFields, arginfo_phalcon_mvc_model_relation_getintermediatefields, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateFields, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_Model_Relation, getFields, arginfo_phalcon_mvc_model_relation_getfields, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, arginfo_phalcon_mvc_model_relation_getforeignkey, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateFields, arginfo_phalcon_mvc_model_relation_getintermediatefields, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateModel, arginfo_phalcon_mvc_model_relation_getintermediatemodel, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields, arginfo_phalcon_mvc_model_relation_getintermediatereferencedfields, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields, arginfo_phalcon_mvc_model_relation_getintermediatereferencedfields, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOption, arginfo_phalcon_mvc_model_relation_getoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOptions, arginfo_phalcon_mvc_model_relation_getoptions, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getParams, arginfo_phalcon_mvc_model_relation_getparams, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getParams, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_Model_Relation, getParams, arginfo_phalcon_mvc_model_relation_getparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getType, arginfo_phalcon_mvc_model_relation_gettype, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedFields, arginfo_phalcon_mvc_model_relation_getreferencedfields, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedFields, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedFields, arginfo_phalcon_mvc_model_relation_getreferencedfields, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedModel, arginfo_phalcon_mvc_model_relation_getreferencedmodel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, isForeignKey, arginfo_phalcon_mvc_model_relation_isforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, isThrough, arginfo_phalcon_mvc_model_relation_isthrough, ZEND_ACC_PUBLIC)

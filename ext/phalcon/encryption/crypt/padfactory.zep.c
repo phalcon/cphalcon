@@ -57,16 +57,12 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
@@ -74,8 +70,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
 	}
-
-
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -94,15 +88,11 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
@@ -113,8 +103,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 	} else {
 		ZEPHIR_INIT_VAR(&name);
 	}
-
-
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 	zephir_check_call_status();
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
@@ -136,25 +124,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *number_param = NULL, _0, _1, _2;
 	zend_long number, ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&map);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(number)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &number_param);
-	number = zephir_get_intval(number_param);
-
-
 	ZEPHIR_INIT_VAR(&map);
 	zephir_create_array(&map, 6, 0);
 	add_index_stringl(&map, 1, SL("ansi"));
@@ -173,7 +153,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	ZVAL_LONG(&_1, number);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 151, &map, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 159, &map, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -183,9 +163,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, getServices)
 {
-	zval *this_ptr = getThis();
-
-
 
 	zephir_create_array(return_value, 7, 0);
 	add_assoc_stringl_ex(return_value, SL("ansi"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Ansi"));

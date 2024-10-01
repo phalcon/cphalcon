@@ -81,22 +81,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_6);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
-	ZEPHIR_OBS_VAR(&items);
+	zephir_memory_observe(&items);
 	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 54);
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/NativeArray.zep", 57);
 		return;
 	}
-	ZEPHIR_OBS_VAR(&_1);
+	zephir_memory_observe(&_1);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	show = zephir_get_intval(&_1);
-	ZEPHIR_OBS_VAR(&_2);
+	zephir_memory_observe(&_2);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	if (pageNumber <= 0) {
@@ -106,14 +105,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_LONG(&_0, show);
 	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 18, &_0);
 	zephir_check_call_status();
-	roundedTotal = zephir_safe_div_long_zval(number, &_3);
+	roundedTotal =  (zephir_safe_div_long_zval(number, &_3));
 	totalPages = (int) (roundedTotal);
 	if (totalPages != roundedTotal) {
 		totalPages++;
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
 	ZVAL_LONG(&_4, show);
-	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 498, &items, &_0, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 501, &items, &_0, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&items, &_5);
 	if (pageNumber < totalPages) {
@@ -132,7 +131,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_LONG(&_7, number);
 	zephir_array_update_string(&_6, SL("total_items"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_OBS_VAR(&_8);
+	zephir_memory_observe(&_8);
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("limit"), &_8, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_6, SL("first"), 1);

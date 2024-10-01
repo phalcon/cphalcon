@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
@@ -34,6 +35,11 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData :: getAttributes()
      *
+     * @dataProvider getExamples
+     *
+     * @param DatabaseTester $I
+     * @param Example $example
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -41,9 +47,21 @@ class GetAttributesCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelMetadataGetAttributes(DatabaseTester $I)
-    {
+    public function mvcModelMetadataGetAttributes(
+        DatabaseTester $I,
+        Example $example
+    ) {
         $I->wantToTest('Mvc\Model\MetaData - getAttributes()');
+
+        $service = $example['service'];
+
+        $adapter = $this->newService($service);
+        $connection = $I->getConnection();
+        $adapter->setDi($this->container);
+
+        $adapter->reset();
+
+        $this->container->setShared('modelsMetadata', $adapter);
 
         /** @var MetaData $metadata */
         $metadata = $this->container->get('modelsMetadata');
@@ -59,5 +77,39 @@ class GetAttributesCest
         ];
         $actual   = $metadata->getAttributes($model);
         $I->assertEquals($expected, $actual);
+
+        $adapter = $this->newService($service);
+        $this->container->setShared('modelsMetadata', $adapter);
+        $adapter->setDi($this->container);
+
+        $I->assertNotEquals($adapter, $metadata);
+
+        $actual   = $adapter->getAttributes($model);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'service' => 'metadataMemory',
+                'className' => 'Memory',
+            ],
+            [
+                'service' => 'metadataApcu',
+                'className' => 'Apcu',
+            ],
+            [
+                'service' => 'metadataRedis',
+                'className' => 'Redis',
+            ],
+            [
+                'service' => 'metadataLibmemcached',
+                'className' => 'Libmemcached',
+            ],
+        ];
     }
 }

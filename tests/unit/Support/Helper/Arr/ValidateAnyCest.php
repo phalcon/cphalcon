@@ -35,9 +35,9 @@ class ValidateAnyCest
     {
         $I->wantToTest('Support\Helper\Arr - validateAny()');
 
-        $object     = new ValidateAny();
+        $object = new ValidateAny();
         $collection = [1, 2, 3, 4, 5];
-        $actual     = $object(
+        $actual = $object(
             $collection,
             function ($element) {
                 return $element < 2;

@@ -38,11 +38,11 @@ abstract class AbstractMigration
      *
      * @param PDO|null $connection
      */
-    final public function __construct(PDO $connection = null)
+    final public function __construct(PDO $connection = null, bool $withClear = true)
     {
         $this->connection = $connection;
 
-        $this->clear();
+        $withClear && $this->clear();
     }
 
     /**
@@ -89,22 +89,8 @@ abstract class AbstractMigration
             return 0;
         }
 
-        $driver = $this->getDriverName();
-
-        if ($driver === 'mysql') {
-            return $this->connection->exec(
-                'truncate table ' . $this->table . ';'
-            );
-        }
-
-        if ($driver === 'sqlite') {
-            return $this->connection->exec(
-                'delete from ' . $this->table . ';'
-            );
-        }
-
         return $this->connection->exec(
-            'truncate table ' . $this->table . ' cascade;'
+            'delete from ' . $this->table . ';'
         );
     }
 

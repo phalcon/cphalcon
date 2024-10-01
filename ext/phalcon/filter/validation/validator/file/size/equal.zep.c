@@ -12,14 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/math.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -78,61 +76,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Equal)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator\\File\\Size, Equal, phalcon, filter_validation_validator_file_size_equal, phalcon_filter_validation_validator_file_abstractfile_ce, phalcon_filter_validation_validator_file_size_equal_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size file size", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * Constructor
- *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'size' => '2.5MB'
- * ]
- */
-PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, __construct)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL;
-	zval options;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options_param);
-	if (!options_param) {
-		ZEPHIR_INIT_VAR(&options);
-		array_init(&options);
-	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
-	}
-
-
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_file_size_equal_ce, getThis(), "__construct", &_0, 0, &options);
-	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
  * Executes the validation
+ *
+ * @param Validation $validation
+ * @param mixed      $field
+ *
+ * @return bool
+ * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 {
+	zend_bool included = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, bytes, fileSize, replacePairs, size, value, _0, _1, _3, _4, _5, _6, _7, _2$$4, _8$$5;
+	zval *validation, validation_sub, *field, field_sub, bytes, fileSize, replacePairs, size, value, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -144,62 +109,107 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_8$$5);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "size");
-	ZEPHIR_CALL_METHOD(&size, this_ptr, "getoption", NULL, 0, &_1);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "size");
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&size) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &size, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Size/Equal.zep", 95);
-		ZEPHIR_CPY_WRT(&size, &_2$$4);
-	}
+	ZEPHIR_CALL_METHOD(&size, this_ptr, "checkarray", NULL, 0, &_1, field);
+	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getfilesizeinbytes", NULL, 0, &size);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, 6);
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_round(&bytes, &_3, &_4, NULL);
-	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Size/Equal.zep", 99);
+	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Size/Equal.zep", 89);
 	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 18, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);
 	zephir_round(&fileSize, &_6, &_7, NULL);
-	if (!ZEPHIR_IS_IDENTICAL(&bytes, &fileSize)) {
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "included");
+	ZVAL_BOOL(&_10, 0);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getoption", NULL, 0, &_2, &_10);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "checkarray", NULL, 0, &_9, field);
+	zephir_check_call_status();
+	included = zephir_get_boolval(&_8);
+	if (included) {
+		ZVAL_BOOL(&_10, 1);
+	} else {
+		ZVAL_BOOL(&_10, 0);
+	}
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getconditional", NULL, 0, &bytes, &fileSize, &_10);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_TRUE_IDENTICAL(&_8)) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":size"), &size, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_8$$5, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_11$$4, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_8$$5);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_11$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
+}
+
+/**
+ * Executes the conditional
+ *
+ * @param float $source
+ * @param float $target
+ * @param bool  $included
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional)
+{
+	zend_bool included, _0;
+	zval *source_param = NULL, *target_param = NULL, *included_param = NULL;
+	double source, target;
+
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(source)
+		Z_PARAM_ZVAL(target)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(included)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(2, 1, &source_param, &target_param, &included_param);
+	source = zephir_get_doubleval(source_param);
+	target = zephir_get_doubleval(target_param);
+	if (!included_param) {
+		included = 0;
+	} else {
+		}
+	_0 = included == 0;
+	if (_0) {
+		_0 = source != target;
+	}
+	RETURN_BOOL(_0);
 }
 

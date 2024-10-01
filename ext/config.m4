@@ -11,22 +11,22 @@ if test "$PHP_PHALCON" = "yes"; then
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/di/injectionawareinterface.zep.c
 	phalcon/html/helper/abstracthelper.zep.c
+	phalcon/events/eventsawareinterface.zep.c
 	phalcon/filter/validation/validatorinterface.zep.c
 	phalcon/filter/validation/abstractvalidator.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
-	phalcon/events/eventsawareinterface.zep.c
+	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
-	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractfactory.zep.c
 	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/forms/element/abstractelement.zep.c
-	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
+	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
 	phalcon/storage/serializer/none.zep.c
@@ -34,9 +34,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/assets/assetinterface.zep.c
+	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/configinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
-	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
@@ -49,7 +49,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/interfaces/linkinterface.zep.c
 	phalcon/html/link/interfaces/linkproviderinterface.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
-	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
@@ -69,6 +68,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/formatter/formatterinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
+	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/mvc/view/engine/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter/abstractadapter.zep.c
@@ -89,6 +89,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/domain/payload/writeableinterface.zep.c
 	phalcon/encryption/security/jwt/token/abstractitem.zep.c
 	phalcon/filter/validation/abstractvalidatorcomposite.zep.c
+	phalcon/filter/validation/validator/file/size/equal.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/html/link/abstractlink.zep.c
 	phalcon/html/link/abstractlinkprovider.zep.c
@@ -180,6 +181,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/memory.zep.c
 	phalcon/storage/adapter/redis.zep.c
 	phalcon/storage/adapter/stream.zep.c
+	phalcon/storage/adapter/weak.zep.c
 	phalcon/storage/serializer/igbinary.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/component.zep.c
@@ -214,6 +216,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/adapter/memory.zep.c
 	phalcon/cache/adapter/redis.zep.c
 	phalcon/cache/adapter/stream.zep.c
+	phalcon/cache/adapter/weak.zep.c
 	phalcon/cache/adapterfactory.zep.c
 	phalcon/cache/cache.zep.c
 	phalcon/cache/cachefactory.zep.c
@@ -248,7 +251,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/query/queryfactory.zep.c
 	phalcon/datamapper/query/select.zep.c
 	phalcon/datamapper/query/update.zep.c
-	phalcon/db/abstractdb.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
 	phalcon/db/adapter/pdo/postgresql.zep.c
 	phalcon/db/adapter/pdo/sqlite.zep.c
@@ -345,7 +347,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/validator/file/resolution/equal.zep.c
 	phalcon/filter/validation/validator/file/resolution/max.zep.c
 	phalcon/filter/validation/validator/file/resolution/min.zep.c
-	phalcon/filter/validation/validator/file/size/equal.zep.c
 	phalcon/filter/validation/validator/file/size/max.zep.c
 	phalcon/filter/validation/validator/file/size/min.zep.c
 	phalcon/filter/validation/validator/identical.zep.c
@@ -623,8 +624,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/10__closure.zep.c
 	phalcon/11__closure.zep.c
 	phalcon/12__closure.zep.c
-	phalcon/13__closure.zep.c
-	phalcon/14__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/13__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

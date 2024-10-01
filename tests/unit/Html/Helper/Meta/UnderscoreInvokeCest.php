@@ -51,10 +51,11 @@ class UnderscoreInvokeCest
             ->add($example['add'])
             ->addHttp($example['http'][0], $example['http'][1])
             ->addName($example['name'][0], $example['name'][1])
-            ->addProperty($example['property'][0], $example['property'][1]);
+            ->addProperty($example['property'][0], $example['property'][1])
+        ;
 
         $expected = $example['result'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
         $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
@@ -63,9 +64,44 @@ class UnderscoreInvokeCest
             ->add($example['add'])
             ->addHttp($example['http'][0], $example['http'][1])
             ->addName($example['name'][0], $example['name'][1])
-            ->addProperty($example['property'][0], $example['property'][1]);
+            ->addProperty($example['property'][0], $example['property'][1])
+        ;
 
-        $actual = (string) $result;
+        $actual = (string)$result;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Helper\Meta :: __invoke() - reset
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-10-24
+     */
+    public function htmlHelperMetaUnderscoreInvokeReset(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Meta - __invoke() - reset');
+
+        $escaper = new Escaper();
+        $helper  = new Meta($escaper);
+        $helper
+            ->add(['charset' => 'utf-8'])
+            ->addName('generator', 'Phalcon')
+        ;
+
+        $expected = "    <meta charset=\"utf-8\">" . PHP_EOL
+            . "    <meta name=\"generator\" content=\"Phalcon\">" . PHP_EOL;
+        $actual = (string)$helper;
+        $I->assertSame($expected, $actual);
+
+        $helper->reset();
+
+        $helper->addName('generator', 'Phalcon Team');
+        $expected = "    <meta name=\"generator\" content=\"Phalcon Team\">" . PHP_EOL;
+        $actual = (string)$helper;
         $I->assertSame($expected, $actual);
     }
 

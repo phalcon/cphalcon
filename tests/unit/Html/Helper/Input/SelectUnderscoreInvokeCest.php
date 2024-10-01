@@ -75,7 +75,7 @@ class SelectUnderscoreInvokeCest
         }
 
         $expected = $example['result'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
         $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
@@ -108,7 +108,7 @@ class SelectUnderscoreInvokeCest
             $result->optGroup($example['optgroup'][0], $example['optgroup'][1]);
         }
 
-        $actual = (string) $result;
+        $actual = (string)$result;
         $I->assertSame($expected, $actual);
     }
 

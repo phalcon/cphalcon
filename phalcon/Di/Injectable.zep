@@ -10,6 +10,7 @@
 
 namespace Phalcon\Di;
 
+use stdClass;
 use Phalcon\Di\Di;
 use Phalcon\Session\BagInterface;
 
@@ -38,11 +39,11 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata
  * @property \Phalcon\Mvc\Model\Transaction\Manager|\Phalcon\Mvc\Model\Transaction\ManagerInterface $transactionManager
  * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\Di\Di|\Phalcon\Di\Di\DiInterface $di
+ * @property \Phalcon\Di\Di|\Phalcon\Di\DiInterface $di
  * @property \Phalcon\Session\Bag|\Phalcon\Session\BagInterface $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
-abstract class Injectable implements InjectionAwareInterface
+abstract class Injectable extends stdClass implements InjectionAwareInterface
 {
     /**
      * Dependency Injector

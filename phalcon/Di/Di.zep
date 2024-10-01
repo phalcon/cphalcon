@@ -168,7 +168,7 @@ class Di implements DiInterface
      */
     public function get(string! name, parameters = null) -> var
     {
-        var service, eventsManager, isShared, instance = null;
+        var service, isShared, instance = null;
 
         /**
          * If the service is shared and it already has a cached instance then
@@ -182,14 +182,12 @@ class Di implements DiInterface
             }
         }
 
-        let eventsManager = <ManagerInterface> this->eventsManager;
-
         /**
          * Allows for custom creation of instances through the
          * "di:beforeServiceResolve" event.
          */
-        if typeof eventsManager == "object" {
-            let instance = eventsManager->fire(
+        if this->eventsManager !== null {
+            let instance = this->eventsManager->fire(
                 "di:beforeServiceResolve",
                 this,
                 [
@@ -199,7 +197,7 @@ class Di implements DiInterface
             );
         }
 
-        if typeof instance != "object" {
+        if instance === null {
             if service !== null {
                 // The service is registered in the DI.
                 try {
@@ -237,7 +235,7 @@ class Di implements DiInterface
          * Pass the DI to the instance if it implements
          * \Phalcon\Di\InjectionAwareInterface
          */
-        if typeof instance == "object" {
+        if typeof instance === "object" {
             if instance instanceof InjectionAwareInterface {
                 instance->setDI(this);
             }
@@ -251,8 +249,8 @@ class Di implements DiInterface
          * Allows for post creation instance configuration through the
          * "di:afterServiceResolve" event.
          */
-        if typeof eventsManager == "object" {
-            eventsManager->fire(
+        if this->eventsManager !== null {
+            this->eventsManager->fire(
                 "di:afterServiceResolve",
                 this,
                 [
@@ -390,7 +388,7 @@ class Di implements DiInterface
      * ];
      * ```
      *
-     * @link https://docs.phalcon.io/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/latest/di/
      */
     public function loadFromPhp(string! filePath) -> void
     {
@@ -432,7 +430,7 @@ class Di implements DiInterface
      *    className: \Acme\User
      * ```
      *
-     * @link https://docs.phalcon.io/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/latest/di/
      */
     public function loadFromYaml(string! filePath, array! callbacks = null) -> void
     {
@@ -478,9 +476,9 @@ class Di implements DiInterface
      * $di["request"] = new \Phalcon\Http\Request();
      *```
      */
-    public function offsetSet(mixed name, mixed definition) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
-        this->setShared(name, definition);
+        this->setShared(offset, value);
     }
 
     /**

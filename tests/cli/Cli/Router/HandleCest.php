@@ -64,101 +64,10 @@ class HandleCest
         Route::reset();
 
         $router = new Router();
-
-        $router->add(
-            ' ',
-            [
-                'module' => 'devtools',
-                'task'   => 'main',
-                'action' => 'hello',
-            ]
-        );
-
-        $router->add(
-            'system :task a :action :params',
-            [
-                'task'   => 1,
-                'action' => 2,
-                'params' => 3,
-            ]
-        );
-
-        $router->add(
-            '([a-z]{2}) :task',
-            [
-                'task'     => 2,
-                'action'   => 'index',
-                'language' => 1,
-            ]
-        );
-
-        $router->add(
-            'admin :task :action :int',
-            [
-                'module' => 'admin',
-                'task'   => 1,
-                'action' => 2,
-                'id'     => 3,
-            ]
-        );
-
-        $router->add(
-            'posts ([0-9]{4}) ([0-9]{2}) ([0-9]{2}) :params',
-            [
-                'task'   => 'posts',
-                'action' => 'show',
-                'year'   => 1,
-                'month'  => 2,
-                'day'    => 3,
-                'params' => 4,
-            ]
-        );
-
-        $router->add(
-            'manual ([a-z]{2}) ([a-z\.]+)\.txt',
-            [
-                'task'     => 'manual',
-                'action'   => 'show',
-                'language' => 1,
-                'file'     => 2,
-            ]
-        );
-
-        $router->add(
-            'named-manual {language:([a-z]{2})} {file:[a-z\.]+}\.txt',
-            [
-                'task'   => 'manual',
-                'action' => 'show',
-            ]
-        );
-
-        $router->add(
-            'very static route',
-            [
-                'task'   => 'static',
-                'action' => 'route',
-            ]
-        );
-
-        $router->add(
-            "feed {lang:[a-z]+} blog {blog:[a-z\-]+}\.{type:[a-z\-]+}",
-            'Feed::get'
-        );
-
-        $router->add(
-            "posts {year:[0-9]+} s {title:[a-z\-]+}",
-            'Posts::show'
-        );
-
-        $router->add(
-            'posts delete {id}',
-            'Posts::delete'
-        );
-
-        $router->add(
-            "show {id:video([0-9]+)} {title:[a-z\-]+}",
-            'Videos::show'
-        );
+        $routes = $this->setupRoutes('router');
+        foreach ($routes as $pattern => $parameters) {
+            $router->add($pattern, $parameters);
+        }
 
         $this->assertParameters($I, $router, $example);
     }
@@ -186,107 +95,16 @@ class HandleCest
      * @return void
      * @throws Exception
      */
-    public function testDelimiter(CliTester $I, Example $example)
+    public function cliRouterHandleRouterDelimiter(CliTester $I, Example $example)
     {
         Route::reset();
         Route::delimiter('/');
 
         $router = new Router();
-
-        $router->add(
-            '/',
-            [
-                'module' => 'devtools',
-                'task'   => 'main',
-                'action' => 'hello',
-            ]
-        );
-
-        $router->add(
-            '/system/:task/a/:action/:params',
-            [
-                'task'   => 1,
-                'action' => 2,
-                'params' => 3,
-            ]
-        );
-
-        $router->add(
-            '/([a-z]{2})/:task',
-            [
-                'task'     => 2,
-                'action'   => 'index',
-                'language' => 1,
-            ]
-        );
-
-        $router->add(
-            '/admin/:task/:action/:int',
-            [
-                'module' => 'admin',
-                'task'   => 1,
-                'action' => 2,
-                'id'     => 3,
-            ]
-        );
-
-        $router->add(
-            '/posts/([0-9]{4})/([0-9]{2})/([0-9]{2})/:params',
-            [
-                'task'   => 'posts',
-                'action' => 'show',
-                'year'   => 1,
-                'month'  => 2,
-                'day'    => 3,
-                'params' => 4,
-            ]
-        );
-
-        $router->add(
-            '/manual/([a-z]{2})/([a-z\.]+)\.txt',
-            [
-                'task'     => 'manual',
-                'action'   => 'show',
-                'language' => 1,
-                'file'     => 2,
-            ]
-        );
-
-        $router->add(
-            '/named-manual/{language:([a-z]{2})}/{file:[a-z\.]+}\.txt',
-            [
-                'task'   => 'manual',
-                'action' => 'show',
-            ]
-        );
-
-        $router->add(
-            '/very/static/route',
-            [
-                'task'   => 'static',
-                'action' => 'route',
-            ]
-        );
-
-        $router->add(
-            "/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}",
-            'Feed::get'
-        );
-
-        $router->add(
-            "/posts/{year:[0-9]+}/s/{title:[a-z\-]+}",
-            'Posts::show'
-        );
-
-        $router->add(
-            '/posts/delete/{id}',
-            'Posts::delete'
-        );
-
-        $router->add(
-            "/show/{id:video([0-9]+)}/{title:[a-z\-]+}",
-            'Videos::show'
-        );
+        $routes = $this->setupRoutes('delimiter');
+        foreach ($routes as $pattern => $parameters) {
+            $router->add($pattern, $parameters);
+        }
 
         $this->assertParameters($I, $router, $example);
     }
@@ -742,5 +560,112 @@ class HandleCest
                 'params' => [],
             ],
         ];
+    }
+
+    private function setupRoutes(string $test): array
+    {
+        $routes = [
+            'router'    => [
+                ' '                                                        => [
+                    'module' => 'devtools',
+                    'task'   => 'main',
+                    'action' => 'hello',
+                ],
+                'system :task a :action :params'                           => [
+                    'task'   => 1,
+                    'action' => 2,
+                    'params' => 3,
+                ],
+                '([a-z]{2}) :task'                                         => [
+                    'task'     => 2,
+                    'action'   => 'index',
+                    'language' => 1,
+                ],
+                'admin :task :action :int'                                 => [
+                    'module' => 'admin',
+                    'task'   => 1,
+                    'action' => 2,
+                    'id'     => 3,
+                ],
+                'posts ([0-9]{4}) ([0-9]{2}) ([0-9]{2}) :params'           => [
+                    'task'   => 'posts',
+                    'action' => 'show',
+                    'year'   => 1,
+                    'month'  => 2,
+                    'day'    => 3,
+                    'params' => 4,
+                ],
+                'manual ([a-z]{2}) ([a-z\.]+)\.txt'                        => [
+                    'task'     => 'manual',
+                    'action'   => 'show',
+                    'language' => 1,
+                    'file'     => 2,
+                ],
+                'named-manual {language:([a-z]{2})} {file:[a-z\.]+}\.txt'  => [
+                    'task'   => 'manual',
+                    'action' => 'show',
+                ],
+                'very static route'                                        => [
+                    'task'   => 'static',
+                    'action' => 'route',
+                ],
+                "feed {lang:[a-z]+} blog {blog:[a-z\-]+}\.{type:[a-z\-]+}" => 'Feed::get',
+                "posts {year:[0-9]+} s {title:[a-z\-]+}"                   => 'Posts::show',
+                'posts delete {id}'                                        => 'Posts::delete',
+                "show {id:video([0-9]+)} {title:[a-z\-]+}"                 => 'Videos::show',
+            ],
+            'delimiter' => [
+                '/'                                                         => [
+                    'module' => 'devtools',
+                    'task'   => 'main',
+                    'action' => 'hello',
+                ],
+                '/system/:task/a/:action/:params'                           => [
+                    'task'   => 1,
+                    'action' => 2,
+                    'params' => 3,
+                ],
+                '/([a-z]{2})/:task'                                         => [
+                    'task'     => 2,
+                    'action'   => 'index',
+                    'language' => 1,
+                ],
+                '/admin/:task/:action/:int'                                 => [
+                    'module' => 'admin',
+                    'task'   => 1,
+                    'action' => 2,
+                    'id'     => 3,
+                ],
+                '/posts/([0-9]{4})/([0-9]{2})/([0-9]{2})/:params'           => [
+                    'task'   => 'posts',
+                    'action' => 'show',
+                    'year'   => 1,
+                    'month'  => 2,
+                    'day'    => 3,
+                    'params' => 4,
+                ],
+                '/manual/([a-z]{2})/([a-z\.]+)\.txt'                        => [
+                    'task'     => 'manual',
+                    'action'   => 'show',
+                    'language' => 1,
+                    'file'     => 2,
+                ],
+                '/named-manual/{language:([a-z]{2})}/{file:[a-z\.]+}\.txt'  => [
+                    'task'   => 'manual',
+                    'action' => 'show',
+                ],
+                '/very/static/route'                                        => [
+                    'task'   => 'static',
+                    'action' => 'route',
+                ],
+                "/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}" => 'Feed::get',
+                "/posts/{year:[0-9]+}/s/{title:[a-z\-]+}"                   => 'Posts::show',
+                '/posts/delete/{id}'                                        => 'Posts::delete',
+                "/show/{id:video([0-9]+)}/{title:[a-z\-]+}"                 => 'Videos::show',
+
+            ],
+        ];
+
+        return $routes[$test] ?? [];
     }
 }

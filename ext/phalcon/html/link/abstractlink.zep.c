@@ -79,18 +79,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, __construct)
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&attributes);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(rel)
 		Z_PARAM_STR(href)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 3, &rel_param, &href_param, &attributes_param);
 	if (!rel_param) {
 		ZEPHIR_INIT_VAR(&rel);
@@ -110,16 +106,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, __construct)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22, &attributes);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 23, &attributes);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 23);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rels"), &_1);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("href"), &href);
@@ -151,9 +145,8 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetAttributes)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
@@ -176,9 +169,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetAttributes)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetHref)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "href");
 }
@@ -200,9 +190,8 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetRels)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_1, 0);
@@ -219,9 +208,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetRels)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLink, doIsTemplated)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "templated");
 }
@@ -242,34 +228,27 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *href_param = NULL, _0, _1, _3;
 	zval href;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&href);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(href)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &href_param);
 	zephir_get_strval(&href, href_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "{");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 82, &href, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 86, &href, &_0);
 	zephir_check_call_status();
 	_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_1);
 	if (_2) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "}");
-		ZEPHIR_CALL_FUNCTION(&_3, "mb_strpos", NULL, 82, &href, &_0);
+		ZEPHIR_CALL_FUNCTION(&_3, "mb_strpos", NULL, 86, &href, &_0);
 		zephir_check_call_status();
 		_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_3);
 	}
@@ -294,20 +273,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithAttribute)
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 	zephir_get_strval(&key, key_param);
-
-
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
@@ -334,19 +307,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithHref)
 	ZVAL_UNDEF(&href);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(href)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &href_param);
 	zephir_get_strval(&href, href_param);
-
-
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
@@ -375,19 +342,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithRel)
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key_param);
 	zephir_get_strval(&key, key_param);
-
-
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
@@ -415,19 +376,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithoutAttribute)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key_param);
 	zephir_get_strval(&key, key_param);
-
-
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
@@ -454,19 +409,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithoutRel)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key_param);
 	zephir_get_strval(&key, key_param);
-
-
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();

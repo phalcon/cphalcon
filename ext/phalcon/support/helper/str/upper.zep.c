@@ -52,17 +52,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Upper, __invoke)
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&encoding);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(encoding)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &text_param, &encoding_param);
 	zephir_get_strval(&text, text_param);
 	if (!encoding_param) {
@@ -71,8 +67,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Upper, __invoke)
 	} else {
 		zephir_get_strval(&encoding, encoding_param);
 	}
-
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toupper", NULL, 0, &text, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();

@@ -118,17 +118,17 @@ interface MetaDataInterface
     /**
      * Reads column-map information for certain model using a MODEL_* constant
      */
-    public function readColumnMapIndex(<ModelInterface> model, int index);
+    public function readColumnMapIndex(<ModelInterface> model, int index) -> array | null;
 
     /**
      * Reads meta-data for certain model
      */
-    public function readMetaData(<ModelInterface> model) -> array;
+    public function readMetaData(<ModelInterface> model) -> array | null;
 
     /**
      * Reads meta-data for certain model using a MODEL_* constant
      */
-    public function readMetaDataIndex(<ModelInterface> model, int index) -> var;
+    public function readMetaDataIndex(<ModelInterface> model, int index) -> array | null;
 
     /**
      * Resets internal meta-data in order to regenerate it

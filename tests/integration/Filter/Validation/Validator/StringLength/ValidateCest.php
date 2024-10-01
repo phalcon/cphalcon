@@ -56,7 +56,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -68,7 +68,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
@@ -102,7 +102,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -160,7 +160,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -214,7 +214,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -265,14 +265,13 @@ class ValidateCest
             )
         );
 
-
         $messages = $validation->validate(
             [
                 'message' => 'Pet',
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -346,7 +345,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -359,12 +358,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -377,17 +376,17 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['type'],
             $messages->offsetGet(1)->getMessage()
         );
@@ -445,7 +444,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -458,12 +457,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -476,12 +475,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['type'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -494,17 +493,17 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMaximumMessages['type'],
             $messages->offsetGet(1)->getMessage()
         );

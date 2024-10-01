@@ -10,7 +10,6 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Size;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\AbstractFile;
 
@@ -60,47 +59,43 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  */
 class Equal extends AbstractFile
 {
+    /**
+     * @var string|null
+     */
     protected template = "File :field does not have the exact :size file size";
 
     /**
-     * Constructor
-     *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'size' => '2.5MB'
-     * ]
-     */
-    public function __construct(array! options = [])
-    {
-        parent::__construct(options);
-    }
-
-    /**
      * Executes the validation
+     *
+     * @param Validation $validation
+     * @param mixed      $field
+     *
+     * @return bool
+     * @throws Validation\Exception
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var bytes, fileSize, replacePairs, size, value;
+        var bytes, included, fileSize, replacePairs, size, value;
 
         // Check file upload
-        if this->checkUpload(validation, field) === false {
+        if (true !== this->checkUpload(validation, field)) {
             return false;
         }
 
-        let value = validation->getValue(field),
-            size = this->getOption("size");
+        let value = validation->getValue(field);
+        let size  = this->checkArray(this->getOption("size"), field);
 
-        if typeof size == "array" {
-            let size = size[field];
-        }
+        let bytes    = round(this->getFileSizeInBytes(size), 6);
+        let fileSize = round(floatval(value["size"]), 6);
 
-        let bytes = round(this->getFileSizeInBytes(size), 6),
-            fileSize = round(floatval(value["size"]), 6);
+        let included = (bool)this->checkArray(
+            this->getOption("included", false),
+            field
+        );
 
-        if bytes !== fileSize {
+        if (true === this->getConditional(bytes, fileSize, included)) {
             let replacePairs = [
-                ":size"  : size
+                ":size" : size
             ];
 
             validation->appendMessage(
@@ -111,5 +106,22 @@ class Equal extends AbstractFile
         }
 
         return true;
+    }
+
+    /**
+     * Executes the conditional
+     *
+     * @param float $source
+     * @param float $target
+     * @param bool  $included
+     *
+     * @return bool
+     */
+    protected function getConditional(
+        float source,
+        float target,
+        bool included = false
+    ) {
+        return included === false && source !== target;
     }
 }

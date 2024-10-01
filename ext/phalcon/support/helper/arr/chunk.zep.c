@@ -50,33 +50,24 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Chunk, __invoke)
 	zend_long size, ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *size_param = NULL, *preserveKeys_param = NULL, _0, _1;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_LONG(size)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(preserveKeys)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &collection_param, &size_param, &preserveKeys_param);
 	zephir_get_arrval(&collection, collection_param);
-	size = zephir_get_intval(size_param);
 	if (!preserveKeys_param) {
 		preserveKeys = 0;
 	} else {
-		preserveKeys = zephir_get_boolval(preserveKeys_param);
-	}
-
-
+		}
 	ZVAL_LONG(&_0, size);
 	ZVAL_BOOL(&_1, (preserveKeys ? 1 : 0));
 	ZEPHIR_RETURN_CALL_FUNCTION("array_chunk", NULL, 0, &collection, &_0, &_1);

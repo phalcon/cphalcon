@@ -64,11 +64,7 @@ PHP_METHOD(Phalcon_Mvc_View, getDirSeparator);
 zend_object *zephir_init_properties_Phalcon_Mvc_View(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___get, 0, 0, 1)
@@ -157,11 +153,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getrender, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 	ZEND_ARG_INFO(0, configCallback)
 ZEND_END_ARG_INFO()
 
@@ -198,11 +190,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_render, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_reset, 0, 0, Phalcon\\Mvc\\View, 0)
@@ -274,11 +262,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_tostring, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_enginerender, 0, 0, 3)
@@ -298,11 +282,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_processrender, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO(0, fireEvents, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -326,11 +306,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, exists, arginfo_phalcon_mvc_view_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, finish, arginfo_phalcon_mvc_view_finish, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getActionName, arginfo_phalcon_mvc_view_getactionname, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, arginfo_phalcon_mvc_view_getactiverenderpath, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, arginfo_phalcon_mvc_view_getactiverenderpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getBasePath, arginfo_phalcon_mvc_view_getbasepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getContent, arginfo_phalcon_mvc_view_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getControllerName, arginfo_phalcon_mvc_view_getcontrollername, ZEND_ACC_PUBLIC)
@@ -346,11 +322,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getPartialsDir, arginfo_phalcon_mvc_view_getpartialsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getRender, arginfo_phalcon_mvc_view_getrender, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getVar, arginfo_phalcon_mvc_view_getvar, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_View, getViewsDir, arginfo_phalcon_mvc_view_getviewsdir, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Mvc_View, getViewsDir, arginfo_phalcon_mvc_view_getviewsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getViewsDirs, arginfo_phalcon_mvc_view_getviewsdirs, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, has, arginfo_phalcon_mvc_view_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, isDisabled, arginfo_phalcon_mvc_view_isdisabled, ZEND_ACC_PUBLIC)

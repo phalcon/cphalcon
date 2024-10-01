@@ -20,6 +20,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use stdClass;
 
@@ -80,6 +81,39 @@ class GetSetCest
 
         $result = $adapter->has($key);
         $I->assertFalse($result);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Weak :: get()/set()
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function cacheAdapterWeakGetSet(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Weak - get()/set()');
+
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $key = uniqid();
+        $obj = new \stdClass();
+        $result = $adapter->set($key, "test");
+        $I->assertFalse($result);
+        $result = $adapter->set($key, $obj);
+        $I->assertTrue($result);
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
+
+        /**
+         * There is no TTl.
+         */
+        $result = $adapter->set($key, $obj, 0);
+        $I->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
     }
 
     /**

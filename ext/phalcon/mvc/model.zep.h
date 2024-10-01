@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query);
 PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, refresh);
 PHP_METHOD(Phalcon_Mvc_Model, save);
+PHP_METHOD(Phalcon_Mvc_Model, doSave);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
 PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
@@ -104,6 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, validate);
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
 PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
@@ -159,11 +161,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 1, P
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_average, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, parameters, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, parameters, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_cloneresult, 0, 2, Phalcon\\Mvc\\ModelInterface, 0)
@@ -202,7 +200,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dump, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -314,18 +312,17 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_save, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_serialize, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dosave, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 80000
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 1, IS_VOID, 0)
-    ZEND_ARG_TYPE_INFO(0, serialized, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_serialize, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
-#else
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 1, IS_VOID, 0)
-    ZEND_ARG_INFO(0, serialized)
+
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 ZEND_END_ARG_INFO()
-#endif
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setconnectionservice, 0, 1, IS_VOID, 0)
 
@@ -384,6 +381,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, columns)
+	ZEND_ARG_INFO(0, useGetter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_update, 0, 0, _IS_BOOL, 0)
@@ -450,9 +448,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3,
 	ZEND_ARG_INFO(0, identityField)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, 0)
@@ -460,9 +459,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2
 	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_allowemptystringvalues, 0, 1, IS_VOID, 0)
@@ -477,11 +477,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_belongsto, 0, 3
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getpreparedquery, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
@@ -493,11 +489,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasmany, 0, 3, 
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasmanytomany, 0, 6, Phalcon\\Mvc\\Model\\Relation, 0)
@@ -507,22 +499,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasmanytomany, 
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasone, 0, 3, Phalcon\\Mvc\\Model\\Relation, 0)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasonethrough, 0, 6, Phalcon\\Mvc\\Model\\Relation, 0)
@@ -532,11 +516,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasonethrough, 
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_keepsnapshots, 0, 1, IS_VOID, 0)
@@ -582,6 +562,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_caseinsensitivecolumnmap, 0, 2, IS_STRING, 0)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_appendmessagesfrom, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_zephir_init_properties_phalcon_mvc_model, 0, 0, 0)
@@ -640,6 +625,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, readAttribute, arginfo_phalcon_mvc_model_readattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, refresh, arginfo_phalcon_mvc_model_refresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, save, arginfo_phalcon_mvc_model_save, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, doSave, arginfo_phalcon_mvc_model_dosave, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, serialize, arginfo_phalcon_mvc_model_serialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_model_setconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
@@ -672,11 +658,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, postSave, arginfo_phalcon_mvc_model_postsave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, postSaveRelatedRecords, arginfo_phalcon_mvc_model_postsaverelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_canceloperation, ZEND_ACC_PROTECTED)
-#else
-	PHP_ME(Phalcon_Mvc_Model, cancelOperation, NULL, ZEND_ACC_PROTECTED)
-#endif
+PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_canceloperation, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getPreparedQuery, arginfo_phalcon_mvc_model_getpreparedquery, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)
@@ -693,5 +675,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, arginfo_phalcon_mvc_model_validationhasfailed, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, caseInsensitiveColumnMap, arginfo_phalcon_mvc_model_caseinsensitivecolumnmap, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, appendMessagesFrom, arginfo_phalcon_mvc_model_appendmessagesfrom, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

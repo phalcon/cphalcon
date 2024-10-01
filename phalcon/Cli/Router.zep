@@ -461,17 +461,20 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName)
+    public function setDefaultAction(string actionName) -> <Router>
     {
         let this->defaultAction = actionName;
+        
+        return this;
     }
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string moduleName)
+    public function setDefaultModule(string moduleName) -> <Router>
     {
         let this->defaultModule = moduleName;
+        return this;
     }
 
     /**

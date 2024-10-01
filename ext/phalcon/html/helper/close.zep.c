@@ -55,26 +55,19 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(tag)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &tag_param, &raw_param);
 	zephir_get_strval(&tag, tag_param);
 	if (!raw_param) {
 		raw = 0;
 	} else {
-		raw = zephir_get_boolval(raw_param);
-	}
-
-
+		}
 	if (raw) {
 		ZVAL_BOOL(&_0, 1);
 	} else {

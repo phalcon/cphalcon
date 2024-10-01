@@ -103,6 +103,8 @@ interface ValidationInterface
      *
      * @param array|object data
      * @param object entity
+     *
+     * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages>;
+    public function validate(var data = null, var entity = null) -> <Messages> | bool;
 }

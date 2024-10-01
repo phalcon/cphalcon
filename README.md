@@ -26,7 +26,7 @@ You can either download a binary package for the system of your choice or build 
 
 ## Installation
 
-For detailed installation instructions you can check our [installation](https://docs.phalcon.io/5.0/en/installation) page in the docs.
+For detailed installation instructions you can check our [installation](https://docs.phalcon.io/latest/installation/) page in the docs.
 
 ## Generating API Documentation
 
@@ -36,7 +36,7 @@ Steps:
 - Checkout the tag you would like to generate docs for.
 - Run `php tests/__config/generate-api-docs.php`
 - The files *.md files in nikos/api/ will contain the documentation
-- For publishing to the Phalcon website this [repo](https://github.com/phalcon/docs/tree/5.0/en/api) is used.
+- For publishing to the Phalcon website this [repo](https://github.com/phalcon/docs/tree/5.0/api) is used.
 
 ## Links
 

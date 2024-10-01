@@ -23,11 +23,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_apcu_clear, 0, 0, _IS_BOOL, 0)
@@ -73,8 +69,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcudec, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO(0, step, IS_LONG, 0)
-	ZEND_ARG_INFO(0, success)
-	ZEND_ARG_TYPE_INFO(0, ttl, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcudelete, 0, 0, 1)
@@ -88,13 +82,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcuinc, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO(0, step, IS_LONG, 0)
-	ZEND_ARG_INFO(0, success)
-	ZEND_ARG_TYPE_INFO(0, ttl, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcufetch, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, success)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcuiterator, 0, 0, 1)

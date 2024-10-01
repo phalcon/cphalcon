@@ -70,49 +70,42 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 	ZVAL_UNDEF(&headers_sub);
 	ZVAL_UNDEF(&claims_sub);
 	ZVAL_UNDEF(&signature_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_encryption_security_jwt_token_item_ce)
 		Z_PARAM_OBJECT_OF_CLASS(claims, phalcon_encryption_security_jwt_token_item_ce)
 		Z_PARAM_OBJECT_OF_CLASS(signature, phalcon_encryption_security_jwt_token_signature_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), headers);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), claims);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("signature"), signature);
 }
 
 /**
+ * Return the registered claims
+ *
  * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "claims");
 }
 
 /**
+ * Return the registered headers
+ *
  * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "headers");
 }
 
 /**
+ * Return the payload
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
@@ -126,9 +119,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getencoded", NULL, 0);
@@ -141,18 +133,19 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 }
 
 /**
+ * Return the signature
+ *
  * @return Signature
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "signature");
 }
 
 /**
+ * Return the token
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
@@ -165,9 +158,8 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getpayload", NULL, 0);
 	zephir_check_call_status();
@@ -192,7 +184,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validator, validator_sub, claimId, method, _0, _1, *_2, _3;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validator_sub);
 	ZVAL_UNDEF(&claimId);
@@ -201,18 +192,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&methods);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_encryption_security_jwt_validator_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &validator);
-
-
 	ZEPHIR_INIT_VAR(&methods);
 	zephir_create_array(&methods, 6, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -245,7 +230,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 121);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 131);
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _4, _5, _2)
 		{
@@ -311,20 +296,14 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&key);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_encryption_security_jwt_signer_signerinterface_ce)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &signer, &key_param);
 	zephir_get_strval(&key, key_param);
-
-
 	ZEPHIR_CALL_METHOD(&_0, signer, "getalgheader", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getheaders", NULL, 0);

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
 use Phalcon\Tests\Fixtures\Http\PhpStream;
+use stdClass;
 use UnitTester;
 
 use function file_put_contents;
@@ -58,6 +59,30 @@ class GetJsonRawBodyCest
         $expected = json_decode($input, true);
         $actual   = $request->getJsonRawBody(true);
         $I->assertSame($expected, $actual);
+
+        stream_wrapper_restore('php');
+    }
+
+    public function httpRequestGetJsonRawBodyWhenBodyIsEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getJsonRawBody() when Body is Empty');
+
+        $request = new Request();
+
+        stream_wrapper_unregister('php');
+        stream_wrapper_register('php', PhpStream::class);
+
+        $input = json_encode(new stdClass());
+
+        file_put_contents('php://input', $input);
+
+        $expected = json_decode($input);
+        $actual   = $request->getJsonRawBody();
+
+        $I->assertEquals($expected, $actual);
+
+        //and not null
+        $I->assertNotNull($actual);
 
         stream_wrapper_restore('php');
     }

@@ -9,8 +9,6 @@
  * following url: https://docs.zephir-lang.com/en/latest/license
  */
 
-#ifndef ZEPHIR_KERNEL_ARRAY_H
-#define ZEPHIR_KERNEL_ARRAY_H
 #define ZEPHIR_MAX_ARRAY_LEVELS 16
 
 #include <php.h>
@@ -73,5 +71,3 @@ int zephir_fast_in_array(zval *needle, zval *haystack);
 		Z_TRY_ADDREF_P(value); \
 		zend_hash_next_index_insert(Z_ARRVAL_P(arr), value); \
 	} while (0)
-
-#endif /* ZEPHIR_KERNEL_ARRAY_H */

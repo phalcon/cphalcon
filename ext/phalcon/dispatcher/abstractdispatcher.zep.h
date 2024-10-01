@@ -47,11 +47,7 @@ zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_c
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_callactionmethod, 0, 0, 2)
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_TYPE_INFO(0, actionMethod, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_dispatch, 0, 0, 0)
@@ -214,11 +210,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_dispatcher_abstractdispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod, arginfo_phalcon_dispatcher_abstractdispatcher_callactionmethod, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, arginfo_phalcon_dispatcher_abstractdispatcher_dispatch, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, arginfo_phalcon_dispatcher_abstractdispatcher_dispatch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, forward, arginfo_phalcon_dispatcher_abstractdispatcher_forward, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getActionName, arginfo_phalcon_dispatcher_abstractdispatcher_getactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getActionSuffix, arginfo_phalcon_dispatcher_abstractdispatcher_getactionsuffix, ZEND_ACC_PUBLIC)
@@ -252,11 +244,7 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_abstractdispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setModelBinder, arginfo_phalcon_dispatcher_abstractdispatcher_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setModuleName, arginfo_phalcon_dispatcher_abstractdispatcher_setmodulename, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setNamespaceName, arginfo_phalcon_dispatcher_abstractdispatcher_setnamespacename, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, arginfo_phalcon_dispatcher_abstractdispatcher_getreturnedvalue, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, arginfo_phalcon_dispatcher_abstractdispatcher_getreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, wasForwarded, arginfo_phalcon_dispatcher_abstractdispatcher_wasforwarded, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, resolveEmptyProperties, arginfo_phalcon_dispatcher_abstractdispatcher_resolveemptyproperties, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase, arginfo_phalcon_dispatcher_abstractdispatcher_tocamelcase, ZEND_ACC_PROTECTED)

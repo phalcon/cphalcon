@@ -161,9 +161,15 @@ class Title extends AbstractHelper
      */
     public function prepend(string text, bool raw = false) -> <Title>
     {
+        var prepend;
+
         let text = raw ? text : this->escaper->html(text);
 
-        let this->prepend[] = text;
+        let prepend = this->prepend;
+
+        array_unshift(prepend, text);
+
+        let this->prepend = prepend;
 
         return this;
     }

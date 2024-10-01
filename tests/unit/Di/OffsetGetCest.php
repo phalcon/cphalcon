@@ -43,7 +43,7 @@ class OffsetGetCest
 
         $container->set('escaper', Escaper::class);
 
-        $class  = Escaper::class;
+        $class = Escaper::class;
         $actual = $container->offsetGet('escaper');
         $I->assertInstanceOf($class, $actual);
 

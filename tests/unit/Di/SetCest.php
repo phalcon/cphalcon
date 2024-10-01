@@ -127,7 +127,7 @@ class SetCest
                 'string',
                 'escaper',
                 Escaper::class,
-                Escaper::class
+                Escaper::class,
             ],
             [
                 'anonymous',
@@ -135,7 +135,7 @@ class SetCest
                 function () {
                     return new Escaper();
                 },
-                Escaper::class
+                Escaper::class,
             ],
             [
                 'array',
@@ -143,7 +143,7 @@ class SetCest
                 [
                     'className' => Escaper::class,
                 ],
-                Escaper::class
+                Escaper::class,
             ],
         ];
     }

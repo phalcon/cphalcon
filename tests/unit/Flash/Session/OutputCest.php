@@ -128,7 +128,7 @@ class OutputCest
         $flash = new Session();
         $flash->setDI($this->container);
 
-        $message1 = uniqid('m-');
+        $message1       = uniqid('m-');
         $customTemplate = "
 <div class='%cssClass%' role='alert'>
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>

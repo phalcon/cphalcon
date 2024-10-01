@@ -18,6 +18,10 @@ use Phalcon\Html\Helper\Title;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use function uniqid;
+
+use const PHP_EOL;
+
 /**
  * Class UnderscoreInvokeCest
  *
@@ -75,7 +79,7 @@ class UnderscoreInvokeCest
         $I->assertSame($expected, $actual);
 
         $expected = $example['render'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
         $I->assertSame($expected, $actual);
 
         $factory = new TagFactory($escaper);
@@ -104,7 +108,79 @@ class UnderscoreInvokeCest
         $I->assertSame($expected, $actual);
 
         $expected = $example['render'];
-        $actual   = (string) $result;
+        $actual   = (string)$result;
+        $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Helper\Title :: prepend twice
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-02-20
+     * @issue  https://github.com/phalcon/cphalcon/issues/16283
+     */
+    public function htmlHelperTitlePrependTwice(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Title - prepend twice');
+
+        $escaper = new Escaper();
+        $tag     = new TagFactory($escaper);
+
+        $title     = uniqid('tit-'); // Start
+        $prepend1  = uniqid('pr1-'); // Category
+        $prepend2  = uniqid('pr2-'); // Product
+        $separator = ' - ';
+
+        $tag
+            ->title()
+            ->set($title)
+            ->setSeparator($separator)
+        ;
+
+        // Start
+        $expected = '    <title>' . $title . '</title>' . PHP_EOL;
+        $actual   = (string)$tag->title();
+        $I->assertSame($expected, $actual);
+
+        $tag
+            ->title()
+            ->set($title)
+            ->setSeparator($separator)
+            ->prepend($prepend1)
+        ;
+
+        // Category - Start
+        $expected = '    <title>'
+            . $prepend1
+            . $separator
+            . $title
+            . '</title>'
+            . PHP_EOL;
+        $actual   = (string)$tag->title();
+        $I->assertSame($expected, $actual);
+
+        $tag
+            ->title()
+            ->set($title)
+            ->setSeparator($separator)
+            ->prepend($prepend1)
+            ->prepend($prepend2)
+        ;
+
+        // Product - Category - Start
+        $expected = '    <title>'
+            . $prepend2
+            . $separator
+            . $prepend1
+            . $separator
+            . $title
+            . '</title>'
+            . PHP_EOL;
+        $actual   = (string)$tag->title();
         $I->assertSame($expected, $actual);
     }
 
@@ -180,8 +256,8 @@ class UnderscoreInvokeCest
                 'indent'    => '',
                 'delimiter' => '',
                 'prepend'   => [
-                    'Home >'  => false,
                     'Admin >' => false,
+                    'Home >'  => false,
                 ],
                 'title'     => 'Accounting',
                 'titleRaw'  => false,
@@ -210,8 +286,8 @@ class UnderscoreInvokeCest
                 'indent'    => '',
                 'delimiter' => '',
                 'prepend'   => [
-                    'Home >'  => true,
                     'Admin >' => true,
+                    'Home >'  => true,
                 ],
                 'title'     => 'Accounting',
                 'titleRaw'  => false,

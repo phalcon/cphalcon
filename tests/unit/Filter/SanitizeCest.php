@@ -48,7 +48,7 @@ class SanitizeCest
                 'Filter\Sanitize\* = %s - %s : "%s"',
                 $class,
                 $label,
-                (is_array($source) ? implode(":", $source) : (string) $source)
+                (is_array($source) ? implode(":", $source) : (string)$source)
             )
         );
 
@@ -283,6 +283,20 @@ class SanitizeCest
             ],
             [
                 'class'    => 'bool',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 0,
+                'expected' => false,
+            ],
+            [
+                'class'    => 'bool',
+                'label'    => '__invoke()',
+                'method'   => '',
+                'source'   => 1,
+                'expected' => true,
+            ],
+            [
+                'class'    => 'bool',
                 'label'    => 'bool()',
                 'method'   => 'bool',
                 'source'   => [1000],
@@ -352,6 +366,20 @@ class SanitizeCest
                 'expected' => false,
             ],
             [
+                'class'    => 'bool',
+                'label'    => 'bool()',
+                'method'   => 'bool',
+                'source'   => [1],
+                'expected' => true,
+            ],
+            [
+                'class'    => 'bool',
+                'label'    => 'bool()',
+                'method'   => 'bool',
+                'source'   => [0],
+                'expected' => false,
+            ],
+            [
                 'class'    => 'email',
                 'label'    => '__invoke()',
                 'method'   => '',
@@ -377,8 +405,10 @@ class SanitizeCest
                 'class'    => 'email',
                 'label'    => 'email()',
                 'method'   => 'email',
-                'source'   => ["!(first.guy)
-                    @*my-domain**##.com.rx//"],
+                'source'   => [
+                    "!(first.guy)
+                    @*my-domain**##.com.rx//",
+                ],
                 'expected' => "!first.guy@*my-domain**##.com.rx",
             ],
             [

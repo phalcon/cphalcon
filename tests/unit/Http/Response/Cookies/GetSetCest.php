@@ -114,7 +114,7 @@ class GetSetCest extends HttpBase
             'localhost',
             false,
             [
-                'samesite' => 'None'
+                'samesite' => 'None',
             ]
         );
 
@@ -127,7 +127,7 @@ class GetSetCest extends HttpBase
             'localhost',
             false,
             [
-                'samesite' => 'Lax'
+                'samesite' => 'Lax',
             ]
         );
 
@@ -140,7 +140,7 @@ class GetSetCest extends HttpBase
             'localhost',
             false,
             [
-                'samesite' => 'Strict'
+                'samesite' => 'Strict',
             ]
         );
 

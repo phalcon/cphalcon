@@ -21,6 +21,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Redis as NativeRedis;
 
@@ -41,7 +42,7 @@ class GetSetForeverCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    public function storageAdapterGetSetForever(IntegrationTester $I, Example $example)
+    public function cacheAdapterGetSetForever(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
@@ -70,6 +71,37 @@ class GetSetForeverCest
         $result = $adapter->has($key);
         $I->assertTrue($result);
 
+        /**
+         * Delete it
+         */
+        $result = $adapter->delete($key);
+        $I->assertTrue($result);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Weak :: get()setForever()
+     *
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function cacheAdapterWeakGetSetForever(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Weak - get()/setForever()');
+
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $key = uniqid();
+        $obj = new \stdClass();
+        $result = $adapter->setForever($key, "test");
+        $I->assertFalse($result);
+        $result = $adapter->setForever($key, $obj);
+        $I->assertTrue($result);
+        sleep(2);
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
         /**
          * Delete it
          */

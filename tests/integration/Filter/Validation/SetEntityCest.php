@@ -25,7 +25,7 @@ class SetEntityCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function filterValidationSetEntity(IntegrationTester $I)
+    public function filterValidationSetEntity(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - setEntity()');
 

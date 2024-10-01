@@ -18,6 +18,7 @@ use PDO;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cli\Console;
 use Phalcon\Db\Profiler;
 use Phalcon\Encryption\Crypt;
@@ -34,7 +35,11 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
+use Phalcon\Mvc\Model\Metadata\Apcu as MetadataApcu;
 use Phalcon\Mvc\Model\Metadata\Memory as MetadataMemory;
+use Phalcon\Mvc\Model\Metadata\Libmemcached as MetadataMemcached;
+use Phalcon\Mvc\Model\Metadata\Redis as MetadataRedis;
+use Phalcon\Mvc\Model\Metadata\Stream as MetadataStream;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
@@ -54,6 +59,7 @@ use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSessionStream;
 use function getOptionsSqlite;
+use function outputDir;
 
 /**
  * Trait DiTrait
@@ -171,6 +177,26 @@ trait DiTrait
                 return (new Filter\FilterFactory())->newInstance();
             case 'metadataMemory':
                 return new MetadataMemory();
+            case 'metadataApcu':
+                return new MetadataApcu(
+                    new AdapterFactory(new SerializerFactory()),
+                    []
+                );
+            case 'metadataLibmemcached':
+                return new MetadataMemcached(
+                    new AdapterFactory(new SerializerFactory()),
+                    getOptionsLibmemcached()
+                );
+            case 'metadataRedis':
+                return new MetadataRedis(
+                    new AdapterFactory(new SerializerFactory()),
+                    getOptionsRedis()
+                );
+            case 'metadataStream':
+                return new MetadataStream(
+                    new AdapterFactory(new SerializerFactory()),
+                    ['options' => ['storageDir' => outputDir()] ],
+                );
             case 'modelsCacheLibmemcached':
                 return new StorageLibmemcached(
                     new SerializerFactory(),

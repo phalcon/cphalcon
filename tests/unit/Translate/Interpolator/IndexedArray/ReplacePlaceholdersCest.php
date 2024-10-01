@@ -68,9 +68,9 @@ class ReplacePlaceholdersCest
 
         $interpolator = new IndexedArray();
 
-        $source   = 'Hello, %s %s %s!';
+        $source = 'Hello, %s %s %s!';
         $expected = $source;
-        $actual   = $interpolator->replacePlaceholders('Hello, %s %s %s!', []);
+        $actual = $interpolator->replacePlaceholders('Hello, %s %s %s!', []);
         $I->assertSame($expected, $actual);
     }
 }

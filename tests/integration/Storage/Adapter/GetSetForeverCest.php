@@ -21,6 +21,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Redis as NativeRedis;
 
@@ -69,6 +70,37 @@ class GetSetForeverCest
         $result = $adapter->has($key);
         $I->assertTrue($result);
 
+        /**
+         * Delete it
+         */
+        $result = $adapter->delete($key);
+        $I->assertTrue($result);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Weak :: get()setForever()
+     *
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function storageAdapterWeakGetSetForever(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Weak - get()/setForever()');
+
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $key = uniqid();
+        $obj = new \stdClass();
+        $result = $adapter->setForever($key, "test");
+        $I->assertFalse($result);
+        $result = $adapter->setForever($key, $obj);
+        $I->assertTrue($result);
+        sleep(2);
+        $result = $adapter->has($key);
+        $I->assertTrue($result);
         /**
          * Delete it
          */

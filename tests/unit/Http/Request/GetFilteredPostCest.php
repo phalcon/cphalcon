@@ -72,7 +72,8 @@ class GetFilteredPostCest
         /** @var Request $request */
         $request = $container->get('request');
         $request
-            ->setParameterFilters('id', ['absint'], ['post', 'get']);
+            ->setParameterFilters('id', ['absint'], ['post', 'get'])
+        ;
 
         $_GET  = ['no-id' => '24'];
         $_POST = ['no-id' => '24'];

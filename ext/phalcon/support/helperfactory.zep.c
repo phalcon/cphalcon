@@ -32,62 +32,65 @@
 /**
  * ServiceLocator implementation for helpers
  *
+ * @method string basename(string $uri, string $suffix = null)
  * @method array  blacklist(array $collection, array $blackList)
+ * @method string camelize(string $text, string $delimiters = null, bool $lowerFirst = false)
  * @method array  chunk(array $collection, int $size, bool $preserveKeys = false)
+ * @method string concat(string $delimiter, string $first, string $second, string ...$arguments)
+ * @method int    countVowels(string $text)
+ * @method string decapitalize(string $text, bool $upperRest = false, string $encoding = 'UTF-8')
+ * @method string decode(string $data, bool $associative = false, int $depth = 512, int $options = 0)
+ * @method string decrement(string $text, string $separator = '_')
+ * @method string dirFromFile(string $file)
+ * @method string dirSeparator(string $directory)
+ * @method string dynamic(string $text, string $leftDelimiter = "{", string $rightDelimiter = "}", string $separator = "|")
+ * @method string encode($data, int $options = 0, int $depth = 512)
+ * @method bool   endsWith(string $haystack, string $needle, bool $ignoreCase = true)
+ * @method mixed  filter(array $collection, callable|null $method)
  * @method mixed  first(array $collection, callable $method = null)
+ * @method string firstBetween(string $text, string $start, string $end)
  * @method mixed  firstKey(array $collection, callable $method = null)
+ * @method string friendly(string $text, string $separator = '-', bool $lowercase = true, $replace = null)
  * @method array  flatten(array $collection, bool $deep = false)
  * @method mixed  get(array $collection, $index, $defaultValue = null, string $cast = null)
  * @method array  group(array $collection, $method)
  * @method bool   has(array $collection, $index)
- * @method bool   isUnique(array $collection)
- * @method mixed  last(array $collection, callable $method = null)
- * @method mixed  lastKey(array $collection, callable $method = null)
- * @method array  order(array $collection, $attribute, string $order = 'asc')
- * @method array  pluck(array $collection, string $element)
- * @method array  set(array $collection, $value, $index = null)
- * @method array  sliceLeft(array $collection, int $elements = 1)
- * @method array  sliceRight(array $collection, int $elements = 1)
- * @method array  split(array $collection)
- * @method object toObject(array $collection)
- * @method bool   validateAll(array $collection, callable $method)
- * @method bool   validateAny(array $collection, callable $method)
- * @method array  whitelist(array $collection, array $whiteList)
- * @method string basename(string $uri, string $suffix = null)
- * @method string decode(string $data, bool $associative = false, int $depth = 512, int $options = 0)
- * @method string encode($data, int $options = 0, int $depth = 512)
- * @method bool   between(int $value, int $start, int $end)
- * @method string camelize(string $text, string $delimiters = null, bool $lowerFirst = false)
- * @method string concat(string $delimiter, string $first, string $second, string ...$arguments)
- * @method int    countVowels(string $text)
- * @method string decapitalize(string $text, bool $upperRest = false, string $encoding = 'UTF-8')
- * @method string decrement(string $text, string $separator = '_')
- * @method string dirFromFile(string $file)
- * @method string dirSeparator(string $directory)
- * @method bool   endsWith(string $haystack, string $needle, bool $ignoreCase = true)
- * @method string firstBetween(string $text, string $start, string $end)
- * @method string friendly(string $text, string $separator = '-', bool $lowercase = true, $replace = null)
  * @method string humanize(string $text)
  * @method bool   includes(string $haystack, string $needle)
  * @method string increment(string $text, string $separator = '_')
+ * @method string interpolate(string $message, array $context = [], string $leftToken = "%", string $rightToken = "%")
  * @method bool   isAnagram(string $first, string $second)
+ * @method bool   isBetween(int $value, int $start, int $end)
  * @method bool   isLower(string $text, string $encoding = 'UTF-8')
  * @method bool   isPalindrome(string $text)
+ * @method bool   isUnique(array $collection)
  * @method bool   isUpper(string $text, string $encoding = 'UTF-8')
  * @method string kebabCase(string $text, string $delimiters = null)
+ * @method mixed  last(array $collection, callable $method = null)
+ * @method mixed  lastKey(array $collection, callable $method = null)
  * @method int    len(string $text, string $encoding = 'UTF-8')
  * @method string lower(string $text, string $encoding = 'UTF-8')
+ * @method array  order(array $collection, $attribute, string $order = 'asc')
  * @method string pascalCase(string $text, string $delimiters = null)
+ * @method array  pluck(array $collection, string $element)
  * @method string prefix($text, string $prefix)
  * @method string random(int $type = 0, int $length = 8)
  * @method string reduceSlashes(string $text)
- * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
+ * @method array  set(array $collection, $value, $index = null)
+ * @method array  sliceLeft(array $collection, int $elements = 1)
+ * @method array  sliceRight(array $collection, int $elements = 1)
  * @method string snakeCase(string $text, string $delimiters = null)
+ * @method array  split(array $collection)
+ * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
  * @method string suffix($text, string $suffix)
+ * @method object toObject(array $collection)
+ * @method bool   validateAll(array $collection, callable $method)
+ * @method bool   validateAny(array $collection, callable $method)
  * @method string ucwords(string $text, string $encoding = 'UTF-8')
  * @method string uncamelize(string $text, string $delimiters = '_')
  * @method string underscore(string $text)
  * @method string upper(string $text, string $encoding = 'UTF-8')
+ * @method array  whitelist(array $collection, array $whiteList)
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_HelperFactory)
 {
@@ -110,16 +113,12 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
@@ -127,8 +126,6 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
 	}
-
-
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -155,21 +152,15 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_ARRAY(arguments)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &arguments_param);
 	zephir_get_strval(&name, name_param);
 	zephir_get_arrval(&arguments, arguments_param);
-
-
 	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
@@ -193,30 +184,35 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, _0;
+	zval *name_param = NULL, _0, _3, _4, _1$$3, _2$$3;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getservice", NULL, 0, &name);
-	zephir_check_call_status();
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	if (1 != zephir_array_isset(&_0, &name)) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name);
+		zephir_check_call_status();
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
+	}
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 118);
+	RETURN_CTOR(&_4);
 }
 
 /**
@@ -224,9 +220,6 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Phalcon\\Support\\Exception");
 }
@@ -238,9 +231,6 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass)
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, getServices)
 {
-	zval *this_ptr = getThis();
-
-
 
 	zephir_create_array(return_value, 59, 0);
 	add_assoc_stringl_ex(return_value, SL("blacklist"), SL("Phalcon\\Support\\Helper\\Arr\\Blacklist"));

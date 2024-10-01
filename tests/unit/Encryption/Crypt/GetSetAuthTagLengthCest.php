@@ -19,7 +19,8 @@ use UnitTester;
 class GetSetAuthTagLengthCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Crypt :: getAuthTagLength()/setAuthTagLength()
+     * Unit Tests Phalcon\Encryption\Crypt ::
+     * getAuthTagLength()/setAuthTagLength()
      *
      * @param UnitTester $I
      *

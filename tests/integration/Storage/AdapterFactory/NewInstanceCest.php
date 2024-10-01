@@ -20,6 +20,7 @@ use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
@@ -112,6 +113,11 @@ class NewInstanceCest
                 [
                     'storageDir' => outputDir(),
                 ],
+            ],
+            [
+                'weak',
+                Weak::class,
+                [],
             ],
         ];
     }

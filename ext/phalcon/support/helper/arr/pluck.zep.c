@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 	zval element;
 	zval *collection_param = NULL, *element_param = NULL, item, *_0, _1, _4$$4, _5$$5, _8$$7, _9$$8;
 	zval collection, filtered;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&filtered);
@@ -62,21 +61,15 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 	ZVAL_UNDEF(&_8$$7);
 	ZVAL_UNDEF(&_9$$8);
 	ZVAL_UNDEF(&element);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_STR(element)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &element_param);
 	zephir_get_arrval(&collection, collection_param);
 	zephir_get_strval(&element, element_param);
-
-
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
 	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Pluck.zep", 39);

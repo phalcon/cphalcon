@@ -193,9 +193,9 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/arrayaccess.offsetset.php
      */
-    final public function offsetSet(var element, var value) -> void
+    final public function offsetSet(var offset, var value) -> void
     {
-        parent::set(element, value);
+        parent::set(offset, value);
     }
 
     /**
@@ -221,7 +221,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/serializable.serialize.php
      */
-    final public function serialize() -> string
+    final public function serialize() -> string | null
     {
         return parent::serialize();
     }
@@ -261,8 +261,8 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/serializable.unserialize.php
      */
-    final public function unserialize(var serialized) -> void
+    final public function unserialize(string data) -> void
     {
-        parent::unserialize(serialized);
+        parent::unserialize(data);
     }
 }

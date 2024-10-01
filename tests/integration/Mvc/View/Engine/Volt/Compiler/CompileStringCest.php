@@ -24,6 +24,7 @@ use function ob_clean;
 use function ob_end_clean;
 use function ob_get_clean;
 use function ob_start;
+use function str_replace;
 use function substr;
 
 use const PHP_EOL;
@@ -178,6 +179,7 @@ class CompileStringCest
         $I->assertSame($expected, $actual);
 
         // Style executed in code
+        $this->tag->style()->reset();
         $expected = '+<link rel="stylesheet" type="text/css" href="/css/some.css" media="screen" />'
             . PHP_EOL
             . '+<link rel="stylesheet" type="text/css" href="/css/other.css" media="screen" />'
@@ -186,6 +188,7 @@ class CompileStringCest
         $I->assertSame($expected, $actual);
 
         // Style after volt parsing
+        $this->tag->style()->reset();
         $code     = 'echo $this->tag->style("+")->add("/css/some.css")->add("/css/other.css");';
         $expected = '+<link rel="stylesheet" type="text/css" href="/css/some.css" media="screen" />'
             . PHP_EOL
@@ -210,10 +213,12 @@ class CompileStringCest
             . PHP_EOL
             . '+<script type="application/javascript" src="/js/other.js"></script>'
             . PHP_EOL;
+        $this->tag->script()->reset();
         $actual   = (string) $this->tag->script('+')->add('/js/some.js')->add('/js/other.js');
         $I->assertSame($expected, $actual);
 
         // Script after volt parsing
+        $this->tag->script()->reset();
         $code     = 'echo $this->tag->script("+")->add("/js/some.js")->add("/js/other.js");';
         $expected = '+<script type="application/javascript" src="/js/some.js"></script>'
             . PHP_EOL
@@ -448,11 +453,11 @@ class CompileStringCest
             ],
             [
                 '{{ "hello"|uppercase }}',
-                '<?= strtoupper(\'hello\') ?>',
+                "<?= \$this->helper->upper('hello') ?>",
             ],
             [
                 '{{ "hello"|lowercase }}',
-                '<?= strtolower(\'hello\') ?>',
+                "<?= \$this->helper->lower('hello') ?>",
             ],
             [
                 '{{ ("hello" ~ "lol")|e|length }}',

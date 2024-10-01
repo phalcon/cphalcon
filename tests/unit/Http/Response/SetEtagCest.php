@@ -31,7 +31,7 @@ class SetEtagCest
         $response = new Response();
 
         $etag = md5(
-            (string) time()
+            (string)time()
         );
 
         $response->setEtag($etag);

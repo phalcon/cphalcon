@@ -36,7 +36,7 @@ class IsValidDecryptLengthCest
         $crypt = new Crypt();
         $crypt->setKey('1234');
 
-        $input     = uniqid();
+        $input = uniqid();
         $encrypted = $crypt->encrypt($input);
 
         $actual = $crypt->isValidDecryptLength($encrypted);

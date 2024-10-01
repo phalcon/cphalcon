@@ -47,17 +47,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool lowerFirst;
-	zval *text_param = NULL, *delimiters_param = NULL, *lowerFirst_param = NULL, result, _1$$3;
+	zval *text_param = NULL, *delimiters_param = NULL, *lowerFirst_param = NULL, result, _0$$3;
 	zval text, delimiters;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&delimiters);
 	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&_1$$3);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_0$$3);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(text)
@@ -65,10 +62,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 		Z_PARAM_STR_OR_NULL(delimiters)
 		Z_PARAM_BOOL(lowerFirst)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &text_param, &delimiters_param, &lowerFirst_param);
 	zephir_get_strval(&text, text_param);
 	if (!delimiters_param) {
@@ -79,16 +74,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 	if (!lowerFirst_param) {
 		lowerFirst = 0;
 	} else {
-		lowerFirst = zephir_get_boolval(lowerFirst_param);
-	}
-
-
-	ZEPHIR_CALL_PARENT(&result, phalcon_support_helper_str_camelize_ce, getThis(), "__invoke", &_0, 0, &text, &delimiters);
+		}
+	ZEPHIR_CALL_PARENT(&result, phalcon_support_helper_str_camelize_ce, getThis(), "__invoke", NULL, 0, &text, &delimiters);
 	zephir_check_call_status();
 	if (lowerFirst == 1) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "lcfirst", NULL, 73, &result);
+		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 76, &result);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&result, &_1$$3);
+		ZEPHIR_CPY_WRT(&result, &_0$$3);
 	}
 	RETURN_CCTOR(&result);
 }

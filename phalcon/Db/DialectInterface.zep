@@ -88,7 +88,7 @@ interface DialectInterface
     /**
      * Generates SQL to drop a table
      */
-    public function dropTable(string! tableName, string! schemaName) -> string;
+    public function dropTable(string! tableName, string! schemaName, bool ifExists = true) -> string;
 
     /**
      * Generates SQL to drop a view

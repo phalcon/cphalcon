@@ -19,22 +19,22 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploade
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadisempty, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadisvalid, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkuploadmaxsize, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_getfilesizeinbytes, 0, 1, IS_DOUBLE, 0)

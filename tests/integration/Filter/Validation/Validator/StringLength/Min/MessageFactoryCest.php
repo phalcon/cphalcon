@@ -47,8 +47,8 @@ class MessageFactoryCest
 
         $messages = $validation->validate(['last_name' => 'A name too short']);
 
-        $I->assertInstanceOf(Messages::class, $messages, 'Failed validation instance of Messages\Messages');
-        $I->assertEquals(1, $messages->count(), 'Has 1 Message');
+        $I->assertInstanceOf(Messages::class, $messages);
+        $I->assertSame(1, $messages->count());
 
         $actual = $validator->messageFactory(
             $validation,
@@ -62,7 +62,7 @@ class MessageFactoryCest
             Min::class
         );
 
-        $I->assertInstanceOf(Message::class, $actual, 'Failed validation message instanceof Message');
-        $I->assertEquals($expected, $actual, 'Failed validation message and factory message are the same');
+        $I->assertInstanceOf(Message::class, $actual);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -1,0 +1,108 @@
+name: "[Windows] Build Phalcon"
+on: [push, pull_request]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    name: "Build Phalcon (PHP ${{matrix.php}}-${{matrix.ts}}-${{matrix.arch}})"
+    defaults:
+      run:
+        shell: cmd
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.0","8.1","8.2","8.3"]
+        arch: [x64,x86]
+        ts: [nts,ts]
+        experimental: [false]
+    steps:
+      - name: Checkout Phalcon
+        uses: actions/checkout@v4
+
+      - name: Extract Phalcon Version
+        shell: powershell
+        run: |
+          chcp 65001
+          $r = Select-String -Path build/phalcon/php_phalcon.h -Pattern 'PHP_PHALCON_VERSION\s+"(.*)"'
+          $s = $r.Matches[0].Groups[1]
+          echo "$s"
+          $PhalconVersion = 'PHALCON_VERSION=' + $s
+          echo $PhalconVersion >> $env:GITHUB_ENV
+
+      - name: Setup PHP
+        id: setup-php
+        uses: php/setup-php-sdk@v0.8
+        with:
+          version: ${{matrix.php}}
+          arch: ${{matrix.arch}}
+          ts: ${{matrix.ts}}
+          deps: zlib
+
+      - name: Generate build folder
+        run: |
+          cd build/
+          php gen-build.php
+
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: ${{steps.setup-php.outputs.toolset}}
+
+      - name: Phpize
+        run: |
+          cd build/phalcon/
+          phpize
+
+      - name: Configure
+        run: |
+          cd build/phalcon/
+          ./configure --enable-phalcon --with-prefix=${{steps.setup-php.outputs.prefix}}
+
+      - name: Make
+        run: |
+          cd build/phalcon/
+          nmake
+
+      - name: Define Phalcon Module Env
+        shell: powershell
+        run: |
+          chcp 65001
+
+          $dir = (Get-Location).Path + '\build\phalcon\'
+          if ('x64' -eq '${{matrix.arch}}') { $dir = $dir + 'x64\' }
+          $dir = $dir + 'Release'
+          if ('ts' -eq '${{matrix.ts}}') { $dir = $dir + '_TS' }
+          $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
+          echo $phalconDllOpt >> $env:GITHUB_ENV
+
+          $artifactName = 'php_phalcon-php${{matrix.php}}'
+
+          if ('nts' -ne '${{matrix.ts}}') { $artifactName = $artifactName + '-ts' }
+          if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
+
+          $artifactName = $artifactName + '-windows'
+
+          if ('8.0' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
+          if ('8.1' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
+          if ('8.2' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
+          if ('8.3' -eq '${{matrix.php}}') { $artifactName = $artifactName + '-vs16' }
+
+          if ('x64' -eq '${{matrix.arch}}') { $artifactName = $artifactName + '-x64' }
+
+          $phalconArtifactName = "ARTIFACT_NAME=" + $artifactName
+          echo $phalconArtifactName >> $env:GITHUB_ENV
+
+          $from = $dir + '\php_phalcon.dll'
+          $to = '.\php_phalcon.dll'
+          Copy-Item $from -Destination $to
+          $phalconArtifact = "ARTIFACT=" + '.\php_phalcon.dll'
+          echo $phalconArtifact >> $env:GITHUB_ENV
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{env.ARTIFACT_NAME}}
+          path: |
+            ${{env.ARTIFACT}}
+            LICENSE.txt

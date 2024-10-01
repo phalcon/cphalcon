@@ -10,8 +10,8 @@
 
 namespace Phalcon\Support\Debug;
 
-use InvalidArgumentException; // @todo this will also be removed when traits are available
 use Phalcon\Di\Di;
+use Phalcon\Support\Helper\Json\Encode;
 use Reflection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -52,10 +52,17 @@ class Dump
     protected styles = [];
 
     /**
+     * @var Encode
+     */
+    private encode;
+
+    /**
      * Phalcon\Debug\Dump constructor
      */
     public function __construct(array! styles = [], bool detailed = false)
     {
+        let this->encode = new Encode();
+
         this->setStyles(styles);
 
         let this->detailed = detailed;
@@ -138,7 +145,7 @@ class Dump
      */
     public function toJson(var variable) -> string
     {
-        return this->encode(
+        return this->encode->__invoke(
             variable,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
@@ -345,27 +352,5 @@ class Dump
         }
 
         return output . strtr("(<span style=\":style\">:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function encode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
-    {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
     }
 }

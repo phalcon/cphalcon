@@ -47,28 +47,21 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Alnum, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input, input_sub, _0, _1;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "/[^A-Za-z0-9]/");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 37, &_0, &_1, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 41, &_0, &_1, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -56,29 +56,23 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Blacklist, __invoke)
 	ZVAL_UNDEF(&blackListed);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ARRAY(collection)
 		Z_PARAM_ARRAY(blackList)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &blackList_param);
 	zephir_get_arrval(&collection, collection_param);
 	zephir_get_arrval(&blackList, blackList_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_13__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_12__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&blackListed, this_ptr, "tofilter", NULL, 0, &blackList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 96, &blackListed);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 100, &blackListed);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 95, &collection, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 99, &collection, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

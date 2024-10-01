@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Integration\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
@@ -302,7 +302,7 @@ class UnderscoreGetCest
 
         $I->expectThrowable(
             new Exception(
-                "Cannot access property 'superSecret' (not public)."
+                "Cannot access property 'superSecret' (not public) in '" . Invoices::class . "'"
             ),
             function () {
                 $model              = new Invoices();

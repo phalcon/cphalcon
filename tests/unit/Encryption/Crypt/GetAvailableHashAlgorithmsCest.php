@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
-use Codeception\Util\Stub;
+use Codeception\Stub;
 use Phalcon\Encryption\Crypt;
 use UnitTester;
 

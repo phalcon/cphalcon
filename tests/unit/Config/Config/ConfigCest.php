@@ -107,7 +107,7 @@ class ConfigCest
             ],
             'other'    => [1, 2, 3, 4],
         ];
-        $config = new Config($settings, false);
+        $config   = new Config($settings, false);
 
         /** @var Config $database */
         $database = $config->get('database');

@@ -235,13 +235,13 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      *
      * @param \Phalcon\Messages\Message message
      */
-    public function offsetSet(mixed index, mixed message) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
-        if typeof message != "object" {
+        if typeof value !== "object" {
             throw new Exception("The message must be an object");
         }
 
-        let this->messages[index] = message;
+        let this->messages[offset] = value;
     }
 
     /**

@@ -19,7 +19,7 @@ use Phalcon\Mvc\ModelInterface;
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializable
+class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializable
 {
     /**
     * Serializes the object for json_encode
@@ -58,10 +58,10 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param string|int index
+     * @param string|int offsetSet
      * @param ModelInterface value
      */
-    public function offsetSet(mixed index, mixed value) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
         throw new Exception("Row is an immutable ArrayAccess object");
     }

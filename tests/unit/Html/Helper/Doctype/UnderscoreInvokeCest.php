@@ -39,7 +39,7 @@ class UnderscoreInvokeCest
         $helper->__invoke($example['flag'], $example['delimiter']);
 
         $expected = $example['expected'];
-        $actual   = (string) $helper;
+        $actual   = (string)$helper;
         $I->assertSame($expected, $actual);
     }
 

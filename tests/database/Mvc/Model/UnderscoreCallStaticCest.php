@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Tests\Integration\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
@@ -167,7 +167,7 @@ class UnderscoreCallStaticCest
          */
         $I->expectThrowable(
             new Exception(
-                "Cannot resolve attribute 'UnknownField' in the model"
+                "Cannot resolve attribute 'UnknownField' in the model '" . Models\Invoices::class . "'"
             ),
             function () {
                 Models\Invoices::findFirstByUnknownField(1);
@@ -179,7 +179,7 @@ class UnderscoreCallStaticCest
          */
         $I->expectThrowable(
             new Exception(
-                "Cannot resolve attribute 'UnknownField' in the model"
+                "Cannot resolve attribute 'UnknownField' in the model '" . Models\Invoices::class . "'"
             ),
             function () {
                 Models\Invoices::countByUnknownField(1);

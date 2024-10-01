@@ -32,7 +32,7 @@ class GetTemplateCest
 
         $expected = 'The field :field is not valid for ' . StringLength::class;
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplate(),
             'Default template message'
@@ -44,7 +44,7 @@ class GetTemplateCest
 
         $I->assertInstanceOf(StringLength::class, $actual, 'Instance of StringLenght');
 
-        $I->assertEquals(
+        $I->assertSame(
             $expected,
             $validator->getTemplate(),
             'Get equals template message'

@@ -71,17 +71,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_adapterfactory_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -89,8 +85,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "prefix");
 	ZEPHIR_INIT_VAR(&_2);

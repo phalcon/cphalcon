@@ -17,9 +17,6 @@ use IntegrationTester;
 use Phalcon\Filter\Validation;
 use Phalcon\Tests\Models\EntityWithPublic;
 
-/**
- * Class GetValueByDataCest
- */
 class GetValueByDataCest
 {
     public const NAME = 'John Doe';
@@ -30,7 +27,7 @@ class GetValueByDataCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
-    public function filterValidationGetValueByDataArray(IntegrationTester $I)
+    public function filterValidationGetValueByDataArray(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValueByData()');
 
@@ -39,19 +36,19 @@ class GetValueByDataCest
         ];
 
         $validation = new Validation();
-        $value = $validation->getValueByData($data, 'name');
+        $value      = $validation->getValueByData($data, 'name');
 
         $I->assertSame($data['name'], $value);
     }
 
-    public function filterValidationGetValueByDataObject(IntegrationTester $I)
+    public function filterValidationGetValueByDataObject(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getValueByData()');
 
         $data = new EntityWithPublic(self::NAME);
 
         $validation = new Validation();
-        $value = $validation->getValueByData($data, 'name');
+        $value      = $validation->getValueByData($data, 'name');
 
         $I->assertSame($data->name, $value);
     }

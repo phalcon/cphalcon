@@ -34,7 +34,7 @@ class GetSetStatusCodeCest extends HttpBase
     {
         $I->wantToTest('Http\Response - getStatusCode() / setStatusCode()');
 
-        $code     = 200;
+        $code = 200;
         $response = $this->getResponseObject();
         $response->setStatusCode($code);
 
@@ -146,6 +146,10 @@ class GetSetStatusCodeCest extends HttpBase
      */
     public function testHttpResponseSetStatusCodeSend(UnitTester $I)
     {
+        if (!function_exists('xdebug_get_headers')) {
+            $I->skipTest('xdebug extension is not installed');
+        }
+
         $response = $this->getResponseObject();
 
         $body = ['test' => 123];
@@ -162,7 +166,7 @@ class GetSetStatusCodeCest extends HttpBase
 
         $expected = [
             "Status: 404 Not Found",
-            "Content-Type: application/json"
+            "Content-Type: application/json",
         ];
         $actual   = xdebug_get_headers();
         $I->assertSame($expected, $actual);
@@ -180,6 +184,10 @@ class GetSetStatusCodeCest extends HttpBase
      */
     public function testHttpResponseSetStatusCodeSendMicro(UnitTester $I)
     {
+        if (!function_exists('xdebug_get_headers')) {
+            $I->skipTest('xdebug extension is not installed');
+        }
+
         $application = new Micro($this->container);
 
         $application->before(new HttpResponseContentMiddleware());
@@ -201,7 +209,7 @@ class GetSetStatusCodeCest extends HttpBase
 
         $expected = [
             "Status: 404 Not Found",
-            "Content-Type: application/json"
+            "Content-Type: application/json",
         ];
         $actual   = xdebug_get_headers();
         $I->assertSame($expected, $actual);

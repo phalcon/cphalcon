@@ -93,9 +93,9 @@ class DecryptBase64Cest
             ->setKey('secret')
         ;
 
-        $expected  = 'le text';
+        $expected = 'le text';
         $encrypted = $crypt->encryptBase64($expected);
-        $actual    = $crypt->decryptBase64($encrypted);
+        $actual = $crypt->decryptBase64($encrypted);
 
         $I->assertSame($expected, $actual);
     }

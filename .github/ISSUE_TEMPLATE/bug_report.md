@@ -13,7 +13,7 @@ Questions? Forum: https://phalcon.io/forum or Discord: https://phalcon.io/discor
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-> Provide output if related. Provide coredump if any. Use https://docs.phalcon.io/en/latest/generating-backtrace as reference.
+> Provide output if related. Provide coredump if any. Use https://docs.phalcon.io/latest/generating-backtrace as reference.
 
 Steps to reproduce the behavior:
 

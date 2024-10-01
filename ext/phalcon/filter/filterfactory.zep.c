@@ -52,14 +52,13 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_filter_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 280, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 282, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -71,9 +70,6 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
  */
 PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 {
-	zval *this_ptr = getThis();
-
-
 
 	zephir_create_array(return_value, 22, 0);
 	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));

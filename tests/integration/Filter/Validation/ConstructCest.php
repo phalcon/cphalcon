@@ -26,7 +26,7 @@ class ConstructCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
-    public function filterValidationConstruct(IntegrationTester $I)
+    public function filterValidationConstruct(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - __construct()');
 

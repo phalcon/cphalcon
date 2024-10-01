@@ -55,28 +55,21 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 	ZVAL_UNDEF(&haystack);
 	ZVAL_UNDEF(&needle);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(haystack)
 		Z_PARAM_STR(needle)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(ignoreCase)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &haystack_param, &needle_param, &ignoreCase_param);
 	zephir_get_strval(&haystack, haystack_param);
 	zephir_get_strval(&needle, needle_param);
 	if (!ignoreCase_param) {
 		ignoreCase = 1;
 	} else {
-		ignoreCase = zephir_get_boolval(ignoreCase_param);
-	}
-
-
+		}
 	if (ignoreCase) {
 		ZVAL_BOOL(&_0, 1);
 	} else {

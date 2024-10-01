@@ -34,6 +34,7 @@ class HandleCest
         $I->wantToTest('Mvc\Router - handle()');
 
         $router = new Router();
+        $router->setDI(new FactoryDefault());
 
         $router->add(
             '/admin/invoices/list',
@@ -77,6 +78,7 @@ class HandleCest
          * Regular placeholders
          */
         $router = new Router(false);
+        $router->setDI(new FactoryDefault());
         $router->add(
             '/:module/:namespace/:controller/:action/:params/:int',
             [
@@ -227,6 +229,7 @@ class HandleCest
         $I->wantToTest('Mvc\Router - handle() - short syntax');
 
         $router = new Router(false);
+        $router->setDI(new FactoryDefault());
         $router->add("/about", "About::content");
 
         $router->handle('/about');

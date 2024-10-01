@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
+namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
@@ -35,9 +35,9 @@ class SerializeUnserializeCest
         $I->expectThrowable(
             new Exception("This object cannot be serialized"),
             function () use ($I) {
-                $fileName   = $I->getNewFileName('log', 'log');
+                $fileName = $I->getNewFileName('log', 'log');
                 $outputPath = logsDir();
-                $adapter    = new Stream($outputPath . $fileName);
+                $adapter = new Stream($outputPath . $fileName);
 
                 $object = serialize($adapter);
             }

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Helper\Json;
 
-use JsonException;
+use InvalidArgumentException;
 use Phalcon\Support\Helper\Json\Encode;
 use UnitTester;
 
@@ -33,13 +33,13 @@ class EncodeCest
     {
         $I->wantToTest('Support\Helper\Json - encode()');
 
-        $object   = new Encode();
-        $data     = [
+        $object = new Encode();
+        $data = [
             'one' => 'two',
             'three',
         ];
         $expected = '{"one":"two","0":"three"}';
-        $actual   = $object($data);
+        $actual = $object($data);
         $I->assertSame($expected, $actual);
     }
 
@@ -56,7 +56,7 @@ class EncodeCest
         $I->wantToTest('Support\Helper\Json - encode() - exception default options');
 
         $I->expectThrowable(
-            new JsonException(
+            new InvalidArgumentException(
                 'Malformed UTF-8 characters, possibly incorrectly encoded',
                 5
             ),
@@ -80,7 +80,7 @@ class EncodeCest
         $I->wantToTest('Support\Helper\Json - encode() - exception no options');
 
         $I->expectThrowable(
-            new JsonException(
+            new InvalidArgumentException(
                 'Malformed UTF-8 characters, possibly incorrectly encoded',
                 5
             ),

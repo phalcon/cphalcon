@@ -24,7 +24,8 @@ use UnitTester;
 class GetSetAudienceCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getAudience()/setAudience()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getAudience()/setAudience()
      *
      * @param UnitTester $I
      *
@@ -52,7 +53,8 @@ class GetSetAudienceCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setAudience() - exception
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setAudience() -
+     * exception
      *
      * @param UnitTester $I
      *

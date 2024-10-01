@@ -16,9 +16,11 @@ namespace Phalcon\Tests\Integration\Filter\Validation\Validator\Url;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
+use stdClass;
 
 use const FILTER_FLAG_PATH_REQUIRED;
 use const FILTER_FLAG_QUERY_REQUIRED;
@@ -28,6 +30,32 @@ use const FILTER_FLAG_QUERY_REQUIRED;
  */
 class ValidateCest
 {
+    /**
+     * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - empty
+     *
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws Exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-08-03
+     */
+    public function filterValidationValidatorUrlValidateEmpty(IntegrationTester $I)
+    {
+        $I->wantToTest("Validation\Validator\Url - validate() - empty");
+
+        $validation = new Validation();
+        $validator  = new Url(['allowEmpty' => true,]);
+        $validation->add('url', $validator);
+        $entity      = new stdClass();
+        $entity->url = '';
+
+        $validation->bind($entity, []);
+        $result = $validator->validate($validation, 'url');
+        $I->assertTrue($result);
+    }
+
     /**
      * Tests Phalcon\Filter\Validation\Validator\Url :: validate() - single field
      *
@@ -40,15 +68,10 @@ class ValidateCest
 
         $validation = new Validation();
 
-        $validation->add(
-            'url',
-            new Url()
-        );
+        $validation->add('url', new Url());
 
 
-        $messages = $validation->validate(
-            []
-        );
+        $messages = $validation->validate([]);
 
         $expected = new Messages(
             [
@@ -79,7 +102,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -121,7 +144,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -133,12 +156,12 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['url'],
             $messages->offsetGet(0)->getMessage()
         );
@@ -150,17 +173,17 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             2,
             $messages->count()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['url'],
             $messages->offsetGet(0)->getMessage()
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             $validationMessages['anotherUrl'],
             $messages->offsetGet(1)->getMessage()
         );
@@ -220,7 +243,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             0,
             $messages->count()
         );
@@ -255,7 +278,7 @@ class ValidateCest
             ]
         );
 
-        $I->assertEquals(
+        $I->assertSame(
             1,
             $messages->count()
         );

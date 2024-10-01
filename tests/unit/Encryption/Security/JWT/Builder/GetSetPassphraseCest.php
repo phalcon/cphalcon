@@ -25,7 +25,8 @@ use UnitTester;
 class GetSetPassphraseCest
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getPassphrase()/setPassphrase()
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
+     * getPassphrase()/setPassphrase()
      *
      * @param UnitTester $I
      *
@@ -49,7 +50,8 @@ class GetSetPassphraseCest
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setPassphrase() - exception
+     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setPassphrase() -
+     * exception
      *
      * @param UnitTester $I
      *

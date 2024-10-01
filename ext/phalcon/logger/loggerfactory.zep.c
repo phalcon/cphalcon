@@ -53,17 +53,10 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
 }
 
@@ -119,19 +112,13 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	ZVAL_UNDEF(&_14$$4);
 	ZVAL_UNDEF(&_15$$4);
 	ZVAL_UNDEF(&data);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-
-
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
@@ -142,7 +129,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
-	ZEPHIR_OBS_VAR(&name);
+	zephir_memory_observe(&name);
 	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 62);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "timezone");
@@ -249,13 +236,11 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 	zval adapters;
 	zval *name_param = NULL, *adapters_param = NULL, *timezone = NULL, timezone_sub, __$null;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&timezone_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&adapters);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(name)
@@ -263,10 +248,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 		Z_PARAM_ARRAY(adapters)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(timezone, php_date_get_timezone_ce())
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &name_param, &adapters_param, &timezone);
 	zephir_get_strval(&name, name_param);
 	if (!adapters_param) {
@@ -279,10 +262,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 		timezone = &timezone_sub;
 		timezone = &__$null;
 	}
-
-
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 412, &name, &adapters, timezone);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 414, &name, &adapters, timezone);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -295,14 +276,12 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, getArrVal)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&value);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ARRAY(collection)
@@ -310,23 +289,20 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, getArrVal)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
 	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-
-
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 1)))) {
+	zephir_memory_observe(&value);
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	RETURN_CTOR(&value);
+	RETURN_CCTOR(&value);
 }
 
 /**
@@ -334,9 +310,6 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, getArrVal)
  */
 PHP_METHOD(Phalcon_Logger_LoggerFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Phalcon\\Logger\\Exception");
 }

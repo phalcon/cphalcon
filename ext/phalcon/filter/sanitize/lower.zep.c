@@ -52,21 +52,16 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Lower, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL, _0$$3, _1$$3, _2;
 	zval input;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input_param);
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
@@ -77,17 +72,15 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Lower, __invoke)
 	} else {
 		ZEPHIR_INIT_VAR(&input);
 	}
-
-
 	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
 		ZVAL_LONG(&_0$$3, 1);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 12, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 283, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 285, &input);
 	zephir_check_call_status();
 	zephir_fast_strtolower(return_value, &_2);
 	RETURN_MM();

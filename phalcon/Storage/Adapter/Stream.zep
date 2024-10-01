@@ -103,7 +103,11 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
+        this->fire(this->eventType . ":beforeDecrement", key);
+
         if unlikely true !== this->has(key) {
+            this->fire(this->eventType . ":afterDecrement", key);
+
             return false;
         }
 
@@ -114,6 +118,8 @@ class Stream extends AbstractAdapter
         if likely result !== false {
             let result = data;
         }
+
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return result;
     }
@@ -127,15 +133,23 @@ class Stream extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        var filepath;
+        var filepath, result;
+
+        this->fire(this->eventType . ":beforeDelete", key);
 
         if true !== this->has(key) {
+            this->fire(this->eventType . ":afterDelete", key);
+
             return false;
         }
 
         let filepath = this->getFilepath(key);
 
-        return unlink(filepath);
+        let result = unlink(filepath);
+
+        this->fire(this->eventType . ":afterDelete", key);
+
+        return result;
     }
 
     /**
@@ -148,11 +162,15 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, filepath, payload;
+        var content, filepath, payload, result;
+
+        this->fire(this->eventType . ":beforeGet", key);
 
         let filepath = this->getFilepath(key);
 
         if (true !== file_exists(filepath)) {
+            this->fire(this->eventType . ":afterGet", key);
+
             return defaultValue;
         }
 
@@ -164,7 +182,11 @@ class Stream extends AbstractAdapter
 
         let content = this->getArrVal(payload, "content");
 
-        return this->getUnserializedData(content, defaultValue);
+        let result = this->getUnserializedData(content, defaultValue);
+
+        this->fire(this->eventType . ":afterGet", key);
+
+        return result;
     }
 
     /**
@@ -206,21 +228,31 @@ class Stream extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var payload, filepath;
+        var payload, filepath, result;
+
+        this->fire(this->eventType . ":beforeHas", key);
 
         let filepath = this->getFilepath(key);
 
         if unlikely true !== this->phpFileExists(filepath) {
+            this->fire(this->eventType . ":afterHas", key);
+
             return false;
         }
 
         let payload = this->getPayload(filepath);
 
         if unlikely empty payload {
+            this->fire(this->eventType . ":afterHas", key);
+
             return false;
         }
 
-        return !this->isExpired(payload);
+        let result = !this->isExpired(payload);
+
+        this->fire(this->eventType . ":afterHas", key);
+
+        return result;
     }
 
     /**
@@ -235,7 +267,11 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
+        this->fire(this->eventType . ":beforeIncrement", key);
+
         if unlikely true !== this->has(key) {
+            this->fire(this->eventType . ":afterIncrement", key);
+
             return false;
         }
 
@@ -246,6 +282,8 @@ class Stream extends AbstractAdapter
         if likely result !== false {
             let result = data;
         }
+
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -266,9 +304,16 @@ class Stream extends AbstractAdapter
     public function set(string! key, var value, var ttl = null) -> bool
     {
         array payload;
+        var result;
+
+        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+
+            this->fire(this->eventType . ":afterSet", key);
+
+            return result;
         }
 
         let payload   = [
@@ -277,7 +322,11 @@ class Stream extends AbstractAdapter
             "content" : this->getSerializedData(value)
         ];
 
-        return this->storePayload(payload, key);
+        let result = this->storePayload(payload, key);
+
+        this->fire(this->eventType . ":afterSet", key);
+
+        return result;
     }
 
     /**
@@ -314,9 +363,7 @@ class Stream extends AbstractAdapter
         var dirFromFile, dirPrefix;
 
         let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = this->getDirFromFile(
-                str_replace(this->prefix, "", key)
-            );
+            dirFromFile = $this->getDirFromFile($this->getKeyWithoutPrefix($key));
 
         return this->getDirSeparator(dirPrefix . dirFromFile);
     }
@@ -328,9 +375,26 @@ class Stream extends AbstractAdapter
      *
      * @return string
      */
-    private function getFilepath(string! key) -> string
+    private function getFilepath(string key) -> string
     {
-        return this->getDir(key) . str_replace(this->prefix, "", key);
+        return this->getDir(key) . this->getKeyWithoutPrefix(key);
+    }
+
+    /**
+     * Check if the key has the prefix and remove it, otherwise just return the
+     * key unaltered
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    private function getKeyWithoutPrefix(string key) -> string
+    {
+        if (starts_with(key, this->prefix)) {
+            return substr(key, strlen(this->prefix));
+        }
+
+        return key;
     }
 
     /**

@@ -85,7 +85,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 {
 	zval _1$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config_param = NULL, builder, columns, _0$$5;
 	zval config;
@@ -96,24 +95,18 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&_0$$5);
 	ZVAL_UNDEF(&_1$$5);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(config)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
-
-
 	if (UNEXPECTED(!(zephir_array_isset_string(&config, SL("limit"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/Paginator/Adapter/QueryBuilder.zep", 70);
 		return;
 	}
-	ZEPHIR_OBS_VAR(&builder);
+	zephir_memory_observe(&builder);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&builder, &config, SL("builder"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/Paginator/Adapter/QueryBuilder.zep", 74);
 		return;
@@ -123,17 +116,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 		object_init_ex(&_0$$5, phalcon_paginator_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$5);
 		ZEPHIR_CONCAT_SS(&_1$$5, "Parameter 'builder' must be an instance ", "of Phalcon\\Mvc\\Model\\Query\\Builder");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 29, &_1$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 33, &_1$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_OBS_VAR(&columns);
+	zephir_memory_observe(&columns);
 	if (zephir_array_isset_string_fetch(&columns, &config, SL("columns"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", &_2, 0, &config);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", NULL, 0, &config);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, &builder);
 	zephir_check_call_status();
@@ -145,9 +138,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "page");
 }
@@ -157,9 +147,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "builder");
 }
@@ -222,11 +209,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_7$$14);
 	ZVAL_UNDEF(&_9$$15);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(&originalBuilder);
+	zephir_memory_observe(&originalBuilder);
 	zephir_read_property(&originalBuilder, this_ptr, ZEND_STRL("builder"), PH_NOISY_CC);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("columns"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&columns, &_0);
@@ -238,9 +224,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 	if (zephir_clone(&totalBuilder, &builder) == FAILURE) {
 		RETURN_MM();
 	}
-	ZEPHIR_OBS_VAR(&limit);
+	zephir_memory_observe(&limit);
 	zephir_read_property(&limit, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(&_1);
+	zephir_memory_observe(&_1);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("page"), PH_NOISY_CC);
 	numberPage = zephir_get_intval(&_1);
 	if (!(numberPage)) {
@@ -392,7 +378,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 	zephir_create_array(&_23, 8, 0);
 	zephir_array_update_string(&_23, SL("items"), &items, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_23, SL("total_items"), &rowcount, PH_COPY | PH_SEPARATE);
-	ZEPHIR_OBS_VAR(&_24);
+	zephir_memory_observe(&_24);
 	zephir_read_property(&_24, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	zephir_array_update_string(&_23, SL("limit"), &_24, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_23, SL("first"), 1);
@@ -418,17 +404,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&builder_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(builder, phalcon_mvc_model_query_builder_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &builder);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("builder"), builder);
 	RETURN_THISW();
 }

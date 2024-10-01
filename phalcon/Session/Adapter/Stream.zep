@@ -74,11 +74,11 @@ class Stream extends Noop
         let this->path = this->getDirSeparator(path);
     }
 
-    public function destroy(var sessionId) -> bool
+    public function destroy(var id) -> bool
     {
         var file;
 
-        let file = this->path . this->getPrefixedName(sessionId);
+        let file = this->path . this->getPrefixedName(id);
 
         if file_exists(file) && is_file(file) {
             unlink(file);
@@ -90,15 +90,15 @@ class Stream extends Noop
     /**
      * Garbage Collector
      *
-     * @param int $maxlifetime
+     * @param int $max_lifetime
      * @return false|int
      */
-    public function gc(int maxlifetime) -> int|bool
+    public function gc(int max_lifetime) -> int|false
     {
         var file, pattern, time;
 
         let pattern = this->path . this->prefix . "*",
-            time    = time() - maxlifetime;
+            time    = time() - max_lifetime;
 
         for file in glob(pattern) {
             if true === file_exists(file) &&
@@ -116,7 +116,7 @@ class Stream extends Noop
     *
     * @return bool
     */
-    public function open(var savePath, var sessionName) -> bool
+    public function open(var path, var name) -> bool
     {
         return true;
     }
@@ -124,11 +124,11 @@ class Stream extends Noop
     /**
      * Reads data from the adapter
      */
-    public function read(var sessionId) -> string
+    public function read(var id) -> string
     {
         var data, name, pointer;
 
-        let name = this->path . this->getPrefixedName(sessionId),
+        let name = this->path . this->getPrefixedName(id),
             data = "";
 
         if true === this->phpFileExists(name) {
@@ -148,11 +148,11 @@ class Stream extends Noop
         return data;
     }
 
-    public function write(var sessionId, var data) -> bool
+    public function write(var id, var data) -> bool
     {
         var name;
 
-        let name = this->path . this->getPrefixedName(sessionId);
+        let name = this->path . this->getPrefixedName(id);
 
         return false !== this->phpFilePutContents(name, data, LOCK_EX);
     }

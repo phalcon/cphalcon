@@ -5,6 +5,9 @@ inputs:
   pecl:
     description: 'PECL package path'
     required: true
+  php-version:
+    description: 'PHP version'
+    required: true
 
 runs:
   using: 'composite'
@@ -17,6 +20,10 @@ runs:
         echo "::group::Install Phalcon with PECL"
         sudo pecl -v install ${{ inputs.pecl }}
         echo "::endgroup::"
+
+    - name: Enable extension
+      shell: bash
+      run: echo "extension=phalcon" >> /etc/php/${{ inputs.php-version }}/cli/conf.d/99-pecl.ini
 
     - name: Check Extension
       shell: bash

@@ -42,6 +42,6 @@ class OffsetExistsCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertTrue($translator->exists('hi'));
+        $I->assertTrue($translator->has('hi'));
     }
 }

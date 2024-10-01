@@ -1,16 +1,6 @@
 # For local development only.
 
-version: '3'
-
 services:
-  cphalcon-7.4:
-    container_name: cphalcon-7.4
-    hostname: cphalcon-74
-    build: docker/7.4
-    working_dir: /srv
-    volumes:
-      - .:/srv
-
   cphalcon-8.0:
     container_name: cphalcon-8.0
     hostname: cphalcon-80
@@ -31,6 +21,14 @@ services:
     container_name: cphalcon-8.2
     hostname: cphalcon-82
     build: docker/8.2
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
+  cphalcon-8.3:
+    container_name: cphalcon-8.3
+    hostname: cphalcon-83
+    build: docker/8.3
     working_dir: /srv
     volumes:
       - .:/srv

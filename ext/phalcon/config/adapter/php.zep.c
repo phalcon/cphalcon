@@ -78,22 +78,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *filePath_param = NULL, _1;
+	zval *filePath_param = NULL, _0;
 	zval filePath;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filePath);
-	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filePath)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &filePath_param);
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
@@ -104,13 +98,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	} else {
 		ZEPHIR_INIT_VAR(&filePath);
 	}
-
-
-	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_1);
-	if (zephir_require_zval_ret(&_1, &filePath) == FAILURE) {
+	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_0);
+	if (zephir_require_zval_ret(&_0, &filePath) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", &_0, 0, &_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

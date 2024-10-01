@@ -20,6 +20,7 @@ use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\SerializerFactory;
@@ -66,7 +67,7 @@ class NewInstanceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
+    public function cacheSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 
@@ -112,6 +113,11 @@ class NewInstanceCest
                 [
                     'storageDir' => outputDir(),
                 ],
+            ],
+            [
+                'weak',
+                Weak::class,
+                [],
             ],
         ];
     }

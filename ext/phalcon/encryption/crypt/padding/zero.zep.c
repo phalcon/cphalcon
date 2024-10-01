@@ -50,25 +50,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, pad)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *paddingSize_param = NULL, _0, _1;
 	zend_long paddingSize, ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(paddingSize)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &paddingSize_param);
-	paddingSize = zephir_get_intval(paddingSize_param);
-
-
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 240, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 244, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, paddingSize);
 	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 1, &_1, &_0);
@@ -90,7 +82,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 	zend_long blockSize, ZEPHIR_LAST_CALL_STATUS, counter = 0, paddingSize = 0;
 	zval *input_param = NULL, *blockSize_param = NULL, length, inputArray, _1, _2, _3;
 	zval input;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input);
 	ZVAL_UNDEF(&length);
@@ -98,24 +89,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(input)
 		Z_PARAM_LONG(blockSize)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &input_param, &blockSize_param);
 	zephir_get_strval(&input, input_param);
-	blockSize = zephir_get_intval(blockSize_param);
-
-
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 230, &input);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 234, &input);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 84, &input);
+	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 88, &input);
 	zephir_check_call_status();
 	counter = (zephir_get_numberval(&length) - 1);
 	paddingSize = 0;
@@ -124,7 +108,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 		if (_0) {
 			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/Zero.zep", 48);
 			ZVAL_LONG(&_2, 0);
-			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 240, &_2);
+			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 244, &_2);
 			zephir_check_call_status();
 			_0 = ZEPHIR_IS_EQUAL(&_1, &_3);
 		}

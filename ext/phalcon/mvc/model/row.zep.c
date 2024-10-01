@@ -36,7 +36,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, zend_standard_class_def, phalcon_mvc_model_row_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_model_resultinterface_ce);
@@ -53,10 +53,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
-
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
@@ -81,25 +79,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "offsetexists", NULL, 0, index);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 42);
 		return;
 	}
-	ZEPHIR_OBS_VAR(&_1);
+	zephir_memory_observe(&_1);
 	zephir_read_property_zval(&_1, this_ptr, index, PH_NOISY_CC);
 	RETURN_CCTOR(&_1);
 }
@@ -116,46 +108,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &index);
-
-
 	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index));
 }
 
 /**
  * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
- * @param string|int index
+ * @param string|int offsetSet
  * @param ModelInterface value
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 {
-	zval index_sub, value_sub;
-	zval *index, *value;
-	zval *this_ptr = getThis();
+	zval offset_sub, value_sub;
+	zval *offset, *value;
 
-	ZVAL_UNDEF(&index_sub);
+	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(index)
+		Z_PARAM_ZVAL(offset)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
-
-
+	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 66);
 	return;
 }
@@ -169,20 +146,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 {
 	zval offset_sub;
 	zval *offset;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
-
-
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 76);
 	return;
 }
@@ -205,15 +174,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 
 	ZVAL_UNDEF(&attribute);
 	ZVAL_UNDEF(&value);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(attribute)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string"));
@@ -224,13 +189,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 	} else {
 		ZEPHIR_INIT_VAR(&attribute);
 	}
-
-
-	ZEPHIR_OBS_VAR(&value);
+	zephir_memory_observe(&value);
 	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute, PH_SILENT_CC))) {
 		RETURN_MM_NULL();
 	}
-	RETURN_CTOR(&value);
+	RETURN_CCTOR(&value);
 }
 
 /**
@@ -240,20 +203,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState)
 {
 	zval *dirtyState_param = NULL;
 	zend_long dirtyState;
-	zval *this_ptr = getThis();
 
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(dirtyState)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &dirtyState_param);
-	dirtyState = zephir_get_intval(dirtyState_param);
-
-
 	RETURN_BOOL(0);
 }
 
@@ -265,12 +219,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 424, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 426, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -293,16 +245,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute)
 
 	ZVAL_UNDEF(&attribute);
 	ZVAL_UNDEF(&value_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(attribute)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string"));
@@ -313,8 +261,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute)
 	} else {
 		ZEPHIR_INIT_VAR(&attribute);
 	}
-
-
 	zephir_update_property_zval_zval(this_ptr, &attribute, value);
 	ZEPHIR_MM_RESTORE();
 }

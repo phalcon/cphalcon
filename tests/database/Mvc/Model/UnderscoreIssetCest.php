@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Tests\Integration\Mvc\Model;
+namespace Phalcon\Tests\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Tests\Fixtures\Migrations\CustomersMigration;

@@ -55,7 +55,7 @@ class IsValidHandlerCest
             [
                 'string',
                 false,
-                'handler'
+                'handler',
             ],
             [
                 'integer',
@@ -70,12 +70,12 @@ class IsValidHandlerCest
             [
                 'callable - method',
                 true,
-                [$objectHandler, 'hasListeners']
+                [$objectHandler, 'hasListeners'],
             ],
             [
                 'closure',
                 true,
-                $closureHandler
+                $closureHandler,
             ],
         ];
     }

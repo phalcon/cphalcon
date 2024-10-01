@@ -59,17 +59,13 @@ PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 	ZVAL_UNDEF(&overrides);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&attributes);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(src)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &src_param, &attributes_param);
 	zephir_get_strval(&src, src_param);
 	if (!attributes_param) {
@@ -78,8 +74,6 @@ PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&overrides);
 	zephir_create_array(&overrides, 1, 0);
 	zephir_array_update_string(&overrides, SL("src"), &src, PH_COPY | PH_SEPARATE);
