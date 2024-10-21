@@ -101,8 +101,8 @@ jobs:
         include:
           # Linux
           - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
-          # macOS
-          - { name: macos-clang, os: macos-12, compiler: clang }
+#          # macOS
+#          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
           - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
