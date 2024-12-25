@@ -1524,7 +1524,7 @@ PHP_METHOD(Phalcon_Http_Request, getPort)
 	if (zephir_memnstr_str(&host, SL(":"), "phalcon/Http/Request.zep", 686)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		ZVAL_STRING(&_3$$4, ":");
-		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", NULL, 242, &host, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", NULL, 241, &host, &_3$$4);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&pos)) {
 			ZVAL_LONG(&_4$$5, (zephir_get_numberval(&pos) + 1));

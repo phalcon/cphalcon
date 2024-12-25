@@ -2270,7 +2270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fields) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_14$$10);
-		ZEPHIR_CONCAT_SVS(&_14$$10, "[", &referencedFields, "] = :APR0:");
+		ZEPHIR_CONCAT_SVSVS(&_14$$10, "[", &referencedModel, "].[", &referencedFields, "] = :APR0:");
 		zephir_array_append(&conditions, &_14$$10, PH_SEPARATE, "phalcon/Mvc/Model/Manager.zep", 1463);
 		ZEPHIR_CALL_METHOD(&_15$$10, record, "readattribute", NULL, 0, &fields);
 		zephir_check_call_status();
@@ -2292,7 +2292,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 				ZVAL_COPY(&field, _17$$11);
 				zephir_array_fetch(&_21$$12, &referencedFields, &refPosition, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 1467);
 				ZEPHIR_INIT_NVAR(&_22$$12);
-				ZEPHIR_CONCAT_SVSVS(&_22$$12, "[", &_21$$12, "] = :APR", &refPosition, ":");
+				ZEPHIR_CONCAT_SVSVSVS(&_22$$12, "[", &referencedModel, "].[", &_21$$12, "] = :APR", &refPosition, ":");
 				zephir_array_append(&conditions, &_22$$12, PH_SEPARATE, "phalcon/Mvc/Model/Manager.zep", 1467);
 				ZEPHIR_CALL_METHOD(&_23$$12, record, "readattribute", &_24, 0, &field);
 				zephir_check_call_status();
@@ -2315,7 +2315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 				zephir_check_call_status();
 					zephir_array_fetch(&_26$$13, &referencedFields, &refPosition, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 1467);
 					ZEPHIR_INIT_NVAR(&_27$$13);
-					ZEPHIR_CONCAT_SVSVS(&_27$$13, "[", &_26$$13, "] = :APR", &refPosition, ":");
+					ZEPHIR_CONCAT_SVSVSVS(&_27$$13, "[", &referencedModel, "].[", &_26$$13, "] = :APR", &refPosition, ":");
 					zephir_array_append(&conditions, &_27$$13, PH_SEPARATE, "phalcon/Mvc/Model/Manager.zep", 1467);
 					ZEPHIR_CALL_METHOD(&_28$$13, record, "readattribute", &_29, 0, &field);
 					zephir_check_call_status();

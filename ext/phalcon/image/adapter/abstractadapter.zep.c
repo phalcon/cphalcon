@@ -1111,7 +1111,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, watermark)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_sub_function(&_4, &_0, &_1);
-	ZVAL_LONG(&_0, offsetX);
+	ZVAL_LONG(&_0, offsetY);
 	ZVAL_LONG(&_3, 0);
 	ZEPHIR_CALL_METHOD(&y, this_ptr, "checkhighlow", NULL, 0, &_0, &_3, &_4);
 	zephir_check_call_status();

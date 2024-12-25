@@ -127,9 +127,9 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct)
 		Z_PARAM_ZVAL_OR_NULL(value)
 		Z_PARAM_LONG(expire)
 		Z_PARAM_STR(path)
-		Z_PARAM_BOOL_OR_NULL(secure, is_null_true)
-		Z_PARAM_STR_OR_NULL(domain)
-		Z_PARAM_BOOL_OR_NULL(httpOnly, is_null_true)
+		Z_PARAM_BOOL(secure)
+		Z_PARAM_STR(domain)
+		Z_PARAM_BOOL(httpOnly)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -164,6 +164,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct)
 		}
 	if (!domain_param) {
 		ZEPHIR_INIT_VAR(&domain);
+		ZVAL_STRING(&domain, "");
 	} else {
 		zephir_get_strval(&domain, domain_param);
 	}
@@ -1167,7 +1168,7 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough)
 	} else {
 		ZEPHIR_INIT_VAR(&signKey);
 	}
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 234, &signKey);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 246, &signKey);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_LT_LONG(&length, 32))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
