@@ -11,6 +11,7 @@
 
 ### Fixed
 
+- Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
 - Fixed `Phalcon\Encryption\Crypt` to use `strlen` instead of `mb_strlen` for padding calculations [#16642](https://github.com/phalcon/cphalcon/issues/16642)
 - Fixed `Phalcon\Filter\Validation\Validator\File\MimeType::validate` to close the handle when using `finfo` [#16647](https://github.com/phalcon/cphalcon/issues/16647)
 - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to explicitly set the `referencedModel` in the conditions along with the `referencedFields` [#16655](https://github.com/phalcon/cphalcon/pull/16655)
