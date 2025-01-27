@@ -387,10 +387,7 @@ jobs:
 
       - name: Get the release version
         id: get-version
-        run: |
-          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-#          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Download Phalcon build artifacts
         id: download
