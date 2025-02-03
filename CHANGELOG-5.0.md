@@ -7,7 +7,7 @@
 - Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
 
 ### Added
-
+- Added `dispatch:beforeCallAction` and `dispatch:afterCallAction` to last-minute modifications to handler and method (mostly for debugging).
 
 ### Fixed
 
@@ -17,6 +17,7 @@
 - Fixed `Phalcon\Filter\Validation\Validator\File\MimeType::validate` to close the handle when using `finfo` [#16647](https://github.com/phalcon/cphalcon/issues/16647)
 - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to explicitly set the `referencedModel` in the conditions along with the `referencedFields` [#16655](https://github.com/phalcon/cphalcon/pull/16655)
 - Fixed `Phalcon\Image\Adapters\AbstractAdapter::watermark` to correctly calculate the Y offset [#16658](https://github.com/phalcon/cphalcon/issues/16658)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher` when calling action methods that do not define parameters to prevent `Unknown named parameter` error.
 
 ### Removed
 
