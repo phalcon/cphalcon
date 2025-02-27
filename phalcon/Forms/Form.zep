@@ -639,7 +639,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
-            elementMessage;
+            elementMessage, result;
         bool validationStatus;
 
         if empty this->elements {
@@ -719,7 +719,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
         * Perform the validation
         */
-        let messages = validation->validate(data, entity);
+        let result = validation->validate(data, entity);
+        if result === false {
+            let messages = validation->getMessages();
+        } else {
+            let messages = result;
+        }
         if messages->count() {
             // Add validation messages to relevant elements
             for elementMessage in iterator(messages) {
