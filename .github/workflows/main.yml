@@ -192,7 +192,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
         with:
           composer-options: "--prefer-dist"
 
@@ -307,7 +307,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           composer-options: "--prefer-dist"
 
