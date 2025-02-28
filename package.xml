@@ -57,7 +57,7 @@
       `Phalcon\Cache\Adapter\Stream`,
       `Phalcon\Cache\Adapter\Weak`
       `Phalcon\Cache\AbstractCache`. [#16606](https://github.com/phalcon/cphalcon/issues/16606)
-    
+
     ### Fixed
 
     - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
@@ -81,7 +81,7 @@
     <required>
       <php>
         <min>8.0.0</min>
-        <max>8.3.99</max>
+        <max>8.4.99</max>
       </php>
       <pearinstaller>
         <min>1.10</min>
