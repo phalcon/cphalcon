@@ -639,7 +639,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
         var messages, element, validators, name, filters, validator, validation,
-            elementMessage, result;
+            elementMessage;
         bool validationStatus;
 
         if empty this->elements {
