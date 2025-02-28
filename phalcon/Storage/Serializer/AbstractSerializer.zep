@@ -59,7 +59,7 @@ abstract class AbstractSerializer implements SerializerInterface
     /**
      * @return mixed
      */
-    public function getData()
+    public function getData() -> mixed
     {
         return this->data;
     }

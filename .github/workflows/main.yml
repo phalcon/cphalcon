@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.8.0
+  PHALCON_VERSION: 5.8.1
   ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
@@ -192,7 +192,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
         with:
           composer-options: "--prefer-dist"
 
@@ -307,7 +307,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           composer-options: "--prefer-dist"
 
