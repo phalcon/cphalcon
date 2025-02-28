@@ -719,12 +719,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
         * Perform the validation
         */
-        let result = validation->validate(data, entity);
-        if result === false {
-            let messages = validation->getMessages();
-        } else {
-            let messages = result;
-        }
+        validation->validate(data, entity);
+        let messages = validation->getMessages();
         if messages->count() {
             // Add validation messages to relevant elements
             for elementMessage in iterator(messages) {
