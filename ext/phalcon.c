@@ -212,6 +212,7 @@ zend_class_entry *phalcon_10__closure_ce;
 zend_class_entry *phalcon_11__closure_ce;
 zend_class_entry *phalcon_12__closure_ce;
 zend_class_entry *phalcon_13__closure_ce;
+zend_class_entry *phalcon_14__closure_ce;
 zend_class_entry *phalcon_1__closure_ce;
 zend_class_entry *phalcon_2__closure_ce;
 zend_class_entry *phalcon_3__closure_ce;
@@ -1282,6 +1283,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_11__closure);
 	ZEPHIR_INIT(phalcon_12__closure);
 	ZEPHIR_INIT(phalcon_13__closure);
+	ZEPHIR_INIT(phalcon_14__closure);
 	ZEPHIR_INIT(phalcon_1__closure);
 	ZEPHIR_INIT(phalcon_2__closure);
 	ZEPHIR_INIT(phalcon_3__closure);
