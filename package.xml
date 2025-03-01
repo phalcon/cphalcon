@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2024-07-09</date>
+  <date>2024-12-25</date>
   <time>17:00:00</time>
   <version>
-    <release>5.8.0</release>
-    <api>5.8.0</api>
+    <release>5.8.1</release>
+    <api>5.8.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -38,9 +38,7 @@
 
     ### Changed
 
-    - Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement   `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
-    - Changed the `Phalcon\Mvc\Router\Group::getHostname()` to return `null` also. [#16601](https://github.com/phalcon/cphalcon/issues/16601)
-    - Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource` to also return `array` [#16608](https://github.com/phalcon/cphalcon/issues/16608)
+    - Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
 
     ### Added
 
@@ -60,8 +58,13 @@
 
     ### Fixed
 
-    - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
-    - Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+    - Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
+    - Fixed `Phalcon\Encryption\Crypt` to use `strlen` instead of `mb_strlen` for padding calculations [#16642](https://github.com/phalcon/cphalcon/issues/16642)
+    - Fixed `Phalcon\Filter\Validation\Validator\File\MimeType::validate` to close the handle when using `finfo` [#16647](https://github.com/phalcon/cphalcon/issues/16647)
+    - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to explicitly set the `referencedModel` in the conditions along with the `referencedFields` [#16655](https://github.com/phalcon/cphalcon/pull/16655)
+    - Fixed `Phalcon\Image\Adapters\AbstractAdapter::watermark` to correctly calculate the Y offset [#16658](https://github.com/phalcon/cphalcon/issues/16658)
+    - Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
+    - Fixed `Phalcon\Filter\Filter` to have the correct docblock for IDE completion
 
   </notes>
   <contents>

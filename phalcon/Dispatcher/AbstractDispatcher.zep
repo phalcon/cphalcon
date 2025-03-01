@@ -19,6 +19,7 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\BinderInterface;
+use Phalcon\Support\Collection;
 
 /**
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
@@ -154,10 +155,52 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     public function callActionMethod(handler, string actionMethod, array! params = [])
     {
-        return call_user_func_array(
-            [handler, actionMethod],
-            params
+        var result, observer, altHandler, altAction, altParams;
+
+        let altHandler = handler;
+        let altAction = actionMethod;
+        let altParams = params;
+
+        if this->eventsManager !== null && this->eventsManager instanceof ManagerInterface {
+            let observer = <Collection> this->getDi()->get(
+                "Phalcon\Support\Collection",
+                [[
+                    "handler": handler,
+                    "action": actionMethod,
+                    "params": params
+                ]]
+            );
+
+            this->eventsManager->fire(
+                "dispatch:beforeCallAction",
+                this,
+                observer
+            );
+
+            let altHandler = observer->get("handler");
+            let altAction = observer->get("action");
+            let altParams = observer->get("params", [], "array");
+        }
+
+        let result = call_user_func_array(
+            [
+                altHandler,
+                altAction
+            ],
+            array_values(altParams)
         );
+
+        if this->eventsManager !== null && this->eventsManager instanceof ManagerInterface {
+            let observer["result"] = result;
+
+            this->eventsManager->fire(
+                "dispatch:afterCallAction",
+                this,
+                observer
+            );
+        }
+
+        return result;
     }
 
     /**

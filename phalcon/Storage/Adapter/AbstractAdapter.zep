@@ -218,6 +218,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Get the serializer
+     *
+     * @return SerializerInterface
+     */
+    public function getSerializer() -> <SerializerInterface>
+    {
+        return this->serializer;
+    }
+
+    /**
      * Checks if an element exists in the cache
      *
      * @param string $key

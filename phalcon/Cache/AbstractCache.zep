@@ -201,16 +201,33 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function doGetMultiple(var keys, var defaultValue = null) -> array
     {
-        var element, results;
+        var adapterClass, element, results, serializer;
 
         this->checkKeys(keys);
 
         this->fire("cache:beforeGetMultiple", keys);
 
         let results = [];
-        for element in keys {
-            let results[element] = this->get(element, defaultValue);
-        }
+        if (adapterClass === "Phalcon\Cache\Adapter\Redis") {
+             let results    = this->adapter->getAdapter()->mget(keys);
+             let serializer = this->adapter->getSerializer();
+             let results    = array_map(
+                 function (element) use (serializer, defaultValue) {
+                     serializer->unserialize(element);
+                     return false === element
+                         ? defaultValue
+                         : serializer->getData()
+                     ;
+                 },
+                 results
+             );
+
+             let results = array_combine(keys, results);
+         } else {
+             for element in keys {
+                 let results[element] = this->get(element, defaultValue);
+             }
+         }
 
         this->fire("cache:afterGetMultiple", keys);
 
