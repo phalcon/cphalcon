@@ -724,13 +724,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets a variable from put request
+     * Gets a variable from the PUT request
      *
      *```php
-     * // Returns value from $_PUT["user_email"] without sanitizing
+     * // Returns value from PUT stream without sanitizing
      * $userEmail = $request->getPut("user_email");
      *
-     * // Returns value from $_PUT["user_email"] with sanitizing
+     * // Returns value from PUT stream with sanitizing
      * $userEmail = $request->getPut("user_email", "email");
      *```
      */
