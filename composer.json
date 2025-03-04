@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0"
+    "php": ">=8.1"
   },
   "require-dev": {
     "ext-apcu": "*",
@@ -40,11 +40,12 @@
     "ext-redis": "*",
     "ext-sqlite3": "*",
     "ext-xml": "*",
-    "codeception/module-phalcon5": "^2.0",
+    "codeception/codeception": "^5.2",
     "codeception/module-apc": "^3.0",
     "codeception/module-cli": "^2.0",
     "codeception/module-filesystem": "^3.0",
     "codeception/module-memcache": "^3.0",
+    "codeception/module-phalcon5": "^2.0",
     "codeception/module-redis": "^3.0",
     "friendsofphp/php-cs-fixer": "~3.0",
     "mustache/mustache": "^2.14.1",
