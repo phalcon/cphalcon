@@ -100,7 +100,7 @@ jobs:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
+          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
 #          # macOS
 #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
