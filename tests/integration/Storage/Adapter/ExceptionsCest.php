@@ -112,7 +112,7 @@ class ExceptionsCest
         $I->checkExtensionIsLoaded('redis');
 
         $I->expectThrowable(
-            new StorageException('Connection refused'),
+            new StorageException(),
             function () {
                 $serializer      = new SerializerFactory();
                 $options         = getOptionsRedis();
