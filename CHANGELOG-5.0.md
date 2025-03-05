@@ -12,6 +12,7 @@
 
 ### Fixed
 
+- Fixed `Phalcon\Forms\Form` and `Phalcon\Filter\Validation` to correctly handle the `validate()` response when using validation class `beforeValidate()` [#16702](https://github.com/phalcon/cphalcon/issues/16702)
 - Fixed `Phalcon\Support\Debug` to use correct passed arguments in `set_error_handler` callback. PHP v7.2.0 deprecated `errcontext` and has been removed since php v8.0.0 [#16649](https://github.com/phalcon/cphalcon/issues/16686)
 - Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
 - Fixed `Phalcon\Encryption\Crypt` to use `strlen` instead of `mb_strlen` for padding calculations [#16642](https://github.com/phalcon/cphalcon/issues/16642)
