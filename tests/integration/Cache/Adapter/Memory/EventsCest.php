@@ -72,6 +72,9 @@ class EventsCest
         $manager = new Manager();
         $adapter->setEventsManager(new Manager());
 
+        // Avoid unset warning
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'cache:' . $example->offsetGet(0),
             static function (Event $event) use (&$counter, $example): void {

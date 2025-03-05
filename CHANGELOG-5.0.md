@@ -6,6 +6,7 @@
 
 - Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
 - Changed `Phalcon\Cache\Cache::getMultiple()` to use `mget()` when the `Phalcon\Cache\Adapter\Redis` is used. [#16689](https://github.com/phalcon/cphalcon/issues/16689)
+- Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
 
 ### Added
 - Added `dispatch:beforeCallAction` and `dispatch:afterCallAction` to last-minute modifications to handler and method (mostly for debugging).
