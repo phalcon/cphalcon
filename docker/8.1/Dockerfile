@@ -1,7 +1,7 @@
-FROM composer:latest as composer
+FROM composer:latest AS composer
 FROM php:8.1-fpm
 
-ADD ./extra.ini /usr/local/etc/php/conf.d/
+COPY ./extra.ini /usr/local/etc/php/conf.d/
 
 # User/Group globals
 ENV MY_USER="phalcon" \
@@ -30,15 +30,16 @@ RUN apt update -y && \
         libmemcached-dev \
         libpng-dev \
         libpq-dev \
-        libyaml-dev \
         libwebp-dev \
         libxpm-dev \
+        libyaml-dev \
         libzip-dev \
         locales \
         nano \
         sudo \
         wget \
-        zip
+        zip && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # PECL Packages
 RUN pecl install -o -f redis && \
