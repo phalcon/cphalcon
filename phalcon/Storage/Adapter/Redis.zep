@@ -306,8 +306,8 @@ class Redis extends AbstractAdapter
      */
     private function checkConnect(<\Redis> connection) -> <Redis>
     {
-        var auth, connectionOptions, host, method, options, parameter,
-            persistentId, port, retryInterval, readTimeout, result, timeout;
+        var auth, connectionOptions, ex, host, method, options, parameter,
+            persistentId, port, retryInterval, readTimeout, result, ssl, timeout;
 
         try {
             let options       = this->options,
@@ -343,7 +343,7 @@ class Redis extends AbstractAdapter
                 parameter,
                 retryInterval,
                 readTimeout,
-                connetionOptions
+                connectionOptions
             );
 
             if !result {
