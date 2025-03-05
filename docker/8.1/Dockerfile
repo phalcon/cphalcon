@@ -13,13 +13,10 @@ ENV MY_USER="phalcon" \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-# User and Group
 RUN set -eux && \
 	groupadd -g ${MY_GID} -r ${MY_GROUP} && \
-	useradd -u ${MY_UID} -m -s /bin/bash -g ${MY_GROUP} ${MY_USER}
-
-# Update
-RUN apt update -y && \
+	useradd -u ${MY_UID} -m -s /bin/bash -g ${MY_GROUP} ${MY_USER} && \
+    apt update -y && \
     apt install -y \
         apt-utils \
         gettext \
@@ -39,10 +36,8 @@ RUN apt update -y && \
         sudo \
         wget \
         zip && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-# PECL Packages
-RUN pecl install -o -f redis && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* && \
+    pecl install -o -f redis && \
     pecl install igbinary \
       msgpack \
       apcu \
@@ -50,35 +45,28 @@ RUN pecl install -o -f redis && \
       imagick \
       memcached \
       xdebug \
-      zephir_parser
-
-# Locale
-RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
+      zephir_parser && \
+    sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen && \
     sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
-    update-locale LANG=en_US.UTF-8
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype  \
+    update-locale LANG=en_US.UTF-8 && \
+    docker-php-ext-configure gd --with-freetype  \
     --with-jpeg=/usr/include/  \
     --with-xpm \
     --with-webp \
-    --enable-gd
-
-RUN docker-php-ext-install \
+    --enable-gd && \
+    docker-php-ext-install \
         gd \
         gettext \
         gmp \
         intl \
         pdo_mysql \
         pdo_pgsql \
-        zip
-
-# Install PHP extensions
-RUN docker-php-ext-enable \
+        zip && \
+    docker-php-ext-enable \
         redis \
         igbinary \
         msgpack \
