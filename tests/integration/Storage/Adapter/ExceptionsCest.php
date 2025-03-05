@@ -111,22 +111,28 @@ class ExceptionsCest
 
         $I->checkExtensionIsLoaded('redis');
 
-        $I->expectThrowable(
-            new StorageException(),
-            function () {
-                $serializer      = new SerializerFactory();
-                $options         = getOptionsRedis();
-                $options['host'] = 'tls://127.0.0.1';
-                $options['ssl']  = [
-                    'verify_peer_name' => '127.0.0.1',
-                    'verify_peer'      => false,
-                ];
+        /**
+         * Trying a different exception catch because Codeception does not
+         * like empty messages
+         */
+        $thrown = false;
+        try {
+            $serializer      = new SerializerFactory();
+            $options         = getOptionsRedis();
+            $options['host'] = 'tls://127.0.0.1';
+            $options['ssl']  = [
+                'verify_peer_name' => '127.0.0.1',
+                'verify_peer'      => false,
+            ];
 
-                $adapter = new Redis($serializer, $options);
+            $adapter = new Redis($serializer, $options);
 
-                $adapter->get('test');
-            }
-        );
+            $adapter->get('test');
+        } catch (StorageException $ex) {
+            $thrown = true;
+        }
+
+        $I->assertTrue($thrown);
     }
 
     /**
