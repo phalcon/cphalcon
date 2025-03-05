@@ -40,6 +40,22 @@
 
     - Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
 
+    ### Added
+
+    - Added events and `Phalcon\Events\Manager` for `Phalcon\Storage\Adapter\Apcu`,
+      `Phalcon\Storage\Adapter\Redis`,
+      `Phalcon\Storage\Adapter\Memory`,
+      `Phalcon\Storage\Adapter\Libmemcached`,
+      `Phalcon\Storage\Adapter\Stream`,
+      `Phalcon\Storage\Adapter\Weak`,
+      `Phalcon\Cache\Adapter\Apcu`,
+      `Phalcon\Cache\Adapter\Redis`,
+      `Phalcon\Cache\Adapter\Memory`,
+      `Phalcon\Cache\Adapter\Libmemcached`,
+      `Phalcon\Cache\Adapter\Stream`,
+      `Phalcon\Cache\Adapter\Weak`
+      `Phalcon\Cache\AbstractCache`. [#16606](https://github.com/phalcon/cphalcon/issues/16606)
+
     ### Fixed
 
     - Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
@@ -68,7 +84,7 @@
     <required>
       <php>
         <min>8.0.0</min>
-        <max>8.3.99</max>
+        <max>8.4.99</max>
       </php>
       <pearinstaller>
         <min>1.10</min>

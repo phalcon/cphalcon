@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Email, validate)
 		ZVAL_LONG(&flags, 1048576);
 	}
 	ZVAL_LONG(&_3, 274);
-	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 283, &value, &_3, &flags);
+	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 284, &value, &_3, &flags);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_4))) {
 		ZEPHIR_CALL_METHOD(&_5$$5, this_ptr, "messagefactory", NULL, 0, validation, field);
