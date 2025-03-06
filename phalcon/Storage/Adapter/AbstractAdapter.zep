@@ -208,6 +208,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     abstract public function getKeys(string prefix = "") -> array;
 
     /**
+     * Returns the lifetime
+     *
+     * @return int
+     */
+    public function getLifetime() -> int
+    {
+        return this->lifetime;
+    }
+
+    /**
      * Returns the prefix
      *
      * @return string
