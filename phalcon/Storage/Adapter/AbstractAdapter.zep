@@ -164,6 +164,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         this->fire(this->eventType . ":beforeGet", key);
 
         let content  = this->doGet(key);
+        if (content === false) {
+            this->fire(this->eventType . ":afterGet", key);
+
+            return defaultValue;
+        }
 
         let result = this->getUnserializedData(content, defaultValue);
 
@@ -370,7 +375,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             let content = this->serializer->getData();
         }
 
-        return is_null(content) ? defaultValue : content;
+        return content;
     }
 
     /**

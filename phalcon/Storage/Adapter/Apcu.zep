@@ -244,11 +244,7 @@ class Apcu extends AbstractAdapter
      */
     protected function doGet(string key)
     {
-        var result;
-
-        let result = this->phpApcuFetch(this->getPrefixedKey(key));
-
-        return result === false ? null : result;
+        return this->phpApcuFetch(this->getPrefixedKey(key));
     }
 
     /**
