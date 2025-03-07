@@ -95,16 +95,19 @@ class Stream extends Noop
      */
     public function gc(int max_lifetime) -> int|false
     {
-        var file, pattern, time;
+        var file, glob, pattern, time;
 
         let pattern = this->path . this->prefix . "*",
-            time    = time() - max_lifetime;
+            time    = time() - max_lifetime,
+            glob    = glob(pattern);
 
-        for file in glob(pattern) {
-            if true === file_exists(file) &&
-               true === is_file(file)     &&
-               (filemtime(file) < time) {
-                unlink(file);
+        if (!empty(glob)) {
+            for file in glob {
+                if true === file_exists(file) &&
+                   true === is_file(file)     &&
+                   (filemtime(file) < time) {
+                    unlink(file);
+                }
             }
         }
 
