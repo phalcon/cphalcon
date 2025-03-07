@@ -95,11 +95,21 @@ class Stream extends Noop
      */
     public function gc(int max_lifetime) -> int|false
     {
-        var file, glob, pattern, time;
+        var file, glob, last, pattern, time;
 
         let pattern = this->path . this->prefix . "*",
             time    = time() - max_lifetime,
-            glob    = glob(pattern);
+            glob    = this->getGlobFiles(pattern);
+
+        if (false === glob) {
+            let last = error_get_last();
+            if (isset(last["message"])) {
+                let last = last["message"];
+            } else {
+                let last = "Unexpected gc error";
+            }
+            throw new Exception(last);
+        }
 
         if (!empty(glob)) {
             for file in glob {
@@ -187,6 +197,26 @@ class Stream extends Noop
         return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
+
+    /**
+     * Gets the glob array or returns false on failure
+     *
+     * @param string $pattern
+     *
+     * @return array|false
+     */
+    protected function getGlobFiles(string pattern) -> array | false
+    {
+        var errorLevel, glob;
+
+        let errorLevel = error_reporting(0);
+        error_clear_last();
+        let glob = glob(pattern);
+        error_reporting(errorLevel);
+
+        return glob;
+    }
+
     /**
      * @param string $filename
      *
@@ -271,4 +301,5 @@ class Stream extends Noop
     {
         return is_writable(filename);
     }
+
 }
