@@ -262,9 +262,9 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function execute(array bindParams = [], array bindTypes = [])
     {
-        var uniqueRow, cacheOptions, key, cacheService, cache, result,
-            preparedResult, defaultBindParams, mergedParams, defaultBindTypes,
-            mergedTypes, type, lifetime, intermediate;
+        var adapter, cache, cacheLifetime, cacheOptions, cacheService,
+            defaultBindParams, defaultBindTypes, intermediate, key, lifetime,
+            mergedParams, mergedTypes, preparedResult, result, type, uniqueRow;
 
         let uniqueRow    = this->uniqueRow,
             cacheOptions = this->cacheOptions;
@@ -301,6 +301,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                     "Cache service must be an object implementing " .
                     "Phalcon\Cache\CacheInterface"
                 );
+            }
+
+            /**
+             * If the lifetime is different than the cache lifetime, assign
+             * the cache lifetime to the current cache setting
+             */
+            let adapter       = cache->getAdapter();
+            let cacheLifetime = adapter->getLifetime();
+            if (lifetime !== cacheLifetime) {
+                let lifetime = cacheLifetime;
             }
 
             let result = cache->get(key);

@@ -35,8 +35,6 @@ class NewInstanceCest
         $I->wantToTest('Annotations\AdapterFactory - newInstance() - ' . $example[0]);
 
         $factory = new AnnotationsFactory();
-        $name    = 'apcu';
-
         $image = $factory->newInstance($example[0]);
 
         $I->assertInstanceOf(

@@ -86,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
@@ -100,12 +100,12 @@ jobs:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
+          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
 #          # macOS
 #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
-          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+#          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+#          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           #- { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           #- { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           # Most of the extensions wasn't compiled for PHP 8.2.
@@ -194,7 +194,7 @@ jobs:
       - name: "Install development dependencies with Composer"
         uses: "ramsey/composer-install@v3"
         with:
-          composer-options: "--prefer-dist"
+          composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
         shell: bash
@@ -270,7 +270,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
 
     steps:
       - uses: actions/checkout@v4
@@ -309,7 +309,7 @@ jobs:
       - name: "Install development dependencies with Composer"
         uses: ramsey/composer-install@v3
         with:
-          composer-options: "--prefer-dist"
+          composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
         run: |
@@ -366,12 +366,6 @@ jobs:
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
 
-      # - name: Run Database Tests (SQL Server)
-      #   env:
-      #     DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-      #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-      #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
-
   release:
     permissions:
       contents: write # to create a release (ncipollo/release-action)
@@ -387,10 +381,7 @@ jobs:
 
       - name: Get the release version
         id: get-version
-        run: |
-          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-#          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Download Phalcon build artifacts
         id: download

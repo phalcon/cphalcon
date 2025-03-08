@@ -14,10 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
+use Phalcon\Session\Exception;
+use Phalcon\Tests\Fixtures\Session\Adapter\StreamGlobFixture;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 
 use function cacheDir;
 use function file_put_contents;
+use function getOptionsSessionStream;
 use function sleep;
 use function uniqid;
 
@@ -58,5 +61,25 @@ class GcCest
 
         $I->dontSeeFileFound('gc_1', cacheDir('sessions'));
         $I->dontSeeFileFound('gc_2', cacheDir('sessions'));
+    }
+    /**
+     * Tests Phalcon\Session\Adapter\Stream :: gc() -
+     * glob() false returns exception
+     *
+     * @return void
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterStreamGcGlobThrowsException(IntegrationTester $I): void
+    {
+        $I->expectThrowable(
+            new Exception('Unexpected gc error'),
+            function () {
+                $adapter = new StreamGlobFixture(getOptionsSessionStream());
+
+                $actual = $adapter->gc(1);
+            }
+        );
     }
 }

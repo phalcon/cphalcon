@@ -44,6 +44,7 @@ class Redis extends AbstractAdapter
      *     "connectTimeout" => 0,
      *     "retryInterval"  => 0,
      *     "readTimeout"    => 0,
+     *     "ssl"            => [],
      * ]
      *
      * @throws SupportException
@@ -59,11 +60,12 @@ class Redis extends AbstractAdapter
             options["timeout"]        = this->getArrVal(options, "timeout", 0),
             options["persistent"]     = this->getArrVal(options, "persistent", false, "bool"),
             options["persistentId"]   = this->getArrVal(options, "persistentId", "", "string"),
-            options["auth"]           = this->getArrVal(options, "auth", ""),
+            options["auth"]           = this->getArrVal(options, "auth", []),
             options["socket"]         = this->getArrVal(options, "socket", ""),
             options["connectTimeout"] = this->getArrVal(options, "connectTimeout", 0),
             options["retryInterval"]  = this->getArrVal(options, "retryInterval", 0),
-            options["readTimeout"]    = this->getArrVal(options, "readTimeout", 0);
+            options["readTimeout"]    = this->getArrVal(options, "readTimeout", 0),
+            options["ssl"]            = this->getArrVal(options, "ssl", []);
 
         parent::__construct(factory, options);
     }
@@ -304,42 +306,57 @@ class Redis extends AbstractAdapter
      */
     private function checkConnect(<\Redis> connection) -> <Redis>
     {
-        var host, method, options, parameter, persistentId, port, retryInterval,
-            readTimeout, result, timeout;
+        var auth, connectionOptions, ex, host, method, options, parameter,
+            persistentId, port, retryInterval, readTimeout, result, ssl, timeout;
 
-        let options       = this->options,
-            host          = options["host"],
-            port          = options["port"],
-            timeout       = options["timeout"],
-            retryInterval = options["retryInterval"],
-            readTimeout   = options["readTimeout"];
+        try {
+            let options       = this->options,
+                host          = options["host"],
+                port          = options["port"],
+                timeout       = options["timeout"],
+                retryInterval = options["retryInterval"],
+                readTimeout   = options["readTimeout"],
+                auth          = options["auth"],
+                ssl           = options["ssl"];
 
-        if true !== options["persistent"] {
-            let method    = "connect",
-                parameter = null;
-        } else {
-            let method       = "pconnect",
-                persistentId = this->options["persistentId"],
-                parameter    = !empty(persistentId) ? persistentId : "persistentId" . options["index"];
-        }
+            let connectionOptions = [];
+            if (true !== empty(auth)) {
+                let connectionOptions["auth"] = auth;
+            }
+            if (true !== empty(ssl)) {
+                let connectionOptions["stream"] = ssl;
+            }
 
-        let result = connection->{method}(
-            host,
-            port,
-            timeout,
-            parameter,
-            retryInterval,
-            readTimeout
-        );
+            if true !== options["persistent"] {
+                let method    = "connect",
+                    parameter = null;
+            } else {
+                let method       = "pconnect",
+                    persistentId = this->options["persistentId"],
+                    parameter    = !empty(persistentId) ? persistentId : "persistentId" . options["index"];
+            }
 
-        if !result {
-            throw new StorageException(
-                sprintf(
-                    "Could not connect to the Redisd server [%s:%s]",
-                    host,
-                    port
-                )
+            let result = connection->{method}(
+                host,
+                port,
+                timeout,
+                parameter,
+                retryInterval,
+                readTimeout,
+                connectionOptions
             );
+
+            if !result {
+                throw new StorageException(
+                    sprintf(
+                        "Could not connect to the Redisd server [%s:%s]",
+                        host,
+                        port
+                    )
+                );
+            }
+        } catch \Exception, ex {
+            throw new StorageException(ex->getMessage());
         }
 
         return this;

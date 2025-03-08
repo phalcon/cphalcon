@@ -33,6 +33,14 @@ services:
     volumes:
       - .:/srv
 
+  cphalcon-8.4:
+    container_name: cphalcon-8.4
+    hostname: cphalcon-84
+    build: docker/8.4
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
   mysql:
     container_name: cphalcon-mysql
     image: mysql:5.7

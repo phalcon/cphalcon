@@ -7,6 +7,7 @@
 - Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
 - Changed `Phalcon\Cache\Cache::getMultiple()` to use `mget()` when the `Phalcon\Cache\Adapter\Redis` is used. [#16689](https://github.com/phalcon/cphalcon/issues/16689)
 - Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
+- Changed `Storage\Adapter\Redis` to accept `ssl` in the options for secure connections. [#16711](https://github.com/phalcon/cphalcon/issues/16711)
 
 ### Added
 - Added `dispatch:beforeCallAction` and `dispatch:afterCallAction` to last-minute modifications to handler and method (mostly for debugging).
@@ -23,6 +24,8 @@
 - Fixed `Phalcon\Dispatcher\AbstractDispatcher` when calling action methods that do not define parameters to prevent `Unknown named parameter` error.
 - Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
 - Fixed `Phalcon\Filter\Filter` to have the correct docblock for IDE completion
+- Fixed `Phalcon\Mvc\Model\Query` to use the lifetime in the "cache" service if none has been supplied by the options [#16696](https://github.com/phalcon/cphalcon/issues/16696)
+- Fixed `Phalcon\Session\Adapter\Stream::gc()` to throw an exception if something is wrong with `glob()` [#16713](https://github.com/phalcon/cphalcon/issues/16713)
 
 ### Removed
 

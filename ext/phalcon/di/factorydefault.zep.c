@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_array_update_string(&_0, SL("flashSession"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 94);
+	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 95);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 77, &_7, &_3);
