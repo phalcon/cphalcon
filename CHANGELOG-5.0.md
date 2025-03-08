@@ -25,6 +25,7 @@
 - Fixed `Phalcon\Filter\Filter` to have the correct docblock for IDE completion
 - Fixed `Phalcon\Mvc\Model\Query` to use the lifetime in the "cache" service if none has been supplied by the options [#16696](https://github.com/phalcon/cphalcon/issues/16696)
 - Fixed `Phalcon\Session\Adapter\Stream::gc()` to throw an exception if something is wrong with `glob()` [#16713](https://github.com/phalcon/cphalcon/issues/16713)
+- Fixed `Phalcon\Http\Request::getBasicAuth()` to return a `null` password if not defined on the server [#16668](https://github.com/phalcon/cphalcon/issues/16668)
 
 ### Removed
 
