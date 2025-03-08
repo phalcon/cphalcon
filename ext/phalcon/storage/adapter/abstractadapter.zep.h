@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, get);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getKeys);
+PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getLifetime);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefix);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getSerializer);
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, has);
@@ -60,6 +61,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_abstractadapter_getkeys, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_abstractadapter_getlifetime, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_abstractadapter_getprefix, 0, 0, IS_STRING, 0)
@@ -150,6 +154,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_abstractadapter_method_entry) {
 PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter, arginfo_phalcon_storage_adapter_abstractadapter_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer, arginfo_phalcon_storage_adapter_abstractadapter_getdefaultserializer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getKeys, arginfo_phalcon_storage_adapter_abstractadapter_getkeys, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getLifetime, arginfo_phalcon_storage_adapter_abstractadapter_getlifetime, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getPrefix, arginfo_phalcon_storage_adapter_abstractadapter_getprefix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, getSerializer, arginfo_phalcon_storage_adapter_abstractadapter_getserializer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_AbstractAdapter, has, arginfo_phalcon_storage_adapter_abstractadapter_has, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
