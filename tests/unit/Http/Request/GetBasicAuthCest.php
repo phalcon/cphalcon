@@ -26,8 +26,6 @@ class GetBasicAuthCest
      */
     public function httpRequestGetBasicAuthEmpty(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getBasicAuth() - empty');
-
         $request = new Request();
 
         $I->assertNull($request->getBasicAuth());
@@ -41,15 +39,8 @@ class GetBasicAuthCest
      */
     public function httpRequestGetBasicAuth(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getBasicAuth()');
-
-        $store   = $_SERVER ?? [];
-        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
-        $_SERVER = [
-            'REQUEST_TIME_FLOAT' => $time,
-            'PHP_AUTH_USER'      => 'darth',
-            'PHP_AUTH_PW'        => 'vader',
-        ];
+        $_SERVER['PHP_AUTH_USER'] = 'darth';
+        $_SERVER['PHP_AUTH_PW']   = 'vader';
 
         $request = new Request();
 
@@ -60,6 +51,24 @@ class GetBasicAuthCest
         $actual   = $request->getBasicAuth();
         $I->assertSame($expected, $actual);
 
-        $_SERVER = $store;
+        /**
+         * @issue 16668
+         */
+        unset($_SERVER['PHP_AUTH_USER']);
+        unset($_SERVER['PHP_AUTH_PW']);
+
+        $_SERVER['PHP_AUTH_USER'] = 'darth';
+
+        $request = new Request();
+
+        $expected = [
+            'username' => 'darth',
+            'password' => null,
+        ];
+        $actual   = $request->getBasicAuth();
+        $I->assertSame($expected, $actual);
+
+        unset($_SERVER['PHP_AUTH_USER']);
+        unset($_SERVER['PHP_AUTH_PW']);
     }
 }

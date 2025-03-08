@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	zephir_fetch_params(1, 2, 0, &input_param, &blockSize_param);
 	zephir_get_strval(&input, input_param);
 	paddingSize = 0;
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 234, &input);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 247, &input);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 88, &input);
 	zephir_check_call_status();

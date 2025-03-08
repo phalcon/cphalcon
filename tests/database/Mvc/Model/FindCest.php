@@ -34,6 +34,7 @@ use function ob_end_flush;
 use function ob_get_contents;
 use function ob_start;
 use function outputDir;
+use function sleep;
 use function uniqid;
 use function var_dump;
 
@@ -214,6 +215,76 @@ class FindCest
                 $secondCustomer->getId()
             );
         }
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-01
+     *
+     * @group mysql
+     * @issue 16696
+     */
+    public function testMvcModelFindWithCacheLifetimeFromCacheService(DatabaseTester $I): void
+    {
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+
+        $options = [
+            'defaultSerializer' => 'Json',
+            'lifetime'          => 2,
+            'prefix'            => 'data-',
+        ];
+
+        /**
+         * Models Cache setup. Lifetime is 2 seconds
+         */
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $adapter           = $adapterFactory->newInstance('apcu', $options);
+        $cache             = new Cache($adapter);
+
+        $this->container->setShared('modelsCache', $cache);
+
+        /**
+         * Get the records (should cache the resultset)
+         */
+        $data = Objects::find(
+            [
+                'cache' => [
+                    'key' => 'my-cache',
+                ],
+            ]
+        );
+
+        $I->assertEquals(1, count($data));
+
+        $record = $data[0];
+        $I->assertEquals(1, $record->obj_id);
+        $I->assertEquals('random data', $record->obj_name);
+
+        /**
+         * Get the models cache
+         */
+        $modelsCache = $this->container->get('modelsCache');
+
+        $exists = $modelsCache->has('my-cache');
+        $I->assertTrue($exists);
+
+        /**
+         * Wait for 3 seconds for the cache to expire
+         */
+        sleep(3);
+
+        /**
+         * Get the data now from the cache - expired
+         */
+        $data = $modelsCache->get('my-cache');
+        $I->assertNull($data);
     }
 
     /**

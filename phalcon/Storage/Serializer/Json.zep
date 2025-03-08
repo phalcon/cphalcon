@@ -45,7 +45,7 @@ class Json extends AbstractSerializer
      *
      * @return JsonSerializable|mixed|string
      */
-    public function serialize()
+    public function serialize() -> mixed
     {
         if (typeof this->data === "object" && !(this->data instanceof JsonSerializable)) {
             throw new InvalidArgumentException(

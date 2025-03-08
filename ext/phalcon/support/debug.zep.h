@@ -65,13 +65,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaught
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaughtlowseverity, 0, 5, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaughtlowseverity, 0, 4, IS_VOID, 0)
 
 	ZEND_ARG_INFO(0, severity)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, file)
 	ZEND_ARG_INFO(0, line)
-	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderhtml, 0, 1, IS_STRING, 0)

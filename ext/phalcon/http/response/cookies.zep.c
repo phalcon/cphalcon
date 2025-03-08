@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 359);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 361);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {
@@ -476,9 +476,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		Z_PARAM_ZVAL_OR_NULL(value)
 		Z_PARAM_LONG(expire)
 		Z_PARAM_STR(path)
-		Z_PARAM_BOOL_OR_NULL(secure, is_null_true)
-		Z_PARAM_STR_OR_NULL(domain)
-		Z_PARAM_BOOL_OR_NULL(httpOnly, is_null_true)
+		Z_PARAM_BOOL(secure)
+		Z_PARAM_STR(domain)
+		Z_PARAM_BOOL(httpOnly)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -513,6 +513,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		}
 	if (!domain_param) {
 		ZEPHIR_INIT_VAR(&domain);
+		ZVAL_STRING(&domain, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(domain_param) != IS_STRING && Z_TYPE_P(domain_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'domain' must be of the type string"));

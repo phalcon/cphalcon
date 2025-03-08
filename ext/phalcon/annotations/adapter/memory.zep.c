@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -42,6 +42,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory)
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("data"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
+{
+
 }
 
 /**

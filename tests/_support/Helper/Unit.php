@@ -3,7 +3,7 @@
 namespace Helper;
 
 use Codeception\Module;
-use PHPUnit\Framework\SkippedTestError;
+use PHPUnit\Framework\SkippedWithMessageException;
 use ReflectionClass;
 use ReflectionException;
 
@@ -52,7 +52,7 @@ class Unit extends Module
      */
     public function skipTest(string $message)
     {
-        throw new SkippedTestError($message);
+        throw new SkippedWithMessageException($message);
     }
 
     /**

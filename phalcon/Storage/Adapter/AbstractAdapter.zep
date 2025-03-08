@@ -208,6 +208,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     abstract public function getKeys(string prefix = "") -> array;
 
     /**
+     * Returns the lifetime
+     *
+     * @return int
+     */
+    public function getLifetime() -> int
+    {
+        return this->lifetime;
+    }
+
+    /**
      * Returns the prefix
      *
      * @return string
@@ -215,6 +225,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function getPrefix() -> string
     {
         return this->prefix;
+    }
+
+    /**
+     * Get the serializer
+     *
+     * @return SerializerInterface
+     */
+    public function getSerializer() -> <SerializerInterface>
+    {
+        return this->serializer;
     }
 
     /**

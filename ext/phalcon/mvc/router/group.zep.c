@@ -993,10 +993,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &pattern);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 101, &_1, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 102, &_1, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
-	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 487, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 489, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
 }

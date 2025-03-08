@@ -262,7 +262,7 @@ class Debug
     /**
      * Throws an exception when a notice or warning is raised
      */
-    public function onUncaughtLowSeverity(severity, message, file, line, context) -> void
+    public function onUncaughtLowSeverity(severity, message, file, line) -> void
     {
         if unlikely error_reporting() & severity {
             throw new ErrorException(message, 0, severity, file, line);

@@ -21,8 +21,10 @@
 
 #include <ext/standard/php_smart_string.h>
 #include <ext/standard/php_string.h>
+#if PHP_VERSION_ID < 80400
 #include <ext/standard/php_rand.h>
 #include <ext/standard/php_lcg.h>
+#endif
 #include <ext/standard/php_http.h>
 #include <ext/standard/base64.h>
 #include <ext/standard/md5.h>
@@ -107,7 +109,11 @@ void zephir_fast_strtolower(zval *return_value, zval *str)
 
 	length = Z_STRLEN_P(str);
 	lower_str = estrndup(Z_STRVAL_P(str), length);
+#if PHP_VERSION_ID < 80400
 	php_strtolower(lower_str, length);
+#else
+	zend_str_tolower(lower_str, length);
+#endif
 
 	if (use_copy) {
 		zval_dtor(str);
@@ -136,7 +142,11 @@ void zephir_fast_strtoupper(zval *return_value, zval *str)
 
 	length = Z_STRLEN_P(str);
 	lower_str = estrndup(Z_STRVAL_P(str), length);
+#if PHP_VERSION_ID < 80400
 	php_strtoupper(lower_str, length);
+#else
+	zend_str_toupper(lower_str, length);
+#endif
 
 	if (use_copy) {
 		zval_dtor(str);
@@ -1052,7 +1062,6 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 	/* Compile regex or get it from cache */
 	if ((pce = pcre_get_compiled_regex_cache(Z_STR_P(regex))) == NULL) {
-
 		if (use_copy) {
 			zval_dtor(subject);
 		}
@@ -1063,9 +1072,17 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	ZVAL_UNDEF(&tmp_matches);
 
 	if (flags != 0 || offset != 0) {
+#if PHP_VERSION_ID < 80400
 		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 1, flags, offset);
+#else
+		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, flags, offset);
+#endif
 	} else {
+#if PHP_VERSION_ID < 80400
 		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 0, 0, 0);
+#else
+		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 0, 0);
+#endif
 	}
 
 	if (matches) {
@@ -1223,8 +1240,8 @@ void zephir_crc32(zval *return_value, zval *str)
 	int use_copy = 0;
 	size_t nr;
 	char *p;
-	php_uint32 crc;
-	php_uint32 crcinit = 0;
+	uint32_t crc;
+	uint32_t crcinit = 0;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		use_copy = zend_make_printable_zval(str, &copy);
