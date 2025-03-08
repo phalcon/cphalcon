@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 		timezone = &__$null;
 	}
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 415, &name, &adapters, timezone);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 416, &name, &adapters, timezone);
 	zephir_check_call_status();
 	RETURN_MM();
 }
