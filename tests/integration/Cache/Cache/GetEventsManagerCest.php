@@ -88,6 +88,12 @@ class GetEventsManagerCest
 
         $adapter->setEventsManager($manager);
 
+        // Avoid unset warning.
+        if ($example->offsetGet(1) !== 'set' && $example->offsetGet(1) !== 'setMultiple') {
+            $adapter->set('test', 'test');
+            $adapter->set('test2', 'test2');
+        }
+
         $I->assertInstanceOf($manager::class, $adapter->getEventsManager());
 
         call_user_func_array([$adapter, $example->offsetGet(1)], $example->offsetGet(2));
