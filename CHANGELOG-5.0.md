@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-XX-XX)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Micro\LazyLoader::callMethod` to prevent `Unknown named parameter` error [#16724](https://github.com/phalcon/cphalcon/issues/16724)
+
 ## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
 
 ### Changed
