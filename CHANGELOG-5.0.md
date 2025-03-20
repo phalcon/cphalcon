@@ -1,13 +1,16 @@
 # Changelog
 
+## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (XXX)
+
+### Changed
+
+- Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
+
 ## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
 
 ### Changed
 
-- Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
-- Changed `Phalcon\Cache\Cache::getMultiple()` to use `mget()` when the `Phalcon\Cache\Adapter\Redis` is used. [#16689](https://github.com/phalcon/cphalcon/issues/16689)
 - Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
-- Changed `Storage\Adapter\Redis` to accept `ssl` in the options for secure connections. [#16711](https://github.com/phalcon/cphalcon/issues/16711)
 
 ### Added
 - Added `dispatch:beforeCallAction` and `dispatch:afterCallAction` to last-minute modifications to handler and method (mostly for debugging).
