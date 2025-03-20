@@ -924,8 +924,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      * @return string
      */
-     public final function getColumnMapUniqueKey(<ModelInterface> model) -> string | null
-     {
+    public final function getColumnMapUniqueKey(<ModelInterface> model) -> string | null
+    {
         string key;
         let key = get_class_lower(model);
         if false === isset(this->columnMap[key]) {
@@ -934,5 +934,32 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             }
         }
         return key;
-     }
+    }
+
+    /**
+     * Returns the model UniqueID based on model and array row primary key(s) value(s)
+     */
+    public function getModelUUID(<ModelInterface> model, array row) -> string | null
+    {
+        var pk, pks;
+        string uuid;
+        let pks = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
+        if null === pks {
+            return null;
+        }
+        let uuid = get_class(model);
+
+        for pk in pks {
+            let uuid = uuid . ":" . row[pk];
+        }
+        return uuid;
+    }
+
+    /**
+     * Compares if two models are the same in memory
+     */
+    public function modelEquals(<ModelInterface> first, <ModelInterface> other) -> bool
+    {
+        return spl_object_id(first) === spl_object_id(other);
+    }
 }
