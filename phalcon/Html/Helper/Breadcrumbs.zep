@@ -44,6 +44,8 @@ class Breadcrumbs extends AbstractHelper
     private data = [];
     /**
      * Crumb separator.
+     *
+     * @var string
      */
     private separator = "<li>/</li>";
     /**
@@ -108,8 +110,6 @@ class Breadcrumbs extends AbstractHelper
      * // Adding a crumb without a link (normally the last one)
      * $breadcrumbs->add("Users");
      * ```
-     *
-     * @param array<string, string> $attributes
      */
     public function add(
         string text,
@@ -144,8 +144,6 @@ class Breadcrumbs extends AbstractHelper
 
     /**
      * Clear the attributes of the parent element.
-     *
-     * @return $this
      */
     public function clearAttributes() -> <Breadcrumbs>
     {
@@ -248,10 +246,6 @@ class Breadcrumbs extends AbstractHelper
 
     /**
      * Set the attributes for the parent element.
-     *
-     * @param array<string, string> $attributes
-     *
-     * @return $this
      */
     public function setAttributes(array attributes) -> <Breadcrumbs>
     {
@@ -318,7 +312,7 @@ class Breadcrumbs extends AbstractHelper
     }
 
     /**
-     * @param array<string, string> $attributes
+     * Processes attributes
      */
     private function processAttributes(array attributes) -> string
     {
