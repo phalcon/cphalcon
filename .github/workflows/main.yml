@@ -21,7 +21,6 @@ env:
   # All versions should be declared here
   PHALCON_VERSION: 5.9.0
   ZEPHIR_PARSER_VERSION: 1.6.1
-  UBUNTU_VERSION: 22.04
 
   # For tests
   LANG: en_US.UTF-8
@@ -41,7 +40,7 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
@@ -54,12 +53,13 @@ jobs:
 
   # PHP CodeSniffer inspection
   phpcs:
+    needs: setup_workflow
     permissions:
       contents: read
 
     name: Check code style
 
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -70,7 +70,7 @@ jobs:
   stubs:
     needs: setup_workflow
     name: Check with Psalm / PHP ${{ matrix.php }}
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
@@ -106,9 +106,10 @@ jobs:
 
 
   generate:
+    needs: setup_workflow
     name: Build Phalcon PECL package
 
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -193,7 +194,7 @@ jobs:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-$UBUNTU_VERSION, compiler: gcc }
+          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
 #          # macOS
 #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
@@ -326,7 +327,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
 
     services:
       mysql:
@@ -467,7 +468,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-$UBUNTU_VERSION
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
