@@ -18,6 +18,9 @@ use Phalcon\Di\DiInterface;
  * This component offers an easy way to create breadcrumbs for your application.
  * The resulting HTML when calling `render()` will have each breadcrumb enclosed
  * in `<dt>` tags, while the whole string is enclosed in `<dl>` tags.
+ *
+ * @deprecated Will be removed in future version
+ * Use {@see Phalcon\Html\Helper\Breadcrumbs} instead.
  */
 class Breadcrumbs
 {

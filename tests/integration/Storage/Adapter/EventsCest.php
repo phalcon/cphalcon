@@ -61,6 +61,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeGet',
             static function (Event $event) use (&$counter, $example): void {
@@ -108,6 +110,8 @@ class EventsCest
                 'afterGet'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterGet',
@@ -157,6 +161,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeHas',
             static function (Event $event) use (&$counter, $example): void {
@@ -204,6 +210,8 @@ class EventsCest
                 'afterHas'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterHas',
@@ -253,6 +261,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeDelete',
             static function (Event $event) use (&$counter, $example): void {
@@ -300,6 +310,8 @@ class EventsCest
                 'afterDelete'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterDelete',
@@ -349,6 +361,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeIncrement',
             static function (Event $event) use (&$counter, $example): void {
@@ -396,6 +410,8 @@ class EventsCest
                 'afterIncrement'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterIncrement',
@@ -445,6 +461,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeDecrement',
             static function (Event $event) use (&$counter, $example): void {
@@ -492,6 +510,8 @@ class EventsCest
                 'afterDecrement'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterDecrement',
@@ -541,6 +561,8 @@ class EventsCest
             )
         );
 
+        $adapter->set('test', 'test');
+
         $manager->attach(
             'storage:beforeSet',
             static function (Event $event) use (&$counter, $example): void {
@@ -588,6 +610,8 @@ class EventsCest
                 'afterSet'
             )
         );
+
+        $adapter->set('test', 'test');
 
         $manager->attach(
             'storage:afterSet',

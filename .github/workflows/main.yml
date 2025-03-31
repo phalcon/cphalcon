@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.9.0
+  PHALCON_VERSION: 5.9.1
   ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
@@ -45,10 +45,10 @@ jobs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
     steps:
-    - id: setup-zephir-ext
-      name: Setup Zephir Extensions
-      run: |
-        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_OUTPUT"
+      - id: setup-zephir-ext
+        name: Setup Zephir Extensions
+        run: |
+          echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_OUTPUT"
 
 
   # PHP CodeSniffer inspection
@@ -72,7 +72,7 @@ jobs:
     uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.3'
+      php_version: '8.4'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -93,19 +93,19 @@ jobs:
         name:
           - ubuntu-gcc
 
-# Removing temporarily macos builds since it fails due to the container setup
-#          - macos-clang
+        # Removing temporarily macos builds since it fails due to the container setup
+        #          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
           - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
-#          # macOS
-#          - { name: macos-clang, os: macos-latest, compiler: clang }
+          #          # macOS
+          #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
-#          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-#          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           #- { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           #- { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           # Most of the extensions wasn't compiled for PHP 8.2.
@@ -180,7 +180,7 @@ jobs:
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
           echo "::set-output name=extension-path::$PhalconExtPath"
-#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
+      #          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext

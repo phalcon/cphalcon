@@ -422,6 +422,7 @@ zend_class_entry *phalcon_html_exception_ce;
 zend_class_entry *phalcon_html_helper_anchor_ce;
 zend_class_entry *phalcon_html_helper_base_ce;
 zend_class_entry *phalcon_html_helper_body_ce;
+zend_class_entry *phalcon_html_helper_breadcrumbs_ce;
 zend_class_entry *phalcon_html_helper_button_ce;
 zend_class_entry *phalcon_html_helper_close_ce;
 zend_class_entry *phalcon_html_helper_doctype_ce;
@@ -1059,6 +1060,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Html_Helper_Anchor);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Base);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Body);
+	ZEPHIR_INIT(Phalcon_Html_Helper_Breadcrumbs);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Button);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Close);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Doctype);
