@@ -1,14 +1,6 @@
 # For local development only.
 
 services:
-  cphalcon-8.0:
-    container_name: cphalcon-8.0
-    hostname: cphalcon-80
-    build: docker/8.0
-    working_dir: /srv
-    volumes:
-      - .:/srv
-
   cphalcon-8.1:
     container_name: cphalcon-8.1
     hostname: cphalcon-81

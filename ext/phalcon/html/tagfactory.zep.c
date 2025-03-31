@@ -43,6 +43,7 @@
  *
  * @method string        a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string        base(string $href, array $attributes = [])
+ * @method Breadcrumbs   breadcrumbs(string $indent = '    ', string $delimiter = "\n")
  * @method string        body(array $attributes = [])
  * @method string        button(string $text, array $attributes = [], bool $raw = false)
  * @method string        close(string $tag, bool $raw = false)
@@ -252,7 +253,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 176);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 178);
 	RETURN_CTOR(&_5);
 }
 
@@ -302,9 +303,10 @@ PHP_METHOD(Phalcon_Html_TagFactory, getExceptionClass)
 PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 {
 
-	zephir_create_array(return_value, 41, 0);
+	zephir_create_array(return_value, 43, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
 	add_assoc_stringl_ex(return_value, SL("base"), SL("Phalcon\\Html\\Helper\\Base"));
+	add_assoc_stringl_ex(return_value, SL("breadcrumbs"), SL("Phalcon\\Html\\Helper\\Breadcrumbs"));
 	add_assoc_stringl_ex(return_value, SL("body"), SL("Phalcon\\Html\\Helper\\Body"));
 	add_assoc_stringl_ex(return_value, SL("button"), SL("Phalcon\\Html\\Helper\\Button"));
 	add_assoc_stringl_ex(return_value, SL("close"), SL("Phalcon\\Html\\Helper\\Close"));

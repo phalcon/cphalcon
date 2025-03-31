@@ -383,6 +383,7 @@
 #include "phalcon/html/helper/anchor.zep.h"
 #include "phalcon/html/helper/base.zep.h"
 #include "phalcon/html/helper/body.zep.h"
+#include "phalcon/html/helper/breadcrumbs.zep.h"
 #include "phalcon/html/helper/button.zep.h"
 #include "phalcon/html/helper/close.zep.h"
 #include "phalcon/html/helper/doctype.zep.h"
