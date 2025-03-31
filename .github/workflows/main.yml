@@ -72,7 +72,7 @@ jobs:
     uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.3'
+      php_version: '8.4'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
