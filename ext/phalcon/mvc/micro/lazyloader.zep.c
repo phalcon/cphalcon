@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _1$$4, _2$$4, _3$$5;
+	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _5, _1$$4, _2$$4, _3$$5;
 	zval method;
 	zval *this_ptr = getThis();
 
@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&bindCacheKey);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$5);
@@ -163,7 +164,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	zephir_create_array(&_4, 2, 0);
 	zephir_array_fast_append(&_4, &handler);
 	zephir_array_fast_append(&_4, &method);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, arguments);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_values", NULL, 14, arguments);
+	zephir_check_call_status();
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }

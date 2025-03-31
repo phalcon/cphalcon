@@ -35,6 +35,9 @@
  * This component offers an easy way to create breadcrumbs for your application.
  * The resulting HTML when calling `render()` will have each breadcrumb enclosed
  * in `<dt>` tags, while the whole string is enclosed in `<dl>` tags.
+ *
+ * @deprecated Will be removed in future version
+ * Use {@see Phalcon\Html\Helper\Breadcrumbs} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Breadcrumbs)
 {
@@ -228,9 +231,9 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_UNREF(&urls);
 	zephir_check_call_status();
 	zephir_memory_observe(&lastLabel);
-	zephir_array_fetch(&lastLabel, &elements, &lastUrl, PH_NOISY, "phalcon/Html/Breadcrumbs.zep", 122);
+	zephir_array_fetch(&lastLabel, &elements, &lastUrl, PH_NOISY, "phalcon/Html/Breadcrumbs.zep", 125);
 	zephir_array_unset(&elements, &lastUrl, PH_SEPARATE);
-	zephir_is_iterable(&elements, 0, "phalcon/Html/Breadcrumbs.zep", 143);
+	zephir_is_iterable(&elements, 0, "phalcon/Html/Breadcrumbs.zep", 146);
 	if (Z_TYPE_P(&elements) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&elements), _3, _4, _1)
 		{
@@ -256,7 +259,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 			zephir_array_fast_append(&_8$$3, &element);
 			zephir_array_fast_append(&_8$$3, &url);
 			zephir_fast_str_replace(&_5$$3, &_6$$3, &_8$$3, &template);
-			zephir_array_append(&output, &_5$$3, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 137);
+			zephir_array_append(&output, &_5$$3, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 140);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &elements, "rewind", NULL, 0);
@@ -285,7 +288,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				zephir_array_fast_append(&_12$$4, &element);
 				zephir_array_fast_append(&_12$$4, &url);
 				zephir_fast_str_replace(&_9$$4, &_10$$4, &_12$$4, &template);
-				zephir_array_append(&output, &_9$$4, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 137);
+				zephir_array_append(&output, &_9$$4, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 140);
 			ZEPHIR_CALL_METHOD(NULL, &elements, "next", NULL, 0);
 			zephir_check_call_status();
 		}
@@ -295,7 +298,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	if (0 != zephir_fast_count_int(&elements)) {
 		ZEPHIR_INIT_VAR(&_13$$5);
 		ZEPHIR_CONCAT_SVS(&_13$$5, "<dt>", &lastLabel, "</dt>");
-		zephir_array_append(&output, &_13$$5, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 144);
+		zephir_array_append(&output, &_13$$5, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 147);
 	} else {
 		ZEPHIR_INIT_VAR(&_14$$6);
 		ZEPHIR_INIT_VAR(&_15$$6);
@@ -311,7 +314,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 		zephir_array_fast_append(&_17$$6, &lastLabel);
 		zephir_array_fast_append(&_17$$6, &lastUrl);
 		zephir_fast_str_replace(&_14$$6, &_15$$6, &_17$$6, &template);
-		zephir_array_append(&output, &_14$$6, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 156);
+		zephir_array_append(&output, &_14$$6, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 159);
 	}
 	ZEPHIR_INIT_VAR(&_18);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("separator"), PH_NOISY_CC | PH_READONLY);

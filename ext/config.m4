@@ -388,6 +388,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/helper/anchor.zep.c
 	phalcon/html/helper/base.zep.c
 	phalcon/html/helper/body.zep.c
+	phalcon/html/helper/breadcrumbs.zep.c
 	phalcon/html/helper/button.zep.c
 	phalcon/html/helper/close.zep.c
 	phalcon/html/helper/doctype.zep.c
