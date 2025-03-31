@@ -21,6 +21,7 @@ env:
   # All versions should be declared here
   PHALCON_VERSION: 5.9.0
   ZEPHIR_PARSER_VERSION: 1.6.1
+  UBUNTU_VERSION: 22.04
 
   # For tests
   LANG: en_US.UTF-8
@@ -40,7 +41,7 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-$UBUNTU_VERSION
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
@@ -56,25 +57,117 @@ jobs:
     permissions:
       contents: read
 
-    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
-    with:
-      standard: ./phpcs.xml
+    name: Check code style
+
+    runs-on: ubuntu-$UBUNTU_VERSION
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
-    with:
-      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+    name: Check with Psalm / PHP ${{ matrix.php }}
+    runs-on: ubuntu-$UBUNTU_VERSION
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pecl
+          extensions: ${{ env.EXTENSIONS }}
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt update --quiet --yes 1>/dev/null
+          sudo apt install --no-install-recommends -q -y re2c
+
+      - run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Validate stubs
+        if: always()
+        run: |
+          vendor/bin/zephir stubs
+          vendor/bin/psalm ide/ # This will be changed to phpstan
+
 
   generate:
-    needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
-    with:
-      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.3'
-    secrets:
-      composer-token: ${{ secrets.GITHUB_TOKEN }}
+    name: Build Phalcon PECL package
+
+    runs-on: ubuntu-$UBUNTU_VERSION
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.EXTENSIONS }}
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.composer-token }}
+
+      - name: Setup APT Repositories
+        run: |
+          # We don't need this at all, and our
+          # builds often fails because Microsoft
+          # servers are unstable or even offline.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
+
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v4
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
+      - name: Create Pecl Package (PHP 8)
+        id: pecl_create
+        run: |
+          cp build/phalcon/config.w32 config.w32
+          cp build/phalcon/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/config.m4 config.m4
+          cp build/phalcon/php_phalcon.h php_phalcon.h
+          cp build/phalcon/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+
+      - name: Validate Pecl Package
+        run: pecl package-validate phalcon-pecl.tgz
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+
 
   build-and-test:
     permissions:
@@ -100,7 +193,7 @@ jobs:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, os: ubuntu-$UBUNTU_VERSION, compiler: gcc }
 #          # macOS
 #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
@@ -233,7 +326,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-$UBUNTU_VERSION
 
     services:
       mysql:
@@ -374,7 +467,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-$UBUNTU_VERSION
 
     steps:
       - uses: actions/checkout@v4
