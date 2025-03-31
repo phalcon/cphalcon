@@ -1,11 +1,11 @@
 FROM composer:latest as composer
-FROM php:8.4-fpm
+FROM php:8.4
 
 ADD ./extra.ini /usr/local/etc/php/conf.d/
 
 # User/Group globals
-ENV MY_USER="phalcon" \
-	MY_GROUP="phalcon" \
+ENV MY_USER="bogdan" \
+	MY_GROUP="bogdan" \
 	MY_UID="1000" \
 	MY_GID="1000" \
 	PHP_VERSION="8.3" \
@@ -99,4 +99,4 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 COPY ./.bashrc /root/.bashrc
 COPY ./.bashrc /home/phalcon/.bashrc
 
-CMD ["php-fpm"]
+CMD ["bash"]

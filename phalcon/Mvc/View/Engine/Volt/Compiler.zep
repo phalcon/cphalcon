@@ -14,6 +14,7 @@ use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * This class reads and compiles Volt templates into PHP plain code
@@ -138,6 +139,11 @@ class Compiler implements InjectionAwareInterface
     protected view;
 
     /**
+     * @var Interpolate
+     */
+    protected interpolator;
+
+    /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
      *
      * @param ViewBaseInterface|null view
@@ -145,6 +151,7 @@ class Compiler implements InjectionAwareInterface
     public function __construct(<ViewBaseInterface> view = null)
     {
         let this->view = view;
+        let this->interpolator = new Interpolate();
     }
 
     /**
@@ -720,6 +727,7 @@ class Compiler implements InjectionAwareInterface
 
         let this->currentPath = path;
 
+        let viewCode = this->compileComponent(viewCode);
         let compilation = this->compileSource(viewCode, extendsMode);
 
         /**
@@ -2241,6 +2249,86 @@ class Compiler implements InjectionAwareInterface
         let this->prefix = prefix;
 
         return this;
+    }
+
+    /**
+     * Compiles a 'volt:component' template
+     *
+     * @param string $viewCode
+     * @return string
+     */
+    public function compileComponent(string viewCode) -> string
+    {
+        var processedViewCode;
+        string regex;
+
+        let regex = "#<volt-([a-zA-Z0-9_]+)\s*([^>]*)>(.*?)<\/volt-\\1>#s";
+
+        let processedViewCode = preg_replace_callback(
+            regex,
+            [this, "processComponent"],
+            viewCode
+        );
+
+        return processedViewCode;
+    }
+
+    public function processComponent(matches) -> string
+    {
+        var componentCode, match, baseClassMatches, explodeClasses, existingClasses, newClass, mergedClasses, extension;
+        string voltExtension;
+        array attributeMatches, newAttributes, newClasses;
+
+        let voltExtension = ".volt";
+        if fetch extension, this->options["extension"] {
+            let voltExtension = extension;
+        }
+
+        // Extract attributes
+        let newAttributes = ["slot": matches[3]];
+        preg_match_all("/([a-zA-Z0-9_-]+)=\"([^\"]*)\"/", matches[2], attributeMatches, PREG_SET_ORDER);
+        for match in attributeMatches {
+            let newAttributes[match[1]] = (match[1] === "class") ? explode(" ", trim(match[2])) : match[2];
+        }
+
+        // Read component file
+        let componentCode = file_get_contents(this->view->getViewsDir() . "components/" . matches[1] . voltExtension);
+
+        if (componentCode !== false) {
+            // Optimize class merging
+            if (preg_match("/class=\"([^\"]*)\"/", componentCode, baseClassMatches)) {
+                let explodeClasses = explode(" ", baseClassMatches[1]);
+                let existingClasses = array_filter(explodeClasses); // Remove empty values
+                let newClasses = [];
+                if fetch newClass, newAttributes["class"] {
+                    let newClasses = newClass;
+                }
+
+                let mergedClasses = array_merge(newClasses, existingClasses);
+                let mergedClasses = array_unique(mergedClasses);
+                let componentCode = preg_replace(
+                    "/class=\"([^\"]*)\"/",
+                    "class=\"" . htmlspecialchars(implode(" ", mergedClasses)) . "\"",
+                    componentCode,
+                    1
+                );
+            } elseif (!isset(newAttributes["class"]) || !empty(newAttributes["class"])) {
+                // Add class if none exists
+                let componentCode = preg_replace(
+                    "/<([a-zA-Z0-9]+)\s*/",
+                    "<$1 class=\"" . htmlspecialchars(implode(" ", newAttributes["class"])) . "\" ",
+                    componentCode,
+                    1
+                );
+            }
+
+            // Interpolate variables
+            let componentCode = this->interpolator->__invoke(componentCode, newAttributes);
+        } else {
+            let componentCode = "INVALID RENDERED COMPONENT";
+        }
+
+        return componentCode;
     }
 
     /**
