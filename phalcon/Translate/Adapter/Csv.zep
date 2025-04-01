@@ -31,7 +31,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
      * @param array               $options = [
      *                                       'content'   => '',
      *                                       'delimiter' => ';',
-     *                                       'enclosure' => '"'
+     *                                       'enclosure' => '"',
      *                                       'escape' => '\\'
      *                                       ]
      *
