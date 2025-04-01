@@ -924,9 +924,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap;
+        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes;
 
         let instance = clone base;
+        let metaData = instance->getModelsMetaData();
+        let notNullAttributes = metaData->getNotNullAttributes(instance);
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
@@ -940,6 +942,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
+            if value === null && in_array(key, notNullAttributes) {
+                continue;
+            }
+
             if typeof columnMap !== "array" {
                 let instance->{key} = value;
 
@@ -949,8 +955,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             // Every field must be part of the column map
             if !fetch attribute, columnMap[key] {
                 if typeof columnMap === "array" && !empty columnMap {
-                    let metaData = instance->getModelsMetaData();
-
                     let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !globals_get("orm.ignore_unknown_columns") {
