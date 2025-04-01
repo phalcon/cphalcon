@@ -927,8 +927,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes;
 
         let instance = clone base;
-        let metaData = instance->getModelsMetaData();
-        let notNullAttributes = metaData->getNotNullAttributes(instance);
+        if instance instanceof Model {
+            let metaData = instance->getModelsMetaData();
+            let notNullAttributes = metaData->getNotNullAttributes(instance);
+        } else {
+            let metaData = null;
+            let notNullAttributes = [];
+        }
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
@@ -955,6 +960,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             // Every field must be part of the column map
             if !fetch attribute, columnMap[key] {
                 if typeof columnMap === "array" && !empty columnMap {
+                    if metaData === null {
+                        let metaData = instance->getModelsMetaData();
+                    }
+                    
                     let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !globals_get("orm.ignore_unknown_columns") {
