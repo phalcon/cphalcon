@@ -139,13 +139,3 @@ create table stuff
     stf_type    integer not null
 );
             
-
-
-drop table if exists co_manufacturers;
-    
-create table if not exists co_manufacturers (
-    id integer constraint co_manufacturers_pk primary key autoincrement,
-    name text not null,
-    country text null,
-    founded_year integer not null
-);

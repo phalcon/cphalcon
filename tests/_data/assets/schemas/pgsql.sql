@@ -169,14 +169,4 @@ create table table_with_uuid_primary
 );
             
 
-drop table if exists co_manufacturers;
-    
-create table co_manufacturers (
-    id serial not null
-    constraint co_manufacturers_pk
-      primary key,
-    name varchar(100) not null,
-    country varchar(100) null,
-    founded_year int not null
-);
 
