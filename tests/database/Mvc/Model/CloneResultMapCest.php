@@ -209,8 +209,8 @@ class CloneResultMapCest
             $example['inv_created_at'],
             $invoice->created_at
         );
-    }    
-    
+    }
+
     /**
     * Tests Phalcon\Mvc\Model :: cloneResultMapModelTyped()
     *
@@ -226,52 +226,52 @@ class CloneResultMapCest
     * @group        pgsql
     * @group        sqlite
     */
-   public function cloneResultMapModelTyped(DatabaseTester $I, Example $example)
-   {
-       $I->wantToTest('Mvc\Model - cloneResultMapModelTyped() - with model arguments typed');
+    public function cloneResultMapModelTyped(DatabaseTester $I, Example $example)
+    {
+        $I->wantToTest('Mvc\Model - cloneResultMapModelTyped() - with model arguments typed');
 
-       $base = new Manufacturer();
+        $base = new Manufacturer();
 
-       /**
-        * @var Model\MetaData $metaData
-        */
-       $metaData = $base->getModelsMetaData();
-       $columnMap = $metaData->getColumnMap($base);
+        /**
+         * @var Model\MetaData $metaData
+         */
+        $metaData = $base->getModelsMetaData();
+        $columnMap = $metaData->getColumnMap($base);
 
-       $data = [
+        $data = [
            'id'             => $example['id'],
            'name'           => $example['name'],
            'country'        => $example['country'],
            'founded_year'   => $example['founded_year'],
-       ];
+        ];
 
-       $data = array_filter($data);
+        $data = array_filter($data);
 
-       /**
-        * @var Manufacturer $manufacturer
-        */
-       $manufacturer = Model::cloneResultMap(
-           $base,
-           $data,
-           $columnMap
-       );
+        /**
+         * @var Manufacturer $manufacturer
+         */
+        $manufacturer = Model::cloneResultMap(
+            $base,
+            $data,
+            $columnMap
+        );
 
-       
-       if ($example['founded_year'] === null) {
+
+        if ($example['founded_year'] === null) {
             $I->expectThrowable(
                 \Error::class,
                 function () use ($manufacturer) {
                     $manufacturer->founded_year;
                 }
             );
-       } else {
-           $I->assertEquals(
-               $example['founded_year'],
-               $manufacturer->founded_year
-           );
-       }
-       
-       if ($example['country'] === null) {
+        } else {
+            $I->assertEquals(
+                $example['founded_year'],
+                $manufacturer->founded_year
+            );
+        }
+
+        if ($example['country'] === null) {
             $I->assertEquals(
                 [
                     'id' => $example['id'],
@@ -281,7 +281,7 @@ class CloneResultMapCest
                 ],
                 $manufacturer->toArray()
             );
-       } else {
+        } else {
             $I->assertEquals(
                 [
                     'id' => $example['id'],
@@ -291,8 +291,8 @@ class CloneResultMapCest
                 ],
                 $manufacturer->toArray()
             );
-       }
-   }
+        }
+    }
 
     /**
      * @return array
