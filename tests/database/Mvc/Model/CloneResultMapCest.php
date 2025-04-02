@@ -20,6 +20,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use Phalcon\Tests\Models\InvoicesMap;
+use Phalcon\Tests\Models\Manufacturer;
 
 /**
  * Class CloneResultMapCest
@@ -208,7 +209,90 @@ class CloneResultMapCest
             $example['inv_created_at'],
             $invoice->created_at
         );
-    }
+    }    
+    
+    /**
+    * Tests Phalcon\Mvc\Model :: cloneResultMapModelTyped()
+    *
+    * @dataProvider modelManufactureDataProvider
+    *
+    * @param DatabaseTester $I
+    * @param Example        $example
+    *
+    * @author       Phalcon Team <team@phalcon.io>
+    * @since        2020-10-05
+    *
+    * @group        mysql
+    * @group        pgsql
+    * @group        sqlite
+    */
+   public function cloneResultMapModelTyped(DatabaseTester $I, Example $example)
+   {
+       $I->wantToTest('Mvc\Model - cloneResultMapModelTyped() - with model arguments typed');
+
+       $base = new Manufacturer();
+
+       /**
+        * @var Model\MetaData $metaData
+        */
+       $metaData = $base->getModelsMetaData();
+       $columnMap = $metaData->getColumnMap($base);
+
+       $data = [
+           'id'             => $example['id'],
+           'name'           => $example['name'],
+           'country'        => $example['country'],
+           'founded_year'   => $example['founded_year'],
+       ];
+
+       $data = array_filter($data);
+
+       /**
+        * @var Manufacturer $manufacturer
+        */
+       $manufacturer = Model::cloneResultMap(
+           $base,
+           $data,
+           $columnMap
+       );
+
+       
+       if ($example['founded_year'] === null) {
+            $I->expectThrowable(
+                \Error::class,
+                function () use ($manufacturer) {
+                    $manufacturer->founded_year;
+                }
+            );
+       } else {
+           $I->assertEquals(
+               $example['founded_year'],
+               $manufacturer->founded_year
+           );
+       }
+       
+       if ($example['country'] === null) {
+            $I->assertEquals(
+                [
+                    'id' => $example['id'],
+                    'name' => $example['name'],
+                    'country' => 'UK',
+                    'founded_year' => $example['founded_year'],
+                ],
+                $manufacturer->toArray()
+            );
+       } else {
+            $I->assertEquals(
+                [
+                    'id' => $example['id'],
+                    'name' => $example['name'],
+                    'country' => $example['country'],
+                    'founded_year' => $example['founded_year'],
+                ],
+                $manufacturer->toArray()
+            );
+       }
+   }
 
     /**
      * @return array
@@ -232,6 +316,34 @@ class CloneResultMapCest
                 'inv_total'       => 3.14,
                 'inv_created_at'  => '2020-10-05 20:43',
             ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function modelManufactureDataProvider(): array
+    {
+        return [
+            [
+                'id'           => 1,
+                'name'         => 'Test Manufacturer',
+                'founded_year' => 1990,
+                'country'      => 'UK'
+            ],
+            [
+                'id'           => 2,
+                'name'         => 'Another Manufacturer',
+                'founded_year' => 2000,
+                'country'      => null
+            ],
+            [
+                'id'           => 3,
+                'name'         => 'Third Manufacturer',
+                'founded_year' => null,
+                'country'      => 'CA'
+            ]
+
         ];
     }
 }

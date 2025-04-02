@@ -285,3 +285,12 @@ create table stuff
     `stf_type` tinyint(3) unsigned not null
 );
             
+
+drop table if exists `co_manufacturers`;
+    
+create table if not exists `co_manufacturers` (
+    `id` int(10) auto_increment primary key,
+    `name` varchar(100) not null,
+    `country` varchar(100) null,
+    `founded_year` integer not null
+);
