@@ -22,7 +22,7 @@ class ManufacturersMigration extends AbstractMigration
     public function insert(
         $id,
         string $name,
-        ?string $country = null,
+        ?string $country,
         int $foundedYear
     ): int {
         $id          = $id ?: 'null';
