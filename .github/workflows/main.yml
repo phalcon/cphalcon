@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.9.1
+  PHALCON_VERSION: 5.9.2
   ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
@@ -40,7 +40,7 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
@@ -56,16 +56,56 @@ jobs:
     permissions:
       contents: read
 
-    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
-    with:
-      standard: ./phpcs.xml
+    name: Check code style
+
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
-    with:
-      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
+    name: Check with Psalm / PHP ${{ matrix.php }}
+
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pecl
+          extensions: ${{ env.EXTENSIONS }}
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt update --quiet --yes 1>/dev/null
+          sudo apt install --no-install-recommends -q -y re2c
+
+      - run: composer install --prefer-dist
+
+      - name: Install Zephir
+        run: .ci/install-zephir.sh
+
+      - name: Validate stubs
+        if: always()
+        run: |
+          $HOME/bin/zephir stubs
+          vendor/bin/psalm ide/
 
   generate:
     needs: setup_workflow
@@ -233,7 +273,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     services:
       mysql:
@@ -374,7 +414,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
