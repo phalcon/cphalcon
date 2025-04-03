@@ -89,7 +89,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: ${{ inputs.extensions }}
+          extensions: ${{ env.EXTENSIONS }}
 
       - name: Install System Dependencies
         run: |
