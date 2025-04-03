@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc904510693218e291b7b89f0f2c2c68",
+    "content-hash": "7176cb4b55ecbc1b8c11eba308478c2c",
     "packages": [],
     "packages-dev": [
         {
@@ -1643,16 +1643,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.74.0",
+            "version": "v3.75.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "6b7cb12a6cf592fd9a2b46a2d5d4c3b44003973d"
+                "reference": "399a128ff2fdaf4281e4e79b755693286cdf325c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/6b7cb12a6cf592fd9a2b46a2d5d4c3b44003973d",
-                "reference": "6b7cb12a6cf592fd9a2b46a2d5d4c3b44003973d",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/399a128ff2fdaf4281e4e79b755693286cdf325c",
+                "reference": "399a128ff2fdaf4281e4e79b755693286cdf325c",
                 "shasum": ""
             },
             "require": {
@@ -1735,7 +1735,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.74.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.75.0"
             },
             "funding": [
                 {
@@ -1743,7 +1743,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-27T22:31:30+00:00"
+            "time": "2025-03-31T18:40:42+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2600,16 +2600,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.9.0",
+            "version": "v5.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "1ba9552a45df84031f561133923a7c8d601e2da1"
+                "reference": "14bb6376444345dea0a860f39b8e3eb2481a6c63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/1ba9552a45df84031f561133923a7c8d601e2da1",
-                "reference": "1ba9552a45df84031f561133923a7c8d601e2da1",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/14bb6376444345dea0a860f39b8e3eb2481a6c63",
+                "reference": "14bb6376444345dea0a860f39b8e3eb2481a6c63",
                 "shasum": ""
             },
             "require": {
@@ -2663,7 +2663,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-03-10T17:29:12+00:00"
+            "time": "2025-04-01T00:20:50+00:00"
         },
         {
             "name": "phalcon/zephir",
