@@ -89,7 +89,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: ${{ env.EXTENSIONS }}
+          extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
       - name: Install System Dependencies
         run: |
