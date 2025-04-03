@@ -31,7 +31,8 @@ class Csv extends AbstractAdapter implements ArrayAccess
      * @param array               $options = [
      *                                       'content'   => '',
      *                                       'delimiter' => ';',
-     *                                       'enclosure' => '"'
+     *                                       'enclosure' => '"',
+     *                                       'escape' => '\\'
      *                                       ]
      *
      * @throws Exception
@@ -40,7 +41,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
         <InterpolatorFactory> interpolator,
         array options
     ) {
-        var delimiter, enclosure;
+        var delimiter, enclosure, escape;
 
         parent::__construct(interpolator, options);
 
@@ -60,7 +61,13 @@ class Csv extends AbstractAdapter implements ArrayAccess
             let enclosure = "\"";
         }
 
-        this->load(options["content"], 0, delimiter, enclosure);
+        if isset options["escape"] {
+            let escape = options["escape"];
+        } else {
+            let escape = "\\";
+        }
+
+        this->load(options["content"], 0, delimiter, enclosure, escape);
     }
 
     /**
@@ -114,10 +121,11 @@ class Csv extends AbstractAdapter implements ArrayAccess
      * @param int    $length
      * @param string $separator
      * @param string $enclosure
+     * @param string $escape
      *
      * @throws Exception
      */
-    private function load(string file, int length, string delimiter, string enclosure) -> void
+    private function load(string file, int length, string delimiter, string enclosure, string escape) -> void
     {
         var data, fileHandler;
 
@@ -130,7 +138,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
         }
 
         loop {
-            let data = fgetcsv(fileHandler, length, delimiter, enclosure);
+            let data = fgetcsv(fileHandler, length, delimiter, enclosure, escape);
 
             if data === false {
                 break;

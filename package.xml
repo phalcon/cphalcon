@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2025-03-31</date>
+  <date>2025-04-03</date>
   <time>17:00:00</time>
   <version>
-    <release>5.9.1</release>
-    <api>5.9.1</api>
+    <release>5.9.2</release>
+    <api>5.9.2</api>
   </version>
   <stability>
     <release>stable</release>
@@ -36,17 +36,10 @@
   <notes>
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
-    ### Changed
-
-    - Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
-
-    ### Added
-
-    - Added `Phalcon\Html\Helper\Breadcrumbs` component to replace the old `Phalcon\Html\Breadcrumbs` component. [#16727](https://github.com/phalcon/cphalcon/issues/16727)
-
     ### Fixed
 
-    - Fixed `Phalcon\Mvc\Micro\LazyLoader::callMethod` to prevent `Unknown named parameter` error [#16724](https://github.com/phalcon/cphalcon/issues/16724)
+    - Fixed `Phalcon\Translate\Adapter\Csv` the `escape` argument is explicitly required in PHP 8.4  [#16733](https://github.com/phalcon/cphalcon/issues/16733)
+    - Fixed `Phalcon\Mvc\Model\Query` to use the cacheOptions lifetime over the "cache" service lifetime
 
   </notes>
   <contents>
