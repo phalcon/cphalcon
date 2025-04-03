@@ -173,6 +173,17 @@ create index co_invoices_inv_created_at_index
             
 
 
+drop table if exists `co_manufacturers`;
+CREATE TABLE `co_manufacturers` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `country` VARCHAR(100) NULL,
+    `founded_year` INT NOT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
 drop table if exists objects;
             
 create table objects
@@ -238,6 +249,8 @@ CREATE TABLE `co_products` (
     PRIMARY KEY (`prd_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
+
+DROP TABLE IF EXISTS co_rb_test_model;CREATE TABLE co_rb_test_model (id SMALLINT, name VARCHAR(10) NOT NULL);
 
 
 drop table if exists `co_setters`;
