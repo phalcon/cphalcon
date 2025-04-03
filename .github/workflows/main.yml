@@ -68,42 +68,9 @@ jobs:
   # Generate stubs and validates with PSALM
   stubs:
     needs: setup_workflow
-    name: Check with Psalm / PHP ${{ matrix.php }}
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php:
-          - '8.1'
-          - '8.2'
-          - '8.3'
-          - '8.4'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: pecl
-          extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
-
-      - name: Install System Dependencies
-        run: |
-          sudo apt update --quiet --yes 1>/dev/null
-          sudo apt install --no-install-recommends -q -y re2c
-
-      - run: composer install --prefer-dist --ignore-platform-reqs
-
-      - name: Validate stubs
-        if: always()
-        run: |
-          vendor/bin/zephir stubs
-          vendor/bin/psalm ide/
-
+    uses: zephir-lang/templates/.github/workflows/phalcon-stubs-zephir-composer.yml@main
+    with:
+      extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
 
   generate:
     needs: setup_workflow
@@ -271,7 +238,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     needs: [generate]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     services:
       mysql:
@@ -412,7 +379,7 @@ jobs:
 
     needs: [generate, install, build-and-test, integration-test]
     name: Create Release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
