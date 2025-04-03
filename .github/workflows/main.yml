@@ -70,7 +70,7 @@ jobs:
     needs: setup_workflow
     name: Check with Psalm / PHP ${{ matrix.php }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -89,23 +89,21 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: pecl
-          extensions: ${{ env.EXTENSIONS }}
+          extensions: ${{ inputs.extensions }}
 
       - name: Install System Dependencies
         run: |
           sudo apt update --quiet --yes 1>/dev/null
           sudo apt install --no-install-recommends -q -y re2c
 
-      - run: composer install --prefer-dist
-
-      - name: Install Zephir
-        run: .ci/install-zephir.sh
+      - run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Validate stubs
         if: always()
         run: |
-          $HOME/bin/zephir stubs
+          vendor/bin/zephir stubs
           vendor/bin/psalm ide/
+
 
   generate:
     needs: setup_workflow
