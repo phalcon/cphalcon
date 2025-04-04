@@ -98,6 +98,19 @@ create index co_invoices_inv_status_flag_index
             
 
 
+drop table if exists co_manufacturers;
+create table co_manufacturers
+(
+    id serial not null
+    constraint manufacturers_pk
+      primary key,
+    name varchar(100) not null,
+    country varchar(100) null,
+    founded_year int not null
+);
+            
+
+
 drop table if exists objects;
             
 create table objects
@@ -144,6 +157,8 @@ create table co_products
       prd_name varchar(70)
 );
             
+
+DROP TABLE IF EXISTS co_rb_test_model;CREATE TABLE co_rb_test_model (id SMALLINT, name VARCHAR(10) NOT NULL);
 
 
 drop table if exists co_setters;

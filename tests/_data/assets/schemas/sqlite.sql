@@ -75,6 +75,16 @@ create index co_invoices_inv_created_at_index
             
 
 
+drop table if exists co_manufacturers;
+create table co_manufacturers (
+    id integer constraint co_manufacturers_pk primary key autoincrement,
+    name text not null,
+    country text null,
+    founded_year integer not null
+);
+            
+
+
 drop table if exists `objects`;
             
 create table objects
@@ -84,6 +94,8 @@ create table objects
     obj_type   integer not null
 );
             
+
+
 
 
 
