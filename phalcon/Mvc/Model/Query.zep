@@ -283,13 +283,6 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            /**
-             * By default use use 3600 seconds (1 hour) as cache lifetime
-             */
-            if !fetch lifetime, cacheOptions["lifetime"] {
-                let lifetime = 3600;
-            }
-
             if !fetch cacheService, cacheOptions["service"] {
                 let cacheService = "modelsCache";
             }
@@ -309,7 +302,8 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             let adapter       = cache->getAdapter();
             let cacheLifetime = adapter->getLifetime();
-            if (lifetime !== cacheLifetime) {
+
+            if !fetch lifetime, cacheOptions["lifetime"] {
                 let lifetime = cacheLifetime;
             }
 

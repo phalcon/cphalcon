@@ -19,7 +19,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.9.1
+  PHALCON_VERSION: 5.9.2
   ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
@@ -40,7 +40,7 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
@@ -56,9 +56,14 @@ jobs:
     permissions:
       contents: read
 
-    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
-    with:
-      standard: ./phpcs.xml
+    name: Check code style
+
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:

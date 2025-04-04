@@ -538,4 +538,76 @@ class FindCest
         $expected = 'Use of "static" in callables in deprecated';
         $I->assertStringNotContainsString($expected, $actual);
     }
+
+    public function testMvcModelFindWithCacheOptionsLifetimePriorityOverCacheService(DatabaseTester $I): void
+    {
+        $I->wantToTest('Mvc\Model - find() - cache options lifetime priority over adapter lifetime');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+
+        $options = [
+            'defaultSerializer' => 'Json',
+            'lifetime'          => 2,
+            'prefix'            => 'data-',
+        ];
+
+        /**
+         * Models Cache setup. Adapter's lifetime is 2 seconds
+         */
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $adapter           = $adapterFactory->newInstance('apcu', $options);
+        $cache             = new Cache($adapter);
+
+        $this->container->setShared('modelsCache', $cache);
+
+        /**
+         * Find records with lifetime 5 sec
+         */
+        $data = Objects::find(
+            [
+                'cache' => [
+                    'key' => 'my-cache',
+                    'lifetime' => 5,
+                ],
+            ]
+        );
+
+        $I->assertEquals(1, count($data));
+
+        $record = $data[0];
+        $I->assertEquals(1, $record->obj_id);
+        $I->assertEquals('random data', $record->obj_name);
+
+        /**
+         * Get the models cache
+         */
+        $modelsCache = $this->container->get('modelsCache');
+
+        $exists = $modelsCache->has('my-cache');
+        $I->assertTrue($exists);
+
+        /**
+         * Wait for 3 seconds for the cache to check
+         * that we still have our cache and it wasn't taken
+         * from adapter's lifetime
+         */
+        sleep(3);
+
+        $data = $modelsCache->get('my-cache');
+        $I->assertNotNull($data);
+
+        /**
+         * Wait extra 3 seconds for the cache to check
+         * that our cache is expired
+         */
+        sleep(3);
+
+        $data = $modelsCache->get('my-cache');
+        $I->assertNull($data);
+    }
 }

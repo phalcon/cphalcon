@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Translate\Adapter\Csv` the `escape` argument is explicitly required in PHP 8.4  [#16733](https://github.com/phalcon/cphalcon/issues/16733)
+- Fixed `Phalcon\Mvc\Model\Query` to use the cacheOptions lifetime over the "cache" service lifetime
+
+### Removed
+
 ## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-03-31)
 
 ### Changed
