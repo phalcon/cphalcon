@@ -10,6 +10,7 @@
 
 - Fixed `Phalcon\Translate\Adapter\Csv` the `escape` argument is explicitly required in PHP 8.4  [#16733](https://github.com/phalcon/cphalcon/issues/16733)
 - Fixed `Phalcon\Mvc\Model\Query` to use the cacheOptions lifetime over the "cache" service lifetime
+- Fixed `Phalcon\Mvc\Model\Binder` to use ReflectionParameter::getType() instead of deprecated method, PHP 8.0 or higher issue. [#16742](https://github.com/phalcon/cphalcon/issues/16742)
 
 ### Removed
 
