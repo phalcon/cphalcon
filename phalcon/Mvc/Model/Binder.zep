@@ -183,7 +183,7 @@ class Binder implements BinderInterface
         let paramsKeys = array_keys(params);
 
         for paramKey, methodParam in methodParams {
-            let reflectionClass = methodParam->getClass();
+            let reflectionClass = methodParam->getType();
 
             if !reflectionClass {
                 continue;
