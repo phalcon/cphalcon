@@ -5,7 +5,7 @@
 ### Changed
 
 ### Added
-- 
+ 
 - Added `Phalcon\Mvc\Router::setUriSource()` to allow URI processing from `$_GET['url']` or `$_SERVER['REQUEST_URI']` as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
 
 ### Fixed
