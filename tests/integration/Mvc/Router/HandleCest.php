@@ -415,5 +415,4 @@ class HandleCest
             ['/a:a/test'],
         ];
     }
-
 }
