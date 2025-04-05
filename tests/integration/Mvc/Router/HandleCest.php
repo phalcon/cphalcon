@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Integration\Mvc\Router;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\Request;
@@ -62,6 +63,38 @@ class HandleCest
             [],
             $router->getParams()
         );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Router :: handle() - with colons
+     *
+     * @dataProvider getUrlsWithColons
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2025-04-04
+     * @issue        16741
+     */
+    public function testMvcRouterHandleWithColons(IntegrationTester $I, Example $example): void
+    {
+        $router = new Router(false);
+        $router->setDI(new FactoryDefault());
+
+        // Simple catch-all route
+        $router->add(
+            '/{param:.+}',
+            [
+                'controller' => 'index',
+                'action'     => 'test',
+            ]
+        );
+
+        // Explicitly set request method (for CLI testing)
+        $_SERVER["REQUEST_METHOD"] = "GET";
+
+        $router->handle($example[0]);
+
+        $route = $router->getMatchedRoute();
+        $I->assertInstanceOf(Router\Route::class, $route);
     }
 
     /**
@@ -368,5 +401,18 @@ class HandleCest
             ['56'],
             $router->getParams()
         );
+    }
+
+    /**
+     * @return array[]
+     */
+    protected function getUrlsWithColons(): array
+    {
+        return [
+            ['/1:1/test'],
+            ['/a:1/test'],
+            ['/1:a/test'],
+            ['/a:a/test'],
+        ];
     }
 }
