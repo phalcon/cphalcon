@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-xx-xx)
+
+### Changed
+
+### Added
+- 
+- Added `Phalcon\Mvc\Router::setUriSource()` to allow URI processing from `$_GET['url']` or `$_SERVER['REQUEST_URI']` as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Router` to correctly handle numeric URI parts as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
+
+### Removed
+
 ## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
 
 ### Changed
