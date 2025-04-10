@@ -13,6 +13,7 @@
 - Fixed `Phalcon\Mvc\Router` to correctly handle numeric URI parts as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
 - Fixed `Phalcon\Mvc\Model\Binder` to use ReflectionParameter::getType() instead of deprecated method, PHP 8.0 or higher issue. [#16742](https://github.com/phalcon/cphalcon/issues/16742)
 - Fixed `Phalcon\Mvc\Model\Query` to check if cache entry exists. [#16747](https://github.com/phalcon/cphalcon/issues/16747)
+- Fixed `Phalcon\Mvc\Router` to correctly match route when using query string URIs. [#16749](https://github.com/phalcon/cphalcon/issues/16749)
 
 ### Removed
 
