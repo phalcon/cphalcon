@@ -613,7 +613,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function getRewriteUri() -> string
     {
-		var url, urlParts, realUri;
+		var url;
 
 		/**
 		 * By default we use $_GET["url"] to obtain the rewrite information
@@ -621,7 +621,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 		if (self::URI_SOURCE_GET_URL === this->uriSource) {
 			if fetch url, _GET["_url"] {
 				if !empty url {
-					return url;
+					return this->extractRealUri(url);
 				}
 			}
 		} else {
@@ -629,15 +629,23 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 			 * Otherwise use the standard $_SERVER["REQUEST_URI"]
 			 */
 			if fetch url, _SERVER["REQUEST_URI"] {
-				let urlParts = explode("?", url),
-					realUri  = urlParts[0];
-				if !empty realUri {
-					return realUri;
-				}
+				if !empty url {
+                    return this->extractRealUri(url);
+                }
 			}
 		}
 
 		return "/";
+    }
+
+    protected function extractRealUri(string! uri) -> string
+    {
+        var urlParts, realUri;
+
+        let urlParts = explode("?", uri, 2),
+            realUri  = urlParts[0];
+
+        return realUri;
     }
 
     /**
@@ -727,13 +735,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             paramsStr, part, parts, paths, pattern, position, realUri,
             regexHostName, request, route, routeFound, strParams, vnamespace;
 
-        let realUri = uri;
-
-		if !realUri {
+		if !uri {
 			/**
 			 * If 'uri' isn't passed as parameter it reads _GET["_url"]
 			 */
 			let realUri = this->getRewriteUri();
+		} else {
+		    let realUri = this->extractRealUri(uri);
 		}
 
         /**
