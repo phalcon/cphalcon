@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Integration\Mvc\Router;
 
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\Router;
+use Phalcon\Tests\Fixtures\Mvc\Router;
 
 class ExtractRealUriCest
 {
@@ -31,12 +31,12 @@ class ExtractRealUriCest
         $router = new Router(false);
         $router->setDI(new FactoryDefault());
 
-        $realUri = $router->extractRealUri(
+        $realUri = $router->protectedExtractRealUri(
             '/admin/private/businesses/list/my/123?query=string'
         );
         $I->assertSame('/admin/private/businesses/list/my/123', $realUri);
 
-        $realUri = $router->extractRealUri(
+        $realUri = $router->protectedExtractRealUri(
             '/admin/private/businesses/list/my/123'
         );
         $I->assertSame('/admin/private/businesses/list/my/123', $realUri);
