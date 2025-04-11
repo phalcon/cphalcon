@@ -54,6 +54,11 @@ RUN set -eux \
     && sed -i -e "s/;owner = www-data/owner = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i -e "s/;user = www-data/user = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i -e "s/;group = www-data/group = ${GROUP}/g" /usr/local/etc/php-fpm.d/www.conf \
+# Load healthcheck script \
+    && curl -o /usr/local/bin/php-fpm-healthcheck \
+      https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
+    && chown "${USER}":"${GROUP}" /usr/local/bin/php-fpm-healthcheck \
+    && chmod 0770 /usr/local/bin/php-fpm-healthcheck \
 # Set correct pid file location and permissions \
     && mkdir -p /run/php \
     && chown "${USER}":"${GROUP}" /run/php \
@@ -62,10 +67,13 @@ RUN set -eux \
    && apt-get autoremove --purge -y \
    && apt-get autoclean -y \
    && apt-get clean -y \
-   && rm -rf /tmp/* /var/tmp/* /srv /root/.composer /usr/bin/composer /tmp/phalcon.so \
+   && rm -rf /tmp/* /var/tmp/* \
    && find /var/cache/apt/archives /var/lib/apt/lists -not -name lock -type f -delete \
    && find /var/cache -type f -delete \
    && find /var/log -type f -delete
+
+HEALTHCHECK --interval=5s --timeout=1s \
+    CMD php-fpm-healthcheck || exit 1
 
 FROM base AS dev
 
@@ -81,9 +89,12 @@ SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 RUN set -eux \
     && apt-get update \
     && apt-get install -yq --no-install-recommends zip=3.* unzip=6.* \
-    && rm -rf /srv/vendor \
     && echo 'memory_limit = -1' > "$(php-config --ini-dir)/90-memory.ini" \
-    && install-php-extensions zephir_parser
+    && install-php-extensions zephir_parser \
+# Cleanup
+   && apt-get autoclean -y \
+   && apt-get clean -y \
+   && rm -rf /tmp/* /var/tmp/*
 
 FROM dev AS phalcon
 
@@ -93,9 +104,11 @@ FROM dev AS phalcon
 COPY ./ /srv
 
 RUN set -eux \
+    && rm -rf /srv/vendor \
     && composer global require phalcon/zephir:dev-development \
     && /root/.composer/vendor/bin/zephir fullclean \
-    && /root/.composer/vendor/bin/zephir build
+    && /root/.composer/vendor/bin/zephir build \
+    && cat compile-errors.log
 
 FROM base AS prod
 
@@ -122,10 +135,17 @@ SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
 RUN set -eux \
 # Install phalcon \
-    && cp /tmp/phalcon.so "$(php-config --extension-dir)/phalcon.so" \
+    && mv /tmp/phalcon.so "$(php-config --extension-dir)/phalcon.so" \
     && echo "extension=phalcon.so" > /usr/local/etc/php/conf.d/70-phalcon.ini \
 # Cleanup
-   && rm -rf /tmp/* /var/tmp/* /srv /root/.composer /usr/bin/composer /tmp/phalcon.so
+   && rm -rf /tmp/* /var/tmp/* /srv /root/.composer /usr/bin/composer \
+   && apt-get autoremove --purge -y curl \
+   && apt-get autoclean -y \
+   && apt-get clean -y \
+   && rm -rf /tmp/* /var/tmp/* \
+   && find /var/cache/apt/archives /var/lib/apt/lists -not -name lock -type f -delete \
+   && find /var/cache -type f -delete \
+   && find /var/log -type f -delete
 
 WORKDIR /app
 
