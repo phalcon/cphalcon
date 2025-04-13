@@ -2,28 +2,55 @@ name: Build Dockerfiles
 
 on:
   push:
-    paths:
-      - 'docker/**'
-
-permissions:
-  contents: read # to fetch code (actions/checkout)
+    tags:
+      - v*
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
-        php:
-          - '8.1'
-          - '8.2'
-          - '8.3'
-          - '8.4'
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
 
     name: Build Dockerfile PHP ${{ matrix.php }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Dockerfile
-        run: docker build docker/${{ matrix.php }}
+      - name: Login to Github Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_LOGIN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          file: docker/Dockerfile
+          tags: |
+            phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
+            ghcr.io/phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
+          build-args: |
+            PHP_VERSION=${{ matrix.php }}
+            PHALCON_VERSION=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
