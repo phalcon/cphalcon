@@ -38,7 +38,6 @@ RUN set -eux \
       pdo_pgsql \
       pgsql \
       redis \
-      shmop \
       xsl \
       yaml \
       zip \
@@ -120,14 +119,14 @@ ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
     PHALCON_VERSION=${PHALCON_VERSION}
 
-LABEL org.opencontainer.image.title="Phalcon v${PHALCON_VERSION} with php ${PHP_VERSION}" \
+LABEL org.opencontainer.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
     org.opencontainer.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
     org.opencontainer.image.authors="Phalcon Team <team@phalconphp.com>" \
     org.opencontainer.image.vendor="Phalcon PHP Framework" \
     org.opencontainer.image.licenses="BSD-3-Clause" \
-    org.opencontainer.image.version="v${PHALCON_VERSION}-php${PHP_VERSION}" \
+    org.opencontainer.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
     org.opencontainer.image.url="https://github.com/phalcon/cphalcon/" \
-    org.opencontainer.image.source="https://github.com/phalcon/cphalcon/tree/v${PHALCON_VERSION}/docker/Dockerfile"
+    org.opencontainer.image.source="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile"
 
 COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
 
