@@ -113,20 +113,20 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION=5.9.2
+ARG PHALCON_VERSION="v5.9.2"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
     PHALCON_VERSION=${PHALCON_VERSION}
 
-LABEL org.opencontainer.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
-    org.opencontainer.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
-    org.opencontainer.image.authors="Phalcon Team <team@phalconphp.com>" \
-    org.opencontainer.image.vendor="Phalcon PHP Framework" \
-    org.opencontainer.image.licenses="BSD-3-Clause" \
-    org.opencontainer.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
-    org.opencontainer.image.url="https://github.com/phalcon/cphalcon/" \
-    org.opencontainer.image.source="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile"
+LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
+    org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
+    org.opencontainers.image.authors="Phalcon Team <team@phalconphp.com>" \
+    org.opencontainers.image.vendor="Phalcon PHP Framework" \
+    org.opencontainers.image.licenses="BSD-3-Clause" \
+    org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
+    org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile" \
+    org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
 
 COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
 
