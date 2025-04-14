@@ -118,7 +118,7 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION="v5.9.2"
+ARG PHALCON_VERSION="v5.9.3"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
@@ -126,7 +126,7 @@ ENV PATH=/app/bin:/app:${PATH} \
 
 LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
     org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
-    org.opencontainers.image.authors="Phalcon Team <team@phalconphp.com>" \
+    org.opencontainers.image.authors="Phalcon Team <team@phalcon.io>" \
     org.opencontainers.image.vendor="Phalcon PHP Framework" \
     org.opencontainers.image.licenses="BSD-3-Clause" \
     org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
