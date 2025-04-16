@@ -24,6 +24,8 @@ RUN set -eux \
     && mkdir /app \
     && chown "${USER}":"${GROUP}" /app \
     && chmod 0770 /app \
+    && apt-get update \
+    && apt-get install -yq --no-install-recommends libfcgi-bin=2.* \
 # Install base extensions
     && install-php-extensions \
       apcu \
@@ -58,6 +60,7 @@ RUN set -eux \
       https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
     && chown "${USER}":"${GROUP}" /usr/local/bin/php-fpm-healthcheck \
     && chmod 0770 /usr/local/bin/php-fpm-healthcheck \
+    && echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 # Set correct pid file location and permissions \
     && mkdir -p /run/php \
     && chown "${USER}":"${GROUP}" /run/php \
@@ -104,9 +107,11 @@ COPY ./ /srv
 
 RUN set -eux \
     && rm -rf /srv/vendor \
+# This is a cleanup for local tests and if a previous build has failed.
+    && find /srv -type f -iname '*.dep' -exec rm {} \;\
     && composer global require phalcon/zephir:dev-development \
     && /root/.composer/vendor/bin/zephir fullclean \
-    && /root/.composer/vendor/bin/zephir build \
+    && /root/.composer/vendor/bin/zephir build || cat compile-errors.log \
     && cat compile-errors.log
 
 FROM base AS prod
