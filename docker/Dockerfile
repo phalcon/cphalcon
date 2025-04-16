@@ -111,7 +111,7 @@ RUN set -eux \
     && find /srv -type f -iname '*.dep' -exec rm {} \;\
     && composer global require phalcon/zephir:dev-development \
     && /root/.composer/vendor/bin/zephir fullclean \
-    && /root/.composer/vendor/bin/zephir build || cat compile-errors.log \
+    && /root/.composer/vendor/bin/zephir build \
     && cat compile-errors.log
 
 FROM base AS prod
