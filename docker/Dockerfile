@@ -24,6 +24,8 @@ RUN set -eux \
     && mkdir /app \
     && chown "${USER}":"${GROUP}" /app \
     && chmod 0770 /app \
+    && apt-get update \
+    && apt-get install -yq --no-install-recommends libfcgi-bin=2.* \
 # Install base extensions
     && install-php-extensions \
       apcu \
@@ -58,6 +60,7 @@ RUN set -eux \
       https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
     && chown "${USER}":"${GROUP}" /usr/local/bin/php-fpm-healthcheck \
     && chmod 0770 /usr/local/bin/php-fpm-healthcheck \
+    && echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 # Set correct pid file location and permissions \
     && mkdir -p /run/php \
     && chown "${USER}":"${GROUP}" /run/php \
@@ -104,6 +107,8 @@ COPY ./ /srv
 
 RUN set -eux \
     && rm -rf /srv/vendor \
+# This is a cleanup for local tests and if a previous build has failed.
+    && find /srv -type f -iname '*.dep' -exec rm {} \;\
     && composer global require phalcon/zephir:dev-development \
     && /root/.composer/vendor/bin/zephir fullclean \
     && /root/.composer/vendor/bin/zephir build \
@@ -113,20 +118,20 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION=5.9.2
+ARG PHALCON_VERSION="v5.9.2"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
     PHALCON_VERSION=${PHALCON_VERSION}
 
-LABEL org.opencontainer.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
-    org.opencontainer.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
-    org.opencontainer.image.authors="Phalcon Team <team@phalconphp.com>" \
-    org.opencontainer.image.vendor="Phalcon PHP Framework" \
-    org.opencontainer.image.licenses="BSD-3-Clause" \
-    org.opencontainer.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
-    org.opencontainer.image.url="https://github.com/phalcon/cphalcon/" \
-    org.opencontainer.image.source="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile"
+LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
+    org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
+    org.opencontainers.image.authors="Phalcon Team <team@phalconphp.com>" \
+    org.opencontainers.image.vendor="Phalcon PHP Framework" \
+    org.opencontainers.image.licenses="BSD-3-Clause" \
+    org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
+    org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile" \
+    org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
 
 COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
 

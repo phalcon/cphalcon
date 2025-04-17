@@ -47,7 +47,7 @@ jobs:
           push: true
           file: docker/Dockerfile
           tags: |
-            phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
+            phalconphp/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
             ghcr.io/phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
           build-args: |
             PHP_VERSION=${{ matrix.php }}
