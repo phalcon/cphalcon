@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-xx-xx)
+## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 
 ### Changed
 - Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
