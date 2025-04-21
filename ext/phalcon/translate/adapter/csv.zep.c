@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	zephir_fetch_params(1, 2, 0, &filename_param, &mode_param);
 	zephir_get_strval(&filename, filename_param);
 	zephir_get_strval(&mode, mode_param);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 141, &filename, &mode);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 140, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 }

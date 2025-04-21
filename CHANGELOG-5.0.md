@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-xx-xx)
+## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 
 ### Changed
 - Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
@@ -15,6 +15,7 @@
 - Fixed `Phalcon\Mvc\Model\Binder` to use ReflectionParameter::getType() instead of deprecated method, PHP 8.0 or higher issue. [#16742](https://github.com/phalcon/cphalcon/issues/16742)
 - Fixed `Phalcon\Mvc\Model\Query` to check if cache entry exists. [#16747](https://github.com/phalcon/cphalcon/issues/16747)
 - Fixed `Phalcon\Mvc\Router` to correctly match route when using query string URIs. [#16749](https://github.com/phalcon/cphalcon/issues/16749)
+- Fixed `Phalcon\Mvc\Model::cloneResultset` to properly parse fields that do not accept `null` values [#16736](https://github.com/phalcon/cphalcon/issues/16736)
 
 ### Removed
 
