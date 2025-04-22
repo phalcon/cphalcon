@@ -67,6 +67,7 @@ use Serializable;
  * @template TKey
  * @template TValue
  * @implements Iterator<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
  */
 abstract class Resultset
     implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
