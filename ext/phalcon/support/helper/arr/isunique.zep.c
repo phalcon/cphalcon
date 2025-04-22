@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_IsUnique, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 181, &collection);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 180, &collection);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&collection) == zephir_fast_count_int(&_0));
 }
