@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	}
 	if (_0) {
 		ZVAL_LONG(&_2$$3, 513);
-		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 284, input, &_2$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 283, input, &_2$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

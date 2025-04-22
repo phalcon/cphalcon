@@ -59,10 +59,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_AbsInt, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input);
 	ZVAL_LONG(&_0, 519);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 284, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 283, input, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, zephir_get_intval(&_1));
-	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 285, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 284, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

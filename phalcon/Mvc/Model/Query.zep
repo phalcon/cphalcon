@@ -307,7 +307,10 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let lifetime = cacheLifetime;
             }
 
-            let result = cache->get(key);
+            let result = false;
+            if (cache->has(key)) {
+                let result = cache->get(key);
+            }
 
             if !empty result {
                 if unlikely typeof result != "object" {

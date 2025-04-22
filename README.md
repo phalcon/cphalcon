@@ -47,7 +47,7 @@ Steps:
 * [Incubator](https://phalcon.io/incubator) - Community driven plugins and classes extending the framework (written in PHP)
 
 ### Support
-* [Forum](https://phalcon.io/forum)
+* [Discussions](https://phalcon.io/discussions)
 * [Discord](https://phalcon.io/discord)
 * [Stack Overflow](https://phalcon.io/so)
 
