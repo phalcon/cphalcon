@@ -124,14 +124,14 @@ ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
     PHALCON_VERSION=${PHALCON_VERSION}
 
-LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
-    org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
-    org.opencontainers.image.authors="Phalcon Team <team@phalcon.io>" \
-    org.opencontainers.image.vendor="Phalcon PHP Framework" \
-    org.opencontainers.image.licenses="BSD-3-Clause" \
-    org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
-    org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile" \
-    org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
+LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}"
+LABEL org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm"
+LABEL org.opencontainers.image.authors="Phalcon Team <team@phalcon.io>"
+LABEL org.opencontainers.image.vendor="Phalcon PHP Framework"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+LABEL org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}"
+LABEL org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile"
+LABEL org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
 
 COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
 
