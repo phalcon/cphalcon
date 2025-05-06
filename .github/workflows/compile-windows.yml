@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.0","8.1","8.2","8.3"]
+        php: ["8.0","8.1","8.2","8.3","8.4"]
         arch: [x64,x86]
         ts: [nts,ts]
         experimental: [false]
@@ -31,7 +31,7 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/setup-php-sdk@v0.8
+        uses: php/setup-php-sdk@v0.10
         with:
           version: ${{matrix.php}}
           arch: ${{matrix.arch}}
