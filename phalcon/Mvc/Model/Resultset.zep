@@ -289,7 +289,7 @@ abstract class Resultset
         if transaction === true {
             connection->commit();
         }
-
+        this->refresh();
         return result;
     }
 
@@ -703,7 +703,7 @@ abstract class Resultset
         if transaction === true {
             connection->commit();
         }
-
+        this->refresh();
         return transaction;
     }
 
@@ -713,5 +713,62 @@ abstract class Resultset
     public function valid() -> bool
     {
         return this->pointer < this->count;
+    }
+
+    public function refresh() -> bool
+    {
+        var prefetchRecords, rowCount, rows, result, success;
+
+        /**
+         * 'false' is given as result for empty result-sets
+         */
+        if typeof this->result !== "object" {
+            let this->count = 0;
+            let this->rows = [];
+
+            return;
+        }
+        let result = this->result;
+        let success = result->execute();
+        if false === success {
+            return false;
+        }
+        let this->isFresh = true;
+        /**
+         * Update the row-count
+         */
+        let rowCount    = result->numRows(),
+            this->count = rowCount;
+
+        /**
+         * Empty result-set
+         */
+        if rowCount == 0 {
+            let this->rows = [];
+            return true;
+        }
+
+        /**
+         * Small result-sets with less equals 32 rows are fetched at once
+         */
+        let prefetchRecords = (int) globals_get("orm.resultset_prefetch_records");
+        if prefetchRecords > 0 && rowCount <= prefetchRecords {
+            /**
+             * Fetch ALL rows from database
+             */
+            let rows = result->fetchAll();
+
+            if typeof rows == "array" {
+                let this->rows = rows;
+            } else {
+                let this->rows = [];
+            }
+        }
+        return true;
+    }
+
+    public function getResult() -> var
+    {
+        return this->result;
     }
 }
