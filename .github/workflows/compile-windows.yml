@@ -1,4 +1,5 @@
 name: "[Windows] Build Phalcon"
+
 on:
   - push
   - pull_request
@@ -10,7 +11,7 @@ env:
 jobs:
   windows:
     runs-on: windows-latest
-    name: "Build Phalcon (PHP ${{matrix.php}}-${{matrix.ts}}-${{matrix.arch}}-${{ env.PHALCON_VERSION }})"
+    name: "Build Phalcon (PHP ${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.arch }})"
     defaults:
       run:
         shell: cmd
