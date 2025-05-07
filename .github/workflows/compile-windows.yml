@@ -46,7 +46,7 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/setup-php-sdk@v0.8
+        uses: php/setup-php-sdk@v0.10
         with:
           version: ${{matrix.php}}
           arch: ${{matrix.arch}}
