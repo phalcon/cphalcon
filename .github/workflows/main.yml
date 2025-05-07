@@ -8,8 +8,6 @@
 name: Phalcon CI
 
 on:
-  schedule:
-    - cron: '0 2 * * *' # Daily at 02:00 runs only on default branch
   push:
     paths-ignore:
       - '**.md'
@@ -275,7 +273,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1', '8.2', '8.3', '8.4' ]
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
 
     steps:
       - uses: actions/checkout@v4
