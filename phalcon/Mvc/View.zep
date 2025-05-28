@@ -747,7 +747,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         string! controllerName,
         string! actionName,
         array params = []
-    ) -> <View> | bool
+    ) -> <View> | false
     {
         var result;
 
