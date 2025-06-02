@@ -9,8 +9,6 @@ services:
       args:
         PHP_VERSION: 8.1
     working_dir: /srv
-    ports:
-      - "9501:9501"
     volumes:
       - .:/srv
 

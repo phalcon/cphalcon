@@ -613,29 +613,29 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function getRewriteUri() -> string
     {
-		var url;
+        var url;
 
-		/**
-		 * By default we use $_GET["url"] to obtain the rewrite information
-		 */
-		if (self::URI_SOURCE_GET_URL === this->uriSource) {
-			if fetch url, _GET["_url"] {
-				if !empty url {
-					return this->extractRealUri(url);
-				}
-			}
-		} else {
-			/**
-			 * Otherwise use the standard $_SERVER["REQUEST_URI"]
-			 */
-			if fetch url, _SERVER["REQUEST_URI"] {
-				if !empty url {
+        /**
+         * By default we use $_GET["url"] to obtain the rewrite information
+         */
+        if (self::URI_SOURCE_GET_URL === this->uriSource) {
+            if fetch url, _GET["_url"] {
+                if !empty url {
                     return this->extractRealUri(url);
                 }
-			}
-		}
+            }
+        } else {
+            /**
+             * Otherwise use the standard $_SERVER["REQUEST_URI"]
+             */
+            if fetch url, _SERVER["REQUEST_URI"] {
+                if !empty url {
+                    return this->extractRealUri(url);
+                }
+            }
+        }
 
-		return "/";
+        return "/";
     }
 
     protected function extractRealUri(string! uri) -> string
@@ -735,14 +735,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             paramsStr, part, parts, paths, pattern, position, realUri,
             regexHostName, request, route, routeFound, strParams, vnamespace;
 
-		if !uri {
-			/**
-			 * If 'uri' isn't passed as parameter it reads _GET["_url"]
-			 */
-			let realUri = this->getRewriteUri();
-		} else {
-		    let realUri = this->extractRealUri(uri);
-		}
+        if !uri {
+            /**
+             * If 'uri' isn't passed as parameter it reads _GET["_url"]
+             */
+            let realUri = this->getRewriteUri();
+        } else {
+            let realUri = this->extractRealUri(uri);
+        }
 
         /**
          * Remove extra slashes in the route
