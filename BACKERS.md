@@ -101,7 +101,6 @@ Thanks for the support
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
 <a href="https://github.com/Ultimater"><img src="https://avatars.githubusercontent.com/u/1922199?v=4" title="Kevin Yarmak" width="60" height="60"></a>
-<a href="https://github.com/szabacsik"><img src="https://avatars.githubusercontent.com/u/1412263?v=4" title="András Szabácsik" width="60" height="60"></a>
 <a href="https://github.com/f-do"><img src="https://avatars.githubusercontent.com/u/4299065?v=4" title="Florian" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
 <a href="https://github.com/raicabogdan"><img src="https://avatars.githubusercontent.com/u/4399340?v=4" title="Bogdan Raica" width="60" height="60"></a>
