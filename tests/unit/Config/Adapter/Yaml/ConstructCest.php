@@ -129,9 +129,9 @@ class ConstructCest
     public function configAdapterYamlConstructHandlesEmptyYaml(UnitTester $I)
     {
         $I->wantTo('Verify that empty YAML files return empty config arrays');
-        
+
         $config = new Yaml(dataDir('assets/config/empty.yml'));
-    
+
         $I->assertInstanceOf(Config::class, $config);
         $I->assertEquals([], $config->toArray());
     }

@@ -71,7 +71,7 @@ class Yaml extends Config
         }
 
         if unlikely yamlConfig === null {
-            let yamlConfig = []
+            let yamlConfig = [];
         }
 
         if unlikely yamlConfig === false {
