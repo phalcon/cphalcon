@@ -65,13 +65,13 @@ class Yaml extends Config
         }
 
         if empty(callbacks) {
-            yamlConfig = this->phpYamlParseFile(filePath);
+            let yamlConfig = this->phpYamlParseFile(filePath);
         } else {
-            yamlConfig = this->phpYamlParseFile(filePath, 0, ndocs, callbacks);
+            let yamlConfig = this->phpYamlParseFile(filePath, 0, ndocs, callbacks);
         }
 
         if unlikely yamlConfig === null {
-            yamlConfig = []
+            let yamlConfig = []
         }
 
         if unlikely yamlConfig === false {
