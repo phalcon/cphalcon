@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Config\Adapter\Yaml;
 
 use Codeception\Stub;
+use Phalcon\Config\Config;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Exception;
 use Phalcon\Tests\Fixtures\Traits\ConfigTrait;
@@ -117,5 +118,21 @@ class ConstructCest
                 $mock->__construct($filePath);
             }
         );
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - empty yaml
+     *
+     * @author ucando.wen <ucando.wen@qq.com>
+     * @since  2025-06-22
+     */
+    public function configAdapterYamlConstructHandlesEmptyYaml(UnitTester $I)
+    {
+        $I->wantTo('Verify that empty YAML files return empty config arrays');
+
+        $config = new Yaml(dataDir('assets/config/empty.yml'));
+
+        $I->assertInstanceOf(Config::class, $config);
+        $I->assertEquals([], $config->toArray());
     }
 }

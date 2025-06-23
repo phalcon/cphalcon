@@ -1,4 +1,14 @@
 # Changelog
+## 5.9.4 (2025-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Config\Adapter\Yaml` constructor to handle `null` return values from `yaml_parse_file()`, ensuring empty configuration files are treated as empty arrays instead of throwing errors.
+### Removed
 
 ## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 

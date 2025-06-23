@@ -70,6 +70,10 @@ class Yaml extends Config
             let yamlConfig = this->phpYamlParseFile(filePath, 0, ndocs, callbacks);
         }
 
+        if unlikely yamlConfig === null {
+            let yamlConfig = [];
+        }
+
         if unlikely yamlConfig === false {
             throw new Exception(
                 "Configuration file " . basename(filePath) . " can't be loaded"
