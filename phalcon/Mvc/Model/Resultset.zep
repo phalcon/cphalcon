@@ -305,6 +305,9 @@ abstract class Resultset
      *     }
      * );
      *```
+     *
+     * @param \Closure(TValue|ModelInterface $record): bool $filter
+     * @return TValue[]|ModelInterface[]
      */
     public function filter(callable filter) -> <ModelInterface[]>
     {
@@ -373,7 +376,7 @@ abstract class Resultset
      *         ->getFirst();
      * ```
      *
-     * @return ModelInterface|Row|null
+     * @return TValue|ModelInterface|Row|null
      */
     public function getFirst() -> var | null
     {
@@ -396,6 +399,8 @@ abstract class Resultset
 
     /**
      * Get last row in the resultset
+     *
+     * @return TValue|ModelInterface|null
      */
     public function getLast() -> <ModelInterface> | null
     {
