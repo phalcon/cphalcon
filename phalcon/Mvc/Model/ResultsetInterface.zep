@@ -19,7 +19,7 @@ use Phalcon\Mvc\ModelInterface;
  *
  * Interface for Phalcon\Mvc\Model\Resultset
  *
- * @template TValue
+ * @template TValue of ModelInterface
  */
 interface ResultsetInterface
 {
