@@ -18,6 +18,8 @@ use Phalcon\Mvc\ModelInterface;
  * Phalcon\Mvc\Model\ResultsetInterface
  *
  * Interface for Phalcon\Mvc\Model\Resultset
+ *
+ * @template TValue
  */
 interface ResultsetInterface
 {
@@ -49,7 +51,7 @@ interface ResultsetInterface
     /**
      * Get first row in the resultset
      *
-     * @return ModelInterface|Row|null
+     * @return TValue|ModelInterface|Row|null
      */
     public function getFirst() -> var | null;
 
@@ -60,6 +62,7 @@ interface ResultsetInterface
 
     /**
      * Get last row in the resultset
+     * @return TValue|ModelInterface|Row|null
      */
     public function getLast() -> <ModelInterface> | null;
 
