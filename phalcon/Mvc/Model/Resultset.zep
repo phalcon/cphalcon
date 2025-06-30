@@ -65,7 +65,7 @@ use Serializable;
  * }
  * ```
  * @template TKey
- * @template TValue
+ * @template TValue of ModelInterface
  * @implements Iterator<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
  * @implements ResultsetInterface<TValue>
