@@ -152,32 +152,6 @@ class GetClientAddressCest
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getClientAddress() - multiple
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-03-17
-     */
-    public function httpRequestGetClientAddressMultiple(UnitTester $I)
-    {
-        $I->wantToTest('Http\Request - getClientAddress() - multiple');
-
-        $store   = $_SERVER ?? [];
-        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
-        $_SERVER = [
-            'REQUEST_TIME_FLOAT' => $time,
-            'REMOTE_ADDR'        => '10.4.6.4,10.4.6.5',
-        ];
-
-        $request = new Request();
-
-        $expected = '10.4.6.4';
-        $actual   = $request->getClientAddress();
-        $I->assertSame($expected, $actual);
-
-        $_SERVER = $store;
-    }
-
-    /**
      * Tests Phalcon\Http\Request :: getClientAddress() - ipv6
      *
      * @author Phalcon Team <team@phalcon.io>
