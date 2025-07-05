@@ -86,6 +86,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     private strictHostCheck = false;
 
     /**
+     * @var array
+     */
+    private trustedProxies = [];
+
+    /**
      * Gets a variable from the $_REQUEST superglobal applying filters if
      * needed. If no parameters are given the $_REQUEST superglobal is returned
      *
@@ -202,39 +207,84 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets most possible client IPv4 Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
-     * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
+     * `$_SERVER["HTTP_X_FORWARDED_FOR"]` and returns the first non-private or non-reserved IP address
+     *
+     * @param bool $trustForwardedHeader
+     *
+     * @return string|bool
+     * @throws \Exception
      */
-    public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
+    public function getClientAddress(bool trustForwardedHeader = false) -> string | false
     {
-        var address = null, server;
+        var address, server,
+            forwardedIps, forwardedIp, invertForwardedIp, trustedForwardedIp,
+            filtered, trustedProxies, filterService, isTrusted, isIpAddressInCIDR;
 
         let server = this->getServerArray();
 
-        /**
-         * Proxies uses this IP
-         */
         if trustForwardedHeader {
             fetch address, server["HTTP_X_FORWARDED_FOR"];
 
             if address === null {
                 fetch address, server["HTTP_CLIENT_IP"];
             }
-        }
 
-        if address === null {
+            if (null !== address && memstr(address, ',')) {
+                /**
+                 * The client address has multiples parts,
+                 * only return the first non-private/non-reserved IP
+                 */
+                let trustedProxies = this->trustedProxies;
+                let forwardedIps = explode(',', address);
+                if !empty(trustedProxies) {
+                    // verify if we trust the forwarded proxy
+                    let isTrusted          = false;
+                    for invertForwardedIp in reverse forwardedIps {
+                        if isTrusted === true {
+                            break;
+                        }
+                        for trustedForwardedIp in trustedProxies {
+                            if (memstr(trustedForwardedIp, "/")) {
+                                let isIpAddressInCIDR = this->isIpAddressInCIDR(invertForwardedIp, trustedForwardedIp);
+                                if isIpAddressInCIDR === true {
+                                    let isTrusted = true;
+                                    break;
+                                }
+                            } else {
+                                if (invertForwardedIp === trustedForwardedIp) {
+                                    let isTrusted = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if !isTrusted {
+                        throw new \Exception("The forwarded proxy IP addresses are not trusted.");
+                    }
+                }
+
+                // retrieve the first valid IP that is not reserved or private
+                let filterService = this->getFilterService();
+                for forwardedIp in forwardedIps {
+                    let filtered = filterService->sanitize(forwardedIp, [
+                        "ip" : [
+                            "filter" : FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                        ]
+                    ]);
+                    if filtered {
+                        return filtered;
+                    }
+                }
+
+                return false;
+            }
+        } else {
             fetch address, server["REMOTE_ADDR"];
         }
 
-        if typeof address != "string" {
+        if !is_string(address) {
             return false;
-        }
-
-        if memstr(address, ",") {
-            /**
-             * The client address has multiples parts, only return the first
-             * part
-             */
-            return explode(",", address)[0];
         }
 
         return address;
@@ -1352,6 +1402,84 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         let this->strictHostCheck = flag;
 
         return this;
+    }
+
+    /**
+     * Set trusted proxy
+     *
+     * @param array $trustedProxies
+     * @return RequestInterface
+     * @throws Exception
+     */
+    public function setTrustedProxies(array trustedProxies) -> <RequestInterface>
+    {
+        var filterService, trustedProxy, filtered;
+
+        let filterService = this->getFilterService();
+
+        // sanitize IPs
+        for trustedProxy in trustedProxies {
+            let filtered = filterService->sanitize(trustedProxy, "ip");
+            if filtered !== false {
+                let this->trustedProxies[] = filtered;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Check if an IP address exists in CIDR range
+     *
+     * @param $ip
+     * @param $cidr
+     * @return bool
+     */
+    protected function isIpAddressInCIDR(string ip, string cidr) -> bool
+    {
+        var parts, maskBytes, mask, tempMask, remainingBits,
+            subnet, maskLength, ipBin, subnetBin, ipBits, subnetBits, ipByte, subnetByte;
+
+        let parts       = explode('/', cidr),
+            subnet      = parts[0],
+            maskLength  = parts[1];
+
+        let ipBin     = inet_pton(ip),
+            subnetBin = inet_pton(subnet);
+
+        if ipBin === false || subnetBin === false {
+            return false; // Invalid IP
+        }
+
+        let ipBits        = unpack("H*", ipBin),
+            subnetBits    = unpack("H*", subnetBin);
+
+        let ipBits     = ipBits[1],
+            subnetBits = subnetBits[1];
+
+        // Convert hex string to binary string
+        let ipBits     = hex2bin(str_pad(ipBits, strlen(ipBits), "0")),
+            subnetBits = hex2bin(str_pad(subnetBits, strlen(subnetBits), "0"));
+
+        let maskBytes     = (int)floor(maskLength / 8);
+        let remainingBits = maskLength % 8;
+
+        // Compare full bytes
+        if strncmp(ipBits, subnetBits, maskBytes) !== 0 {
+            return false;
+        }
+
+        if remainingBits === 0 {
+            return true;
+        }
+
+        let ipByte     = ord(ipBits[maskBytes]),
+            subnetByte = ord(subnetBits[maskBytes]);
+
+        let tempMask = (1 << (8 - remainingBits)) - 1;
+        let mask = 0xFF ^ tempMask;
+
+        return (ipByte & mask) === (subnetByte & mask);
     }
 
     /**
