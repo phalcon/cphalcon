@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter;
 
 use Codeception\Example;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Filter\FilterFactory;
 use UnitTester;
 
@@ -1026,6 +1027,162 @@ class SanitizeCest
                 'method'   => 'url',
                 'source'   => ['https://pha�lc�on.i�o'],
                 'expected' => 'https://phalcon.io',
+            ],
+            // IPv4 Test dataset
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 1, valid private IP address, FILTER_FLAG_NONE / 0',
+                'method'   => '',
+                'source'   => ['192.168.0.10', 0],
+                'expected' => '192.168.0.10',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 2, valid reserved IP address, FILTER_FLAG_NONE / 0',
+                'method'   => '',
+                'source'   => ['255.255.255.255', 0],
+                'expected' => '255.255.255.255',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 3, valid CIDR IP address, FILTER_FLAG_NONE / 0',
+                'method'   => '',
+                'source'   => ['10.0.0.0/24', 0],
+                'expected' => '10.0.0.0/24',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: valid IP address, no filter',
+                'method'   => '',
+                'source'   => ['8.8.8.8'],
+                'expected' => '8.8.8.8',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 1, FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['192.168.1.1', FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 2, FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['10.0.0.5', FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 1, FILTER_FLAG_NO_RES_RANGE',
+                'method'   => '',
+                'source'   => ['0.0.0.0', FILTER_FLAG_NO_RES_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: test 2, FILTER_FLAG_NO_RES_RANGE 2',
+                'method'   => '',
+                'source'   => ['255.255.255.255', FILTER_FLAG_NO_RES_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: combined filter FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['255.255.255.255', FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: invalid IPv4 address',
+                'method'   => '',
+                'source'   => ['999.999.999.999', FILTER_FLAG_IPV4],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv4: invalid IPv4 CIDR address',
+                'method'   => '',
+                'source'   => ['192.168.1.1/33', FILTER_FLAG_IPV4],
+                'expected' => false,
+            ],
+            // IPv6 Test dataset
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 1 Valid Public IPv6, FILTER_FLAG_NONE / 0',
+                'method'   => '',
+                'source'   => ['2001:4860:4860::8888', 0],
+                'expected' => '2001:4860:4860::8888',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 2 Valid Public IPv6, no filter',
+                'method'   => '',
+                'source'   => ['2001:db8::1', FILTER_FLAG_IPV6],
+                'expected' => '2001:db8::1',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 3, valid CIDR IP address, FILTER_FLAG_NONE / 0',
+                'method'   => '',
+                'source'   => ['2001:db8::/32', 0],
+                'expected' => '2001:db8::/32',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: valid IP address, no filter',
+                'method'   => '',
+                'source'   => ['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
+                'expected' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 1, FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['fd12:3456:789a:1::1', FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 2, FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['fc00::1', FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 1, FILTER_FLAG_NO_RES_RANGE',
+                'method'   => '',
+                'source'   => ['fe80::1', FILTER_FLAG_NO_RES_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: test 2, FILTER_FLAG_NO_RES_RANGE 2',
+                'method'   => '',
+                'source'   => ['::1', FILTER_FLAG_NO_RES_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: combined filter FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE',
+                'method'   => '',
+                'source'   => ['fd00::1', FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: invalid IPv6 address',
+                'method'   => '',
+                'source'   => ['2001:db8:85a3::8a2e:370g:7334', FILTER_FLAG_IPV6],
+                'expected' => false,
+            ],
+            [
+                'class'    => 'ip',
+                'label'    => 'IPv6: invalid IPv6 CIDR address',
+                'method'   => '',
+                'source'   => ['2001:db8::/140', FILTER_FLAG_IPV6],
+                'expected' => false,
             ],
         ];
     }
