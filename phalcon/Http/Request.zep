@@ -211,7 +211,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * @param bool $trustForwardedHeader
      *
-     * @return string|bool
+     * @return string|false
      * @throws \Exception
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | false
@@ -1431,9 +1431,9 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Check if an IP address exists in CIDR range
      *
-     * @param $ip
-     * @param $cidr
-     * @return bool
+     * @param string $ip The IP address to check.
+     * @param string $cidr The CIDR range to compare against.
+     * @return bool True if the IP is in range, false otherwise.
      */
     protected function isIpAddressInCIDR(string ip, string cidr) -> bool
     {
