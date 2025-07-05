@@ -45,6 +45,7 @@ class FilterFactory
             Filter::FILTER_EMAIL         : "Phalcon\\Filter\\Sanitize\\Email",
             Filter::FILTER_FLOAT         : "Phalcon\\Filter\\Sanitize\\FloatVal",
             Filter::FILTER_INT           : "Phalcon\\Filter\\Sanitize\\IntVal",
+            Filter::FILTER_IP            : "Phalcon\\Filter\\Sanitize\\Ip",
             Filter::FILTER_LOWER         : "Phalcon\\Filter\\Sanitize\\Lower",
             Filter::FILTER_LOWERFIRST    : "Phalcon\\Filter\\Sanitize\\LowerFirst",
             Filter::FILTER_REGEX         : "Phalcon\\Filter\\Sanitize\\Regex",
