@@ -205,7 +205,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets most possible client IPv4 Address. This method searches in
+     * Gets most possible client IP Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
      * `$_SERVER["HTTP_X_FORWARDED_FOR"]` and returns the first non-private or non-reserved IP address
      *
