@@ -20,6 +20,7 @@ namespace Phalcon\Filter;
  * @method string email(string $input)
  * @method float  float(mixed $input)
  * @method int    int(string $input)
+ * @method string ip(string $input, int $filter = FILTER_FLAG_NONE)
  * @method string lower(string $input)
  * @method string lowerfirst(string $input)
  * @method mixed  regex(mixed $input, mixed $pattern, mixed $replace)
@@ -48,6 +49,7 @@ class Filter implements FilterInterface
     const FILTER_EMAIL         = "email";
     const FILTER_FLOAT         = "float";
     const FILTER_INT           = "int";
+    const FILTER_IP            = "ip";
     const FILTER_LOWER         = "lower";
     const FILTER_LOWERFIRST    = "lowerfirst";
     const FILTER_REGEX         = "regex";
