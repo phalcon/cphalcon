@@ -11,9 +11,9 @@
 namespace Phalcon\Filter\Sanitize;
 
 /**
- * Phalcon\Filter\Sanitize\AbsInt
+ * Phalcon\Filter\Sanitize\IP
  *
- * Sanitizes a value to absolute integer
+ * Sanitizes a value to an ip address or CIDR range
  */
 class Ip
 {
