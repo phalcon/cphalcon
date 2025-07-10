@@ -13,29 +13,29 @@ namespace Phalcon\Filter;
 /**
  * Lazy loads, stores and exposes sanitizer objects
  *
- * @method int    absint(mixed $input)
- * @method string alnum(mixed $input)
- * @method string alpha(mixed $input)
- * @method bool   bool(mixed $input)
- * @method string email(string $input)
- * @method float  float(mixed $input)
- * @method int    int(string $input)
- * @method string ip(string $input, int $filter = FILTER_FLAG_NONE)
- * @method string lower(string $input)
- * @method string lowerfirst(string $input)
- * @method mixed  regex(mixed $input, mixed $pattern, mixed $replace)
- * @method mixed  remove(mixed $input, mixed $replace)
- * @method mixed  replace(mixed $input, mixed $source, mixed $target)
- * @method string special(string $input)
- * @method string specialfull(string $input)
- * @method string string(string $input)
- * @method string stringlegacy(mixed $input)
- * @method string striptags(string $input)
- * @method string trim(string $input)
- * @method string upper(string $input)
- * @method string upperFirst(string $input)
- * @method null   upperWords(string $input): strin
- * @method null   url(string $input): strin
+ * @method int          absint(mixed $input)
+ * @method string       alnum(mixed $input)
+ * @method string       alpha(mixed $input)
+ * @method bool         bool(mixed $input)
+ * @method string       email(string $input)
+ * @method float        float(mixed $input)
+ * @method int          int(string $input)
+ * @method string|false ip(string $input, int $filter = FILTER_FLAG_NONE)
+ * @method string       lower(string $input)
+ * @method string       lowerfirst(string $input)
+ * @method mixed        regex(mixed $input, mixed $pattern, mixed $replace)
+ * @method mixed        remove(mixed $input, mixed $replace)
+ * @method mixed        replace(mixed $input, mixed $source, mixed $target)
+ * @method string       special(string $input)
+ * @method string       specialfull(string $input)
+ * @method string       string(string $input)
+ * @method string       stringlegacy(mixed $input)
+ * @method string       striptags(string $input)
+ * @method string       trim(string $input)
+ * @method string       upper(string $input)
+ * @method string       upperFirst(string $input)
+ * @method null         upperWords(string $input): strin
+ * @method null         url(string $input): strin
  *
  * @property array $mapper
  * @property array $services

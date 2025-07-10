@@ -19,7 +19,6 @@ class Ip
 {
     /**
      * @param string $input
-     * @param int $protocol
      * @param int $filter
      * @return false|string
      */
@@ -76,7 +75,7 @@ class Ip
      * Return the IP address protocol version
      *
      * @param $ip
-     * @return int
+     * @return int|false
      */
     private function getIpAddressProtocolVersion(string input) -> int | false
     {
