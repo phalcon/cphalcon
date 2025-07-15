@@ -88,7 +88,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var array
      */
-    private trustedProxies = [];
+    protected trustedProxies = [];
 
     /**
      * Gets a variable from the $_REQUEST superglobal applying filters if
