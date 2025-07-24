@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
 use Phalcon\Storage\Exception;
+use Phalcon\Tests\Fixtures\Http\PhpStream;
 use Phalcon\Tests\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -44,6 +45,50 @@ class GetPostCest //extends HttpBase
         $I->assertSame('two', $request->getPost('one'));
 
         $_POST = $store;
+    }
+
+    /**
+     * Tests Phalcon\Http\Request :: getPost() - json
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-07-22
+     */
+    public function httpRequestGetPostJson(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getPost() - json');
+
+        stream_wrapper_unregister('php');
+        stream_wrapper_register('php', PhpStream::class);
+
+        file_put_contents(
+            'php://input',
+            '{"fruit": "orange", "quantity": "4"}'
+        );
+
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_POST = [];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_METHOD'     => 'POST',
+            'CONTENT_TYPE'       => 'application/json',
+        ];
+
+        $request = new Request();
+
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
+
+        $I->assertSame(
+            $expected,
+            $request->getPost()
+        );
+
+        stream_wrapper_restore('php');
+
+        $_SERVER = $store;
     }
 
     /**

@@ -224,6 +224,14 @@ class IsCest
                 true,
                 'isSoap',
             ],
+            [
+                'json',
+                [
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+                true,
+                'isJson',
+            ],
         ];
     }
 }
