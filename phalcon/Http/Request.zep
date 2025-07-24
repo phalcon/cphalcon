@@ -68,12 +68,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var array|null
      */
-    private patchCache = null;
-
-    /**
-     * @var array|null
-     */
-    private putCache = null;
+    private postCache = null;
 
     /**
      * @var string
@@ -707,8 +702,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        return this->getPatchPut(
-            "patchCache",
+        let this->postCache = this->getPostData(this->postCache);
+
+        return this->getHelper(
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -763,8 +760,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
+        let this->postCache = this->getPostData(_POST);
+
         return this->getHelper(
-            _POST,
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -791,8 +790,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        return this->getPatchPut(
-            "putCache",
+        let this->postCache = this->getPostData(this->postCache);
+
+        return this->getHelper(
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -1072,7 +1073,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function hasPost(string! name) -> bool
     {
-        return isset _POST[name];
+        var post;
+
+        let post = this->getPost();
+
+        return isset post[name];
     }
 
     /**
@@ -1114,6 +1119,17 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         return this->hasServer("HTTP_X_REQUESTED_WITH") &&
             this->getServer("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+    }
+
+    /**
+     * Checks whether request content type contains json data
+     *
+     * @return bool
+     */
+    public function isJson() -> bool
+    {
+        return this->hasServer("CONTENT_TYPE") &&
+            stripos(this->getServer("CONTENT_TYPE"), "json") !== false;
     }
 
     /**
@@ -1823,68 +1839,37 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         );
     }
 
-    /**
-     * Gets a variable from put request
+     /**
+     * Return post data from rawBody, form data, or urlencoded form data
      *
-     *```php
-     * // Returns value from $_PATCH["user_email"] without sanitizing
-     * $userEmail = $request->getPatch("user_email");
-     *
-     * // Returns value from $_PATCH["user_email"] with sanitizing
-     * $userEmail = $request->getPatch("user_email", "email");
-     *```
+     * @param string|array $collection
+     * @return array
      */
-    private function getPatchPut(
-        string collection,
-        string name = null,
-        var filters = null,
-        var defaultValue = null,
-        bool notAllowEmpty = false,
-        bool noRecursive = false
-    ) -> var {
-        var cached, contentType;
+    private function getPostData(var data) -> array
+    {
+        var result;
 
-        let cached = this->{collection};
-
-        if null === cached {
-            let contentType = this->getContentType();
-
-            if (
-                typeof contentType == "string" &&
-                (
-                    stripos(contentType, "json") != false ||
-                    stripos(contentType, "multipart/form-data") !== false
-                )
-            ) {
-                if (stripos(contentType, "json") != false) {
-                    let cached = this->getJsonRawBody(true);
-                }
-
-                if (stripos(contentType, "multipart/form-data") !== false) {
-                    let cached = this->getFormData();
-                }
-
-                if typeof cached != "array" {
-                    let cached = [];
-                }
-
+        if empty data {
+            if this->isJson() {
+                let result = this->getJsonRawBody(true);
+            } elseif stripos(this->getContentType(), "multipart/form-data") !== false {
+                let result = this->getFormData();
             } else {
-                let cached = [];
-
-                parse_str(this->getRawBody(), cached);
+                // this is more like a fallback to application/x-www-form-urlencoded parsing raw body
+                // the web server should technically take care of adding these to $_POST, but who knows...
+                let result = [];
+                parse_str(this->getRawBody(), result);
             }
-
-            let this->{collection} = cached;
+        } else {
+            let result = data;
         }
 
-        return this->getHelper(
-            cached,
-            name,
-            filters,
-            defaultValue,
-            notAllowEmpty,
-            noRecursive
-        );
+        // sanity check, if after all parsing is not an array, set an empty one
+        if typeof result != "array" {
+            let result = [];
+        }
+
+        return result;
     }
 
     /**

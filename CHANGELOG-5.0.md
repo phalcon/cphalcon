@@ -9,6 +9,7 @@
 
 - Fixed `Phalcon\Config\Adapter\Yaml` constructor to handle `null` return values from `yaml_parse_file()`, ensuring empty configuration files are treated as empty arrays instead of throwing errors.
 - Fixed `Phalcon\Http\Request` method `getClientAddress(true)` to return correct IP address from trusted forwarded proxy. [#16777](https://github.com/phalcon/cphalcon/issues/16777)
+- Fixed `Phalcon\Http\Request` method `getPost()` to correctly return json data as well and unified both `getPut()` and `getPatch()` to go through the same parsing method. [#16792](https://github.com/phalcon/cphalcon/issues/16792)
 
 ### Removed
 
