@@ -1842,7 +1842,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      /**
      * Return post data from rawBody, form data, or urlencoded form data
      *
-     * @param string|array $collection
+     * @param array|null $data
      * @return array
      */
     private function getPostData(var data) -> array
