@@ -592,6 +592,18 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
+     * Verify if validation fails by verifying if there are messages in the current validation
+     */
+    public function fails() -> bool
+    {
+        if unlikely !is_null(this->messages) && this->messages->count() > 0 {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Internal validations, if it returns true, then skip the current validator
      *
      * @param array|string $field

@@ -5,6 +5,8 @@
 
 ### Added
 
+- Added `fails()` method helper to `Phalcon\Filter\Validation` useful for standalone validation [#16798](https://github.com/phalcon/cphalcon/issues/16798)
+
 ### Fixed
 
 - Fixed `Phalcon\Config\Adapter\Yaml` constructor to handle `null` return values from `yaml_parse_file()`, ensuring empty configuration files are treated as empty arrays instead of throwing errors.
