@@ -49,6 +49,11 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * @var array
      */
+    protected whitelist = [];
+
+    /**
+     * @var array
+     */
     protected labels = [];
 
     /**
@@ -155,18 +160,74 @@ class Validation extends Injectable implements ValidationInterface
      * Assigns the data to an entity
      * The entity is used to obtain the validation values
      *
-     * @param object entity
-     * @param array|object data
+     * ```php
+     * $entity = new Author();
+     * $fields = ['name', 'email', 'imageUrl'];
+     * $validation = new AuthorValidation();
+     * $validation->bind($entity, $_POST, $fields);
+     * $validation->validate();
+     * ```
+     *
+     * @param object $entity the entity object to assign data to
+     * @param array|object $data the data that needs to be validated
+     * @param array $whitelist only allow these fields to be mutated when entity is used
      */
-    public function bind(entity, data) -> <ValidationInterface>
+    public function bind(var entity, var data, array whitelist = []) -> <ValidationInterface>
     {
+        var container, field, value, fieldFilters, filterService, filters, method;
+
+        let this->data = data;
         this->setEntity(entity);
 
         if unlikely (typeof data != "array" && typeof data != "object") {
-            throw new Exception("Data to validate must be an array or object");
+            return this;
         }
 
-        let this->data = data;
+        let container = this->getDI();
+        if container === null {
+            let container = Di::getDefault();
+
+            if container === null {
+                throw new Exception(
+                    "A dependency injection container is required to access the 'filter' service"
+                );
+            }
+        }
+        let filterService = <FilterInterface> container->getShared("filter");
+        if unlikely typeof filterService != "object" {
+            throw new Exception("Returned 'filter' service is invalid");
+        }
+
+        if empty whitelist {
+            let whitelist = this->whitelist;
+        }
+
+        let filters = this->filters;
+
+        for field, value in data {
+            /**
+             * Check if the field is in the whitelist
+             */
+            if !empty whitelist && !in_array(field, whitelist) {
+                continue;
+            }
+
+            if fetch fieldFilters, filters[field] {
+                let value = filterService->sanitize(value, fieldFilters);
+            }
+            /**
+             * Set value in entity
+             */
+            let method = "set" . camelize(field);
+
+            if method_exists(this->entity, method) {
+                entity->{method}(value);
+            } elseif method_exists(this->entity, "writeAttribute") {
+                entity->writeAttribute(field, value);
+            } elseif property_exists(this->entity, field) {
+                let entity->{field} = value;
+            }
+        }
 
         return this;
     }
@@ -476,15 +537,32 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Validate a set of data according to a set of rules
      *
-     * @param array|object data
-     * @param object entity
+     * You can use $validation->bind(entity, data, whitelist)->validate()
+     * When you use bind(), the this->data is already set, so you can reuse it here
+     *
+     * ```php
+     * // using bind() with $whitelist fields
+     * $entity = new Author();
+     * $fields = ['name', 'email', 'imageUrl'];
+     * $validation = new AuthorValidation();
+     * $validation->bind($entity, $_POST, $fields);
+     * $validation->validate();
+     *
+     * // directly using validate
+     * $validation = new AuthorValidation();
+     * $validation->validate($_POST, $entity, $fields);
+     * ```
+     *
+     * @param array|object $data the data that needs to be validated
+     * @param object $entity the entity object to assign data to
+     * @param array $whitelist only allow these fields to be mutated when entity is used
      *
      * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages> | bool
+    public function validate(var data = null, var entity = null, array whitelist = []) -> <Messages> | bool
     {
         var combinedFieldsValidators, field, scope, status, validator,
-            validatorData, validators;
+            validatorData, validators, inputData = null;
 
         let validatorData            = this->validators,
             combinedFieldsValidators = this->combinedFieldsValidators;
@@ -502,28 +580,32 @@ class Validation extends Injectable implements ValidationInterface
          * Implicitly creates a Phalcon\Messages\Messages object
          */
         let this->messages = new Messages();
+        if (data !== null) {
+            // if data is provided
+            if unlikely typeof data != "array" && typeof data != "object" {
+                throw new Exception("Invalid data to validate");
+            }
+            let this->data = data;
+            let inputData = data;
+        } elseif !empty this->data {
+            // else, if data === null, but we have this->data from bind(), reuse this->data
+            let inputData = this->data;
+        }
 
         if entity !== null {
-            this->setEntity(entity);
+            // if user provided entity, bind and assign the data to the entity
+            this->bind(entity, inputData, whitelist);
         }
 
         /**
          * Validation classes can implement the 'beforeValidation' callback
          */
         if method_exists(this, "beforeValidation") {
-            let status = this->{"beforeValidation"}(data, entity, this->messages);
+            let status = this->{"beforeValidation"}(inputData, this->entity, this->messages);
 
             if status === false {
                 return status;
             }
-        }
-
-        if data !== null {
-            if unlikely (typeof data != "array" && typeof data != "object") {
-                throw new Exception("Invalid data to validate");
-            }
-
-            let this->data = data;
         }
 
         for field, validators in validatorData {
@@ -585,7 +667,7 @@ class Validation extends Injectable implements ValidationInterface
          * Get the messages generated by the validators
          */
         if method_exists(this, "afterValidation") {
-            this->{"afterValidation"}(data, entity, this->messages);
+            this->{"afterValidation"}(inputData, this->entity, this->messages);
         }
 
         return this->messages;
