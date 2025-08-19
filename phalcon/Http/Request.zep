@@ -1852,7 +1852,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         if empty data {
             if this->isJson() {
                 let result = this->getJsonRawBody(true);
-            } elseif stripos(this->getContentType(), "multipart/form-data") !== false {
+            } elseif this->getContentType() && stripos(this->getContentType(), "multipart/form-data") !== false {
                 let result = this->getFormData();
             } else {
                 // this is more like a fallback to application/x-www-form-urlencoded parsing raw body
