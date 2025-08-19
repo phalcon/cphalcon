@@ -15,6 +15,7 @@
 - Fixed `Phalcon\Http\Request` method `getClientAddress(true)` to return correct IP address from trusted forwarded proxy. [#16777](https://github.com/phalcon/cphalcon/issues/16777)
 - Fixed `Phalcon\Http\Request` method `getPost()` to correctly return json data as well and unified both `getPut()` and `getPatch()` to go through the same parsing method. [#16792](https://github.com/phalcon/cphalcon/issues/16792)
 - Fixed `Phalcon\Filter\Validation` method `bind()` and `validate()` to correctly bind data when using entity as well as skip binding of fields not included in `$whitelist` [#16800](https://github.com/phalcon/cphalcon/issues/16800)
+- Fixed `Phalcon\Http\Request` method `getPostData()` when `Content-Type` header is not set [#16804](https://github.com/phalcon/cphalcon/issues/16804)
 
 ### Removed
 
