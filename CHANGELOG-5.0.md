@@ -20,6 +20,13 @@
 
 ### Removed
 
+## [5.4.1](https://github.com/phalcon/cphalcon/releases/tag/v5.4.1) (2025-09-XX)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Micro\LazyLoader::callMethod` to prevent `Unknown named parameter` error [#16724](https://github.com/phalcon/cphalcon/issues/16797)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher` when calling action methods that do not define parameters to prevent `Unknown named parameter` error.
+
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
 
 ### Changed
