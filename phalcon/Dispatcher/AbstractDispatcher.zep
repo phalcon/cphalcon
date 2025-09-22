@@ -156,7 +156,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     {
         return call_user_func_array(
             [handler, actionMethod],
-            params
+            array_values(params)
         );
     }
 
