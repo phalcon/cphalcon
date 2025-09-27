@@ -1,9 +1,6 @@
-<?php
+<?php // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-// @codingStandardsIgnoreStart
 use Phalcon\Mvc\Controller;
-
-// @codingStandardsIgnoreSEnd
 
 /**
  * \DispatcherTestDefaultNoNamespaceController
@@ -23,8 +20,8 @@ use Phalcon\Mvc\Controller;
  */
 class DispatcherTestDefaultNoNamespaceController extends Controller
 {
-    const RETURN_VALUE_STRING = 'string';
-    const RETURN_VALUE_INT    = 5;
+    public const RETURN_VALUE_STRING = 'string';
+    public const RETURN_VALUE_INT    = 5;
 
     public function beforeExecuteRoute()
     {
