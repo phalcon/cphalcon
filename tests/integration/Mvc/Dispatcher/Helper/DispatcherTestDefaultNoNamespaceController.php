@@ -1,9 +1,6 @@
-<?php
+<?php // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-// @codingStandardsIgnoreStart
 use Phalcon\Mvc\Controller;
-
-// @codingStandardsIgnoreSEnd
 
 /**
  * \DispatcherTestDefaultNoNamespaceController
