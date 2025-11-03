@@ -87,9 +87,14 @@ abstract class AbstractFile extends AbstractValidator
      */
     public function checkUpload(<Validation> validation, string field) -> bool
     {
-        return this->checkUploadMaxSize(validation, field) &&
-            this->checkUploadIsEmpty(validation, field) &&
-            this->checkUploadIsValid(validation, field);
+        if this->getOption("ignoreCheckUploadedFile") {
+            return this->checkUploadMaxSize(validation, field)
+                && this->checkUploadIsValid(validation, field);
+        }
+
+        return this->checkUploadMaxSize(validation, field)
+            && this->checkUploadIsEmpty(validation, field)
+            && this->checkUploadIsValid(validation, field);
     }
 
     /**
@@ -105,18 +110,44 @@ abstract class AbstractFile extends AbstractValidator
         <Validation> validation,
         string field
     ) -> bool {
-        var label, replacePairs, value;
+        var value, label, replacePairs;
 
         let value = validation->getValue(field);
 
+        // If the value is not an array, we consider it valid (no file provided)
+        if !is_array(value) {
+            return true;
+        }
+
+        // Case: ignoreCheckUploadedFile = true
+        if this->getOption("ignoreCheckUploadedFile") {
+            // Only check for minimum required keys
+            if isset(value["name"]) && isset(value["tmp_name"]) && value["error"] === 0 {
+                return true;
+            }
+
+            // Missing required keys -> append error message
+            let label        = this->prepareLabel(validation, field);
+            let replacePairs = [":field" : label];
+
+            validation->appendMessage(
+                new Message(
+                    strtr(this->getMessageFileEmpty(), replacePairs),
+                    field,
+                    get_class(this),
+                    this->prepareCode(field)
+                )
+            );
+
+            return false;
+        }
+
+        // Case: Normal strict validation
         if (
-            is_array(value) &&
-            (
-                true !== isset(value["error"]) ||
-                true !== isset(value["tmp_name"]) ||
-                value["error"] !== UPLOAD_ERR_OK ||
-                true !== this->checkIsUploadedFile(value["tmp_name"])
-            )
+            !isset(value["error"]) ||
+            !isset(value["tmp_name"]) ||
+            value["error"] !== UPLOAD_ERR_OK ||
+            !this->checkIsUploadedFile(value["tmp_name"])
         ) {
             let label        = this->prepareLabel(validation, field);
             let replacePairs = [
@@ -198,28 +229,33 @@ abstract class AbstractFile extends AbstractValidator
     ) -> bool {
         var files, label, length, method, post, replacePairs, server, value;
 
-        let value  = validation->getValue(field);
-        let server = [];
-        let post   = [];
-        let files  = [];
-        let method = "GET";
-        let length = 0;
+    let value  = validation->getValue(field);
+    let server = [];
+    let post   = [];
+    let files  = [];
+    let method = "GET";
+    let length = 0;
 
-        if _SERVER {
-            let server = _SERVER;
-        }
-        if _POST {
-            let post = _POST;
-        }
-        if _FILES {
-            let files = _FILES;
-        }
-        if isset(server["REQUEST_METHOD"]) {
-            let method = server["REQUEST_METHOD"];
-        }
-        if isset(server["CONTENT_LENGTH"]) {
-            let length = server["CONTENT_LENGTH"];
-        }
+    // Skip all max size and POST-size checks when ignoreCheckUploadedFile is true
+    if this->getOption("ignoreCheckUploadedFile") {
+        return true;
+    }
+
+    if _SERVER {
+        let server = _SERVER;
+    }
+    if _POST {
+        let post = _POST;
+    }
+    if _FILES {
+        let files = _FILES;
+    }
+    if isset(server["REQUEST_METHOD"]) {
+        let method = server["REQUEST_METHOD"];
+    }
+    if isset(server["CONTENT_LENGTH"]) {
+        let length = server["CONTENT_LENGTH"];
+    }
 
         // Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
         if (
@@ -236,20 +272,20 @@ abstract class AbstractFile extends AbstractValidator
                 ":field" : label
             ];
 
-            validation->appendMessage(
-                new Message(
-                    strtr(this->getMessageIniSize(), replacePairs),
-                    field,
-                    get_class(this),
-                    this->prepareCode(field)
-                )
-            );
+        validation->appendMessage(
+            new Message(
+                strtr(this->getMessageIniSize(), replacePairs),
+                field,
+                get_class(this),
+                this->prepareCode(field)
+            )
+        );
 
-            return false;
-        }
-
-        return true;
+        return false;
     }
+
+    return true;
+}
 
     /**
      * Convert a string like "2.5MB" in bytes
@@ -388,6 +424,18 @@ abstract class AbstractFile extends AbstractValidator
      */
     protected function checkIsUploadedFile(string name) -> bool
     {
+        /**
+         * When ignoreCheckUploadedFile = true,
+         * skip the system-level check (is_uploaded_file)
+         * but still ensure that the file physically exists.
+         *
+         * This allows CLI / test environments to validate
+         * fake uploads safely.
+         */
+        if this->getOption("ignoreCheckUploadedFile") {
+            return file_exists(name);
+        }
+
         return is_uploaded_file(name);
     }
 }
