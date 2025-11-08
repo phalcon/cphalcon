@@ -20,7 +20,7 @@ interface ManagerInterface
      *
      * @param object|callable handler
      */
-    public function attach(string! eventType, handler) -> void;
+    public function attach(string! eventType, handler, int! priority = 100) -> void;
 
     /**
      * Detach the listener from the events manager
