@@ -21,8 +21,6 @@ use SplPriorityQueue;
  */
 class Manager implements ManagerInterface
 {
-    const DEFAULT_PRIORITY = 100;
-
     /**
      * @var bool
      */
