@@ -15,7 +15,7 @@ namespace Phalcon\Events;
  */
 interface ManagerInterface
 {
-    public const DEFAULT_PRIORITY = 100;
+    const DEFAULT_PRIORITY = 100;
     /**
      * Attach a listener to the events manager
      *
