@@ -17,6 +17,7 @@
 - Fixed `Phalcon\Filter\Validation` method `bind()` and `validate()` to correctly bind data when using entity as well as skip binding of fields not included in `$whitelist` [#16800](https://github.com/phalcon/cphalcon/issues/16800)
 - Fixed `Phalcon\Http\Request` method `getPostData()` when `Content-Type` header is not set [#16804](https://github.com/phalcon/cphalcon/issues/16804)
 - Fixed `Phalcon\Events\ManagerInterface` adding priority property [#16817](https://github.com/phalcon/cphalcon/issues/16817)
+- Fixed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to correctly merge adapter options [#16818](https://github.com/phalcon/cphalcon/issues/16818)
  
 ### Removed
 
