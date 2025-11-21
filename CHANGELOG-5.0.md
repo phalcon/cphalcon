@@ -1,9 +1,21 @@
 # Changelog
-## 5.9.4 (2025-xx-xx)
+## 5.9.5 (xxxx-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+### Removed
+
+# Changelog
+## 5.9.4 (2025-11-21)
 
 ### Changed
 
 - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
+- Changed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to use 50ms for `\Memcached::OPT_CONNECT_TIMEOUT` [#16818](https://github.com/phalcon/cphalcon/issues/16818)
 
 ### Added
 
