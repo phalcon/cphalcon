@@ -82,7 +82,7 @@ FROM base AS dev
 # This part prepares a dev environment to compile phalcon from zephir
 
 # hadolint ignore=DL3022
-COPY --from=composer/composer:2 --chown=${USER}:${GROUP} --chmod=0770 /usr/bin/composer /usr/bin/composer
+COPY --from=composer/composer:2 --chown=${USER}:${GROUP} --chmod=0775 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 
@@ -118,7 +118,7 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION="v5.9.3"
+ARG PHALCON_VERSION="v5.9.4"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
