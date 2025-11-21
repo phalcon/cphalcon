@@ -85,7 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response)
 	/**
 	 * @var Encode
 	 */
-	zend_declare_property_null(phalcon_http_response_ce, SL("encode"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_response_ce, SL("encode"), ZEND_ACC_PROTECTED);
 	phalcon_http_response_ce->create_object = zephir_init_properties_Phalcon_Http_Response;
 
 	zend_class_implements(phalcon_http_response_ce, 1, phalcon_http_responseinterface_ce);
@@ -1071,7 +1071,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		if ((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS)) {
 			ZEPHIR_CALL_FUNCTION(&_0$$6, "mb_detect_order", NULL, 361);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 324, &basePath, &_0$$6, &__$true);
+			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 326, &basePath, &_0$$6, &__$true);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(&_1$$5);
@@ -1087,7 +1087,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_1$$5);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_STRING(&basePathEncoding, "ASCII")) {
-			ZEPHIR_CALL_FUNCTION(&_2$$7, "rawurlencode", NULL, 328, &basePath);
+			ZEPHIR_CALL_FUNCTION(&_2$$7, "rawurlencode", NULL, 330, &basePath);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_2$$7);
 			ZEPHIR_INIT_VAR(&_3$$7);
@@ -1099,7 +1099,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		} else {
 			ZEPHIR_INIT_VAR(&_5$$8);
 			ZVAL_STRING(&_5$$8, "\15\17\\\"");
-			ZEPHIR_CALL_FUNCTION(&_6$$8, "addcslashes", NULL, 215, &basePath, &_5$$8);
+			ZEPHIR_CALL_FUNCTION(&_6$$8, "addcslashes", NULL, 216, &basePath, &_5$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_6$$8);
 			ZEPHIR_INIT_VAR(&_7$$8);

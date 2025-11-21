@@ -348,6 +348,7 @@ zend_class_entry *phalcon_filter_sanitize_boolval_ce;
 zend_class_entry *phalcon_filter_sanitize_email_ce;
 zend_class_entry *phalcon_filter_sanitize_floatval_ce;
 zend_class_entry *phalcon_filter_sanitize_intval_ce;
+zend_class_entry *phalcon_filter_sanitize_ip_ce;
 zend_class_entry *phalcon_filter_sanitize_lower_ce;
 zend_class_entry *phalcon_filter_sanitize_lowerfirst_ce;
 zend_class_entry *phalcon_filter_sanitize_regex_ce;
@@ -986,6 +987,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Email);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_FloatVal);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_IntVal);
+	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Ip);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Lower);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_LowerFirst);
 	ZEPHIR_INIT(Phalcon_Filter_Sanitize_Regex);

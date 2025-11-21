@@ -68,7 +68,7 @@ int zephir_file_exists(zval *filename)
 #if PHP_VERSION_ID >= 80100
 	zend_string *file = zend_string_init(Z_STRVAL_P(filename), Z_STRLEN_P(filename), 0);
 	php_stat(file, FS_EXISTS, &return_value);
-	zval_ptr_dtor(file);
+	zend_string_release(file);
 #else
 	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_EXISTS, &return_value);
 #endif
@@ -297,7 +297,7 @@ void zephir_filemtime(zval *return_value, zval *path)
 #if PHP_VERSION_ID >= 80100
 		zend_string *file = zend_string_init(Z_STRVAL_P(path), Z_STRLEN_P(path), 0);
 		php_stat(file, FS_MTIME, return_value);
-		zval_ptr_dtor(file);
+		zend_string_release(file);
 #else
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_MTIME, return_value);
 #endif

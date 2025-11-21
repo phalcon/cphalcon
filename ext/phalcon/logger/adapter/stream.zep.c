@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 		return;
 	}
 	ZVAL_LONG(&_6, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "flock", NULL, 132, &handler, &_6);
+	ZEPHIR_CALL_FUNCTION(NULL, "flock", NULL, 133, &handler, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getformatteditem", NULL, 0, item);
 	zephir_check_call_status();
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen)
 	zephir_fetch_params(1, 2, 0, &filename_param, &mode_param);
 	zephir_get_strval(&filename, filename_param);
 	zephir_get_strval(&mode, mode_param);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 140, &filename, &mode);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 141, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 }

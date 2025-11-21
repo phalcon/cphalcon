@@ -51,7 +51,7 @@ int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 	zend_stream_init_filename_ex(&file_handle, zend_string_path);
     ret = php_stream_open_for_zend_ex(&file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
 
-    zval_ptr_dtor(zend_string_path);
+    zend_string_release(zend_string_path);
 #else
 	ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
 #endif
@@ -124,7 +124,7 @@ int zephir_require_once_ret(zval *return_value_ptr, const char *require_path)
 	zend_stream_init_filename_ex(&file_handle, zend_string_path);
     ret = php_stream_open_for_zend_ex(&file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
 
-    zval_ptr_dtor(zend_string_path);
+    zend_string_release(zend_string_path);
 #else
 	ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
 #endif

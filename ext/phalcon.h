@@ -309,6 +309,7 @@
 #include "phalcon/filter/sanitize/email.zep.h"
 #include "phalcon/filter/sanitize/floatval.zep.h"
 #include "phalcon/filter/sanitize/intval.zep.h"
+#include "phalcon/filter/sanitize/ip.zep.h"
 #include "phalcon/filter/sanitize/lower.zep.h"
 #include "phalcon/filter/sanitize/lowerfirst.zep.h"
 #include "phalcon/filter/sanitize/regex.zep.h"
