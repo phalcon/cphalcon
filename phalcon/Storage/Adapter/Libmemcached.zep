@@ -130,7 +130,7 @@ class Libmemcached extends AbstractAdapter
                     saslUser = this->getArrVal(sasl, "user", ""),
                     saslPass = this->getArrVal(sasl, "pass", ""),
                     failover = [
-                        \Memcached::OPT_CONNECT_TIMEOUT       : 10,
+                        \Memcached::OPT_CONNECT_TIMEOUT       : 50,
                         \Memcached::OPT_DISTRIBUTION          : \Memcached::DISTRIBUTION_CONSISTENT,
                         \Memcached::OPT_SERVER_FAILURE_LIMIT  : 2,
                         \Memcached::OPT_REMOVE_FAILED_SERVERS : true,
