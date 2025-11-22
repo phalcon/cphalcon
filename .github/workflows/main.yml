@@ -37,7 +37,7 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
@@ -55,7 +55,7 @@ jobs:
 
     name: Check code style
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
