@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -229,33 +228,33 @@ abstract class AbstractFile extends AbstractValidator
     ) -> bool {
         var files, label, length, method, post, replacePairs, server, value;
 
-    let value  = validation->getValue(field);
-    let server = [];
-    let post   = [];
-    let files  = [];
-    let method = "GET";
-    let length = 0;
+        let value  = validation->getValue(field);
+        let server = [];
+        let post   = [];
+        let files  = [];
+        let method = "GET";
+        let length = 0;
 
-    // Skip all max size and POST-size checks when ignoreCheckUploadedFile is true
-    if this->getOption("ignoreCheckUploadedFile") {
-        return true;
-    }
+        // Skip all max size and POST-size checks when ignoreCheckUploadedFile is true
+        if this->getOption("ignoreCheckUploadedFile") {
+            return true;
+        }
 
-    if _SERVER {
-        let server = _SERVER;
-    }
-    if _POST {
-        let post = _POST;
-    }
-    if _FILES {
-        let files = _FILES;
-    }
-    if isset(server["REQUEST_METHOD"]) {
-        let method = server["REQUEST_METHOD"];
-    }
-    if isset(server["CONTENT_LENGTH"]) {
-        let length = server["CONTENT_LENGTH"];
-    }
+        if _SERVER {
+            let server = _SERVER;
+        }
+        if _POST {
+            let post = _POST;
+        }
+        if _FILES {
+            let files = _FILES;
+        }
+        if isset(server["REQUEST_METHOD"]) {
+            let method = server["REQUEST_METHOD"];
+        }
+        if isset(server["CONTENT_LENGTH"]) {
+            let length = server["CONTENT_LENGTH"];
+        }
 
         // Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
         if (
@@ -272,20 +271,20 @@ abstract class AbstractFile extends AbstractValidator
                 ":field" : label
             ];
 
-        validation->appendMessage(
-            new Message(
-                strtr(this->getMessageIniSize(), replacePairs),
-                field,
-                get_class(this),
-                this->prepareCode(field)
-            )
-        );
+            validation->appendMessage(
+                new Message(
+                    strtr(this->getMessageIniSize(), replacePairs),
+                    field,
+                    get_class(this),
+                    this->prepareCode(field)
+                )
+            );
 
-        return false;
+            return false;
+        }
+
+        return true;
     }
-
-    return true;
-}
 
     /**
      * Convert a string like "2.5MB" in bytes
