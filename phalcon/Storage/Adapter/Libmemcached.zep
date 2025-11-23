@@ -136,7 +136,7 @@ class Libmemcached extends AbstractAdapter
                         \Memcached::OPT_REMOVE_FAILED_SERVERS : true,
                         \Memcached::OPT_RETRY_TIMEOUT         : 1
                     ],
-                    client   = array_merge(failover, client);
+                    client   = array_replace(failover, client);
 
                 this
                     ->setOptions(connection, client)
