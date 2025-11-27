@@ -590,7 +590,7 @@ class Crypt implements CryptInterface
     {
         var available, lower, method;
 
-        if "hash" === cipher {
+        if "hash" === type {
             let method = "getAvailableHashAlgorithms";
         } else {
             let method = "getAvailableCiphers";
