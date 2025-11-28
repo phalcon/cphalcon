@@ -165,6 +165,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected uniqueTypes = [];
 
     /**
+     * @var string
+     */
+     protected modelUUID;
+
+    /**
      * Phalcon\Mvc\Model constructor
      */
     final public function __construct(
@@ -6040,4 +6045,39 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
     }
+
+
+    /**
+     * set the model UUID for session cache
+     *
+     * @var string uuid
+     * @return void
+     */
+    public function setModelUUID(string uuid) -> void
+    {
+        let this->modelUUID = uuid;
+    }
+
+    /**
+     * get the model UUID for session cache
+     *
+     * @return string
+     */
+    public function getModelUUID() -> string
+    {
+        return this->modelUUID;
+    }
+
+    /**
+     * Used to destroy reference in WeakCache
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        if true === globals_get("orm.session_cache") {
+            this->modelsManager->getSessionCache()->delete(this->modelUUID);
+        }
+    }
+
 }

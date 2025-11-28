@@ -18,7 +18,7 @@ namespace Phalcon\Tests\Fixtures\Migrations;
  */
 class OrdersProductsMigration extends AbstractMigration
 {
-    protected $table = "co_orders_x_products";
+    protected $table = "private.co_orders_x_products";
 
     /**
      * @param int $oxp_ord_id
@@ -35,7 +35,7 @@ class OrdersProductsMigration extends AbstractMigration
         $oxp_prd_id   = $oxp_prd_id ?: 'null';
         $oxp_quantity = $oxp_quantity ?: 'null';
         $sql    = <<<SQL
-insert into co_order_products (
+insert into private.co_orders_x_products (
     oxp_ord_id, oxp_prd_id, oxp_quantity
 ) values (
     {$oxp_ord_id}, {$oxp_prd_id}, {$oxp_quantity}
