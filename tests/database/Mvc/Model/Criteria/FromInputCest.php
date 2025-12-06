@@ -51,7 +51,7 @@ class FromInputCest
      * @group  mysql
      * @group  sqlite
      */
-    public function mvcModelCriteriaFromInputMysql(DatabaseTester $I)
+    public function mvcModelCriteriaFromInputMysql(DatabaseTester $I): void
     {
         $I->wantToTest('Mvc\Model\Criteria - fromInput()');
 

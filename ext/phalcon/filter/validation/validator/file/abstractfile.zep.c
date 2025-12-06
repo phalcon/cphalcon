@@ -116,20 +116,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUpload)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&field);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 	zephir_get_strval(&field, field_param);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkuploadmaxsize", NULL, 0, validation, &field);
 	zephir_check_call_status();
 	_1 = zephir_is_true(&_0);
@@ -178,20 +172,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 	ZVAL_UNDEF(&_10$$3);
 	ZVAL_UNDEF(&_11$$3);
 	ZVAL_UNDEF(&field);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 	zephir_get_strval(&field, field_param);
-
-
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&value) == IS_ARRAY;
@@ -267,20 +255,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&field);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 	zephir_get_strval(&field, field_param);
-
-
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&value) == IS_ARRAY;
@@ -358,23 +340,17 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 	ZVAL_UNDEF(&_11$$8);
 	ZVAL_UNDEF(&_12$$8);
 	ZVAL_UNDEF(&field);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_FILES, SL("_FILES"));
 	zephir_get_global(&_POST, SL("_POST"));
 	zephir_get_global(&_SERVER, SL("_SERVER"));
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 	zephir_get_strval(&field, field_param);
-
-
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&server);
@@ -469,7 +445,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *size_param = NULL, byteUnits, matches, unit, _0, _1, _2, _3, _4, _5, _6, _7, _8;
 	zval size;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&size);
 	ZVAL_UNDEF(&byteUnits);
@@ -484,19 +459,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(size)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &size_param);
 	zephir_get_strval(&size, size_param);
-
-
 	ZEPHIR_INIT_VAR(&byteUnits);
 	zephir_create_array(&byteUnits, 9, 0);
 	add_assoc_long_ex(&byteUnits, SL("B"), 0);
@@ -527,11 +496,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	zephir_array_fetch_long(&_4, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
 	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 18, &_4);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_array_fetch(&_7, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
-	ZVAL_LONG(&_8, 2);
-	zephir_pow_function(&_6, &_8, &_7);
-	mul_function(return_value, &_5, &_6);
+	zephir_array_fetch(&_6, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
+	ZVAL_LONG(&_7, 2);
+	ZEPHIR_CALL_FUNCTION(&_8, "pow", NULL, 19, &_7, &_6);
+	zephir_check_call_status();
+	mul_function(return_value, &_5, &_8);
 	RETURN_MM();
 }
 
@@ -542,9 +511,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFileEmpty)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "messageFileEmpty");
 }
@@ -556,9 +522,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFile
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniSize)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "messageIniSize");
 }
@@ -570,9 +533,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniS
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageValid)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "messageValid");
 }
@@ -593,26 +553,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval field;
 	zval *validation, validation_sub, *field_param = NULL, value, _3;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&field);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 	zephir_get_strval(&field, field_param);
-
-
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
 	_0 = 1 == ZEPHIR_IS_EMPTY(&value);
@@ -646,19 +599,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFile
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message_param);
 	zephir_get_strval(&message, message_param);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messageFileEmpty"), &message);
 	ZEPHIR_MM_RESTORE();
 }
@@ -678,19 +625,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniS
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message_param);
 	zephir_get_strval(&message, message_param);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messageIniSize"), &message);
 	ZEPHIR_MM_RESTORE();
 }
@@ -710,19 +651,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageVali
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message_param);
 	zephir_get_strval(&message, message_param);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messageValid"), &message);
 	ZEPHIR_MM_RESTORE();
 }
@@ -741,23 +676,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploade
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 19, &name);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 20, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -24,8 +24,6 @@ use function date;
 use function intval;
 use function uniqid;
 
-/**
- */
 class GetSetLabelCest
 {
     /**
@@ -34,7 +32,7 @@ class GetSetLabelCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function filterValidationGetLabel(IntegrationTester $I)
+    public function filterValidationGetLabel(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getLabel()');
         $validator  = new PresenceOf();

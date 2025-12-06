@@ -97,11 +97,14 @@ class MimeType extends AbstractFile
         }
 
         if function_exists("finfo_open") {
-            let tmp = finfo_open(FILEINFO_MIME_TYPE),
-                mime = finfo_file(tmp, value["tmp_name"]);
+            let tmp = finfo_open(FILEINFO_MIME_TYPE);
+            if (tmp) {
+                let mime = finfo_file(tmp, value["tmp_name"]);
+                finfo_close(tmp);
+            }
+        }
 
-            finfo_close(tmp);
-        } else {
+        if (!mime) {
             let mime = value["type"];
         }
 

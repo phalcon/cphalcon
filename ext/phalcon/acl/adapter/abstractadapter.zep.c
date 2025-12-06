@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -73,9 +73,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeAccess");
 }
@@ -85,9 +82,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeComponent");
 }
@@ -98,9 +92,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeRole");
 }
@@ -110,9 +101,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "defaultAccess");
 }
@@ -127,19 +115,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(defaultAccess)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
-	defaultAccess = zephir_get_intval(defaultAccess_param);
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, defaultAccess);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
 }

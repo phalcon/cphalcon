@@ -11,10 +11,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/di/injectionawareinterface.zep.c
 	phalcon/html/helper/abstracthelper.zep.c
+	phalcon/events/eventsawareinterface.zep.c
 	phalcon/filter/validation/validatorinterface.zep.c
 	phalcon/filter/validation/abstractvalidator.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
-	phalcon/events/eventsawareinterface.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
@@ -49,7 +49,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/interfaces/linkinterface.zep.c
 	phalcon/html/link/interfaces/linkproviderinterface.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
-	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
@@ -69,6 +68,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/formatter/formatterinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
+	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/mvc/view/engine/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter/abstractadapter.zep.c
@@ -251,7 +251,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/query/queryfactory.zep.c
 	phalcon/datamapper/query/select.zep.c
 	phalcon/datamapper/query/update.zep.c
-	phalcon/db/abstractdb.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
 	phalcon/db/adapter/pdo/postgresql.zep.c
 	phalcon/db/adapter/pdo/sqlite.zep.c
@@ -389,6 +388,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/helper/anchor.zep.c
 	phalcon/html/helper/base.zep.c
 	phalcon/html/helper/body.zep.c
+	phalcon/html/helper/breadcrumbs.zep.c
 	phalcon/html/helper/button.zep.c
 	phalcon/html/helper/close.zep.c
 	phalcon/html/helper/doctype.zep.c

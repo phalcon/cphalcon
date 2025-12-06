@@ -1144,9 +1144,60 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a "set" statement returning PHP code
+     * Compiles a "set" statement returning PHP code. The method accepts an
+     * array produced by the Volt parser and creates the `set` statement in PHP.
+     * This method is not particularly useful in development, since it requires
+     * advanced knowledge of the Volt parser.
      *
-     * @param array statement
+     * ```php
+     * <?php
+     *
+     * use Phalcon\Mvc\View\Engine\Volt\Compiler;
+     *
+     * $compiler = new Compiler();
+     *
+     * // {% set a = ['first': 1] %}
+
+     * $source = [
+     *     "type" => 306,
+     *     "assignments" => [
+     *         [
+     *             "variable" => [
+     *                 "type" => 265,
+     *                 "value" => "a",
+     *                 "file" => "eval code",
+     *                 "line" => 1
+     *             ],
+     *             "op" => 61,
+     *             "expr" => [
+     *                 "type" => 360,
+     *                 "left" => [
+     *                     [
+     *                         "expr" => [
+     *                             "type" => 258,
+     *                             "value" => "1",
+     *                             "file" => "eval code",
+     *                             "line" => 1
+     *                         ],
+     *                         "name" => "first",
+     *                         "file" => "eval code",
+     *                         "line" => 1
+     *                     ]
+     *                 ],
+     *                 "file" => "eval code",
+     *                 "line" => 1
+     *             ],
+     *             "file" => "eval code",
+     *             "line" => 1
+     *         ]
+     *     ]
+     * ];
+     *
+     * echo $compiler->compileSet($source);
+     * // <?php $a = ['first' => 1]; ?>";
+     * ```
+     *
+     * @param array $statement
      *
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
@@ -2195,7 +2246,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a Volt source code returning a PHP plain version
      */
-    protected function compileSource(string! viewCode, bool extendsMode = false) -> string
+    protected function compileSource(string! viewCode, bool extendsMode = false) -> array | string
     {
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,
@@ -2499,7 +2550,11 @@ class Compiler implements InjectionAwareInterface
                 return "$this->length(" . arguments . ")";
             case "lower":
             case "lowercase":
-                return "strtolower(" . arguments . ")";
+                if this->container !== null && true === this->container->has("helper") {
+                    return "$this->helper->lower(" . arguments . ")";
+                } else {
+                    return "strtolower(" . arguments . ")";
+                }
             case "right_trim":
                 return "rtrim(" . arguments . ")";
             case "nl2br":
@@ -2518,7 +2573,11 @@ class Compiler implements InjectionAwareInterface
                 return "trim(" . arguments . ")";
             case "upper":
             case "uppercase":
-                return "strtoupper(" . arguments . ")";
+                if this->container !== null && true === this->container->has("helper") {
+                    return "$this->helper->upper(" . arguments . ")";
+                } else {
+                    return "strtoupper(" . arguments . ")";
+                }
             case "url_encode":
                 return "urlencode(" . arguments . ")";
         }

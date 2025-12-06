@@ -527,7 +527,7 @@ abstract class AbstractAdapter implements AdapterInterface
         );
 
         let y    = this->checkHighLow(
-            offsetX,
+            offsetY,
             0,
             this->height - watermark->getHeight()
         );

@@ -27,8 +27,11 @@ use stdClass;
  *
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
+ *
+ * @template TKey of int
+ * @template TValue of mixed
  */
-class Complex extends Resultset implements ResultsetInterface
+class Complex extends Resultset
 {
     /**
      * @var array
@@ -285,7 +288,8 @@ class Complex extends Resultset implements ResultsetInterface
     }
 
     /**
-     * Serializing a resultset will dump all related rows into a big array
+     * Serializing a resultset will dump all related rows into a big array,
+     * serialize it and return the resulting string
      */
     public function serialize() -> string
     {

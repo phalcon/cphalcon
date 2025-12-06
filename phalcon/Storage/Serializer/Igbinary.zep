@@ -17,7 +17,7 @@ class Igbinary extends AbstractSerializer
      *
      * @return string
      */
-    public function serialize()
+    public function serialize() -> string
     {
         var result;
 

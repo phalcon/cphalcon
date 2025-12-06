@@ -98,6 +98,44 @@ class ExceptionsCest
     }
 
     /**
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - failed ssl
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function storageAdapterRedisGetSetFailedSslLocalhost(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - failed ssl');
+
+        $I->checkExtensionIsLoaded('redis');
+
+        /**
+         * Trying a different exception catch because Codeception does not
+         * like empty messages
+         */
+        $thrown = false;
+        try {
+            $serializer      = new SerializerFactory();
+            $options         = getOptionsRedis();
+            $options['host'] = 'tls://127.0.0.1';
+            $options['ssl']  = [
+                'verify_peer_name' => '127.0.0.1',
+                'verify_peer'      => false,
+            ];
+
+            $adapter = new Redis($serializer, $options);
+
+            $adapter->get('test');
+        } catch (StorageException $ex) {
+            $thrown = true;
+        }
+
+        $I->assertTrue($thrown);
+    }
+
+    /**
      * Tests Phalcon\Storage\Adapter\Stream :: get() - errors
      *
      * @param IntegrationTester $I
@@ -111,6 +149,10 @@ class ExceptionsCest
     public function storageAdapterStreamGetErrors(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
+
+        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
+            $I->markTestSkipped('Invalid `unserialize()` will generate warning but still works.');
+        }
 
         $serializer = new SerializerFactory();
         $adapter    = new Stream(

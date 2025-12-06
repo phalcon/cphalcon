@@ -81,6 +81,7 @@ use Serializable;
  *     echo "Great, a new robot was saved successfully!";
  * }
  * ```
+ * @template T of static
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
@@ -390,7 +391,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -923,9 +924,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap;
+        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes;
 
         let instance = clone base;
+        if instance instanceof Model {
+            let metaData = instance->getModelsMetaData();
+            let notNullAttributes = metaData->getNotNullAttributes(instance);
+        } else {
+            let metaData = null;
+            let notNullAttributes = [];
+        }
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
@@ -939,6 +947,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
+            if value === null && in_array(key, notNullAttributes) {
+                continue;
+            }
+
             if typeof columnMap !== "array" {
                 let instance->{key} = value;
 
@@ -948,8 +960,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             // Every field must be part of the column map
             if !fetch attribute, columnMap[key] {
                 if typeof columnMap === "array" && !empty columnMap {
-                    let metaData = instance->getModelsMetaData();
-
+                    if metaData === null {
+                        let metaData = instance->getModelsMetaData();
+                    }
+                    
                     let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !globals_get("orm.ignore_unknown_columns") {
@@ -1183,6 +1197,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
         var result;
+
+        /**
+         * Removing `order by` for postgresql
+         */
+        if (isset(parameters["order"])) {
+            unset parameters["order"];
+        }
 
         let result = self::groupResult("COUNT", "rowcount", parameters);
 
@@ -1623,8 +1644,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ],
      *     'hydration' => null
      * ]
+     * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
      */
-    public static function find(var parameters = null) -> <ResultsetInterface>
+    public static function find(var parameters = null)
     {
         var params, query, resultset, hydration;
 
@@ -1741,7 +1763,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'hydration' => null
      * ]
      *
-     * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+     * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
      */
     public static function findFirst(var parameters = null) -> var | null
     {
@@ -2777,14 +2799,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Serializes the object ignoring connections, services, related objects or
      * static properties
      */
-    public function serialize() -> string
+    public function serialize() -> string | null
     {
         /**
          * Use the standard serialize function to serialize the array data
          */
         var attributes, manager, dirtyState, snapshot = null;
 
-        let attributes = this->toArray(),
+        let attributes = this->toArray(null, false),
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
@@ -2804,7 +2826,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Unserializes the object from a serialized string
      */
-    public function unserialize(var data)
+    public function unserialize(string data) -> void
     {
         var attributes, container, manager, key, value, snapshot, properties, dirtyState;
 
@@ -3275,9 +3297,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array $columns
      */
-    public function toArray(columns = null) -> array
+    public function toArray(columns = null, useGetter = true) -> array
     {
-        var metaData, columnMap, attribute, attributeField, value;
+        var attribute, attributeField, columnMap, metaData, method;
         array data;
 
         let data = [],
@@ -3316,8 +3338,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
             }
 
-            if fetch value, this->{attributeField} {
-                let data[attributeField] = value;
+            /**
+             * Check if there is a getter for this property
+             */
+            let method = "get" . camelize(attributeField);
+
+            /**
+             * Do not use the getter if the field name is `source` (getSource)
+             */
+            if true === useGetter && "getSource" !== method && method_exists(this, method) {
+                let data[attributeField] = this->{method}();
+            } elseif isset(this->{attributeField}) {
+                let data[attributeField] = this->{attributeField};
             } else {
                 let data[attributeField] = null;
             }
@@ -3328,17 +3360,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Updates a model instance. If the instance doesn't exist in the
-     * persistence it will throw an exception. Returning true on success or
-     * false otherwise.
+     * persistence it will throw an exception. Returning `true` on success or
+     * `false` otherwise.
      *
-     *```php
-     * // Updating a robot name
-     * $robot = Robots::findFirst("id = 100");
+     * ```php
+     * <?php
      *
-     * $robot->name = "Biomass";
+     * use MyApp\Models\Invoices;
      *
-     * $robot->update();
-     *```
+     * $invoice = Invoices::findFirst('inv_id = 4');
+     *
+     * $invoice->inv_total = 120;
+     *
+     * $invoice->update();
+     * ```
+     *
+     * !!! warning "NOTE"
+     *
+     *     When retrieving the record with `findFirst()`, you need to get the full
+     *     object back (no `columns` definition) but also retrieve it using the
+     *     primary key. If not, the ORM will issue an `INSERT` instead of `UPDATE`.
      */
     public function update() -> bool
     {

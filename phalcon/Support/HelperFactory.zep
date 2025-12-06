@@ -26,8 +26,10 @@ use Phalcon\Factory\AbstractFactory;
  * @method string decrement(string $text, string $separator = '_')
  * @method string dirFromFile(string $file)
  * @method string dirSeparator(string $directory)
+ * @method string dynamic(string $text, string $leftDelimiter = "{", string $rightDelimiter = "}", string $separator = "|")
  * @method string encode($data, int $options = 0, int $depth = 512)
  * @method bool   endsWith(string $haystack, string $needle, bool $ignoreCase = true)
+ * @method mixed  filter(array $collection, callable|null $method)
  * @method mixed  first(array $collection, callable $method = null)
  * @method string firstBetween(string $text, string $start, string $end)
  * @method mixed  firstKey(array $collection, callable $method = null)
@@ -39,6 +41,7 @@ use Phalcon\Factory\AbstractFactory;
  * @method string humanize(string $text)
  * @method bool   includes(string $haystack, string $needle)
  * @method string increment(string $text, string $separator = '_')
+ * @method string interpolate(string $message, array $context = [], string $leftToken = "%", string $rightToken = "%")
  * @method bool   isAnagram(string $first, string $second)
  * @method bool   isBetween(int $value, int $start, int $end)
  * @method bool   isLower(string $text, string $encoding = 'UTF-8')
@@ -108,7 +111,12 @@ class HelperFactory extends AbstractFactory
      */
     public function newInstance(string name)
     {
-        return create_instance(this->getService(name));
+        if (true !== isset(this->services[name])) {
+            let this->services[name] = create_instance(this->getService(name));
+        }
+
+        return this->services[name];
+
     }
 
     /**

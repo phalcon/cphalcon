@@ -74,7 +74,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_6$$5);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(text)
@@ -83,10 +82,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 		Z_PARAM_BOOL(lowercase)
 		Z_PARAM_ZVAL_OR_NULL(replace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 3, &text_param, &separator_param, &lowercase_param, &replace);
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
@@ -114,16 +111,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	if (!lowercase_param) {
 		lowercase = 1;
 	} else {
-		lowercase = zephir_get_boolval(lowercase_param);
-	}
+		}
 	if (!replace) {
 		replace = &replace_sub;
 		ZEPHIR_CPY_WRT(replace, &__$null);
 	} else {
 		ZEPHIR_SEPARATE_PARAM(replace);
 	}
-
-
 	if (zephir_is_true(replace)) {
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "checkreplace", NULL, 0, replace);
 		zephir_check_call_status();
@@ -145,7 +139,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZVAL_STRING(&_4, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 40, &_4, &_5, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 41, &_4, &_5, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_6$$5);
@@ -154,7 +148,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 40, &_4, &separator, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 41, &_4, &separator, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_7);
 	zephir_fast_trim(return_value, &friendly, &separator, ZEPHIR_TRIM_BOTH);
@@ -172,23 +166,16 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *replace = NULL, replace_sub, _1$$4;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&replace_sub);
 	ZVAL_UNDEF(&_1$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(replace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &replace);
 	ZEPHIR_SEPARATE_PARAM(replace);
-
-
 	_0 = Z_TYPE_P(replace) != IS_ARRAY;
 	if (_0) {
 		_0 = Z_TYPE_P(replace) != IS_STRING;
@@ -219,7 +206,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *replace_param = NULL, item, *_0, _1, _2$$3, _3$$4;
 	zval replace, matrix;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&replace);
 	ZVAL_UNDEF(&matrix);
@@ -227,19 +213,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(replace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &replace_param);
 	zephir_get_arrval(&replace, replace_param);
-
-
 	ZEPHIR_INIT_VAR(&matrix);
 	zephir_create_array(&matrix, 79, 0);
 	add_assoc_stringl_ex(&matrix, SL("Š"), SL("S"));

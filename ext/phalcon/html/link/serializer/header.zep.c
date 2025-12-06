@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *links_param = NULL, attributes, key, link, rels, result, subValue, value, *_0, _1, _2$$3, _3$$3, _4$$3, *_5$$3, _6$$3, _19$$3, _20$$3, *_9$$6, _10$$6, _11$$7, _12$$8, _13$$9, *_14$$12, _15$$12, _16$$13, _17$$14, _18$$15, _21$$17, _22$$17, _23$$17, _24$$17, *_25$$17, _26$$17, _39$$17, _40$$17, *_29$$20, _30$$20, _31$$21, _32$$22, _33$$23, *_34$$26, _35$$26, _36$$27, _37$$28, _38$$29;
 	zval links, elements, parts;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&links);
 	ZVAL_UNDEF(&elements);
@@ -93,19 +92,13 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 	ZVAL_UNDEF(&_36$$27);
 	ZVAL_UNDEF(&_37$$28);
 	ZVAL_UNDEF(&_38$$29);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(links)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &links_param);
 	zephir_get_arrval(&links, links_param);
-
-
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_NULL(&result);
 	ZEPHIR_INIT_VAR(&elements);

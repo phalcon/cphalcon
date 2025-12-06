@@ -478,10 +478,12 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @param array|object data
      * @param object entity
+     *
+     * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages>
+    public function validate(var data = null, var entity = null) -> <Messages> | bool
     {
-        var combinedFieldsValidators, field, messages, scope, status, validator,
+        var combinedFieldsValidators, field, scope, status, validator,
             validatorData, validators;
 
         let validatorData            = this->validators,
@@ -499,7 +501,7 @@ class Validation extends Injectable implements ValidationInterface
         /**
          * Implicitly creates a Phalcon\Messages\Messages object
          */
-        let messages = new Messages();
+        let this->messages = new Messages();
 
         if entity !== null {
             this->setEntity(entity);
@@ -509,14 +511,12 @@ class Validation extends Injectable implements ValidationInterface
          * Validation classes can implement the 'beforeValidation' callback
          */
         if method_exists(this, "beforeValidation") {
-            let status = this->{"beforeValidation"}(data, entity, messages);
+            let status = this->{"beforeValidation"}(data, entity, this->messages);
 
             if status === false {
                 return status;
             }
         }
-
-        let this->messages = messages;
 
         if data !== null {
             if unlikely (typeof data != "array" && typeof data != "object") {

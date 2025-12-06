@@ -20,9 +20,6 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use stdClass;
 
-/**
- * Class GetMessagesCest
- */
 class GetMessagesCest
 {
     /**
@@ -31,7 +28,7 @@ class GetMessagesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function filterValidationGetMessages(IntegrationTester $I)
+    public function filterValidationGetMessages(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - getMessages()');
 

@@ -29,11 +29,29 @@ class BoolVal
         let trueArray  = ["true", "on", "yes", "y", "1"],
             falseArray = ["false", "off", "no", "n", "0"];
 
-        if true === in_array(input, trueArray) {
+        /**
+         * If it is not "bool" return false
+         */
+        if (true !== (is_string(input) || is_int(input) || is_bool(input))) {
+            return false;
+        }
+
+        /**
+         * If it is a string, trim it and convert to lowercase
+         */
+        let input = is_string(input) ? mb_strtolower(trim(input)) : input;
+
+        /**
+         * Check the value in the true array
+         */
+        if (true === input || true === in_array(input, trueArray)) {
             return true;
         }
 
-        if true === in_array(input, falseArray) {
+        /**
+         * Check the value in the false array
+         */
+        if (false === input || true === in_array(input, falseArray)) {
             return false;
         }
 

@@ -57,16 +57,12 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &attributes_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -74,8 +70,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -113,24 +107,18 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	ZVAL_UNDEF(&httpEquiv);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(httpEquiv)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &httpEquiv_param, &content_param);
 	zephir_get_strval(&httpEquiv, httpEquiv_param);
 	zephir_get_strval(&content, content_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 328, &_0, &httpEquiv, &content);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 332, &_0, &httpEquiv, &content);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -153,24 +141,18 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
 	zephir_get_strval(&name, name_param);
 	zephir_get_strval(&content, content_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 328, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 332, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -193,24 +175,18 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
 	zephir_get_strval(&name, name_param);
 	zephir_get_strval(&content, content_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 328, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 332, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -220,9 +196,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, getTag)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("meta");
 }
@@ -248,23 +221,17 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addElement)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&attributes);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(element)
 		Z_PARAM_STR(value)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &element_param, &value_param, &content_param);
 	zephir_get_strval(&element, element_param);
 	zephir_get_strval(&value, value_param);
 	zephir_get_strval(&content, content_param);
-
-
 	ZEPHIR_INIT_VAR(&attributes);
 	zephir_create_array(&attributes, 2, 0);
 	zephir_array_update_zval(&attributes, &element, &value, PH_COPY);

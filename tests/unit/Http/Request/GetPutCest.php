@@ -189,4 +189,49 @@ class GetPutCest
 
         $_SERVER = $store;
     }
+
+    /**
+     * Tests Phalcon\Http\Request :: getPut() - x-www-form-urlencoded
+     *
+     * @issue  @16519
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-29
+     */
+    public function httpRequestGetPutApplicationtXWwwFormUrlencoded(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getPut() - x-www-form-urlencoded');
+
+        stream_wrapper_unregister('php');
+        stream_wrapper_register('php', PhpStream::class);
+
+        file_put_contents('php://input', 'fruit=orange&quantity=4');
+
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_METHOD'     => 'PUT',
+            'CONTENT_TYPE'       => "application/x-www-form-urlencoded",
+        ];
+
+        $request = new Request();
+
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
+
+        $actual = file_get_contents('php://input');
+
+        $I->assertSame("fruit=orange&quantity=4", $actual);
+
+        $I->assertSame(
+            $expected,
+            $request->getPut()
+        );
+
+        stream_wrapper_restore('php');
+
+        $_SERVER = $store;
+    }
 }

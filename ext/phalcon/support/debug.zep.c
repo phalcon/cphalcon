@@ -91,9 +91,8 @@ PHP_METHOD(Phalcon_Support_Debug, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_version_ce);
@@ -116,9 +115,8 @@ PHP_METHOD(Phalcon_Support_Debug, clearVars)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
@@ -143,18 +141,12 @@ PHP_METHOD(Phalcon_Support_Debug, debugVar)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(varz)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &varz);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	zephir_array_fast_append(&_0, varz);
@@ -180,9 +172,8 @@ PHP_METHOD(Phalcon_Support_Debug, getCssSources)
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&sources);
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("uri"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&uri, &_0);
@@ -203,9 +194,8 @@ PHP_METHOD(Phalcon_Support_Debug, getJsSources)
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&sources);
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("uri"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&uri, &_0);
@@ -229,9 +219,8 @@ PHP_METHOD(Phalcon_Support_Debug, getVersion)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("version"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, 0);
@@ -253,9 +242,6 @@ PHP_METHOD(Phalcon_Support_Debug, getVersion)
  */
 PHP_METHOD(Phalcon_Support_Debug, halt)
 {
-	zval *this_ptr = getThis();
-
-
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_support_debug_exception_ce, "Halted request", "phalcon/Support/Debug.zep", 169);
 	return;
@@ -275,30 +261,22 @@ PHP_METHOD(Phalcon_Support_Debug, listen)
 	zend_bool exceptions, lowSeverity;
 	zval *this_ptr = getThis();
 
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(exceptions)
 		Z_PARAM_BOOL(lowSeverity)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 2, &exceptions_param, &lowSeverity_param);
 	if (!exceptions_param) {
 		exceptions = 1;
 	} else {
-		exceptions = zephir_get_boolval(exceptions_param);
-	}
+		}
 	if (!lowSeverity_param) {
 		lowSeverity = 0;
 	} else {
-		lowSeverity = zephir_get_boolval(lowSeverity_param);
-	}
-
-
+		}
 	if (exceptions) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "listenexceptions", NULL, 0);
 		zephir_check_call_status();
@@ -323,9 +301,8 @@ PHP_METHOD(Phalcon_Support_Debug, listenExceptions)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
@@ -352,9 +329,8 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
@@ -362,7 +338,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 134, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 135, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -392,22 +368,16 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &exception);
-
-
 	ZEPHIR_CALL_FUNCTION(&obLevel, "ob_get_level", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(&obLevel, 0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 488);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 492);
 		zephir_check_call_status();
 	}
 	zephir_read_static_property_ce(&_0, phalcon_support_debug_ce, SL("isActive"), PH_NOISY_CC | PH_READONLY);
@@ -432,34 +402,25 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtLowSeverity)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *severity, severity_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, _0, _1, _2$$3, _3$$3;
-	zval *this_ptr = getThis();
+	zval *severity, severity_sub, *message, message_sub, *file, file_sub, *line, line_sub, _0, _1, _2$$3, _3$$3;
 
 	ZVAL_UNDEF(&severity_sub);
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&file_sub);
 	ZVAL_UNDEF(&line_sub);
-	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(5, 5)
+	ZEND_PARSE_PARAMETERS_START(4, 4)
 		Z_PARAM_ZVAL(severity)
 		Z_PARAM_ZVAL(message)
 		Z_PARAM_ZVAL(file)
 		Z_PARAM_ZVAL(line)
-		Z_PARAM_ZVAL(context)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 5, 0, &severity, &message, &file, &line, &context);
-
-
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 4, 0, &severity, &message, &file, &line);
 	ZEPHIR_CALL_FUNCTION(&_0, "error_reporting", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
@@ -566,20 +527,14 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 	ZVAL_UNDEF(&_33$$3);
 	ZVAL_UNDEF(&_47$$3);
 	ZVAL_UNDEF(&_57$$21);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_SERVER, SL("_SERVER"));
 	zephir_get_global(&_REQUEST, SL("_REQUEST"));
 	zephir_fetch_params(1, 1, 0, &exception);
-
-
 	ZEPHIR_INIT_VAR(&className);
 	zephir_get_class(&className, exception, 0);
 	ZEPHIR_CALL_METHOD(&_0, exception, "getmessage", NULL, 0);
@@ -603,7 +558,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 	zephir_read_property(&_6, this_ptr, ZEND_STRL("showBackTrace"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&showBackTrace, &_6);
 	if (zephir_is_true(&showBackTrace)) {
-		ZEPHIR_OBS_VAR(&dataVars);
+		zephir_memory_observe(&dataVars);
 		zephir_read_property(&dataVars, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZEPHIR_CONCAT_SSSSSS(&_7$$3, "<div class=\"error-info\"><div id=\"tabs\"><ul>", "<li><a href=\"#error-tabs-1\">Backtrace</a></li>", "<li><a href=\"#error-tabs-2\">Request</a></li>", "<li><a href=\"#error-tabs-3\">Server</a></li>", "<li><a href=\"#error-tabs-4\">Included Files</a></li>", "<li><a href=\"#error-tabs-5\">Memory</a></li>");
@@ -924,19 +879,13 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&_10$$6);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(blacklist)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &blacklist_param);
 	zephir_get_arrval(&blacklist, blacklist_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -1044,18 +993,10 @@ PHP_METHOD(Phalcon_Support_Debug, setShowBackTrace)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(showBackTrace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &showBackTrace_param);
-	showBackTrace = zephir_get_boolval(showBackTrace_param);
-
-
 	if (showBackTrace) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("showBackTrace"), &__$true);
 	} else {
@@ -1078,18 +1019,10 @@ PHP_METHOD(Phalcon_Support_Debug, setShowFileFragment)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(showFileFragment)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &showFileFragment_param);
-	showFileFragment = zephir_get_boolval(showFileFragment_param);
-
-
 	if (showFileFragment) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("showFileFragment"), &__$true);
 	} else {
@@ -1111,18 +1044,10 @@ PHP_METHOD(Phalcon_Support_Debug, setShowFiles)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(showFiles)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &showFiles_param);
-	showFiles = zephir_get_boolval(showFiles_param);
-
-
 	if (showFiles) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("showFiles"), &__$true);
 	} else {
@@ -1144,15 +1069,11 @@ PHP_METHOD(Phalcon_Support_Debug, setUri)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(uri)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &uri_param);
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
@@ -1163,8 +1084,6 @@ PHP_METHOD(Phalcon_Support_Debug, setUri)
 	} else {
 		ZEPHIR_INIT_VAR(&uri);
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &uri);
 	RETURN_THIS();
 }
@@ -1180,7 +1099,6 @@ PHP_METHOD(Phalcon_Support_Debug, escapeString)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *value_param = NULL, _0, _1, _2, _3, _4;
 	zval value;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
@@ -1188,19 +1106,13 @@ PHP_METHOD(Phalcon_Support_Debug, escapeString)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value_param);
 	zephir_get_strval(&value, value_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "\n");
@@ -1251,17 +1163,13 @@ PHP_METHOD(Phalcon_Support_Debug, getArrayDump)
 	ZVAL_UNDEF(&_12$$15);
 	ZVAL_UNDEF(&_13$$16);
 	ZVAL_UNDEF(&_14$$12);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(argument)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(n)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &argument_param, &n);
 	ZEPHIR_OBS_COPY_OR_DUP(&argument, argument_param);
 	if (!n) {
@@ -1269,8 +1177,6 @@ PHP_METHOD(Phalcon_Support_Debug, getArrayDump)
 		ZEPHIR_INIT_VAR(n);
 		ZVAL_LONG(n, 0);
 	}
-
-
 	ZEPHIR_INIT_VAR(&numberArguments);
 	ZVAL_LONG(&numberArguments, zephir_fast_count_int(&argument));
 	_0 = ZEPHIR_GE_LONG(n, 3);
@@ -1388,18 +1294,12 @@ PHP_METHOD(Phalcon_Support_Debug, getVarDump)
 	ZVAL_UNDEF(&dumpedObject);
 	ZVAL_UNDEF(&_0$$8);
 	ZVAL_UNDEF(&_1$$10);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(variable)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &variable);
-
-
 	if (ZEPHIR_IS_TRUE_IDENTICAL(variable)) {
 		RETURN_MM_STRING("true");
 	}
@@ -1537,27 +1437,20 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 	ZVAL_UNDEF(&trace);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_31$$17);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_LONG(n)
 		Z_PARAM_ARRAY(trace)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &n_param, &trace_param);
-	n = zephir_get_intval(n_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&trace, trace_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_LONG(&_0, n);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVS(&_1, "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#", &_0, "</td><td>");
 	ZEPHIR_CPY_WRT(&html, &_1);
-	ZEPHIR_OBS_VAR(&className);
+	zephir_memory_observe(&className);
 	if (zephir_array_isset_string_fetch(&className, &trace, SL("class"), 0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -1582,7 +1475,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 153, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 154, &className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_11$$5, &classReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
@@ -1607,7 +1500,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		zephir_array_fetch_string(&_16$$3, &trace, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Support/Debug.zep", 739);
 		zephir_concat_self(&html, &_16$$3);
 	}
-	ZEPHIR_OBS_VAR(&functionName);
+	zephir_memory_observe(&functionName);
 	zephir_array_fetch_string(&functionName, &trace, SL("function"), PH_NOISY, "phalcon/Support/Debug.zep", 745);
 	if (zephir_array_isset_string(&trace, SL("class"))) {
 		ZEPHIR_CPY_WRT(&functionNameWithLink, &functionName);
@@ -1615,7 +1508,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		if ((zephir_function_exists(&functionName) == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 150, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 151, &functionName);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_17$$10, &functionReflection, "isinternal", NULL, 0);
 			zephir_check_call_status();
@@ -1638,7 +1531,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 	ZEPHIR_INIT_VAR(&_20);
 	ZEPHIR_CONCAT_SVS(&_20, "<span class=\"error-function\">", &functionNameWithLink, "</span>");
 	zephir_concat_self(&html, &_20);
-	ZEPHIR_OBS_VAR(&traceArgs);
+	zephir_memory_observe(&traceArgs);
 	if (zephir_array_isset_string_fetch(&traceArgs, &trace, SL("args"), 0)) {
 		ZEPHIR_INIT_VAR(&arguments);
 		array_init(&arguments);
@@ -1681,9 +1574,9 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		ZEPHIR_CONCAT_SVS(&_29$$14, "(", &_28$$14, ")");
 		zephir_concat_self(&html, &_29$$14);
 	}
-	ZEPHIR_OBS_VAR(&filez);
+	zephir_memory_observe(&filez);
 	if (zephir_array_isset_string_fetch(&filez, &trace, SL("file"), 0)) {
-		ZEPHIR_OBS_VAR(&_30$$17);
+		zephir_memory_observe(&_30$$17);
 		zephir_array_fetch_string(&_30$$17, &trace, SL("line"), PH_NOISY, "phalcon/Support/Debug.zep", 808);
 		zephir_cast_to_string(&_31$$17, &_30$$17);
 		ZEPHIR_CPY_WRT(&line, &_31$$17);
@@ -1794,14 +1687,12 @@ PHP_METHOD(Phalcon_Support_Debug, getArrVal)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&value);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ARRAY(collection)
@@ -1809,23 +1700,20 @@ PHP_METHOD(Phalcon_Support_Debug, getArrVal)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
 	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-
-
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 1)))) {
+	zephir_memory_observe(&value);
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	RETURN_CTOR(&value);
+	RETURN_CCTOR(&value);
 }
 
 zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type)
@@ -1840,7 +1728,8 @@ zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *clas
 	ZVAL_UNDEF(&_3$$4);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

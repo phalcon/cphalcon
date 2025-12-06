@@ -16,7 +16,9 @@
 #include <php.h>
 #include <ext/standard/php_string.h>
 #include <ext/standard/php_math.h>
+#if PHP_VERSION_ID < 80400
 #include <ext/standard/php_rand.h>
+#endif
 
 #include "php_ext.h"
 #include "kernel/main.h"

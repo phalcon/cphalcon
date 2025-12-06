@@ -11,16 +11,20 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.4.0"
+#define PHP_PHALCON_VERSION     "5.9.3"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.17.0-9f99da6"
+#define PHP_PHALCON_ZEPVERSION  "0.18.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
 	zend_bool force_casting;
 } zephir_struct_db;
+
+typedef struct _zephir_struct_form { 
+	zend_bool strict_entity_property_check;
+} zephir_struct_form;
 
 typedef struct _zephir_struct_orm { 
 	HashTable*  ast_cache;
@@ -69,6 +73,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	
 	zephir_struct_db db;
+	zephir_struct_form form;
 	zephir_struct_orm orm;
 	zephir_struct_warning warning;
 

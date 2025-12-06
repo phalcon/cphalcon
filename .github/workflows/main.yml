@@ -19,9 +19,8 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.4.0
-  ZEPHIR_PARSER_VERSION: 1.5.3
-  ZEPHIR_VERSION: 0.17.0
+  PHALCON_VERSION: 5.9.3
+  ZEPHIR_PARSER_VERSION: 1.6.1
 
   # For tests
   LANG: en_US.UTF-8
@@ -41,16 +40,15 @@ jobs:
   # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows#limitations
   setup_workflow:
     name: Setup workflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       zephir_extensions: ${{ steps.setup-zephir-ext.outputs.extensions }}
 
     steps:
-    - id: setup-zephir-ext
-      name: Setup Zephir Extensions
-      run: |
-        echo "::set-output name=extensions::zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}"
-#        echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_ENV" # Need to change the templates to use this
+      - id: setup-zephir-ext
+        name: Setup Zephir Extensions
+        run: |
+          echo "extensions=zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}" >> "$GITHUB_OUTPUT"
 
 
   # PHP CodeSniffer inspection
@@ -58,9 +56,14 @@ jobs:
     permissions:
       contents: read
 
-    uses: zephir-lang/templates/.github/workflows/phpcs.yml@main
-    with:
-      standard: ./phpcs.xml
+    name: Check code style
+
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
 
   # Generate stubs and validates with PSALM
   stubs:
@@ -71,10 +74,10 @@ jobs:
 
   generate:
     needs: setup_workflow
-    uses: zephir-lang/templates/.github/workflows/phalcon-pecl.yml@main
+    uses: zephir-lang/templates/.github/workflows/phalcon-pecl-zephir-composer.yml@main
     with:
       extensions: ${{ needs.setup_workflow.outputs.zephir_extensions }}
-      php_version: '8.2'
+      php_version: '8.4'
     secrets:
       composer-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -88,28 +91,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
         ts: [ 'nts', 'ts' ]
         arch: [ 'x64' ]
 
         name:
           - ubuntu-gcc
-          - macos-clang
+
+        # Removing temporarily macos builds since it fails due to the container setup
+        #          - macos-clang
 
         # matrix names should be in next format:
         #     {php}-{ts}-{os.name}-{compiler}-{arch}
         include:
           # Linux
-          - { name: ubuntu-gcc, os: ubuntu-20.04, compiler: gcc }
-          # macOS
-          - { name: macos-clang, os: macos-12, compiler: clang }
+          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
+          #          # macOS
+          #          - { name: macos-clang, os: macos-latest, compiler: clang }
           # Windows
-          - { php: '7.4', ts: 'ts',  arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
-          - { php: '7.4', ts: 'nts', arch: 'x64', name: 'windows2019-vc15', os: 'windows-2019', compiler: 'vc15' }
-          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
-          - { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #          - { php: '8.0', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #          - { php: '8.0', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.1', ts: 'ts',  arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
+          #- { php: '8.1', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
           # Most of the extensions wasn't compiled for PHP 8.2.
           # So it is not possible to test in this version, inside Windows OS.
           # List of .dlls - https://windows.php.net/downloads/pecl/releases/
@@ -117,7 +120,7 @@ jobs:
           #- { php: '8.2', ts: 'nts', arch: 'x64', name: 'windows2019-vs16', os: 'windows-2019', compiler: 'vs16' }
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -127,7 +130,7 @@ jobs:
           Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.32.0
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -139,7 +142,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -182,7 +185,7 @@ jobs:
             $PhalconExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
           echo "::set-output name=extension-path::$PhalconExtPath"
-#          echo "extension-path=$PhalconExtPath" >> "$GITHUB_ENV" # This needs to be checked, used below somehow
+      #          echo "extension-path=$PhalconExtPath" >> "$GITHUB_OUTPUT"
 
       - name: Creates build artifact with Phalcon extension
         uses: ./.github/actions/pack-phalcon-ext
@@ -194,9 +197,9 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
         with:
-          composer-options: "--prefer-dist"
+          composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
         shell: bash
@@ -272,13 +275,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.32.0
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -288,7 +291,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: phalcon-pecl
           path: ./phalcon-pecl
@@ -309,9 +312,9 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: "Install development dependencies with Composer"
-        uses: "ramsey/composer-install@v2"
+        uses: ramsey/composer-install@v3
         with:
-          composer-options: "--prefer-dist"
+          composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
         run: |
@@ -368,12 +371,6 @@ jobs:
         if: always()
         run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
 
-      # - name: Run Database Tests (SQL Server)
-      #   env:
-      #     DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-      #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-      #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
-
   release:
     permissions:
       contents: write # to create a release (ncipollo/release-action)
@@ -385,17 +382,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get the release version
         id: get-version
-        run: |
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-#          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV" # This needs to be checked
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: ./build-artifacts
 
@@ -411,8 +406,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: ${{ steps.get-version.outputs.version }}
-          tag: ${{ steps.get-version.outputs.version }}
+          name: ${{ env.version }}
+          tag: ${{ env.version }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
           artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"

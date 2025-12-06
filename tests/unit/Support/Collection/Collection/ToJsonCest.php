@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection\Collection;
 
-use Codeception\Util\Stub;
+use Codeception\Stub;
 use Phalcon\Support\Collection;
 use UnitTester;
 

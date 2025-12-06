@@ -352,17 +352,13 @@ class Select extends AbstractConditions
 
     /**
      * Resets the internal collections
-     *
-     * @return Select
      */
-    public function reset() -> <Select>
+    public function reset() -> void
     {
         parent::reset();
 
         let this->asAlias   = "",
             this->forUpdate = false;
-
-        return this;
     }
 
     /**

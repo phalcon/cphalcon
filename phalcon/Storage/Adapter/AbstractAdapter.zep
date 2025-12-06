@@ -13,6 +13,8 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Exception;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
@@ -30,7 +32,7 @@ use Phalcon\Support\Exception as SupportException;
  * @property SerializerInterface $serializer
  * @property SerializerFactory   $serializerFactory
  */
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * @var mixed
@@ -74,6 +76,20 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var SerializerFactory
      */
     protected serializerFactory;
+
+    /**
+     * Event Manager
+     *
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
+
+    /**
+     * EventType prefix.
+     *
+     * @var string
+     */
+    protected eventType = "storage";
 
     /**
      * AbstractAdapter constructor.
@@ -143,15 +159,22 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function get(string key, defaultValue = null) -> var
     {
-        var content;
+        var content, result;
 
-        if (true !== this->has(key)) {
+        this->fire(this->eventType . ":beforeGet", key);
+
+        let content  = this->doGet(key);
+        if (content === false) {
+            this->fire(this->eventType . ":afterGet", key);
+
             return defaultValue;
         }
 
-        let content  = this->doGet(key);
+        let result = this->getUnserializedData(content, defaultValue);
 
-        return this->getUnserializedData(content, defaultValue);
+        this->fire(this->eventType . ":afterGet", key);
+
+        return result;
     }
 
     /**
@@ -184,6 +207,16 @@ abstract class AbstractAdapter implements AdapterInterface
     abstract public function getKeys(string prefix = "") -> array;
 
     /**
+     * Returns the lifetime
+     *
+     * @return int
+     */
+    public function getLifetime() -> int
+    {
+        return this->lifetime;
+    }
+
+    /**
      * Returns the prefix
      *
      * @return string
@@ -191,6 +224,16 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getPrefix() -> string
     {
         return this->prefix;
+    }
+
+    /**
+     * Get the serializer
+     *
+     * @return SerializerInterface
+     */
+    public function getSerializer() -> <SerializerInterface>
+    {
+        return this->serializer;
     }
 
     /**
@@ -383,5 +426,36 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return value;
+    }
+
+    /**
+     * Sets the event manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Get the event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Trigger an event for the eventsManager.
+     *
+     * @var string $eventName
+     * @var mixed $keys
+     */
+    protected function fire(string eventName, var keys) -> void
+    {
+        if (this->eventsManager === null) {
+            return;
+        }
+
+        this->eventsManager->fire(eventName, this, keys, false);
     }
 }

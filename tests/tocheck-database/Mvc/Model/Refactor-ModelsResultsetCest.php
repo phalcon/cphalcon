@@ -439,7 +439,7 @@ class ModelsResultsetCest
     {
         $this->setDiSqlite();
 
-        // Resultsets count > 25 use fetch for one row at a time
+        // resultsets count > 25 use fetch for one row at a time
         $personas = Personas::find([
             'limit' => 33,
         ]);

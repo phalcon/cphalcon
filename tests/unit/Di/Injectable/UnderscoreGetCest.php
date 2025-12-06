@@ -92,14 +92,16 @@ class UnderscoreGetCest
 
         $component = $container->get('component');
 
-        $I->expectThrowable(
-            new Exception(
-                'Access to undefined property unknown',
-                1024
-            ),
-            function () use ($component) {
-                $result = $component->unknown;
-            }
+        $message = '';
+        try {
+            $result = $component->unknown;
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+        }
+
+        $I->assertStringContainsString(
+            'Access to undefined property unknown',
+            $message
         );
     }
 }

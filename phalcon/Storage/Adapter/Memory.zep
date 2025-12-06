@@ -65,6 +65,8 @@ class Memory extends AbstractAdapter
     {
         var current, newValue, prefixedKey, result;
 
+        this->fire(this->eventType . ":beforeDecrement", key);
+
         let prefixedKey = this->getPrefixedKey(key),
             result      = array_key_exists(prefixedKey, this->data);
 
@@ -75,6 +77,8 @@ class Memory extends AbstractAdapter
 
             let this->data[prefixedKey] = newValue;
         }
+
+        this->fire(this->eventType . ":afterDecrement", key);
 
         return result;
     }
@@ -90,10 +94,14 @@ class Memory extends AbstractAdapter
     {
         var exists, prefixedKey;
 
+        this->fire(this->eventType . ":beforeDelete", key);
+
         let prefixedKey = this->getPrefixedKey(key),
             exists      = array_key_exists(prefixedKey, this->data);
 
         unset(this->data[prefixedKey]);
+
+        this->fire(this->eventType . ":afterDelete", key);
 
         return exists;
     }
@@ -119,11 +127,17 @@ class Memory extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var prefixedKey;
+        var prefixedKey, result;
 
         let prefixedKey = this->getPrefixedKey(key);
 
-        return array_key_exists(prefixedKey, this->data);
+        this->fire(this->eventType . ":beforeHas", key);
+
+        let result = array_key_exists(prefixedKey, this->data);
+
+        this->fire(this->eventType . ":afterHas", key);
+
+        return result;
     }
 
     /**
@@ -138,6 +152,8 @@ class Memory extends AbstractAdapter
     {
         var current, newValue, prefixedKey, result;
 
+        this->fire(this->eventType . ":beforeIncrement", key);
+
         let prefixedKey = this->getPrefixedKey(key),
             result      = array_key_exists(prefixedKey, this->data);
 
@@ -148,6 +164,8 @@ class Memory extends AbstractAdapter
 
             let this->data[prefixedKey] = newValue;
         }
+
+        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -168,16 +186,24 @@ class Memory extends AbstractAdapter
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var content, prefixedKey;
+        var content, prefixedKey, result;
+
+        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
-            return this->delete(key);
+            let result = this->delete(key);
+
+            this->fire(this->eventType . ":afterSet", key);
+
+            return result;
         }
 
         let content     = this->getSerializedData(value),
             prefixedKey = this->getPrefixedKey(key);
 
         let this->data[prefixedKey] = content;
+
+        this->fire(this->eventType . ":afterSet", key);
 
         return true;
     }

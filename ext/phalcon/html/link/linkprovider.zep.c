@@ -47,10 +47,8 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
-
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dogetlinks", NULL, 0);
 	zephir_check_call_status();
@@ -73,18 +71,12 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rel_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(rel)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &rel);
-
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dogetlinksbyrel", NULL, 0, rel);
 	zephir_check_call_status();
 	RETURN_MM();

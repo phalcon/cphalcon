@@ -167,15 +167,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 	ZVAL_UNDEF(&_39$$39);
 	ZVAL_UNDEF(&_40$$40);
 	ZVAL_UNDEF(&_17$$20);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(uri)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &uri_param);
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
@@ -186,8 +182,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 	} else {
 		ZEPHIR_INIT_VAR(&uri);
 	}
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) == IS_NULL) {
@@ -283,19 +277,19 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 			return;
 		}
 		if (Z_TYPE_P(&module) == IS_ARRAY) {
-			ZEPHIR_OBS_VAR(&className);
+			zephir_memory_observe(&className);
 			if (!(zephir_array_isset_string_fetch(&className, &module, SL("className"), 0))) {
 				ZEPHIR_INIT_NVAR(&className);
 				ZVAL_STRING(&className, "Module");
 			}
-			ZEPHIR_OBS_VAR(&path);
+			zephir_memory_observe(&path);
 			if (zephir_array_isset_string_fetch(&path, &module, SL("path"), 0)) {
 				if (UNEXPECTED(!((zephir_file_exists(&path) == SUCCESS)))) {
 					ZEPHIR_INIT_VAR(&_14$$18);
 					object_init_ex(&_14$$18, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_15$$18);
 					ZEPHIR_CONCAT_SVS(&_15$$18, "Module definition path '", &path, "' doesn't exist");
-					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 32, &_15$$18);
+					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 33, &_15$$18);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_14$$18, "phalcon/Mvc/Application.zep", 218);
 					ZEPHIR_MM_RESTORE();
@@ -486,18 +480,10 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(sendCookies)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &sendCookies_param);
-	sendCookies = zephir_get_boolval(sendCookies_param);
-
-
 	if (sendCookies) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$true);
 	} else {
@@ -517,18 +503,10 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(sendHeaders)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &sendHeaders_param);
-	sendHeaders = zephir_get_boolval(sendHeaders_param);
-
-
 	if (sendHeaders) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$true);
 	} else {
@@ -549,18 +527,10 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(implicitView)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &implicitView_param);
-	implicitView = zephir_get_boolval(implicitView_param);
-
-
 	if (implicitView) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$true);
 	} else {

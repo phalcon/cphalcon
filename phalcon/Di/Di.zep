@@ -388,7 +388,7 @@ class Di implements DiInterface
      * ];
      * ```
      *
-     * @link https://docs.phalcon.io/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/latest/di/
      */
     public function loadFromPhp(string! filePath) -> void
     {
@@ -430,7 +430,7 @@ class Di implements DiInterface
      *    className: \Acme\User
      * ```
      *
-     * @link https://docs.phalcon.io/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/latest/di/
      */
     public function loadFromYaml(string! filePath, array! callbacks = null) -> void
     {
@@ -476,9 +476,9 @@ class Di implements DiInterface
      * $di["request"] = new \Phalcon\Http\Request();
      *```
      */
-    public function offsetSet(mixed name, mixed definition) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
-        this->setShared(name, definition);
+        this->setShared(offset, value);
     }
 
     /**

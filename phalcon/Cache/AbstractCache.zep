@@ -13,12 +13,14 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\InvalidArgumentException;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Traversable;
 
 /**
  * This component offers caching capabilities for your application.
  */
-abstract class AbstractCache implements CacheInterface
+abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 {
     /**
      * The adapter
@@ -26,6 +28,13 @@ abstract class AbstractCache implements CacheInterface
      * @var AdapterInterface
      */
     protected adapter;
+
+    /**
+     * Event Manager
+     *
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
 
     /**
      * Constructor.
@@ -45,6 +54,22 @@ abstract class AbstractCache implements CacheInterface
     public function getAdapter() -> <AdapterInterface>
     {
         return this->adapter;
+    }
+
+    /**
+     * Sets the event manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Get the event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
     }
 
     /**
@@ -108,9 +133,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doDelete(string key) -> bool
     {
+        var result;
+
+        this->fire("cache:beforeDelete", key);
+
         this->checkKey(key);
 
-        return this->adapter->delete(key);
+        let result = this->adapter->delete(key);
+
+        this->fire("cache:afterDelete", key);
+
+        return result;
     }
 
     /**
@@ -122,12 +155,16 @@ abstract class AbstractCache implements CacheInterface
 
         this->checkKeys(keys);
 
+        this->fire("cache:beforeDeleteMultiple", keys);
+
         let result = true;
         for key in keys {
             if (true !== this->adapter->delete(key)) {
                 let result = false;
             }
         }
+
+        this->fire("cache:afterDeleteMultiple", keys);
 
         return result;
     }
@@ -144,26 +181,55 @@ abstract class AbstractCache implements CacheInterface
      * @throws InvalidArgumentException MUST be thrown if the $key string is
      * not a legal value.
      */
-    protected function doGet(string key, var defaultValue = null)
+    protected function doGet(string key, var defaultValue = null) -> var
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->get(key, defaultValue);
+        this->fire("cache:beforeGet", key);
+
+        let result = this->adapter->get(key, defaultValue);
+
+        this->fire("cache:afterGet", key);
+
+        return result;
     }
 
     /**
      * Obtains multiple cache items by their unique keys.
      */
-    protected function doGetMultiple(var keys, var defaultValue = null)
+    protected function doGetMultiple(var keys, var defaultValue = null) -> array
     {
-        var element, results;
+        var adapterClass, element, results, serializer;
 
         this->checkKeys(keys);
 
+        this->fire("cache:beforeGetMultiple", keys);
+
         let results = [];
-        for element in keys {
-            let results[element] = this->get(element, defaultValue);
-        }
+        if (adapterClass === "Phalcon\Cache\Adapter\Redis") {
+             let results    = this->adapter->getAdapter()->mget(keys);
+             let serializer = this->adapter->getSerializer();
+             let results    = array_map(
+                 function (element) use (serializer, defaultValue) {
+                     serializer->unserialize(element);
+                     return false === element
+                         ? defaultValue
+                         : serializer->getData()
+                     ;
+                 },
+                 results
+             );
+
+             let results = array_combine(keys, results);
+         } else {
+             for element in keys {
+                 let results[element] = this->get(element, defaultValue);
+             }
+         }
+
+        this->fire("cache:afterGetMultiple", keys);
 
         return results;
     }
@@ -180,9 +246,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doHas(string key) -> bool
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->has(key);
+        this->fire("cache:beforeHas", key);
+
+        let result = this->adapter->has(key);
+
+        this->fire("cache:afterHas", key);
+
+        return result;
     }
 
     /**
@@ -205,9 +279,17 @@ abstract class AbstractCache implements CacheInterface
      */
     protected function doSet(string key, var value, var ttl = null) -> bool
     {
+        var result;
+
         this->checkKey(key);
 
-        return this->adapter->set(key, value, ttl);
+        this->fire("cache:beforeSet", key);
+
+        let result = this->adapter->set(key, value, ttl);
+
+        this->fire("cache:afterSet", key);
+
+        return result;
     }
 
     /**
@@ -219,6 +301,8 @@ abstract class AbstractCache implements CacheInterface
 
         this->checkKeys(values);
 
+        this->fire("cache:beforeSetMultiple", array_keys(values));
+
         let result = true;
         for key, value in values {
             if (true !== this->set(key, value, ttl)) {
@@ -226,7 +310,24 @@ abstract class AbstractCache implements CacheInterface
             }
         }
 
+        this->fire("cache:afterSetMultiple", array_keys(values));
+
         return result;
+    }
+
+    /**
+     * Trigger an event for the eventsManager.
+     *
+     * @var string $eventName
+     * @var mixed $keys
+     */
+    protected function fire(string eventName, var keys) -> void
+    {
+        if (this->eventsManager === null) {
+            return;
+        }
+
+        this->eventsManager->fire(eventName, this, keys, false);
     }
 
     /**

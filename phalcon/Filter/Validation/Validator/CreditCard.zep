@@ -97,12 +97,15 @@ class CreditCard extends AbstractValidator
      */
     private function verifyByLuhnAlgorithm(string number) -> bool
     {
-        var digit, position, hash = "", result;
-        array digits;
+        var digit, digits, position, hash = "", result;
 
-        let digits = (array) str_split(number);
+        if (ctype_digit(number) === false) {
+            return false;
+        }
 
-        for position, digit in digits->reversed() {
+        let digits = array_reverse(str_split(number));
+
+        for position, digit in digits {
             let hash .= (position % 2 ? digit * 2 : digit);
         }
 

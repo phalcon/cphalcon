@@ -25,7 +25,7 @@ class BindCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function filterValidationBind(IntegrationTester $I)
+    public function filterValidationBind(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - bind()');
 

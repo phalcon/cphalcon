@@ -12,6 +12,7 @@ namespace Phalcon\Html;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\Helper\Breadcrumbs;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Color;
@@ -59,6 +60,7 @@ use Phalcon\Html\Link\Link;
  *
  * @method string        a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string        base(string $href, array $attributes = [])
+ * @method Breadcrumbs   breadcrumbs(string $indent = '    ', string $delimiter = "\n")
  * @method string        body(array $attributes = [])
  * @method string        button(string $text, array $attributes = [], bool $raw = false)
  * @method string        close(string $tag, bool $raw = false)
@@ -204,6 +206,7 @@ class TagFactory extends AbstractFactory
         return [
             "a"                  : "Phalcon\\Html\\Helper\\Anchor",
             "base"               : "Phalcon\\Html\\Helper\\Base",
+            "breadcrumbs"        : "Phalcon\\Html\\Helper\\Breadcrumbs",
             "body"               : "Phalcon\\Html\\Helper\\Body",
             "button"             : "Phalcon\\Html\\Helper\\Button",
             "close"              : "Phalcon\\Html\\Helper\\Close",

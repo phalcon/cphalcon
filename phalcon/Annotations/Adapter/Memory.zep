@@ -23,6 +23,10 @@ class Memory extends AbstractAdapter
      */
     protected data;
 
+    public function __construct()
+    {
+    }
+
     /**
      * Reads parsed annotations from memory
      */

@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, write);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, getArrVal);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, getDirSeparator);
+PHP_METHOD(Phalcon_Session_Adapter_Stream, getGlobFiles);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFileExists);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFileGetContents);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFilePutContents);
@@ -19,42 +20,28 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGet);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIsWritable);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_destroy, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, sessionId)
+	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 80100
-ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_stream_gc, 0, 1, MAY_BE_LONG|MAY_BE_FALSE)
-    ZEND_ARG_TYPE_INFO(0, maxlifetime, IS_LONG, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_stream_gc, 0, 1, MAY_BE_LONG|MAY_BE_FALSE)
+	ZEND_ARG_TYPE_INFO(0, max_lifetime, IS_LONG, 0)
 ZEND_END_ARG_INFO()
-#elif PHP_VERSION_ID >= 80000
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream_gc, 0, 0, 1)
-    ZEND_ARG_TYPE_INFO(0, maxlifetime, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream_gc, 0, 0, 1)
-    ZEND_ARG_INFO(0, maxlifetime)
-ZEND_END_ARG_INFO()
-#endif
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_open, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, savePath)
-	ZEND_ARG_INFO(0, sessionName)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_read, 0, 1, IS_STRING, 0)
-	ZEND_ARG_INFO(0, sessionId)
+	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_write, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, sessionId)
+	ZEND_ARG_INFO(0, id)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
@@ -67,6 +54,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_getdirseparator, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream_getglobfiles, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream_phpfileexists, 0, 0, 1)
@@ -106,6 +97,7 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter_Stream, write, arginfo_phalcon_session_adapter_stream_write, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, getArrVal, arginfo_phalcon_session_adapter_stream_getarrval, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, getDirSeparator, arginfo_phalcon_session_adapter_stream_getdirseparator, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Session_Adapter_Stream, getGlobFiles, arginfo_phalcon_session_adapter_stream_getglobfiles, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFileExists, arginfo_phalcon_session_adapter_stream_phpfileexists, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFileGetContents, arginfo_phalcon_session_adapter_stream_phpfilegetcontents, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFilePutContents, arginfo_phalcon_session_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED)

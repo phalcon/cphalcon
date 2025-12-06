@@ -18,4 +18,5 @@ use Phalcon\Storage\Adapter\Memory as StorageMemory;
  */
 class Memory extends StorageMemory implements CacheAdapterInterface
 {
+    protected eventType = "cache";
 }

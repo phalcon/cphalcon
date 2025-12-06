@@ -70,22 +70,16 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	ZVAL_UNDEF(&messageStr);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&validationMessages);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(validationMessages)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&validationMessages, validationMessages_param);
-
-
 	if (zephir_fast_count_int(&validationMessages) > 0) {
-		ZEPHIR_OBS_VAR(&message);
+		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
@@ -105,9 +99,6 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "messages");
 }
@@ -117,9 +108,6 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages)
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "model");
 }
@@ -132,7 +120,8 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed(zend_clas
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

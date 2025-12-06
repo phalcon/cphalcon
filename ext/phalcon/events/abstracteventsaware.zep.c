@@ -47,9 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_AbstractEventsAware)
  */
 PHP_METHOD(Phalcon_Events_AbstractEventsAware, getEventsManager)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "eventsManager");
 }
@@ -65,17 +62,10 @@ PHP_METHOD(Phalcon_Events_AbstractEventsAware, setEventsManager)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 }
 
@@ -103,7 +93,6 @@ PHP_METHOD(Phalcon_Events_AbstractEventsAware, fireManagerEvent)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(eventName)
@@ -111,10 +100,8 @@ PHP_METHOD(Phalcon_Events_AbstractEventsAware, fireManagerEvent)
 		Z_PARAM_ZVAL_OR_NULL(data)
 		Z_PARAM_BOOL(cancellable)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &eventName_param, &data, &cancellable_param);
 	zephir_get_strval(&eventName, eventName_param);
 	if (!data) {
@@ -124,10 +111,7 @@ PHP_METHOD(Phalcon_Events_AbstractEventsAware, fireManagerEvent)
 	if (!cancellable_param) {
 		cancellable = 1;
 	} else {
-		cancellable = zephir_get_boolval(cancellable_param);
-	}
-
-
+		}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);

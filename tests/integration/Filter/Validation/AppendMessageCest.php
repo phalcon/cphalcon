@@ -20,9 +20,6 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use stdClass;
 
-/**
- * Class AppendMessageCest
- */
 class AppendMessageCest
 {
     /**
@@ -31,7 +28,7 @@ class AppendMessageCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function filterValidationAppendMessage(IntegrationTester $I)
+    public function filterValidationAppendMessage(IntegrationTester $I): void
     {
         $I->wantToTest('Validation - appendMessage()');
         $validator  = new PresenceOf();

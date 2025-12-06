@@ -129,14 +129,14 @@ class GetKeysCest
                 version_compare($memcachedServerVersion, '1.4.23', '>=') &&
                 version_compare($memcachedExtensionVersion, '3.0.1', '<')
             ) {
-                $I->skipTest(
+                $I->markTestSkipped(
                     'getAllKeys() does not work in certain Memcached versions'
                 );
             }
 
             // https://github.com/php-memcached-dev/php-memcached/issues/367
             if (version_compare($memcachedServerVersion, '1.5.0', '>=')) {
-                $I->skipTest(
+                $I->markTestSkipped(
                     'getAllKeys() does not work in certain Memcached versions'
                 );
             }

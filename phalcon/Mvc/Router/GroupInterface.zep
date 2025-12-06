@@ -193,7 +193,7 @@ interface GroupInterface
     /**
      * Returns the hostname restriction
      */
-    public function getHostname() -> string;
+    public function getHostname() -> string | null;
 
     /**
      * Returns the common paths defined for this group

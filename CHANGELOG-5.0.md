@@ -1,5 +1,215 @@
 # Changelog
 
+## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
+
+### Changed
+- Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
+
+### Added
+ 
+- Added `Phalcon\Mvc\Router::setUriSource()` to allow URI processing from `$_GET['url']` or `$_SERVER['REQUEST_URI']` as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Router` to correctly handle numeric URI parts as it was in v3 [#16741](https://github.com/phalcon/cphalcon/issues/16741)
+- Fixed `Phalcon\Mvc\Model\Binder` to use ReflectionParameter::getType() instead of deprecated method, PHP 8.0 or higher issue. [#16742](https://github.com/phalcon/cphalcon/issues/16742)
+- Fixed `Phalcon\Mvc\Model\Query` to check if cache entry exists. [#16747](https://github.com/phalcon/cphalcon/issues/16747)
+- Fixed `Phalcon\Mvc\Router` to correctly match route when using query string URIs. [#16749](https://github.com/phalcon/cphalcon/issues/16749)
+- Fixed `Phalcon\Mvc\Model::cloneResultset` to properly parse fields that do not accept `null` values [#16736](https://github.com/phalcon/cphalcon/issues/16736)
+
+### Removed
+
+## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Translate\Adapter\Csv` the `escape` argument is explicitly required in PHP 8.4  [#16733](https://github.com/phalcon/cphalcon/issues/16733)
+- Fixed `Phalcon\Mvc\Model\Query` to use the cacheOptions lifetime over the "cache" service lifetime
+
+### Removed
+
+## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-03-31)
+
+### Changed
+
+- Changed `Phalcon\Storage\Adapter\AbstractAdapter` and dropped `has()` check before receiving the value. [#16705](https://github.com/phalcon/cphalcon/issues/16705)
+
+### Added
+
+- Added `Phalcon\Html\Helper\Breadcrumbs` component to replace the old `Phalcon\Html\Breadcrumbs` component. [#16727](https://github.com/phalcon/cphalcon/issues/16727)
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Micro\LazyLoader::callMethod` to prevent `Unknown named parameter` error [#16724](https://github.com/phalcon/cphalcon/issues/16724)
+
+### Removed
+
+## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
+
+### Changed
+
+- Changed `Phalcon\Filter\Validation\Validator\Email` to allow UTF8 in local part. [#16637](https://github.com/phalcon/cphalcon/issues/16637)
+- Changed `Phalcon\Cache\Cache::getMultiple()` to use `mget()` when the `Phalcon\Cache\Adapter\Redis` is used. [#16689](https://github.com/phalcon/cphalcon/issues/16689)
+- Changed `Storage\Adapter\Redis` to accept `ssl` in the options for secure connections. [#16711](https://github.com/phalcon/cphalcon/issues/16711)
+
+### Added
+- Added `dispatch:beforeCallAction` and `dispatch:afterCallAction` to last-minute modifications to handler and method (mostly for debugging).
+
+### Fixed
+
+- Fixed `Phalcon\Forms\Form` and `Phalcon\Filter\Validation` to correctly handle the `validate()` response when using validation class `beforeValidate()` [#16702](https://github.com/phalcon/cphalcon/issues/16702)
+- Fixed `Phalcon\Support\Debug` to use correct passed arguments in `set_error_handler` callback. PHP v7.2.0 deprecated `errcontext` and has been removed since php v8.0.0 [#16649](https://github.com/phalcon/cphalcon/issues/16686)
+- Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
+- Fixed `Phalcon\Encryption\Crypt` to use `strlen` instead of `mb_strlen` for padding calculations [#16642](https://github.com/phalcon/cphalcon/issues/16642)
+- Fixed `Phalcon\Filter\Validation\Validator\File\MimeType::validate` to close the handle when using `finfo` [#16647](https://github.com/phalcon/cphalcon/issues/16647)
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to explicitly set the `referencedModel` in the conditions along with the `referencedFields` [#16655](https://github.com/phalcon/cphalcon/pull/16655)
+- Fixed `Phalcon\Image\Adapters\AbstractAdapter::watermark` to correctly calculate the Y offset [#16658](https://github.com/phalcon/cphalcon/issues/16658)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher` when calling action methods that do not define parameters to prevent `Unknown named parameter` error.
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
+- Fixed `Phalcon\Filter\Filter` to have the correct docblock for IDE completion
+- Fixed `Phalcon\Mvc\Model\Query` to use the lifetime in the "cache" service if none has been supplied by the options [#16696](https://github.com/phalcon/cphalcon/issues/16696)
+- Fixed `Phalcon\Session\Adapter\Stream::gc()` to throw an exception if something is wrong with `glob()` [#16713](https://github.com/phalcon/cphalcon/issues/16713)
+- Fixed `Phalcon\Http\Request::getBasicAuth()` to return a `null` password if not defined on the server [#16668](https://github.com/phalcon/cphalcon/issues/16668)
+
+### Removed
+
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
+
+### Removed
+
+## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+
+### Changed
+
+- Changed `Phalcon\Mvc\Model`, `Phalcon\Support\Collection` and `Phalcon\Support\Registry` to correctly implement   `\Serializable` interface. [#16591](https://github.com/phalcon/cphalcon/issues/16591)
+- Changed the `Phalcon\Mvc\Router\Group::getHostname()` to return `null` also. [#16601](https://github.com/phalcon/cphalcon/issues/16601)
+- Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource` to also return `array` [#16608](https://github.com/phalcon/cphalcon/issues/16608)
+
+### Added
+
+- Added events and `Phalcon\Events\Manager` for `Phalcon\Storage\Adapter\Apcu`,
+  `Phalcon\Storage\Adapter\Redis`,
+  `Phalcon\Storage\Adapter\Memory`,
+  `Phalcon\Storage\Adapter\Libmemcached`,
+  `Phalcon\Storage\Adapter\Stream`,
+  `Phalcon\Storage\Adapter\Weak`,
+  `Phalcon\Cache\Adapter\Apcu`,
+  `Phalcon\Cache\Adapter\Redis`,
+  `Phalcon\Cache\Adapter\Memory`,
+  `Phalcon\Cache\Adapter\Libmemcached`,
+  `Phalcon\Cache\Adapter\Stream`,
+  `Phalcon\Cache\Adapter\Weak`
+  `Phalcon\Cache\AbstractCache`. [#16606](https://github.com/phalcon/cphalcon/issues/16606)
+ 
+### Fixed
+
+- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+
+### Removed
+
+## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
+
+### Changed
+ 
+- Changed `Phalcon\Support\HelperFactory` to use the internal mapper for better memory management [#16571](https://github.com/phalcon/cphalcon/issues/16571)
+
+### Added
+
+- New ini setting `phalcon.form.strict_entity_property_check` for `Phalcon\Forms\Form` to enable strict entity property checking. [#16567](https://github.com/phalcon/cphalcon/issues/16567)
+ 
+### Fixed
+
+- Fixed `Phalcon\Mvc\Cli\Router` to extend the `Phalcon\Mvc\Cli\RouterInterface` [#16551](https://github.com/phalcon/cphalcon/issues/16551)
+- Fixed `Phalcon\Filter\Validation\Validator\StringLength::validate()` to correctly use the `include` parameter [#16560](https://github.com/phalcon/cphalcon/issues/16560)
+- Fixed `Phalcon\Db\Column::TYPE_BINARY` and `Phalcon\Db\Column::TYPE_TINYINTEGER` to have unique values [#16532](https://github.com/phalcon/cphalcon/issues/16532)
+- Fixed `Phalcon\Forms\Form` to bind only existing properties on entities, based on `phalcon.form.strict_entity_property_check` setting. [#16567](https://github.com/phalcon/cphalcon/issues/16567)
+- Fixed `Phalcon\Filter\Sanitize\BoolVal` to correctly handle integers. [#16582](https://github.com/phalcon/cphalcon/issues/16582)
+
+### Removed
+
+## [5.6.2](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-03-14)
+
+### Changed
+ 
+- Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::filter` to use the helper with `upper` and `lower` for UTF-8 characters [#16543](https://github.com/phalcon/cphalcon/issues/16543)
+- Changed `Phalcon\Di\AbstractInjectionAware` to extend `stdClass` for PHP 8.2 deprecation warnings [#16543](https://github.com/phalcon/cphalcon/issues/16543)
+
+### Added
+ 
+### Fixed
+
+### Removed
+
+## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-02-08)
+
+### Changed
+ 
+- Changed `Phalcon\Cli\Router::setDefaultAction` and `Phalcon\Cli\Router::setDefaultModule` to return the object back for a fluent interface [#16328](https://github.com/phalcon/cphalcon/issues/16328)
+
+### Added
+ 
+### Fixed
+
+- Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` to return the correct string back [#16371](https://github.com/phalcon/cphalcon/issues/16371)
+- Fixed `Phalcon/Filter/Validation::validate()` and `Phalcon/Filter/Validation/ValidationInterface::validate()` to return also `bool` [#16337](https://github.com/phalcon/cphalcon/issues/16337)
+- Fixed `Phalcon\Mvc\Model::toArray` to ignore getters when the field name is `source`. [#16514](https://github.com/phalcon/cphalcon/issues/16514)
+- Fixed `Phalcon\Http\Request::getPut` to correctly get form encoded data [#16519](https://github.com/phalcon/cphalcon/issues/16519)
+- Fixed deprecation warning in callables `Use of "static" in callables is deprecated` for PHP 8.2+ [#16263](https://github.com/phalcon/cphalcon/issues/16263)
+
+### Removed
+
+## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
+
+### Changed
+ 
+- Changed `Phalcon\Db\Adapter\Pdo\Mysql` to not use specific flags for `PDO` (`PDO::ATTR_EMULATE_PREPARES` or `PDO::ATTR_STRINGIFY_FETCHES`) for performance reasons [#16474](https://github.com/phalcon/cphalcon/issues/16474)
+- Merged `Phalcon\Db\AbstractDb` with `Phalcon\Db\Adapter\AbstractAdapter` since the former was not used [#16474](https://github.com/phalcon/cphalcon/issues/16474)
+
+### Added
+ 
+- Added `resetColumns()`, `resetFrom()`, `resetWhere()`, `resetGroupBy()`, `resetHaving()`, `resetOrderBy()`, `resetLimit()`, `resetFlags()` to the `Phalcon\Datamapper\Query\AbstractQuery` to allow resetting query filters.
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Model::count` to ignore the `order` parameter (needed for Posgresql) [#16471](https://github.com/phalcon/cphalcon/issues/16471)
+- Fixed `Phalcon\Mvc\Model::toArray` added parameter to ignore getters in order not to break serialize. [#16490](https://github.com/phalcon/cphalcon/issues/16490)
+- Fixed `Phalcon\Mvc\Model::toArray` changing the conditionals for population to remove segfault. [#16498](https://github.com/phalcon/cphalcon/issues/16498)
+
+### Removed
+
+## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
+
+### Changed
+
+- Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+- Changed `Phalcon\Mvc\Model::toArray` to use getters if present [#16320](https://github.com/phalcon/cphalcon/issues/16320)
+- Adjusted return types identical to original interface `int|false` in `Phalcon\Session\Adapter\*::gc()` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+- Changed return type of `Phalcon\Config\Adapter\Ini::cast()` to `mixed` [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+
+### Added
+
+- Added support for PHP 8.3 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
+
+### Fixed
+
+- Fixed `Phalcon\Filter\Validation\Validator\Numericality` to return false when input has spaces [#16461](https://github.com/phalcon/cphalcon/issues/16461)
+- Fixed `Phalcon\Mvc\Model\ResultsetSimple::toArray` to ignore numeric indexes in case results come as not `fetch_assoc` [#16467](https://github.com/phalcon/cphalcon/issues/16467)
+
+### Removed
+
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
 
 ### Changed

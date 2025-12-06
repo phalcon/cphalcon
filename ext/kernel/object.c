@@ -338,11 +338,7 @@ int zephir_clone(zval *destination, zval *obj)
 			status = FAILURE;
 		} else {
 			if (!EG(exception)) {
-#if PHP_VERSION_ID >= 80000
 				ZVAL_OBJ(destination, clone_call(Z_OBJ_P(obj)));
-#else
-				ZVAL_OBJ(destination, clone_call(obj));
-#endif
 				if (EG(exception)) {
 					zval_ptr_dtor(destination);
 				}
@@ -363,19 +359,11 @@ int zephir_isset_property(zval *object, const char *property_name, unsigned int 
 			return 1;
 		}
 
-#if PHP_VERSION_ID >= 80000
 		return zend_hash_str_exists(
 			Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 			property_name,
 			property_length
 		);
-#else
-		return zend_hash_str_exists(
-			Z_OBJ_HT_P(object)->get_properties(object),
-			property_name,
-			property_length
-		);
-#endif
 	}
 
 	return 0;
@@ -391,19 +379,11 @@ int zephir_isset_property_zval(zval *object, const zval *property)
 			if (EXPECTED(zend_hash_str_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)))) {
 				return 1;
 			} else {
-#if PHP_VERSION_ID >= 80000
 				return zend_hash_str_exists(
 					Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 					Z_STRVAL_P(property),
 					Z_STRLEN_P(property)
 				);
-#else
-				return zend_hash_str_exists(
-					Z_OBJ_HT_P(object)->get_properties(object),
-					Z_STRVAL_P(property),
-					Z_STRLEN_P(property)
-				);
-#endif
 			}
 		}
 	}
@@ -523,15 +503,9 @@ int zephir_read_property(
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
-#if PHP_VERSION_ID >= 80000
 	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), Z_STR(property),
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
-#else
-	res = Z_OBJ_HT_P(object)->read_property(object, &property,
-											flags ? BP_VAR_IS : BP_VAR_R,
-											NULL, &tmp);
-#endif
 
 	if ((flags & PH_READONLY) == PH_READONLY) {
 		ZVAL_COPY_VALUE(result, res);
@@ -674,11 +648,7 @@ int zephir_update_property_zval(
 
 	/* write_property will add 1 to refcount,
 	   so no Z_TRY_ADDREF_P(value) is necessary */
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), Z_STR(property), &sep_value, 0);
-#else
-	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
-#endif
 
 	zval_ptr_dtor(&property);
 
@@ -770,7 +740,7 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -858,7 +828,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -920,7 +890,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp_arr);
-			zephir_ptr_dtor(&tmp_arr);
+			zval_ptr_dtor(&tmp_arr);
 		}
 	}
 
@@ -943,11 +913,7 @@ int zephir_unset_property(zval* object, const char* name)
 
 	/* Use caller's scope */
 	zephir_set_scope(Z_OBJCE_P(object));
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR(member), 0);
-#else
-	Z_OBJ_HT_P(object)->unset_property(object, &member, 0);
-#endif
 	/* Restore original scope */
 	zephir_set_scope(scope);
 
@@ -1261,6 +1227,77 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 }
 
 /**
+ * Copied from php-src source tree for PHP 8.4
+ */
+#if PHP_VERSION_ID < 80400
+static zend_result object_init_with_constructor(zval *arg, zend_class_entry *class_type, uint32_t param_count, zval *params, HashTable *named_params)
+{
+	zend_result status = object_and_properties_init(arg, class_type, NULL);
+	if (UNEXPECTED(status == FAILURE)) {
+		ZVAL_UNDEF(arg);
+		return FAILURE;
+	}
+	zend_object *obj = Z_OBJ_P(arg);
+	zend_function *constructor = obj->handlers->get_constructor(obj);
+	if (constructor == NULL) {
+		/* The constructor can be NULL for 2 different reasons:
+		 * - It is not defined
+		 * - We are not allowed to call the constructor (e.g. private, or internal opaque class)
+		 *   and an exception has been thrown
+		 * in the former case, we are (mostly) done and the object is initialized,
+		 * in the latter we need to destroy the object as initialization failed
+		 */
+		if (UNEXPECTED(EG(exception))) {
+			zval_ptr_dtor(arg);
+			ZVAL_UNDEF(arg);
+			return FAILURE;
+		}
+
+		/* Surprisingly, this is the only case where internal classes will allow to pass extra arguments
+		 * However, if there are named arguments (and it is not empty),
+		 * an Error must be thrown to be consistent with new ClassName() */
+		if (UNEXPECTED(named_params != NULL && zend_hash_num_elements(named_params) != 0)) {
+			/* Throw standard Error */
+			zend_string *arg_name = NULL;
+			zend_hash_get_current_key(named_params, &arg_name, /* num_index */ NULL);
+			ZEND_ASSERT(arg_name != NULL);
+			zend_throw_error(NULL, "Unknown named parameter $%s", ZSTR_VAL(arg_name));
+			/* Do not call destructor, free object, and set arg to IS_UNDEF */
+			zend_object_store_ctor_failed(obj);
+			zval_ptr_dtor(arg);
+			ZVAL_UNDEF(arg);
+			return FAILURE;
+		} else {
+			return SUCCESS;
+		}
+	}
+	/* A constructor should not return a value, however if an exception is thrown
+	 * zend_call_known_function() will set the retval to IS_UNDEF */
+	zval retval;
+	zend_call_known_function(
+		constructor,
+		obj,
+		class_type,
+		&retval,
+		param_count,
+		params,
+		named_params
+	);
+	if (Z_TYPE(retval) == IS_UNDEF) {
+		/* Do not call destructor, free object, and set arg to IS_UNDEF */
+		zend_object_store_ctor_failed(obj);
+		zval_ptr_dtor(arg);
+		ZVAL_UNDEF(arg);
+		return FAILURE;
+	} else {
+		/* Unlikely, but user constructors may return any value they want */
+		zval_ptr_dtor(&retval);
+		return SUCCESS;
+	}
+}
+#endif
+
+/**
  * Creates a new instance dynamically. Call constructor without parameters
  */
 int zephir_create_instance(zval *return_value, const zval *class_name)
@@ -1278,42 +1315,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 		return FAILURE;
 	}
 
-	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
-    	return FAILURE;
-    }
-
-	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
-		zend_object* obj    = Z_OBJ_P(return_value);
-		zend_function* ctor = Z_OBJ_HT_P(return_value)->get_constructor(obj);
-		if (ctor) {
-			zend_fcall_info fci;
-			zend_fcall_info_cache fcc;
-
-			zend_class_entry* ce = Z_OBJCE_P(return_value);
-
-			fci.size             = sizeof(fci);
-			fci.object           = obj;
-			fci.retval           = 0;
-			fci.param_count      = 0;
-			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
-
-			ZVAL_NULL(&fci.function_name);
-
-			fcc.object           = obj;
-			fcc.called_scope     = ce;
-			fcc.calling_scope    = ce;
-			fcc.function_handler = ctor;
-
-			return zend_fcall_info_call(&fci, &fcc, NULL, NULL);
-		}
-	}
-
-	return SUCCESS;
+	return object_init_with_constructor(return_value, ce, 0, NULL, NULL);
 }
 
 /**
@@ -1339,43 +1341,5 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 		return FAILURE;
 	}
 
-	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
-    	return FAILURE;
-    }
-
-	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
-		zend_object* obj    = Z_OBJ_P(return_value);
-		zend_function* ctor = Z_OBJ_HT_P(return_value)->get_constructor(obj);
-		if (ctor) {
-			int status;
-			zend_fcall_info fci;
-			zend_fcall_info_cache fcc;
-
-			zend_class_entry* ce = Z_OBJCE_P(return_value);
-
-			fci.size             = sizeof(fci);
-			fci.object           = obj;
-			fci.retval           = 0;
-			fci.param_count      = 0;
-			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
-			ZVAL_NULL(&fci.function_name);
-
-			fcc.object           = obj;
-			fcc.called_scope     = ce;
-			fcc.calling_scope    = ce;
-			fcc.function_handler = ctor;
-
-			zend_fcall_info_args_ex(&fci, fcc.function_handler, params);
-			status = zend_fcall_info_call(&fci, &fcc, NULL, NULL);
-			zend_fcall_info_args_clear(&fci, 1);
-			return status;
-		}
-	}
-
-	return SUCCESS;
+	return object_init_with_constructor(return_value, ce, 0, NULL, Z_ARRVAL_P(params));
 }

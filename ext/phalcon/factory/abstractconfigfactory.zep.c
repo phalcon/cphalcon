@@ -51,19 +51,13 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-
-
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
 		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
@@ -102,21 +96,15 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&_1$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ARRAY(config)
 		Z_PARAM_STR(element)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &config_param, &element_param);
 	zephir_get_arrval(&config, config_param);
 	zephir_get_strval(&element, element_param);
-
-
 	if (UNEXPECTED(!(zephir_array_isset(&config, &element)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, "You must provide '", &element, "' option in factory config parameter.");
@@ -144,19 +132,13 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getException)
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&exception);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message_param);
 	zephir_get_strval(&message, message_param);
-
-
 	ZEPHIR_CALL_METHOD(&exception, this_ptr, "getexceptionclass", NULL, 0);
 	zephir_check_call_status();
 	zephir_fetch_safe_class(&_0, &exception);
@@ -175,9 +157,6 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getException)
  */
 PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Exception");
 }

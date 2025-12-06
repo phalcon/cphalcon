@@ -29,11 +29,11 @@ asort($iteratorDocs);
 
 $documents = [];
 foreach ($iteratorDocs as $fileName) {
-    $split    = explode(DIRECTORY_SEPARATOR, $fileName);
-    $title    = str_replace('Phalcon\\', '', $fileName);
-    $key      = str_replace('.zep', '', $split[0]);
+    $split = explode(DIRECTORY_SEPARATOR, $fileName);
+    $title = str_replace('Phalcon\\', '', $fileName);
+    $key   = str_replace('.zep', '', $split[0]);
 
-    $documents[$key]['title']           = 'Phalcon\\' . $key;
+    $documents[$key]['title']                      = $key;
     $documents[$key]['docs'][implode('/', $split)] = $fileName;
 
     if (strpos($documents[$key]['title'], 'Url') > 0) {
@@ -48,17 +48,15 @@ ksort($documents);
 foreach ($documents as $document) {
     echo 'Processing: ' . $document['title'] . PHP_EOL;
     $output = "---
-layout: default
-title: '{$document['title']}'
+hide:
+    - navigation
 ---
-{%- include env-setup.html -%}
+
+!!! info \"NOTE\"
+
+    All classes are prefixed with `Phalcon`
+
 ";
-    foreach ($document['docs'] as $file) {
-        $link   = str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $file);
-        $href   = str_replace(['Phalcon\\', '\\'], ['', '-'], strtolower($link));
-        $output .= "
-* [Phalcon\\{$link}](#$href)";
-    }
 
     $outputDoc = str_replace('\\', '_', $document['title']) . '.md';
     foreach ($document['docs'] as $file) {
@@ -72,7 +70,7 @@ title: '{$document['title']}'
         $classComment = $data['comment'] ?? '';
         $namespace    = $data['namespace'] ?? '';
         $uses         = $data['uses'] ?? '';
-        $signature    = $data['signature'] ?? '';
+        $signature    = getSignature($data['signature']);
         $extends      = $data['extends'] ?? '';
         $implements   = $data['implements'] ?? '';
         $constants    = $data['constants'] ?? [];
@@ -83,36 +81,49 @@ title: '{$document['title']}'
         $methods      = array_merge($shortcuts, $methods);
         $methods      = orderMethods($methods);
 
-        $output .= "
-
-<h1 id=\"{$href}\">{$signature}</h1>
-
-[Source on GitHub](https://github.com/phalcon/cphalcon/blob/{{ pageVersion }}.x/phalcon/{$github})
-";
-
-        if (!empty($namespace)) {
-            $output .= "
-| Namespace  | {$namespace} |";
-        }
-
+        $usesOutput = '';
         if (!empty($uses)) {
-            $uses   = implode(', ', $uses);
-            $output .= "
-| Uses       | {$uses} |";
+            sort($uses);
+            foreach ($uses as $use) {
+                $usesOutput .= "
+    - `{$use}`";
+            }
         }
 
+        $extendsOutput = '';
         if (!empty($extends)) {
-            $output .= "
-| Extends    | {$extends} |";
+            $extendsOutput .= "
+    `{$extends}`";
         }
 
+        $implementsOutput = '';
         if (!empty($implements)) {
-            $implements = implode(', ', $implements);
-            $output     .= "
-| Implements | {$implements} |";
+            sort($implements);
+            foreach ($implements as $implement) {
+                $implementsOutput .= "
+    - `{$implement}`";
+            }
         }
 
         $output .= "
+
+## {$signature}
+
+[Source on GitHub](https://github.com/phalcon/cphalcon/blob/5.0.x/phalcon/{$github})
+
+
+-   __Namespace__
+
+    - `{$namespace}`
+
+-   __Uses__
+    {$usesOutput}
+
+-   __Extends__
+    {$extendsOutput}
+
+-   __Implements__
+    {$implementsOutput}
 
 {$classComment}
 ";
@@ -120,7 +131,7 @@ title: '{$document['title']}'
         if (count($constants) > 0) {
             $constants = implode(PHP_EOL, $constants);
             $output    .= "
-## Constants
+### Constants
 ```php
 {$constants}
 ```
@@ -130,7 +141,7 @@ title: '{$document['title']}'
         if (count($properties) > 0) {
             $properties = implode(PHP_EOL, $properties);
             $output     .= "
-## Properties
+### Properties
 ```php
 {$properties}
 ```
@@ -152,14 +163,16 @@ title: '{$document['title']}'
             }
             $signature = implode(PHP_EOL, $elements);
             $output    .= "
-## Methods
+### Methods
 
 {$signature}
 ";
         }
     }
 
-    $outputDoc = strtolower(str_replace('.zep', '', $outputDoc));
+    $outputDoc = strtolower(
+        'phalcon_' . str_replace('.zep', '', $outputDoc)
+    );
 
     file_put_contents(
         $outputDir . $outputDoc,
@@ -167,26 +180,25 @@ title: '{$document['title']}'
     );
 }
 
-// API Json
-$api = [];
-foreach ($documents as $document) {
-    $api[] = [
-        'title' => $document['title'],
-        'docs'  => array_map(
-            function ($value) {
-                return str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $value);
-            },
-            array_values($document['docs'])
-        ),
-    ];
-}
 
-file_put_contents(
-    $outputDir . 'api.json',
-    json_encode($api, JSON_PRETTY_PRINT)
-);
-
-
+//// API Json
+//$api = [];
+//foreach ($documents as $document) {
+//    $api[] = [
+//        'title' => $document['title'],
+//        'docs'  => array_map(
+//            function ($value) {
+//                return str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $value);
+//            },
+//            array_values($document['docs'])
+//        ),
+//    ];
+//}
+//
+//file_put_contents(
+//    $outputDir . 'api.json',
+//    json_encode($api, JSON_PRETTY_PRINT)
+//);
 
 
 /**
@@ -224,17 +236,22 @@ function processDocument(string $file): array
         }
 
         if ('class' === $type || 'interface' === $type) {
-            $signature = '';
+            $signature = [
+                'final'     => false,
+                'abstract'  => false,
+            ];
             if (1 === ($item['final'] ?? 0)) {
-                $signature .= ' Final';
+                $signature['final'] = true;
             }
             if (1 === ($item['abstract'] ?? 0)) {
-                $signature .= ' Abstract';
+                $signature['abstract'] = true;
             }
 
-            $signature           .= ('class' === $type) ? ' Class ' : ' Interface ';
-            $signature           .= $return['namespace'] . '\\' . $item['name'];
-            $return['signature'] = ltrim($signature);
+            $signature['interface'] = ('class' !== $type);
+            $signature['name']      = $return['namespace'] . '\\' . $item['name'];
+            $signature['name']      = str_replace('Phalcon\\', '', $signature['name']);;
+            $return['signature']    = $signature;
+
             //$return['signature'] = ltrim(str_replace('Phalcon\\', '', $signature));
 
             $return['extends'] = $item['extends'] ?? '';
@@ -290,7 +307,7 @@ function parseMethods(array $item): array
 
         $visibility = $method['visibility'] ?? [];
         $signature  = implode(' ', $visibility);
-        $signature .= ' function ' . $method['name'] . '(';
+        $signature  .= ' function ' . $method['name'] . '(';
 
         $params  = $method['parameters'] ?? [];
         $counter = 1;
@@ -375,10 +392,12 @@ function parseProperties(array $item): array
             $signature .= ' ' . $vis;
         }
 
-        $signature .= ' ' . $property['name'];
+        $signature .= ' $' . $property['name'];
 
-        if (isset($property['default']['value'])) {
-            $signature .= ' = ' . $property['default']['value'];
+        $propertyValue = $property['default']['value'] ?? null;
+        if (null !== $propertyValue) {
+            $propertyValue = empty($propertyValue) ? '' : $propertyValue;
+            $signature .= ' = ' . $propertyValue;
         }
 
         $retVal = '';
@@ -475,6 +494,23 @@ function getDocblock(string $source): string
     $doc = implode(PHP_EOL, $linesArray);
 
     return '/' . $doc . '/';
+}
+
+function getSignature(array $signature): string
+{
+    $output = '';
+
+    if ($signature['abstract']) {
+        $output .= '![Abstract](../assets/images/abstract-green.svg) ';
+    };
+    if ($signature['final']) {
+        $output .= '![Final](../assets/images/final-red.svg) ';
+    };
+    if ($signature['interface']) {
+        $output .= '![Interface](../assets/images/interface-blue.svg) ';
+    };
+
+    return $signature['name'] . ' ' . $output;
 }
 
 function orderMethods(array $methods): array

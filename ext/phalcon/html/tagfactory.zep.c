@@ -43,6 +43,7 @@
  *
  * @method string        a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string        base(string $href, array $attributes = [])
+ * @method Breadcrumbs   breadcrumbs(string $indent = '    ', string $delimiter = "\n")
  * @method string        body(array $attributes = [])
  * @method string        button(string $text, array $attributes = [], bool $raw = false)
  * @method string        close(string $tag, bool $raw = false)
@@ -116,17 +117,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&services);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &escaper, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
@@ -134,8 +131,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
 	}
-
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
@@ -164,21 +159,15 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_ARRAY(arguments)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &arguments_param);
 	zephir_get_strval(&name, name_param);
 	zephir_get_arrval(&arguments, arguments_param);
-
-
 	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
@@ -206,19 +195,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &name));
 }
@@ -248,19 +231,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_2$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
@@ -268,7 +245,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_create_array(&_2$$3, 1, 0);
-		ZEPHIR_OBS_VAR(&_3$$3);
+		zephir_memory_observe(&_3$$3);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
 		zephir_array_fast_append(&_2$$3, &_3$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &_2$$3);
@@ -276,7 +253,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 176);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 178);
 	RETURN_CTOR(&_5);
 }
 
@@ -294,20 +271,14 @@ PHP_METHOD(Phalcon_Html_TagFactory, set)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &method);
 	zephir_get_strval(&name, name_param);
-
-
 	zephir_update_property_array(this_ptr, SL("mapper"), &name, method);
 	zephir_unset_property_array(this_ptr, ZEND_STRL("services"), &name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
@@ -320,9 +291,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, set)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Phalcon\\Html\\Exception");
 }
@@ -334,13 +302,11 @@ PHP_METHOD(Phalcon_Html_TagFactory, getExceptionClass)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 {
-	zval *this_ptr = getThis();
 
-
-
-	zephir_create_array(return_value, 41, 0);
+	zephir_create_array(return_value, 43, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
 	add_assoc_stringl_ex(return_value, SL("base"), SL("Phalcon\\Html\\Helper\\Base"));
+	add_assoc_stringl_ex(return_value, SL("breadcrumbs"), SL("Phalcon\\Html\\Helper\\Breadcrumbs"));
 	add_assoc_stringl_ex(return_value, SL("body"), SL("Phalcon\\Html\\Helper\\Body"));
 	add_assoc_stringl_ex(return_value, SL("button"), SL("Phalcon\\Html\\Helper\\Button"));
 	add_assoc_stringl_ex(return_value, SL("close"), SL("Phalcon\\Html\\Helper\\Close"));
@@ -393,7 +359,8 @@ zend_object *zephir_init_properties_Phalcon_Html_TagFactory(zend_class_entry *cl
 	ZVAL_UNDEF(&_3$$4);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

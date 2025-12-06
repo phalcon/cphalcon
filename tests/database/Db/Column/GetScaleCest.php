@@ -26,7 +26,7 @@ class GetScaleCest
 
     public function _before(DatabaseTester $I)
     {
-        $I->skipTest('Temporary disabled');
+        $I->markTestSkipped('Temporary disabled');
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
     }

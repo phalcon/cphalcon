@@ -58,10 +58,10 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
     /**
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
-     * @param string|int index
+     * @param string|int offsetSet
      * @param ModelInterface value
      */
-    public function offsetSet(mixed index, mixed value) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
         throw new Exception("Row is an immutable ArrayAccess object");
     }

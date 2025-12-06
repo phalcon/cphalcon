@@ -3,6 +3,7 @@ actor_suffix: Tester
 paths:
     # where the modules stored
     tests: tests
+    output: tests/_output
     log: tests/_output
     # directory for fixture data
     data: tests/_data

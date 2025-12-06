@@ -54,14 +54,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_set
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_TYPE_INFO(0, expire, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, secure, _IS_BOOL, 1)
-	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+	ZEND_ARG_TYPE_INFO(0, secure, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, Phalcon\\Http\\Response\\CookiesInterface, 0)

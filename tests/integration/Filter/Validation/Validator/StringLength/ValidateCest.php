@@ -49,29 +49,25 @@ class ValidateCest
             )
         );
 
-
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
+                'name' => '12345678',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
+                'name' => '123456789',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -98,15 +94,13 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'Something',
+                'name' => '123456',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $expected = new Messages(
             [
@@ -121,7 +115,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'So',
+                'name' => '12',
             ]
         );
 
@@ -156,15 +150,13 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'message' => 'Something',
+                'message' => '123456',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $expected = new Messages(
             [
@@ -179,7 +171,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'message' => 'So',
+                'message' => '12',
             ]
         );
 
@@ -210,15 +202,13 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'John',
+                'name' => '123',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $expected = new Messages(
             [
@@ -233,7 +223,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'Johannes',
+                'name' => '1234',
             ]
         );
 
@@ -267,15 +257,13 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'message' => 'Pet',
+                'message' => '123',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $expected = new Messages(
             [
@@ -290,7 +278,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'message' => 'Validation',
+                'message' => '123456',
             ]
         );
 
@@ -340,28 +328,25 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
-                'type' => 'SomeValue',
+                'name' => '1234',
+                'type' => '1234',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
-                'type' => 'SomeValue',
+                'name' => '123456789',
+                'type' => '12345678',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $I->assertSame(
             $validationMaximumMessages['name'],
@@ -371,25 +356,22 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
-                'type' => 'SomeValue123',
+                'name' => '123456789',
+                'type' => '123456789',
             ]
         );
 
-        $I->assertSame(
-            2,
-            $messages->count()
-        );
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $validationMaximumMessages['name'],
-            $messages->offsetGet(0)->getMessage()
-        );
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $validationMaximumMessages['type'],
-            $messages->offsetGet(1)->getMessage()
-        );
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertSame($expected, $actual);
     }
 
     /**
@@ -436,76 +418,118 @@ class ValidateCest
             )
         );
 
-
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
-                'type' => 'Some',
+                'name' => '12345678',
+                'type' => '123',
             ]
         );
 
-        $I->assertSame(
-            0,
-            $messages->count()
-        );
-
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
-                'type' => 'Some',
+                'name' => '1234567890',
+                'type' => '123',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $validationMaximumMessages['name'],
-            $messages->offsetGet(0)->getMessage()
-        );
-
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
-                'type' => 'SomeValue',
+                'name' => '12345678',
+                'type' => '12345',
             ]
         );
 
-        $I->assertSame(
-            1,
-            $messages->count()
-        );
+        $expected = 1;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
 
-        $I->assertSame(
-            $validationMaximumMessages['type'],
-            $messages->offsetGet(0)->getMessage()
-        );
-
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue123',
-                'type' => 'SomeValue',
+                'name' => '1234567890',
+                'type' => '12345',
             ]
         );
 
-        $I->assertSame(
-            2,
-            $messages->count()
+        $expected = 2;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
+
+        $expected = $validationMaximumMessages['name'];
+        $actual   = $messages->offsetGet(0)->getMessage();
+        $I->assertSame($expected, $actual);
+
+        $expected = $validationMaximumMessages['type'];
+        $actual   = $messages->offsetGet(1)->getMessage();
+        $I->assertSame($expected, $actual);
+    }
+
+
+    /**
+     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - 16560
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-04-03
+     * @issue  16560
+     */
+    public function filterValidationValidatorStringLengthValidate16560(IntegrationTester $I)
+    {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - 16560');
+
+        $data            = [];
+        $data['testMin'] = '12345678';
+        $data['testMax'] = '12345678901234567890';
+
+        $validation = new Validation();
+
+
+        $validation->add(
+            'testMin',
+            new StringLength(
+                [
+                    "min"             => 8,
+                    "max"             => 20,
+                    "messageMinimum"  => "minimum length requirement failed.",
+                    "messageMaximum"  => "maximum length requirement failed.",
+                    "includedMinimum" => true,
+                    "includedMaximum" => true
+                ]
+            )
         );
 
-        $I->assertSame(
-            $validationMaximumMessages['name'],
-            $messages->offsetGet(0)->getMessage()
+        $validation->add(
+            'testMax',
+            new StringLength(
+                [
+                    "min"             => 8,
+                    "max"             => 20,
+                    "messageMinimum"  => "minimum length requirement failed.",
+                    "messageMaximum"  => "maximum length requirement failed.",
+                    "includedMinimum" => true,
+                    "includedMaximum" => true
+                ]
+            )
         );
 
-        $I->assertSame(
-            $validationMaximumMessages['type'],
-            $messages->offsetGet(1)->getMessage()
-        );
+        $messages = $validation->validate($data);
+
+        $expected = 0;
+        $actual   = $messages->count();
+        $I->assertSame($expected, $actual);
     }
 }

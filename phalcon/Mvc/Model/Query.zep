@@ -262,9 +262,9 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function execute(array bindParams = [], array bindTypes = [])
     {
-        var uniqueRow, cacheOptions, key, cacheService, cache, result,
-            preparedResult, defaultBindParams, mergedParams, defaultBindTypes,
-            mergedTypes, type, lifetime, intermediate;
+        var adapter, cache, cacheLifetime, cacheOptions, cacheService,
+            defaultBindParams, defaultBindTypes, intermediate, key, lifetime,
+            mergedParams, mergedTypes, preparedResult, result, type, uniqueRow;
 
         let uniqueRow    = this->uniqueRow,
             cacheOptions = this->cacheOptions;
@@ -283,13 +283,6 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            /**
-             * By default use use 3600 seconds (1 hour) as cache lifetime
-             */
-            if !fetch lifetime, cacheOptions["lifetime"] {
-                let lifetime = 3600;
-            }
-
             if !fetch cacheService, cacheOptions["service"] {
                 let cacheService = "modelsCache";
             }
@@ -303,7 +296,21 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            let result = cache->get(key);
+            /**
+             * If the lifetime is different than the cache lifetime, assign
+             * the cache lifetime to the current cache setting
+             */
+            let adapter       = cache->getAdapter();
+            let cacheLifetime = adapter->getLifetime();
+
+            if !fetch lifetime, cacheOptions["lifetime"] {
+                let lifetime = cacheLifetime;
+            }
+
+            let result = false;
+            if (cache->has(key)) {
+                let result = cache->get(key);
+            }
 
             if !empty result {
                 if unlikely typeof result != "object" {
@@ -752,7 +759,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function executeDelete(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
-        var models, modelName, model, records, connection, record;
+        var models, modelName, model, records, connection, record, exception;
 
         let models = intermediate["models"];
 
@@ -802,21 +809,27 @@ class Query implements QueryInterface, InjectionAwareInterface
         records->rewind();
 
         while records->valid() {
-            let record = records->current();
+            try {
+                let record = records->current();
 
-            /**
-             * We delete every record found
-             */
-            if !record->delete() {
                 /**
-                 * Rollback the transaction
+                 * We delete every record found
                  */
+                if !record->delete() {
+                    /**
+                     * Rollback the transaction
+                     */
+                    connection->rollback();
+
+                    return new Status(false, record);
+                }
+
+                records->next();
+            } catch \PDOException, exception {
                 connection->rollback();
 
-                return new Status(false, record);
+                throw exception;
             }
-
-            records->next();
         }
 
         /**
@@ -1356,7 +1369,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
-            number, field, records, exprValue, updateValue, wildcard, record;
+            number, field, records, exprValue, updateValue, wildcard, record,
+            exception;
 
         let models = intermediate["models"];
 
@@ -1486,25 +1500,30 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         records->rewind();
 
-        //for record in iterator(records) {
         while records->valid() {
-            let record = records->current();
+            try {
+                let record = records->current();
 
-            record->assign(updateValues);
+                record->assign(updateValues);
 
-            /**
-             * We apply the executed values to every record found
-             */
-            if !record->update() {
                 /**
-                 * Rollback the transaction on failure
+                 * We apply the executed values to every record found
                  */
+                if !record->update() {
+                    /**
+                     * Rollback the transaction on failure
+                     */
+                    connection->rollback();
+
+                    return new Status(false, record);
+                }
+
+                records->next();
+            } catch \PDOException, exception {
                 connection->rollback();
 
-                return new Status(false, record);
+                throw exception;
             }
-
-            records->next();
         }
 
         /**

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Phalcon\Tests\Unit\Mvc;
 
 use Codeception\Example;
 use UnitTester;
@@ -55,6 +55,10 @@ class GlobalsCest
             ],
             [
                 'setting' => 'phalcon.db.force_casting',
+                'value'   => '0',
+            ],
+            [
+                'setting' => 'phalcon.form.strict_entity_property_check',
                 'value'   => '0',
             ],
             [

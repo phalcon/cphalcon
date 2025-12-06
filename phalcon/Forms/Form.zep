@@ -254,7 +254,15 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 /**
                  * Use the public property if it doesn't have a setter
                  */
-                let entity->{key} = filteredValue;
+                if (!globals_get("form.strict_entity_property_check")) {
+                    let entity->{key} = filteredValue;
+
+                    continue;
+                }
+
+                if (property_exists(entity, key)) {
+                    let entity->{key} = filteredValue;
+                }
             }
         }
 
@@ -711,7 +719,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
         * Perform the validation
         */
-        let messages = validation->validate(data, entity);
+        validation->validate(data, entity);
+        let messages = validation->getMessages();
         if messages->count() {
             // Add validation messages to relevant elements
             for elementMessage in iterator(messages) {

@@ -1460,11 +1460,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let referencedFields = relation->getReferencedFields();
 
         if typeof fields != "array" {
-            let conditions[] = "[". referencedFields . "] = :APR0:",
+            let conditions[] = "[" . referencedModel . "].[". referencedFields . "] = :APR0:",
                 placeholders["APR0"] = record->readAttribute(fields);
         } else {
             for refPosition, field in relation->getFields() {
-                let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
+                let conditions[] = "[" . referencedModel . "].[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
                     placeholders["APR" . refPosition] = record->readAttribute(field);
             }
         }
@@ -1670,6 +1670,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @param string $modelName
      * @param string $key
+	 *
+	 * @return mixed
      */
     public function getReusableRecords(string! modelName, string! key)
     {

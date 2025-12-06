@@ -24,6 +24,9 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  *
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
+ *
+ * @template TKey of int
+ * @template TValue of \Phalcon\Mvc\ModelInterface
  */
 class Simple extends Resultset
 {
@@ -71,6 +74,7 @@ class Simple extends Resultset
 
     /**
      * Returns current row in the resultset
+     * @return TValue
      */
     final public function current() -> <ModelInterface> | null
     {
@@ -212,24 +216,26 @@ class Simple extends Resultset
                     let renamed = [];
 
                     for key, value in record {
-                        /**
-                         * Check if the key is part of the column map
-                         */
-                        if unlikely !fetch renamedKey, columnMap[key] {
-                            throw new Exception(
-                                "Column '" . key . "' is not part of the column map"
-                            );
-                        }
-
-                        if typeof renamedKey == "array" {
-                            if unlikely !fetch renamedKey, renamedKey[0] {
+                        if (typeof key === "string") {
+                            /**
+                             * Check if the key is part of the column map
+                             */
+                            if unlikely !fetch renamedKey, columnMap[key] {
                                 throw new Exception(
                                     "Column '" . key . "' is not part of the column map"
                                 );
                             }
-                        }
 
-                        let renamed[renamedKey] = value;
+                            if typeof renamedKey == "array" {
+                                if unlikely !fetch renamedKey, renamedKey[0] {
+                                    throw new Exception(
+                                        "Column '" . key . "' is not part of the column map"
+                                    );
+                                }
+                            }
+
+                            let renamed[renamedKey] = value;
+                        }
                     }
 
                     /**
