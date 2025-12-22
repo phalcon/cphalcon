@@ -16,6 +16,7 @@
 
 - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
 - Changed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to use 50ms for `\Memcached::OPT_CONNECT_TIMEOUT` [#16818](https://github.com/phalcon/cphalcon/issues/16818)
+- Changed `Phalcon\Html\Helper\Input\*` to honor `Docbloc` directives [#16778](https://github.com/phalcon/cphalcon/issues/16778)
 
 ### Added
 
