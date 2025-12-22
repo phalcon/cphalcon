@@ -18,7 +18,9 @@
 #include <php_main.h>
 #include <main/php_streams.h>
 #include <ext/standard/file.h>
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <ext/standard/php_filestat.h>
 #include <ext/standard/php_string.h>
 

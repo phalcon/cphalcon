@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Max, getConditional);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_file_size_max_getconditional, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, source, IS_DOUBLE, 0)
 	ZEND_ARG_TYPE_INFO(0, target, IS_DOUBLE, 0)
-	ZEND_ARG_TYPE_INFO(0, included, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, included, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_size_max_method_entry) {

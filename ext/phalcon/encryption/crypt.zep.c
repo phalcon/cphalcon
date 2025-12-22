@@ -995,7 +995,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "hash");
 	ZEPHIR_INIT_VAR(&method);
-	if (ZEPHIR_IS_IDENTICAL(&_0, &cipher)) {
+	if (ZEPHIR_IS_IDENTICAL(&_0, &type)) {
 		ZVAL_STRING(&method, "getAvailableHashAlgorithms");
 	} else {
 		ZVAL_STRING(&method, "getAvailableCiphers");

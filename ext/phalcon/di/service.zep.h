@@ -16,7 +16,7 @@ PHP_METHOD(Phalcon_Di_Service, setSharedInstance);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_TYPE_INFO(0, shared, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_getdefinition, 0, 0, 0)

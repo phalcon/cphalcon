@@ -19,7 +19,9 @@
 #include "php_ext.h"
 #include "php_main.h"
 
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <ext/standard/php_string.h>
 #if PHP_VERSION_ID < 80400
 #include <ext/standard/php_rand.h>

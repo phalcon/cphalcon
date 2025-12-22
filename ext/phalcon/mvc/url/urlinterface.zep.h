@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url_UrlInterface);
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_urlinterface_get, 0, 0, IS_STRING, 0)
 	ZEND_ARG_INFO(0, uri)
 	ZEND_ARG_INFO(0, args)
-	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_urlinterface_getbasepath, 0, 0, IS_STRING, 0)
@@ -24,7 +24,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_url_urlinterface_setb
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_urlinterface_path, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, path, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_url_urlinterface_method_entry) {

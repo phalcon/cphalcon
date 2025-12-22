@@ -9,10 +9,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat);
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line___construct, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, format, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, interpolatorLeft, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, interpolatorRight, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, format, IS_STRING, 0, "'[%date%][%level%] %message%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, dateFormat, IS_STRING, 0, "'c'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, interpolatorLeft, IS_STRING, 0, "'%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, interpolatorRight, IS_STRING, 0, "'%'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_format, 0, 1, IS_STRING, 0)

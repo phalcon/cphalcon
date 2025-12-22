@@ -243,7 +243,7 @@ int zephir_is_iterable_ex(zval *arr, int duplicate);
 /** Check if an array is iterable or not */
 #define zephir_is_iterable(var, duplicate, file, line) \
 	if (!zephir_is_iterable_ex(var, duplicate)) { \
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_exception_get_default(), "The argument is not initialized or iterable()", file, line); \
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_ce_exception, "The argument is not initialized or iterable()", file, line); \
 		ZEPHIR_MM_RESTORE(); \
 		return; \
 	}

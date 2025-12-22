@@ -10,7 +10,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac___construct, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, algo, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, algo, IS_STRING, 0, "'sha512'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac_getalgheader, 0, 0, IS_STRING, 0)

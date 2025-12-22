@@ -75,7 +75,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, templatePath, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileautoescape, 0, 2, IS_STRING, 0)
@@ -90,7 +90,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilecase, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
-	ZEND_ARG_TYPE_INFO(0, caseClause, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, caseClause, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compiledo, 0, 1, IS_STRING, 0)
@@ -108,12 +108,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilefile, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, compiledPath, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileforeach, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileforelse, 0, 0, IS_STRING, 0)
@@ -121,7 +121,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileif, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileinclude, 0, 1, IS_STRING, 0)
@@ -143,17 +143,17 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, viewCode, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileswitch, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_expression, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expr, 0)
-	ZEND_ARG_TYPE_INFO(0, doubleQuotes, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, doubleQuotes, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_fireextensionevent, 0, 0, 1)
@@ -163,7 +163,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_functioncall, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expr, 0)
-	ZEND_ARG_TYPE_INFO(0, doubleQuotes, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, doubleQuotes, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getcompiledtemplatepath, 0, 0, IS_STRING, 0)
@@ -223,7 +223,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilesource, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, viewCode, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getfinalpath, 0, 0, 1)
@@ -237,7 +237,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_statementlist, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statements, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, extendsMode, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_statementlistorextends, 0, 0, 1)
