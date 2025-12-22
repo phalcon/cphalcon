@@ -11,6 +11,7 @@
 namespace Phalcon\Html\Helper\Input;
 
 use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\Helper\Doctype;
 
 /**
  * Class Checkbox
@@ -34,9 +35,9 @@ class Checkbox extends AbstractInput
      *
      * @param EscaperInterface $escaper
      */
-    public function __construct(<EscaperInterface> escaper)
+    public function __construct(<EscaperInterface> escaper, <Doctype> doctype = null)
     {
-        parent::__construct(escaper);
+        parent::__construct(escaper, doctype);
 
         let this->label = [
             "start" : "",

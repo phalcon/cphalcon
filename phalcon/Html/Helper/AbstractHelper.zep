@@ -27,6 +27,11 @@ abstract class AbstractHelper
     protected delimiter = "";
 
     /**
+     * @var Doctype
+     */
+    protected doctype = null;
+
+    /**
      * @var EscaperInterface
      */
     protected escaper;
@@ -46,10 +51,11 @@ abstract class AbstractHelper
      *
      * @param EscaperInterface $escaper
      */
-    public function __construct(<EscaperInterface> escaper)
+    public function __construct(<EscaperInterface> escaper, <Doctype> doctype = null)
     {
         let this->delimiter = PHP_EOL,
-            this->escaper   = escaper;
+            this->escaper   = escaper,
+            this->doctype   = doctype;
     }
 
     /**
