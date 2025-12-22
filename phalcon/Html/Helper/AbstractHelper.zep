@@ -27,7 +27,7 @@ abstract class AbstractHelper
     protected delimiter = "";
 
     /**
-     * @var Doctype
+     * @var Doctype|null
      */
     protected doctype = null;
 
