@@ -139,13 +139,19 @@ class RenderCest
      */
     public function formsFormRenderEscaped(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - render() - escaped');
-
         $object = new stdClass();
         $object->title = 'Hello "world!"';
 
         $form = new Form($object);
-        $form->setTagFactory(new TagFactory(new Escaper()));
+
+        /**
+         * Make them all XHTML
+         */
+        $factory = new TagFactory(new Escaper());
+        $doctype = $factory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
+        $form->setTagFactory($factory);
 
         $element = new Text("title");
 

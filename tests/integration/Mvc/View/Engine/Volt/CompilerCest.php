@@ -23,6 +23,7 @@ use Phalcon\Di\Di;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -276,6 +277,10 @@ class CompilerCest
 
         $escaper    = $di->get("escaper");
         $tagFactory = new TagFactory($escaper);
+
+        $doctype     = $tagFactory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
         $form       = new Form();
         $form->setTagFactory($tagFactory);
 
@@ -382,10 +387,16 @@ FORM;
      */
     private function setupServices(Di $di): View
     {
-        $escaper = new Escaper();
-        $view    = new View();
+        $escaper    = new Escaper();
+        $tagFactory = new TagFactory($escaper);
+        $view       = new View();
+
+        $doctype    = $tagFactory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
         $di->set("escaper", $escaper);
-        $di->set("tag", new TagFactory($escaper));
+        $di->set("tag", $tagFactory);
+
         $di->set(
             "url",
             function () {

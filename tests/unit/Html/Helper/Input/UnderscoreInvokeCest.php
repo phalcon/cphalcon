@@ -14,6 +14,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 use Codeception\Example;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Exception;
+use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Color;
 use Phalcon\Html\Helper\Input\Date;
 use Phalcon\Html\Helper\Input\DateTime;
@@ -37,6 +38,8 @@ use Phalcon\Html\Helper\Input\Week;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use function sprintf;
+
 /**
  * Class UnderscoreInvokeCest
  *
@@ -59,32 +62,68 @@ class UnderscoreInvokeCest
      */
     public function htmlHelperInputUnderscoreInvoke(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Input - __invoke() - ' . $example['message']);
+        $name        = $example[0];
+        $value       = $example[1];
+        $attributes  = $example[2];
+        $newValue    = $example[3];
+        $render      = $example[4];
+        $renderXhtml = $example[5];
+
         $classes = $this->getClasses();
 
-        foreach ($classes as $name => $class) {
+        foreach ($classes as $className => $class) {
             $escaper = new Escaper();
-            $helper  = new $class[1]($escaper);
+            $doctype = new Doctype();
+            $helper  = new $class[1]($escaper, $doctype);
 
-            $result = $helper($example['name'], $example['value'], $example['attributes']);
+            $result = $helper($name, $value, $attributes);
 
-            if (isset($example["newValue"])) {
-                $result->setValue($example['newValue']);
+            if (null !== $newValue) {
+                $result->setValue($newValue);
             }
 
-            $expected = sprintf($example['render'], $name);
+            $expected = sprintf($render, $className);
             $actual   = (string)$result;
             $I->assertSame($expected, $actual);
 
-            $factory = new TagFactory($escaper);
-            $locator = $factory->newInstance($class[0]);
-            $result  = $locator($example['name'], $example['value'], $example['attributes']);
+            $doctype(Doctype::XHTML5);
 
-            if (isset($example["newValue"])) {
-                $result->setValue($example['newValue']);
+            $result = $helper($name, $value, $attributes);
+
+            if (null !== $newValue) {
+                $result->setValue($newValue);
             }
 
-            $actual = (string)$result;
+            $expected = sprintf($renderXhtml, $className);
+            $actual   = (string)$result;
+            $I->assertSame($expected, $actual);
+
+            /**
+             * TagFactory
+             */
+            $factory = new TagFactory($escaper);
+            $doctype = $factory->newInstance('doctype');
+            $locator = $factory->newInstance($class[0]);
+            $result  = $locator($name, $value, $attributes);
+
+            if (null !== $newValue) {
+                $result->setValue($newValue);
+            }
+
+            $expected = sprintf($render, $className);
+            $actual   = (string)$result;
+            $I->assertSame($expected, $actual);
+
+            $doctype(Doctype::XHTML5);
+
+            $result  = $locator($name, $value, $attributes);
+
+            if (null !== $newValue) {
+                $result->setValue($newValue);
+            }
+
+            $expected = sprintf($renderXhtml, $className);
+            $actual   = (string)$result;
             $I->assertSame($expected, $actual);
         }
     }
@@ -102,7 +141,8 @@ class UnderscoreInvokeCest
         $I->wantToTest('Html\Helper\Input - __invoke() - textarea');
 
         $escaper = new Escaper();
-        $helper  = new Textarea($escaper);
+        $doctype = new Doctype();
+        $helper  = new Textarea($escaper, $doctype);
 
         $result = $helper(
             'x_name',
@@ -136,53 +176,6 @@ class UnderscoreInvokeCest
     /**
      * @return array
      */
-    private function getExamples(): array
-    {
-        return [
-            [
-                'message'    => 'only name',
-                'name'       => 'x_name',
-                'value'      => null,
-                'attributes' => [],
-                'newValue'   => null,
-                'render'     => '<input type="%s" id="x_name" name="x_name" />',
-            ],
-            [
-                'message'    => 'name and id',
-                'name'       => 'x_name',
-                'value'      => null,
-                'attributes' => [
-                    'id' => 'x_new_id',
-                ],
-                'newValue'   => null,
-                'render'     => '<input type="%s" id="x_new_id" name="x_name" />',
-            ],
-            [
-                'message'    => 'name and id initial value',
-                'name'       => 'x_name',
-                'value'      => "24",
-                'attributes' => [
-                    'id' => 'x_new_id',
-                ],
-                'newValue'   => null,
-                'render'     => '<input type="%s" id="x_new_id" name="x_name" value="24" />',
-            ],
-            [
-                'message'    => 'name and id initial value set value',
-                'name'       => 'x_name',
-                'value'      => "24",
-                'attributes' => [
-                    'id' => 'x_new_id',
-                ],
-                'newValue'   => "48",
-                'render'     => '<input type="%s" id="x_new_id" name="x_name" value="48" />',
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
     private function getClasses(): array
     {
         return [
@@ -205,6 +198,53 @@ class UnderscoreInvokeCest
             'time'           => ['inputTime', Time::class],
             'url'            => ['inputUrl', Url::class],
             'week'           => ['inputWeek', Week::class],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'x_name',
+                null,
+                [],
+                null,
+                '<input type="%s" id="x_name" name="x_name">',
+                '<input type="%s" id="x_name" name="x_name" />',
+            ],
+            [
+                'x_name',
+                null,
+                [
+                    'id' => 'x_new_id',
+                ],
+                null,
+                '<input type="%s" id="x_new_id" name="x_name">',
+                '<input type="%s" id="x_new_id" name="x_name" />',
+            ],
+            [
+                'x_name',
+                "24",
+                [
+                    'id' => 'x_new_id',
+                ],
+                null,
+                '<input type="%s" id="x_new_id" name="x_name" value="24">',
+                '<input type="%s" id="x_new_id" name="x_name" value="24" />',
+            ],
+            [
+                'x_name',
+                "24",
+                [
+                    'id' => 'x_new_id',
+                ],
+                "48",
+                '<input type="%s" id="x_new_id" name="x_name" value="48">',
+                '<input type="%s" id="x_new_id" name="x_name" value="48" />',
+            ],
         ];
     }
 }
