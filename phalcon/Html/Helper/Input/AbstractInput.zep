@@ -11,6 +11,7 @@
 namespace Phalcon\Html\Helper\Input;
 
 use Phalcon\Html\Helper\AbstractHelper;
+use Phalcon\Html\Helper\Doctype;
 
 /**
  * Class AbstractInput
@@ -67,14 +68,20 @@ abstract class AbstractInput extends AbstractHelper
     public function __toString()
     {
         array attributes;
+        var closeTag;
 
-        let attributes       = this->attributes,
+        let closeTag         = "",
+            attributes       = this->attributes,
             this->attributes = [];
+
+        if (this->doctype->getType() > Doctype::HTML5) {
+            let closeTag = "/";
+        }
 
         return this->renderTag(
             "input",
             attributes,
-            "/"
+            closeTag
         );
     }
 

@@ -33,25 +33,25 @@ class Doctype
     /**
      * @var int
      */
-    private flag;
+    private type;
 
     public function __construct()
     {
-        let this->flag      = self::HTML5,
+        let this->type      = self::HTML5,
             this->delimiter = PHP_EOL;
     }
 
     /**
      * Produce a <doctype> tag
      *
-     * @param int    $flag
+     * @param int    $type
      * @param string $delimiter
      */
     public function __invoke(
-        int flag = self::HTML5,
+        int type = self::HTML5,
         string delimiter = "\n"
     ) -> <Doctype> {
-        let this->flag      = flag,
+        let this->type      = type,
             this->delimiter = delimiter;
 
         return this;
@@ -62,7 +62,7 @@ class Doctype
      */
     public function __toString() -> string
     {
-        switch this->flag {
+        switch this->type {
             case self::HTML32:
                 return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">"
                     . this->delimiter;
@@ -109,5 +109,13 @@ class Doctype
         }
 
         return "<!DOCTYPE html>" . this->delimiter;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType() -> int
+    {
+        return this->type;
     }
 }
