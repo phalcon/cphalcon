@@ -17,6 +17,7 @@ use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
+use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\TagFactory;
 use stdClass;
 
@@ -35,7 +36,13 @@ class RenderCest
     {
         $I->wantToTest('Forms\Form - render() - similar method names');
 
-        $tagFactory = new TagFactory(new Escaper());
+        /**
+         * Make them all XHTML
+         */
+        $factory = new TagFactory(new Escaper());
+        $doctype = $factory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
         $names = [
             'validation',
             'action',
@@ -53,7 +60,15 @@ class RenderCest
 
         foreach ($names as $name) {
             $form    = new Form();
-            $form->setTagFactory($tagFactory);
+            /**
+             * Make them all XHTML
+             */
+            $factory = new TagFactory(new Escaper());
+            $doctype = $factory->newInstance('doctype');
+            $doctype(Doctype::XHTML5);
+
+            $form->setTagFactory($factory);
+
             $element = new Text($name);
 
             $expected = $name;
@@ -88,7 +103,11 @@ class RenderCest
         $I->wantToTest('Forms\Form - render() - indirect element');
 
         $form = new Form();
-        $form->setTagFactory(new TagFactory(new Escaper()));
+        $factory = new TagFactory(new Escaper());
+        $doctype = $factory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
+        $form->setTagFactory($factory);
 
         $element = new Text("name");
 
