@@ -963,7 +963,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     if metaData === null {
                         let metaData = instance->getModelsMetaData();
                     }
-                    
+
                     let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !globals_get("orm.ignore_unknown_columns") {
@@ -1636,7 +1636,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'limit' => 10,
      *     'offset' => 5,
      *     'group' => 'name, status',
-     *     'for_updated' => false,
+     *     'for_update' => false,
      *     'shared_lock' => false,
      *     'cache' => [
      *         'lifetime' => 3600,
@@ -1754,7 +1754,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'limit' => 10,
      *     'offset' => 5,
      *     'group' => 'name, status',
-     *     'for_updated' => false,
+     *     'for_update' => false,
      *     'shared_lock' => false,
      *     'cache' => [
      *         'lifetime' => 3600,
@@ -5435,7 +5435,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'limit' => 10,
      *         'offset' => 5,
      *         'group' => 'name, status',
-     *         'for_updated' => false,
+     *         'for_update' => false,
      *         'shared_lock' => false,
      *         'cache' => [
      *             'lifetime' => 3600,
@@ -5547,7 +5547,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'limit' => 10,
      *         'offset' => 5,
      *         'group' => 'name, status',
-     *         'for_updated' => false,
+     *         'for_update' => false,
      *         'shared_lock' => false,
      *         'cache' => [
      *             'lifetime' => 3600,
@@ -5613,7 +5613,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'limit' => 10,
      *         'offset' => 5,
      *         'group' => 'name, status',
-     *         'for_updated' => false,
+     *         'for_update' => false,
      *         'shared_lock' => false,
      *         'cache' => [
      *             'lifetime' => 3600,
@@ -5679,7 +5679,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'limit' => 10,
      *         'offset' => 5,
      *         'group' => 'name, status',
-     *         'for_updated' => false,
+     *         'for_update' => false,
      *         'shared_lock' => false,
      *         'cache' => [
      *             'lifetime' => 3600,
