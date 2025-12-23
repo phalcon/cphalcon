@@ -63,6 +63,18 @@ services:
     volumes:
       - .:/srv
 
+  cphalcon-8.5:
+    container_name: cphalcon-8.5
+    hostname: cphalcon-85
+    build:
+      dockerfile: docker/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.5
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
   mysql:
     container_name: cphalcon-mysql
     image: mysql:5.7
@@ -76,7 +88,7 @@ services:
 
   postgres:
     container_name: cphalcon-postgres
-    image: postgres:12-alpine
+    image: postgres:18-alpine
     ports:
       - "5432:5432"
     environment:
@@ -86,10 +98,10 @@ services:
 
   redis:
     container_name: cphalcon-redis
-    image: redis:5-alpine
+    image: redis:8-alpine
     ports:
       - "6379:6379"
 
   memcached:
     container_name: cphalcon-memcached
-    image: memcached:1.5-alpine
+    image: memcached:1.6-alpine

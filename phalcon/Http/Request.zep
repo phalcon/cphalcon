@@ -53,32 +53,32 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var FilterInterface|null
      */
-    private filterService = null;
+    protected filterService = null;
 
     /**
      * @var bool
      */
-    private httpMethodParameterOverride = false;
+    protected httpMethodParameterOverride = false;
 
     /**
      * @var array
      */
-    private queryFilters = [];
+    protected queryFilters = [];
 
     /**
      * @var array|null
      */
-    private postCache = null;
+    protected postCache = null;
 
     /**
      * @var string
      */
-    private rawBody = "";
+    protected rawBody = "";
 
     /**
      * @var bool
      */
-    private strictHostCheck = false;
+    protected strictHostCheck = false;
 
     /**
      * @var array
@@ -418,7 +418,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets HTTP header from request data
      */
-    final public function getHeader(string! header) -> string
+    public function getHeader(string! header) -> string
     {
         var value, name, server;
 
@@ -652,7 +652,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * The method is always an uppercased string.
      */
-    final public function getMethod() -> string
+    public function getMethod() -> string
     {
         var overridedMethod, spoofedMethod, requestMethod, server;
         string returnMethod = "";
@@ -997,7 +997,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * @param bool onlyPath If true, query part will be omitted
      * @return string
      */
-    final public function getURI(bool onlyPath = false) -> string
+    public function getURI(bool onlyPath = false) -> string
     {
         var requestURI;
 
@@ -1501,7 +1501,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Process a request header and return the one with best quality
      */
-    final protected function getBestQuality(array qualityParts, string! name) -> string
+    protected function getBestQuality(array qualityParts, string! name) -> string
     {
         int i;
         double quality, acceptQuality;
@@ -1534,7 +1534,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Helper to get data from superglobals, applying filters if needed.
      * If no parameters are given the superglobal is returned.
      */
-    final protected function getHelper(
+    protected function getHelper(
         array source,
         string! name = null,
         var filters = null,
@@ -1575,7 +1575,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Recursively counts file in an array of files
      */
-    final protected function hasFileHelper(var data, bool onlySuccessful) -> long
+    protected function hasFileHelper(var data, bool onlySuccessful) -> long
     {
         var value;
         int numberFiles = 0;
@@ -1602,7 +1602,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Process a request header and return an array of values with their qualities
      */
-    final protected function getQualityHeader(string! serverIndex, string! name) -> array
+    protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
         var headerPart, headerParts, headerSplit, part, parts, returnedParts, serverValue, split;
 
@@ -1740,7 +1740,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Smooth out $_FILES to have plain array with all files uploaded
      */
-    final protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+    protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
     {
         var idx, name, file, files, parentFiles, p;
 

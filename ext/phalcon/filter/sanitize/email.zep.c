@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Email, __invoke)
 	zephir_fetch_params(1, 1, 0, &input);
 	ZVAL_LONG(&_0, 517);
 	ZVAL_LONG(&_1, 1048576);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 283, input, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 284, input, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -26,14 +26,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___construct, 0, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___invoke, 0, 0, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
-	ZEND_ARG_TYPE_INFO(0, indent, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, indent, IS_STRING, 0, "'    '")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, delimiter, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_add, 0, 1, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, link, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, icon, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, link, IS_STRING, 0, "''")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, icon, IS_STRING, 0, "''")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

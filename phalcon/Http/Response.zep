@@ -85,7 +85,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * @var Encode
      */
-    private encode;
+    protected encode;
 
     /**
      * Phalcon\Http\Response constructor

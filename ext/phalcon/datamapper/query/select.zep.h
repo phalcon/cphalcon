@@ -34,7 +34,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_andhaving, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_asalias, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
@@ -44,13 +44,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_appendhaving, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_appendjoin, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_columns, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
@@ -58,7 +58,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_c
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_distinct, 0, 0, Phalcon\\DataMapper\\Query\\Select, 0)
-	ZEND_ARG_TYPE_INFO(0, enable, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_from, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
@@ -66,7 +66,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_f
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_forupdate, 0, 0, Phalcon\\DataMapper\\Query\\Select, 0)
-	ZEND_ARG_TYPE_INFO(0, enable, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_select_getstatement, 0, 0, IS_STRING, 0)
@@ -82,7 +82,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_having, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_join, 0, 3, Phalcon\\DataMapper\\Query\\Select, 0)
@@ -90,13 +90,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_j
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_orhaving, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_select_reset, 0, 0, IS_VOID, 0)
@@ -112,7 +112,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_u
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_select_getcurrentstatement, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, suffix, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, suffix, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_select_buildcolumns, 0, 0, IS_STRING, 0)

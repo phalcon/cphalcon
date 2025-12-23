@@ -216,21 +216,27 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 {
-	zval _2$$3;
+	zval _4$$4, _7$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, definition, _0, _4, _5, _1$$3, _3$$3;
+	zval *name_param = NULL, definition, doctype, _0, _9, _10, _1$$3, _2$$3, _3$$4, _5$$4, _6$$5, _8$$5;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
+	ZVAL_UNDEF(&doctype);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_7$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -243,18 +249,39 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		zephir_create_array(&_2$$3, 1, 0);
-		zephir_memory_observe(&_3$$3);
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
-		zephir_array_fast_append(&_2$$3, &_3$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &_2$$3);
+		ZVAL_STRING(&_1$$3, "input");
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_starts_with", NULL, 336, &name, &_1$$3);
 		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
+		if (zephir_is_true(&_2$$3)) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			ZVAL_STRING(&_3$$4, "doctype");
+			ZEPHIR_CALL_METHOD(&doctype, this_ptr, "newinstance", NULL, 337, &_3$$4);
+			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_3$$4);
+			ZEPHIR_INIT_VAR(&_4$$4);
+			zephir_create_array(&_4$$4, 2, 0);
+			zephir_memory_observe(&_5$$4);
+			zephir_read_property(&_5$$4, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
+			zephir_array_fast_append(&_4$$4, &_5$$4);
+			zephir_array_fast_append(&_4$$4, &doctype);
+			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_3$$4, &definition, &_4$$4);
+			zephir_check_call_status();
+			zephir_update_property_array(this_ptr, SL("services"), &name, &_3$$4);
+		} else {
+			ZEPHIR_INIT_VAR(&_6$$5);
+			ZEPHIR_INIT_VAR(&_7$$5);
+			zephir_create_array(&_7$$5, 1, 0);
+			zephir_memory_observe(&_8$$5);
+			zephir_read_property(&_8$$5, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
+			zephir_array_fast_append(&_7$$5, &_8$$5);
+			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_6$$5, &definition, &_7$$5);
+			zephir_check_call_status();
+			zephir_update_property_array(this_ptr, SL("services"), &name, &_6$$5);
+		}
 	}
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 178);
-	RETURN_CTOR(&_5);
+	zephir_read_property(&_9, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_10, &_9, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 189);
+	RETURN_CTOR(&_10);
 }
 
 /**

@@ -45,8 +45,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, appendMessage);
  * Assigns the data to an entity
  * The entity is used to obtain the validation values
  *
- * @param object entity
- * @param array|object data
+ * @param object        $entity
+ * @param array|object  $data
+ * @param array         $whitelist
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, bind);
 /**
@@ -99,8 +100,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setLabels);
 /**
  * Validate a set of data according to a set of rules
  *
- * @param array|object data
- * @param object entity
+ * @param array|object  $data
+ * @param object        $entity
+ * @param array         $whitelist
  *
  * @return Messages|false
  */

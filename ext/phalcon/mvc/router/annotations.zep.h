@@ -18,12 +18,12 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_en
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_annotations_addmoduleresource, 0, 2, Phalcon\\Mvc\\Router\\Annotations, 0)
 	ZEND_ARG_TYPE_INFO(0, module, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, handler, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_annotations_addresource, 0, 1, Phalcon\\Mvc\\Router\\Annotations, 0)
 	ZEND_ARG_TYPE_INFO(0, handler, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_annotations_getresources, 0, 0, IS_ARRAY, 0)

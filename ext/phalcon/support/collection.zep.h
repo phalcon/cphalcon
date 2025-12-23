@@ -36,7 +36,7 @@ zend_object *zephir_init_properties_Phalcon_Support_Collection(zend_class_entry 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
-	ZEND_ARG_TYPE_INFO(0, insensitive, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, insensitive, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection___get, 0, 0, 1)
@@ -67,14 +67,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection_get, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, element, IS_STRING, 0)
 	ZEND_ARG_INFO(0, defaultValue)
-	ZEND_ARG_TYPE_INFO(0, cast, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_getiterator, 0, 0, Traversable, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_getkeys, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, insensitive, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, insensitive, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_getvalues, 0, 0, IS_ARRAY, 0)
@@ -129,7 +129,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_toarr
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_tojson, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_LONG, 0, "4194383")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_unserialize, 0, 1, IS_VOID, 0)
@@ -153,8 +153,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection_phpjsonencode, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, depth, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flags, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, depth, IS_LONG, 0, "512")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_processkey, 0, 1, IS_STRING, 0)

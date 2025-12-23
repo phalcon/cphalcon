@@ -60,18 +60,27 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __construct)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub;
+	zval *escaper, escaper_sub, *doctype = NULL, doctype_sub, __$null;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&doctype_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(doctype, phalcon_html_helper_doctype_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &escaper);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_checkbox_ce, getThis(), "__construct", NULL, 0, escaper);
+	zephir_fetch_params(1, 1, 1, &escaper, &doctype);
+	if (!doctype) {
+		doctype = &doctype_sub;
+		doctype = &__$null;
+	}
+	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_checkbox_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
@@ -120,9 +129,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __toString)
 	add_assoc_stringl_ex(&_1, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("end"), SL(""));
 	zephir_update_property_zval(this_ptr, ZEND_STRL("label"), &_1);
-	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 70);
-	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 72);
-	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 72);
+	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 71);
+	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 73);
+	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Checkbox.zep", 73);
 	ZEPHIR_CONCAT_VVVVV(return_value, &unchecked, &_2, &element, &_3, &_4);
 	RETURN_MM();
 }
@@ -175,7 +184,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, label)
 	zephir_create_array(&_1, 1, 0);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
-	zephir_array_fetch_string(&_3, &_2, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/Checkbox.zep", 95);
+	zephir_array_fetch_string(&_3, &_2, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/Checkbox.zep", 96);
 	zephir_array_update_string(&_1, SL("for"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_fast_array_merge(&_0, &_1, &attributes);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
@@ -270,7 +279,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processUnchecked)
 		zephir_create_array(&_1$$4, 2, 0);
 		zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&_3$$4);
-		zephir_array_fetch_string(&_3$$4, &_2$$4, SL("name"), PH_NOISY, "phalcon/Html/Helper/Input/Checkbox.zep", 156);
+		zephir_array_fetch_string(&_3$$4, &_2$$4, SL("name"), PH_NOISY, "phalcon/Html/Helper/Input/Checkbox.zep", 157);
 		zephir_array_update_string(&_1$$4, SL("name"), &_3$$4, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1$$4, SL("value"), &unchecked, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_4$$4);

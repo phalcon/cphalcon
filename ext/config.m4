@@ -314,6 +314,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/sanitize/email.zep.c
 	phalcon/filter/sanitize/floatval.zep.c
 	phalcon/filter/sanitize/intval.zep.c
+	phalcon/filter/sanitize/ip.zep.c
 	phalcon/filter/sanitize/lower.zep.c
 	phalcon/filter/sanitize/lowerfirst.zep.c
 	phalcon/filter/sanitize/regex.zep.c

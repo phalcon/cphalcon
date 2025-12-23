@@ -163,16 +163,27 @@ class TagFactory extends AbstractFactory
      */
     public function newInstance(string name) -> var
     {
-        var definition;
+        var definition, doctype;
 
         if !isset this->services[name] {
-            let definition           = this->getService(name),
-                this->services[name] = create_instance_params(
+            let definition = this->getService(name);
+            if (str_starts_with(name, "input")) {
+                let doctype = this->newInstance("doctype"),
+                    this->services[name] = create_instance_params(
+                        definition,
+                        [
+                            this->escaper,
+                            doctype
+                        ]
+                    );
+            } else {
+                let this->services[name] = create_instance_params(
                     definition,
                     [
                         this->escaper
                     ]
                 );
+            }
         }
 
         return this->services[name];

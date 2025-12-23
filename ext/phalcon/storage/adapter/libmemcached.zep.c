@@ -329,22 +329,22 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&failover);
 			zephir_create_array(&failover, 5, 0);
-			add_index_long(&failover, 14, 10);
+			add_index_long(&failover, 14, 50);
 			add_index_long(&failover, 9, 1);
 			add_index_long(&failover, 21, 2);
 			zephir_array_update_long(&failover, 35, &__$true, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 			add_index_long(&failover, 15, 1);
-			ZEPHIR_INIT_NVAR(&_7$$4);
-			zephir_fast_array_merge(&_7$$4, &failover, &client);
-			ZEPHIR_CPY_WRT(&client, &_7$$4);
-			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setoptions", NULL, 109, &connection, &client);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "array_replace", NULL, 109, &failover, &client);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setservers", NULL, 110, &connection, &servers);
+			ZEPHIR_CPY_WRT(&client, &_9$$4);
+			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setoptions", NULL, 110, &connection, &client);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setsasl", NULL, 111, &connection, &saslUser, &saslPass);
+			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setservers", NULL, 111, &connection, &servers);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setsasl", NULL, 112, &connection, &saslUser, &saslPass);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 112, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 113, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &connection);
 	}
