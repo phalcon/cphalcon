@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2025-11-21</date>
+  <date>2025-12-25</date>
   <time>17:00:00</time>
   <version>
-    <release>5.9.4</release>
-    <api>5.9.4</api>
+    <release>5.10.0</release>
+    <api>5.10.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -40,6 +40,7 @@
 
     - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
     - Changed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to use 50ms for `\Memcached::OPT_CONNECT_TIMEOUT` [#16818](https://github.com/phalcon/cphalcon/issues/16818)
+    - Changed `Phalcon\Html\Helper\Input\*` to honor `Docbloc` directives [#16778](https://github.com/phalcon/cphalcon/issues/16778)
 
     ### Added
 
@@ -54,6 +55,8 @@
     - Fixed `Phalcon\Http\Request` method `getPostData()` when `Content-Type` header is not set [#16804](https://github.com/phalcon/cphalcon/issues/16804)
     - Fixed `Phalcon\Events\ManagerInterface` adding priority property [#16817](https://github.com/phalcon/cphalcon/issues/16817)
     - Fixed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to correctly merge adapter options [#16818](https://github.com/phalcon/cphalcon/issues/16818)
+    - Fixed `Phalcon\Encryption\Crypt` method `checkCipherHashIsAvailable(string $cipher, string $type)` to correctly check the `cipher` or `hash` type [#16822](https://github.com/phalcon/cphalcon/issues/16822)
+    - Fixed `Phalcon\Mvc\Model` docblocks [#16825](https://github.com/phalcon/cphalcon/issues/16825)
 
   </notes>
   <contents>

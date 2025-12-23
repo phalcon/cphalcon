@@ -6,7 +6,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.9.4
+  PHALCON_VERSION: 5.10.0
 
 jobs:
   windows:

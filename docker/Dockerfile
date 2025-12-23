@@ -118,7 +118,7 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION="v5.9.4"
+ARG PHALCON_VERSION="v5.10.0"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
