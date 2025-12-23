@@ -2760,7 +2760,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
  *     'limit' => 10,
  *     'offset' => 5,
  *     'group' => 'name, status',
- *     'for_updated' => false,
+ *     'for_update' => false,
  *     'shared_lock' => false,
  *     'cache' => [
  *         'lifetime' => 3600,
@@ -2893,7 +2893,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
  *     'limit' => 10,
  *     'offset' => 5,
  *     'group' => 'name, status',
- *     'for_updated' => false,
+ *     'for_update' => false,
  *     'shared_lock' => false,
  *     'cache' => [
  *         'lifetime' => 3600,
@@ -10070,7 +10070,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cancelOperation)
  *         'limit' => 10,
  *         'offset' => 5,
  *         'group' => 'name, status',
- *         'for_updated' => false,
+ *         'for_update' => false,
  *         'shared_lock' => false,
  *         'cache' => [
  *             'lifetime' => 3600,
@@ -10248,7 +10248,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery)
  *         'limit' => 10,
  *         'offset' => 5,
  *         'group' => 'name, status',
- *         'for_updated' => false,
+ *         'for_update' => false,
  *         'shared_lock' => false,
  *         'cache' => [
  *             'lifetime' => 3600,
@@ -10348,7 +10348,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany)
  *         'limit' => 10,
  *         'offset' => 5,
  *         'group' => 'name, status',
- *         'for_updated' => false,
+ *         'for_update' => false,
  *         'shared_lock' => false,
  *         'cache' => [
  *             'lifetime' => 3600,
@@ -10452,7 +10452,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany)
  *         'limit' => 10,
  *         'offset' => 5,
  *         'group' => 'name, status',
- *         'for_updated' => false,
+ *         'for_update' => false,
  *         'shared_lock' => false,
  *         'cache' => [
  *             'lifetime' => 3600,

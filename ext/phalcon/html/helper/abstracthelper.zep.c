@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper)
 	 */
 	zend_declare_property_string(phalcon_html_helper_abstracthelper_ce, SL("delimiter"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var Doctype
+	 * @var Doctype|null
 	 */
 	zend_declare_property_null(phalcon_html_helper_abstracthelper_ce, SL("doctype"), ZEND_ACC_PROTECTED);
 	/**
