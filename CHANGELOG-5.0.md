@@ -32,6 +32,7 @@
 - Fixed `Phalcon\Events\ManagerInterface` adding priority property [#16817](https://github.com/phalcon/cphalcon/issues/16817)
 - Fixed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to correctly merge adapter options [#16818](https://github.com/phalcon/cphalcon/issues/16818)
 - Fixed `Phalcon\Encryption\Crypt` method `checkCipherHashIsAvailable(string $cipher, string $type)` to correctly check the `cipher` or `hash` type [#16822](https://github.com/phalcon/cphalcon/issues/16822)
+- Fixed `Phalcon\Mvc\Model` docblocks [#16825](https://github.com/phalcon/cphalcon/issues/16825)
 
 ### Removed
 
