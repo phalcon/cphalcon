@@ -46,12 +46,11 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/setup-php-sdk@v0.11
+        uses: php/php-windows-builder/php@v1
         with:
-          version: ${{matrix.php}}
+          php-version: ${{matrix.php}}
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
-          deps: zlib
 
       - name: Generate build folder
         run: |
@@ -91,7 +90,11 @@ jobs:
           $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
           echo $phalconDllOpt >> $env:GITHUB_ENV
 
-          $artifactName = 'php_phalcon-${{ env.PHALCON_VERSION }}-php${{matrix.php}}'
+          $fullPhp = '${{matrix.php}}'
+          $parts = $fullPhp -split '\.'
+          if ($parts.Count -ge 2) { $phpShort = "$($parts[0]).$($parts[1])" } else { $phpShort = $fullPhp }
+
+          $artifactName = 'php_phalcon-${{ env.PHALCON_VERSION }}-php$phpShort'
 
           if ('nts' -ne '${{matrix.ts}}') { $artifactName = $artifactName + '-ts' }
           if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
