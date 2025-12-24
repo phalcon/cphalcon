@@ -46,7 +46,7 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/setup-php-sdk@v0.11
+        uses: realFlowControl/setup-php-sdk@realFlowControl-patch-1
         with:
           version: ${{matrix.php}}
           arch: ${{matrix.arch}}
