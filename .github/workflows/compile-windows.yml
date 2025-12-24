@@ -46,7 +46,7 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/php-windows-builder/php@v1
+        uses: php/setup-php-sdk@v0.10
         with:
           version: ${{matrix.php}}
           arch: ${{matrix.arch}}
