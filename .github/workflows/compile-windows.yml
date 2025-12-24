@@ -48,7 +48,7 @@ jobs:
         id: setup-php
         uses: php/php-windows-builder/php@v1
         with:
-          php-version: ${{matrix.php}}
+          version: ${{matrix.php}}
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
           deps: zlib
