@@ -1,16 +1,5 @@
 # Changelog
-## 5.9.5 (xxxx-xx-xx)
-
-### Changed
-
-### Added
-
-### Fixed
-
-### Removed
-
-# Changelog
-## 5.9.4 (2025-11-21)
+## 5.10.0 (2025-12-25)
 
 ### Changed
 

@@ -77,7 +77,7 @@ class Version
      */
     protected function getVersion() -> array
     {
-        return [5, 9, 4, 4, 0];
+        return [5, 10, 0, 4, 0];
     }
 
     /**
