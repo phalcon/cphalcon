@@ -53,37 +53,37 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var FilterInterface|null
      */
-    private filterService = null;
+    protected filterService = null;
 
     /**
      * @var bool
      */
-    private httpMethodParameterOverride = false;
+    protected httpMethodParameterOverride = false;
 
     /**
      * @var array
      */
-    private queryFilters = [];
+    protected queryFilters = [];
 
     /**
      * @var array|null
      */
-    private patchCache = null;
-
-    /**
-     * @var array|null
-     */
-    private putCache = null;
+    protected postCache = null;
 
     /**
      * @var string
      */
-    private rawBody = "";
+    protected rawBody = "";
 
     /**
      * @var bool
      */
-    private strictHostCheck = false;
+    protected strictHostCheck = false;
+
+    /**
+     * @var array
+     */
+    protected trustedProxies = [];
 
     /**
      * Gets a variable from the $_REQUEST superglobal applying filters if
@@ -200,41 +200,86 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets most possible client IPv4 Address. This method searches in
+     * Gets most possible client IP Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
-     * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
+     * `$_SERVER["HTTP_X_FORWARDED_FOR"]` and returns the first non-private or non-reserved IP address
+     *
+     * @param bool $trustForwardedHeader
+     *
+     * @return string|false
+     * @throws \Exception
      */
-    public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
+    public function getClientAddress(bool trustForwardedHeader = false) -> string | false
     {
-        var address = null, server;
+        var address, server,
+            forwardedIps, forwardedIp, invertForwardedIp, trustedForwardedIp,
+            filtered, trustedProxies, filterService, isTrusted, isIpAddressInCIDR;
 
         let server = this->getServerArray();
 
-        /**
-         * Proxies uses this IP
-         */
         if trustForwardedHeader {
             fetch address, server["HTTP_X_FORWARDED_FOR"];
 
             if address === null {
                 fetch address, server["HTTP_CLIENT_IP"];
             }
-        }
 
-        if address === null {
+            if (null !== address && memstr(address, ',')) {
+                /**
+                 * The client address has multiples parts,
+                 * only return the first non-private/non-reserved IP
+                 */
+                let trustedProxies = this->trustedProxies;
+                let forwardedIps = explode(',', address);
+                if !empty(trustedProxies) {
+                    // verify if we trust the forwarded proxy
+                    let isTrusted          = false;
+                    for invertForwardedIp in reverse forwardedIps {
+                        if isTrusted === true {
+                            break;
+                        }
+                        for trustedForwardedIp in trustedProxies {
+                            if (memstr(trustedForwardedIp, "/")) {
+                                let isIpAddressInCIDR = this->isIpAddressInCIDR(invertForwardedIp, trustedForwardedIp);
+                                if isIpAddressInCIDR === true {
+                                    let isTrusted = true;
+                                    break;
+                                }
+                            } else {
+                                if (invertForwardedIp === trustedForwardedIp) {
+                                    let isTrusted = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if !isTrusted {
+                        throw new \Exception("The forwarded proxy IP addresses are not trusted.");
+                    }
+                }
+
+                // retrieve the first valid IP that is not reserved or private
+                let filterService = this->getFilterService();
+                for forwardedIp in forwardedIps {
+                    let filtered = filterService->sanitize(forwardedIp, [
+                        "ip" : [
+                            "filter" : FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                        ]
+                    ]);
+                    if filtered {
+                        return filtered;
+                    }
+                }
+
+                return false;
+            }
+        } else {
             fetch address, server["REMOTE_ADDR"];
         }
 
-        if typeof address != "string" {
+        if !is_string(address) {
             return false;
-        }
-
-        if memstr(address, ",") {
-            /**
-             * The client address has multiples parts, only return the first
-             * part
-             */
-            return explode(",", address)[0];
         }
 
         return address;
@@ -373,7 +418,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets HTTP header from request data
      */
-    final public function getHeader(string! header) -> string
+    public function getHeader(string! header) -> string
     {
         var value, name, server;
 
@@ -607,7 +652,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * The method is always an uppercased string.
      */
-    final public function getMethod() -> string
+    public function getMethod() -> string
     {
         var overridedMethod, spoofedMethod, requestMethod, server;
         string returnMethod = "";
@@ -657,8 +702,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        return this->getPatchPut(
-            "patchCache",
+        let this->postCache = this->getPostData(this->postCache);
+
+        return this->getHelper(
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -713,8 +760,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
+        let this->postCache = this->getPostData(_POST);
+
         return this->getHelper(
-            _POST,
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -741,8 +790,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        return this->getPatchPut(
-            "putCache",
+        let this->postCache = this->getPostData(this->postCache);
+
+        return this->getHelper(
+            this->postCache,
             name,
             filters,
             defaultValue,
@@ -946,7 +997,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * @param bool onlyPath If true, query part will be omitted
      * @return string
      */
-    final public function getURI(bool onlyPath = false) -> string
+    public function getURI(bool onlyPath = false) -> string
     {
         var requestURI;
 
@@ -1022,7 +1073,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function hasPost(string! name) -> bool
     {
-        return isset _POST[name];
+        var post;
+
+        let post = this->getPost();
+
+        return isset post[name];
     }
 
     /**
@@ -1064,6 +1119,17 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         return this->hasServer("HTTP_X_REQUESTED_WITH") &&
             this->getServer("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+    }
+
+    /**
+     * Checks whether request content type contains json data
+     *
+     * @return bool
+     */
+    public function isJson() -> bool
+    {
+        return this->hasServer("CONTENT_TYPE") &&
+            stripos(this->getServer("CONTENT_TYPE"), "json") !== false;
     }
 
     /**
@@ -1355,9 +1421,87 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
+     * Set trusted proxy
+     *
+     * @param array $trustedProxies
+     * @return RequestInterface
+     * @throws Exception
+     */
+    public function setTrustedProxies(array trustedProxies) -> <RequestInterface>
+    {
+        var filterService, trustedProxy, filtered;
+
+        let filterService = this->getFilterService();
+
+        // sanitize IPs
+        for trustedProxy in trustedProxies {
+            let filtered = filterService->sanitize(trustedProxy, "ip");
+            if filtered !== false {
+                let this->trustedProxies[] = filtered;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Check if an IP address exists in CIDR range
+     *
+     * @param string $ip The IP address to check.
+     * @param string $cidr The CIDR range to compare against.
+     * @return bool True if the IP is in range, false otherwise.
+     */
+    protected function isIpAddressInCIDR(string ip, string cidr) -> bool
+    {
+        var parts, maskBytes, mask, tempMask, remainingBits,
+            subnet, maskLength, ipBin, subnetBin, ipBits, subnetBits, ipByte, subnetByte;
+
+        let parts       = explode('/', cidr),
+            subnet      = parts[0],
+            maskLength  = parts[1];
+
+        let ipBin     = inet_pton(ip),
+            subnetBin = inet_pton(subnet);
+
+        if ipBin === false || subnetBin === false {
+            return false; // Invalid IP
+        }
+
+        let ipBits        = unpack("H*", ipBin),
+            subnetBits    = unpack("H*", subnetBin);
+
+        let ipBits     = ipBits[1],
+            subnetBits = subnetBits[1];
+
+        // Convert hex string to binary string
+        let ipBits     = hex2bin(str_pad(ipBits, strlen(ipBits), "0")),
+            subnetBits = hex2bin(str_pad(subnetBits, strlen(subnetBits), "0"));
+
+        let maskBytes     = (int)floor(maskLength / 8);
+        let remainingBits = maskLength % 8;
+
+        // Compare full bytes
+        if strncmp(ipBits, subnetBits, maskBytes) !== 0 {
+            return false;
+        }
+
+        if remainingBits === 0 {
+            return true;
+        }
+
+        let ipByte     = ord(ipBits[maskBytes]),
+            subnetByte = ord(subnetBits[maskBytes]);
+
+        let tempMask = (1 << (8 - remainingBits)) - 1;
+        let mask = 0xFF ^ tempMask;
+
+        return (ipByte & mask) === (subnetByte & mask);
+    }
+
+    /**
      * Process a request header and return the one with best quality
      */
-    final protected function getBestQuality(array qualityParts, string! name) -> string
+    protected function getBestQuality(array qualityParts, string! name) -> string
     {
         int i;
         double quality, acceptQuality;
@@ -1390,7 +1534,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Helper to get data from superglobals, applying filters if needed.
      * If no parameters are given the superglobal is returned.
      */
-    final protected function getHelper(
+    protected function getHelper(
         array source,
         string! name = null,
         var filters = null,
@@ -1431,7 +1575,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Recursively counts file in an array of files
      */
-    final protected function hasFileHelper(var data, bool onlySuccessful) -> long
+    protected function hasFileHelper(var data, bool onlySuccessful) -> long
     {
         var value;
         int numberFiles = 0;
@@ -1458,7 +1602,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Process a request header and return an array of values with their qualities
      */
-    final protected function getQualityHeader(string! serverIndex, string! name) -> array
+    protected function getQualityHeader(string! serverIndex, string! name) -> array
     {
         var headerPart, headerParts, headerSplit, part, parts, returnedParts, serverValue, split;
 
@@ -1596,7 +1740,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Smooth out $_FILES to have plain array with all files uploaded
      */
-    final protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+    protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
     {
         var idx, name, file, files, parentFiles, p;
 
@@ -1695,68 +1839,37 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         );
     }
 
-    /**
-     * Gets a variable from put request
+     /**
+     * Return post data from rawBody, form data, or urlencoded form data
      *
-     *```php
-     * // Returns value from $_PATCH["user_email"] without sanitizing
-     * $userEmail = $request->getPatch("user_email");
-     *
-     * // Returns value from $_PATCH["user_email"] with sanitizing
-     * $userEmail = $request->getPatch("user_email", "email");
-     *```
+     * @param array|null $data
+     * @return array
      */
-    private function getPatchPut(
-        string collection,
-        string name = null,
-        var filters = null,
-        var defaultValue = null,
-        bool notAllowEmpty = false,
-        bool noRecursive = false
-    ) -> var {
-        var cached, contentType;
+    private function getPostData(var data) -> array
+    {
+        var result;
 
-        let cached = this->{collection};
-
-        if null === cached {
-            let contentType = this->getContentType();
-
-            if (
-                typeof contentType == "string" &&
-                (
-                    stripos(contentType, "json") != false ||
-                    stripos(contentType, "multipart/form-data") !== false
-                )
-            ) {
-                if (stripos(contentType, "json") != false) {
-                    let cached = this->getJsonRawBody(true);
-                }
-
-                if (stripos(contentType, "multipart/form-data") !== false) {
-                    let cached = this->getFormData();
-                }
-
-                if typeof cached != "array" {
-                    let cached = [];
-                }
-
+        if empty data {
+            if this->isJson() {
+                let result = this->getJsonRawBody(true);
+            } elseif this->getContentType() && stripos(this->getContentType(), "multipart/form-data") !== false {
+                let result = this->getFormData();
             } else {
-                let cached = [];
-
-                parse_str(this->getRawBody(), cached);
+                // this is more like a fallback to application/x-www-form-urlencoded parsing raw body
+                // the web server should technically take care of adding these to $_POST, but who knows...
+                let result = [];
+                parse_str(this->getRawBody(), result);
             }
-
-            let this->{collection} = cached;
+        } else {
+            let result = data;
         }
 
-        return this->getHelper(
-            cached,
-            name,
-            filters,
-            defaultValue,
-            notAllowEmpty,
-            noRecursive
-        );
+        // sanity check, if after all parsing is not an array, set an empty one
+        if typeof result != "array" {
+            let result = [];
+        }
+
+        return result;
     }
 
     /**

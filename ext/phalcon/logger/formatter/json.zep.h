@@ -7,9 +7,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct);
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json___construct, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, interpolatorLeft, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, interpolatorRight, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, dateFormat, IS_STRING, 0, "'c'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, interpolatorLeft, IS_STRING, 0, "'%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, interpolatorRight, IS_STRING, 0, "'%'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_format, 0, 1, IS_STRING, 0)

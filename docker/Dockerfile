@@ -82,7 +82,7 @@ FROM base AS dev
 # This part prepares a dev environment to compile phalcon from zephir
 
 # hadolint ignore=DL3022
-COPY --from=composer/composer:2 --chown=${USER}:${GROUP} --chmod=0770 /usr/bin/composer /usr/bin/composer
+COPY --from=composer/composer:2 --chown=${USER}:${GROUP} --chmod=0775 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 
@@ -118,20 +118,20 @@ FROM base AS prod
 
 # This part builds the last step required for production image.
 
-ARG PHALCON_VERSION="v5.9.3"
+ARG PHALCON_VERSION="v5.10.0"
 
 ENV PATH=/app/bin:/app:${PATH} \
     PHP_VERSION=${PHP_VERSION} \
     PHALCON_VERSION=${PHALCON_VERSION}
 
-LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}" \
-    org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm" \
-    org.opencontainers.image.authors="Phalcon Team <team@phalcon.io>" \
-    org.opencontainers.image.vendor="Phalcon PHP Framework" \
-    org.opencontainers.image.licenses="BSD-3-Clause" \
-    org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}" \
-    org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile" \
-    org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
+LABEL org.opencontainers.image.title="Phalcon ${PHALCON_VERSION} with php ${PHP_VERSION}"
+LABEL org.opencontainers.image.description="Docker image including Phalcon and PHP on Debian Bookworm"
+LABEL org.opencontainers.image.authors="Phalcon Team <team@phalcon.io>"
+LABEL org.opencontainers.image.vendor="Phalcon PHP Framework"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+LABEL org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}"
+LABEL org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/docker/Dockerfile"
+LABEL org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
 
 COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
 

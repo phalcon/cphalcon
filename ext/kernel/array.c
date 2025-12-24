@@ -652,7 +652,6 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 
 	if ((flags & PH_CTOR) == PH_CTOR) {
 		zval new_zv;
-		//Z_TRY_DELREF_P(value); //?
 		ZVAL_DUP(&new_zv, value);
 		value = &new_zv;
 	}

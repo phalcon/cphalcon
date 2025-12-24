@@ -9,8 +9,8 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helper_str_friendly___invoke, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, lowercase, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, separator, IS_STRING, 0, "'-'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, lowercase, _IS_BOOL, 0, "true")
 	ZEND_ARG_INFO(0, replace)
 ZEND_END_ARG_INFO()
 

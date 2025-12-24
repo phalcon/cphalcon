@@ -41,7 +41,7 @@ PHP_METHOD(Phalcon_Http_Response, getBasename);
 zend_object *zephir_init_properties_Phalcon_Http_Response(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, content, IS_STRING, 1, "null")
 	ZEND_ARG_INFO(0, code)
 	ZEND_ARG_INFO(0, status)
 ZEND_END_ARG_INFO()
@@ -80,8 +80,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_redirect, 0, 0, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_INFO(0, location)
-	ZEND_ARG_TYPE_INFO(0, externalRedirect, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, statusCode, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, externalRedirect, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, statusCode, IS_LONG, 0, "302")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_removeheader, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
@@ -156,8 +156,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setjsoncontent, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_INFO(0, content)
-	ZEND_ARG_TYPE_INFO(0, jsonOptions, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, depth, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, jsonOptions, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, depth, IS_LONG, 0, "512")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setlastmodified, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
@@ -169,7 +169,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setstatuscode, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, code, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, message, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setrawheader, 0, 1, Phalcon\\Http\\ResponseInterface, 0)

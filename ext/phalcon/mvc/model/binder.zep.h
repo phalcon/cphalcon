@@ -22,7 +22,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_bindtoh
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 	ZEND_ARG_TYPE_INFO(0, cacheKey, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, methodName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, methodName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_findboundmodel, 0, 0, 2)

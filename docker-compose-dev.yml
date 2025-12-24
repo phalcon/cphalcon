@@ -9,8 +9,6 @@ services:
       args:
         PHP_VERSION: 8.1
     working_dir: /srv
-    ports:
-      - "9501:9501"
     volumes:
       - .:/srv
 
@@ -47,6 +45,17 @@ services:
     volumes:
       - .:/srv
 
+  cphalcon-dev-8.5:
+    container_name: cphalcon-dev-8.5
+    hostname: cphalcon-dev-85
+    build:
+      dockerfile: docker/develop/Dockerfile
+      args:
+        PHP_VERSION: 8.5
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
   mysql:
     container_name: cphalcon-dev-mysql
     image: mysql:5.7
@@ -58,7 +67,7 @@ services:
 
   postgres:
     container_name: cphalcon-dev-postgres
-    image: postgres:12-alpine
+    image: postgres:18-alpine
     environment:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=phalcon
@@ -66,8 +75,8 @@ services:
 
   redis:
     container_name: cphalcon-dev-redis
-    image: redis:5-alpine
+    image: redis:8-alpine
 
   memcached:
     container_name: cphalcon-dev-memcached
-    image: memcached:1.5-alpine
+    image: memcached:1.6-alpine

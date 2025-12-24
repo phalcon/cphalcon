@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Doctype)
 	/**
 	 * @var int
 	 */
-	zend_declare_property_null(phalcon_html_helper_doctype_ce, SL("flag"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_html_helper_doctype_ce, SL("type"), ZEND_ACC_PRIVATE);
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML32"), 1);
 
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML401_STRICT"), 2);
@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __construct)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, 5);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("flag"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_GET_CONSTANT(&_1, "PHP_EOL");
 	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_1);
@@ -87,29 +87,29 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __construct)
 /**
  * Produce a <doctype> tag
  *
- * @param int    $flag
+ * @param int    $type
  * @param string $delimiter
  */
 PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval delimiter;
-	zval *flag_param = NULL, *delimiter_param = NULL, _0;
-	zend_long flag;
+	zval *type_param = NULL, *delimiter_param = NULL, _0;
+	zend_long type;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&delimiter);
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_LONG(flag)
+		Z_PARAM_LONG(type)
 		Z_PARAM_STR(delimiter)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 2, &flag_param, &delimiter_param);
-	if (!flag_param) {
-		flag = 5;
+	zephir_fetch_params(1, 0, 2, &type_param, &delimiter_param);
+	if (!type_param) {
+		type = 5;
 	} else {
 		}
 	if (!delimiter_param) {
@@ -119,8 +119,8 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 		zephir_get_strval(&delimiter, delimiter_param);
 	}
 	ZVAL_UNDEF(&_0);
-	ZVAL_LONG(&_0, flag);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("flag"), &_0);
+	ZVAL_LONG(&_0, type);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &delimiter);
 	RETURN_THIS();
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 	ZVAL_UNDEF(&_15$$10);
 	ZVAL_UNDEF(&_16$$11);
 	ZVAL_UNDEF(&_17$$11);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("flag"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("type"), PH_NOISY_CC | PH_READONLY);
 	do {
 		if (ZEPHIR_IS_LONG(&_0, 1)) {
 			zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);
@@ -212,5 +212,14 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 	zephir_read_property(&_18, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", &_18);
 	return;
+}
+
+/**
+ * @return int
+ */
+PHP_METHOD(Phalcon_Html_Helper_Doctype, getType)
+{
+
+	RETURN_MEMBER(getThis(), "type");
 }
 

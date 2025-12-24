@@ -197,7 +197,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_TYPE_INFO(0, shared, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_stop, 0, 0, IS_VOID, 0)

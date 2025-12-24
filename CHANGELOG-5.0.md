@@ -1,4 +1,29 @@
 # Changelog
+## 5.10.0 (2025-12-25)
+
+### Changed
+
+- Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
+- Changed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to use 50ms for `\Memcached::OPT_CONNECT_TIMEOUT` [#16818](https://github.com/phalcon/cphalcon/issues/16818)
+- Changed `Phalcon\Html\Helper\Input\*` to honor `Docbloc` directives [#16778](https://github.com/phalcon/cphalcon/issues/16778)
+
+### Added
+
+- Added `fails()` method helper to `Phalcon\Filter\Validation` useful for standalone validation [#16798](https://github.com/phalcon/cphalcon/issues/16798)
+
+### Fixed
+
+- Fixed `Phalcon\Config\Adapter\Yaml` constructor to handle `null` return values from `yaml_parse_file()`, ensuring empty configuration files are treated as empty arrays instead of throwing errors.
+- Fixed `Phalcon\Http\Request` method `getClientAddress(true)` to return correct IP address from trusted forwarded proxy. [#16777](https://github.com/phalcon/cphalcon/issues/16777)
+- Fixed `Phalcon\Http\Request` method `getPost()` to correctly return json data as well and unified both `getPut()` and `getPatch()` to go through the same parsing method. [#16792](https://github.com/phalcon/cphalcon/issues/16792)
+- Fixed `Phalcon\Filter\Validation` method `bind()` and `validate()` to correctly bind data when using entity as well as skip binding of fields not included in `$whitelist` [#16800](https://github.com/phalcon/cphalcon/issues/16800)
+- Fixed `Phalcon\Http\Request` method `getPostData()` when `Content-Type` header is not set [#16804](https://github.com/phalcon/cphalcon/issues/16804)
+- Fixed `Phalcon\Events\ManagerInterface` adding priority property [#16817](https://github.com/phalcon/cphalcon/issues/16817)
+- Fixed `Phalcon\Storage\Adapters\Libmemcached::getAdapter()` to correctly merge adapter options [#16818](https://github.com/phalcon/cphalcon/issues/16818)
+- Fixed `Phalcon\Encryption\Crypt` method `checkCipherHashIsAvailable(string $cipher, string $type)` to correctly check the `cipher` or `hash` type [#16822](https://github.com/phalcon/cphalcon/issues/16822)
+- Fixed `Phalcon\Mvc\Model` docblocks [#16825](https://github.com/phalcon/cphalcon/issues/16825)
+
+### Removed
 
 ## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 

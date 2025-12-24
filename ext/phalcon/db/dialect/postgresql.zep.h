@@ -63,22 +63,22 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_createview, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_describecolumns, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_describeindexes, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_describereferences, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_dropcolumn, 0, 3, IS_STRING, 0)
@@ -106,14 +106,14 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_droptable, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, ifExists, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_dropview, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, ifExists, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, 0, 1, IS_STRING, 0)
@@ -121,11 +121,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_ge
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_listtables, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_listviews, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_modifycolumn, 0, 3, IS_STRING, 0)
@@ -141,12 +141,12 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_tableexists, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_tableoptions, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_truncatetable, 0, 2, IS_STRING, 0)
@@ -156,7 +156,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_viewexists, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_castdefault, 0, 1, IS_STRING, 0)

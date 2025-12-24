@@ -272,7 +272,7 @@ int zephir_function_exists(const zval *function_name)
  */
 int zephir_function_exists_ex(const char *function_name, unsigned int function_len)
 {
-	if (zend_hash_str_exists(CG(function_table), function_name, function_len) != NULL) {
+	if (zend_hash_str_exists(CG(function_table), function_name, function_len)) {
         return SUCCESS;
     }
 

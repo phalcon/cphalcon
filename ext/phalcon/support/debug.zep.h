@@ -51,8 +51,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_halt, 0, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_listen, 0, 0, Phalcon\\Support\\Debug, 0)
-	ZEND_ARG_TYPE_INFO(0, exceptions, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, lowSeverity, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, exceptions, _IS_BOOL, 0, "true")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, lowSeverity, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_listenexceptions, 0, 0, Phalcon\\Support\\Debug, 0)

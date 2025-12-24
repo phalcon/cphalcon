@@ -25,8 +25,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_INFO(0, location)
-	ZEND_ARG_TYPE_INFO(0, externalRedirect, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, statusCode, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, externalRedirect, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, statusCode, IS_LONG, 0, "302")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_responseinterface_resetheaders, 0, 0, Phalcon\\Http\\ResponseInterface, 0)
@@ -72,7 +72,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_responseinterface_setstatuscode, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, code, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, message, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_responseinterface_send, 0, 0, Phalcon\\Http\\ResponseInterface, 0)

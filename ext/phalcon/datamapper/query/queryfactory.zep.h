@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect);
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory___construct, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, selectClass, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, selectClass, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newbind, 0, 0, Phalcon\\DataMapper\\Query\\Bind, 0)

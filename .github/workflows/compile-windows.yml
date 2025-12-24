@@ -6,7 +6,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.9.3
+  PHALCON_VERSION: 5.10.0
 
 jobs:
   windows:
@@ -46,7 +46,7 @@ jobs:
 
       - name: Setup PHP
         id: setup-php
-        uses: php/setup-php-sdk@v0.10
+        uses: php/setup-php-sdk@v0.11
         with:
           version: ${{matrix.php}}
           arch: ${{matrix.arch}}

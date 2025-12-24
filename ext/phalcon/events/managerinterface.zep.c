@@ -27,6 +27,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_ManagerInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, ManagerInterface, phalcon, events_managerinterface, phalcon_events_managerinterface_method_entry);
 
+	zephir_declare_class_constant_long(phalcon_events_managerinterface_ce, SL("DEFAULT_PRIORITY"), 100);
+
 	return SUCCESS;
 }
 

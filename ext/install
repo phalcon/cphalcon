@@ -9,7 +9,7 @@
 # the LICENSE file that was distributed with this source code.
 
 export CC="gcc"
-export CFLAGS="-O2 -Wall -fvisibility=hidden -flto -DZEPHIR_RELEASE=1"
+export CFLAGS="-O2 -Wno-incompatible-pointer-types -fvisibility=hidden -flto -DZEPHIR_RELEASE=1"
 
 IN_DOCKER=0
 

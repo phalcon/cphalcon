@@ -21,8 +21,8 @@ zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *c
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_message___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 	ZEND_ARG_INFO(0, field)
-	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, code, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_STRING, 0, "''")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, code, IS_LONG, 0, "0")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, metaData, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

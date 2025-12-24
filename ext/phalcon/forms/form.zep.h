@@ -51,8 +51,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_add, 0, 1, Phalcon\\Forms\\Form, 0)
 	ZEND_ARG_OBJ_INFO(0, element, Phalcon\\Forms\\Element\\ElementInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, position, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, type, _IS_BOOL, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, _IS_BOOL, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_bind, 0, 1, Phalcon\\Forms\\Form, 0)
