@@ -23,6 +23,11 @@ jobs:
           - '8.2'
           - '8.3'
           - '8.4'
+        php-specific-version:
+          - '8.1.34'
+          - '8.2.30'
+          - '8.3.29'
+          - '8.4.16'
         arch:
           - x64
           - x86
@@ -48,10 +53,9 @@ jobs:
         id: setup-php
         uses: php/php-windows-builder/php@v1
         with:
-          php-version: ${{matrix.php}}
+          php-version: ${{matrix.php-specific-version}}
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
-          deps: zlib
 
       - name: Generate build folder
         run: |
