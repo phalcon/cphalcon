@@ -19,6 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+        php-specific-version:
           - '8.1.34'
           - '8.2.30'
           - '8.3.29'
@@ -48,7 +53,7 @@ jobs:
         id: setup-php
         uses: php/php-windows-builder/php@v1
         with:
-          php-version: ${{matrix.php}}
+          php-version: ${{matrix.php-specific-version}}
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
 
@@ -90,11 +95,7 @@ jobs:
           $phalconDllOpt = 'TEST_PHP_ARGS=-n -d zend_extension=' + $dir + '\php_phalcon.dll'
           echo $phalconDllOpt >> $env:GITHUB_ENV
 
-          $fullPhp = '${{matrix.php}}'
-          $parts = $fullPhp -split '\.'
-          if ($parts.Count -ge 2) { $phpShort = "$($parts[0]).$($parts[1])" } else { $phpShort = $fullPhp }
-
-          $artifactName = 'php_phalcon-${{ env.PHALCON_VERSION }}-php$phpShort'
+          $artifactName = 'php_phalcon-${{ env.PHALCON_VERSION }}-php${{matrix.php}}'
 
           if ('nts' -ne '${{matrix.ts}}') { $artifactName = $artifactName + '-ts' }
           if ('nts' -eq '${{matrix.ts}}') { $artifactName = $artifactName + '-nts' }
