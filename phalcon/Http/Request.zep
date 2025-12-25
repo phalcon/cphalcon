@@ -870,6 +870,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             return "https";
         }
 
+        let forwarded_proto = this->getServer("HTTP_X_FORWARDED_PROTO");
+        if forwarded_proto && forwarded_proto == "https" {
+            return "https";
+        }
+
         return "http";
     }
 
