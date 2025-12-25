@@ -111,7 +111,7 @@ class File extends AbstractValidatorComposite
      *     'maxResolution' => '1000x1000',
      *     'messageMaxResolution' => '',
      *     'includedMaxResolution' => false,
-     *     'minResolution => '500x500',
+     *     'minResolution' => '500x500',
      *     'includedMinResolution' => false,
      *     'messageMinResolution' => '',
      *     'equalResolution' => '1000x1000',
@@ -119,14 +119,15 @@ class File extends AbstractValidatorComposite
      *     'allowEmpty' => false,
      *     'messageFileEmpty' => '',
      *     'messageIniSize' => '',
-     *     'messageValid' => ''
+     *     'messageValid' => '',
+     *     'ignoreCheckUploadedFile' => false
      * ]
      */
     public function __construct(array! options = [])
     {
         var helper, included = null, key, message = null,
             messageFileEmpty = null, messageIniSize = null, messageValid = null,
-            validator, value;
+            validator, value, ignoreFlag;
 
         let helper = new Get();
 
@@ -145,7 +146,15 @@ class File extends AbstractValidatorComposite
             unset options["messageValid"];
         }
 
-        // create individual validators
+        /**
+         * Store ignoreCheckUploadedFile option internally
+         */
+        if isset options["ignoreCheckUploadedFile"] {
+            let this->options["ignoreCheckUploadedFile"] = options["ignoreCheckUploadedFile"];
+            unset options["ignoreCheckUploadedFile"];
+        }
+
+        // Create individual validators
         for key, value in options {
             // min file size
             if strcasecmp(key, "minSize") === 0 {
@@ -278,6 +287,15 @@ class File extends AbstractValidatorComposite
             }
 
             let this->validators[] = validator;
+        }
+
+        /**
+         * Propagate ignoreCheckUploadedFile option to all sub-validators
+         */
+        if fetch ignoreFlag, this->options["ignoreCheckUploadedFile"] {
+            for validator in this->validators {
+                validator->setOption("ignoreCheckUploadedFile", ignoreFlag);
+            }
         }
 
         parent::__construct(options);
