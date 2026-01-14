@@ -70,6 +70,33 @@ class Redis extends AbstractAdapter
         parent::__construct(factory, options);
     }
 
+     /**
+     * Returns the time to live left for a given key in seconds.
+     * If the key has no ttl, -1 will be returned, and -2 if the key doesn't exist.
+     *
+     * @param string $key
+     *
+     * @return int 
+     * @throws StorageException
+     */
+     public function ttl(string! key) -> int
+     {
+        return this->getAdapter()->ttl(key);
+     }
+     
+     /**
+     * Returns the time to live left for a given key in milliseconds 
+     *
+     * @param string $key
+     * 
+     * @return int 
+     * @throws StorageException
+     */
+     public function pttl(string! key) -> int
+     {
+        return this->getAdapter()->pttl(key);
+     }
+     
     /**
      * Flushes/clears the cache
      *
