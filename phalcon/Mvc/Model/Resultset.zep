@@ -131,12 +131,30 @@ abstract class Resultset
     protected result;
 
     /**
+     * @var \Phalcon\Mvc\Model\Manager|null
+     */
+    protected manager = null;
+
+
+    /**
+     * @var \Phalcon\Mvc\Model\MetaData|null
+     */
+    protected metaData = null;
+
+    /**
+     * Thread cache.
+     *
+     * @var \Phalcon\Session\Adapter\AbstractAdapter|null
+     */
+     protected sessionCache = null;
+
+    /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
      * @param ResultInterface|false $result
      * @param mixed|null            $cache
      */
-    public function __construct(var result, var cache = null)
+    public function __construct(var result, var cache = null, manager = null, metaData = null)
     {
         var prefetchRecords, rowCount, rows;
 
@@ -149,7 +167,15 @@ abstract class Resultset
 
             return;
         }
-
+        if true === globals_get("orm.session_cache") {
+            if null !== manager {
+                let this->manager = manager;
+                let this->sessionCache = manager->getSessionCache();
+            }
+            if null !== metaData {
+                let this->metaData = metaData;
+            }
+        }
         /**
          * Valid resultsets are Phalcon\Db\ResultInterface instances
          */
