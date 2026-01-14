@@ -272,6 +272,7 @@ class DeleteCest
          * Check for the number of invoices
          */
         $expected = 0;
+        $customer->invoices->refresh();
         $actual   = $customer->invoices->count();
         $I->assertEquals($expected, $actual);
     }
