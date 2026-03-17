@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9401b2d612661b78041d102f6b29321",
+    "content-hash": "038453d81c3e406e67aeae495495cadb",
     "packages": [],
     "packages-dev": [
         {
@@ -2672,16 +2672,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "dev-development",
+            "version": "dev-pointer-type-2462",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "a555d6facc0e285680a0cfb22fcb312459707049"
+                "reference": "123b858c18e786aa66437be986855545ee8b8c8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/a555d6facc0e285680a0cfb22fcb312459707049",
-                "reference": "a555d6facc0e285680a0cfb22fcb312459707049",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/123b858c18e786aa66437be986855545ee8b8c8a",
+                "reference": "123b858c18e786aa66437be986855545ee8b8c8a",
                 "shasum": ""
             },
             "require": {
@@ -2704,7 +2704,6 @@
                 "psr/log": "1.1.*",
                 "squizlabs/php_codesniffer": "^4.0"
             },
-            "default-branch": true,
             "bin": [
                 "zephir"
             ],
@@ -2753,7 +2752,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-27T15:43:02+00:00"
+            "time": "2026-03-17T19:25:09+00:00"
         },
         {
             "name": "phar-io/manifest",
