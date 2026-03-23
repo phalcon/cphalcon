@@ -36,7 +36,7 @@ class OrdersMigration extends AbstractMigration
 insert into co_orders (
     ord_id, ord_name
 ) values (
-    {$ord_id}, {$ord_name}
+    {$ord_id}, '{$ord_name}'
 )
 SQL;
 
