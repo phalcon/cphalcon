@@ -65,17 +65,17 @@ class ArrayValues extends Lazy implements \ArrayAccess, \Countable, \IteratorAgg
         }
     }
 
-    public function offsetExists(var offset) -> bool
+    public function offsetExists(mixed offset) -> bool
     {
         return isset(this->values[offset]);
     }
 
-    public function offsetGet(var offset) -> var
+    public function offsetGet(mixed offset) -> mixed
     {
         return this->values[offset];
     }
 
-    public function offsetSet(var offset, var value) -> void
+    public function offsetSet(mixed offset, mixed value) -> void
     {
         if offset === null {
             let this->values[] = value;
@@ -84,7 +84,7 @@ class ArrayValues extends Lazy implements \ArrayAccess, \Countable, \IteratorAgg
         }
     }
 
-    public function offsetUnset(var offset) -> void
+    public function offsetUnset(mixed offset) -> void
     {
         unset(this->values[offset]);
     }
