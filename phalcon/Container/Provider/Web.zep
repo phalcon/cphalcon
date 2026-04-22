@@ -27,6 +27,7 @@
 
 namespace Phalcon\Container\Provider;
 
+use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Exception\Invalid;
 use Phalcon\Container\Interop\Service\Collection;
 use Phalcon\Container\Interop\Service\Provider;

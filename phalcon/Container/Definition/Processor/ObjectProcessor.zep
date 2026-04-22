@@ -42,10 +42,12 @@ class ObjectProcessor implements Processor
     {
         var def;
 
-        let def = new ServiceDefinition(name, DefinitionType::OBJECT, definition);
-        def->setFactory(function () use (definition) {
-            return definition;
-        });
+        let def = new ServiceDefinition(name, DefinitionType::DEF_OBJECT, definition);
+        def->setFactory(
+            function () use (definition) {
+                return definition;
+            }
+        );
 
         return def;
     }

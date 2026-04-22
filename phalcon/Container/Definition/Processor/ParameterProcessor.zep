@@ -27,6 +27,7 @@
 
 namespace Phalcon\Container\Definition\Processor;
 
+use Closure;
 use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\Processor\Processor;
 use Phalcon\Container\Definition\ServiceDefinition;
@@ -42,8 +43,8 @@ class ParameterProcessor implements Processor
     {
         var def, cacheable;
 
-        let def = new ServiceDefinition(name, DefinitionType::PARAMETER, definition);
-        let cacheable = !(definition instanceof \Closure) && !is_object(definition);
+        let def = new ServiceDefinition(name, DefinitionType::DEF_PARAMETER, definition);
+        let cacheable = !(definition instanceof Closure) && !is_object(definition);
         def->setIsCacheable(cacheable);
 
         return def;

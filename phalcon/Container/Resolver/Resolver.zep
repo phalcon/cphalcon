@@ -145,7 +145,7 @@ class Resolver implements ResolverService
         return resolved;
     }
 
-    public function resolveType(object container, var type) -> var
+    public function resolveType(object container, var type) -> mixed
     {
         if type instanceof ReflectionNamedType {
             return type->getName();

@@ -67,7 +67,7 @@ interface Collection extends IocContainer
 
     public function isAutowireEnabled() -> bool;
 
-    public function new(string! name) -> var;
+    public function $new(string! name) -> var;
 
     public function newDefinition(string! name) -> <ServiceDefinition>;
 

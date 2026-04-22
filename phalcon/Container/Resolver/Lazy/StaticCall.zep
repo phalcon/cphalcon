@@ -51,7 +51,7 @@ class StaticCall extends Lazy
             throw new TypeError("Argument 'id' must be string or Lazy");
         }
 
-        let this->id        = className;
+        let this->className = className;
         let this->method    = method;
         let this->arguments = arguments;
     }

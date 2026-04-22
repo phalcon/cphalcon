@@ -121,7 +121,7 @@ class ServiceDefinition
 
     public function buildService(object container) -> object
     {
-        var args, classValue, extender, factory, reflection;
+        var args, classValue, extender, factory, instance, reflection;
 
         if this->hasFactory() {
             let factory  = this->factory;
@@ -148,7 +148,7 @@ class ServiceDefinition
             return;
         }
 
-        if (this->type === DefinitionType::STRING
+        if (this->type === DefinitionType::DEF_STRING
             && method_exists(container, "isAutowireEnabled")
             && container->isAutowireEnabled()
         ) {
@@ -164,7 +164,7 @@ class ServiceDefinition
                     this->arguments
                 );
             }
-        } elseif this->type === DefinitionType::STRING && !empty(this->arguments) {
+        } elseif this->type === DefinitionType::DEF_STRING && !empty(this->arguments) {
             let this->constructorArgs = this->arguments;
         }
 

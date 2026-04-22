@@ -42,7 +42,7 @@ class ClosureProcessor implements Processor
     {
         var def;
 
-        let def = new ServiceDefinition(name, DefinitionType::CLOSURE, definition);
+        let def = new ServiceDefinition(name, DefinitionType::DEF_CLOSURE, definition);
         def->setFactory(definition);
 
         return def;

@@ -42,7 +42,7 @@ class StringProcessor implements Processor
     {
         var def;
 
-        let def = new ServiceDefinition(name, DefinitionType::STRING, definition);
+        let def = new ServiceDefinition(name, DefinitionType::DEF_STRING, definition);
         def->setClass(definition);
         def->setIsCacheable(true);
 
