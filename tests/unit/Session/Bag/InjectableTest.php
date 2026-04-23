@@ -23,8 +23,6 @@ final class InjectableTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: clear()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

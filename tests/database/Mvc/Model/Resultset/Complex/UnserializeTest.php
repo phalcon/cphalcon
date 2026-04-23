@@ -40,8 +40,6 @@ final class UnserializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Resultset\Complex :: unserialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
      *

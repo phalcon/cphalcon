@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model\Behavior;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Behavior;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
@@ -89,7 +90,7 @@ class SoftDelete extends Behavior
          */
         model->writeAttribute(field, value);
 
-        if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+        if modelsManager->isKeepingSnapshots(model) && Settings::get("orm.update_snapshot_on_save") {
             let metaData = model->getModelsMetaData();
 
             model->setSnapshotData(

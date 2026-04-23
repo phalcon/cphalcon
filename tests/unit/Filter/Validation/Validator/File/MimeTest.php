@@ -37,8 +37,6 @@ final class MimeTest extends AbstractUnitTestCase
         $this->safeDeleteFile($this->tmpFile);
     }
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File :: validate()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -72,8 +70,6 @@ final class MimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File :: validate()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -111,8 +107,6 @@ final class MimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File :: validate()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -146,8 +140,6 @@ final class MimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File :: validate()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -181,8 +173,6 @@ final class MimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File :: customMessages[]
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

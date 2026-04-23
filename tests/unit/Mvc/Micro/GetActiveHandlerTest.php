@@ -16,27 +16,22 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
-use Phalcon\Tests\Support\Micro\RestHandler;
 use Phalcon\Tests\AbstractUnitTestCase;
-
-use function is_array;
+use Phalcon\Tests\Support\Micro\RestHandler;
 
 class GetActiveHandlerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: getActiveHandler()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroGetActiveHandler(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $micro = new Micro();
+        $this->assertNull($micro->getActiveHandler());
     }
 
     /**
-     * Tests Phalcon\Mvc\Micro :: getActiveHandler() with lazy loader
-     *
      * @author Jurigag <https://github.com/Jurigag>
      * @since  2020-01-21
      */
@@ -50,11 +45,10 @@ class GetActiveHandlerTest extends AbstractUnitTestCase
         $collection->map('/', 'find');
         $app->mount($collection);
 
-
         $app->handle('/');
 
         $result = $app->getActiveHandler();
-        $this->assertTrue(is_array($result));
+        $this->assertIsArray($result);
 
         $handler = $result[0];
         $this->assertInstanceOf(LazyLoader::class, $handler);

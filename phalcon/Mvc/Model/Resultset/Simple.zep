@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -119,7 +120,7 @@ class Simple extends Resultset
                  * Set records as dirty state PERSISTENT by default
                  * Performs the standard hydration based on objects
                  */
-                if globals_get("orm.late_state_binding") {
+                if Settings::get("orm.late_state_binding") {
                     if this->model instanceof Model {
                         let modelName = get_class(this->model);
                     } else {

@@ -320,7 +320,7 @@ interface ManagerInterface
     public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool;
 
     /**
-     * Loads a model throwing an exception if it doesn't exist
+     * Loads a model throwing an exception if it does not exist
      */
     public function load(string modelName) -> <ModelInterface>;
 

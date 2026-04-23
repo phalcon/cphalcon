@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router :: getDI()/setDI()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-29
      */

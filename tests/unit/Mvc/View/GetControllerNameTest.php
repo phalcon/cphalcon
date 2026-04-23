@@ -21,8 +21,6 @@ class GetControllerNameTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View :: getControllerName()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

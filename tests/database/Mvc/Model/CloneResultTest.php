@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class CloneResultTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - cloneResult()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

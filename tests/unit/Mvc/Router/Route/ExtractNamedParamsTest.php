@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ExtractNamedParamsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: extractNamedParams()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterRouteExtractNamedParams(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $route  = new Route('/test');
+        $result = $route->extractNamedParams('/users/{id:[0-9]+}');
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertIsString($result[0]);
+        $this->assertIsArray($result[1]);
+        $this->assertArrayHasKey('id', $result[1]);
     }
 }

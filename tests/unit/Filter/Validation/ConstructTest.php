@@ -22,8 +22,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: __construct()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */

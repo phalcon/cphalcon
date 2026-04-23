@@ -86,10 +86,6 @@ final class FriendlyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: friendly()
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

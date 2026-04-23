@@ -20,6 +20,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 use RuntimeException;
 use Throwable;
 
+/**
+ *
+ * @group phql
+ */
 final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -44,11 +48,10 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query :: mvcModelQueryRollbackOnException() - Issue 16604
-     *
+     * @issue  16604
      * @author noone-silent <lominum@protonmail.com>
      * @since  2024-06-10
-     * @issue  16604
+     *
      * @group mysql
      * @group pgsql
      */

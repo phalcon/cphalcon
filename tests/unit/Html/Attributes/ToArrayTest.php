@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ToArrayTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: toArray()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

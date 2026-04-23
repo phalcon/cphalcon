@@ -24,10 +24,6 @@ use stdClass;
 final class RenderTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Form::render
-     *
-     * @return void
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1190
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-07-17
@@ -58,10 +54,6 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Form::render
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-07-17
      */
@@ -98,10 +90,6 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Form::render
-     *
-     * @return void
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-07-17

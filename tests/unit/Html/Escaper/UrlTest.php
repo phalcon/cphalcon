@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UrlTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Escaper :: escapeUrl()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -32,9 +28,6 @@ final class UrlTest extends AbstractUnitTestCase
 
         $expected = 'https%3A%2F%2Fphalcon.io%2Fa.php%3Fc%3Dd%26e%3Df';
         $actual   = $escaper->url('https://phalcon.io/a.php?c=d&e=f');
-        $this->assertSame($expected, $actual);
-
-        $actual = $escaper->escapeUrl('https://phalcon.io/a.php?c=d&e=f');
         $this->assertSame($expected, $actual);
     }
 }

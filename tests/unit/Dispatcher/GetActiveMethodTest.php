@@ -47,12 +47,10 @@ final class GetActiveMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: getActiveMethod()
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     *
      * @dataProvider getExamples
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
     public function testDispatcherGetActiveMethod(
         string $actionName,

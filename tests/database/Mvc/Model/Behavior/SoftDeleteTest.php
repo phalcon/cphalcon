@@ -37,8 +37,6 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Behavior :: SoftDelete()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
      *
@@ -67,8 +65,6 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Behavior :: SoftDelete() - with before delete event
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
      *
@@ -107,9 +103,6 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Behavior :: removeBehavior()
-     *
-     * @todo Enable once Phalcon\Mvc\Model\Manager::removeBehavior() is ported to cphalcon
      *
      * @group mysql
      */

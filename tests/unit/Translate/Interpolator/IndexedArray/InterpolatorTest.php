@@ -20,10 +20,6 @@ use Phalcon\Translate\InterpolatorFactory;
 final class InterpolatorTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Translate\Interpolator\IndexedArray :: objects
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

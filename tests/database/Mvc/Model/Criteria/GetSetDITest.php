@@ -27,8 +27,6 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getDI() / setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

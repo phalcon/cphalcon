@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetHrefTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\Link :: getHref()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

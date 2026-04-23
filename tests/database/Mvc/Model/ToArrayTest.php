@@ -27,6 +27,10 @@ use function date;
 use function getOptionsMysql;
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class ToArrayTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -42,8 +46,6 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: toArray()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
      *
@@ -89,8 +91,6 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: toArray() - column map
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
      *
@@ -136,12 +136,9 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: toArray() - execute column not in columnMap
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/16467
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-21
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/16467
      *
      * @group mysql
      */
@@ -196,12 +193,9 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: toArray() - find - castOnHydrate/forceCasting
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/15361
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/15361
      *
      * @group mysql
      */
@@ -272,12 +266,9 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: toArray() - find first columns
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/1701
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/1701
      *
      * @group mysql
      * @group sqlite
@@ -318,11 +309,9 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\ :: save() with property source
-     *
+     * @issue  #11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     * @issue  #11922
      *
      * @group mysql
      * @group sqlite
@@ -375,11 +364,9 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\ :: save() with property source
-     *
+     * @issue  #11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     * @issue  #11922
      *
      * @group mysql
      * @group sqlite

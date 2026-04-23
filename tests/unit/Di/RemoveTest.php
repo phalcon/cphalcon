@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class RemoveTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: remove()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

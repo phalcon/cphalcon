@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetNonPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Redis :: getNonPrimaryKeyAttributes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

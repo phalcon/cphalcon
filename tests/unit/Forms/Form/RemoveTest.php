@@ -13,18 +13,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class RemoveTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: remove()
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2024-01-01
      */
-    public function testFormsFormRemove(): void
+    public function testFormsFormRemoveFound(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+        $form->add(new Text('name'));
+        $form->add(new Text('email'));
+
+        $actual = $form->remove('name');
+        $this->assertTrue($actual);
+
+        $actual = $form->has('name');
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsFormRemoveNotFound(): void
+    {
+        $form = new Form();
+        $form->add(new Text('name'));
+
+        $actual = $form->remove('nonexistent');
+        $this->assertFalse($actual);
     }
 }

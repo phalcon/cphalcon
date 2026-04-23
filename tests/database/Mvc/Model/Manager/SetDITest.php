@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetDITest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

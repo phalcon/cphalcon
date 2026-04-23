@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class RemoveHeaderTest extends AbstractHttpBase
 {
     /**
-     * Test the removeHeader
-     *
      * @author Mohamad Rostami <mb.rostami.h@gmail.com>
      */
     public function testHttpResponseRemoveHeaderContentType(): void

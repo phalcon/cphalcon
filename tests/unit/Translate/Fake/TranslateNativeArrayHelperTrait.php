@@ -71,8 +71,6 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query()
-     *
      * @dataProvider getQueryProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -102,12 +100,7 @@ trait TranslateNativeArrayHelperTrait
     abstract protected function func(): string;
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
-     * variable substitution in string with no variables
-     *
      * @dataProvider getQueryProvider
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -126,12 +119,8 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
-     * variable substitution in string (one variable)
-     *
      * @dataProvider getQueryOneVariable
      *
-     * @throws Exception
      */
     public function testTranslateAdapterNativearrayVariableSubstitutionOneVariable(string $code, array $tests): void
     {
@@ -146,12 +135,7 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
-     * variable substitution in string (two variables)
-     *
      * @dataProvider getQueryTwoVariables
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -173,11 +157,6 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access
-     * and UTF8 strings
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

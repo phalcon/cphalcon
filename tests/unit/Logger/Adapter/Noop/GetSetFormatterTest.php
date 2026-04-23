@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetFormatterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Noop :: getFormatter()/setFormatter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

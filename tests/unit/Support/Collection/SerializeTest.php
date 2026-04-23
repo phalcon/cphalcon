@@ -19,10 +19,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class SerializeTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: serialize()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -41,10 +37,6 @@ final class SerializeTest extends AbstractCollectionTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Collection :: serialize()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

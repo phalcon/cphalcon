@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Token :: getToken()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-09-23
      */

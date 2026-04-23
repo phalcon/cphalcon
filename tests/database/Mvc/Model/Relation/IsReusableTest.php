@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class IsReusableTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Relation :: isReusable()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

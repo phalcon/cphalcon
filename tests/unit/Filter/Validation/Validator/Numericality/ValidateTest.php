@@ -96,8 +96,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests numericality validator with multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -169,13 +167,11 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests numericality validator with single field
+     * @dataProvider getExamples
      *
      * @author       Wojciech Ślawski <jurigag@gmail.com>
      * @author       Andrey Izman <izmanw@gmail.com>
      * @since        2016-06-05
-     *
-     * @dataProvider getExamples
      */
     public function testFilterValidationValidatorNumericalitySingleField(
         mixed $amount,
@@ -195,8 +191,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Numericality :: validate()
-     *
      * @dataProvider getMixedExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -218,13 +212,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Numericality :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */

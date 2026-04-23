@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class OffsetExistsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset\Simple - offsetExists()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

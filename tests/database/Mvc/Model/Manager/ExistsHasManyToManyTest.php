@@ -28,8 +28,6 @@ final class ExistsHasManyToManyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: existsHasManyToMany()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

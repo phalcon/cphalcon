@@ -102,8 +102,6 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
 
 
     /**
-     * Initializes the request object and returns it
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -113,8 +111,6 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
     }
 
     /**
-     * Initializes the response object and returns it
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */

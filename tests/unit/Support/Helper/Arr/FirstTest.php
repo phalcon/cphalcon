@@ -21,10 +21,6 @@ use function strlen;
 final class FirstTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: first()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,10 +37,6 @@ final class FirstTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: first() - function
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

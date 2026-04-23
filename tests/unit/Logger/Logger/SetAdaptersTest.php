@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetAdaptersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: setAdapters()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -61,10 +57,6 @@ final class SetAdaptersTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: setAdapters() - constructor
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

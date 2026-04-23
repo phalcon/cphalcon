@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class EmailTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - valid email
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -33,8 +31,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - invalid email
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -47,8 +43,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - without utf8 is ok
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -61,8 +55,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - empty is not ok
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -75,8 +67,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - empty is ok
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -89,8 +79,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - with utf8 fails
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -103,8 +91,6 @@ final class EmailTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate - with utf8 success
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */

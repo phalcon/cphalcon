@@ -22,8 +22,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetValidatorsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: getValidators()/setValidators()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */

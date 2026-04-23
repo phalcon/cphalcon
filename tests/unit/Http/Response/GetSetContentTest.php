@@ -20,10 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class GetSetContentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: getContent() / setContent()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CountTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: count()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-18
      */

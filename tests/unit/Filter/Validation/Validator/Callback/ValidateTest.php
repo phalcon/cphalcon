@@ -26,8 +26,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - exception
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
@@ -59,9 +57,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - multiple
-     * field returning boolean
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
@@ -137,9 +132,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - multiple
-     * field validator
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
@@ -253,8 +245,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - no callback
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-08
      */
@@ -282,9 +272,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - single field
-     * using boolean
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
@@ -351,9 +338,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Callback :: validate() - single field
-     * using validator
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */

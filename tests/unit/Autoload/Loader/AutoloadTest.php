@@ -24,10 +24,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = classes
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -79,10 +75,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = extension
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -125,10 +117,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = namespaces
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -171,10 +159,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = namespaces 404
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -207,10 +191,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = namespaces multiple folders
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -263,10 +243,6 @@ final class AutoloadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoloader\Loader :: autoload() = namespaces no folders
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

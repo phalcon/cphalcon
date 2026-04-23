@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class GetEventsManagerTest extends AbstractUnitTestCase
+class GetEventsManagerTest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getEventsManager()
@@ -25,6 +26,10 @@ class GetEventsManagerTest extends AbstractUnitTestCase
      */
     public function testMvcDispatcherGetEventsManager(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = $this->getDispatcher();
+        $this->assertInstanceOf(
+            EventsManager::class,
+            $dispatcher->getEventsManager()
+        );
     }
 }

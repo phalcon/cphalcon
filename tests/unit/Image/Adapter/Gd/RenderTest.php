@@ -22,8 +22,6 @@ final class RenderTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: render()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

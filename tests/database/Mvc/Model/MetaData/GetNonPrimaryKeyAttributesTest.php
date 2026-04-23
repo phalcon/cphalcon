@@ -50,8 +50,6 @@ final class GetNonPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData :: getNonPrimaryKeyAttributes()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

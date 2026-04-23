@@ -15,34 +15,16 @@ namespace Phalcon\Tests\Unit\Acl\Fake;
 
 use Phalcon\Acl\RoleAwareInterface;
 
-/**
- * Class TestRoleAware
- *
- * @property int    $id
- * @property string $roleName
- */
 class TestRoleAware implements RoleAwareInterface
 {
     /**
-     * @var int
-     */
-    protected int $id;
-
-    /**
-     * @var string
-     */
-    protected string $roleName;
-
-    /**
-     * TestRoleAware constructor.
-     *
      * @param int    $id
      * @param string $roleName
      */
-    public function __construct(int $id, string $roleName)
-    {
-        $this->id       = $id;
-        $this->roleName = $roleName;
+    public function __construct(
+        protected int $id,
+        protected string $roleName
+    ) {
     }
 
     /**

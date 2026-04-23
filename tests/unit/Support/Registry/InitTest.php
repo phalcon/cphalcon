@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class InitTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: init()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

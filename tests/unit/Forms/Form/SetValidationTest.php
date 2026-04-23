@@ -24,10 +24,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetValidationTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Form::setValidation()
-     *
-     * @author Mohamad Rostami <rostami@outlook.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/12465
+     * @author Mohamad Rostami <rostami@outlook.com>
      */
     public function testCustomValidation(): void
     {

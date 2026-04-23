@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class IsDisabledTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: isDisabled()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-22
      */

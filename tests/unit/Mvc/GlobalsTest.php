@@ -20,13 +20,11 @@ use function ini_get;
 final class GlobalsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc :: globals
-     *
      * @dataProvider getExamples
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15269
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-24
-     * @issue  https://github.com/phalcon/cphalcon/issues/15269
      */
     public function testMvcModelGlobals(string $setting, string $value): void
     {

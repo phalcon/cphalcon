@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetColumnsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getColumns()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -39,8 +37,6 @@ final class GetColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getColumns() - array
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

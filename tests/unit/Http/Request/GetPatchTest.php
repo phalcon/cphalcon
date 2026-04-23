@@ -24,8 +24,6 @@ use function parse_str;
 final class GetPatchTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getPatch()
-     *
      * @issue  16188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-01
@@ -65,8 +63,6 @@ final class GetPatchTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPatch() - json
-     *
      * @issue  16188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-01

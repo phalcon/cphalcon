@@ -24,10 +24,6 @@ use function spl_object_hash;
 final class GetSetEscaperServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Flash\Direct :: getEscaperService() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -44,10 +40,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: getEscaperService()/setEscaperService()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -68,10 +60,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: getEscaperService() - container
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

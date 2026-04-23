@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDefaultResetTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di :: getDefault()/setDefault()/reset()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

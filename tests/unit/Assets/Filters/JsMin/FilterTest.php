@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class FilterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Filters\JsMin :: filter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

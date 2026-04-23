@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddClearRemoveToArrayTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Breadcrumbs :: add()/clear()/remove()/toArray()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

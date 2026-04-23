@@ -24,10 +24,6 @@ use function str_repeat;
 final class DecryptTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - Zero padding returns input
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -45,10 +41,6 @@ final class DecryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: decrypt() - empty key
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -62,13 +54,9 @@ final class DecryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: decrypt() - exception hash mismatch
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptSignedKeyMismatchThrowsException(): void
     {
@@ -83,14 +71,9 @@ final class DecryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: decrypt() - signed key
-     * Tests decrypt using HMAC
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptSignedString(): void
     {
@@ -107,14 +90,9 @@ final class DecryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: decrypt() - no exception on key
-     * mismatch
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptUnsignedKeyMismatchNoException(): void
     {

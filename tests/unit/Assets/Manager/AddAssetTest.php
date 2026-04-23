@@ -23,8 +23,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class AddAssetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: addAsset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -37,8 +35,6 @@ final class AddAssetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addAsset() - addCss()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

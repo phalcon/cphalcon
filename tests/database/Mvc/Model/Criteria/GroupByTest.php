@@ -29,8 +29,6 @@ final class GroupByTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: groupBy()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

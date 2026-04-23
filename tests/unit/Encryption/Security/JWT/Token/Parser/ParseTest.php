@@ -24,10 +24,6 @@ final class ParseTest extends AbstractUnitTestCase
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -99,11 +95,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - aud
-     * not an array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -182,11 +173,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
-     * exception claims not array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -205,11 +191,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
-     * exception headers not array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -231,11 +212,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
-     * exception no typ
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -258,11 +234,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() -
-     * exception wrong JWT
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -278,11 +249,6 @@ final class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Parser :: parse() - no
-     * signature
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

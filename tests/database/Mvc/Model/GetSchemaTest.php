@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetSchemaTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - getSchema()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

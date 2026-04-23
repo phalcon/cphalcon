@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetOptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength\Min :: getOption()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */

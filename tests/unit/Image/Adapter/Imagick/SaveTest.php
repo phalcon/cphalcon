@@ -24,8 +24,6 @@ final class SaveTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: save()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */

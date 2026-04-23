@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class ClearTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: clear()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

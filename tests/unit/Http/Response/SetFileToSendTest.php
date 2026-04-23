@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetFileToSendTest extends AbstractHttpBase
 {
     /**
-     * Tests setFileToSend
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

@@ -72,9 +72,6 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* ::
-     * getDefaultSerializer()/setDefaultSerializer()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -103,10 +100,6 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Weak :: GetSetDefaultSerializer()
-     *
-     * @return void
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-17
      */

@@ -16,23 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - attributes
-     *
      * @dataProvider providerAssets
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructAttributes(
         string $type,
         string $path
@@ -45,16 +39,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - attributes set
-     *
      * @dataProvider providerAssets
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructAttributesSet(
         string $type,
         string $path
@@ -76,16 +65,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - filter
-     *
      * @dataProvider providerAssets
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructFilter(
         string $type,
         string $path
@@ -97,16 +81,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - filter set
-     *
      * @dataProvider providerAssets
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructFilterSet(
         string $type,
         string $path
@@ -123,16 +102,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - local
-     *
      * @dataProvider providerAssets
      *
-     *
-     * @return void
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructLocal(
         string $type,
         string $path
@@ -143,16 +117,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - remote
-     *
      * @dataProvider providerAssets
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructRemote(
         string $type,
         string $path

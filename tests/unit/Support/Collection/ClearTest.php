@@ -13,21 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-
 final class ClearTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: clear()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
-    #[DataProvider('getClasses')]
     public function testSupportCollectionClear(
         string $class,
     ): void {

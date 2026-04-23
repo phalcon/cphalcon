@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetActionNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getActionName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetBestCharsetTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getBestCharset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

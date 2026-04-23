@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class WriteTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: write()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -28,8 +26,6 @@ final class WriteTest extends AbstractDatabaseTestCase
         $this->markTestSkipped("Need implementation");
     }
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: write() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

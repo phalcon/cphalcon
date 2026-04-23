@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetContentLengthTest extends AbstractHttpBase
 {
     /**
-     * Tests the setContentLength
-     *
      * @author Zamrony P. Juhara <zamronypj@yahoo.com>
      * @since  2016-07-18
      */

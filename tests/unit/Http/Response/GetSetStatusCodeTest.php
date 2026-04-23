@@ -26,8 +26,6 @@ use function xdebug_get_headers;
 final class GetSetStatusCodeTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: getStatusCode() / setStatusCode()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-24
      */
@@ -43,8 +41,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the setStatusCode
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
@@ -71,8 +67,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the setStatusCode after send
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
@@ -106,11 +100,8 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the setStatusCode after send
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
-     * @todo   enable with MVC
      */
     public function testHttpResponseSetStatusCodeSendMicro(): void
     {
@@ -147,8 +138,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the Multiple Status Codes
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1892
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -170,6 +159,19 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
         $expected = Http::MESSAGE_409_CONFLICT;
         $actual   = $headers->get(Http::STATUS);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseSetStatusCodeUnknownCodeThrows(): void
+    {
+        $response = $this->getResponseObject();
+
+        $this->expectException(\Phalcon\Http\Response\Exception::class);
+        $this->expectExceptionMessage('Non-standard status-code given without a message');
+        $response->setStatusCode(999);
     }
 
     public function testSetStatusCodeDefaultMessage(): void

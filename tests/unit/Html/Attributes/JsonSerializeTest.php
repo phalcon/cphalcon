@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class JsonSerializeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: jsonSerialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Role :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -35,10 +31,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Role :: __construct() - wildcard
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

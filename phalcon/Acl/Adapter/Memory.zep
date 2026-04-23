@@ -745,7 +745,7 @@ class Memory extends AbstractAdapter
                         !reflectionClass->isInstance(parameters[parameterToCheck])
                     ) {
                         throw new Exception(
-                            "Your passed parameter doesn't have the " .
+                            "Your passed parameter does not have the " .
                             "same class as the parameter in defined function " .
                             "when checking if " . roleName . " can " . access .
                             " " . componentName . ". Class passed: " .

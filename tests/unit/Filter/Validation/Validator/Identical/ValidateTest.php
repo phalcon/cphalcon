@@ -68,8 +68,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests identical validator with multiple field and multiple accepted
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -172,8 +170,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests identical validator with multiple field and single accepted
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -246,8 +242,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests identical validator with multiple field and single accepted
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -320,8 +314,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests identical validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -375,13 +367,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Identical :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */

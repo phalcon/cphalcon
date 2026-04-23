@@ -12,6 +12,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class MaximumTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -28,8 +32,6 @@ final class MaximumTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: maximum()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *

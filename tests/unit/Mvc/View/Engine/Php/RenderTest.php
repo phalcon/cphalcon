@@ -13,18 +13,36 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Php;
 
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Mvc\View\Simple;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+
+use function ob_end_clean;
+use function ob_start;
 
 class RenderTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Mvc\View\Engine\Php :: render()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEnginePhpRender(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $this->newDi();
+        $this->setDiService('viewSimple');
+
+        /** @var Simple $view */
+        $view   = $this->container->get('viewSimple');
+        $engine = new PhpEngine($view);
+        $path   = $view->getViewsDir() . 'simple/index.phtml';
+
+        ob_start();
+        $engine->render($path, [], true);
+        ob_end_clean();
+
+        $this->assertSame('We are here', $view->getContent());
     }
 }

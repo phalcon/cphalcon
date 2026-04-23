@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ExtractNamedParamsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router\Route :: extractNamedParams()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -41,5 +39,51 @@ final class ExtractNamedParamsTest extends AbstractUnitTestCase
 
         $actual = $route->extractNamedParams($pattern);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliRouterRouteExtractNamedParamsEmpty(): void
+    {
+        Route::reset();
+        $route = new Route('test');
+
+        $actual = $route->extractNamedParams('');
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliRouterRouteExtractNamedParamsInvalidFirstChar(): void
+    {
+        Route::reset();
+        $route = new Route('test');
+
+        // {1abc} — first char '1' is not alpha → notValid branch
+        $result = $route->extractNamedParams('{1abc}');
+        $this->assertIsArray($result);
+        // Route accumulated as-is when notValid: "{1abc}"
+        $this->assertSame('{1abc}', $result[0]);
+        $this->assertSame([], $result[1]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliRouterRouteExtractNamedParamsInvalidChar(): void
+    {
+        Route::reset();
+        $route = new Route('test');
+
+        // {a@b} — '@' is an invalid character → notValid branch
+        $result = $route->extractNamedParams('{a@b}');
+        $this->assertIsArray($result);
+        $this->assertSame('{a@b}', $result[0]);
+        $this->assertSame([], $result[1]);
     }
 }

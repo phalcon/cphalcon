@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: set() - no index
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -39,10 +35,6 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: set() - numeric
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -59,10 +51,6 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: set() - overwrite
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -81,10 +69,6 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: set() - string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetRoutesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getRoutes()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */

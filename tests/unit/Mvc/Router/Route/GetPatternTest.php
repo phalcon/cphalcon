@@ -21,8 +21,6 @@ use function uniqid;
 final class GetPatternTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getPattern()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */

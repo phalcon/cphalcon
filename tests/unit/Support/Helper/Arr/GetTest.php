@@ -83,10 +83,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: get() - cast
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -108,10 +104,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: get() - default
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -129,10 +121,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: get() - numeric
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -150,10 +138,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: get() - string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

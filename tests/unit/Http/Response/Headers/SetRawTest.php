@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class SetRawTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: setRaw()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */

@@ -74,8 +74,6 @@ final class GetSetOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Url :: getOption()/setOption()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -96,5 +94,18 @@ final class GetSetOptionTest extends AbstractUnitTestCase
         $expected = $source;
         $actual   = $validator->getOption('option');
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-01
+     */
+    public function testFilterValidationValidatorGetOptionAttributeNestedArray(): void
+    {
+        $validator = new Alnum(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
+
+        $actual = $validator->getOption('attribute');
+
+        $this->assertSame('fieldName', $actual);
     }
 }

@@ -25,10 +25,6 @@ use function spl_object_hash;
 final class GetTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Di :: get()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -61,10 +57,24 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di :: get() - exception
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiGetClosureWithParameters(): void
+    {
+        $container = new Di();
+        $container->set(
+            'greet',
+            function (string $name): string {
+                return 'Hello ' . $name;
+            }
+        );
+
+        $actual = $container->get('greet', ['World']);
+        $this->assertSame('Hello World', $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -76,18 +86,27 @@ final class GetTest extends AbstractUnitTestCase
         // non exists service
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'non-exists' was not found in the " .
-            "dependency injection container"
+            "Service 'non-exists' is not registered in the container"
         );
 
         $container->get('non-exists');
     }
 
     /**
-     * Unit Tests Phalcon\Di :: get() - shared
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiGetServiceResolutionException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Service 'broken' cannot be resolved");
+
+        $container = new Di();
+        $container->set('broken', 42);
+        $container->get('broken');
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

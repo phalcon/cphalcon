@@ -62,13 +62,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Alphabetic
-     * Characters
+     * @dataProvider alphaProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
-     *
-     * @dataProvider alphaProvider
      */
     public function testFilterValidationValidatorAlphaValidateAlphabeticCharacters(
         ?string $input
@@ -97,11 +94,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - empty
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */
@@ -119,8 +111,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -198,13 +188,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Non Alphabetic
-     * Characters
+     * @dataProvider nonAlphaProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
-     *
-     * @dataProvider nonAlphaProvider
      */
     public function testFilterValidationValidatorAlphaValidateNonAlphabeticCharacters(
         int | string $input
@@ -241,13 +228,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - Non Latin
-     * Characters
+     * @dataProvider nonLatinCharactersProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
-     *
-     * @dataProvider nonLatinCharactersProvider
      */
     public function testFilterValidationValidatorAlphaValidateNonLatinCharacters(
         string $input
@@ -276,8 +260,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alpha :: validate() - single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */

@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class SerializeTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: serialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

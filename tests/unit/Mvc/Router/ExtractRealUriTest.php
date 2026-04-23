@@ -23,11 +23,9 @@ final class ExtractRealUriTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: extractRealUri()
-     *
+     * @issue        16749
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-11
-     * @issue        16749
      */
     public function testExtractRealUri(): void
     {

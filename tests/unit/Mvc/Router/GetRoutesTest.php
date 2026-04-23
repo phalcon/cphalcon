@@ -21,8 +21,6 @@ final class GetRoutesTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: getRoutes()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */

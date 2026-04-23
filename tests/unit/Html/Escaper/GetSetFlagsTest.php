@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Html\Escaper\EscaperInterface;
 
 use const ENT_HTML401;
 use const ENT_QUOTES;
@@ -23,10 +24,6 @@ use const ENT_SUBSTITUTE;
 final class GetSetFlagsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Escaper :: getFlags() / setFlags()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -51,6 +48,22 @@ final class GetSetFlagsTest extends AbstractUnitTestCase
         $escaper->setFlags(ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
         $expected = 'That&#039;s right';
         $actual   = $escaper->attributes("That's right");
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testEscaperSetHtmlQuoteType(): void
+    {
+        $escaper = new Escaper();
+
+        $actual = $escaper->setHtmlQuoteType(ENT_HTML401);
+        $this->assertInstanceOf(EscaperInterface::class, $actual);
+
+        $expected = ENT_HTML401;
+        $actual   = $escaper->getFlags();
         $this->assertSame($expected, $actual);
     }
 }

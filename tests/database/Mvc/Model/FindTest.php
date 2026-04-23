@@ -37,6 +37,10 @@ use function sleep;
 use function uniqid;
 use function var_dump;
 
+/**
+ *
+ * @group phql
+ */
 final class FindTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -48,8 +52,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -72,8 +74,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - deprecation warning PHP 8.2
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-08-02
      *
@@ -118,11 +118,9 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - private property with Redis cache
-     *
+     * @issue  15439
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-05-25
-     * @issue  15439
      *
      * @group mysql
      */
@@ -237,12 +235,8 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - second iteration of Resultset
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-17
-     *
-     * @see    https://github.com/phalcon/cphalcon/issues/15065
      *
      * @group mysql
      */
@@ -303,8 +297,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -378,13 +370,11 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find()
-     *
+     * @issue 16696
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
      * @group mysql
-     * @issue 16696
      */
     public function testMvcModelFindWithCacheLifetimeFromCacheService(): void
     {
@@ -447,8 +437,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - with cache/exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-05-10
      *
@@ -485,8 +473,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - specific column
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-06-30
      *
@@ -518,8 +504,6 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - cache options lifetime priority over adapter lifetime
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-08-02
      *

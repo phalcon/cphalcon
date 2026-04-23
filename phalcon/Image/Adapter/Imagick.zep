@@ -409,8 +409,8 @@ class Imagick extends AbstractAdapter
     {
         var height, width;
 
-        let width  = this->width / amount;
-        let height = this->height / amount;
+        let width  = (int) (this->width / amount);
+        let height = (int) (this->height / amount);
 
         this->image->setIteratorIndex(0);
 

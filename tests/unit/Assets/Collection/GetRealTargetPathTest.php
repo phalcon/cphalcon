@@ -22,10 +22,6 @@ use function supportDir;
 final class GetRealTargetPathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getRealTargetPath()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -43,11 +39,6 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Collection :: getRealTargetPath() - file does not
-     * exist
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

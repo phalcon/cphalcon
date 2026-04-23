@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetDescriptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Component :: getDescription()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -36,10 +32,6 @@ final class GetDescriptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Component :: getDescription() - empty
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

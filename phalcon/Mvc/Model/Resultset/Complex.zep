@@ -20,6 +20,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Support\Settings;
 use stdClass;
 
 /**
@@ -174,7 +175,7 @@ class Complex extends Resultset
                             let keepSnapshots = false;
                         }
 
-                        if globals_get("orm.late_state_binding") {
+                        if Settings::get("orm.late_state_binding") {
                             if column["instance"] instanceof Model {
                                 let modelName = get_class(column["instance"]);
                             } else {

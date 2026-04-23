@@ -20,11 +20,9 @@ use function uniqid;
 final class GetTest extends AbstractHttpBase
 {
     /**
-     * Tests get() from $_REQUEST
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/1265
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
-     * @issue https://github.com/phalcon/cphalcon/issues/1265
      */
     public function testHttpRequestGet(): void
     {

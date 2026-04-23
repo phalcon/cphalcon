@@ -290,11 +290,7 @@ final class SerializeUnserializeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Igbinary :: serialize()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-02-24
@@ -320,5 +316,6 @@ final class SerializeUnserializeTest extends AbstractUnitTestCase
         $expected = $data;
         $actual   = $serializer->getData();
         $this->assertEquals($expected, $actual);
+        $this->assertTrue($serializer->isSuccess());
     }
 }

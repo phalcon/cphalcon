@@ -110,8 +110,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File\Size :: validate
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -147,9 +145,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\File\Size :: errors
-     *
-     *
      * @dataProvider getExamplesErrors
      *
      * @author       Phalcon Team <team@phalcon.io>

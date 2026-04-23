@@ -35,10 +35,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -97,11 +93,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - cannot calculate Random
-     * Pseudo Bytes
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -116,11 +107,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - exception invalid padding
-     * size
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -141,11 +127,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - exception invalid padding
-     * size
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -166,10 +147,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - Zero padding returns input
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -187,10 +164,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - empty key
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -204,10 +177,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - unsupported algo
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -223,14 +192,10 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - gcm/ccm exception without
-     * data
-     *
      * @dataProvider getExceptionCiphers
-     * @return void
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2021-10-18
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      */
     public function testEncryptionCryptEncryptGcmCcmExceptionWithoutData(
         string $cipher
@@ -250,10 +215,6 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encrypt() - gcm/ccm with data
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

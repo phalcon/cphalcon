@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetModuleNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getModuleName()/setModuleName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

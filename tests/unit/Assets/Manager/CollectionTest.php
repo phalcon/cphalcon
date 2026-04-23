@@ -24,10 +24,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CollectionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: collection()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */

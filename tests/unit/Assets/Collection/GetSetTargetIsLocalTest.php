@@ -20,10 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetTargetIsLocalTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getTargetIsLocal()/setTargetIsLocal()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

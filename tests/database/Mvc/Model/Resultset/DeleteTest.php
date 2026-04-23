@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class DeleteTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset - delete()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

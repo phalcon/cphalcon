@@ -21,8 +21,6 @@ use function spl_object_hash;
 final class GetSetDefaultResetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: getDefault()/setDefault()/reset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

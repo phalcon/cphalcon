@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetSetDITest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Stream :: getDI() / setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

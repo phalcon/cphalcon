@@ -20,8 +20,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetBestAcceptTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getBestAccept()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

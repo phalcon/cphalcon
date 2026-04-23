@@ -44,8 +44,6 @@ final class AddInlineJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addInlineJs()
-     *
      * @issue https://github.com/phalcon/cphalcon/issues/11409
      */
     public function testAssetsManagerAddInlineJs(): void

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class WithRelTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\Link :: withRel()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

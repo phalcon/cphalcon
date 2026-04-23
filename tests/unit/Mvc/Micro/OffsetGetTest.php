@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class OffsetGetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: offsetGet()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

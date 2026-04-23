@@ -28,8 +28,6 @@ final class WriteTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Stream :: write()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -40,8 +38,6 @@ final class WriteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Stream :: write() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

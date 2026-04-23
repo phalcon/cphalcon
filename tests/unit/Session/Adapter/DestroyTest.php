@@ -26,10 +26,6 @@ final class DestroyTest extends AbstractServicesTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Adapter\Libmemcached :: destroy()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -53,10 +49,6 @@ final class DestroyTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Noop :: destroy()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -69,10 +61,6 @@ final class DestroyTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: destroy()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -95,8 +83,6 @@ final class DestroyTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: destroy()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

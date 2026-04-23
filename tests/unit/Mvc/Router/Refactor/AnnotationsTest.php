@@ -34,8 +34,6 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: addResource() - full resources 1
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -68,8 +66,6 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: addResource() - namespaced
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -104,8 +100,6 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: addResource() - full resources 2
-     *
      * @dataProvider getRoutesProvider
      *
      * @author Phalcon Team <team@phalcon.io>

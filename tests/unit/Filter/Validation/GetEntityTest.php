@@ -23,8 +23,6 @@ final class GetEntityTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Filter\Validation :: getEntity()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
@@ -42,8 +40,6 @@ final class GetEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getEntity() - with filters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-12
      */
@@ -70,8 +66,6 @@ final class GetEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getEntity() - using bind() with whitelist fields
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-12
      */
@@ -121,8 +115,6 @@ final class GetEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getEntity() - using validate() with whitelist fields
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-12
      */

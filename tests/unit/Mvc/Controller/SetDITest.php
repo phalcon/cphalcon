@@ -14,17 +14,24 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Controller;
 
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Controllers\ViewRequestController;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 class SetDITest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Mvc\Controller :: setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcControllerSetDI(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $di = $this->newService('factoryDefault');
+
+        $controller = new ViewRequestController();
+        $controller->setDI($di);
+
+        $this->assertSame($di, $controller->getDI());
     }
 }

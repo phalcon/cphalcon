@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetSourceTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - getSource()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

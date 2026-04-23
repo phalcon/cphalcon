@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetJoinTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getJoin() / join()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

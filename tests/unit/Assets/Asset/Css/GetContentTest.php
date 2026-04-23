@@ -23,10 +23,6 @@ use function file_get_contents;
 final class GetContentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getContent()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -34,8 +34,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter :: __construct()
-     *
      * @dataProvider providerAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

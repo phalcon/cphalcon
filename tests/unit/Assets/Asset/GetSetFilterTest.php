@@ -16,23 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetFilterTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getFilter()/setFilter()
-     *
-     * @return void
-     *
      * @dataProvider providerCssJs
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerCssJs')]
     public function testAssetsAssetGetSetFilter(
         string $type,
         string $path

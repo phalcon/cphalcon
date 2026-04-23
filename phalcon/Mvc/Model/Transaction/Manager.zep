@@ -146,6 +146,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             if connection->isUnderTransaction() {
                 connection->commit();
             }
+
+            this->collectTransaction(transaction);
         }
     }
 
@@ -350,7 +352,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         for managedTransaction in this->transactions {
             if managedTransaction != transaction {
-                let newTransactions[] = transaction;
+                let newTransactions[] = managedTransaction;
             } else {
                 let this->number--;
             }

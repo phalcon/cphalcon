@@ -21,8 +21,6 @@ final class GetTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Config :: get()
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-06-17
      */
@@ -38,8 +36,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Config :: get()
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-06-17
      */

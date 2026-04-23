@@ -26,13 +26,8 @@ use function date_default_timezone_get;
 final class FormatTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Json :: format()
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerFormatterJsonFormat(): void
     {
@@ -59,13 +54,8 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Json :: format() -custom
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerFormatterJsonFormatCustom(): void
     {

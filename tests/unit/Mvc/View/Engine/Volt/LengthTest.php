@@ -13,18 +13,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class LengthTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: length()
+     * @return array<int, array{0: mixed, 1: int}>
+     */
+    public static function provideLength(): array
+    {
+        return [
+            [null, 0],
+            ['hello', 5],
+            [[1, 2, 3], 3],
+        ];
+    }
+
+    /**
+     * @dataProvider provideLength
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function testMvcViewEngineVoltLength(): void
+    public function testMvcViewEngineVoltLength(mixed $item, int $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $volt = new Volt(new View());
+        $this->assertSame($expected, $volt->length($item));
     }
 }

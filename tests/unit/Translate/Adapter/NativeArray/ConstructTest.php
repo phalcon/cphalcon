@@ -26,10 +26,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use TranslateNativeArrayTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -46,11 +42,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
-     * content not array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -64,10 +55,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

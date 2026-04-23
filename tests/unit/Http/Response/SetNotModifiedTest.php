@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetNotModifiedTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setNotModified()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-17
      */
@@ -39,8 +37,6 @@ final class SetNotModifiedTest extends AbstractHttpBase
     }
 
     /**
-     * Tests setNotModified
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

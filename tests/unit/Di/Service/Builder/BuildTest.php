@@ -24,11 +24,6 @@ use Phalcon\Tests\Support\Di\ServiceComponent;
 final class BuildTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - exception argument
-     * type
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -52,10 +47,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - exception className
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -73,11 +64,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - exception unknown
-     * service type
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -104,11 +90,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -141,11 +122,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception method arguments
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -194,11 +170,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception method arguments is array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -236,11 +207,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception method exists
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -277,11 +243,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception method no arguments
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -324,11 +285,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with calls
-     * exception method position
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -363,11 +319,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with
-     * properties
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -429,11 +380,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with
-     * properties exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -466,11 +412,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with
-     * properties exception property is array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -505,11 +446,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with
-     * properties exception property name exists
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -546,11 +482,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - instance with
-     * properties exception property value exists
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -587,10 +518,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - passed parameters
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -632,11 +559,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - passed parameters
-     * with instance
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -683,11 +605,6 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service\Builder :: build() - passed parameters
-     * with instance and service
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -746,6 +663,58 @@ final class BuildTest extends AbstractUnitTestCase
 
         $expected = 3;
         $actual   = $service->getType();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiServiceBuilderBuildMissingServiceParameterKey(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Service "value" is required in parameter on position 0'
+        );
+
+        $container  = new Di();
+        $builder    = new Builder();
+        $definition = [
+            'className' => Escaper::class,
+            'arguments' => [
+                0 => [
+                    'type' => 'parameter',
+                    // 'value' key intentionally missing
+                ],
+            ],
+        ];
+
+        $builder->build($container, $definition);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiServiceBuilderBuildWithPassedParameters(): void
+    {
+        $container  = new Di();
+        $builder    = new Builder();
+        $definition = [
+            'className' => PropertiesComponent::class,
+        ];
+
+        $instance = $builder->build($container, $definition, ['one', 2]);
+
+        $class = PropertiesComponent::class;
+        $this->assertInstanceOf($class, $instance);
+
+        $expected = 'one';
+        $actual   = $instance->getName();
+        $this->assertSame($expected, $actual);
+
+        $expected = 2;
+        $actual   = $instance->getType();
         $this->assertSame($expected, $actual);
     }
 }

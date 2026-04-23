@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class CompileElseIfTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileElseIf()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

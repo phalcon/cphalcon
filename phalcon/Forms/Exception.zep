@@ -15,5 +15,17 @@ namespace Phalcon\Forms;
  */
 class Exception extends \Exception
 {
+    public static function tagFactoryNotFound() -> <Exception>
+    {
+        return new self(
+            "A TagFactory must be provided via setTagFactory() or through a parent Form"
+        );
+    }
 
+    public static function usingParameterRequired() -> <Exception>
+    {
+        return new self(
+            "The 'using' parameter is required for resultset options"
+        );
+    }
 }

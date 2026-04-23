@@ -26,8 +26,6 @@ use function uniqid;
 final class GetSetLabelTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: getLabel()/setLabels()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */

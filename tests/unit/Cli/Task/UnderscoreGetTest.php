@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Task :: __get()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

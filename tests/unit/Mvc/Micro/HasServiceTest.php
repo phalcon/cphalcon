@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class HasServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: hasService()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

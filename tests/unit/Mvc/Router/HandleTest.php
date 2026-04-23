@@ -68,8 +68,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: handle()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-20
      */
@@ -102,6 +100,7 @@ final class HandleTest extends AbstractUnitTestCase
 
     /**
      * @dataProvider groupsProvider
+     *
      */
     public function testMvcRouterHandleGroups(
         string $route,
@@ -159,8 +158,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: handle() - numeric
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-17
      */
@@ -191,8 +188,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: handle() - short syntax
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-20
      */
@@ -283,13 +278,11 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: handle() - with colons
-     *
      * @dataProvider getUrlsWithColons
      *
+     * @issue        16741
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-04
-     * @issue        16741
      */
     public function testMvcRouterHandleWithColons(string $url): void
     {
@@ -316,8 +309,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: handle() - with placeholders
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-20
      */

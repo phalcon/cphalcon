@@ -22,11 +22,6 @@ final class ValidateSignatureTest extends AbstractUnitTestCase
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Validator ::
-     * validateSignature()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -61,11 +56,6 @@ final class ValidateSignatureTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Validator ::
-     * validateSignature() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

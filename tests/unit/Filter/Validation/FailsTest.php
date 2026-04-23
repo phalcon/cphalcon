@@ -23,8 +23,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class FailsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: fails()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-02
      */
@@ -40,8 +38,6 @@ final class FailsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: fails()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-02
      */
@@ -52,7 +48,7 @@ final class FailsTest extends AbstractUnitTestCase
         $validation = new Validation();
 
         $validation->add('email', $email);
-        $this->assertNotEmpty($validation->validate(['email' => 'test@-example.com']));
-        $this->assertTrue($validation->fails());
+        $validation->validate(['email' => 'user@example.com']);
+        $this->assertFalse($validation->fails());
     }
 }

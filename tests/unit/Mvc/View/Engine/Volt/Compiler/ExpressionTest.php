@@ -22,8 +22,6 @@ class ExpressionTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: expression()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-07-01
      */

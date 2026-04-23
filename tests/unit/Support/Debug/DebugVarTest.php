@@ -13,18 +13,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use Phalcon\Support\Debug;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class DebugVarTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Debug :: debugVar()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-04
      */
     public function testSupportDebugDebugVar(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $debug = new Debug();
+        $result = $debug->debugVar('test variable');
+
+        $this->assertInstanceOf(Debug::class, $result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportDebugDebugVarAndClearVars(): void
+    {
+        $debug = new Debug();
+        $debug->debugVar('first variable');
+        $debug->debugVar('second variable');
+
+        $result = $debug->clearVars();
+        $this->assertInstanceOf(Debug::class, $result);
     }
 }

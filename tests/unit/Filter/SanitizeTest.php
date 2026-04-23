@@ -913,10 +913,7 @@ final class SanitizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Sanitize\* :: __invoke()
-     *
      * @dataProvider getExamples
-     *
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-11-07

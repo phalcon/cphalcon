@@ -18,10 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class CountTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: count()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

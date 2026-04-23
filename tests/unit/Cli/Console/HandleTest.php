@@ -30,8 +30,6 @@ use function ob_start;
 use function rootDir;
 use function shell_exec;
 
-use const PHP_OS_FAMILY;
-
 final class HandleTest extends AbstractUnitTestCase
 {
     /**
@@ -85,16 +83,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @dataProvider getExamplesHandle
      *
-     * @return void
-     * @throws ConsoleException
-     * @throws RouterException
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
     public function testCliConsoleHandle(
         array $arguments,
@@ -139,10 +131,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle() - Issue #13724
-     * Handling a BackendModule twice causes final class already exists error #13724
-     * <https://github.com/phalcon/cphalcon/issues/13724>
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2019-01-06
      */
@@ -215,8 +203,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -261,8 +247,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -307,8 +291,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -334,8 +316,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -380,8 +360,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle()
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -405,8 +383,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle() - BackendModules
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -477,15 +453,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  16186
-     * @return void
+     * @issue 16186
      */
     public function testCliConsoleHandleNoAction(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to check this under Windows');
-        }
-
         $module   = '';
         if (!env('GITHUB_RUN_ID')) {
             $module = '-d extension=' . rootDir() . 'ext/modules/phalcon.so ';
@@ -521,5 +492,135 @@ final class HandleTest extends AbstractUnitTestCase
                 '!',
             ]
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleNoDi(): void
+    {
+        $this->expectException(ConsoleException::class);
+        $this->expectExceptionMessage(
+            'A dependency injection container is required to access internal services'
+        );
+
+        $console = new CliConsole();
+        $console->handle();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBootEventReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:boot',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle();
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:beforeStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleInvalidModuleDefinition(): void
+    {
+        $this->expectException(ConsoleException::class);
+        $this->expectExceptionMessage('Invalid module definition path');
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        // Register a module as a non-array value
+        $console->registerModules(['backend' => 'not-an-array']);
+
+        $console->handle(['module' => 'backend']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleAfterStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:afterStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeHandleTaskReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:beforeHandleTask',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle([]);
+        $this->assertFalse($actual);
     }
 }

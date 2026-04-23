@@ -29,10 +29,6 @@ final class GcTest extends AbstractServicesTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Adapter\Libmemcached :: gc()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -56,10 +52,6 @@ final class GcTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Noop :: gc()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -72,10 +64,6 @@ final class GcTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: gc()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -88,10 +76,6 @@ final class GcTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: gc()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -121,11 +105,6 @@ final class GcTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: gc() -
-     * glob() false returns exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

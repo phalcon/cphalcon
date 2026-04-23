@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ExecuteTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query - execute()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

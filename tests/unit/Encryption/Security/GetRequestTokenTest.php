@@ -41,10 +41,6 @@ final class GetRequestTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -108,11 +104,6 @@ final class GetRequestTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
-     * without session initialization
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

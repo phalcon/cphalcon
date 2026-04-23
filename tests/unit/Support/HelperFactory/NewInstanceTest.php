@@ -148,10 +148,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support :: newInstance()
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -170,10 +166,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support :: newInstance()
-     *
-     * @return void
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */

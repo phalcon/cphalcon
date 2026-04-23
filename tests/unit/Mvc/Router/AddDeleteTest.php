@@ -21,8 +21,6 @@ final class AddDeleteTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: addDelete()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

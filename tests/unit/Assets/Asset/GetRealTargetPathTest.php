@@ -17,7 +17,6 @@ use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 use function supportDir;
 
@@ -26,16 +25,11 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local
-     *
      * @dataProvider providerCssJsLocal
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerCssJsLocal')]
     public function testAssetsAssetGetRealTargetPath(
         string $type,
         string $path,
@@ -49,12 +43,36 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local 404
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
+    {
+        $path   = 'css/docs.css';
+        $target = 'assets/assets/1198.css';
+        $asset  = new Asset('css', $path);
+        $asset->setTargetPath($target);
+
+        $actual = $asset->getRealTargetPath(supportDir());
+        $this->assertStringContainsString('1198.css', $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetRealTargetPathRealpathFalse(): void
+    {
+        $file  = 'assets/assets/nonexistent_file.css';
+        $asset = new FakeAssetFileExistsPositive('css', $file);
+
+        $actual = $asset->getRealTargetPath(supportDir());
+        $this->assertSame('', $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testAssetsAssetGetRealTargetPath404(): void
     {

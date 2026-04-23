@@ -21,8 +21,6 @@ final class CountTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: count()
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

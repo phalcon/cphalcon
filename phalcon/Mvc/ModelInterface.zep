@@ -282,7 +282,7 @@ interface ModelInterface
     public function validationHasFailed() -> bool;
 
     /**
-     * Updates a model instance. If the instance doesn't exist in the
+     * Updates a model instance. If the instance does not exist in the
      * persistence it will throw an exception. Returning true on success or
      * false otherwise.
      */

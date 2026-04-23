@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Component :: getName()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

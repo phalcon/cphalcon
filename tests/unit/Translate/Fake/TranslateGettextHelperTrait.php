@@ -54,11 +54,6 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query() - array access and
-     * UTF8 strings
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -89,11 +84,7 @@ trait TranslateGettextHelperTrait
     abstract protected function func(): string;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query()
-     *
      * @dataProvider getQueryProvider
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -111,12 +102,7 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query() -
-     * variable substitution in string with no variables
-     *
      * @dataProvider getQueryProvider
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -134,12 +120,7 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query() -
-     * variable substitution in string (one variable)
-     *
      * @dataProvider getQueryOneVariable
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -157,12 +138,7 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query() -
-     * variable substitution in string (two variables)
-     *
      * @dataProvider getQueryTwoVariables
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

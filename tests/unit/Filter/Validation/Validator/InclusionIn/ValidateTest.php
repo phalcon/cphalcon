@@ -67,8 +67,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests inclusion in validator with single multiple field and domain
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -169,8 +167,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests inclusion in validator with single multiple field and single domain
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -252,8 +248,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests inclusion in validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */

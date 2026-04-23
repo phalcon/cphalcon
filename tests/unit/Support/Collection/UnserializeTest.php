@@ -18,10 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class UnserializeTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: unserialize()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

@@ -1,1 +1,1 @@
-{% extends 'tests/_data/fixtures/views/templates/a.volt' %}{% block body %}[B]{% endblock %}
+{% extends 'tests/support/assets/views/templates/a.volt' %}{% block body %}[B]{% endblock %}

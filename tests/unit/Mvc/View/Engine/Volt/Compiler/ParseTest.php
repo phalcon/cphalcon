@@ -264,12 +264,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse()
+     * @dataProvider getVoltParse
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
-     *
-     * @dataProvider getVoltParse
      */
     public function testMvcViewEngineVoltCompilerParse(
         string $param,
@@ -283,13 +281,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with
-     * error
+     * @dataProvider getVoltExtendsError
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
-     *
-     * @dataProvider getVoltExtendsError
      */
     public function testMvcViewEngineVoltCompilerParseExtendsWithError(
         string $code,
@@ -304,13 +299,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
+     * @dataProvider getVoltSyntaxErrors
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
-     *
-     * @dataProvider getVoltSyntaxErrors
      */
     public function testMvcViewEngineVoltCompilerParseSyntaxError(
         string $code,

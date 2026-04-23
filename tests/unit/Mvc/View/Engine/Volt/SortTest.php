@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SortTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: sort()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltSort(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $volt   = new Volt(new View());
+        $sorted = $volt->sort(['c' => 3, 'a' => 1, 'b' => 2]);
+        $this->assertSame(['a' => 1, 'b' => 2, 'c' => 3], $sorted);
     }
 }

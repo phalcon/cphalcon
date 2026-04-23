@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class IsCancelableTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Event :: isCancelable()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-20
      */

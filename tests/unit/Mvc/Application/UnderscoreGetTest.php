@@ -13,18 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
+use Phalcon\Di\Di;
+use Phalcon\Http\Request;
+use Phalcon\Mvc\Application;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class UnderscoreGetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: __get()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcApplicationUnderscoreGet(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $container = new Di();
+        $container->set('request', Request::class);
+
+        $application = new Application($container);
+
+        $this->assertInstanceOf(Request::class, $application->request);
     }
 }

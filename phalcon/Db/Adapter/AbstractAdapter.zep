@@ -21,6 +21,7 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Support\Settings;
 
 /**
  * Base class for Phalcon\Db\Adapter adapters.
@@ -1158,14 +1159,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * Enables/Disables globally the escaping of SQL identifiers
          */
         if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
-            globals_set("db.escape_identifiers", escapeIdentifiers);
+            Settings::set("db.escape_identifiers", escapeIdentifiers);
         }
 
         /**
          * Force cast bound values in the PHP userland
          */
         if fetch forceCasting, options["forceCasting"] {
-            globals_set("db.force_casting", forceCasting);
+            Settings::set("db.force_casting", forceCasting);
         }
     }
 

@@ -441,9 +441,8 @@ class FunctionCallTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: functionCall()
-     *
      * @dataProvider getExamples
+     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-11
      */

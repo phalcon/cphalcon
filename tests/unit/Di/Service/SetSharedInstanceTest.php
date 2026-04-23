@@ -22,10 +22,6 @@ use function spl_object_hash;
 final class SetSharedInstanceTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Service :: setSharedInstance()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

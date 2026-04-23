@@ -1156,7 +1156,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
             } else {
                 /**
-                 * Create an alias if the column doesn't have one
+                 * Create an alias if the column does not have one
                  */
                 if typeof aliasCopy == "int" {
                     let columnAlias = [sqlColumn, null];
@@ -2177,7 +2177,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         /**
-         * If the expression doesn't have a type it's a list of nodes
+         * If the expression does not have a type it's a list of nodes
          */
         if isset expr[0] {
             let listItems = [];
@@ -3015,7 +3015,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             if typeof columnMap == "array" {
                 if unlikely !fetch realColumnName, columnMap[columnName] {
                     throw new Exception(
-                        "Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->phql
+                        "Column '" . columnName . "' does not belong to the model or alias '" . columnDomain . "', when executing: ". this->phql
                     );
                 }
             } else {
@@ -3023,7 +3023,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
         } else {
             /**
-             * If the column IR doesn't have a domain, we must check for
+             * If the column IR does not have a domain, we must check for
              * ambiguities
              */
             let number = 0,
@@ -3052,7 +3052,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             if unlikely hasModel === false {
                 throw new Exception(
-                    "Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->phql
+                    "Column '" . columnName . "' does not belong to any of the selected models (1), when preparing: " . this->phql
                 );
             }
 
@@ -3093,7 +3093,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                  */
                 if unlikely !fetch realColumnName, columnMap[columnName] {
                     throw new Exception(
-                        "Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->phql
+                        "Column '" . columnName . "' does not belong to any of the selected models (3), when preparing: " . this->phql
                     );
                 }
             } else {
@@ -3663,7 +3663,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 // Check that inserted fields are part of the model
                 if unlikely !metaData->hasAttribute(model, name) {
                     throw new Exception(
-                        "The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->phql
+                        "The model '" . modelName . "' does not have the attribute '" . name . "', when preparing: " . this->phql
                     );
                 }
 

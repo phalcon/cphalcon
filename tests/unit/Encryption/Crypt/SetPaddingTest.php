@@ -59,17 +59,10 @@ final class SetPaddingTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: setPadding()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @throws Exception
-     * @throws Mismatch
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2021-10-18
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      */
     public function testEncryptionCryptSetPadding(
         string $cipher,

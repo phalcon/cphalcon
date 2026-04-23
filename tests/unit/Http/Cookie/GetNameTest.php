@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetNameTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -13,21 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
+use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
+
+use function supportDir;
 
 final class GetRealpathTest extends AbstractUnitTestCase
 {
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: getRealpath()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */
     public function testImageAdapterImagickGetRealpath(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
+        $image  = new Imagick($source);
+
+        $actual = $image->getRealpath();
+        $this->assertSame($source, $actual);
     }
 }

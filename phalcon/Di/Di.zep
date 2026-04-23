@@ -228,9 +228,7 @@ class Di implements DiInterface
                  * defined in the DI
                  */
                 if unlikely !class_exists(name) {
-                    throw new Exception(
-                        "Service '" . name . "' was not found in the dependency injection container"
-                    );
+                    throw Exception::serviceNotFound(name);
                 }
 
                 if typeof parameters == "array" && count(parameters) {

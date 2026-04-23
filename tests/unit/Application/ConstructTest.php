@@ -22,10 +22,6 @@ use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Application\* :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

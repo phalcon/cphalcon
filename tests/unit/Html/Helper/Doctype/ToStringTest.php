@@ -19,10 +19,6 @@ use const PHP_EOL;
 final class ToStringTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Helper\Doctype :: __toString() - empty
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

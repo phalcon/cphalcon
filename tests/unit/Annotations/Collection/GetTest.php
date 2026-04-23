@@ -42,7 +42,9 @@ final class GetTest extends AbstractUnitTestCase
     public function testAnnotationsCollectionGetException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Collection doesn't have an annotation called 'NoExist'");
+        $this->expectExceptionMessage(
+            "Collection does not have an annotation called 'NoExist'"
+        );
 
         $collection = new Collection();
         $collection->get('NoExist');

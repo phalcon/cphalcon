@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetShowFilesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Debug :: setShowFiles()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

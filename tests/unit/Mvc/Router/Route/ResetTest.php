@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ResetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: reset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterRouteReset(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $route1 = new Route('/test1');
+        Route::reset();
+        $route2 = new Route('/test2');
+        $this->assertSame('0', $route2->getRouteId());
     }
 }

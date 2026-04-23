@@ -25,12 +25,8 @@ final class GetSetHasAppendMessagesTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * Tests Phalcon\Forms\Element\* :: getMessages()/setMessages()/hasMessages()/appendMessage()
-     *
      * @dataProvider getExamples
      *
-     *
-     * @return void
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */

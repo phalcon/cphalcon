@@ -53,7 +53,7 @@
     "predis/predis": "^2.3",
     "squizlabs/php_codesniffer": "^3.4",
     "twig/twig": "^3.20",
-    "vimeo/psalm": "5.26.1",
+    "vimeo/psalm": "6.16.1",
     "vlucas/phpdotenv": "^v5.4"
   },
   "config": {
@@ -70,13 +70,7 @@
       "Phalcon\\Tests\\": "tests/",
       "Phalcon\\Tests\\Support\\": "tests/support/",
       "Phalcon\\Tests\\Unit\\": "tests/unit/",
-      "Phalcon\\Tests\\Integration\\": "tests/integration/",
-      "Phalcon\\Tests\\Database\\": "tests/database/",
-      "Phalcon\\Tests\\Fixtures\\": "tests/_data/fixtures/",
-      "Phalcon\\Tests\\Modules\\": "tests/support/Modules/",
-      "Phalcon\\Tests\\Module\\": "tests/_support/Module/",
-      "Phalcon\\Tests\\Listener\\": "tests/_data/listener/",
-      "Phalcon\\Tests\\Db\\": "tests/_data/db/"
+      "Phalcon\\Tests\\Database\\": "tests/database/"
     },
     "exclude-from-classmap": [
       "tests/support/assets/"

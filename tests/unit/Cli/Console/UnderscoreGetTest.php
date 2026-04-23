@@ -21,12 +21,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Console :: __get()
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since  2018-11-13
      * @since  2018-12-28
      */
     public function testCliConsoleUnderscoreGet(): void

@@ -23,8 +23,6 @@ use const PHP_EOL;
 final class OutputInlineTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: outputInline() - css
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -44,8 +42,6 @@ final class OutputInlineTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputInline() - js
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

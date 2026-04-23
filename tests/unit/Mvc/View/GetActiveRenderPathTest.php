@@ -25,10 +25,7 @@ use const DIRECTORY_SEPARATOR;
 class GetActiveRenderPathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: getActiveRenderPath()
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12139
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-08-14
      */

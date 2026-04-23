@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class SetVarsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: setVars()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

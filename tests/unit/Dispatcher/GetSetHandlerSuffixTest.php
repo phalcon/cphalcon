@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetHandlerSuffixTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getHandlerSuffix()/setHandlerSuffix()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

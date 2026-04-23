@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetPrefixTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
@@ -34,8 +32,6 @@ final class GetSetPrefixTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getPrefix()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

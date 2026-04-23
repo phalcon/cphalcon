@@ -30,10 +30,6 @@ final class GetSetCssClassesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getCssClasses()/setCssClasses()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

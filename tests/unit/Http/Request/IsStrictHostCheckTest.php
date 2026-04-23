@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class IsStrictHostCheckTest extends AbstractHttpBase
 {
     /**
-     * Tests strict host check
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-26
      */

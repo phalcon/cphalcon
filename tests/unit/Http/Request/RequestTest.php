@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class RequestTest extends AbstractHttpBase
 {
     /**
-     * Tests POST functions
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -59,8 +57,6 @@ final class RequestTest extends AbstractHttpBase
     }
 
     /**
-     * Tests GET functions
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -100,8 +96,6 @@ final class RequestTest extends AbstractHttpBase
     }
 
     /**
-     * Tests REQUEST functions
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */

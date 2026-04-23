@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AttemptTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: attempt()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

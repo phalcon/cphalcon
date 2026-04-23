@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetSchemeTest extends AbstractHttpBase
 {
     /**
-     * Tests getScheme with HTTPS
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -34,8 +32,6 @@ final class GetSchemeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getScheme default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */

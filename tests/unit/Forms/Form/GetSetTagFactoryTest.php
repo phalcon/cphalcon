@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetTagFactoryTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getTagFactory()/setTagFactory()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-30
      */

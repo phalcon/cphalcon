@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class OffsetGetTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Row :: offsetGet()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      *

@@ -13,18 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro\LazyLoader;
 
+use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Controllers\ViewRequestController;
 
 class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro\LazyLoader :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroLazyloaderConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $loader = new LazyLoader(ViewRequestController::class);
+        $this->assertInstanceOf(LazyLoader::class, $loader);
     }
 }

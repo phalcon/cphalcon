@@ -23,10 +23,6 @@ use function uniqid;
 final class EncryptBase64Test extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: encryptBase64()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -78,10 +74,6 @@ final class EncryptBase64Test extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: encryptBase64() - safe
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

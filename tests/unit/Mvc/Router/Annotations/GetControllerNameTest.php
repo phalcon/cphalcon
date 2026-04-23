@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetControllerNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: getControllerName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

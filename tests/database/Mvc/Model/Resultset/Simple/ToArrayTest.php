@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function date;
 
+/**
+ *
+ * @group phql
+ */
 final class ToArrayTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -44,8 +48,6 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Resultset\Simple :: toArray()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-01
      *

@@ -15,8 +15,10 @@ namespace Phalcon\Tests\Unit\Mvc\Micro\Collection;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Tests\Support\Controllers\Micro\Collections\PersonasLazyController;
+use Phalcon\Mvc\Micro\CollectionInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Controllers\Micro\Collections\PersonasLazyController;
+use stdClass;
 
 class SetHandlerTest extends AbstractUnitTestCase
 {
@@ -30,37 +32,36 @@ class SetHandlerTest extends AbstractUnitTestCase
             true
         );
 
-
         $collection->map('/', 'index');
         $collection->map('/edit/{number}', 'edit');
 
         $app->mount($collection);
 
-
         $app->handle('/');
 
-        $this->assertEquals(
+        $this->assertSame(
             1,
             PersonasLazyController::getEntered()
         );
 
-
         $app->handle('/edit/100');
 
-        $this->assertEquals(
+        $this->assertSame(
             101,
             PersonasLazyController::getEntered()
         );
     }
 
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: setHandler()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroCollectionSetHandler(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $collection = new Collection();
+        $handler    = new stdClass();
+        $result     = $collection->setHandler($handler);
+        $this->assertInstanceOf(CollectionInterface::class, $result);
+        $this->assertSame($handler, $collection->getHandler());
     }
 }

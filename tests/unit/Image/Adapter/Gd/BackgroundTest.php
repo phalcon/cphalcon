@@ -23,8 +23,6 @@ final class BackgroundTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: background()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

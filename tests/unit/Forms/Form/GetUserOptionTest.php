@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetUserOptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getUserOption()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
@@ -50,8 +48,6 @@ final class GetUserOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: getUserOption() with default value
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */

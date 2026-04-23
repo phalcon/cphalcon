@@ -24,10 +24,6 @@ use function logsDir;
 final class GetAdapterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: getAdapter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -54,10 +50,6 @@ final class GetAdapterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: getAdapter() - for transaction
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -133,10 +125,6 @@ final class GetAdapterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: getAdapter() - unknown
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

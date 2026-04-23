@@ -44,8 +44,6 @@ final class ValidateTest extends AbstractUnitTestCase
     /**
      * @dataProvider getExamplesIntOrStringOfDigits
      *
-     * @return void
-     * @throws Exception
      */
     public function testFilterValidationValidatorDigitIntOrStringOfDigits(
         mixed $digit
@@ -70,8 +68,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests digit validator with multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -149,8 +145,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests digit validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -189,13 +183,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Digit :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */

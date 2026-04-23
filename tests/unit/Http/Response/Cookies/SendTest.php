@@ -33,8 +33,6 @@ final class SendTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: send()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */
@@ -54,11 +52,9 @@ final class SendTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: send() - twice
-     *
+     * @issue  15334
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-22
-     * @issue  15334
      */
     public function testHttpResponseCookiesSendTwice(): void
     {

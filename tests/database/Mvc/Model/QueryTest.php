@@ -28,6 +28,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class QueryTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -68,8 +72,6 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: query()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
@@ -90,11 +92,9 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: query() - Issue 14535
-     *
+     * @issue  14535
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-01
-     * @issue  14535
      *
      * @group mysql
      */
@@ -117,11 +117,9 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: query() - Issue 14783
-     *
+     * @issue  14783
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @issue  14783
      *
      * @group mysql
      */
@@ -174,13 +172,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Transforming method used for test
-     *
-     * @param Row $row
-     *
      * @issue 14783
-     *
-     * @return mixed
      */
     private function transform(Row $row): CustomersKeepSnapshots
     {

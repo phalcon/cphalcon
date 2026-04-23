@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
+use DateTimeZone;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Exception;
@@ -24,10 +25,19 @@ use Phalcon\Logger\LoggerInterface;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: __construct() - implement PSR
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testLoggerConstructWithTimezone(): void
+    {
+        $timezone = new DateTimeZone('America/New_York');
+        $logger   = new Logger('my-logger', [], $timezone);
+
+        $this->assertInstanceOf(LoggerInterface::class, $logger);
+        $this->assertSame('my-logger', $logger->getName());
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -38,10 +48,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: __construct() - constants
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -59,10 +65,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: __construct() - no adapter exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -76,10 +78,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: __construct() - read only mode exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -102,10 +100,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: __construct() - file with json formatter
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

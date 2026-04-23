@@ -21,8 +21,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetCacheTest extends AbstractHttpBase
 {
     /**
-     * Tests setCache
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2015-07-14
      */

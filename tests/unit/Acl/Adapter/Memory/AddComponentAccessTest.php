@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddComponentAccessTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -40,10 +36,6 @@ final class AddComponentAccessTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - unknown
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -57,10 +49,6 @@ final class AddComponentAccessTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - wrong access list
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

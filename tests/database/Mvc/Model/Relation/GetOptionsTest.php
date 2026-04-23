@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetOptionsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Relation - getOptions()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */

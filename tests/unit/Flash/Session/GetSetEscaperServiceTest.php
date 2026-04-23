@@ -32,10 +32,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getEscaperService() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -52,10 +48,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getEscaperService()/setEscaperService()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -81,10 +73,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getEscaperService() - container
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

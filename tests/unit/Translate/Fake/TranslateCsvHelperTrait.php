@@ -81,8 +81,6 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query()
-     *
      * @dataProvider getQueryProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -107,9 +105,6 @@ trait TranslateCsvHelperTrait
     abstract protected function getCsvConfig(): array;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query() -
-     * variable substitution in string with no variables
-     *
      * @dataProvider getQueryProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -129,9 +124,6 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query() -
-     * variable substitution in string (one variable)
-     *
      * @dataProvider getQueryOneVariable
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -150,9 +142,6 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query() -
-     * variable substitution in string (two variables)
-     *
      * @dataProvider getQueryTwoVariables
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -174,11 +163,6 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query() - array access and UTF8
-     * strings
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

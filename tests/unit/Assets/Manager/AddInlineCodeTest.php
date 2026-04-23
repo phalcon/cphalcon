@@ -49,8 +49,6 @@ final class AddInlineCodeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addInlineCode()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */

@@ -45,10 +45,6 @@ final class UnderscoreTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: underscore()
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

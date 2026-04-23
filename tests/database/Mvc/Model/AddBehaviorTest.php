@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddBehaviorTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model :: addBehavior()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -30,8 +28,6 @@ final class AddBehaviorTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that Model class has the addBehavior method - Issue #10371
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

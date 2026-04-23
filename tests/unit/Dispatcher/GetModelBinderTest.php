@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetModelBinderTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getModelBinder()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

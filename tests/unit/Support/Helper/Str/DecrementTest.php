@@ -34,10 +34,6 @@ final class DecrementTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: decrement() - string
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

@@ -18,11 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetIssuerTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
-     * getIssuer()/setIssuer()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

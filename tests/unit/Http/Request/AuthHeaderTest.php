@@ -228,13 +228,11 @@ final class AuthHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests basic auth headers
+     * @dataProvider basicAuthProvider
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12480
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-12-18
-     *
-     * @dataProvider basicAuthProvider
      */
     public function testHttpRequestCorrectHandleAuth(
         array $server,
@@ -252,8 +250,6 @@ final class AuthHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests custom authorization resolver.
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-03-25
@@ -278,8 +274,6 @@ final class AuthHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests fire authorization events.
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-03-25
@@ -309,6 +303,7 @@ final class AuthHeaderTest extends AbstractHttpBase
 
     /**
      * @dataProvider authProvider
+     *
      */
     public function testHttpRequestGetAuthFromHeaders(
         array $server,
@@ -324,8 +319,6 @@ final class AuthHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests custom authorization header.
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-03-25

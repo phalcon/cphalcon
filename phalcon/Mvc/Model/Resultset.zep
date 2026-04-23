@@ -21,6 +21,7 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Support\Settings;
 use SeekableIterator;
 use Serializable;
 
@@ -196,7 +197,7 @@ abstract class Resultset
         /**
          * Small result-sets with less equals 32 rows are fetched at once
          */
-        let prefetchRecords = (int) globals_get("orm.resultset_prefetch_records");
+        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
         if prefetchRecords > 0 && rowCount <= prefetchRecords {
             /**
              * Fetch ALL rows from database

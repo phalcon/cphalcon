@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class MessageFactoryTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength\Min :: messageFactory()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */

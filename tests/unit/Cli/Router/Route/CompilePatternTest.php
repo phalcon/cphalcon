@@ -56,14 +56,10 @@ final class CompilePatternTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Router\Route :: compilePattern()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-01-05
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-05
      */
     public function testCliRouterRouteCompilePattern(
         string $pattern,

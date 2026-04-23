@@ -44,11 +44,10 @@ final class GetEventsManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: trigger cache events
-     *
      * @dataProvider getEvents
-     * @author       n[oO]ne <lominum@protonmail.com>
-     * @since        2024-06-07
+     *
+     * @author n[oO]ne <lominum@protonmail.com>
+     * @since  2024-06-07
      */
     public function testCacheCacheEventTriggers(
         string $event,
@@ -89,8 +88,6 @@ final class GetEventsManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: getEventsManager()
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
@@ -106,8 +103,6 @@ final class GetEventsManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: getEventsManager()
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetTaskNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getTaskName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

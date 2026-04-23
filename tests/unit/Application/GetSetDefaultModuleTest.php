@@ -19,10 +19,6 @@ use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 final class GetSetDefaultModuleTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Application\* :: getDefaultModule()/setDefaultModule()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

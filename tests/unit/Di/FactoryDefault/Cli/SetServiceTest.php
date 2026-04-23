@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\FactoryDefault\Cli :: setService()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

@@ -24,8 +24,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class AfterBindingTest extends AbstractUnitTestCase
 {
     /**
-     * Tests after binding event
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-11-19
      */

@@ -23,13 +23,6 @@ use function spl_object_hash;
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Injectable :: __get() - exception
-     *
-     * The Zephir implementation calls trigger_error() (E_USER_NOTICE) for
-     * undefined properties, not throw an exception.
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -62,10 +55,36 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Injectable :: __get()/__isset()
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiInjectableUnderscoreGetPersistent(): void
+    {
+        Di::reset();
+        $container = new Di();
+
+        // Register sessionBag as a closure that receives the class name
+        $container->set(
+            'sessionBag',
+            function (string $name): stdClass {
+                $obj       = new stdClass();
+                $obj->name = $name;
+
+                return $obj;
+            }
+        );
+
+        $container->set('component', InjectableComponent::class);
+
+        /** @var InjectableComponent $component */
+        $component  = $container->get('component');
+        $persistent = $component->persistent;
+
+        $class = stdClass::class;
+        $this->assertInstanceOf($class, $persistent);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

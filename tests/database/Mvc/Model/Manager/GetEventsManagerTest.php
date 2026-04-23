@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetEventsManagerTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

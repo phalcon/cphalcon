@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class IsForeignKeyTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Relation - isForeignKey()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
@@ -38,8 +36,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Relation - isForeignKey() with foreignKey = false
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
@@ -57,8 +53,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Relation - isForeignKey() with foreignKey = []
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
@@ -76,8 +70,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Relation - isForeignKey() with foreignKey = true
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
@@ -95,8 +87,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Relation - isForeignKey() with foreignKey as array
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */

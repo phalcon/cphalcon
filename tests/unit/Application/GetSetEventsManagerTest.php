@@ -21,10 +21,6 @@ use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Application\* :: getEventsManager()/setEventsManager()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

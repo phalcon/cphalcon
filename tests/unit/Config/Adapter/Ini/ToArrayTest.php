@@ -21,8 +21,6 @@ final class ToArrayTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter\Ini :: toArray()
-     *
      * @author kjdev
      * @since  2013-07-18
      */

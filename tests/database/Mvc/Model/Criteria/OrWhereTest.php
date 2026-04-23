@@ -29,8 +29,6 @@ final class OrWhereTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: orWhere()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

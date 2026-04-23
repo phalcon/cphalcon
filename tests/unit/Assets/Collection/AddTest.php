@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: add()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -45,12 +41,7 @@ final class AddTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Collection :: add() - duplicate
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/10938
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

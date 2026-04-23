@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
 use Phalcon\Tests\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use function supportDir;
@@ -23,10 +22,6 @@ use function supportDir;
 final class GetRealSourcePathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - js local
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -45,11 +40,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - js local -
-     * does not exist
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -61,10 +51,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - remote
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

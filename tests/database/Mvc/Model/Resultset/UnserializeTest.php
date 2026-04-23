@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class UnserializeTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset - unserialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Mvc\View;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SetBasePathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: setBasePath()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewSetBasePath(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view   = new View();
+        $result = $view->setBasePath('/app/');
+        $this->assertInstanceOf(View::class, $result);
+        $this->assertSame('/app/', $view->getBasePath());
     }
 }

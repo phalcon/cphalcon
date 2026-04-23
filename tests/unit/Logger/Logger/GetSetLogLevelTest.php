@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetLogLevelTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: getLogLevel()/setLogLevel()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

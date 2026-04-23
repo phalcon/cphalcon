@@ -32,12 +32,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\LoggerFactory :: load() - exception - invalid config
-     *
-     * @return void
-     *
-     * @throws LoggerException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -54,12 +48,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\LoggerFactory :: load() - exception - no name
-     *
-     * @return void
-     *
-     * @throws LoggerException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -80,10 +68,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\LoggerFactory :: load()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -106,10 +90,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\LoggerFactory :: load() - array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -132,10 +112,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\LoggerFactory :: load() - array - check name
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

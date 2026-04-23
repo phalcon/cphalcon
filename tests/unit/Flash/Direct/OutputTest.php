@@ -563,10 +563,6 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: output()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -605,11 +601,7 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: output() - combinations
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

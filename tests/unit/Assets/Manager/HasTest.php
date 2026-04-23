@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: has()
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */
@@ -38,8 +36,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: has() - empty
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */

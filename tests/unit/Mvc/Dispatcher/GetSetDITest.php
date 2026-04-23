@@ -23,8 +23,6 @@ class GetSetDITest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getDI()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

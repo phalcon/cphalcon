@@ -22,9 +22,6 @@ use function supportDir;
 final class SetResourceLimitTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Image\Adapter\Imagick :: setResourceLimit() -
-     * exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-02
      */

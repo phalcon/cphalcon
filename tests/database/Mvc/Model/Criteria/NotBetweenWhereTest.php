@@ -29,8 +29,6 @@ final class NotBetweenWhereTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: notBetweenWhere()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

@@ -28,10 +28,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     use TranslateCsvTrait;
 
     /**
-     * Tests Phalcon\Translate\TranslateFactory :: newInstance()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -48,10 +44,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\TranslateFactory :: newInstance() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -21,8 +21,6 @@ final class GetTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: get()
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

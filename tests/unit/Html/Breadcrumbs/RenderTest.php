@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class RenderTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Breadcrumbs :: render()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -47,10 +43,6 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Breadcrumbs :: render()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

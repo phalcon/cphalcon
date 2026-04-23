@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetOldSnapshotDataTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - setOldSnapshotData()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

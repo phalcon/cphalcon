@@ -52,7 +52,7 @@ final class RefactorModelsQueryExecuteTest extends AbstractDatabaseTestCase
 // namespace Phalcon\Tests\Integration\Mvc\Model;
 //
 // use IntegrationTester;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 //
 // class ModelsQueryExecuteCest
 // {

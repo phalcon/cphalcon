@@ -21,11 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetActiveFunctionCustomArgumentsCountTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory ::
-     * getActiveFunctionCustomArgumentsCount()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

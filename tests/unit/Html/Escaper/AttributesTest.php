@@ -96,11 +96,7 @@ final class AttributesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Escaper :: attributes()
-     *
      * @dataProvider escaperEscapeHtmlAttrProvider
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -118,10 +114,6 @@ final class AttributesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Escaper :: attributes() with array value
-     *
-     * @return void
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */

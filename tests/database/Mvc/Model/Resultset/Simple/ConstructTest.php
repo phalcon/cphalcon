@@ -24,6 +24,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function cacheModelsDir;
 
+/**
+ *
+ * @group phql
+ */
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -63,11 +67,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct() - complete PHQL
-     *
-     * Work with Simple Resultset by loading data from the file cache
-     * (complete PHQL option).
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-27
      *
@@ -109,11 +108,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct() - incomplete PHQL
-     *
-     * Work with Simple Resultset by loading data from the file cache
-     * (incomplete PHQL option).
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-27
      *

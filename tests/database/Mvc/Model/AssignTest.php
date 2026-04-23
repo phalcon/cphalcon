@@ -35,8 +35,6 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: assign()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      *
@@ -90,15 +88,6 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: assign() - auto_increment primary
-     *
-     * Current test serves for example with PHP 7.4 and nullable model's
-     * property.
-     * > Uncaught Error: Typed property Model::$id must not be accessed before
-     * initialization
-     *
-     * Example: public ?int $id = null;
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-13
      *
@@ -122,8 +111,6 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: assign() - incomplete
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
@@ -154,11 +141,9 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: assign() - with transaction
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15739
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     * @issue  https://github.com/phalcon/cphalcon/issues/15739
      *
      * @group mysql
      * @group sqlite

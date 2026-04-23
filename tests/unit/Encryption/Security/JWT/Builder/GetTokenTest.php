@@ -23,10 +23,6 @@ final class GetTokenTest extends AbstractUnitTestCase
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getToken()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,11 +37,6 @@ final class GetTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getToken() -
-     * exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

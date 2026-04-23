@@ -21,8 +21,6 @@ final class NotFoundTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests setting notFound handler
-     *
      * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2013-03-01
      */

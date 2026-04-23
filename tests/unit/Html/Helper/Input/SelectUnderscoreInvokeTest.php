@@ -474,13 +474,7 @@ final class SelectUnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Input\Select :: __invoke()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

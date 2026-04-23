@@ -21,10 +21,6 @@ use const PHP_OS_FAMILY;
 final class DirSeparatorTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: dirSeparator()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -46,10 +42,6 @@ final class DirSeparatorTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: dirSeparator() - empty string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -22,8 +22,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class SetExpiresTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: setExpires()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

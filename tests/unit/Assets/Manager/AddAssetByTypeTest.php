@@ -24,12 +24,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class AddAssetByTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: addAssetByType()
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */

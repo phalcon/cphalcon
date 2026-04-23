@@ -41,9 +41,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Application :: handle() - exception handling
-     * using Dispatcher and Events\Manager
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-17
      */
@@ -65,7 +62,7 @@ final class HandleTest extends AbstractUnitTestCase
             true
         );
 
-        $eventsManager = $this->container->getEventsManager();
+        $eventsManager = $this->container->getShared('eventsManager');
 
         $this->container->set(
             'dispatcher',
@@ -103,11 +100,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Application :: handle() - exception handling
-     * with forwarding using Dispatcher and Events\Manager
-     *
-     * @see    https://github.com/phalcon/cphalcon/issues/15117
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-17
      */
@@ -171,8 +163,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Application :: handle() - single module
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */

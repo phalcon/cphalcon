@@ -22,8 +22,6 @@ final class GetSetHasParamTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Dispatcher :: getParam()/setParam()/hasParam()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */
@@ -63,8 +61,6 @@ final class GetSetHasParamTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: getParam()/setParam()/hasParam()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

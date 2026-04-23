@@ -13,18 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
+use Phalcon\Di\Di;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\Application;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SetEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: setEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcApplicationSetEventsManager(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $container     = new Di();
+        $application   = new Application($container);
+        $eventsManager = new EventsManager();
+        $application->setEventsManager($eventsManager);
+
+        $this->assertInstanceOf(EventsManager::class, $application->getEventsManager());
     }
 }

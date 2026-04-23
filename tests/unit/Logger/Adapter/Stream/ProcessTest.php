@@ -29,10 +29,6 @@ use function logsDir;
 final class ProcessTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Stream :: process()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

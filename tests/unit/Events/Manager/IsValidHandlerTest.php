@@ -53,14 +53,10 @@ final class IsValidHandlerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Events\Manager :: isValidHandler()
-     *
      * @dataProvider getExamples
      *
-     *
-     * @return void
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testEventsManagerIsValidHandler(
         bool $expected,

@@ -31,8 +31,6 @@ final class GetValueTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -62,8 +60,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -92,8 +88,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -121,8 +115,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -153,8 +145,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -170,7 +160,7 @@ final class GetValueTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'filter' was not found in the dependency injection container"
+            "Service 'filter' is not registered in the container"
         );
         $validation = new Validation();
         $validation->setDI($container);
@@ -188,8 +178,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -221,8 +209,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -254,8 +240,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
@@ -287,8 +271,6 @@ final class GetValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */

@@ -25,10 +25,6 @@ use function date_default_timezone_get;
 final class ProcessTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Noop :: process()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

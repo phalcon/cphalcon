@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class ResponseTest extends AbstractHttpBase
 {
     /**
-     * Tests the instance of the object
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */

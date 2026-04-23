@@ -17,6 +17,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
+use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Models\Products;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -31,8 +32,6 @@ final class FormEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: bind() with disabled strict property check
-     *
      * @author noone-silent <lominum@protonmail.com>
      * @since  2024-05-01
      */
@@ -55,8 +54,6 @@ final class FormEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: bind() with enabled strict property check
-     *
      * @author noone-silent <lominum@protonmail.com>
      * @since  2024-05-01
      */
@@ -66,7 +63,7 @@ final class FormEntityTest extends AbstractUnitTestCase
 
         $this->assertFalse(property_exists($product, 'prd_not_exists'));
 
-        ini_set('phalcon.form.strict_entity_property_check', '1');
+        Settings::set('form.strict_entity_property_check', true);
 
         $form = new Form($product);
         $form->setTagFactory($this->container->get("tag"));
@@ -76,15 +73,13 @@ final class FormEntityTest extends AbstractUnitTestCase
         $form->add($exists);
         $form->bind(['prd_name' => 'Test', 'prd_not_exists' => 'TestValue'], $product);
 
-        ini_set('phalcon.form.strict_entity_property_check', '0');
+        Settings::reset();
 
         $this->assertSame('Test', $product->prd_name);
         $this->assertFalse(property_exists($product, "prd_not_exists"));
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: isValid()
-     *
      * @author Stijn Leenknegt <stijn@diagro.be>
      * @since  2021-07-10
      */

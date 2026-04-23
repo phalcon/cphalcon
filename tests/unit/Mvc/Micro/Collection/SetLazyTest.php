@@ -31,12 +31,10 @@ class SetLazyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: setLazy()
+     * @dataProvider booleanProvider
      *
      * @author       Sid Roberts <https://github.com/SidRoberts>
      * @since        2019-06-08
-     *
-     * @dataProvider booleanProvider
      */
     public function testMvcMicroCollectionSetLazy(
         bool $lazy

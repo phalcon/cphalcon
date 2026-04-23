@@ -21,8 +21,6 @@ use function uniqid;
 final class GetHeaderTest extends AbstractHttpBase
 {
     /**
-     * Tests getHeader
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -39,8 +37,6 @@ final class GetHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getHeader empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */

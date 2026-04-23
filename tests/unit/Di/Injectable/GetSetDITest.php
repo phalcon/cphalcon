@@ -20,10 +20,6 @@ use Phalcon\Tests\Support\Di\InjectableComponent;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Injectable :: getDI()/setDI()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -39,10 +35,6 @@ final class GetSetDITest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Injectable :: getDI()/setDI() - constructor
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

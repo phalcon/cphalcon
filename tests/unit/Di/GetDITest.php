@@ -23,14 +23,6 @@ use stdClass;
 final class GetDITest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Injectable :: getDI()
-     *
-     * Test when an Injectable object has no DI set and a call has been made to
-     * getDI(), should set the container property. It's tested with the
-     * Controller class
-     *
-     * @throws ReflectionException
-     *
      * @author Stijn Leenknegt <stijn@diagro.be>
      * @since  2020-08-13
      */
@@ -62,13 +54,6 @@ final class GetDITest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Injectable :: getDI()
-     *
-     * Test when an Injectable object has set another DI.
-     * Setting the container to the default DI, should not happen!
-     *
-     * @throws ReflectionException
-     *
      * @author Stijn Leenknegt <stijn@diagro.be>
      * @since  2020-08-13
      */

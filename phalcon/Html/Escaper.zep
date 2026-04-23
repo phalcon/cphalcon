@@ -106,11 +106,23 @@ class Escaper implements EscaperInterface
      */
     public function css(string input) -> string
     {
+        var result;
+
+        if unlikely empty input {
+            return "";
+        }
+
         /**
          * Normalize encoding to UTF-32
          * Escape the string
          */
-        return this->doEscapeCss(this->normalizeEncoding(input));
+        let result = this->doEscapeCss(this->normalizeEncoding(input));
+
+        if typeof result != "string" {
+            return "";
+        }
+
+        return result;
     }
 
     /**
@@ -271,11 +283,23 @@ class Escaper implements EscaperInterface
      */
     public function js(string input) -> string
     {
+        var result;
+
+        if unlikely empty input {
+            return "";
+        }
+
         /**
          * Normalize encoding to UTF-32
          * Escape the string
          */
-        return this->doEscapeJs(this->normalizeEncoding(input));
+        let result = this->doEscapeJs(this->normalizeEncoding(input));
+
+        if typeof result != "string" {
+            return "";
+        }
+
+        return result;
     }
 
     /**

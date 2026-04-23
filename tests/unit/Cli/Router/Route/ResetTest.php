@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ResetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router\Route :: reset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

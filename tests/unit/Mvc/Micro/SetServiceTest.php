@@ -13,18 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
+use Phalcon\Di\Di;
+use Phalcon\Http\Request;
+use Phalcon\Mvc\Micro;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SetServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: setService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroSetService(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $di    = new Di();
+        $micro = new Micro($di);
+        $micro->setService('myService', function () {
+            return new Request();
+        });
+        $this->assertInstanceOf(Request::class, $micro->getService('myService'));
     }
 }

@@ -23,8 +23,6 @@ final class GetSetNameTest extends AbstractServicesTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,8 +39,6 @@ final class GetSetNameTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: getName()/setName() - session started
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -68,8 +64,6 @@ final class GetSetNameTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: getName()/setName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

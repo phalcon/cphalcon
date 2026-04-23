@@ -100,11 +100,7 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests sanitizing values
-     *
      * @dataProvider getFilterSanitizeExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-23
@@ -124,11 +120,8 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests filter sanitize on custom filters
-     *
      * @dataProvider getFilterSanitizeCustomFiltersExamples
      *
-     * @return void
      */
     public function testFilterFilterSanitizeCustomFilters(
         array $source,
@@ -149,10 +142,6 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests sanitizing array with multiple filters and one not existing
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

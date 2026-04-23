@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetClientCharsetsTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getClientCharsets()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

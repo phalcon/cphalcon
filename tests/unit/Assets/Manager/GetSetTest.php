@@ -26,8 +26,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: get()/set()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */
@@ -44,8 +42,6 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: get() - unknown
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-04
      */

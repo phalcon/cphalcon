@@ -13,18 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\ViewInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view = new View();
+        $this->assertInstanceOf(ViewInterface::class, $view);
     }
 }

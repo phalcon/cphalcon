@@ -28,8 +28,6 @@ final class ToStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Attributes :: __toString()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02
      */
@@ -51,8 +49,6 @@ final class ToStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Attributes :: __toString() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-09-26
      */

@@ -25,10 +25,6 @@ final class GetCategoryTest extends AbstractUnitTestCase
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: getCategory()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

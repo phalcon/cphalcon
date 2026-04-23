@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class LoadTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Session\Factory :: load() - array
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -29,8 +27,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Factory :: load() - Config
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */

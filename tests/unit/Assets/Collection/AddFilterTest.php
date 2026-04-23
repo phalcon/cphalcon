@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddFilterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: addFilter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

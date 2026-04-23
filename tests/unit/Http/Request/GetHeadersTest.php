@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetHeadersTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getHeaders()
-     *
      * @issue  2294
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-10-19

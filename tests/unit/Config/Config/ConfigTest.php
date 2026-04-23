@@ -22,8 +22,6 @@ final class ConfigTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests converting child array to config object
-     *
      * @author Rian Orie <rian.orie@gmail.com>
      * @since  2014-11-12
      */
@@ -47,9 +45,7 @@ final class ConfigTest extends AbstractUnitTestCase
     }
 
     /**
-     * Test insensitive in sub arrays
-     *
-     * @issue  16171
+     * @issue 16171
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-10-19
      */
@@ -81,8 +77,6 @@ final class ConfigTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests standard config simple array
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-11
      */

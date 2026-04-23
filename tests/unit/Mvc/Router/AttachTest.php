@@ -23,8 +23,6 @@ final class AttachTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: attach()
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13326
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-03-24
@@ -55,8 +53,6 @@ final class AttachTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: attach() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-11-07
      */

@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-25
      */

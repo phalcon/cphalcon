@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
+use Phalcon\Mvc\Router\Route;
+use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class BeforeMatchTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: beforeMatch()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterRouteBeforeMatch(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $route    = new Route('/test');
+        $callback = function () {
+            return true;
+        };
+        $result = $route->beforeMatch($callback);
+        $this->assertInstanceOf(RouteInterface::class, $result);
     }
 }

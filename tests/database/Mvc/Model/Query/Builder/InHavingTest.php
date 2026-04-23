@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class InHavingTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query\Builder - inHaving()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

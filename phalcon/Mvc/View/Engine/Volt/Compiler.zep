@@ -444,7 +444,7 @@ class Compiler implements InjectionAwareInterface
          */
         if !file_exists(compiledTemplatePath) || compileAlways {
             /**
-             * The file needs to be compiled because it either doesn't exist or
+             * The file needs to be compiled because it either does not exist or
              * needs to compiled every time
              */
             let compilation = this->compileFile(
@@ -1001,7 +1001,7 @@ class Compiler implements InjectionAwareInterface
                 /**
                  * Clone the original compiler
                  * Perform a sub-compilation of the included file
-                 * If the compilation doesn't return anything we include the compiled path
+                 * If the compilation does not return anything we include the compiled path
                  */
                 let subCompiler = clone this;
                 let compilation = subCompiler->compile(finalPath, false);
@@ -2228,9 +2228,11 @@ class Compiler implements InjectionAwareInterface
     /**
      * Sets the compiler options
      */
-    public function setOptions(array! options)
+    public function setOptions(array! options) -> <Compiler>
     {
         let this->options = options;
+
+        return this;
     }
 
     /**
@@ -2775,7 +2777,7 @@ class Compiler implements InjectionAwareInterface
                     );
 
                     /**
-                     * If the compilation doesn't return anything we include the
+                     * If the compilation does not return anything we include the
                      * compiled path
                      */
                     if tempCompilation === null {

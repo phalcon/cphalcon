@@ -23,8 +23,6 @@ final class GetValueByDataTest extends AbstractUnitTestCase
     public const NAME = 'John Doe';
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValueByData()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */

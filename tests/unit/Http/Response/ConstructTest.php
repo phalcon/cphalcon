@@ -24,10 +24,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */
@@ -48,10 +44,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response :: __construct(content = null)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */
@@ -66,10 +58,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response :: __construct(content = null, code = null)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */
@@ -95,11 +83,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response :: __construct(content = null, code = null,
-     * status = null)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

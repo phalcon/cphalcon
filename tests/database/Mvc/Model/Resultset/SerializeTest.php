@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SerializeTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset - serialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -13,21 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetCompiledPatternTest extends AbstractUnitTestCase
- */
 final class GetCompiledPatternTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getCompiledPattern()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterRouteGetCompiledPattern(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $route = new Route('/test/{id:[0-9]+}');
+        $this->assertNotEmpty($route->getCompiledPattern());
+        $this->assertStringContainsString('[0-9]+', $route->getCompiledPattern());
     }
 }

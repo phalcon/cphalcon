@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class GetPreviousControllerNameTest extends AbstractUnitTestCase
+class GetPreviousControllerNameTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getPreviousControllerName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcDispatcherGetPreviousControllerName(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = $this->getDispatcher();
+        $dispatcher->setControllerName('dispatcher-test-default-two');
+        $dispatcher->setActionName('forwardExternal');
+        $dispatcher->dispatch();
+        $this->assertSame('dispatcher-test-default-two', $dispatcher->getPreviousControllerName());
     }
 }

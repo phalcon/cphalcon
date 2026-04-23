@@ -17,10 +17,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetAlgorithmTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Signer\None :: getAlgorithm()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

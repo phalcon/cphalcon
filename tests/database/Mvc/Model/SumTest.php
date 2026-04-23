@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class SumTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -64,8 +68,6 @@ final class SumTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: sum()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *
@@ -159,8 +161,6 @@ final class SumTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: sum()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *

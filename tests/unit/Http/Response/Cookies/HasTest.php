@@ -33,8 +33,6 @@ final class HasTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: has()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

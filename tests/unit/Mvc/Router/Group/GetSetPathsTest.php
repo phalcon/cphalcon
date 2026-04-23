@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetPathsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getPaths()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

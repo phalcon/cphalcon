@@ -20,10 +20,6 @@ use Phalcon\Support\Collection\ReadOnlyCollection;
 final class SetTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: set()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -36,10 +32,6 @@ final class SetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Collection :: set()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -72,10 +64,6 @@ final class SetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: set()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -88,10 +76,6 @@ final class SetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: set()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -104,10 +88,6 @@ final class SetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Collection\ReadOnlyCollection :: set()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

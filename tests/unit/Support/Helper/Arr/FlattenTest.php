@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class FlattenTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: flatten()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -37,10 +33,6 @@ final class FlattenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: flatten() - deep
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

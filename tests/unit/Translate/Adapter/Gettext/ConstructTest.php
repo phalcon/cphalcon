@@ -27,10 +27,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -45,11 +41,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
-     * no gettext extension loaded
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -66,11 +57,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
-     * 'directory' not passed in options
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -84,11 +70,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
-     * 'locale' not passed in options
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -18,10 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetClaimsTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: getClaims()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

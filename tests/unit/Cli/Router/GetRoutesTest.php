@@ -22,8 +22,6 @@ final class GetRoutesTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Router :: getRoutes()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-03
      */

@@ -22,8 +22,6 @@ final class GetPartTest extends AbstractUnitTestCase
     use VersionTrait;
 
     /**
-     * Tests Phalcon\Support\Version :: getPart()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

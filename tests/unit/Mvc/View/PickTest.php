@@ -23,8 +23,6 @@ class PickTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View :: pick()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-01-07
      */

@@ -24,10 +24,6 @@ use function date_default_timezone_get;
 final class GetContextTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Item :: getContext()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

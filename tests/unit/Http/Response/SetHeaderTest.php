@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetHeaderTest extends AbstractHttpBase
 {
     /**
-     * Tests the setHeader
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
@@ -52,8 +50,6 @@ final class SetHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the setHeader
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

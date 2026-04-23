@@ -25,17 +25,10 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION
-     *
      * @dataProvider getClassNames
-     *
-     *
-     * @return void
-     * @throws Exception
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12326
      * @issue  https://github.com/phalcon/cphalcon/issues/12835
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
@@ -69,13 +62,7 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION with uniquid
-     *
      * @dataProvider getClassNames
-     *
-     *
-     * @return void
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -116,11 +103,7 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: exists()/destroy()
-     *
      * @dataProvider getClassNames
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13

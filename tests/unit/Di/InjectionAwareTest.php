@@ -22,10 +22,6 @@ use function spl_object_hash;
 final class InjectionAwareTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: injection aware trait
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

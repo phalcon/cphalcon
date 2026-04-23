@@ -21,6 +21,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -52,8 +56,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Memory :: __construct() - isEmpty and reset
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
@@ -76,8 +78,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Memory :: __construct() - manual
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *

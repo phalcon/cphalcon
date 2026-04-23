@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetActiveComponentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveComponent()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -48,10 +44,6 @@ final class GetActiveComponentTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getActiveComponent() - default
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

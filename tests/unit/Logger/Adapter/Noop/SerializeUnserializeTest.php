@@ -24,11 +24,9 @@ use function serialize;
 final class SerializeUnserializeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Noop :: serialize()/unserialize
-     *
+     * @issue  15638
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-03
-     * @issue  15638
      */
     public function testLoggerAdapterNoopSerializeUnserialize(): void
     {
@@ -40,11 +38,9 @@ final class SerializeUnserializeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Adapter\Noop :: serialize()/unserialize
-     *
+     * @issue  15638
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-03
-     * @issue  15638
      */
     public function testLoggerAdapterNoopSerializeUnserializeException(): void
     {

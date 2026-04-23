@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Forms\Element\ElementInterface;
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 /**
@@ -21,13 +23,17 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetOptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Element\Select :: setOptions()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testFormsElementSelectSetOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $select  = new Select('status');
+        $options = ['1' => 'One', '2' => 'Two'];
+
+        $actual = $select->setOptions($options);
+        $this->assertInstanceOf(ElementInterface::class, $actual);
+
+        $this->assertSame($options, $select->getOptions());
     }
 }

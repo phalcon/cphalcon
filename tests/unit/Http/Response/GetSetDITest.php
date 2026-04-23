@@ -15,13 +15,12 @@ namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Di\Di;
 use Phalcon\Http\Response;
+use Phalcon\Http\Response\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: getDI() / setDI()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-07
      */
@@ -39,5 +38,37 @@ final class GetSetDITest extends AbstractUnitTestCase
         $class  = Di::class;
         $actual = $response->getDI();
         $this->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseGetDIFromDefault(): void
+    {
+        $container = new Di();
+        Di::setDefault($container);
+
+        $response = new Response();
+
+        $actual = $response->getDI();
+        $this->assertSame($container, $actual);
+
+        Di::reset();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseGetDINoContainerThrows(): void
+    {
+        Di::reset();
+
+        $response = new Response();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("A dependency injection container is required");
+        $response->getDI();
     }
 }

@@ -19,10 +19,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class ConstructTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: __construct()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

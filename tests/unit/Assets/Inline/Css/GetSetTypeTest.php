@@ -20,10 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Inline\Css :: getType()/setType()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

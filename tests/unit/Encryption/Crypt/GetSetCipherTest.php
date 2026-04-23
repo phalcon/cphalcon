@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetCipherTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: getCipher() / setCipher()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -37,10 +33,6 @@ final class GetSetCipherTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: setCipher() - unknown
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

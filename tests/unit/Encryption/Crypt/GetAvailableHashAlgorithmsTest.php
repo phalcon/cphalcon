@@ -23,10 +23,6 @@ use function hash_hmac_algos;
 final class GetAvailableHashAlgorithmsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: getAvailableHashAlgorithms()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

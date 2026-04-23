@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class IsExactControllerNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: isExactControllerName()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-04
      */

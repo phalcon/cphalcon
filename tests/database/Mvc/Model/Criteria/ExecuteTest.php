@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class ExecuteTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,8 +40,6 @@ final class ExecuteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: execute()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

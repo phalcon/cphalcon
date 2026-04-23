@@ -38,8 +38,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - callbacks
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-21
      */
@@ -69,8 +67,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - exception - extension not loaded
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-21
      */
@@ -85,8 +81,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - exception - parse file fails
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-21
      */
@@ -103,8 +97,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Yaml :: __construct() - empty yaml
-     *
      * @author ucando.wen <ucando.wen@qq.com>
      * @since  2025-06-22
      */

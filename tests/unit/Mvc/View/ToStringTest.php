@@ -22,8 +22,6 @@ use function dataDir;
 class ToStringTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: toString()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

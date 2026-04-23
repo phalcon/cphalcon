@@ -74,8 +74,6 @@ final class GetSetForeverTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: get()/setForever()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -110,9 +108,6 @@ final class GetSetForeverTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Weak :: get()setForever()
-     *
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-17
      */

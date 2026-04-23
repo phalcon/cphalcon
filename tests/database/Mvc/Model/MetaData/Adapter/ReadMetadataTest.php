@@ -61,17 +61,12 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData :: getAttributes() - Redis
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     * @throws Exception
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-01
      *
      * @group mysql
-     *
      */
     public function testMvcModelMetadataGetAttributes(
         string $service

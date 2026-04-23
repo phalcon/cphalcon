@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetDefaultMessagesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: setDefaultMessages()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetRandomBytesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Security :: getRandomBytes()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

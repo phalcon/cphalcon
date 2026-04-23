@@ -33,8 +33,6 @@ final class ResetTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: reset()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

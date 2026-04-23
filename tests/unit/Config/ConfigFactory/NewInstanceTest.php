@@ -55,8 +55,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: newInstance()
-     *
      * @dataProvider getExamples
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -74,8 +72,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: newInstance() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

@@ -22,12 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class LoadFromYamlTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di :: loadFromYaml()
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

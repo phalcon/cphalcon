@@ -33,8 +33,6 @@ final class GetCookiesTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: getCookies()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

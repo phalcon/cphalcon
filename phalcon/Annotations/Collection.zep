@@ -96,7 +96,7 @@ class Collection implements Iterator, Countable
         }
 
         throw new Exception(
-            "Collection doesn't have an annotation called '" . name . "'"
+            "Collection does not have an annotation called '" . name . "'"
         );
     }
 

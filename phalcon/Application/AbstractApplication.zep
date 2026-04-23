@@ -124,7 +124,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     }
 
     /**
-     * Sets the module name to be used if the router doesn't return a valid module
+     * Sets the module name to be used if the router does not return a valid module
      */
     public function setDefaultModule(string! defaultModule) -> <AbstractApplication>
     {

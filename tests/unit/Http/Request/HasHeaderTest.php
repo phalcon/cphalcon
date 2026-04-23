@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class HasHeaderTest extends AbstractHttpBase
 {
     /**
-     * Tests hasHeader
-     *
      * @author limx <715557344@qq.com>
      * @since  2017-10-26
      */

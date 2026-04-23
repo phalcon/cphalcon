@@ -22,10 +22,6 @@ use Phalcon\Tests\Unit\Messages\Fake\FakeMessage;
 final class JsonSerializeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Messages :: jsonSerialize()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -63,10 +59,6 @@ final class JsonSerializeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Messages\Messages :: jsonSerialize() - no jsonSerialize
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

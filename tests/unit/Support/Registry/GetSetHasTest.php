@@ -82,8 +82,6 @@ final class GetSetHasTest extends AbstractRegistryTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Registry :: get()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -207,8 +205,6 @@ final class GetSetHasTest extends AbstractRegistryTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Registry :: get() - cast
-     *
      * @dataProvider getExamples
      *
      * @since        2019-10-12

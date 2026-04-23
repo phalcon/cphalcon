@@ -21,8 +21,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetFiltersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: getFilters()/setFilters()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */

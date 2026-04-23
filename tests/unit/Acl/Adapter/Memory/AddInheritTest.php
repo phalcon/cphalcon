@@ -22,10 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddInheritTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -42,11 +38,31 @@ final class AddInheritTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - infinite loop
-     * exception
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAclAdapterMemoryAddInheritDiamondContinue(): void
+    {
+        $acl = new Memory();
+        $acl->addRole(new Role('A'));
+        $acl->addRole(new Role('B'));
+        $acl->addRole(new Role('C'));
+        $acl->addRole(new Role('D'));
+        $acl->addRole(new Role('X'));
+
+        // X inherits B and C; B and C both inherit D (diamond)
+        $acl->addInherit('X', 'B');
+        $acl->addInherit('X', 'C');
+        $acl->addInherit('B', 'D');
+        $acl->addInherit('C', 'D');
+
+        // D appears twice in the traversal queue (via B and via C)
+        // The second occurrence hits the `continue` on L326
+        $actual = $acl->addInherit('A', 'X');
+        $this->assertTrue($actual);
+    }
+
+    /**
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */
@@ -71,10 +87,6 @@ final class AddInheritTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - check access
-     *
-     * @return void
-     *
      * @author <jenovateurs>
      * @since  2019-12-05
      */
@@ -112,10 +124,6 @@ final class AddInheritTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - same name
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */
@@ -134,10 +142,6 @@ final class AddInheritTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: addInherit() - unknown role exception
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */

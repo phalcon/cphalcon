@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class RedirectTest extends AbstractHttpBase
 {
     /**
-     * Tests redirect locally
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
@@ -46,8 +44,6 @@ final class RedirectTest extends AbstractHttpBase
     }
 
     /**
-     * Tests redirect local with non-standard code
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/11324
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-19
@@ -74,8 +70,6 @@ final class RedirectTest extends AbstractHttpBase
     }
 
     /**
-     * Tests redirect remotely 301
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1182
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
@@ -106,8 +100,6 @@ final class RedirectTest extends AbstractHttpBase
     }
 
     /**
-     * Tests redirect remotely 302
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

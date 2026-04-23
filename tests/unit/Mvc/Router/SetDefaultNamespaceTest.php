@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetDefaultNamespaceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: setDefaultNamespace()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

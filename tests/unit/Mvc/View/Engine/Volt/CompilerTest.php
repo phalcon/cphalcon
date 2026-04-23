@@ -42,9 +42,6 @@ use function file_put_contents;
 class CompilerTest extends AbstractUnitTestCase
 {
     /**
-     * Test to correct create content
-     *
-     * @test
      * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
@@ -134,8 +131,6 @@ class CompilerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Test to correct compile string use loop
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -156,8 +151,6 @@ class CompilerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Test to correct create content with macros
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -251,8 +244,6 @@ class CompilerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Test to correct create content with macros with object
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */

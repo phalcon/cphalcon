@@ -428,7 +428,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             if matchedRoute !== null {
                 if unlikely !fetch handler, this->handlers[matchedRoute->getRouteId()] {
                     throw new Exception(
-                        "Matched route doesn't have an associated handler"
+                        "Matched route does not have an associated handler"
                     );
                 }
 
@@ -941,7 +941,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     }
 
     /**
-     * Sets a handler that will be called when the router doesn't match any of
+     * Sets a handler that will be called when the router does not match any of
      * the defined routes
      *
      * @param callable handler

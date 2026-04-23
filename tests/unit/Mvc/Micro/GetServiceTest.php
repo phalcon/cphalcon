@@ -29,8 +29,6 @@ use function set_error_handler;
 class GetServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: getService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-22
      */
@@ -62,8 +60,6 @@ class GetServiceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests after binding event
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-07-03
      */

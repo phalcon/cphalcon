@@ -24,10 +24,6 @@ final class OffsetSetTest extends AbstractUnitTestCase
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: offsetSet()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

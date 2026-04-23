@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class RollbackTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Transaction\Manager - rollback()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

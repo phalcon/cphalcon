@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
+use Phalcon\Di\Di;
+use Phalcon\Http\Request;
+use Phalcon\Mvc\Micro;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class GetSharedServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: getSharedService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroGetSharedService(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $di      = new Di();
+        $request = new Request();
+        $di->setShared('request', $request);
+        $micro = new Micro($di);
+        $this->assertSame($request, $micro->getSharedService('request'));
     }
 }

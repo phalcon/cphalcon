@@ -22,8 +22,6 @@ final class CropTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: crop()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -60,8 +58,6 @@ final class CropTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: crop()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

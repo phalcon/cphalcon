@@ -20,10 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetFilterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getFilter()/setFilter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

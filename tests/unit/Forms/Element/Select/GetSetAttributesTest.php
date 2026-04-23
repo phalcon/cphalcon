@@ -22,10 +22,6 @@ use function uniqid;
 final class GetSetAttributesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Element\Select :: getAttributes()/setAttributes()
-     *
-     * @return void
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */

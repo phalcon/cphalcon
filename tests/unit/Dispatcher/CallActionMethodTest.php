@@ -34,8 +34,6 @@ final class CallActionMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: callActionMethod()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-01-06
      */
@@ -50,8 +48,6 @@ final class CallActionMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: callActionMethod() - Params
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-01-06
      */
@@ -85,8 +81,6 @@ final class CallActionMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: callActionMethod() - Events
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-01-06
      */

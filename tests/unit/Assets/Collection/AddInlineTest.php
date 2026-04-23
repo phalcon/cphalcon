@@ -21,10 +21,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class AddInlineTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: addInline()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

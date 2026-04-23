@@ -23,10 +23,6 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     private const ERROR_DIV = "<div class='error-info'>";
 
     /**
-     * Tests Phalcon\Debug :: renderHtml()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -64,7 +60,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 <div align='center'>
     <div class='error-main'>
         <h1>Phalcon\Support\Exception: exception message</h1>
-        <span class='error-file'>" . __FILE__ . " (35)</span>
+        <span class='error-file'>" . __FILE__ . " (31)</span>
     </div>
     <script type='application/javascript'
             src='https://assets.phalcon.io/debug/5.0.x/assets/jquery/dist/jquery.min.js'></script>
@@ -85,10 +81,6 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Debug :: renderHtml() - with file fragment
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -110,10 +102,6 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Debug :: renderHtml() - with file fragment
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -135,10 +123,6 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Debug :: renderHtml() - with backtrace
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -180,10 +164,6 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Debug :: renderHtml() - with backtrace
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -227,5 +207,45 @@ final class RenderHtmlTest extends AbstractUnitTestCase
         );
 
         $this->assertStringNotContainsString('DATA_DEBUG_TEST', $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportDebugRenderHtmlWithRequestBlacklist(): void
+    {
+        $exception = new Exception('exception message', 1234);
+        $debug = new Debug();
+        $request = $_REQUEST;
+        $_REQUEST['DATA_REQUEST_TEST'] = 'test';
+
+        $debug->setShowBackTrace(true);
+        $debug->setBlacklist(
+            [
+                'request' => ['DATA_REQUEST_TEST'],
+            ],
+        );
+
+        $actual = $debug->renderHtml($exception);
+        $_REQUEST = $request;
+
+        $this->assertStringContainsString(self::ERROR_DIV, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportDebugRenderHtmlWithDebugVar(): void
+    {
+        $exception = new Exception('exception message', 1234);
+        $debug = new Debug();
+        $debug->setShowBackTrace(true);
+        $debug->debugVar('my debug variable');
+
+        $actual = $debug->renderHtml($exception);
+
+        $this->assertStringContainsString("id='variables'", $actual);
     }
 }

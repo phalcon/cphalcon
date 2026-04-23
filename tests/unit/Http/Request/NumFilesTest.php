@@ -112,12 +112,10 @@ final class NumFilesTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Request::numFiles
+     * @dataProvider filesProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-11-07
-     *
-     * @dataProvider filesProvider
      */
     public function testRequestNumFiles(
         array $files,

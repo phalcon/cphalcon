@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element;
 
+use InvalidArgumentException;
+use Phalcon\Forms\Element\Text;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 
@@ -23,11 +25,7 @@ final class ConstructTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * Tests Phalcon\Forms\Element\* :: __construct()
-     *
      * @dataProvider getExamplesWithoutSelect
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
@@ -53,5 +51,17 @@ final class ConstructTest extends AbstractUnitTestCase
         $expected = $attributes;
         $actual   = $object->getAttributes();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsElementConstructEmptyNameThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Form element name is required');
+
+        new Text('');
     }
 }

@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
 use Phalcon\Tests\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use function hash;
@@ -23,10 +22,6 @@ use function hash;
 final class GetAssetKeyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getAssetKey()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

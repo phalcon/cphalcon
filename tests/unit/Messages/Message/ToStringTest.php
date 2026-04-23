@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ToStringTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Message :: __toString()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,10 +37,6 @@ final class ToStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Messages\Message :: __toString() - cast
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

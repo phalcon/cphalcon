@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetHashAlgorithmTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: getHashAlgorithm() / setHashAlgorithm()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -39,10 +35,6 @@ final class GetSetHashAlgorithmTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: setHashAlgo() - unknown
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

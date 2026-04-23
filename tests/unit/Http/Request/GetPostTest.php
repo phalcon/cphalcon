@@ -23,8 +23,6 @@ use function uniqid;
 final class GetPostTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getPost()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */
@@ -50,8 +48,6 @@ final class GetPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPost() - json
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-07-22
      */
@@ -88,11 +84,8 @@ final class GetPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPost() - allowNoEmpty
-     *
-     * @throws Exception
-     * @since  2019-12-01
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
      */
     public function testHttpRequestGetPostAllowNoEmpty(): void
     {
@@ -114,11 +107,8 @@ final class GetPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPost() - default
-     *
-     * @throws Exception
-     * @since  2019-12-01
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
      */
     public function testHttpRequestGetPostDefault(): void
     {
@@ -133,11 +123,8 @@ final class GetPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPost() - filter
-     *
-     * @throws Exception
-     * @since  2019-12-01
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
      */
     public function testHttpRequestGetPostFilter(): void
     {

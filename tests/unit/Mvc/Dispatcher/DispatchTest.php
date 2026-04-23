@@ -20,9 +20,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 class DispatchTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: dispatch()
-     * Tests the default order of dispatch events for basic execution
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -82,8 +79,6 @@ class DispatchTest extends BaseDispatcher
     }
 
     /**
-     * Tests invalid handler action specified
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -104,8 +99,6 @@ class DispatchTest extends BaseDispatcher
     }
 
     /**
-     * Tests handler not found
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

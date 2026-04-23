@@ -22,8 +22,6 @@ final class GetRouteByIdTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: getRouteById()
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2018-06-28
      */
@@ -69,8 +67,6 @@ final class GetRouteByIdTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests getting named route
-     *
      * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2012-08-27
      */

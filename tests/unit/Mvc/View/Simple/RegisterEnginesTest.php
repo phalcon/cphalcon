@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Simple;
 
+use Phalcon\Mvc\View\Engine\Php;
+use Phalcon\Mvc\View\Simple;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class RegisterEnginesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: registerEngines()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewSimpleRegisterEngines(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view    = new Simple();
+        $engines = ['.phtml' => Php::class];
+
+        $view->registerEngines($engines);
+
+        $this->assertSame($engines, $view->getRegisteredEngines());
     }
 }

@@ -25,10 +25,6 @@ final class GetSetIdTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: getId()/setId()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -51,10 +47,6 @@ final class GetSetIdTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: setId() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

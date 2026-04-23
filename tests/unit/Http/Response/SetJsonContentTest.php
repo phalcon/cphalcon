@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Response;
 
+use InvalidArgumentException;
 use Phalcon\Http\Response;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
@@ -24,8 +25,19 @@ use const JSON_HEX_TAG;
 final class SetJsonContentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: setJsonContent()
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseSetJsonContentEncodeErrorThrows(): void
+    {
+        $response = new Response();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('json_encode error');
+        $response->setJsonContent(NAN);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-07
      */

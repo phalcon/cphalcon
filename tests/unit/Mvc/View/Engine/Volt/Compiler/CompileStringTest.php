@@ -515,12 +515,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString()
+     * @dataProvider getVoltCompileString
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
-     *
-     * @dataProvider getVoltCompileString
      */
     public function testMvcViewEngineVoltCompilerCompileString(
         string $param,
@@ -535,9 +533,6 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - executed
-     * error
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-07-02
      */
@@ -680,13 +675,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - syntax
-     * error
+     * @dataProvider getVoltCompileStringErrors
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
-     *
-     * @dataProvider getVoltCompileStringErrors
      */
     public function testMvcViewEngineVoltCompilerCompileStringSyntaxError(
         string $code,

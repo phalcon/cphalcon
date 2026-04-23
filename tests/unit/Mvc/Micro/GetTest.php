@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: get()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

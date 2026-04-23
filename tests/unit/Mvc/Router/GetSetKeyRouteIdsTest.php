@@ -22,8 +22,6 @@ final class GetSetKeyRouteIdsTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: getKeyRouteIds()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -54,8 +52,6 @@ final class GetSetKeyRouteIdsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: getKeyRouteIds()/setKeyRouteIds()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-11-07
      */

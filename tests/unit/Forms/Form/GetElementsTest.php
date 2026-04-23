@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetElementsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getElements()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */

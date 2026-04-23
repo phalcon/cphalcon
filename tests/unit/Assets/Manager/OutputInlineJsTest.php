@@ -23,8 +23,6 @@ use const PHP_EOL;
 final class OutputInlineJsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: outputInlineJs()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

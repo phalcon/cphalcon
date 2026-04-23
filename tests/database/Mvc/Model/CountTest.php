@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class CountTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -51,8 +55,6 @@ final class CountTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: count()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
@@ -156,11 +158,9 @@ final class CountTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: count() - Column Map
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16471
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-12-26
-     * @issue  https://github.com/phalcon/cphalcon/issues/16471
      *
      * @group mysql
      * @group pgsql

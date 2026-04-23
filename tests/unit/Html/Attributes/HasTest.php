@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: has()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */
@@ -49,8 +47,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Attributes :: has() - case sensitive
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

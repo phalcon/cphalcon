@@ -20,11 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetNoArgumentsDefaultActionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory ::
-     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -39,11 +34,6 @@ final class GetSetNoArgumentsDefaultActionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory ::
-     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -20,8 +20,6 @@ use stdClass;
 final class GetSetEntityTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getEntity()/setEntity()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-05
      */

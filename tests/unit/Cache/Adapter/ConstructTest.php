@@ -82,12 +82,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\* :: __construct()
-     *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterConstruct(
         string $class,
@@ -106,15 +104,8 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - empty
-     * options
-     *
-     * @return void
-     *
-     * @throws SupportException
-     * @since  2020-09-09
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterLibmemcachedConstructEmptyOptions(): void
     {
@@ -136,13 +127,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - getTtl
-     * options
-     *
-     * @return void
-     *
-     * @throws SupportException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -170,10 +154,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Stream :: __construct() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

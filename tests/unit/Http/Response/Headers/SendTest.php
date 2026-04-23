@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class SendTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: send()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */
@@ -43,11 +41,22 @@ final class SendTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Headers :: send() - twice
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseHeadersSendRawNoColon(): void
+    {
+        $headers = new Headers();
+        $headers->setRaw('X-Custom-Header');
+
+        $actual = $headers->send();
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @issue  15334
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-22
-     * @issue  15334
      */
     public function testHttpResponseHeadersSendTwice(): void
     {

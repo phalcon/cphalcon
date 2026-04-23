@@ -13,18 +13,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Di\Di;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Dispatcher\Fake\FakeModelBinder;
 
 final class SetModelBinderTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: setModelBinder()
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2024-01-01
      */
-    public function testDispatcherSetModelBinder(): void
+    public function testDispatcherSetModelBinderStringCache(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $serializerFactory = new SerializerFactory();
+        $cacheAdapter      = new Memory($serializerFactory);
+
+        $di = new Di();
+        $di->set(
+            'myCache',
+            function () use ($cacheAdapter) {
+                return $cacheAdapter;
+            }
+        );
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDI($di);
+
+        $binder = new FakeModelBinder();
+
+        $result = $dispatcher->setModelBinder($binder, 'myCache');
+
+        $this->assertSame($dispatcher, $result);
+        $this->assertSame($cacheAdapter, $binder->getCache());
     }
 }

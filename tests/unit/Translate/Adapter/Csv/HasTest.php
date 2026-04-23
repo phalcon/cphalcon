@@ -23,10 +23,6 @@ final class HasTest extends AbstractUnitTestCase
     use TranslateCsvTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: has()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

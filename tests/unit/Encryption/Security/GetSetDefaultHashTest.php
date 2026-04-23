@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDefaultHashTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Security :: getDefaultHash() and setDefaultHash()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

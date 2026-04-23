@@ -22,10 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */

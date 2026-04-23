@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class PostTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: post()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

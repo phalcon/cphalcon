@@ -18,6 +18,7 @@ namespace Phalcon\Tests\Unit\Http\Fake;
  * @link https://php.net/manual/en/stream.streamwrapper.example-1.php
  *
  * @codingStandardsIgnoreFile
+ * @phpcs:ignoreFile
  */
 class FakePhpStream
 {

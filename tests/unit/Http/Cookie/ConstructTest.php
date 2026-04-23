@@ -22,8 +22,6 @@ use function uniqid;
 final class ConstructTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

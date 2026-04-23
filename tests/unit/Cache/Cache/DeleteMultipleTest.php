@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
 
@@ -23,8 +24,6 @@ use function uniqid;
 final class DeleteMultipleTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: deleteMultiple()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -85,5 +84,22 @@ final class DeleteMultipleTest extends AbstractUnitTestCase
         $this->assertFalse($adapter->has($key2));
         $this->assertFalse($adapter->has($key3));
         $this->assertFalse($adapter->has($key4));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-01-01
+     */
+    public function testCacheCacheDeleteMultipleException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The key contains invalid characters');
+
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
+        $adapter->deleteMultiple(['valid-key', 'abc$^']);
     }
 }

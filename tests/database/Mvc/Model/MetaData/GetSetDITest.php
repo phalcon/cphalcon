@@ -44,8 +44,6 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData :: getDI() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-05
      *
@@ -62,8 +60,6 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData :: getDI() / setDI()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

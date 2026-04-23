@@ -48,8 +48,6 @@ final class AddInlineCssTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addInlineCss()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-19
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetURITest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getURI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -37,8 +35,6 @@ final class GetURITest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getURI() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -51,8 +47,6 @@ final class GetURITest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getURI() - only path
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

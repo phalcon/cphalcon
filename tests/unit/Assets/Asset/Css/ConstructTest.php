@@ -16,17 +16,12 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: __construct() - attributes
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -40,10 +35,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: __construct() - attributes set
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -65,10 +56,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: __construct() - filter
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -80,10 +67,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: __construct() - filter set
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -95,16 +78,11 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: __construct() - local
-     *
-     * @return void
-     *
      * @dataProvider providerCss
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerCss')]
     public function testAssetsAssetCssConstructLocal(
         string $path,
         bool $local

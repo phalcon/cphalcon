@@ -25,10 +25,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetMessagesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Form::getMessages()
-     *
-     * @author Mohamad Rostami <rostami@outlook.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13294
+     * @author Mohamad Rostami <rostami@outlook.com>
      */
     public function testGetElementMessagesFromForm(): void
     {

@@ -25,11 +25,7 @@ final class GetSetLabelTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * Tests Phalcon\Forms\Element\* :: getLabel()/setLabel()/label()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05

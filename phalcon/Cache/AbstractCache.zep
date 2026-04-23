@@ -151,18 +151,19 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function doDeleteMultiple(var keys) -> bool
     {
-        var key, result;
+        var key, keysArray, result;
 
         this->checkKeys(keys);
 
         this->fire("cache:beforeDeleteMultiple", keys);
 
-        let result = true;
+        let keysArray = [];
         for key in keys {
-            if (true !== this->adapter->delete(key)) {
-                let result = false;
-            }
+            this->checkKey(key);
+            let keysArray[] = key;
         }
+
+        let result = this->adapter->deleteMultiple(keysArray);
 
         this->fire("cache:afterDeleteMultiple", keys);
 

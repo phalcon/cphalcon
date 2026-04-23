@@ -25,8 +25,6 @@ final class WatermarkTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: watermark()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */

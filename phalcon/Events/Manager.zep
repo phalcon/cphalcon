@@ -107,7 +107,7 @@ class Manager implements ManagerInterface
 
         if fetch priorityQueue, this->events[eventType] {
             /**
-             * SplPriorityQueue doesn't have a method for element deletion so we
+             * SplPriorityQueue does not have a method for element deletion so we
              * need to rebuild queue
              */
             let newPriorityQueue = new SplPriorityQueue();

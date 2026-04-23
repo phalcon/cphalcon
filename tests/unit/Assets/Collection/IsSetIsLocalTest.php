@@ -20,8 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class IsSetIsLocalTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: isLocal() / setIsLocal()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */

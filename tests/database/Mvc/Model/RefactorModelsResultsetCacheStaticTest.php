@@ -34,7 +34,7 @@ final class RefactorModelsResultsetCacheStaticTest extends AbstractDatabaseTestC
 // namespace Phalcon\Tests\Integration\Mvc\Model;
 //
 // use IntegrationTester;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Cacheable\Parts;
 // use Phalcon\Tests\Support\Models\Cacheable\Robots;
 //

@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetIntermediateModelTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Relation :: getIntermediateModel()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

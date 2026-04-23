@@ -24,10 +24,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Flash\Session :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -38,10 +34,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: __construct() - no session service
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

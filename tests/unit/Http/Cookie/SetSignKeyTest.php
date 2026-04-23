@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetSignKeyTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: setSignKey() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

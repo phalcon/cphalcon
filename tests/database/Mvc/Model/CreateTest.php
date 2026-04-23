@@ -37,8 +37,6 @@ final class CreateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: create()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

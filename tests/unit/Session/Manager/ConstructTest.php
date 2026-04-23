@@ -23,8 +23,6 @@ use SessionHandlerInterface;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Session\Manager :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -36,11 +34,9 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: __construct() - extended
-     *
+     * @issue  14933
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-05
-     * @issue  14933
      */
     public function testSessionManagerConstructExtended(): void
     {

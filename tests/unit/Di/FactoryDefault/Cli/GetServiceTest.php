@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetServiceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: getService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -45,7 +43,7 @@ final class GetServiceTest extends AbstractUnitTestCase
         // non exists service
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'non-exists' was not found in the dependency injection container"
+            "Service 'non-exists' is not registered in the container"
         );
 
         $di->getService('non-exists');

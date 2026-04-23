@@ -21,8 +21,6 @@ use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCryptFunctionExists;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests the Crypt constants
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -38,10 +36,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -55,10 +49,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: __construct() - no openssl exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

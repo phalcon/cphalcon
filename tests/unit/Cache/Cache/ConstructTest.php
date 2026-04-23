@@ -22,8 +22,6 @@ use Phalcon\Cache\CacheInterface;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

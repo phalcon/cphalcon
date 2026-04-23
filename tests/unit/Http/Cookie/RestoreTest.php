@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class RestoreTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: restore()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

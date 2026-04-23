@@ -25,8 +25,6 @@ final class TextTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: text()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */

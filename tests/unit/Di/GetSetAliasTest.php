@@ -18,16 +18,13 @@ use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use ReflectionProperty;
 
 use function uniqid;
 
 final class GetSetAliasTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Di :: getAlias()/setAlias()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-02-17
      */
@@ -52,10 +49,6 @@ final class GetSetAliasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Di :: getAlias()/setAlias()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-02-17
      */
@@ -80,10 +73,43 @@ final class GetSetAliasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Di :: setAlias() exception name not string
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiResolveAliasCircular(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Circular alias reference detected while resolving 'a'"
+        );
+
+        $container = new Di();
+
+        // Manually inject a circular alias chain: a → b → a
+        $prop = new ReflectionProperty(Di::class, 'aliases');
+        $prop->setAccessible(true);
+        $prop->setValue($container, ['a' => 'b', 'b' => 'a']);
+
+        // Resolving 'a' walks a→b→a→b… and detects the cycle
+        $container->get('a');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiSetAliasNotRegistered(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Service 'nonexistent' is not registered in the container"
+        );
+
+        $container = new Di();
+        $container->setAlias('nonexistent', 'myAlias');
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-02-17
      */
@@ -103,10 +129,6 @@ final class GetSetAliasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Di :: setAlias() exception name exists
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-02-17
      */
@@ -121,7 +143,7 @@ final class GetSetAliasTest extends AbstractUnitTestCase
 
         $aliases = [
             EscaperInterface::class,
-            'escaper',
+            'escaper'
         ];
 
         $container->set('escaper', Escaper::class, true);

@@ -21,8 +21,6 @@ final class PathTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter\Grouped :: path()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

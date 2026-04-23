@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class OptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: options()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

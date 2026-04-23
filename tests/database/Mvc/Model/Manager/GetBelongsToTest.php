@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetBelongsToTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getBelongsTo()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

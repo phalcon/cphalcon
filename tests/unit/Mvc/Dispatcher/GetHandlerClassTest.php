@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
-class GetHandlerClassTest extends AbstractUnitTestCase
+class GetHandlerClassTest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getHandlerClass()
@@ -25,6 +26,10 @@ class GetHandlerClassTest extends AbstractUnitTestCase
      */
     public function testMvcDispatcherGetHandlerClass(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = $this->getDispatcher();
+        $this->assertSame(
+            DispatcherTestDefaultController::class,
+            $dispatcher->getHandlerClass()
+        );
     }
 }

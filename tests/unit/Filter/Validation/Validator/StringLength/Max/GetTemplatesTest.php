@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetTemplatesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength\Max :: getTemplates()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */

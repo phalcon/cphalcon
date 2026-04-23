@@ -74,12 +74,10 @@ final class GetSetForeverTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\* :: get()/setForever()
-     *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterGetSetForever(
         string $class,
@@ -110,11 +108,8 @@ final class GetSetForeverTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Weak :: get()setForever()
-     *
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-07-17
      */
     public function testCacheAdapterWeakGetSetForever(): void
     {

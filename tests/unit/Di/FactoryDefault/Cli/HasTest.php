@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: has()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

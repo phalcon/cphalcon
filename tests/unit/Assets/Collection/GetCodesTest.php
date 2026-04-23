@@ -21,10 +21,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetCodesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getCodes()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

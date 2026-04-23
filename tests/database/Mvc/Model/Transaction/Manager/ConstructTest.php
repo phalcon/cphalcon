@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Transaction\Manager - __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

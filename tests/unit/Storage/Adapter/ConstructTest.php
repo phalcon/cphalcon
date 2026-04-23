@@ -82,8 +82,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: __construct()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -106,15 +104,8 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - empty
-     * options
-     *
-     * @return void
-     *
-     * @throws SupportException
-     * @since  2020-09-09
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testStorageAdapterLibmemcachedConstructEmptyOptions(): void
     {
@@ -136,11 +127,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - getTtl
-     * options
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -168,10 +154,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: __construct() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

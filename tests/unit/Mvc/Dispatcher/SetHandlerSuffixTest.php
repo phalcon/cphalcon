@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class SetHandlerSuffixTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: setHandlerSuffix()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */

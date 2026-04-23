@@ -22,13 +22,6 @@ use stdClass;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alnum :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */
@@ -46,8 +39,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alnum :: validate() - multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -121,8 +112,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Alnum :: validate() - single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */

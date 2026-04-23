@@ -22,8 +22,6 @@ use function dataDir;
 class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: exists()
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */

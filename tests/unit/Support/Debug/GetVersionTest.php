@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetVersionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Debug :: getVersion()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

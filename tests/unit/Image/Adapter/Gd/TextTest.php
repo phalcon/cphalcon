@@ -100,12 +100,8 @@ final class TextTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: text()
-     *
      * @dataProvider getExamples
      *
-     *
-     * @return void
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
@@ -147,11 +143,9 @@ final class TextTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: text()
-     *
+     * @issue  15188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     * @issue  15188
      */
     public function testImageAdapterGdTextWithFont(): void
     {

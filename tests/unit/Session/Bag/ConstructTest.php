@@ -22,10 +22,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

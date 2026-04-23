@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetClearAttributesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Breadcrumbs :: getAttributes()/clearAttributes/setAttributes()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

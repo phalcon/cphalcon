@@ -23,8 +23,6 @@ use function supportDir;
 final class GetRealTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Request\File :: getRealType()
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1442
      * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>

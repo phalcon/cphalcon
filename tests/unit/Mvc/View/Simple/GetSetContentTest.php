@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetSetContentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getContent()/setContent()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

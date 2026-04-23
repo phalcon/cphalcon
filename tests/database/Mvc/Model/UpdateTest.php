@@ -26,6 +26,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class UpdateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -40,10 +44,6 @@ final class UpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: update() - with default values
-     *
-     * @see    https://github.com/phalcon/cphalcon/issues/14924
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-18
      *
@@ -107,10 +107,6 @@ final class UpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: update() - via setters and local method
-     *
-     * @see    https://github.com/phalcon/cphalcon/discussions/15625
-     *
      * @author Anton Vasiliev <https://github.com/Jeckerson>
      * @since  2021-08-20
      *
@@ -162,8 +158,6 @@ final class UpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: update()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
      *

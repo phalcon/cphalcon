@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Models\Invoices;
 final class GetModelNameTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getModelName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

@@ -64,7 +64,7 @@ class Console extends AbstractApplication
         }
 
         /**
-         * If the router doesn't return a valid module we use the default module
+         * If the router does not return a valid module we use the default module
          */
         let moduleName = router->getModuleName();
 
@@ -100,7 +100,7 @@ class Console extends AbstractApplication
             if fetch path, module["path"] {
                 if unlikely !file_exists(path) {
                     throw new Exception(
-                        "Module definition path '" . path . "' doesn't exist"
+                        "Module definition path '" . path . "' does not exist"
                     );
                 }
 

@@ -24,6 +24,10 @@ use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -56,8 +60,6 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: isRelationshipLoaded() - when using __get()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
      *
@@ -92,8 +94,6 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: isRelationshipLoaded() - when using __set()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
      *
@@ -129,8 +129,6 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: isRelationshipLoaded() - when using __call() getters
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
      *
@@ -165,8 +163,6 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: isRelationshipLoaded() - when using getRelated()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
      *

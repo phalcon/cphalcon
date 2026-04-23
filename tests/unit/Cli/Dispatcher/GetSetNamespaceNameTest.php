@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetNamespaceNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher - getNamespaceName() / setNamespaceName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

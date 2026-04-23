@@ -22,8 +22,6 @@ final class MaskTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: mask()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

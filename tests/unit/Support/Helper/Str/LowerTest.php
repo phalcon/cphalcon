@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class LowerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: lower()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -44,10 +40,6 @@ final class LowerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: lower() - multi-bytes encoding
-     *
-     * @return void
-     *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */

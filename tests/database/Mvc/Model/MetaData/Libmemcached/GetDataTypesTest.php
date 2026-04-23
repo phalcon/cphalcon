@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetDataTypesTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getDataTypes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

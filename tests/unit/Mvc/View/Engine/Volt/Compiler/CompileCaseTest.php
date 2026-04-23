@@ -13,18 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class CompileCaseTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileCase()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerCompileCase(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $compiler = new Compiler();
+
+        $this->assertSame('<?php default: ?>', $compiler->compileCase([], false));
+
+        $actual = $compiler->compileString(
+            '{% switch x %}{% case 1 %}one{% endswitch %}'
+        );
+        $this->assertStringContainsString('case 1:', $actual);
     }
 }

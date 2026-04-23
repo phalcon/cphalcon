@@ -26,8 +26,6 @@ final class FlipTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: flip()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */

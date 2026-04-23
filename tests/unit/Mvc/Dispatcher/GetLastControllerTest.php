@@ -20,8 +20,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
 class GetLastControllerTest extends BaseDispatcher
 {
     /**
-     * Tests the last handler on a forward
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -40,8 +38,6 @@ class GetLastControllerTest extends BaseDispatcher
     }
 
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getLastController()
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

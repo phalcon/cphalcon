@@ -22,8 +22,6 @@ use function json_encode;
 final class GetJsonRawBodyTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getJsonRawBody()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -50,8 +48,6 @@ final class GetJsonRawBodyTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getJsonRawBody() - empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

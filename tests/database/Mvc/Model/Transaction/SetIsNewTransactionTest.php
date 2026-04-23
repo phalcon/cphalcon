@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetIsNewTransactionTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Transaction - setIsNewTransaction()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

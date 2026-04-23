@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class GetParamsTest extends AbstractUnitTestCase
+class GetParamsTest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getParams()
@@ -25,6 +25,9 @@ class GetParamsTest extends AbstractUnitTestCase
      */
     public function testMvcDispatcherGetParams(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = $this->getDispatcher();
+        $params     = ['id' => 1, 'name' => 'test'];
+        $dispatcher->setParams($params);
+        $this->assertSame($params, $dispatcher->getParams());
     }
 }

@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
+use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesTypedProperties;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function date;
@@ -39,8 +41,6 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: serialize()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -75,8 +75,112 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: serialize() - with dirtyState
+     * Tests that toArray() with a getter does not throw when a typed
+     * non-nullable property is uninitialized (e.g. because cloneResultMap
+     * skipped its assignment when the DB returned NULL for a NOT NULL column).
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15711
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-22
+     *
+     * @group mysql
+     */
+    public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
+    {
+        $base     = new InvoicesTypedProperties();
+        $metadata = $base->getModelsMetaData();
+        $colMap   = $metadata->getColumnMap($base);
+
+        /**
+         * Simulate a LEFT JOIN result where the primary key (NOT NULL in DB)
+         * comes back as NULL. cloneResultMap() will skip the assignment for
+         * inv_id, leaving the typed public int $inv_id uninitialized.
+         */
+        /** @var InvoicesTypedProperties $instance */
+        $instance = Model::cloneResultMap(
+            $base,
+            [
+                'inv_id'          => null,
+                'inv_cst_id'      => 1,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'test-title',
+                'inv_total'       => 9.99,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            $colMap
+        );
+
+        /**
+         * toArray() with useGetter=true (the default) will call getInvId().
+         * getInvId() accesses the uninitialized typed $inv_id property.
+         * After the fix this must return null instead of throwing.
+         */
+        $arr = $instance->toArray();
+
+        $this->assertNull($arr['inv_id']);
+        $this->assertSame('test-title', $arr['inv_title']);
+    }
+
+    /**
+     * Tests that serialize()/unserialize() round-trips a model with typed
+     * properties correctly when a NOT NULL DB column returned NULL (leaving
+     * the typed property uninitialized). The unserialized instance must not
+     * throw TypeError when the serialised value is null.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15711
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-22
+     *
+     * @group mysql
+     */
+    public function testMvcModelSerializeUnserializeWithTypedNullProperty(): void
+    {
+        $title  = uniqid('inv-');
+        $date   = date('Y-m-d H:i:s');
+        $base   = new InvoicesTypedProperties();
+
+        $invoice             = new InvoicesTypedProperties();
+        $invoice->inv_id     = 99;
+        $invoice->inv_title  = $title;
+        $invoice->inv_total  = 50.0;
+        $invoice->inv_created_at = $date;
+
+        $serialized = serialize($invoice);
+        /** @var InvoicesTypedProperties $restored */
+        $restored = unserialize($serialized);
+
+        $this->assertSame($title, $restored->inv_title);
+        $this->assertSame(50.0, $restored->inv_total);
+        $this->assertSame($date, $restored->inv_created_at);
+
+        /**
+         * Now simulate the unserialize path where null is stored for the
+         * typed non-nullable property (because cloneResultMap skipped it).
+         * The direct PHP serialize/unserialize cycle should not throw.
+         */
+        $raw        = unserialize(serialize($invoice));
+        $serialized = $raw->serialize();
+
+        /**
+         * Tamper: inject null for inv_id to mimic what happens when toArray()
+         * returns null for an uninitialized typed property.
+         */
+        $data               = unserialize($serialized);
+        $data['attributes']['inv_id'] = null;
+        $tamperedSerialized = serialize($data);
+
+        $fresh = new InvoicesTypedProperties();
+        $fresh->unserialize($tamperedSerialized);
+
+        /**
+         * After the fix, unserialize() must not throw TypeError. The value
+         * of inv_id will be uninitialized or null but the object is usable.
+         */
+        $arr = $fresh->toArray();
+        $this->assertNull($arr['inv_id']);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-09
      *

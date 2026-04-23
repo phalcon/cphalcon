@@ -35,10 +35,6 @@ final class IncrementTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: increment()
-     *
-     * @return void
-     *
      * @dataProvider strProvider
      *
      * @author       Phalcon Team <team@phalcon.io>

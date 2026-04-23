@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Manager :: has()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */

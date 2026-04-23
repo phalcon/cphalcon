@@ -27,10 +27,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Adapter\Libmemcached :: write()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -52,10 +48,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Noop :: write() - returns true
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -68,10 +60,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Noop :: write()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -88,10 +76,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: read()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -113,10 +97,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: read()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -134,10 +114,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: read() - no data
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -154,10 +130,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: write()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

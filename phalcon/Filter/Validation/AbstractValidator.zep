@@ -175,7 +175,7 @@ abstract class AbstractValidator implements ValidatorInterface
 
         return new Message(
             strtr(this->getTemplate(singleField), replacements),
-            field,
+            singleField,
             get_class(this),
             this->prepareCode(singleField)
         );
@@ -249,12 +249,30 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     protected function allowEmpty(var field, var value) -> bool
     {
-        var allowEmpty;
+        var allowEmpty, emptyValue;
 
         let allowEmpty = this->getOption("allowEmpty", false);
 
         if typeof allowEmpty === "array" {
-            let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
+            /**
+             * Per-field map: ['fieldName' => true/false]
+             * Used by multi-field validators such as Ip.
+             */
+            if fetch emptyValue, allowEmpty[field] {
+                return emptyValue && empty value;
+            }
+
+            /**
+             * Value list: [null, '']
+             * Strict comparison so that '0' is not treated as empty.
+             */
+            for emptyValue in allowEmpty {
+                if emptyValue === value {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         return allowEmpty && empty value;

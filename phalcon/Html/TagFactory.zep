@@ -45,6 +45,7 @@ use Phalcon\Html\Helper\Style;
 use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\Link\Link;
+use Phalcon\Http\ResponseInterface;
 
 /**
  * ServiceLocator implementation for Tag helpers.
@@ -67,6 +68,7 @@ use Phalcon\Html\Link\Link;
  * @method Doctype       doctype(int $flag, string $delimiter)
  * @method string        element(string $tag, string $text, array $attributes = [], bool $raw = false)
  * @method string        form(array $attributes = [])
+ * @method string        friendlyTitle(string $text, string $separator = '-', bool $lowercase = true, mixed $replace = null)
  * @method string        img(string $src, array $attributes = [])
  * @method Checkbox      inputCheckbox(string $name, string $value = null, array $attributes = [])
  * @method Color         inputColor(string $name, string $value = null, array $attributes = [])
@@ -96,6 +98,7 @@ use Phalcon\Html\Link\Link;
  * @method Link          link(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Meta          meta(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Ol            ol(string $text, array $attributes = [], bool $raw = false)
+ * @method string        preload(string $href, string $type = 'style', array $attributes = [])
  * @method Script        script(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Style         style(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Title         title(string $indent = '    ', string $delimiter = PHP_EOL)
@@ -109,6 +112,11 @@ class TagFactory extends AbstractFactory
     private escaper;
 
     /**
+     * @var ResponseInterface|null
+     */
+    private response = null;
+
+    /**
      * @var array
      */
     protected services = [];
@@ -116,12 +124,17 @@ class TagFactory extends AbstractFactory
     /**
      * TagFactory constructor.
      *
-     * @param Escaper $escaper
-     * @param array   $services
+     * @param EscaperInterface       $escaper
+     * @param array                  $services
+     * @param ResponseInterface|null $response
      */
-    public function __construct(<EscaperInterface> escaper, array! services = [])
-    {
-        let this->escaper = escaper;
+    public function __construct(
+        <EscaperInterface> escaper,
+        array! services = [],
+        <ResponseInterface> response = null
+    ) {
+        let this->escaper  = escaper,
+            this->response = response;
 
         this->init(services);
     }
@@ -176,6 +189,14 @@ class TagFactory extends AbstractFactory
                             doctype
                         ]
                     );
+            } elseif name === "preload" {
+                let this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        this->escaper,
+                        this->response
+                    ]
+                );
             } else {
                 let this->services[name] = create_instance_params(
                     definition,
@@ -224,6 +245,7 @@ class TagFactory extends AbstractFactory
             "doctype"            : "Phalcon\\Html\\Helper\\Doctype",
             "element"            : "Phalcon\\Html\\Helper\\Element",
             "form"               : "Phalcon\\Html\\Helper\\Form",
+            "friendlyTitle"      : "Phalcon\\Html\\Helper\\FriendlyTitle",
             "img"                : "Phalcon\\Html\\Helper\\Img",
             "inputCheckbox"      : "Phalcon\\Html\\Helper\\Input\\Checkbox",
             "inputColor"         : "Phalcon\\Html\\Helper\\Input\\Color",
@@ -253,6 +275,7 @@ class TagFactory extends AbstractFactory
             "link"               : "Phalcon\\Html\\Helper\\Link",
             "meta"               : "Phalcon\\Html\\Helper\\Meta",
             "ol"                 : "Phalcon\\Html\\Helper\\Ol",
+            "preload"            : "Phalcon\\Html\\Helper\\Preload",
             "script"             : "Phalcon\\Html\\Helper\\Script",
             "style"              : "Phalcon\\Html\\Helper\\Style",
             "title"              : "Phalcon\\Html\\Helper\\Title",

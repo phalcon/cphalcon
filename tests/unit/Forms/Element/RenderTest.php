@@ -29,11 +29,19 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
 final class RenderTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
      * @return string[][]
      */
@@ -118,11 +126,7 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Element\* :: clear()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
@@ -163,6 +167,31 @@ final class RenderTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $actual = (string)$object;
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsElementRenderValueFromAttributes(): void
+    {
+        $name    = uniqid();
+        $factory = new TagFactory(new Escaper());
+        $doctype = $factory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
+        $element = new Text($name);
+        $element->setTagFactory($factory);
+        $element->setDefault('original-value');
+
+        $expected = sprintf(
+            '<input type="text" id="%s" name="%s" value="overridden" />',
+            $name,
+            $name
+        );
+        $actual   = $element->render(['value' => 'overridden']);
+
         $this->assertSame($expected, $actual);
     }
 }

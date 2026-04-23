@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class OffsetSetTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset\Complex - offsetSet()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

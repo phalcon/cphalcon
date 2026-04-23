@@ -21,10 +21,6 @@ use function uniqid;
 final class GetSetAuthDataTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Crypt :: getAuthData()/setAuthData()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetLabelTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getLabel()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

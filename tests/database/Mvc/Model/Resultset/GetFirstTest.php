@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class GetFirstTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -51,11 +55,9 @@ final class GetFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Mvc\Model\Resultset :: getFirst() - Issue 15027
-     *
+     * @issue  15027
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
-     * @issue  15027
      *
      * @group mysql
      * @group pgsql

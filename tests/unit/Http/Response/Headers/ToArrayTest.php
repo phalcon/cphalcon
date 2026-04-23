@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class ToArrayTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: toArray()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */

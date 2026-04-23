@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class CloneResultMapHydrateTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - cloneResultMapHydrate()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

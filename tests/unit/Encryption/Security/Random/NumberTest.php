@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class NumberTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Security\Random :: number()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -52,10 +48,6 @@ final class NumberTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Security\Random :: number() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -69,10 +61,6 @@ final class NumberTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Security\Random :: number() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

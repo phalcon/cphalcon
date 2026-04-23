@@ -14,9 +14,8 @@ use InvalidArgumentException;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Di;
 use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Forms\Form;
 use Phalcon\Forms\Exception;
-use Phalcon\Html\Escaper;
+use Phalcon\Forms\Form;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
@@ -524,7 +523,7 @@ abstract class AbstractElement implements ElementInterface
      */
     protected function getLocalTagFactory() -> <TagFactory>
     {
-        var container, escaper, tagFactory;
+        var container, tagFactory;
 
         let tagFactory = null;
 
@@ -542,24 +541,13 @@ abstract class AbstractElement implements ElementInterface
             if tagFactory === null {
                 let container = Di::getDefault();
 
-                if likely true === container->has("tag") {
+                if container !== null && true === container->has("tag") {
                     let tagFactory = container->getShared("tag");
                 }
             }
 
-            /**
-             * All failed, create a new TagFactory
-             */
-            if tagFactory === null {
-                let container = Di::getDefault();
-
-                if likely true === container->has("escaper") {
-                    let escaper = container->getShared("escaper");
-                } else {
-                    let escaper = new Escaper();
-                }
-
-                let tagFactory = new TagFactory(escaper);
+            if unlikely tagFactory === null {
+                throw Exception::tagFactoryNotFound();
             }
 
             let this->tagFactory = tagFactory;

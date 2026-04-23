@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetKeyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: getKey()/setKey()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

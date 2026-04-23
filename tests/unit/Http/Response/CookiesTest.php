@@ -24,8 +24,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class CookiesTest extends AbstractHttpBase
 {
     /**
-     * Tests the internal cookies property.
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-09-02
@@ -38,8 +36,6 @@ final class CookiesTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getCookies is work.
-     *
      * @author limx <715557344@qq.com>
      */
     public function testGetCookies(): void

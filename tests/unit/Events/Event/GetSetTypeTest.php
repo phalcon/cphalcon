@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Event :: getType()/setType()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
      */

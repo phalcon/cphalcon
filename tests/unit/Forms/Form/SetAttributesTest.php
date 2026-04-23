@@ -13,23 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Html\Attributes;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SetAttributesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: setAttributes()
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-11
+     * @since  2024-01-01
      */
     public function testFormsFormSetAttributes(): void
     {
-        $form = new Form();
+        $form       = new Form();
+        $attributes = new Attributes(['action' => '/submit', 'method' => 'post']);
 
-        $actual = method_exists($form, 'setAttributes');
+        $actual = $form->setAttributes($attributes);
+        $this->assertInstanceOf(Form::class, $actual);
 
-        $this->assertTrue($actual);
+        $this->assertSame($attributes, $form->getAttributes());
     }
 }

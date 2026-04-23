@@ -19,11 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetNotBeforeTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
-     * getNotBefore()/setNotBefore()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,11 +36,6 @@ final class GetSetNotBeforeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setNotBefore() -
-     * exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

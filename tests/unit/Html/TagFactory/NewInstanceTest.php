@@ -115,10 +115,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -134,10 +130,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -153,12 +145,8 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Helper\TagFactory :: newInstance() - services
-     *
      * @dataProvider getData
      *
-     *
-     * @return void
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */

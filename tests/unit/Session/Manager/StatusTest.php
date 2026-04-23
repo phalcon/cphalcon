@@ -22,10 +22,6 @@ final class StatusTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: status()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -62,14 +62,10 @@ final class GetTypeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: getType()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     * @since        2022-07-19
-     *
      * @author       Phalcon Team <team@phalcon.io>
+     * @since        2022-07-19
      */
     public function testImageAdapterGdGetType(
         string $source,

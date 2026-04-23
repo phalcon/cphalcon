@@ -23,8 +23,6 @@ final class GetSetHandlerSuffixTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getHandlerSuffix()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */

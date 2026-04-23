@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class NotInWhereTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query\Builder - notInWhere()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

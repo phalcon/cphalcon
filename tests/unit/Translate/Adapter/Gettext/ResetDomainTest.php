@@ -23,10 +23,6 @@ final class ResetDomainTest extends AbstractUnitTestCase
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: resetDomain()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -40,7 +36,7 @@ final class ResetDomainTest extends AbstractUnitTestCase
         $oTextDomainMessage = $translator->setDomain('messages');
         $this->assertSame('Hello', $translator->_('hi'));
 
-        //Check with a domain which doesn't exist
+        //Check with a domain which does not exist
         $oTextDomainNoExist = $translator->setDomain('no_exist');
         $this->assertSame('hi', $translator->_('hi'));
 

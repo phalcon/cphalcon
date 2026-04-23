@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class DeleteTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: delete()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

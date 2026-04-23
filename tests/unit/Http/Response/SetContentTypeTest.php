@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class SetContentTypeTest extends AbstractHttpBase
 {
     /**
-     * Tests the setContentType
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
@@ -39,8 +37,6 @@ final class SetContentTypeTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the setContentType with charset
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

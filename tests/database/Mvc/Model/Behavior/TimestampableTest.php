@@ -38,8 +38,6 @@ final class TimestampableTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Behavior :: Timestampable()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
      *
@@ -70,8 +68,6 @@ final class TimestampableTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Behavior :: Timestampable() - with before create event
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
      *

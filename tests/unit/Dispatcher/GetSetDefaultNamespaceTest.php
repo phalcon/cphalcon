@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDefaultNamespaceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getDefaultNamespace()/setDefaultNamespace()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

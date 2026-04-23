@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Ip :: validate() - multiple field
-     *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */
@@ -102,8 +100,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Ip :: validate() - single field
-     *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */

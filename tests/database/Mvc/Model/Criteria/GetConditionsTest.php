@@ -29,8 +29,6 @@ final class GetConditionsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getConditions()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

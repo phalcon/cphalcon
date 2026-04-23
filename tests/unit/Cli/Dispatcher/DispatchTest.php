@@ -16,13 +16,12 @@ namespace Phalcon\Tests\Unit\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class DispatchTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: dispatch()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -172,5 +171,53 @@ final class DispatchTest extends AbstractUnitTestCase
         $this->expectExceptionCode(Exception::EXCEPTION_HANDLER_NOT_FOUND);
 
         $dispatcher->dispatch();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliDispatcherDispatchNullContainerReturnsFalse(): void
+    {
+        $dispatcher    = new Dispatcher();
+        $eventsManager = new Manager();
+
+        $eventsManager->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
+
+        $dispatcher->setEventsManager($eventsManager);
+
+        // No DI container set — throwDispatchException returns false, dispatch returns false
+        $result = $dispatcher->dispatch();
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliDispatcherDispatchExceptionEventReturnsFalse(): void
+    {
+        $dispatcher    = new Dispatcher();
+        $eventsManager = new Manager();
+
+        $eventsManager->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
+
+        $dispatcher->setDI(new DiFactoryDefault());
+        $dispatcher->setEventsManager($eventsManager);
+        $dispatcher->setDefaultNamespace('NonExistentNamespace');
+
+        // The event listener suppresses the exception; dispatch returns null
+        $result = $dispatcher->dispatch();
+        $this->assertNull($result);
     }
 }

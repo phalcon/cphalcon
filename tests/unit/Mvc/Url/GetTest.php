@@ -44,8 +44,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Url :: get()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

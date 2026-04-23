@@ -28,12 +28,9 @@ final class SetModelPrefixTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests empty prefix for model
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2017-04-15
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      */
     public function testShouldReturnSourceWithoutPrefix(): void
     {
@@ -50,12 +47,9 @@ final class SetModelPrefixTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests non-empty prefix for model
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2017-04-15
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      */
     public function testShouldReturnSourceWithPrefix(): void
     {

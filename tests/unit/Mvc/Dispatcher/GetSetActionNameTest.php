@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetSetActionNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getActionName() / setActionName()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Forms\SetActionForm;
 final class GetSetActionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getAction() / setAction()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-11
      */
@@ -53,8 +51,6 @@ final class GetSetActionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: getAction() / setAction() - initialize
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-11
      */

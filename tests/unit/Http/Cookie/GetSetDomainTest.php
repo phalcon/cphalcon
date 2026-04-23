@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetSetDomainTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getDomain()/setDomain()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

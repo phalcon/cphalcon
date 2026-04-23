@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetCompiledPatternTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router\Route :: getCompiledPattern()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-05
      */

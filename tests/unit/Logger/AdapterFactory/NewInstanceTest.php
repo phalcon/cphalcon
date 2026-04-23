@@ -23,13 +23,8 @@ use function outputDir;
 final class NewInstanceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\AdapterFactory :: newInstance()
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerAdapterFactoryNewInstance(): void
     {
@@ -42,10 +37,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\AdapterFactory :: newInstance() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-06
      */

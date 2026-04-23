@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class SetEtagTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: setEtag()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

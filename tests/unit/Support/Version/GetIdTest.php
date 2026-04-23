@@ -52,11 +52,7 @@ final class GetIdTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests get()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

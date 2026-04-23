@@ -38,8 +38,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - array
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -54,8 +52,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - Config
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -82,8 +78,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - exception - missing adapter
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
@@ -101,8 +95,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - exception - no extension
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
@@ -117,8 +109,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - exception - missing filePath
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
@@ -136,8 +126,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - exception - invalid type
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
@@ -152,8 +140,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - string
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-11-24
      */
@@ -168,9 +154,7 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - two calls new instances
-     *
-     * @issue  14584
+     * @issue 14584
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-07
      */
@@ -194,8 +178,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\ConfigFactory :: load() - yaml callback
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */

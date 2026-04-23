@@ -47,8 +47,6 @@ final class UncamelizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Text :: uncamelize()
-     *
      * @dataProvider getSources
      *
      * @author       Phalcon Team <team@phalcon.io>

@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetSetOptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: getOptions() / setOptions()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

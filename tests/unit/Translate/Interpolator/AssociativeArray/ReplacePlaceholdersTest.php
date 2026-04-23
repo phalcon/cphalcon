@@ -19,11 +19,6 @@ use Phalcon\Translate\Interpolator\AssociativeArray;
 final class ReplacePlaceholdersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Translate\Interpolator\AssociativeArray ::
-     * replacePlaceholders()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -39,5 +34,19 @@ final class ReplacePlaceholdersTest extends AbstractUnitTestCase
                                                                    'mname' => 'D.',]);
 
         $this->assertSame('Hello, John D. Doe!', $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testTranslateInterpolatorAssociativearrayReplacePlaceholdersWithNoPlaceholders(): void
+    {
+        $interpolator = new AssociativeArray();
+
+        $source   = 'Hello, %fname% %mname% %lname%!';
+        $expected = $source;
+        $actual   = $interpolator->replacePlaceholders($source, []);
+        $this->assertSame($expected, $actual);
     }
 }

@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetActionNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: setActionName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

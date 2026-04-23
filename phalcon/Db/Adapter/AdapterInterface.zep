@@ -154,7 +154,7 @@ interface AdapterInterface
 
     /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server doesn't
+     * Use this method only when the SQL statement sent to the server does not
      * return any rows
      */
     public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool;

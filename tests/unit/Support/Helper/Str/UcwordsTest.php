@@ -72,10 +72,6 @@ final class UcwordsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: ucwords()
-     *
-     * @return void
-     *
      * @dataProvider getData
      *
      * @author       Phalcon Team <team@phalcon.io>

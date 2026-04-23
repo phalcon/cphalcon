@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class GetControllerClassTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getControllerClass()
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

@@ -78,8 +78,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: has()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -108,13 +106,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: has() - cannot open file
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -137,13 +128,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: has() - empty payload
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -166,10 +150,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Weak :: has()
-     *
-     * @return void
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-17
      */

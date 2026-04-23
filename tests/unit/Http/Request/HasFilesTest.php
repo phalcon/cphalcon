@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class HasFilesTest extends AbstractHttpBase
 {
     /**
-     * Tests Request::hasFiles
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-01-31
      */

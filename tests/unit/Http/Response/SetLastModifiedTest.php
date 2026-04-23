@@ -22,8 +22,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class SetLastModifiedTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: setLastModified()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

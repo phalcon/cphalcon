@@ -39,8 +39,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests cancel validation on first fail
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
@@ -88,8 +86,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests mixed fields
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
@@ -134,8 +130,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests presence of validator with multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -246,12 +240,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests presence of validator with single field
+     * @dataProvider getSingleFieldExamples
      *
      * @author       Wojciech Ślawski <jurigag@gmail.com>
      * @since        2016-06-05
-     *
-     * @dataProvider getSingleFieldExamples
      */
     public function testFilterValidationValidatorPresenceOfSingleField(
         string $name,
@@ -270,13 +262,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\PresenceOf :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */

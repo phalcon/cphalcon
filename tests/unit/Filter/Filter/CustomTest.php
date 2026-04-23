@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CustomTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter :: custom has()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -34,10 +30,6 @@ final class CustomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter :: custom sanitizer
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

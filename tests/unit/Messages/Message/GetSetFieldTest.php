@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetFieldTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Message :: getField()/setField()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

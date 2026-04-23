@@ -24,8 +24,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - maximum
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
@@ -76,9 +74,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - maximum
-     * custom message
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
@@ -129,8 +124,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - minimum
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
@@ -181,9 +174,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - minimum
-     * custom message
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
@@ -235,9 +225,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate()
-     * multiple field and min, max
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -350,9 +337,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate()
-     * multiple field and single min, max
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -441,9 +425,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: validate() - single
-     * field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -484,5 +465,60 @@ final class ValidateTest extends AbstractUnitTestCase
             1,
             $messages->count()
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2013-03-09
+     */
+    public function testFilterValidationValidatorStringLengthProcessValidatorOptions(): void
+    {
+        // Test generic 'message' option (covers processValidator L152)
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'max'     => 4,
+                    'message' => 'Too long',
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'Toolong']);
+        $this->assertSame(1, $messages->count());
+        $this->assertSame('Too long', $messages[0]->getMessage());
+
+        // Test generic 'included' option (covers processValidator L159)
+        // included=true makes the boundary exclusive (> instead of >=), so max=4
+        // allows exactly 4 chars; need 5 chars to trigger a failure
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'max'      => 4,
+                    'included' => true,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'Tests']);
+        $this->assertSame(1, $messages->count());
+
+        // Test specific 'includedMaximum' option (covers processValidator L161)
+        $validation = new Validation();
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'max'             => 4,
+                    'includedMaximum' => true,
+                ]
+            )
+        );
+
+        $messages = $validation->validate(['name' => 'Tests']);
+        $this->assertSame(1, $messages->count());
     }
 }

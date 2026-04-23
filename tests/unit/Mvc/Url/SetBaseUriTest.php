@@ -230,12 +230,10 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests the base url
+     * @dataProvider getUrlToSetServer
      *
      * @author       Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since        2014-09-04
-     *
-     * @dataProvider getUrlToSetServer
      */
     public function shouldGetCorrectUrlWithServer(
         string $phpSelf,
@@ -253,13 +251,11 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests the url with a controller and action
+     * @dataProvider getUrlToSetWithoutDi
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/3315
      * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since        2015-02-03
-     * @issue  https://github.com/phalcon/cphalcon/issues/3315
-     *
-     * @dataProvider getUrlToSetWithoutDi
      */
     public function testMvcUrlGetCorrectUrl(
         string $baseUrl,
@@ -275,13 +271,11 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * Test should avoid double slash when joining baseUri to provided uri
+     * @dataProvider getUrlToSetWithoutDiTwoParam
      *
+     * @issue        @3315
      * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since        2015-02-03
-     * @issue        @3315
-     *
-     * @dataProvider getUrlToSetWithoutDiTwoParam
      */
     public function testMvcUrlGetCorrectUrlWithGetParam(
         string $baseUrl,
@@ -299,12 +293,10 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests the url with a controller and action
+     * @dataProvider getUrlToSetBaseUri
      *
      * @author       Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since        2014-09-04
-     *
-     * @dataProvider getUrlToSetBaseUri
      */
     public function testMvcUrlSetBaseUri(
         string $baseUri,

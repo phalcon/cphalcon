@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetCacheTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Binder :: setCache()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -37,8 +37,6 @@ final class AddJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addJs()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -63,8 +61,6 @@ final class AddJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addJs() - versioning
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-02-01
      */

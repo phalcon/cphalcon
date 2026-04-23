@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetRelationByAliasTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getRelationByAlias()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

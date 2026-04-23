@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetMessageTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Message :: getMessage()/setMessage()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

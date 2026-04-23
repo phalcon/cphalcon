@@ -52,7 +52,7 @@ final class RefactorModelsMetadataTest extends AbstractDatabaseTestCase
 // namespace Phalcon\Tests\Integration\Mvc\Model;
 //
 // use IntegrationTester;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Personas;
 // use Phalcon\Tests\Support\Models\Robots;
 //

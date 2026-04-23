@@ -100,11 +100,7 @@ final class CaseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: *Case()
-     *
      * @dataProvider getSources
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-01-02

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetOptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher - getOptions() / setOptions()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

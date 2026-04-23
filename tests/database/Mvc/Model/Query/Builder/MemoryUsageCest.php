@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
 use DatabaseTester;
-use Phalcon\Tests\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Tests\Fixtures\Traits\DiTrait;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
 
 class MemoryUsageCest
@@ -38,7 +38,6 @@ class MemoryUsageCest
     }
 
     /**
-     * Executes the same builder pattern in a loop and verifies memory stays stable.
      *
      * @group sqlite
      */

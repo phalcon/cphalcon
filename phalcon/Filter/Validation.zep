@@ -179,8 +179,8 @@ class Validation extends Injectable implements ValidationInterface
         let this->data = data;
         this->setEntity(entity);
 
-        // if data is not an array / object or if the entity is null, then no need to proceed further
-        if unlikely (typeof data != "array" && typeof data != "object") || (null === entity) {
+        // if data is not an array / object, entity is null, or data is empty, then no need to proceed further
+        if unlikely (typeof data != "array" && typeof data != "object") || (null === entity) || empty data {
             return this;
         }
 

@@ -21,8 +21,6 @@ use function file_put_contents;
 final class GetFilteredPutTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getFilteredPut()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

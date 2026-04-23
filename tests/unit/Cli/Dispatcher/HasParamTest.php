@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasParamTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: hasParam()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02
      */

@@ -34,9 +34,6 @@ final class CookieTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Cookie::getValue using message authentication code
-     *
-     * @test
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */
@@ -71,10 +68,6 @@ final class CookieTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Cookie::getValue using message authentication code and request
-     * forgery
-     *
-     * @test
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */

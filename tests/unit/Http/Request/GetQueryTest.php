@@ -21,8 +21,6 @@ use function uniqid;
 final class GetQueryTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getQuery()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */
@@ -47,8 +45,6 @@ final class GetQueryTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getQuery() - allowNoEmpty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */
@@ -66,8 +62,6 @@ final class GetQueryTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getQuery() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */
@@ -82,8 +76,6 @@ final class GetQueryTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getQuery() - filter
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */

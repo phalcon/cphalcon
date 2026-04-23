@@ -26,8 +26,6 @@ use const PHP_EOL;
 final class UseImplicitOutputTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: useImplicitOutput()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -54,8 +52,6 @@ final class UseImplicitOutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: useImplicitOutput() - remote
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -111,14 +111,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt\PadFactory :: newInstance()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2021-10-18
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      */
     public function testEncryptionCryptPadFactoryNewInstance(
         string $name,
@@ -132,10 +128,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt\PadFactory :: newInstance() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
@@ -149,14 +141,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Crypt\PadFactory :: padNumberToService()
-     *
      * @dataProvider getPadNumberExamples
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2021-10-18
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-10-18
      */
     public function testEncryptionCryptPadNumberToService(
         int $padding,

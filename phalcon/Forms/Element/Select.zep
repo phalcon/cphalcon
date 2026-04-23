@@ -10,7 +10,11 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag\Select as SelectTag;
+use Phalcon\Forms\Exception;
+use Phalcon\Html\Helper\Input\Select\ArrayData;
+use Phalcon\Html\Helper\Input\Select\ResultsetData;
+use Phalcon\Html\TagFactory;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Component SELECT (choice) for forms
@@ -25,8 +29,9 @@ class Select extends AbstractElement
     /**
      * Constructor
      *
-     * @param object|array options
-     * @param array        attributes
+     * @param string            name
+     * @param object|array|null options
+     * @param array             attributes
      */
     public function __construct(string name, options = null, array attributes = [])
     {
@@ -70,13 +75,90 @@ class Select extends AbstractElement
      */
     public function render(array attributes = []) -> string
     {
-        /**
-         * Merged passed attributes with previously defined ones
-         */
-        return SelectTag::selectField(
-            this->prepareAttributes(attributes),
-            this->optionsValues
-        );
+        var attrs, emptyText, emptyValue, html, name, options,
+            select, tagFactory, using, useEmpty, value;
+
+        let attrs = this->prepareAttributes(attributes);
+
+        let name = attrs[0];
+        unset attrs[0];
+
+        if isset attrs["value"] {
+            let value = attrs["value"];
+            unset attrs["value"];
+        } else {
+            let value = null;
+        }
+
+        if isset attrs["useEmpty"] {
+            let useEmpty = attrs["useEmpty"];
+        } else {
+            let useEmpty = false;
+        }
+
+        if isset attrs["emptyValue"] {
+            let emptyValue = attrs["emptyValue"];
+        } else {
+            let emptyValue = "";
+        }
+
+        if isset attrs["emptyText"] {
+            let emptyText = attrs["emptyText"];
+        } else {
+            let emptyText = "Choose...";
+        }
+
+        if isset attrs["using"] {
+            let using = attrs["using"];
+        } else {
+            let using = null;
+        }
+
+        unset attrs["useEmpty"];
+        unset attrs["emptyValue"];
+        unset attrs["emptyText"];
+        unset attrs["using"];
+
+        if !isset attrs["name"] {
+            let attrs["name"] = name;
+        }
+
+        if !strpos(name, "[") && !isset attrs["id"] {
+            let attrs["id"] = name;
+        }
+
+        let tagFactory = this->getLocalTagFactory(),
+            select     = tagFactory->newInstance("inputSelect");
+
+        select->__invoke("", "", attrs);
+
+        if value !== null {
+            select->selected((string) value);
+        }
+
+        if useEmpty {
+            select->addPlaceholder(emptyText, emptyValue, [], true);
+        }
+
+        let options = this->optionsValues;
+
+        if typeof options == "array" {
+            select->fromData(new ArrayData(options));
+        } elseif typeof options == "object" && options instanceof ResultsetInterface {
+            if unlikely using === null || typeof using != "array" {
+                throw Exception::usingParameterRequired();
+            }
+
+            select->fromData(new ResultsetData(options, using));
+        }
+
+        let html = (string) select;
+
+        if html === "" {
+            return tagFactory->newInstance("element")->__invoke("select", PHP_EOL, attrs, true);
+        }
+
+        return html;
     }
 
     /**

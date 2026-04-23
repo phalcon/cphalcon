@@ -28,10 +28,6 @@ use function unserialize;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -43,10 +39,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: __construct() - constants allow
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -58,10 +50,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: __construct() - constants deny
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -73,12 +61,7 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests negation of inherited Roles
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/65
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2014-10-04
      */
@@ -107,10 +90,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests negation of multilayer inherited Roles
-     *
-     * @return void
-     *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
      */
@@ -148,10 +127,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests negation of multiple inherited Roles
-     *
-     * @return void
-     *
      * @author  cq-z <64899484@qq.com>
      * @since   2018-10-10
      */
@@ -194,10 +169,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests serializing the ACL
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -236,12 +207,7 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests function in Acl Allow Method
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/12004
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-07-22
      */
@@ -280,12 +246,7 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests acl with adding new rule for Role after adding wildcard rule
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
      */
@@ -318,12 +279,7 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests adding wildcard rule second time
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/2648
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
      */

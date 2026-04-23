@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UrlTest extends AbstractUnitTestCase
 {
     /**
-     * Tests the base url - with server PHP_SELF
-     *
      * @author Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since  2014-09-04
      */

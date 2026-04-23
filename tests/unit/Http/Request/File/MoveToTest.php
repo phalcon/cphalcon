@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class MoveToTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Request\File :: moveTo()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

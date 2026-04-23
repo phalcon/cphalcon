@@ -29,8 +29,6 @@ final class ExistsBelongsToTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: existsBelongsTo()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

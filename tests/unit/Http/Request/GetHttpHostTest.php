@@ -125,8 +125,6 @@ final class GetHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getHttpHost
-     *
      * @dataProvider getExamples
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -145,8 +143,6 @@ final class GetHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getHttpHost by using invalid host
-     *
      * @dataProvider getExamplesInvalid
      *
      * @author Phalcon Team <team@phalcon.io>

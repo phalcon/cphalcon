@@ -22,10 +22,6 @@ use function hash;
 final class GetAssetKeyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Inline\Js :: getAssetKey()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -16,23 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Inline;
 use Phalcon\Assets\Inline;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetTypeTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Inline :: getType()/setType()
-     *
-     * @return void
-     *
      * @dataProvider providerInlineCssJsType
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('providerInlineCssJsType')]
     public function testAssetsInlineGetSetType(
         string $type,
         string $content,

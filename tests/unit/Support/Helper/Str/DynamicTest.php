@@ -20,10 +20,6 @@ use RuntimeException;
 final class DynamicTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Text :: dynamic()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -42,10 +38,6 @@ final class DynamicTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Text :: dynamic() - custom delimiter
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -64,10 +56,6 @@ final class DynamicTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Text :: dynamic() - custom separator
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -109,10 +97,6 @@ final class DynamicTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Text :: dynamic() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -161,7 +161,7 @@ class Generator_File_PhalconC
     protected function addAllSourceFiles($fileHandler)
     {
         /**
-         * Sorting is important, so that the resulting contents doesn't fluctuate because of OS,
+         * Sorting is important, so that the resulting contents does not fluctuate because of OS,
          * filesystem walk order, etc. Therefore the resulting file can be easily diff'ed
          * with its previous version in repository.
          */

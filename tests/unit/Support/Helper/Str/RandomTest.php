@@ -60,10 +60,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - alnum
-     *
-     * @return void
-     *
      * @dataProvider oneToTenProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -86,10 +82,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - alpha
-     *
-     * @return void
-     *
      * @dataProvider oneToTenProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -112,10 +104,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - constants
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -130,10 +118,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - distinct type
-     *
-     * @return void
-     *
      * @dataProvider randomDistinctProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -155,10 +139,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - hexdec
-     *
-     * @return void
-     *
      * @dataProvider oneToTenProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -181,10 +161,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - non zero
-     *
-     * @return void
-     *
      * @dataProvider oneToTenProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -207,10 +183,6 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: random() - numeric
-     *
-     * @return void
-     *
      * @dataProvider oneToTenProvider
      *
      * @author       Phalcon Team <team@phalcon.io>

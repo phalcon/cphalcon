@@ -39,8 +39,6 @@ final class LimitTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: limit()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -69,8 +67,6 @@ final class LimitTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: limit() - offset
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -105,8 +101,6 @@ final class LimitTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: limit() - null
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-04
      *

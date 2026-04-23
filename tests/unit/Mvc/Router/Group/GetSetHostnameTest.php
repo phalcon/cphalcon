@@ -68,8 +68,6 @@ final class GetSetHostnameTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getHostname()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

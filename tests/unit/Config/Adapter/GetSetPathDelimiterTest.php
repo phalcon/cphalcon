@@ -21,8 +21,6 @@ final class GetSetPathDelimiterTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: getPathDelimiter()/setPathDelimiter()
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

@@ -22,8 +22,6 @@ final class MergeTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: merge() - exception
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

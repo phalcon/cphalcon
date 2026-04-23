@@ -18,6 +18,7 @@ use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Json;
 use Phalcon\Storage\Serializer\Msgpack;
+use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Support\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -28,14 +29,54 @@ use Phalcon\Tests\Unit\Storage\Fake\FakeIgbinaryUnserializeWarning;
 use stdClass;
 
 use function json_encode;
+use function serialize;
+use function unserialize;
 
 final class ExceptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Storage\Serializer\Base64 :: serialize() - exception
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testStorageSerializerAbstractSerializerSerializeWithArray(): void
+    {
+        $data       = ['Phalcon', 'Framework'];
+        $serializer = new None($data);
+
+        $expected = $data;
+        $actual   = $serializer->__serialize();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testStorageSerializerAbstractSerializerSerializeWithNonArray(): void
+    {
+        $serializer = new None('Phalcon Framework');
+
+        $expected = [];
+        $actual   = $serializer->__serialize();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testStorageSerializerAbstractSerializerUnserialize(): void
+    {
+        $data       = ['Phalcon', 'Framework'];
+        $serializer = new None();
+        $serializer->__unserialize($data);
+
+        $expected = $data;
+        $actual   = $serializer->getData();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -51,10 +92,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Base64 :: unserialize() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -70,11 +107,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Base64 :: unserialize() - fail empty
-     * string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -91,11 +123,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Igbinary :: serialize() - fail empty
-     * string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -112,12 +139,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Igbinary :: unserialize() - fail empty
-     * string
-     *
-     * @return void
-     *
-     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -134,11 +155,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Igbinary :: unserialize() - fail warning
-     *
-     * @return void
-     *
-     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-24
      */
@@ -155,10 +171,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Json :: serialize() - error
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -178,10 +190,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Json :: serialize() - object
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -207,10 +215,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Msgpack :: unserialize() - error
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -225,8 +229,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -241,8 +243,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error not string
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

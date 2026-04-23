@@ -25,11 +25,6 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getNamespaces()/addNamespace()/setNamespace()
-     *
-     * @return void
-     *
-     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -147,10 +142,6 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getNamespaces()/addNamespace()/setNamespace() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

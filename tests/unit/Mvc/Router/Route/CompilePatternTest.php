@@ -20,11 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CompilePatternTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: compilePattern()
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-05
      */

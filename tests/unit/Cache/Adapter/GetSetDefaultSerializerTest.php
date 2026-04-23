@@ -72,13 +72,10 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\* ::
-     * getDefaultSerializer()/setDefaultSerializer()
-     *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterGetSetDefaultSerializer(
         string $class,
@@ -103,12 +100,8 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Weak :: GetSetDefaultSerializer()
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-07-17
      */
     public function testCacheAdapterWeakGetSetDefaultSerializerNone(): void
     {

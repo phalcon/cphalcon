@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetGroupTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getGroup()/setGroup()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */

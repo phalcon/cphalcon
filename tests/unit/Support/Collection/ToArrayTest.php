@@ -18,10 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class ToArrayTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: toArray()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

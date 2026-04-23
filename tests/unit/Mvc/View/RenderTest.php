@@ -51,11 +51,9 @@ class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests View::render with params
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13046
      * @author Serghei Iakovlev <serghei@phalcon.io>
      * @since  2017-09-24
-     * @issue  https://github.com/phalcon/cphalcon/issues/13046
      */
     public function testMvcViewRenderWithParams(): void
     {

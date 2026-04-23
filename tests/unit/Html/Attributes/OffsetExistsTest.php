@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetExistsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: offsetExists()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

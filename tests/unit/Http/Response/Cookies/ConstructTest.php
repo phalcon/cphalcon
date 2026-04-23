@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Cookies :: __construct()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */
@@ -33,8 +31,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: __construct() - with Sign Key
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

@@ -24,8 +24,6 @@ use function uniqid;
 final class NewInstanceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Image\ImageFactory :: newInstance()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
@@ -49,8 +47,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\ImageFactory :: newInstance() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-02
      */

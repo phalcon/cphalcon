@@ -207,11 +207,9 @@ final class FormTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Element::hasMessages() Element::getMessages()
-     *
-     * @author Mohamad Rostami <rostami@outlook.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11135
      * @issue  https://github.com/phalcon/cphalcon/issues/3167
+     * @author Mohamad Rostami <rostami@outlook.com>
      */
     public function testElementMessages(): void
     {

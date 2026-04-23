@@ -16,9 +16,17 @@ namespace Phalcon\Tests\Unit\Storage\Serializer;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
 use Phalcon\Storage\Serializer\Json;
+use Phalcon\Storage\Serializer\MemcachedIgbinary;
+use Phalcon\Storage\Serializer\MemcachedJson;
+use Phalcon\Storage\Serializer\MemcachedPhp;
 use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
+use Phalcon\Storage\Serializer\RedisIgbinary;
+use Phalcon\Storage\Serializer\RedisJson;
+use Phalcon\Storage\Serializer\RedisMsgpack;
+use Phalcon\Storage\Serializer\RedisNone;
+use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetSetDataTest extends AbstractUnitTestCase
@@ -39,6 +47,15 @@ final class GetSetDataTest extends AbstractUnitTestCase
                 Json::class,
             ],
             [
+                MemcachedIgbinary::class,
+            ],
+            [
+                MemcachedJson::class,
+            ],
+            [
+                MemcachedPhp::class,
+            ],
+            [
                 Msgpack::class,
             ],
             [
@@ -47,15 +64,26 @@ final class GetSetDataTest extends AbstractUnitTestCase
             [
                 Php::class,
             ],
+            [
+                RedisIgbinary::class,
+            ],
+            [
+                RedisJson::class,
+            ],
+            [
+                RedisMsgpack::class,
+            ],
+            [
+                RedisNone::class,
+            ],
+            [
+                RedisPhp::class,
+            ],
         ];
     }
 
     /**
-     * Tests Phalcon\Storage\Serializer\ :: getData()/setData()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-02-24

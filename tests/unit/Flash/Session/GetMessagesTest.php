@@ -30,10 +30,6 @@ final class GetMessagesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getMessages()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -82,6 +78,26 @@ final class GetMessagesTest extends AbstractUnitTestCase
         ];
         $actual   = $flash->getMessages();
         $this->assertSame($expected, $actual);
+
+        $session->destroy();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFlashSessionGetMessagesNonExistentTypeReturnsEmpty(): void
+    {
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $flash = new Session();
+        $flash->setDI($this->container);
+        $flash->success('some message');
+
+        // Request a type that has no messages
+        $actual = $flash->getMessages('error');
+        $this->assertSame([], $actual);
 
         $session->destroy();
     }

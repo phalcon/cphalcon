@@ -31,9 +31,6 @@ final class UseEncryptionIsUsingEncryptionTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: useEncryption /
-     * isUsingEncryption()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

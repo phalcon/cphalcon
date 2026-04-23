@@ -19,11 +19,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSourceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Event :: getSource()
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/15133
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
-     * @issue  https://github.com/phalcon/cphalcon/issues/15133
      */
     public function testEventsEventGetSource(): void
     {

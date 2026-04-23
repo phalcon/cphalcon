@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class NotFoundTest extends AbstractUnitTestCase
 {
     /**
-     * Tests the notFound
-     *
      * @issue  T169
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-06

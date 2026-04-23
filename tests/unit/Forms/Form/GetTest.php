@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: get()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-05
      */
@@ -46,8 +44,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: get() non-existent element
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-05
      */

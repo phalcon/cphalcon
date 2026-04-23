@@ -231,10 +231,10 @@ First, we need to have a `.env` file in the project root.
 To generate the necessary database schemas, you need to run the relevant script:
 
 ```shell script
-/app $ php tests/_ci/generate-db-schemas.php
+/app $ php tests/support/_config/generate-db-schemas.php
 ```
 
-The script looks for classes located under `tests/_data/fixtures/Migrations`.
+The script looks for classes located under `tests/support/Migrations`.
 These classes contain the necessary code to create the relevant SQL statements
 for each RDBMS. You can easily inspect one of those files to understand its
 structure. Additionally, these migration classes can be instantiated in your

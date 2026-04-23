@@ -26,10 +26,7 @@ class GetSetRenderLevelTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View :: setRenderLevel()
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/907
-     *
      * @author Volodymyr Kolesnykov <volodymyr@wildwolf.name>
      * @since  2013-10-03
      */

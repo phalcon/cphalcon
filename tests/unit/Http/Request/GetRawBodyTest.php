@@ -22,8 +22,6 @@ use function parse_str;
 final class GetRawBodyTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getRawBody()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -50,8 +48,6 @@ final class GetRawBodyTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getRawBody() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

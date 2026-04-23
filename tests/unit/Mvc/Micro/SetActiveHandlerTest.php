@@ -13,18 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
+use Phalcon\Mvc\Micro;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SetActiveHandlerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: setActiveHandler()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroSetActiveHandler(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $micro   = new Micro();
+        $handler = function () {
+            return 'hello';
+        };
+        $micro->setActiveHandler($handler);
+        $this->assertIsCallable($micro->getActiveHandler());
     }
 }

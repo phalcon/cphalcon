@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddHasOneThroughTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: addHasOneThrough()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-11-02
      */

@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class ConstructTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetRelsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\Link :: getRels()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

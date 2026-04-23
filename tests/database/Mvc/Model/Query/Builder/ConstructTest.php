@@ -38,8 +38,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
@@ -51,8 +49,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: __construct() - passing DI
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
@@ -79,8 +75,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: __construct() - limit/offset via separate params
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *

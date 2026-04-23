@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetAutomaticCreateAttributesTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Stream :: getAutomaticCreateAttributes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

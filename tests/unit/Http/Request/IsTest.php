@@ -178,12 +178,10 @@ final class IsTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Is methods
+     * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-03-17
-     *
-     * @dataProvider getExamples
      */
     public function testHttpRequestIs(
         array $server,

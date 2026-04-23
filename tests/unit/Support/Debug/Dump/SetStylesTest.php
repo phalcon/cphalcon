@@ -20,12 +20,6 @@ use ReflectionException;
 final class SetStylesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Debug\Dump :: getStyle()
-     *
-     * @return void
-     *
-     * @throws ReflectionException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -46,12 +40,6 @@ final class SetStylesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Debug\Dump :: setStyles()
-     *
-     * @return void
-     *
-     * @throws ReflectionException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

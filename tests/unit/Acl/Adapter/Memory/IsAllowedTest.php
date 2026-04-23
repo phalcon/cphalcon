@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
+use ArrayObject;
 use Exception;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
@@ -32,12 +33,16 @@ use function set_error_handler;
 final class IsAllowedTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - default
-     *
+     * @author  Phalcon Team <team@phalcon.io>
+     * @since   2021-09-27
+     */
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
+    /**
      * @issue   https://github.com/phalcon/cphalcon/issues/12573
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-25
      */
@@ -65,10 +70,35 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - documentation example
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAclAdapterMemoryIsAllowedDiamondInheritanceContinue(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+
+        $acl->addRole(new Role('A'));
+        $acl->addRole(new Role('B'));
+        $acl->addRole(new Role('C'));
+        $acl->addRole(new Role('D'));
+        $acl->addRole(new Role('X'));
+
+        $acl->addComponent(new Component('Post'), ['update']);
+
+        // X inherits B and C; B and C both inherit D (diamond)
+        $acl->addInherit('X', 'B');
+        $acl->addInherit('X', 'C');
+        $acl->addInherit('B', 'D');
+        $acl->addInherit('C', 'D');
+        $acl->addInherit('A', 'X');
+
+        // Traversal: A→X→B,C→D (from B), D (from C — second occurrence hits continue L971)
+        $actual = $acl->isAllowed('A', 'Post', 'update');
+        $this->assertFalse($actual);
+    }
+
+    /**
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2022-12-09
      */
@@ -120,10 +150,6 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - exception (component)
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
@@ -144,10 +170,6 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - exception
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
@@ -168,10 +190,6 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - fireEvent returns false
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */
@@ -188,19 +206,9 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function more
-     * parameters
-     *
-     * @return void
-     *
-     * @author  Phalcon Team <team@phalcon.io>
-     * @since   2021-09-27
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
      */
-    public function tearDown(): void
-    {
-        restore_error_handler();
-    }
-
     public function testAclAdapterMemoryIsAllowedFunctionMoreParameters(): void
     {
         set_error_handler(
@@ -246,10 +254,6 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function no parameters
-     *
-     * @return void
-     *
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
@@ -274,11 +278,33 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function not enough
-     * parameters
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionNoParamsRequired(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::ALLOW);
+        $acl->setNoArgumentsDefaultAction(Enum::DENY);
+
+        $acl->addRole('Admin');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow(
+            'Admin',
+            'Post',
+            'update',
+            function ($param) {
+                return true;
+            }
+        );
+
+        // No parameters provided; function has 1 required param
+        // trigger_error is called, then returns noArgumentsDefaultAction (DENY)
+        $actual = @$acl->isAllowed('Admin', 'Post', 'update');
+        $this->assertFalse($actual);
+    }
+
+    /**
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
@@ -322,10 +348,61 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - objects
-     *
-     * @return void
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionOptionalParamNoArgs(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::ALLOW);
+
+        $acl->addRole('Admin');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow(
+            'Admin',
+            'Post',
+            'update',
+            function ($param = null) {
+                return true;
+            }
+        );
+
+        // No parameters provided; function has 0 required params → call_user_func($funcAccess)
+        $actual = $acl->isAllowed('Admin', 'Post', 'update');
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionWrongClassException(): void
+    {
+        $this->expectException(AclException::class);
+        $this->expectExceptionMessage(
+            'Your passed parameter does not have the same class as the parameter ' .
+            'in defined function when checking if Admin can update Post. ' .
+            'Class passed: ArrayObject , Class in defined function: stdClass.'
+        );
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::ALLOW);
+
+        $acl->addRole('Admin');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow(
+            'Admin',
+            'Post',
+            'update',
+            function (stdClass $param) {
+                return true;
+            }
+        );
+
+        $acl->isAllowed('Admin', 'Post', 'update', ['param' => new ArrayObject()]);
+    }
+
+    /**
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
      */
@@ -356,10 +433,6 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - same class
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
      */

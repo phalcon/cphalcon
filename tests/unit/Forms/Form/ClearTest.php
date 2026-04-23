@@ -44,8 +44,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: clear()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-01
      */
@@ -83,8 +81,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: clear() - all
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
      */
@@ -127,8 +123,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: clear() - fields array
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
      */
@@ -177,8 +171,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: clear() - field string
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
      */
@@ -223,14 +215,10 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests clearing the Form Elements
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12165
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     *
-     * @since  2016-10-01
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-10-01
      */
     public function testClearFormElements(): void
     {
@@ -351,13 +339,9 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests clearing the Form Elements and using Form::isValid
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     *
-     * @since  2016-10-01
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-10-01
      */
     public function testClearFormElementsAndUsingValidation(): void
     {

@@ -20,10 +20,6 @@ use stdClass;
 final class GetServicesTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di :: getServices()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

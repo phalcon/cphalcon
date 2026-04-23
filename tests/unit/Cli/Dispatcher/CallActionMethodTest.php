@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Tasks\MainTask;
 final class CallActionMethodTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: callActionMethod()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-24
      */

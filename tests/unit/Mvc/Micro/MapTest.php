@@ -13,18 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class MapTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: map()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroMap(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $micro = new Micro();
+        $route = $micro->map('/test', function () {
+            return 'hello';
+        });
+        $this->assertInstanceOf(RouteInterface::class, $route);
     }
 }

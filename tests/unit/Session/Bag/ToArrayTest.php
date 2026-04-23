@@ -27,10 +27,6 @@ final class ToArrayTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Bag :: toArray()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

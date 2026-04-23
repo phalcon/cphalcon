@@ -18,6 +18,10 @@ use Phalcon\Tests\Support\Migrations\ObjectsMigration;
 use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class InvokeFinderTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -38,8 +42,6 @@ final class InvokeFinderTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: invokeFinder()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *

@@ -39,10 +39,8 @@ final class ManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: start()
-     *
-     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13718
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-09
      */
     public function testSessionManagerStart(): void
@@ -62,10 +60,6 @@ final class ManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: start()
-     * Tests to ensure that the session value is alpha numeric and won't
-     * cause undefined behaviour when saving or reading sessions.
-     *
      * @dataProvider providerSessionValues
      *
      * @since   2021-02-02

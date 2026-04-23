@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class UnderscoreGetSetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: __get()/__set()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

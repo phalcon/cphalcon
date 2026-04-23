@@ -52,11 +52,7 @@ final class GetSetAttributesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Element\* :: getAttributes()/setAttributes()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05

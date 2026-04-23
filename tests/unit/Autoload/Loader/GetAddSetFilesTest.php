@@ -24,10 +24,6 @@ final class GetAddSetFilesTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getFiles()/addFile()/setFile()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

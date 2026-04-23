@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class IsUpperTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: isUpper()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

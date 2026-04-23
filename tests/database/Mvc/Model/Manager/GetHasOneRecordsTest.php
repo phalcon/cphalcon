@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetHasOneRecordsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getHasOneRecords()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

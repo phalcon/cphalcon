@@ -34,8 +34,6 @@ class CompileFileTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileFile()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-01-17
      */
@@ -57,14 +55,11 @@ Clearly, the song is: <?= $this->getContent() ?>.
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileFile()
+     * @dataProvider defaultFilterProvider
      *
      * @issue https://github.com/phalcon/cphalcon/issues/13242
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
-     *
-     * @dataProvider defaultFilterProvider
      */
     public function testMvcViewEngineVoltCompilerCompileFileDefaultFilter(
         string $view,

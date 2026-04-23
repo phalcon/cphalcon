@@ -57,11 +57,7 @@ final class GetWidthTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: getWidth()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13

@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetUnsetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: offsetUnset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

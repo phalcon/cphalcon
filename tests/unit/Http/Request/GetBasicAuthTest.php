@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetBasicAuthTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getBasicAuth()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -60,8 +58,6 @@ final class GetBasicAuthTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getBasicAuth() - empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

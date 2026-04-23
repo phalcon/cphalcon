@@ -18,11 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetContentTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
-     * getContentType()/setContentType()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

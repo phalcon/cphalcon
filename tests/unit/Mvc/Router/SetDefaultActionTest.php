@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetDefaultActionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: setDefaultAction()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

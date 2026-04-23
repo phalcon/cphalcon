@@ -144,15 +144,9 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Title :: prepend twice
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16283
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-02-20
-     * @issue  https://github.com/phalcon/cphalcon/issues/16283
      */
     public function testHtmlHelperTitlePrependTwice(): void
     {
@@ -214,13 +208,7 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Title :: __invoke()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

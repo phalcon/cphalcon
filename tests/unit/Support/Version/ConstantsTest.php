@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ConstantsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Version :: Constants
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

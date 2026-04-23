@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Group;
 
+use Phalcon\Mvc\Router\Group;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetBeforeMatchTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getBeforeMatch()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterGroupGetBeforeMatch(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $group = new Group();
+        $this->assertNull($group->getBeforeMatch());
+        $callback = function () {
+            return true;
+        };
+        $group->beforeMatch($callback);
+        $this->assertIsCallable($group->getBeforeMatch());
     }
 }

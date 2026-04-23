@@ -88,11 +88,6 @@ final class BasenameTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\File :: basename() with non-ASCII $uri
-     * support
-     *
-     * @return void
-     *
      * @dataProvider getNonAsciiExamples
      *
      * @author       Ian Hu <hu2008yinxiang@163.com>
@@ -113,11 +108,6 @@ final class BasenameTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\File :: basename() with ASCII $uri
-     * it should be same as PHP's basename
-     *
-     * @return void
-     *
      * @dataProvider getAsciiExamples
      *
      * @author       Ian Hu <hu2008yinxiang@163.com>

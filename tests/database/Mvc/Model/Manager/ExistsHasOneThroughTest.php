@@ -28,8 +28,6 @@ final class ExistsHasOneThroughTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: existsHasOneThrough()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-11-02
      */

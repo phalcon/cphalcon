@@ -80,12 +80,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Apcu :: clear() - delete error
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -111,12 +105,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Apcu :: clear() - iterator error
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -142,8 +130,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: clear()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -188,13 +174,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: clear() - cannot delete file
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -225,12 +204,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Weak :: clear()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-17
      */
@@ -300,9 +273,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: clear() - only removes keys belonging
-     * to the current prefix, leaving keys from other adapter instances intact.
-     *
      * @dataProvider getExamplesClearWithPrefix
      *
      * @author       Phalcon Team <team@phalcon.io>

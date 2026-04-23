@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetDefaultControllerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: setDefaultController()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

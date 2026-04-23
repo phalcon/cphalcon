@@ -23,8 +23,6 @@ final class HandleTest extends AbstractUnitTestCase
     /**
      * @dataProvider getExamplesDelimiter
      *
-     * @return void
-     * @throws Exception
      */
     public function testCliRouterHandleRouterDelimiter(
         string $uri,
@@ -69,6 +67,7 @@ final class HandleTest extends AbstractUnitTestCase
 
     /**
      * @dataProvider getExamplesRouterParams
+     *
      */
     public function testCliRouterHandleRouterParams(
         string $uri,
@@ -600,15 +599,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cli\Router :: handle()
-     *
      * @dataProvider getExamplesRouterHandle
      *
-     * @return void
-     * @throws Exception
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
     public function testCliRouterHandle(
         array $uri,
@@ -632,8 +626,6 @@ final class HandleTest extends AbstractUnitTestCase
     /**
      * @dataProvider getExamplesRouter
      *
-     * @return void
-     * @throws Exception
      */
     public function testCliRouterHandleRouter(
         string $uri,

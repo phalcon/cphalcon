@@ -19,11 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetAuthTagLengthTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Crypt ::
-     * getAuthTagLength()/setAuthTagLength()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

@@ -45,7 +45,7 @@ final class RefactorModelsForeignKeysTest extends AbstractDatabaseTestCase
 // use Codeception\Example;
 // use IntegrationTester;
 // use Phalcon\Messages\Message;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Deles;
 // use Phalcon\Tests\Support\Models\Parts;
 // use Phalcon\Tests\Support\Models\Robots;

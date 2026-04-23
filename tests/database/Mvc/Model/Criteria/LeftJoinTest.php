@@ -30,8 +30,6 @@ final class LeftJoinTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: leftJoin()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

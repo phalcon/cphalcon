@@ -20,12 +20,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ComputeHmacTest extends AbstractUnitTestCase
 {
     /**
-     * Tests the HMAC computation with an unknown algorithm throws an exception
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2022-08-25
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-08-25
      */
     public function testEncryptionSecurityComputeHmacUnknownAlgorithmException(): void
     {
@@ -54,14 +50,10 @@ final class ComputeHmacTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests the HMAC computation
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     *
      * @dataProvider hmacProvider
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testEncryptionSecurityComputeHmac(string $text): void
     {

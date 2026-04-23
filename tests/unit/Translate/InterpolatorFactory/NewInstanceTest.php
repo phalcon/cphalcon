@@ -33,10 +33,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\InterpolatorFactory :: newInstance()
-     *
-     * @return void
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -53,9 +49,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\InterpolatorFactory :: newInstance() - exception
-     *
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */

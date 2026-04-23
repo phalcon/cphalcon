@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSharedTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: getShared()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

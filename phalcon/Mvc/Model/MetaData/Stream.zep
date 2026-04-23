@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Stream
@@ -72,7 +73,7 @@ class Stream extends MetaData
 
         try {
             let path   = this->metaDataDir . prepare_virtual_path(key, "_") . ".php",
-                option = globals_get("orm.exception_on_failed_metadata_save");
+                option = Settings::get("orm.exception_on_failed_metadata_save");
 
             if false === file_put_contents(path, "<?php return " . var_export(data, true) . "; ") {
                 this->throwWriteException(option);

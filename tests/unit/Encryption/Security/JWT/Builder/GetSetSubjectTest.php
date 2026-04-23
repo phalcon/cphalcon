@@ -18,11 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetSubjectTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
-     * getSubject()/setSubject()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

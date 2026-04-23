@@ -23,10 +23,6 @@ use function file_get_contents;
 final class VariablesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Debug\Dump :: variables()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

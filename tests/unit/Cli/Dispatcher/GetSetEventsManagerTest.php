@@ -21,8 +21,6 @@ final class GetSetEventsManagerTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getEventsManager()/setEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

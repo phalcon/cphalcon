@@ -20,10 +20,6 @@ use Phalcon\Tests\Support\Di\InitializationAwareComponent;
 final class InitializationAwareTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: initialization aware interface
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

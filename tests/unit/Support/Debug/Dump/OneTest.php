@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OneTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Debug\Dump :: one()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,10 +37,6 @@ final class OneTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Debug\Dump :: one() - name
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

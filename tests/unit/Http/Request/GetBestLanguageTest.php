@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetBestLanguageTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getBestLanguage()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

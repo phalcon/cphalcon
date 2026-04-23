@@ -34,8 +34,6 @@ final class FromInputTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: fromInput()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-05
      *

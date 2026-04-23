@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Filter\Validation;
 
+use Phalcon\Di\Di;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Alpha;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
@@ -26,12 +28,21 @@ use function date;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
+    public function setUp(): void
+    {
+        FactoryDefault::reset();
+        $container = new FactoryDefault();
+        FactoryDefault::setDefault($container);
+    }
+
+    public function tearDown(): void
+    {
+        Di::reset();
+    }
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - message to non object
-     *
+     * @issue  10405
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-27
-     * @issue  10405
      */
     public function testFilterValidationValidateException(): void
     {
@@ -46,11 +57,9 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - message to non object
-     *
+     * @issue  10405
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-27
-     * @issue  10405
      */
     public function testFilterValidationValidateMessageToNonObject(): void
     {

@@ -71,7 +71,7 @@ final class RefactorModelsRelationsTest extends AbstractDatabaseTestCase
 //
 // use Codeception\Example;
 // use IntegrationTester;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Relations\Deles;
 // use Phalcon\Tests\Support\Models\Relations\M2MParts;
 // use Phalcon\Tests\Support\Models\Relations\M2MRobots;

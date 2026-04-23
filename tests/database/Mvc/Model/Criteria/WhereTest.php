@@ -29,8 +29,6 @@ final class WhereTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: where()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

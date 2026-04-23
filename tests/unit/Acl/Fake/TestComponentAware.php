@@ -15,34 +15,21 @@ namespace Phalcon\Tests\Unit\Acl\Fake;
 
 use Phalcon\Acl\ComponentAwareInterface;
 
-/**
- * Class TestComponentAware
- *
- * @property int    $user
- * @property string $resourceName
- */
 class TestComponentAware implements ComponentAwareInterface
 {
     /**
-     * @var int
-     */
-    protected int $user;
-
-    /**
-     * @var string
-     */
-    protected string $resourceName;
-
-    /**
-     * TestComponentAware constructor.
-     *
-     * @param string $user
+     * @param int    $user
      * @param string $resourceName
      */
-    public function __construct(int $user, string $resourceName)
+    public function __construct(
+        protected int $user,
+        protected string $resourceName
+    ) {
+    }
+
+    public function getComponentName(): string
     {
-        $this->user         = $user;
-        $this->resourceName = $resourceName;
+        return $this->resourceName;
     }
 
     /**
@@ -51,10 +38,5 @@ class TestComponentAware implements ComponentAwareInterface
     public function getUser(): int
     {
         return $this->user;
-    }
-
-    public function getComponentName(): string
-    {
-        return $this->resourceName;
     }
 }

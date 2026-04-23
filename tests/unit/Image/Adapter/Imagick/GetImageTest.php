@@ -24,8 +24,6 @@ final class GetImageTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Imagick :: getImage()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-02-19
      */

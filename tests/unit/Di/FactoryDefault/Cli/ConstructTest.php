@@ -23,10 +23,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use CliTrait;
 
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -41,16 +37,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: __construct() - Check services
-     *
      * @dataProvider getServices
      *
-     * @return void
-     *
-     * @throws Exception
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function testDiFactoryDefaultCliConstructServices(
         string $service,

@@ -22,8 +22,6 @@ use function supportDir;
 final class GetTypeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Request\File :: getType()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

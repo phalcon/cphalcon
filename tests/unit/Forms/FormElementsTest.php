@@ -24,13 +24,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class FormElementsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests cancelling validation on first fail
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
-     *
-     * @since  2017-11-19
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2017-11-19
      */
     public function testShouldCancelValidationOnFirstFail(): void
     {

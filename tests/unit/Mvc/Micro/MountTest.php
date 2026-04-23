@@ -13,18 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class MountTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: mount()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroMount(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $micro      = new Micro();
+        $collection = new Collection();
+        $collection->setHandler(function () {
+        });
+        $collection->setPrefix('/api');
+        $collection->get('/test', function () {
+            return 'hello';
+        });
+        $result = $micro->mount($collection);
+        $this->assertInstanceOf(Micro::class, $result);
     }
 }

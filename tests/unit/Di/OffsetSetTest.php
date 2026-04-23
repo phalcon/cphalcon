@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetSetTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di :: offsetSet()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

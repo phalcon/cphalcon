@@ -22,8 +22,6 @@ use Phalcon\Tests\Support\Tasks\MainTask;
 final class GetLastTaskTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getLastTask()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

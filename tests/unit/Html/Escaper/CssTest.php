@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CssTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Escaper :: escapeCss()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -37,8 +33,28 @@ final class CssTest extends AbstractUnitTestCase
 
         $actual = $escaper->css($source);
         $this->assertSame($expected, $actual);
+    }
 
-        $actual = $escaper->escapeCss($source);
-        $this->assertSame($expected, $actual);
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testEscaperCssEmptyStringReturnsEmpty(): void
+    {
+        $escaper = new Escaper();
+        $actual  = $escaper->css('');
+        $this->assertSame('', $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testEscaperCssNullCodepointBreaksLoop(): void
+    {
+        $escaper = new Escaper();
+        // chr(0) encodes to U+0000 in UTF-32; escapeMulti breaks on it
+        $actual  = $escaper->css("\x00");
+        $this->assertSame('', $actual);
     }
 }

@@ -23,8 +23,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class RulesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: rules()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27
      */

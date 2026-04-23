@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getDI()/setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-12-16
      */

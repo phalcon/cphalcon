@@ -19,9 +19,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 class CallActionMethodTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: callActionMethod()
-     * Tests directly calling controller's action via the dispatcher manually
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

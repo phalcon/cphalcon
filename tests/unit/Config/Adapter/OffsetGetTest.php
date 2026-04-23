@@ -21,8 +21,6 @@ final class OffsetGetTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: offsetGet()
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

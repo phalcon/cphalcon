@@ -61,8 +61,6 @@ final class GetFilteredPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getFilteredPost() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-01
      */
@@ -86,8 +84,6 @@ final class GetFilteredPostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getFilteredPost()
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

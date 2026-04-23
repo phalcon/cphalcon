@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router;
 
+use Phalcon\Mvc\Router\Group;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 
-/**
- * Class MountTest extends AbstractUnitTestCase
- */
 final class MountTest extends AbstractUnitTestCase
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router :: mount()
      *
@@ -28,6 +30,12 @@ final class MountTest extends AbstractUnitTestCase
      */
     public function testMvcRouterMount(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = $this->getRouter(false);
+        $group  = new Group();
+        $group->setPrefix('/api');
+        $group->add('/users', ['controller' => 'users', 'action' => 'index']);
+        $result = $router->mount($group);
+        $this->assertInstanceOf(RouterInterface::class, $result);
+        $this->assertNotEmpty($router->getRoutes());
     }
 }

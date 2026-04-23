@@ -21,8 +21,6 @@ use function uniqid;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class GetHandlerSuffixTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: getHandlerSuffix()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */

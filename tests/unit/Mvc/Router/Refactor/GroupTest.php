@@ -25,8 +25,6 @@ final class GroupTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: mount() with prefix
-     *
      * @dataProvider groupsProvider
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -96,8 +94,6 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: hostname route group
-     *
      * @dataProvider hostnameRoutesProvider
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -152,8 +148,6 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: hostname regex route group
-     *
      * @dataProvider hostnameRoutesRegexProvider
      *
      * @author Phalcon Team <team@phalcon.io>

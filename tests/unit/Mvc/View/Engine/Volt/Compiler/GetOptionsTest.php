@@ -13,18 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class GetOptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: getOptions()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerGetOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $compiler = new Compiler();
+        $this->assertSame([], $compiler->getOptions());
+
+        $options = ['path' => '/cache/', 'extension' => '.php'];
+        $compiler->setOptions($options);
+        $this->assertSame($options, $compiler->getOptions());
     }
 }

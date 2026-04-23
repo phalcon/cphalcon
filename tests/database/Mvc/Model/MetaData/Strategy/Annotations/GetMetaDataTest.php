@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetMetaDataTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Strategy\Annotations :: getMetaData()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

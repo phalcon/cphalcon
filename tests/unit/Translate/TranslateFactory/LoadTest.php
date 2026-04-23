@@ -34,8 +34,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Factory :: load() - array
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -62,8 +60,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Factory :: load() - Phalcon\Config
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */

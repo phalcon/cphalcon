@@ -20,11 +20,6 @@ final class ValidateNotBeforeTest extends AbstractUnitTestCase
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Validator ::
-     * validateNotBefore()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

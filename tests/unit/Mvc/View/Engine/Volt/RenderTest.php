@@ -23,19 +23,28 @@ class RenderTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: render()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltRender(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $this->setNewFactoryDefault();
+        $this->setDiService('viewSimple');
+
+        $view = $this->getService('viewSimple');
+        $volt = new Volt($view, $this->container);
+
+        $templatePath = supportDir('assets/views/compiler/partial.volt');
+
+        ob_start();
+        $volt->render($templatePath, ['some_var' => 'Label']);
+        $output = ob_get_clean();
+
+        $this->assertSame('Some label: Label', $output);
+        $this->safeDeleteFile($templatePath . '.php');
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: render() - events
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-13
      */
@@ -56,7 +65,6 @@ class RenderTest extends AbstractUnitTestCase
 
         $view->setEventsManager($eventsManager);
 
-
         $volt = new Volt($view, $this->container);
 
         $volt->setEventsManager($eventsManager);
@@ -71,12 +79,12 @@ class RenderTest extends AbstractUnitTestCase
         );
         ob_end_clean();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Before fired',
             $listener->getBefore()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'After fired',
             $listener->getAfter()
         );

@@ -24,11 +24,6 @@ use stdClass;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - empty
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */
@@ -46,9 +41,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - invalid
-     * card numbers
-     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
@@ -93,9 +85,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - multiple
-     * field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -176,9 +165,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - single
-     * field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -206,9 +192,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\CreditCard :: validate() - valid card
-     * numbers
-     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */

@@ -21,11 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AppendMessagesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Messages :: appendMessages() - array
-     *
-     * @return void
-     *
-     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -99,10 +94,6 @@ final class AppendMessagesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Messages\Messages :: appendMessages() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

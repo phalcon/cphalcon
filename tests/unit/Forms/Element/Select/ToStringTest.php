@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ToStringTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Element\Select :: __toString()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -19,10 +19,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class JsonSerializeTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: jsonSerialize()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

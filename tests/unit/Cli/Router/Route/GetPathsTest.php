@@ -27,7 +27,6 @@ final class GetPathsTest extends AbstractUnitTestCase
     /**
      * @dataProvider getExamplesShortPaths
      *
-     * @return void
      */
     public function testCliRouterRouteGetPathsShortPaths(
         string $path,

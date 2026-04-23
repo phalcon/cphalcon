@@ -24,8 +24,6 @@ use function uniqid;
 final class SetMultipleTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: setMultiple()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -59,8 +57,6 @@ final class SetMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: setMultiple() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -84,8 +80,6 @@ final class SetMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: setMultiple() - exception - not traversable
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -106,8 +100,6 @@ final class SetMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: setMultiple() - false
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

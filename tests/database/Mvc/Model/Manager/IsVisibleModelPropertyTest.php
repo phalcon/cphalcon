@@ -44,8 +44,6 @@ final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: isVisibleModelProperty()
-     *
      * @dataProvider getPublicProperties
      *
      * @author Phalcon Team <team@phalcon.io>

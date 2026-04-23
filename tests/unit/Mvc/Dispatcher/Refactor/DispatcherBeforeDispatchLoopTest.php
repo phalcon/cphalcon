@@ -22,18 +22,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
 {
     /**
-     * Tests returning <tt>false</tt> inside a beforeDispatchLoop event with
-     * multiple returned items in event listeners.
-     *
-     * Currently, we only value the return from the last item; therefore, for
-     * libraries and plugins that hook into dispatcher events that need to
-     * cancel the event, the event should additionally be stopped() to ensure
-     * proper flow.
-     *
-     * This test case SHOULD be altered in 4.0 along with any other
-     * corresponding documentation changes for stopping. E.g. switching to
-     * event->stop() opposed to returning false.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -70,18 +58,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests returning <tt>false</tt> inside a beforeDispatchLoop event with
-     * multiple returned items in event listeners.
-     *
-     * Currently, we only value the return from the last item; therefore, for
-     * libraries and plugins that hook into dispatcher events that need to
-     * cancel the event, the event should additionally be stopped() to ensure
-     * proper flow.
-     *
-     * This test case SHOULD be altered in 4.0 along with any other
-     * corresponding documentation changes for stopping. E.g. switching to
-     * event->stop() opposed to returning false.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -128,8 +104,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests the forwarding in the beforeDispatchLoop event
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -170,8 +144,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests returning <tt>false</tt> inside a beforeDispatchLoop event.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -198,10 +170,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * via beforeException event and then will properly bubble up the stack if
-     * anything other than <tt>false</tt> is returned.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -240,9 +208,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests dispatch forward handling inside the beforeException when a
-     * beforeDispatchLoop exception occurs.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -291,10 +256,6 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * when thrown from inside a beforeDispatchLoop event and then ensure the
-     * exception is not bubbled when returning with <tt>false</tt>.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

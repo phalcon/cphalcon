@@ -119,8 +119,6 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Cache\Adapter\Libmemcached :: getEventsManager()
-     *
      * @dataProvider getAdapters
      *
      * @author n[oO]ne <lominum@protonmail.com>
@@ -142,10 +140,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Cache\Adapter\Libmemcached :: getEventsManager()
-     *
      * @dataProvider getAdapters
-     * *
+     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
@@ -167,9 +163,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterDecrement
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -206,9 +201,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterDelete
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -245,9 +239,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterGet
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -285,9 +278,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterHas
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -324,9 +316,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterIncrement
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -363,9 +354,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - afterSet
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -402,9 +392,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeDecrement
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -441,9 +430,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeDelete
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -480,9 +468,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeGet
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -520,9 +507,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeHas
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -559,9 +545,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeIncrement
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */
@@ -598,9 +583,8 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\* :: events - beforeSet
-     *
      * @dataProvider getExamples
+     *
      * @author       n[oO]ne <lominum@protonmail.com>
      * @since        2024-06-07
      */

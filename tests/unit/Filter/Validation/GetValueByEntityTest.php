@@ -24,8 +24,6 @@ final class GetValueByEntityTest extends AbstractUnitTestCase
     public const NAME = 'John Doe';
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValueByEntity()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
@@ -42,8 +40,6 @@ final class GetValueByEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValueByEntity()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */
@@ -60,8 +56,6 @@ final class GetValueByEntityTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: getValueByEntity()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-07
      */

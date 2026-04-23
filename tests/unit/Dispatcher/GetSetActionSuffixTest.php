@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetActionSuffixTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getActionSuffix()/setActionSuffix()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

@@ -61,8 +61,6 @@ class HttpBase
     }
 
     /**
-     * Initializes the response object and returns it
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -72,8 +70,6 @@ class HttpBase
     }
 
     /**
-     * Checks the has functions on non defined variables
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -87,8 +83,6 @@ class HttpBase
     }
 
     /**
-     * Initializes the request object and returns it
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -98,8 +92,6 @@ class HttpBase
     }
 
     /**
-     * Checks the has functions on defined variables
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -116,8 +108,6 @@ class HttpBase
     }
 
     /**
-     * Checks the get functions on undefined variables
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -131,8 +121,6 @@ class HttpBase
     }
 
     /**
-     * Checks the get functions on defined variables
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -149,8 +137,6 @@ class HttpBase
     }
 
     /**
-     * Checks the get functions for sanitized data
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -168,10 +154,6 @@ class HttpBase
     }
 
     /**
-     * Checks the get functions for sanitized data (array filters)
-     *
-     * @param array $filter
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -189,10 +171,6 @@ class HttpBase
     }
 
     /**
-     * Sets a server variable ($_SERVER)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -202,10 +180,6 @@ class HttpBase
     }
 
     /**
-     * Unsets a server variable ($_SERVER)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -215,10 +189,6 @@ class HttpBase
     }
 
     /**
-     * Sets a get variable ($_GET)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -228,10 +198,6 @@ class HttpBase
     }
 
     /**
-     * Unsets a get variable ($_GET)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -241,10 +207,6 @@ class HttpBase
     }
 
     /**
-     * Sets a post variable ($_POST)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -254,10 +216,6 @@ class HttpBase
     }
 
     /**
-     * Unsets a post variable ($_POST)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -267,10 +225,6 @@ class HttpBase
     }
 
     /**
-     * Sets a request variable ($_REQUEST)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -280,10 +234,6 @@ class HttpBase
     }
 
     /**
-     * Unsets a request variable ($_REQUEST)
-     *
-     * @param string $var
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */

@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class PatchTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: patch()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

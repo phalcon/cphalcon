@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetPathsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getPaths()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterRouteGetPaths(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $route = new Route('/test', ['controller' => 'test', 'action' => 'index']);
+        $this->assertSame(['controller' => 'test', 'action' => 'index'], $route->getPaths());
     }
 }

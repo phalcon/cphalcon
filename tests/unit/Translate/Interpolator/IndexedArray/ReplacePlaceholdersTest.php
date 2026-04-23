@@ -19,11 +19,6 @@ use Phalcon\Translate\Interpolator\IndexedArray;
 final class ReplacePlaceholdersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Translate\Interpolator\IndexedArray ::
-     * replacePlaceholders()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -40,11 +35,6 @@ final class ReplacePlaceholdersTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Interpolator\IndexedArray ::
-     * replacePlaceholders() with no placeholders
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

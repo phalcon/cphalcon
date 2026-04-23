@@ -18,8 +18,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetSetPathTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getPath()/setPath()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

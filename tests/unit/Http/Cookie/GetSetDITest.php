@@ -22,8 +22,6 @@ use function uniqid;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getDI() / setDI()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-07
      */

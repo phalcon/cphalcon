@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class Base62Test extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Security\Random :: base62()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

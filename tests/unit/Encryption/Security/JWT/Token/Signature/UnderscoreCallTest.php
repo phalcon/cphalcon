@@ -17,10 +17,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Signature :: __call()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

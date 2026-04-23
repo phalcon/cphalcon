@@ -50,16 +50,10 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di :: set()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @throws Exception
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function testDiSet(
         string $name,
@@ -76,10 +70,6 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di :: set() - alias
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -97,12 +87,6 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di :: set() - shared
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

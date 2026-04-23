@@ -40,8 +40,6 @@ final class GetFilteredValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: getFilteredValue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
      */

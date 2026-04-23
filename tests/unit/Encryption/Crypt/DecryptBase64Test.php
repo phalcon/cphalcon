@@ -20,13 +20,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class DecryptBase64Test extends AbstractUnitTestCase
 {
     /**
-     * Tests decrypt using HMAC
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptBase64DecryptSignedString(): void
     {
@@ -44,13 +40,9 @@ final class DecryptBase64Test extends AbstractUnitTestCase
     }
 
     /**
-     * Tests decrypt using HMAC
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptBase64SignedKeyMismatchThrowsException(): void
     {
@@ -65,13 +57,9 @@ final class DecryptBase64Test extends AbstractUnitTestCase
     }
 
     /**
-     * Tests decrypt without using HMAC
-     *
-     * @return void
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13379
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
-     * @issue  https://github.com/phalcon/cphalcon/issues/13379
      */
     public function testEncryptionCryptDecryptBase64UnsignedKeyMismatchNoException(): void
     {

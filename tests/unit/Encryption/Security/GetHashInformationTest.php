@@ -136,10 +136,6 @@ final class GetHashInformationTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: checkHash() - false
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -153,14 +149,10 @@ final class GetHashInformationTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: getHashInformation()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testEncryptionSecurityGetHashInformation(
         int $hash,

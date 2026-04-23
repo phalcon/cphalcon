@@ -24,8 +24,6 @@ use Phalcon\Tests\Support\Tasks\MainTask;
 final class GetActiveTaskTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getActiveTask()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

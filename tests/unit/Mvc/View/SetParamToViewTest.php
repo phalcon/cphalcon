@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Mvc\View;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SetParamToViewTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: setParamToView()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewSetParamToView(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view   = new View();
+        $result = $view->setParamToView('key', 'value');
+        $this->assertInstanceOf(View::class, $result);
+        $this->assertSame(['key' => 'value'], $view->getParamsToView());
     }
 }

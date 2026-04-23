@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetActionPreformatCallbackTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: setActionPreformatCallback()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-03
      */

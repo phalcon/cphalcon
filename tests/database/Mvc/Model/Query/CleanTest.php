@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class CleanTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query - clean()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Mvc\View;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class GetRegisteredEnginesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: getRegisteredEngines()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewGetRegisteredEngines(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view = new View();
+        $this->assertSame([], $view->getRegisteredEngines());
     }
 }

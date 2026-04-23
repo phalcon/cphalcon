@@ -18,10 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CollectResponsesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Manager :: collectResponses()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

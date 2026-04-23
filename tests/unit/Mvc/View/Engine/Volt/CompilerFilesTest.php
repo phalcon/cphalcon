@@ -65,8 +65,6 @@ class CompilerFilesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Compiler::compileFile to compile files with blocks and partials
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-06-25
      */
@@ -127,8 +125,6 @@ class CompilerFilesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Compiler::compileFile test case to compile extended files
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -158,8 +154,6 @@ class CompilerFilesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Compiler::compileFile test case to compile imported files
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -183,9 +177,6 @@ class CompilerFilesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Compiler::compileFile test case to compile imported files
-     * recursively
-     *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */

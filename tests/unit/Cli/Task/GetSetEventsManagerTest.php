@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Task :: getEventsManager()/setEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

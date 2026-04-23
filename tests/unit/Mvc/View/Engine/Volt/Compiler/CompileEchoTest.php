@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class CompileEchoTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileEcho()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerCompileEcho(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $compiler = new Compiler();
+
+        $actual = $compiler->compileString('{{ variable }}');
+        $this->assertSame('<?= $variable ?>', $actual);
     }
 }

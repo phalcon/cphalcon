@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetBoundModelsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Dispatcher :: getBoundModels()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

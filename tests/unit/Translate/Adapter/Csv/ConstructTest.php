@@ -29,10 +29,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use TranslateCsvTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -47,10 +43,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -64,11 +56,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception error
-     * loading file
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

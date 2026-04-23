@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class RemoveExtraSlashesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: removeExtraSlashes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

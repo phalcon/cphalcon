@@ -48,8 +48,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - basic
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -75,8 +73,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - disabled join
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -102,8 +98,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - enabled join
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -130,8 +124,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs() - implicit
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -153,8 +145,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - join and filter
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -187,8 +177,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - mixed resources
-     *
      * @author Paul Scarrone <paul@savvysoftworks.com>
      * @since  2017-06-20
      */
@@ -228,8 +216,6 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs() - not implicit
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -259,9 +245,7 @@ final class OutputJsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputJs - target local
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/1532
+     * @issue https://github.com/phalcon/cphalcon/issues/1532
      * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25

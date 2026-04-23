@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ExistsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: exists()
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */
@@ -37,8 +35,6 @@ final class ExistsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: exists() - empty
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-03-16
      */

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ClearTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Breadcrumbs :: clear()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

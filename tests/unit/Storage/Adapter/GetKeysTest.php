@@ -87,14 +87,7 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Redis :: getKeys()
-     *
      * @dataProvider getAdapters
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -122,12 +115,6 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Apcu :: getKeys() - iterator error
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -146,13 +133,6 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Libmemcached :: getKeys()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -197,16 +177,9 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
+     * @issue  cphalcon/#14190
      * @author ekmst <https://github.com/ekmst>
      * @since  2020-09-09
-     * @issue  cphalcon/#14190
      */
     public function testStorageAdapterStreamGetKeysIssue14190(): void
     {
@@ -245,16 +218,9 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
+     * @issue  cphalcon/#14190
      * @author ekmst <https://github.com/ekmst>
      * @since  2020-09-09
-     * @issue  cphalcon/#14190
      */
     public function testStorageAdapterStreamGetKeysPrefix(): void
     {
@@ -307,12 +273,6 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Weak :: getKeys()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -354,6 +314,37 @@ final class GetKeysTest extends AbstractUnitTestCase
         ];
         $actual   = $adapter->getKeys("one");
         sort($actual);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    public function testStorageAdapterWeakGetKeysWithPrefix(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1 = new stdClass();
+        $obj2 = new stdClass();
+        $obj3 = new stdClass();
+
+        $adapter->set('prefix-one', $obj1);
+        $adapter->set('prefix-two', $obj2);
+        $adapter->set('other-key', $obj3);
+
+        $actual = $adapter->getKeys('prefix-');
+        sort($actual);
+        $expected = ['prefix-one', 'prefix-two'];
+        $this->assertSame($expected, $actual);
+
+        $actual = $adapter->getKeys('other-');
+        $this->assertSame(['other-key'], $actual);
+
+        $actual = $adapter->getKeys('');
+        sort($actual);
+        $expected = ['other-key', 'prefix-one', 'prefix-two'];
         $this->assertSame($expected, $actual);
     }
 

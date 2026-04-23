@@ -22,10 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetParameterTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Service :: setParameter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -61,10 +57,6 @@ final class SetParameterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service :: setParameter() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -80,10 +72,6 @@ final class SetParameterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service :: setParameter() - with arguments
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

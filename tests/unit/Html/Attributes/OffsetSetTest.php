@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetSetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: offsetSet()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-02
      */

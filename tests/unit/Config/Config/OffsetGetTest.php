@@ -22,8 +22,6 @@ final class OffsetGetTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests access by numeric key
-     *
      * @author Rian Orie <rian.orie@gmail.com>
      * @since  2014-11-12
      */

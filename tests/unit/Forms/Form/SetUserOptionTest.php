@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetUserOptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: setUserOption()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */

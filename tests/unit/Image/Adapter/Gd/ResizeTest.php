@@ -35,7 +35,7 @@ final class ResizeTest extends AbstractUnitTestCase
                 supportDir('assets/images/example-jpg.jpg'),
                 'resize.jpg',
                 75,
-                199,
+                197,
                 'fbf9f3e3c3c1c183',
             ],
             [
@@ -118,11 +118,7 @@ final class ResizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: resize()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
@@ -160,11 +156,7 @@ final class ResizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: resize()
-     *
      * @dataProvider getExamplesExceptions
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13

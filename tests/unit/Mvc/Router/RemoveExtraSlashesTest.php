@@ -53,12 +53,10 @@ final class RemoveExtraSlashesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests removing extra slashes
+     * @dataProvider getMatchingWithExtraSlashes
      *
      * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since        2012-12-16
-     *
-     * @dataProvider getMatchingWithExtraSlashes
      */
     public function testRemovingExtraSlashes(
         string $route,

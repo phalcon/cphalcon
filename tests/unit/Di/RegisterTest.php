@@ -21,10 +21,6 @@ use Phalcon\Tests\Support\Di\SomeServiceProvider;
 final class RegisterTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di :: register()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

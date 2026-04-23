@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class IsResolvedResolveTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Service :: isResolved()/resolve()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

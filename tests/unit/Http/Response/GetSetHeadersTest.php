@@ -21,8 +21,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class GetSetHeadersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: getHeaders() / setHeaders()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */
@@ -45,8 +43,6 @@ final class GetSetHeadersTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response :: setHeaders() - empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -64,8 +60,6 @@ final class GetSetHeadersTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Http\Response :: setHeaders() - merge
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

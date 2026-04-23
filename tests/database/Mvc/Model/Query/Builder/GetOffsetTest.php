@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetOffsetTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query\Builder - getOffset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

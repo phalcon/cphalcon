@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetSetParamsToViewTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getParamsToView()/setParamsToView()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

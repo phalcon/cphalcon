@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class OffsetExistsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: offsetExists()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

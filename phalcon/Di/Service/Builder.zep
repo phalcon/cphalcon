@@ -229,7 +229,7 @@ class Builder
             case "service":
                 if unlikely !fetch name, argument["name"] {
                     throw new Exception(
-                        "Service 'name' is required in parameter on position " . position
+                        "Service \"name\" is required in parameter on position " . position
                     );
                 }
 
@@ -241,7 +241,7 @@ class Builder
             case "parameter":
                 if unlikely !fetch value, argument["value"] {
                     throw new Exception(
-                        "Service 'value' is required in parameter on position " . position
+                        "Service \"value\" is required in parameter on position " . position
                     );
                 }
 
@@ -253,7 +253,7 @@ class Builder
             case "instance":
                 if unlikely !fetch name, argument["className"] {
                     throw new Exception(
-                        "Service 'className' is required in parameter on position " . position
+                        "Service \"className\" is required in parameter on position " . position
                     );
                 }
 

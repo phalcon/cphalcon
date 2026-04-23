@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Cookies :: getDI() / setDI()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-07
      */

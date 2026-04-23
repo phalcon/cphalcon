@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class DirFromFileTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: dirFromFile()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -37,10 +33,6 @@ final class DirFromFileTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: dirFromFile() - empty string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

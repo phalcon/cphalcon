@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class GetSetEventsManagerTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,8 +54,6 @@ final class GetSetEventsManagerTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: getEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

@@ -13,21 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class AddExtensionTest extends AbstractUnitTestCase
- */
 class AddExtensionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addExtension()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerAddExtension(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $extension = new class {
+        };
+
+        $compiler = new Compiler();
+        $result   = $compiler->addExtension($extension);
+
+        $this->assertInstanceOf(Compiler::class, $result);
+        $this->assertCount(1, $compiler->getExtensions());
     }
 }

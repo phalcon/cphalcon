@@ -25,8 +25,6 @@ class GetRegisteredEnginesTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests the Simple::getRegisteredEngines
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */

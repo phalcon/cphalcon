@@ -22,10 +22,6 @@ use function file_get_contents;
 final class AddAdapterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: addAdapter()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

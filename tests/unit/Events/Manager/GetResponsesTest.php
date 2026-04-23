@@ -23,10 +23,6 @@ use Phalcon\Tests\Unit\Events\Fake\ComponentOne;
 final class GetResponsesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Manager :: getResponses()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

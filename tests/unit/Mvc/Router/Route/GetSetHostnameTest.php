@@ -21,8 +21,6 @@ use function uniqid;
 final class GetSetHostnameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getHostname()/setHostname()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */

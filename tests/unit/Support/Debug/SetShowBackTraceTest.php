@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetShowBackTraceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Debug :: setShowBackTrace()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

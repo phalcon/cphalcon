@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class NoopTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt\Padding\Noop :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */

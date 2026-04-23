@@ -20,8 +20,6 @@ use function uniqid;
 final class GetAbstractHTTPRefererTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getHTTPReferer()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -38,8 +36,6 @@ final class GetAbstractHTTPRefererTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getHTTPReferer() - empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

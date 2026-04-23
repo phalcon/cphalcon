@@ -29,7 +29,6 @@ final class GetReversedPathsTest extends AbstractUnitTestCase
     /**
      * @dataProvider getExamplesShortPaths
      *
-     * @return void
      */
     public function testCliRouterRouteGetReversedPathsShortPaths(
         string $path,

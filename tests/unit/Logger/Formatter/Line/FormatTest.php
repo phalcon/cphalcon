@@ -27,13 +27,8 @@ use function uniqid;
 final class FormatTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: format()
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerFormatterLineFormat(): void
     {
@@ -56,13 +51,8 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: format() -custom
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerFormatterLineFormatCustom(): void
     {
@@ -85,13 +75,8 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: format() - custom interpolator
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2022-09-11
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-09-11
      */
     public function testLoggerFormatterLineFormatCustomInterpolator(): void
     {
@@ -125,13 +110,8 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: format() -custom with milliseconds
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testLoggerFormatterLineFormatCustomWithMilliseconds(): void
     {

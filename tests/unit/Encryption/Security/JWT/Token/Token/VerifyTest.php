@@ -18,10 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class VerifyTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Token :: verify()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-09
      */
@@ -52,10 +48,6 @@ final class VerifyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Token\Token :: verify() wrong algo
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-09
      */

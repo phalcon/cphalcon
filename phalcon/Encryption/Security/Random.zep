@@ -272,7 +272,7 @@ class Random
     /**
      * Generates a v4 random UUID (Universally Unique IDentifier)
      *
-     * The version 4 UUID is purely random (except the version). It doesn't
+     * The version 4 UUID is purely random (except the version). It does not
      * contain meaningful information such as MAC address, time, etc. See RFC
      * 4122 for details of UUID.
      *

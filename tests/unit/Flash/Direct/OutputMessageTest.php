@@ -44,12 +44,8 @@ final class OutputMessageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: outputMessage() - exception
-     *
      * @dataProvider getExamples
      *
-     *
-     * @return void
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
@@ -72,10 +68,6 @@ final class OutputMessageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Direct :: outputMessage() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class BeginTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Transaction - begin()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -21,10 +21,6 @@ use function strlen;
 final class LastKeyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: lastKey()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -42,10 +38,6 @@ final class LastKeyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: lastKey() - function
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

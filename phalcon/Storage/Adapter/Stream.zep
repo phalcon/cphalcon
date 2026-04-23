@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -97,104 +96,6 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
-     */
-    public function decrement(string! key, int value = 1) -> int | bool
-    {
-        var data, result;
-
-        this->fire(this->eventType . ":beforeDecrement", key);
-
-        if unlikely true !== this->has(key) {
-            this->fire(this->eventType . ":afterDecrement", key);
-
-            return false;
-        }
-
-        let data = this->get(key),
-            data = (int) data - value;
-
-        let result = this->set(key, data);
-        if likely result !== false {
-            let result = data;
-        }
-
-        this->fire(this->eventType . ":afterDecrement", key);
-
-        return result;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function delete(string! key) -> bool
-    {
-        var filepath, result;
-
-        this->fire(this->eventType . ":beforeDelete", key);
-
-        if true !== this->has(key) {
-            this->fire(this->eventType . ":afterDelete", key);
-
-            return false;
-        }
-
-        let filepath = this->getFilepath(key);
-
-        let result = unlink(filepath);
-
-        this->fire(this->eventType . ":afterDelete", key);
-
-        return result;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed|null
-     */
-    public function get(string! key, var defaultValue = null) -> var
-    {
-        var content, filepath, payload, result;
-
-        this->fire(this->eventType . ":beforeGet", key);
-
-        let filepath = this->getFilepath(key);
-
-        if (true !== file_exists(filepath)) {
-            this->fire(this->eventType . ":afterGet", key);
-
-            return defaultValue;
-        }
-
-        let payload = this->getPayload(filepath);
-
-        if (empty(payload) || this->isExpired(payload)) {
-            return defaultValue;
-        }
-
-        let content = this->getArrVal(payload, "content");
-
-        let result = this->getUnserializedData(content, defaultValue);
-
-        this->fire(this->eventType . ":afterGet", key);
-
-        return result;
-    }
-
-    /**
      * Stores data in the adapter
      *
      * @param string $prefix
@@ -225,39 +126,127 @@ class Stream extends AbstractAdapter
     }
 
     /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string! key, var value) -> bool
+    {
+        array payload;
+
+        let payload   = [
+            "created" : time(),
+            "ttl"     : "forever",
+            "content" : this->getSerializedData(value)
+        ];
+
+        return this->storePayload(payload, key);
+    }
+
+    /**
+     * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     */
+    protected function doDecrement(string! key, int value = 1) -> int | bool
+    {
+        var data, result;
+
+        if unlikely true !== this->has(key) {
+            return false;
+        }
+
+        let data = this->get(key),
+            data = (int) data - value;
+
+        let result = this->set(key, data);
+        if likely result !== false {
+            let result = data;
+        }
+
+        return result;
+    }
+
+    /**
+     * Deletes data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function doDelete(string! key) -> bool
+    {
+        var filepath;
+
+        if true !== this->has(key) {
+            return false;
+        }
+
+        let filepath = this->getFilepath(key);
+
+        return unlink(filepath);
+    }
+
+    /**
+     * Reads data from the adapter
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed|null
+     */
+    protected function doGet(string! key, var defaultValue = null) -> var
+    {
+        var content, filepath, payload;
+
+        let filepath = this->getFilepath(key);
+
+        if (true !== file_exists(filepath)) {
+            return defaultValue;
+        }
+
+        let payload = this->getPayload(filepath);
+
+        if (empty(payload) || this->isExpired(payload)) {
+            return defaultValue;
+        }
+
+        let content = this->getArrVal(payload, "content");
+
+        return this->getUnserializedData(content, defaultValue);
+    }
+
+    /**
      * Checks if an element exists in the cache and is not expired
      *
      * @param string $key
      *
      * @return bool
      */
-    public function has(string! key) -> bool
+    protected function doHas(string! key) -> bool
     {
-        var payload, filepath, result;
-
-        this->fire(this->eventType . ":beforeHas", key);
+        var payload, filepath;
 
         let filepath = this->getFilepath(key);
 
         if unlikely true !== this->phpFileExists(filepath) {
-            this->fire(this->eventType . ":afterHas", key);
-
             return false;
         }
 
         let payload = this->getPayload(filepath);
 
         if unlikely empty payload {
-            this->fire(this->eventType . ":afterHas", key);
-
             return false;
         }
 
-        let result = !this->isExpired(payload);
-
-        this->fire(this->eventType . ":afterHas", key);
-
-        return result;
+        return !this->isExpired(payload);
     }
 
     /**
@@ -268,15 +257,11 @@ class Stream extends AbstractAdapter
      *
      * @return bool|int
      */
-    public function increment(string! key, int value = 1) -> int | bool
+    protected function doIncrement(string! key, int value = 1) -> int | bool
     {
         var data, result;
 
-        this->fire(this->eventType . ":beforeIncrement", key);
-
         if unlikely true !== this->has(key) {
-            this->fire(this->eventType . ":afterIncrement", key);
-
             return false;
         }
 
@@ -287,8 +272,6 @@ class Stream extends AbstractAdapter
         if likely result !== false {
             let result = data;
         }
-
-        this->fire(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -306,50 +289,17 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    public function set(string! key, var value, var ttl = null) -> bool
+    protected function doSet(string! key, var value, var ttl = null) -> bool
     {
         array payload;
-        var result;
-
-        this->fire(this->eventType . ":beforeSet", key);
 
         if (typeof ttl === "integer" && ttl < 1) {
-            let result = this->delete(key);
-
-            this->fire(this->eventType . ":afterSet", key);
-
-            return result;
+            return this->delete(key);
         }
 
         let payload   = [
             "created" : time(),
             "ttl"     : this->getTtl(ttl),
-            "content" : this->getSerializedData(value)
-        ];
-
-        let result = this->storePayload(payload, key);
-
-        this->fire(this->eventType . ":afterSet", key);
-
-        return result;
-    }
-
-    /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever(string! key, var value) -> bool
-    {
-        array payload;
-
-        let payload   = [
-            "created" : time(),
-            "ttl"     : "forever",
             "content" : this->getSerializedData(value)
         ];
 

@@ -13,18 +13,36 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class IsIncludedTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: isIncluded()
+     * @return array<int, array{0: mixed, 1: array<int, string>|string, 2: bool}>
+     */
+    public static function provideIsIncluded(): array
+    {
+        return [
+            ['o', 'hello', true],
+            ['z', 'hello', false],
+            ['b', ['a', 'b', 'c'], true],
+            ['d', ['a', 'b', 'c'], false],
+        ];
+    }
+
+    /**
+     * @dataProvider provideIsIncluded
+     *
+     * @param array<int, string>|string $haystack
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function testMvcViewEngineVoltIsIncluded(): void
+    public function testMvcViewEngineVoltIsIncluded(mixed $needle, array|string $haystack, bool $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $volt = new Volt(new View());
+        $this->assertSame($expected, $volt->isIncluded($needle, $haystack));
     }
 }

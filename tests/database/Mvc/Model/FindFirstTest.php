@@ -30,6 +30,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class FindFirstTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -74,8 +78,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -111,8 +113,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirstBy() - not found
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -125,14 +125,11 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - option 'column'
-     *
-     * @since  2020-11-22
      * @issue  https://github.com/phalcon/cphalcon/issues/15356
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-11-22
      *
      * @group mysql
-     *
-     * @author Phalcon Team <team@phalcon.io>
      */
     public function testMvcModelFindFirstColumn(): void
     {
@@ -161,8 +158,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - with column map
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -206,8 +201,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -225,8 +218,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - extended
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -255,8 +246,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - extended column
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-05
      *
@@ -286,8 +275,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: find() - found/not found and getRelated
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-06-14
      *
@@ -377,8 +364,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - not found
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -396,8 +381,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - exception
-     *
      * @dataProvider findFirstProvider
      *
      * @author       Phalcon Team <team@phalcon.io>

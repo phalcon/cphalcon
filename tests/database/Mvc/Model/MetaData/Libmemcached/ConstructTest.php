@@ -25,6 +25,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function getOptionsLibmemcached;
 
+/**
+ *
+ * @group phql
+ */
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -64,8 +68,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: __construct() - isEmpty and reset
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *

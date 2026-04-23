@@ -55,11 +55,8 @@ final class GetPreferredIsoLocaleVariantTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPreferredIsoLocaleVariant()
-     *
-     *
      * @dataProvider getExamples
-     * @return void
+     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */

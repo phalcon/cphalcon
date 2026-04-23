@@ -24,10 +24,6 @@ use stdClass;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -39,10 +35,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -54,10 +46,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -69,10 +57,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -84,10 +68,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -99,10 +79,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -114,10 +90,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Filter\Validation\Validator\Email :: validate
-     *
-     * @return void
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19
      */
@@ -164,8 +136,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests email validator with multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -246,8 +216,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests email validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -299,11 +267,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Email :: validate() - empty
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */
@@ -321,9 +284,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */
@@ -393,11 +353,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Email :: validate() - single field
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */

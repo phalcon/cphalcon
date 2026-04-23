@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class NotifyEventTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: notifyEvent()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

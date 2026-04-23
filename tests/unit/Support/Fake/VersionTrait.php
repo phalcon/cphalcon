@@ -21,12 +21,6 @@ namespace Phalcon\Tests\Unit\Support\Fake;
 trait VersionTrait
 {
     /**
-     * Translates a number to a special version string (alpha, beta, RC)
-     *
-     * @param string $number
-     *
-     * @return string
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -42,12 +36,6 @@ trait VersionTrait
     }
 
     /**
-     * Translates a special version (alpha, beta, RC) to a version number
-     *
-     * @param string $input
-     *
-     * @return string
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

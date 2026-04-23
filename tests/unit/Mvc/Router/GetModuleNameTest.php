@@ -14,17 +14,20 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 
 final class GetModuleNameTest extends AbstractUnitTestCase
 {
+    use RouterTrait;
+
     /**
-     * Tests Phalcon\Mvc\Router :: getModuleName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterGetModuleName(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = $this->getRouter(false);
+        $router->handle('/');
+        $this->assertSame('', $router->getModuleName());
     }
 }

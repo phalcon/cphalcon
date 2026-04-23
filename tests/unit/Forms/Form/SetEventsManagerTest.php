@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: setEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

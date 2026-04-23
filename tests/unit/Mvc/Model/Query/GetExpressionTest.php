@@ -23,11 +23,9 @@ final class GetExpressionTest extends AbstractUnitTestCase
     private int $PHQL_T_OR  = 267;
 
     /**
-     * Tests Phalcon\Mvc\Model\Query :: getExpression()
-     *
+     * @issue  15553
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-21
-     * @issue  15553
      */
     public function testMvcModelQueryGetExpression(): void
     {

@@ -21,8 +21,6 @@ final class LiquidRescaleTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: liquidRescale()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

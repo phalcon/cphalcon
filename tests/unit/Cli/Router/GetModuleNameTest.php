@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetModuleNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router :: getModuleName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

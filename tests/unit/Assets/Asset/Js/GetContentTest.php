@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
 use Phalcon\Tests\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use function supportDir;
@@ -24,10 +23,6 @@ use function file_get_contents;
 final class GetContentTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getContent()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

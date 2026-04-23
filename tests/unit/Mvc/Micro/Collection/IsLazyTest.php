@@ -32,12 +32,10 @@ class IsLazyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: isLazy()
+     * @dataProvider booleanProvider
      *
      * @author       Sid Roberts <https://github.com/SidRoberts>
      * @since        2019-06-08
-     *
-     * @dataProvider booleanProvider
      */
     public function testMvcMicroCollectionIsLazy(
         bool $lazy
@@ -51,8 +49,6 @@ class IsLazyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: isLazy() - default
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-08
      */

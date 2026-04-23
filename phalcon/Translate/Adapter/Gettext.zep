@@ -287,10 +287,12 @@ class Gettext extends AbstractAdapter implements ArrayAccess
         let this->locale   = setlocale(category, localeArray),
             this->category = category;
 
-        putenv("LC_ALL=" . this->locale);
-        putenv("LANG=" . this->locale);
-        putenv("LANGUAGE=" . this->locale);
-        setlocale(LC_ALL, this->locale);
+        if (false !== this->locale) {
+            putenv("LC_ALL=" . this->locale);
+            putenv("LANG=" . this->locale);
+            putenv("LANGUAGE=" . this->locale);
+            setlocale(LC_ALL, this->locale);
+        }
 
         return this->locale;
     }

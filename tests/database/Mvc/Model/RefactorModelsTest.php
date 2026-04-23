@@ -37,7 +37,7 @@ final class RefactorModelsTest extends AbstractDatabaseTestCase
 // use Phalcon\Db\RawValue;
 // use Phalcon\Messages\Message as ModelMessage;
 // use Phalcon\Mvc\Model;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Childs;
 // use Phalcon\Tests\Support\Models\I1534;
 // use Phalcon\Tests\Support\Models\Parts2;

@@ -19,9 +19,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDescriptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Router\Route :: getDescription()/setDescription()
-     *
-     * @since 2020-01-05
+     * @since  2020-01-05
      */
     public function testCliRouterRouteGetSetDescription(): void
     {

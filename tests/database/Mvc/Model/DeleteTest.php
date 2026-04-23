@@ -25,6 +25,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 use function date;
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class DeleteTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,8 +40,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -66,8 +68,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete() with related items
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
      *
@@ -137,8 +137,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete() from getRelated
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-18
      *
@@ -158,9 +156,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
          */
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert($custId, 0, $firstName, $lastName);
-
-        $paidInvoiceId   = 40;
-        $unpaidInvoiceId = 50;
 
         $title = uniqid('inv-');
 
@@ -262,8 +257,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete() with restricted related items
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-17
      *
@@ -314,11 +307,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete() with restricted related items
-     * in transaction
-     *
-     * @see    https://github.com/phalcon/cphalcon/issues/14114
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-17
      *

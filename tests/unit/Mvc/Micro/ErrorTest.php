@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class ErrorTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: error()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-16
      */

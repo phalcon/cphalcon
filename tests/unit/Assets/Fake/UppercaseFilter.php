@@ -18,8 +18,6 @@ use Phalcon\Assets\FilterInterface;
 class UppercaseFilter implements FilterInterface
 {
     /**
-     * Converts the input to uppercase
-     *
      * @author Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since  2014-10-05
      */

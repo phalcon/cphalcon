@@ -47,7 +47,7 @@ class QueryBuilder extends AbstractAdapter
     protected builder;
 
     /**
-     * Columns for count query if builder has having
+     * Columns for count query if builder has having or group by
      *
      * @var array|string
      */
@@ -193,6 +193,10 @@ class QueryBuilder extends AbstractAdapter
             }
 
             if !hasHaving {
+                if !empty columns {
+                    let groupColumn = columns;
+                }
+
                 totalBuilder->groupBy(null)->columns(
                     [
                         "COUNT(DISTINCT " . groupColumn . ") AS [rowcount]"

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class DistinctTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: distinct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

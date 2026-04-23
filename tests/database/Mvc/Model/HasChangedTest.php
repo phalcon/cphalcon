@@ -33,8 +33,6 @@ final class HasChangedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: hasChanged()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-17
      *

@@ -42,10 +42,6 @@ final class IsValidDecryptLengthTest extends AbstractUnitTestCase
 //    }
 
     /**
-     * Tests Phalcon\Encryption\Crypt :: isValidDecryptLength() - false length
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-09
      */

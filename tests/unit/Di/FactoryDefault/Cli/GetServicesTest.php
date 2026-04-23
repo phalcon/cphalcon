@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetServicesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: getServices()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

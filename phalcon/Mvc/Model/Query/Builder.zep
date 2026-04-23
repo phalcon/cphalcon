@@ -16,6 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Mvc\Model\Query\Builder
@@ -752,7 +753,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     /**
                      * The PHQL contains the renamed columns if available
                      */
-                    if globals_get("orm.column_renaming") {
+                    if Settings::get("orm.column_renaming") {
                         let columnMap = metaData->getColumnMap(modelInstance);
                     } else {
                         let columnMap = null;
@@ -768,17 +769,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         let attributeField = firstPrimaryKey;
                     }
 
-                    // check the type of the condition, if it's a string put single quotes around the value
-                    if is_string(conditions) {
-                        /*
-                         * Example : if the developer writes findFirstBy('135'), Phalcon will generate where uuid = 135.
-                         * But the column's type is text so Postgres needs to have single quotes such as ;
-                         * where uuid = '135'.
-                         */
-                        let conditions = "'" . conditions . "'";
-                    }
-
-                    let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,
+                    /**
+                     * Use a named bind parameter instead of embedding the value
+                     * directly in the PHQL string. Embedding produces a unique
+                     * PHQL string per ID value, causing unbounded growth of the
+                     * internal PHQL cache in long-running processes.
+                     */
+                    let this->bindParams["APK0"] = conditions,
+                        conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = :APK0:",
                         noPrimary = false;
                 }
             }

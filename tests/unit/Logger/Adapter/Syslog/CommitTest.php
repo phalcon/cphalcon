@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CommitTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: commit()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -47,10 +43,6 @@ final class CommitTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: commit() - no transaction
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

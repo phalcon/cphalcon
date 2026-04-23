@@ -22,6 +22,9 @@ use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Models\ObjectsWithColumnMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ * @group phql
+ */
 final class UniquenessTest extends AbstractDatabaseTestCase
 {
     use DiTrait;

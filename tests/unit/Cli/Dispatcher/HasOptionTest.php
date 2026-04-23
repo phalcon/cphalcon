@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasOptionTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: hasOption()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

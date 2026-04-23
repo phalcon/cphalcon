@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetEmptyStringAttributesTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Redis :: getEmptyStringAttributes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

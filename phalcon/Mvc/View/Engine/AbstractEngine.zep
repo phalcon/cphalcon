@@ -12,14 +12,21 @@ namespace Phalcon\Mvc\View\Engine;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
-abstract class AbstractEngine extends Injectable implements EngineInterface
+abstract class AbstractEngine extends Injectable implements EngineInterface, EventsAwareInterface
 {
+    /**
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
+
     /**
      * @var ViewBaseInterface
      */
@@ -48,6 +55,16 @@ abstract class AbstractEngine extends Injectable implements EngineInterface
     }
 
     /**
+     * Returns the internal event manager
+     *
+     * @return ManagerInterface|null
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
      * Returns the view component related to the adapter
      *
      * @return ViewBaseInterface
@@ -68,5 +85,39 @@ abstract class AbstractEngine extends Injectable implements EngineInterface
     public function partial(string! partialPath, var params = null) -> void // TODO: Make params array
     {
         this->view->partial(partialPath, params);
+    }
+
+    /**
+     * Sets the events manager
+     *
+     * @param ManagerInterface $eventsManager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Helper method to fire an event
+     *
+     * @param string     $eventName
+     * @param mixed|null $data
+     * @param bool       $cancellable
+     *
+     * @return mixed|bool
+     */
+    protected function fireManagerEvent(
+        string eventName,
+        data = null,
+        bool cancellable = true
+    ) -> var | bool {
+        if (null !== this->eventsManager) {
+            return this
+                ->eventsManager
+                ->fire(eventName, this, data, cancellable)
+            ;
+        }
+
+        return true;
     }
 }

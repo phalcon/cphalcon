@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SeekTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset\Complex - seek()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

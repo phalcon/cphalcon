@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HtmlTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Escaper :: escapeHtml()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -36,10 +32,6 @@ final class HtmlTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Escaper :: escapeHtml() - null
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

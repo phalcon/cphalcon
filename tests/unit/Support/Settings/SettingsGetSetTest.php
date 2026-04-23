@@ -28,8 +28,6 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Settings :: default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -120,8 +118,6 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Settings :: get()/set()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -147,8 +143,53 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Settings :: reset()
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportSettingsSetAllKnownKeys(): void
+    {
+        $keys = [
+            'form.strict_entity_property_check',
+            'orm.case_insensitive_column_map',
+            'orm.cast_last_insert_id_to_int',
+            'orm.cast_on_hydrate',
+            'orm.column_renaming',
+            'orm.disable_assign_setters',
+            'orm.enable_implicit_joins',
+            'orm.enable_literals',
+            'orm.exception_on_failed_save',
+            'orm.exception_on_failed_metadata_save',
+            'orm.ignore_unknown_columns',
+            'orm.late_state_binding',
+            'orm.not_null_validations',
+            'orm.resultset_prefetch_records',
+            'orm.update_snapshot_on_save',
+            'orm.virtual_foreign_keys',
+            'orm.dynamic_update',
+        ];
+
+        foreach ($keys as $key) {
+            $original = Settings::get($key);
+            Settings::set($key, true);
+            $actual = Settings::get($key);
+            $this->assertTrue($actual);
+            Settings::reset();
+            $this->assertSame($original, Settings::get($key));
+        }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportSettingsSetUnknownKeyIgnored(): void
+    {
+        Settings::set('unknown.key', true);
+        $actual = Settings::get('unknown.key');
+        $this->assertNull($actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-04
      */

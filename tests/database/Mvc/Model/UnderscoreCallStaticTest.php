@@ -22,6 +22,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class UnderscoreCallStaticTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -38,8 +42,6 @@ final class UnderscoreCallStaticTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __callStatic()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-10-14
      *
@@ -112,7 +114,7 @@ final class UnderscoreCallStaticTest extends AbstractDatabaseTestCase
          */
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "The method 'nonExistentStaticMethod' doesn't exist on model '"
+            "The method 'nonExistentStaticMethod' does not exist on model '"
             . Invoices::class . "'"
         );
         Invoices::nonExistentStaticMethod(1);

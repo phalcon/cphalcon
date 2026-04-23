@@ -23,10 +23,6 @@ final class GetSetLocaleTest extends AbstractUnitTestCase
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: getLocale()/setLocale()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

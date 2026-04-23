@@ -288,8 +288,13 @@ class Crypt implements CryptInterface
         this->checkCipherHashIsAvailable(cipher, "cipher");
 
         let mode      = this->getMode(),
-            blockSize = this->getBlockSize(mode),
-            iv        = this->phpOpensslRandomPseudoBytes(ivLength);
+            blockSize = this->getBlockSize(mode);
+
+        try {
+            let iv = this->phpOpensslRandomPseudoBytes(ivLength);
+        } catch \ValueError {
+            throw new Exception("Cannot calculate Random Pseudo Bytes");
+        }
 
         if false === iv {
             throw new Exception("Cannot calculate Random Pseudo Bytes");

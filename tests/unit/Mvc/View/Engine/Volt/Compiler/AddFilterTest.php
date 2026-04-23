@@ -43,12 +43,10 @@ class AddFilterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter()
+     * @dataProvider getVoltAddFilter
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
-     *
-     * @dataProvider getVoltAddFilter
      */
     public function testMvcViewEngineVoltCompilerAddFilter(
         string $name,
@@ -66,12 +64,10 @@ class AddFilterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter() - closure
+     * @dataProvider getVoltAddFilterClosure
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
-     *
-     * @dataProvider getVoltAddFilterClosure
      */
     public function testMvcViewEngineVoltCompilerAddFilterClosure(
         string $name,

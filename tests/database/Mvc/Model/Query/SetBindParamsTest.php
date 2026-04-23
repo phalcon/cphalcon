@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetBindParamsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Query - setBindParams()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

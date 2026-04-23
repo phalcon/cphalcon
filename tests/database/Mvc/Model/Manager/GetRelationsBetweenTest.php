@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetRelationsBetweenTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getRelationsBetween()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -23,8 +23,6 @@ use const DIRECTORY_SEPARATOR;
 class GetSetViewsDirTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getViewsDir()/setViewsDir()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

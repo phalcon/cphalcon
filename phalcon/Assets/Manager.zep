@@ -577,8 +577,8 @@ class Manager extends AbstractInjectionAware
                         /**
                          * Filters must be valid objects
                          */
-                        if (true !== is_object(filter)) {
-                            throw new Exception("Filter is invalid");
+                        if (typeof filter !== "object") {
+                            throw new Exception("The filter is not valid");
                         }
 
                         /**

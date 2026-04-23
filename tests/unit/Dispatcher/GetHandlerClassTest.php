@@ -46,12 +46,10 @@ final class GetHandlerClassTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: getHandlerClass()
-     *
      * @dataProvider getTestCases
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
     public function testDispatcherGetHandlerClass(
         string $namespace,

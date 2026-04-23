@@ -15,16 +15,11 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Tests\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class GetSetVersionTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Assets\Asset\Css :: getVersion() / setVersion()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

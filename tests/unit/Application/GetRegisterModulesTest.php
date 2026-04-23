@@ -20,10 +20,6 @@ use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 final class GetRegisterModulesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Application\* :: registerModules()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -43,10 +39,6 @@ final class GetRegisterModulesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Application\* :: registerModules() - merge
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -78,10 +70,6 @@ final class GetRegisterModulesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Application\* :: getModule()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -101,10 +89,6 @@ final class GetRegisterModulesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Application\* :: getModule() - exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -35,10 +35,6 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: output() - empty session
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -63,10 +59,6 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: output() - types
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -102,10 +94,6 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: output() - with custom template
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-06-21
      */

@@ -13,18 +13,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class CompileSwitchTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileSwitch()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerCompileSwitch(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $compiler = new Compiler();
+
+        $actual = $compiler->compileString(
+            '{% switch x %}{% case 1 %}one{% default %}other{% endswitch %}'
+        );
+
+        $this->assertStringContainsString('<?php switch ($x):', $actual);
+        $this->assertStringContainsString('<?php case 1: ?>', $actual);
+        $this->assertStringContainsString('<?php default: ?>', $actual);
     }
 }

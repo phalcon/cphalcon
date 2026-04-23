@@ -22,8 +22,6 @@ use function chr;
 class ConvertEncodingTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: convertEncoding()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-13
      */

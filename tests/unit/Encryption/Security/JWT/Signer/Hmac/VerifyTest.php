@@ -19,10 +19,6 @@ use function hash_hmac;
 final class VerifyTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Signer\Hmac :: verify()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

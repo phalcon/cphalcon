@@ -21,10 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: __call()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -40,10 +36,6 @@ final class UnderscoreCallTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Di\Di :: __call() - unknown method
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -141,12 +141,10 @@ final class GetAbstractHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getHttpHost
+     * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2014-10-04
-     *
-     * @dataProvider getExamples
      */
     public function testHttpRequestHttpHost(
         array $server,
@@ -163,12 +161,10 @@ final class GetAbstractHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * Tests getHttpHost by using invalid host
+     * @dataProvider getExamplesInvalid
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-26
-     *
-     * @dataProvider getExamplesInvalid
      */
     public function testInvalidHttpRequestHttpHost(
         string $host

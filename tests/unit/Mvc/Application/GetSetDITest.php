@@ -13,18 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
+use Phalcon\Di\Di;
+use Phalcon\Mvc\Application;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: getDI() / setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcApplicationGetSetDI(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $container   = new Di();
+        $application = new Application();
+        $application->setDI($container);
+
+        $this->assertSame($container, $application->getDI());
     }
 }

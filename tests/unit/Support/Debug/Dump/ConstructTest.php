@@ -24,12 +24,7 @@ use const PHP_OS_FAMILY;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Debug\Dump :: __construct() - dump properties
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

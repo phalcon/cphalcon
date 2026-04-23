@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class JsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Escaper :: escapeJs()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -49,9 +45,6 @@ final class JsTest extends AbstractUnitTestCase
             . '}}';
 
         $actual = $escaper->js($source);
-        $this->assertSame($expected, $actual);
-
-        $actual = $escaper->escapeJs($source);
         $this->assertSame($expected, $actual);
     }
 }

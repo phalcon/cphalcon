@@ -29,8 +29,6 @@ final class NotInWhereTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: notInWhere()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

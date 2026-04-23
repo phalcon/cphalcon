@@ -30,8 +30,6 @@ final class ConstructTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter\Ini :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -53,8 +51,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Ini :: __construct() - constants
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -89,8 +85,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Ini :: __construct() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-26
      */

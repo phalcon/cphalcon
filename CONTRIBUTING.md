@@ -39,7 +39,7 @@ Please report bugs when you've exhausted all of the above options.
 
 ## Pull Request Checklist
 
-* Don't submit your pull requests to the `master` branch. Branch from the required branch and, if needed, rebase to the proper branch before submitting your pull request. If it doesn't merge cleanly with master you may be asked to rebase your changes
+* Don't submit your pull requests to the `master` branch. Branch from the required branch and, if needed, rebase to the proper branch before submitting your pull request. If it does not merge cleanly with master you may be asked to rebase your changes
 * Don't put submodule updates in your pull request unless they are to landed commits 
 * Add tests relevant to the fixed bug or new feature. Test classes should follow the [PSR-12 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-coding-style-guide.md). 
 * Phalcon is written in [Zephir](https://zephir-lang.com/), please do not submit commits that modify C generated files directly or those whose functionality/fixes are implemented in the C programming language

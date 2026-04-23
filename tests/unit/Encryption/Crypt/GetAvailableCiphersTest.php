@@ -23,10 +23,6 @@ use function sort;
 final class GetAvailableCiphersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt :: getAvailableCiphers()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */

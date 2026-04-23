@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class NotifyTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Behavior\SoftDelete - notify()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

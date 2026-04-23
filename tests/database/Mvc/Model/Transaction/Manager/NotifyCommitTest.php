@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class NotifyCommitTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Transaction\Manager - notifyCommit()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

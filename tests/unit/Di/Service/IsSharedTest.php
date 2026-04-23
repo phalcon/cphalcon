@@ -41,14 +41,10 @@ final class IsSharedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Di\Service :: isShared()
-     *
      * @dataProvider getExamples
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
      */
     public function testDiServiceIsShared(
         mixed $service,

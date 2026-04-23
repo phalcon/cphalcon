@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SerializeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\Serializer\Header :: serialize()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -54,10 +50,6 @@ final class SerializeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Link\Serializer\Header :: serialize() - empty
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

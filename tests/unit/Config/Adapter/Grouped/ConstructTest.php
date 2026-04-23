@@ -31,8 +31,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
-     *
      * @author fenikkusu
      * @since  2017-06-06
      */
@@ -73,8 +71,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - default adapter
-     *
      * @author fenikkusu
      * @since  2017-06-06
      */
@@ -102,8 +98,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
-     *
      * @author Fenikkusu
      * @since  2017-06-06
      */

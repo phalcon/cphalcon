@@ -20,13 +20,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetInheritedRolesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getInheritedRoles()
-     *
-     * @return void
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15154
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-02
-     * @issue  https://github.com/phalcon/cphalcon/issues/15154
      */
     public function testAclAdapterMemoryGetInheritedRoles(): void
     {

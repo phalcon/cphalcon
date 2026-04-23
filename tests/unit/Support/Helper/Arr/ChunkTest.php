@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ChunkTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: chunk()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -48,10 +44,6 @@ final class ChunkTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Arr :: chunk() - preserve
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

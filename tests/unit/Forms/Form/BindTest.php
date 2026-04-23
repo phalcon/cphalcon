@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 use stdClass;
@@ -45,8 +46,6 @@ final class BindTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: bind()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -62,5 +61,18 @@ final class BindTest extends AbstractUnitTestCase
         $form->bind($data, new stdClass());
 
         $this->assertEquals("test1", $form->getValue("test1"));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsFormBindNoElementsThrows(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('There are no elements in the form');
+
+        $form = new Form();
+        $form->bind(['key' => 'value']);
     }
 }

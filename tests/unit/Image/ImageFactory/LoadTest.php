@@ -30,8 +30,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\ImageFactory :: load()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
@@ -52,8 +50,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\ImageFactory :: load()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */

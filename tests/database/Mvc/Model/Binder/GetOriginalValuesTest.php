@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetOriginalValuesTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Binder :: getOriginalValues()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

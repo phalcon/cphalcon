@@ -24,8 +24,6 @@ use function uniqid;
 final class HasTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: has()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -45,8 +43,6 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache :: has() - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

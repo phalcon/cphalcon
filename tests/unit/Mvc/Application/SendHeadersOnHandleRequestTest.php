@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
+use Phalcon\Mvc\Application;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class SendHeadersOnHandleRequestTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: sendHeadersOnHandleRequest()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcApplicationSendHeadersOnHandleRequest(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $application = new Application();
+        $result      = $application->sendHeadersOnHandleRequest(false);
+
+        $this->assertInstanceOf(Application::class, $result);
     }
 }

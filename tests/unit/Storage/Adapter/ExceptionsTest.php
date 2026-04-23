@@ -34,10 +34,6 @@ use function uniqid;
 final class ExceptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -65,10 +61,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -95,10 +87,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Redis :: get() - wrong index
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -124,22 +112,11 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: get() - errors
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testStorageAdapterStreamGetErrors(): void
     {
-        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
-            $this->markTestSkipped('Invalid `unserialize()` will generate warning but still works.');
-        }
-
         $serializer = new SerializerFactory();
         $adapter    = new Stream(
             $serializer,
@@ -185,10 +162,6 @@ final class ExceptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Storage\Adapter\RedisCluster :: getAdapter() - failed connection
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
      */

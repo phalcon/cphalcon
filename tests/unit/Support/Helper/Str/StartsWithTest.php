@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class StartsWithTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -41,10 +37,6 @@ final class StartsWithTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith() - case insensitive flag
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -63,10 +55,6 @@ final class StartsWithTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith() - case sensitive flag
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -85,10 +73,6 @@ final class StartsWithTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith() - empty strings
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -101,11 +85,6 @@ final class StartsWithTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: startsWith() - finding an empty
-     * string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

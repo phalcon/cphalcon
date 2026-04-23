@@ -22,8 +22,6 @@ use function dataDir;
 class GetBasePathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: getBasePath()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

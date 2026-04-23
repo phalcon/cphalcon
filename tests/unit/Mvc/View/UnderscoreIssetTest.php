@@ -22,8 +22,6 @@ class UnderscoreIssetTest extends AbstractUnitTestCase
     use ViewTrait;
 
     /**
-     * Tests Phalcon\Mvc\View :: __isset()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

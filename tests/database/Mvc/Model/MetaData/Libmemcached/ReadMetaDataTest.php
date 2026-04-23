@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ReadMetaDataTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: readMetaData()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

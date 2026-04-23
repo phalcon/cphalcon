@@ -22,10 +22,6 @@ use Phalcon\Tests\Unit\Events\Fake\ComponentOne;
 final class GetListenersTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Manager :: getListeners()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

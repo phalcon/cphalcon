@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ViewTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests using partials with the mix Twig with PHP Engines
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-01-07
      */
@@ -38,8 +36,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests render with missing partial
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -56,8 +52,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests View::render
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-03-05
      */
@@ -75,8 +69,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests rendering with partials
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-05-28
      */
@@ -94,8 +86,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests View setters and getters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
@@ -109,8 +99,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests View::disableLevel
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
@@ -126,8 +114,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests View options (cache config)
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
@@ -141,8 +127,6 @@ final class ViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests params view scope
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12648
      * @issue  https://github.com/phalcon/cphalcon/pull/13288
      * @author Wojciech Ślawski <jurigag@gmail.com>

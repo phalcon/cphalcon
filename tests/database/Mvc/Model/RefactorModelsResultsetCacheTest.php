@@ -55,7 +55,7 @@ final class RefactorModelsResultsetCacheTest extends AbstractDatabaseTestCase
 // use IntegrationTester;
 // use Phalcon\Cache\Backend\File;
 // use Phalcon\Cache\Frontend\Data;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Robots;
 //
 // use function cacheDir;

@@ -29,10 +29,6 @@ use function uniqid;
 final class LogTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger :: log()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -91,10 +87,6 @@ final class LogTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: log() - interpolator
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-09-11
      */
@@ -135,10 +127,6 @@ final class LogTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger :: log() - logLevel
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

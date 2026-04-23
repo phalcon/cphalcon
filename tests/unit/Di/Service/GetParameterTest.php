@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetParameterTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Di\Service :: getParameter() - empty
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -42,10 +38,6 @@ final class GetParameterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Di\Service :: getParameter() - in position
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

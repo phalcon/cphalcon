@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: getDI() / setDI()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetModelPrefixTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getModelPrefix()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-04
      */

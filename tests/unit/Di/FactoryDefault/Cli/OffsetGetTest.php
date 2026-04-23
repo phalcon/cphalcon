@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetGetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: offsetGet()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -35,15 +33,13 @@ final class OffsetGetTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'non-exists' was not found in the dependency injection container"
+            "Service 'non-exists' is not registered in the container"
         );
 
         $di->offsetGet('non-exists');
     }
 
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: offsetGet()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -56,7 +52,7 @@ final class OffsetGetTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'non-exists' was not found in the dependency injection container"
+            "Service 'non-exists' is not registered in the container"
         );
 
         $di['non-exists'];

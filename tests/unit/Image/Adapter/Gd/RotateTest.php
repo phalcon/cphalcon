@@ -157,12 +157,7 @@ final class RotateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Image\Adapter\Gd :: rotate()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13

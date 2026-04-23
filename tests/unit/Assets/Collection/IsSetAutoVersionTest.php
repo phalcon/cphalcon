@@ -20,11 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class IsSetAutoVersionTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Assets\Collection :: isAutoVersion() /
-     * setAutoVersion()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -30,8 +30,6 @@ class RegisterEnginesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests the View::registerEngines
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */

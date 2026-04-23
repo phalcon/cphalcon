@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetDigestAuthTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getDigestAuth()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

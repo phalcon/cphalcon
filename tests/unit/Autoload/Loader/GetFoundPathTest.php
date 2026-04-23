@@ -25,11 +25,6 @@ final class GetFoundPathTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getFoundPath()
-     *
-     * @return void
-     *
-     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

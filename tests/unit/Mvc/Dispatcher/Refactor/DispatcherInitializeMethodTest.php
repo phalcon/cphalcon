@@ -22,8 +22,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class DispatcherInitializeMethodTest extends BaseDispatcher
 {
     /**
-     * Tests the forwarding in the initialize method
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -59,8 +57,6 @@ class DispatcherInitializeMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests returning <tt>false</tt> inside an initialize method.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -93,10 +89,6 @@ class DispatcherInitializeMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * via beforeException event and then will properly bubble up the stack if
-     * anything other than <tt>false</tt> is returned.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -145,9 +137,6 @@ class DispatcherInitializeMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests dispatch forward handling inside the beforeException when an
-     * initialize method exception occurs.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -203,10 +192,6 @@ class DispatcherInitializeMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * when thrown from inside an initialize method and then ensure the
-     * exception is not bubbled when returning with <tt>false</tt>.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

@@ -144,7 +144,7 @@ class Relation implements RelationInterface
 
     /**
      * Returns an option by the specified name
-     * If the option doesn't exist null is returned
+     * If the option does not exist null is returned
      */
     public function getOption(string! name)
     {

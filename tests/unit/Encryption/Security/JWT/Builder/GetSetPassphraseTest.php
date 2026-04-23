@@ -20,14 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetPassphraseTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder ::
-     * getPassphrase()/setPassphrase()
-     *
-     * @return void
-     *
-     * @throws UnsupportedAlgorithmException
-     *
-     * @throws ValidatorException
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -43,11 +35,6 @@ final class GetSetPassphraseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\Encryption\Security\JWT\Builder :: setPassphrase() -
-     * exception
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SliceRightTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Arr :: sliceRight()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

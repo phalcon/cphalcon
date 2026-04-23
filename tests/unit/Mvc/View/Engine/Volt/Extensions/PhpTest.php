@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class PhpTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Extensions :: does not exist
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
      */
@@ -35,8 +33,6 @@ class PhpTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Extensions :: php()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
      */

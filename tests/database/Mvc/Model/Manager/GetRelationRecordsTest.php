@@ -25,6 +25,10 @@ use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class GetRelationRecordsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,8 +40,6 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: getRelationRecords()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-22
      *

@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetLinksByRelTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\EvolvableLinkProvider :: getLinksByRel()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -47,6 +46,8 @@ class Libmemcached extends AbstractAdapter
         }
 
         parent::__construct(factory, options);
+
+        this->initSerializer();
     }
 
     /**
@@ -58,49 +59,6 @@ class Libmemcached extends AbstractAdapter
     public function clear() -> bool
     {
         return this->getAdapter()->flush();
-    }
-
-    /**
-     * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
-     * @throws StorageException
-     */
-    public function decrement(string! key, int value = 1) -> int | bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeDecrement", key);
-
-        let result = this->getAdapter()->decrement(key, value);
-
-        this->fire(this->eventType . ":afterDecrement", key);
-
-        return result;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
-     * @throws StorageException
-     */
-    public function delete(string! key) -> bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeDelete", key);
-
-        let result = this->getAdapter()->delete(key, 0);
-
-        this->fire(this->eventType . ":afterDelete", key);
-
-        return result;
     }
 
     /**
@@ -170,6 +128,83 @@ class Libmemcached extends AbstractAdapter
     }
 
     /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function setForever(string key, var value) -> bool
+    {
+        var result;
+
+        let result = this->getAdapter()
+                         ->set(key, this->getSerializedData(value), 0);
+
+        return typeof result === "bool" ? result : false;
+    }
+
+    /**
+     * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws StorageException
+     */
+    protected function doDecrement(string! key, int value = 1) -> int | bool
+    {
+        return this->getAdapter()->decrement(key, value);
+    }
+
+    /**
+     * Deletes data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
+     * @throws StorageException
+     */
+    protected function doDelete(string! key) -> bool
+    {
+        return this->getAdapter()->delete(key, 0);
+    }
+
+    /**
+     * Deletes multiple keys from Memcached using a single deleteMulti call
+     *
+     * @param array $keys
+     * @return bool
+     */
+    protected function doDeleteMultiple(array keys) -> bool
+    {
+        var result, value;
+
+        if empty keys {
+            return true;
+        }
+
+        let result = this->getAdapter()->deleteMulti(keys);
+
+        // deleteMulti returns [key => true] on success, [key => result_code] on failure
+        // all values must be true for a complete success
+        if typeof result !== "array" {
+            return false;
+        }
+
+        for value in result {
+            if value !== true {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Checks if an element exists in the cache
      *
      * @param string $key
@@ -177,17 +212,13 @@ class Libmemcached extends AbstractAdapter
      * @return bool
      * @throws StorageException
      */
-    public function has(string! key) -> bool
+    protected function doHas(string! key) -> bool
     {
-        var connection, result, code;
+        var connection, code;
 
-        this->fire(this->eventType . ":beforeHas", key);
-
-        let connection = this->getAdapter(),
-            result     = connection->get(key),
-            code       = connection->getResultCode();
-
-        this->fire(this->eventType . ":afterHas", key);
+        let connection = this->getAdapter();
+        connection->get(key);
+        let code = connection->getResultCode();
 
         return \Memcached::RES_NOTFOUND !== code;
     }
@@ -201,17 +232,9 @@ class Libmemcached extends AbstractAdapter
      * @return bool|int
      * @throws StorageException
      */
-    public function increment(string! key, int value = 1) -> int | bool
+    protected function doIncrement(string! key, int value = 1) -> int | bool
     {
-        var result;
-
-        this->fire(this->eventType . ":beforeIncrement", key);
-
-        let result = this->getAdapter()->increment(key, value);
-
-        this->fire(this->eventType . ":afterIncrement", key);
-
-        return result;
+        return this->getAdapter()->increment(key, value);
     }
 
     /**
@@ -229,18 +252,12 @@ class Libmemcached extends AbstractAdapter
      * @throws BaseException
      * @throws StorageException
      */
-    public function set(string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         var result;
 
-        this->fire(this->eventType . ":beforeSet", key);
-
         if (typeof ttl === "integer" && ttl < 1) {
-            let result = this->delete(key);
-
-            this->fire(this->eventType . ":afterSet", key);
-
-            return result;
+            return this->delete(key);
         }
 
         let result = this->getAdapter()
@@ -250,27 +267,6 @@ class Libmemcached extends AbstractAdapter
                              this->getTtl(ttl)
                          )
         ;
-
-        this->fire(this->eventType . ":afterSet", key);
-
-        return typeof result === "bool" ? result : false;
-    }
-
-    /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever(string key, var value) -> bool
-    {
-        var result;
-
-        let result = this->getAdapter()
-                         ->set(key, this->getSerializedData(value), 0);
 
         return typeof result === "bool" ? result : false;
     }

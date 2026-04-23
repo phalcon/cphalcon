@@ -21,8 +21,6 @@ use function uniqid;
 final class HasHeaderTest extends AbstractHttpBase
 {
     /**
-     * Tests the hasHeader
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */

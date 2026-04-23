@@ -23,8 +23,6 @@ final class GetSetParamsTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Dispatcher :: getParams()/setParams
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */
@@ -62,8 +60,6 @@ final class GetSetParamsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Dispatcher :: getParams()/setParams - kept between calls
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-17
      */

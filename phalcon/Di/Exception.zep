@@ -25,8 +25,7 @@ class Exception extends \Exception
     public static function serviceNotFound(string name) -> <Exception>
     {
         return new Exception(
-            "Service '" . name .
-            "' was not found in the dependency injection container"
+            "Service '" . name . "' is not registered in the container"
         );
     }
 

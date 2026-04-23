@@ -24,8 +24,12 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+use function date;
 use function is_int;
 
+/**
+ * @group phql
+ */
 final class PaginateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -159,6 +163,62 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->assertEquals(5, $page->limit);
         $this->assertEquals(17, $page->getTotalItems());
         $this->assertTrue(is_int($page->getTotalItems()));
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy with
+     * NULL column values and the columns option to handle them
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-21
+     *
+     * @issue  15266
+     * @group mysql
+     */
+    public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+
+        $this->insertDataInvoices($migration, 2, 'default', 1, 'grp1');
+        $this->insertDataInvoices($migration, 2, 'default', 2, 'grp2');
+
+        $now = date('Y-m-d H:i:s');
+        $connection->exec(
+            "INSERT INTO co_invoices "
+            . "(inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) "
+            . "VALUES (NULL, 1, 'grp-null-1', 0, '{$now}')"
+        );
+        $connection->exec(
+            "INSERT INTO co_invoices "
+            . "(inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) "
+            . "VALUES (NULL, 1, 'grp-null-2', 0, '{$now}')"
+        );
+
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->columns(['inv_cst_id'])
+            ->from(Invoices::class)
+            ->groupBy('inv_cst_id')
+        ;
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+                'columns' => 'IFNULL(inv_cst_id, 0)',
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $this->assertInstanceOf(Repository::class, $page);
+        $this->assertCount(3, $page->getItems());
+        $this->assertSame(3, $page->getTotalItems());
+        $this->assertSame(1, $page->getLast());
     }
 
     /**

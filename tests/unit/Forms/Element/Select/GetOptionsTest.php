@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 /**
@@ -21,13 +22,15 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetOptionsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Element\Select :: getOptions()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testFormsElementSelectGetOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $options = ['1' => 'One', '2' => 'Two'];
+        $select  = new Select('status', $options);
+
+        $actual = $select->getOptions();
+        $this->assertSame($options, $actual);
     }
 }

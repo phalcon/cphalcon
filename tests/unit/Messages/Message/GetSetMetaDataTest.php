@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetMetaDataTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Message :: getMetaData()/setMetaData()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

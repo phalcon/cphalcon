@@ -17,16 +17,20 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function preg_replace;
 
 final class AddOptionTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
-     * Tests Phalcon\Forms\Element\Select :: addOption() - array
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-17
      */
@@ -46,10 +50,6 @@ final class AddOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Element\Select :: addOption() - string
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-17
      */

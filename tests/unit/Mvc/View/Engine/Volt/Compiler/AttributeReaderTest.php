@@ -13,18 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class AttributeReaderTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: attributeReader()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerAttributeReader(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $compiler = new Compiler();
+
+        $actual = $compiler->compileString('{{ a.b }}');
+        $this->assertSame('<?= $a->b ?>', $actual);
+
+        $actual = $compiler->compileString('{{ a.b.c }}');
+        $this->assertSame('<?= $a->b->c ?>', $actual);
     }
 }

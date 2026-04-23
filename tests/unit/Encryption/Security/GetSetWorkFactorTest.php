@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetWorkFactorTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Security :: setWorkFactor()/getWorkFactor()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

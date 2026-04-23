@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CloseTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Noop :: close()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

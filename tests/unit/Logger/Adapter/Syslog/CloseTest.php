@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class CloseTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: close()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -36,13 +34,9 @@ final class CloseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: close() - exception
-     *
-     * @return void
-     *
+     * @issue  15638
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-03
-     * @issue  15638
      */
     public function testLoggerAdapterSyslogCloseException(): void
     {

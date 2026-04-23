@@ -28,10 +28,6 @@ final class GetSetCustomTemplateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Flash\Session :: getCustomTemplate()/setCustomTemplate()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -29,10 +29,6 @@ use function set_error_handler;
 final class AllowTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -55,10 +51,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - exception (access unknown)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -77,10 +69,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - exception (access unknown array)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -99,10 +87,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - exception (component unknown)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -121,10 +105,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - exception (role unknown)
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -143,12 +123,7 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - function
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/11235
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2015-12-16
      */
@@ -197,12 +172,7 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - function exception
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/11235
-     *
-     * @return void
-     *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-06-05
      */
@@ -270,10 +240,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - wildcard action
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -291,10 +257,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - wildcard component
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -312,10 +274,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - wildcard component inherited
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */
@@ -335,10 +293,6 @@ final class AllowTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: allow() - wildcard role
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-16
      */

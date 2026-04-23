@@ -16,9 +16,11 @@
     </projectFiles>
 
     <issueHandlers>
+        <ClassMustBeFinal errorLevel="suppress"/>
         <InvalidReturnType errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <MissingTemplateParam errorLevel="suppress"/>
         <PropertyNotSetInConstructor errorLevel="suppress"/>
         <UnusedParam errorLevel="suppress"/>
-        <MissingTemplateParam errorLevel="suppress"/>
     </issueHandlers>
 </psalm>

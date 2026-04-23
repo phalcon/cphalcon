@@ -19,11 +19,9 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 class CallMacroTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: callMacro() - PHP function
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
-     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      */
     public function testMvcViewEngineVoltCallMacroPhpFunction(): void
     {
@@ -37,11 +35,9 @@ class CallMacroTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: callMacro() - PHP function
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-28
-     * @issue  https://github.com/phalcon/cphalcon/issues/15842
      */
     public function testMvcViewEngineVoltCallMacroPhpFunctionDoesNotExist(): void
     {

@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class GetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: get()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */

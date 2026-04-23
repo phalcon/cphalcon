@@ -22,8 +22,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 class DispatcherBeforeExecuteRouteMethodTest extends BaseDispatcher
 {
     /**
-     * Tests the forwarding in the beforeExecuteRoute method
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -60,8 +58,6 @@ class DispatcherBeforeExecuteRouteMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests returning <tt>false</tt> inside a beforeExecuteRoute method.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -89,10 +85,6 @@ class DispatcherBeforeExecuteRouteMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * via beforeException event and then will properly bubble up the stack if
-     * anything other than <tt>false</tt> is returned.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -134,9 +126,6 @@ class DispatcherBeforeExecuteRouteMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests dispatch forward handling inside the beforeException when a
-     * beforeExecuteRoute method exception occurs.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
@@ -192,10 +181,6 @@ class DispatcherBeforeExecuteRouteMethodTest extends BaseDispatcher
     }
 
     /**
-     * Tests exception handling to ensure exceptions can be properly handled
-     * when thrown from inside a beforeExecuteRoute method and then ensure the
-     * exception is not bubbled when returning with <tt>false</tt>.
-     *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */

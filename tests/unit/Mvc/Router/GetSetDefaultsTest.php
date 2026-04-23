@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDefaultsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: getDefaults() / setDefaults()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

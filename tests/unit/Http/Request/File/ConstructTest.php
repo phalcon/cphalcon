@@ -23,8 +23,6 @@ use function supportDir;
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Request\File :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

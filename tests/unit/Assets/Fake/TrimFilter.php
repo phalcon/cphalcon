@@ -18,8 +18,6 @@ use Phalcon\Assets\FilterInterface;
 class TrimFilter implements FilterInterface
 {
     /**
-     * Trims the input
-     *
      * @author Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since  2014-10-05
      */

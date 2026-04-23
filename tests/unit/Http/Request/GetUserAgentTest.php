@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetUserAgentTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getUserAgent()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -36,8 +34,6 @@ final class GetUserAgentTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getUserAgent() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

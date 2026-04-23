@@ -22,10 +22,6 @@ use function str_repeat;
 final class Pkcs7Test extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt\Padding\Pkcs7 :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */

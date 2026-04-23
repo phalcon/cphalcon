@@ -23,8 +23,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class HasMessagesForTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Form::hasMessagesFor
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2016-04-03
      */

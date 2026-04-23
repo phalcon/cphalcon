@@ -13,18 +13,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Php;
 
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class GetEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Php :: getEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEnginePhpGetEventsManager(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view    = new View();
+        $engine  = new PhpEngine($view);
+        $manager = new EventsManager();
+
+        $engine->setEventsManager($manager);
+
+        $this->assertInstanceOf(EventsManager::class, $engine->getEventsManager());
     }
 }

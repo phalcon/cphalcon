@@ -35,8 +35,6 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: getMessages()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
@@ -64,8 +62,6 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: getMessages() - filtered
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-09-30
      *

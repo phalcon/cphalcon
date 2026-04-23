@@ -18,10 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class InitTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: init()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

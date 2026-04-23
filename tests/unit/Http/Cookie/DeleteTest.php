@@ -21,8 +21,6 @@ use function uniqid;
 final class DeleteTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Cookie :: delete()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

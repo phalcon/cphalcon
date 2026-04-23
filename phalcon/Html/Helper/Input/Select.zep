@@ -11,6 +11,7 @@
 namespace Phalcon\Html\Helper\Input;
 
 use Phalcon\Html\Helper\AbstractList;
+use Phalcon\Html\Helper\Input\Select\SelectDataInterface;
 
 /**
  * Class Select
@@ -94,6 +95,37 @@ class Select extends AbstractList
             ],
             this->indent()
         ];
+
+        return this;
+    }
+
+    /**
+     * Populates the select from a data provider.
+     *
+     * Flat entries: key = option value, value = label string.
+     * Optgroup entries: key = group label, value = [value => label] array.
+     *
+     * @param SelectDataInterface data
+     *
+     * @return Select
+     */
+    public function fromData(<SelectDataInterface> data) -> <Select>
+    {
+        var key, subKey, subValue, value;
+
+        for key, value in data->getOptions() {
+            if typeof value == "array" {
+                this->optGroup((string) key);
+
+                for subKey, subValue in value {
+                    this->add((string) subValue, (string) subKey);
+                }
+
+                this->optGroup((string) key);
+            } else {
+                this->add((string) value, (string) key);
+            }
+        }
 
         return this;
     }

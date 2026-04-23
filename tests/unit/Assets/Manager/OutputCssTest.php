@@ -44,11 +44,7 @@ final class OutputCssTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputCss() - filter chain custom filter
-     * with cssmin
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/1198
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/1198
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-09-15
      */
@@ -84,8 +80,6 @@ final class OutputCssTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputCss() - implicit
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -109,8 +103,6 @@ final class OutputCssTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: outputCss() - not implicit
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */

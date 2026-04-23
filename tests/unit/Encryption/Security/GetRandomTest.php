@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetRandomTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Security :: getRandom()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetRawTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: getRaw()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -40,8 +38,8 @@ final class GetRawTest extends AbstractUnitTestCase
         // nonexistent service
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Service 'nonexistent-service' was not found in the "
-            . "dependency injection container"
+            "Service 'nonexistent-service' is not registered in the "
+            . "container"
         );
 
         $di->getRaw('nonexistent-service');

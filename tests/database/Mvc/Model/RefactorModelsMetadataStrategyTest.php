@@ -46,7 +46,7 @@ final class RefactorModelsMetadataStrategyTest extends AbstractDatabaseTestCase
 // use Phalcon\Mvc\Model\MetaData\Memory;
 // use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 // use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
-// use Phalcon\Tests\Fixtures\Traits\DiTrait;
+// use Phalcon\Tests\Support\Traits\DiTrait;
 // use Phalcon\Tests\Support\Models\Boutique\Robots as BoutiqueRobots;
 // use Phalcon\Tests\Support\Models\Robots;
 //

@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class DenyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: deny()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

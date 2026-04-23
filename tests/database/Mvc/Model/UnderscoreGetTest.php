@@ -23,6 +23,10 @@ use Phalcon\Tests\Support\Models;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class UnderscoreGetTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -39,8 +43,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      *
@@ -65,8 +67,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get() dirty related records
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      *
@@ -126,8 +126,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get() whether it is using getters correctly
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      *
@@ -165,8 +163,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get() related records
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      *
@@ -233,8 +229,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get() private property
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-24
      *
@@ -268,8 +262,6 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __get() private property - exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-24
      *

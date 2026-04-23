@@ -117,13 +117,7 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Input :: __invoke()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -196,10 +190,6 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Input :: __invoke() - textarea
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

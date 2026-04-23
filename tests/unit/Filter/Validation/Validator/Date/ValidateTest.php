@@ -48,12 +48,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests detect invalid dates
+     * @dataProvider getInvalidDates
      *
      * @author       Gustavo Verzola <verzola@gmail.com>
      * @since        2015-03-09
-     *
-     * @dataProvider getInvalidDates
      */
     public function testFilterValidationValidatorDateDetectInvalidDates(
         mixed $date,
@@ -91,12 +89,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests detect valid dates
+     * @dataProvider getValidDates
      *
      * @author       Gustavo Verzola <verzola@gmail.com>
      * @since        2015-03-09
-     *
-     * @dataProvider getValidDates
      */
     public function testFilterValidationValidatorDateDetectValidDates(
         string $date,
@@ -126,8 +122,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests date validator with multiple field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -203,8 +197,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests date validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -243,13 +235,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Date :: validate() - empty
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */
@@ -267,11 +252,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */
@@ -341,13 +321,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Date :: validate() - single field
-     *
-     * @return void
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */

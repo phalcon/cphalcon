@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetViewTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Php :: getView()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */

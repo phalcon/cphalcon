@@ -25,11 +25,7 @@ final class GetSetFiltersTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * Tests Phalcon\Forms\Element\* :: getFilters()/setFilters()/addFilter()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
@@ -69,11 +65,7 @@ final class GetSetFiltersTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Element\* :: setFilters() - exception
-     *
      * @dataProvider getExamples
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05

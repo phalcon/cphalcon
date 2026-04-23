@@ -23,8 +23,6 @@ final class GetDataTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Filter\Validation :: getData()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

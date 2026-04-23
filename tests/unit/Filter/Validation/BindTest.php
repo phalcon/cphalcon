@@ -23,8 +23,6 @@ final class BindTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Filter\Validation :: bind()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

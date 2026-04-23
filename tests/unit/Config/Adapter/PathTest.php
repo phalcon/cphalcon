@@ -21,8 +21,6 @@ final class PathTest extends AbstractUnitTestCase
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config\Adapter :: path()
-     *
      * @dataProvider providerConfigAdaptersNotGrouped
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -42,8 +40,6 @@ final class PathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter :: path() - default
-     *
      * @dataProvider providerConfigAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

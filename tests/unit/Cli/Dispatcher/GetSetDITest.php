@@ -21,8 +21,6 @@ final class GetSetDITest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getDI()/setDI()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

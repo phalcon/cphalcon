@@ -23,11 +23,7 @@ use function spl_object_hash;
 final class GetSetSharedTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\Di :: getShared()/setShared() - class name
-     *
-     * @return void
-     *
-     * @issue  15032
+     * @issue 15032
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-12-12
      */
@@ -67,10 +63,6 @@ final class GetSetSharedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Di\Di :: getShared() - set
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
@@ -93,10 +85,6 @@ final class GetSetSharedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Di\Di :: getShared()/setShared()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */

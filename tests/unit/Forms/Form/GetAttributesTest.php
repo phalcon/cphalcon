@@ -22,8 +22,6 @@ use function method_exists;
 final class GetAttributesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getAttributes()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-11
      */

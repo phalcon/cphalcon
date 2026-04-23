@@ -22,8 +22,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetAdapterTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: getAdapter()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

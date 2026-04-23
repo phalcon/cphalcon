@@ -22,13 +22,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - empty
-     * value
-     *
-     * @return void
-     *
-     * @since  2015-09-06
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @since  2015-09-06
      */
     public function testFilterValidationValidatorConfirmationValidateEmptyValues(): void
     {
@@ -134,13 +129,8 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - multiple
-     * field
-     *
-     * @return void
-     *
-     * @since  2016-06-05
      * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
     public function testFilterValidationValidatorConfirmationValidateMultipleField(): void
     {
@@ -226,13 +216,8 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\Confirmation :: validate() - single
-     * field
-     *
-     * @return void
-     *
-     * @since  2016-06-05
      * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
     public function testFilterValidationValidatorConfirmationValidateSingleField(): void
     {

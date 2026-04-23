@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class FilterTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model\Resultset - filter()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

@@ -107,13 +107,7 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Style :: __invoke()
-     *
      * @dataProvider getExamples
-     *
-     * @return void
-     *
-     * @throws Exception
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

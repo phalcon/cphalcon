@@ -20,10 +20,6 @@ use stdClass;
 final class WhiteListTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Support\Helper\Arr :: whiteList()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

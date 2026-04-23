@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class IsPalindromeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Support\Helper\Str :: isPalindrome()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

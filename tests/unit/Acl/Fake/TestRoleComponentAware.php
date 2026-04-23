@@ -16,42 +16,18 @@ namespace Phalcon\Tests\Unit\Acl\Fake;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\RoleAwareInterface;
 
-/**
- * Class TestRoleComponentAware
- *
- * @property int    $user
- * @property string $componentName
- * @property string $roleName
- */
 class TestRoleComponentAware implements RoleAwareInterface, ComponentAwareInterface
 {
     /**
-     * @var int
-     */
-    protected int $user;
-
-    /**
-     * @var string
-     */
-    protected string $componentName;
-
-    /**
-     * @var string
-     */
-    protected string $roleName;
-
-    /**
-     * TestRoleComponentAware constructor.
-     *
      * @param int    $user
      * @param string $componentName
      * @param string $roleName
      */
-    public function __construct(int $user, string $componentName, string $roleName)
-    {
-        $this->user          = $user;
-        $this->componentName = $componentName;
-        $this->roleName      = $roleName;
+    public function __construct(
+        protected int $user,
+        protected string $componentName,
+        protected string $roleName
+    ) {
     }
 
     /**

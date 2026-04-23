@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetInternalEventsManagerTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: setInternalEventsManager()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

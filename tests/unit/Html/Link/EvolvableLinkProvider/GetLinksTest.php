@@ -22,10 +22,6 @@ use function spl_object_hash;
 final class GetLinksTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Link\EvolvableLinkProvider :: getLinks()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

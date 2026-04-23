@@ -27,10 +27,6 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: events
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -99,10 +95,6 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoload\Loader :: isRegistered()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -120,10 +112,6 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Autoload\Loader :: register()/unregister()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

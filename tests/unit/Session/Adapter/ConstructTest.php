@@ -34,11 +34,7 @@ final class ConstructTest extends AbstractUnitTestCase
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Adapter\ :: __construct()
-     *
      * @dataProvider getClassNames
-     * *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -53,8 +49,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Libmemcached :: __construct() - with custom prefix
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-23
      */
@@ -87,8 +81,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: __construct() - with custom prefix
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-23
      */
@@ -121,9 +113,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: __construct() -
-     * empty savePath throws exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-23
      */
@@ -141,9 +130,6 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Stream :: __construct() -
-     * empty savePath throws exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-23
      */

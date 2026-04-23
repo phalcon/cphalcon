@@ -34,11 +34,9 @@ final class GetSetTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Issue #13464
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/13464
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-20
-     * @issue https://github.com/phalcon/cphalcon/issues/13464
      */
     public function testHttpCookieSetHttpOnly(): void
     {
@@ -78,11 +76,9 @@ final class GetSetTest extends AbstractHttpBase
     }
 
     /**
-     * Test Http\Response\Cookies - set() options parameter
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/15129
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-10
-     * @issue https://github.com/phalcon/cphalcon/issues/15129
      */
     public function testHttpCookieSetOptions(): void
     {
@@ -169,8 +165,6 @@ final class GetSetTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: get / set()
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

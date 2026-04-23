@@ -20,10 +20,6 @@ use const PHP_EOL;
 final class ToStringTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Helper\Meta :: __toString() - empty
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -39,13 +35,9 @@ final class ToStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Html\Helper\Meta :: __toString() - retains value
-     *
-     * @return void
-     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16441
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-09-26
-     * @issue  https://github.com/phalcon/cphalcon/issues/16441
      */
     public function testHtmlHelperMetaToStringRetainsValue(): void
     {

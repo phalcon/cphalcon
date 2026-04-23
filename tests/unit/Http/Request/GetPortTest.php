@@ -53,8 +53,6 @@ final class GetPortTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Request::getPort
-     *
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>

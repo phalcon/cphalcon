@@ -79,11 +79,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: validate() - single field
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */
@@ -108,11 +103,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: validate() - single field
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <tram@phalcon.io>
      * @since  2023-08-03
      */
@@ -142,8 +132,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests exclusion in validator with multiple field and multiple domain
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -207,8 +195,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests exclusion in validator with multiple field and single domain
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -262,8 +248,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests exclusion in validator with single field
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -310,11 +294,6 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation\Validator\ExclusionIn :: validate() - empty
-     *
-     * @return void
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-03
      */

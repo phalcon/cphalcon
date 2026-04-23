@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class WasForwardedTest extends AbstractUnitTestCase
+class WasForwardedTest extends BaseDispatcher
 {
     /**
-     * Tests Phalcon\Mvc\Dispatcher :: wasForwarded()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcDispatcherWasForwarded(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = $this->getDispatcher();
+        $this->assertFalse($dispatcher->wasForwarded());
+        $dispatcher->setActionName('forwardExternal');
+        $dispatcher->dispatch();
+        $this->assertTrue($dispatcher->wasForwarded());
     }
 }

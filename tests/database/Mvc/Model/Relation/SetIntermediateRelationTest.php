@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetIntermediateRelationTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Relation :: setIntermediateRelation()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

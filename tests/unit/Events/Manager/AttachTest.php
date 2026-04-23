@@ -22,10 +22,6 @@ use Phalcon\Tests\Unit\Events\Fake\ComponentOne;
 final class AttachTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Manager :: attach() - by name after detatch all
-     *
-     * @return void
-     *
      * @author @author Kamil Skowron <kamil@hedonsoftware.com>
      * @since  2020-09-09
      */

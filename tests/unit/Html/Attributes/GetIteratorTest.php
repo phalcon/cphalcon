@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetIteratorTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: getIterator()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

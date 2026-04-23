@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AddInlineCssTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Collection :: addInlineCss()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

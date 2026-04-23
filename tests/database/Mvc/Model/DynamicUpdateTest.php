@@ -38,10 +38,6 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: save() with DynamicUpdate Disabled
-     *
-     * @todo Enable once Phalcon\Support\Settings (settings.zep) is ported to cphalcon
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
      *
@@ -99,10 +95,6 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: save() with DynamicUpdate Disabled Cherry pick
-     *
-     * @todo Enable once Phalcon\Support\Settings (settings.zep) is ported to cphalcon
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
      *
@@ -157,14 +149,9 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: save() With DynamicUpdate Enabled
-     *
-     * @todo Enable once Phalcon\Support\Settings (settings.zep) is ported to cphalcon
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/16343
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/16343
      *
      * @group mysql
      */

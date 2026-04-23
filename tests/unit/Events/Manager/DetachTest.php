@@ -32,15 +32,11 @@ final class DetachTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests detach handler by using an Object
-     *
      * @dataProvider booleanProvider
      *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     * @issue        12882
+     * @issue 12882
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testEventsManagerDetach(
         bool $enablePriorities

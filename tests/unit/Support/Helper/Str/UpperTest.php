@@ -81,10 +81,6 @@ final class UpperTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: upper()
-     *
-     * @return void
-     *
      * @dataProvider basicProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -101,11 +97,7 @@ final class UpperTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Support\Helper\Str :: upper() - multi-bytes encoding
-     *
      * @dataProvider multiBytesEncodingProvider
-     *
-     * @return void
      *
      * @author       Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since        2015-05-06

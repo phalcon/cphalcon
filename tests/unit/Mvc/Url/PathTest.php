@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class PathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Url :: path()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

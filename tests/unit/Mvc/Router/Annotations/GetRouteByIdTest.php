@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetRouteByIdTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: getRouteById()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

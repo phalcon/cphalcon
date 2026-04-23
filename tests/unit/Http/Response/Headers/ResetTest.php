@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class ResetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: reset()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */

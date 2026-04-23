@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class ToArrayTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: toArray()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

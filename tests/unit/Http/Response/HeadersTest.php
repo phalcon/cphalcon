@@ -58,8 +58,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Test the event response:beforeSendHeaders
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2018-11-28
      */
@@ -87,8 +85,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Test the event response:beforeSendHeaders
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2018-11-28
      */
@@ -113,13 +109,11 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the get of the response status headers
+     * @dataProvider statusHeaderProvider
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
-     *
-     * @dataProvider statusHeaderProvider
      */
     public function testHttpResponseHeadersGetResponseStatusHeader(
         string $code
@@ -140,8 +134,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the get and set of the response headers
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -160,8 +152,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the has of the response headers
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-02
      */
@@ -183,8 +173,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the instance of the object
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -200,8 +188,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests setting a raw response header
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -216,8 +202,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests removing a response header
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -237,8 +221,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests resetting the response headers
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
@@ -258,13 +240,11 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests the set of the response status headers
+     * @dataProvider statusHeaderProvider
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
-     *
-     * @dataProvider statusHeaderProvider
      */
     public function testHttpResponseHeadersSetResponseStatusHeader(
         string $code
@@ -286,8 +266,6 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * Tests toArray in response headers
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */

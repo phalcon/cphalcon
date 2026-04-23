@@ -23,6 +23,10 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
 
+/**
+ *
+ * @group phql
+ */
 final class GetRelatedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -34,8 +38,6 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: getRelated()
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
      *
@@ -116,8 +118,6 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: getRelated() - changing FK
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-01
      *

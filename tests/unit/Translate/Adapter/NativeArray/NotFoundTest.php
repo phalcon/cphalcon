@@ -25,10 +25,6 @@ final class NotFoundTest extends AbstractUnitTestCase
     use TranslateNativeArrayTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - default
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -45,10 +41,6 @@ final class NotFoundTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - custom
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -65,10 +57,6 @@ final class NotFoundTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -87,11 +75,6 @@ final class NotFoundTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
-     * random value
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

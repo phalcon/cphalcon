@@ -34,8 +34,6 @@ final class ToArrayTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Config\Adapter :: toArray()
-     *
      * @dataProvider providerAdapters
      *
      * @author Phalcon Team <team@phalcon.io>

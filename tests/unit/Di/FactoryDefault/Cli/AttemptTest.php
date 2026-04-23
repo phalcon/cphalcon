@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class AttemptTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: attempt()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

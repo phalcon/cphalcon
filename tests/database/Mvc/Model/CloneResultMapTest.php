@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesMap;
+use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class CloneResultMapTest extends AbstractDatabaseTestCase
@@ -60,8 +61,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: cloneResultMap()
-     *
      * @dataProvider modelDataProvider
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -116,8 +115,39 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: cloneResultMap() with casting
+     * Tests that cloneResultMap() calls model setters during hydration when
+     * orm.disable_assign_setters is false (the default).
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-22
+     *
+     * @group mysql
+     */
+    public function testMvcModelCloneResultMapCallsSetters(): void
+    {
+        /** @var InvoicesWithSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithSetters(),
+            [
+                'inv_id'          => 1,
+                'inv_cst_id'      => 2,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'original-title',
+                'inv_total'       => 10.0,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            null
+        );
+
+        // setInvTitle() prepends 'SET:' → setter must have been called
+        $this->assertSame('SET:original-title', $invoice->inv_title);
+
+        // setInvTotal() doubles the value → setter must have been called
+        $this->assertSame(20.0, (float) $invoice->inv_total);
+    }
+
+    /**
      * @dataProvider modelDataProvider
      *
      * @author       Phalcon Team <team@phalcon.io>

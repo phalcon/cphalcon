@@ -42,11 +42,9 @@ final class OrderByTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query :: getSql() - Issue 14657
-     *
+     * @issue  15411
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     * @issue  15411
      *
      * @group mysql
      */

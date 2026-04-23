@@ -20,8 +20,6 @@ use function uniqid;
 final class GetServerTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getServer()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

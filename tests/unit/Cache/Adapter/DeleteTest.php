@@ -22,6 +22,7 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeWeakFetching;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -74,12 +75,10 @@ final class DeleteTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\* :: delete()
-     *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterDelete(
         string $class,
@@ -119,12 +118,8 @@ final class DeleteTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Weak :: delete()
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-07-17
      */
     public function testCacheAdapterWeakDelete(): void
     {
@@ -165,5 +160,40 @@ final class DeleteTest extends AbstractUnitTestCase
         $key    = uniqid();
         $actual = $adapter->delete($key);
         $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    public function testCacheAdapterWeakDeleteWhileFetching(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new FakeWeakFetching($serializer);
+
+        $key = uniqid();
+        $obj = new stdClass();
+        $adapter->set($key, $obj);
+
+        $this->assertTrue($adapter->has($key));
+
+        // Simulate an in-flight get by freezing the fetching state
+        $adapter->setFetching($key);
+
+        // Delete must be blocked while the key is being fetched
+        $actual = $adapter->delete($key);
+        $this->assertFalse($actual);
+
+        // Key is still present
+        $this->assertTrue($adapter->has($key));
+
+        // Release the fetch lock
+        $adapter->setFetching(null);
+
+        // Delete should now succeed
+        $actual = $adapter->delete($key);
+        $this->assertTrue($actual);
+
+        $this->assertFalse($adapter->has($key));
     }
 }

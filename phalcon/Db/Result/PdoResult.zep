@@ -128,7 +128,7 @@ class PdoResult implements ResultInterface
             bindParams = this->bindParams;
 
         /**
-         * PDO doesn't support scrollable cursors, so we need to re-execute the
+         * PDO does not support scrollable cursors, so we need to re-execute the
          * statement
          */
         if typeof bindParams === "array" {

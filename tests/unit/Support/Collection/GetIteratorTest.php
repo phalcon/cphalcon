@@ -18,10 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class GetIteratorTest extends AbstractCollectionTestCase
 {
     /**
-     * Tests Phalcon\Support\Collection :: getIterator()
-     *
-     * @return void
-     *
      * @dataProvider getClasses
      *
      * @author       Phalcon Team <team@phalcon.io>

@@ -21,13 +21,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class OffsetGetSetTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Messages :: offsetGet()/offsetSet()
-     *
-     * @return void
-     *
-     * @throws Exception
-     * @since  2020-09-09
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testMessagesMessagesOffsetGetSet(): void
     {
@@ -80,12 +75,6 @@ final class OffsetGetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Messages\Messages :: offsetSet() - exception
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

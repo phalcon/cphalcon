@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class GetReasonPhraseTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response :: getReasonPhrase()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

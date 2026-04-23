@@ -23,10 +23,6 @@ final class ArrayAccessTest extends AbstractUnitTestCase
     use TranslateNativeArrayTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: array access
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -13,18 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router;
 
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router :: __construct()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Router();
+        $this->assertInstanceOf(RouterInterface::class, $router);
     }
 }

@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetDefaultTaskTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: setDefaultTask()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

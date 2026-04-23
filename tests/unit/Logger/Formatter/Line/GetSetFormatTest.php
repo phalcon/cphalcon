@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetFormatTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: getFormat()/setFormat()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

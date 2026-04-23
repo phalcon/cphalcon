@@ -79,12 +79,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Apcu :: clear() - delete error
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -110,12 +104,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Apcu :: clear() - iterator error
-     *
-     * @return void
-     *
-     * @throws Exception
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -141,12 +129,10 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\* :: clear()
-     *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testCacheAdapterClear(
         string $class,
@@ -187,13 +173,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Stream :: clear() - cannot delete file
-     *
-     * @return void
-     *
-     * @throws HelperException
-     * @throws StorageException
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -224,14 +203,8 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Cache\Adapter\Weak :: clear()
-     *
-     * @return void
-     *
-     * @throws HelperException
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-07-17
      */
     public function testCacheAdapterWealClear(): void
     {

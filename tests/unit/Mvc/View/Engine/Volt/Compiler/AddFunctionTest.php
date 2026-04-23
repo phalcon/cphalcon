@@ -50,12 +50,10 @@ class AddFunctionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
+     * @dataProvider getVoltAddFunction
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
-     *
-     * @dataProvider getVoltAddFunction
      */
     public function testMvcViewEngineVoltCompilerAddFunction(
         string $name,
@@ -74,12 +72,10 @@ class AddFunctionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
+     * @dataProvider getVoltAddFunctionClosure
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
-     *
-     * @dataProvider getVoltAddFunctionClosure
      */
     public function testMvcViewEngineVoltCompilerAddFunctionClosure(
         string $name,

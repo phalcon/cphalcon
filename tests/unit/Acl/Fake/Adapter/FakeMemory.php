@@ -31,7 +31,7 @@ final class FakeMemory extends Memory
         string $eventName,
         mixed $data = null,
         bool $cancellable = true
-    ) {
+    ): mixed {
         return false;
     }
 }

@@ -19,10 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class UuidTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Security\Random :: uuid()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -39,11 +35,6 @@ final class UuidTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Security\Random :: uuid() produces different
-     * results
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetReadConnectionServiceTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: setReadConnectionService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

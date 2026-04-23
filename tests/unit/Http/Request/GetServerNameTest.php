@@ -19,8 +19,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class GetServerNameTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getServerName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -36,8 +34,6 @@ final class GetServerNameTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getServerName() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class InitTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Html\Attributes :: init()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-02
      */

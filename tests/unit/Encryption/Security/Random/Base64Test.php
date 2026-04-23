@@ -36,14 +36,10 @@ final class Base64Test extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Encryption\Security\Random :: base64()
-     *
-     * @return void
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     *
      * @dataProvider base64Provider
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
     public function testEncryptionSecurityRandomBase64(int $len): void
     {

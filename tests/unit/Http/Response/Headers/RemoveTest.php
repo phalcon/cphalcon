@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Page\Http;
 final class RemoveTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Http\Response\Headers :: remove()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-08
      */

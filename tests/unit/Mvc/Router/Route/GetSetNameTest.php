@@ -21,8 +21,6 @@ use function uniqid;
 final class GetSetNameTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Route :: getName()/setName()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-01-27
      */

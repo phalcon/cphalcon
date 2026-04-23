@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SetKeyRouteIdsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Router\Annotations :: setKeyRouteIds()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

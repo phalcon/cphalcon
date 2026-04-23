@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class FireEventTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - fireEvent()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

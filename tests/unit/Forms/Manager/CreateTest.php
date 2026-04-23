@@ -21,8 +21,6 @@ use stdClass;
 final class CreateTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Manager :: create()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
@@ -43,8 +41,6 @@ final class CreateTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Forms\Manager :: create() with entity
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */

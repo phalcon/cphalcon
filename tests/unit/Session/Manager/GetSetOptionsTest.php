@@ -22,10 +22,6 @@ final class GetSetOptionsTest extends AbstractUnitTestCase
     use DiTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: getOptions()/setOptions()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -49,10 +45,6 @@ final class GetSetOptionsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Manager :: getOptions()/setOptions() - constructor
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

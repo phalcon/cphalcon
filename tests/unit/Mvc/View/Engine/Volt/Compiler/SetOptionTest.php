@@ -37,12 +37,10 @@ class SetOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: setOption() - autoescape
+     * @dataProvider getVoltSetOptionAutoescape
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
-     *
-     * @dataProvider getVoltSetOptionAutoescape
      */
     public function testMvcViewEngineVoltCompilerSetOptionAutoescape(
         string $param,

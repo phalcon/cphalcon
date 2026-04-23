@@ -22,8 +22,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class AddCssTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Manager :: addCss()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
@@ -47,10 +45,7 @@ final class AddCssTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addCss() - duplicate
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     *
+     * @issue https://github.com/phalcon/cphalcon/issues/10938
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-02
      */

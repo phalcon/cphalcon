@@ -19,6 +19,7 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
+use Phalcon\Support\Settings;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -1850,7 +1851,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var isKeeping;
 
-        if globals_get("orm.dynamic_update") {
+        if Settings::get("orm.dynamic_update") {
             return true;
         }
 
@@ -1872,7 +1873,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var isUsing;
 
-        if globals_get("orm.dynamic_update") {
+        if Settings::get("orm.dynamic_update") {
             return true;
         }
 
@@ -1934,7 +1935,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Loads a model throwing an exception if it doesn't exist
+     * Loads a model throwing an exception if it does not exist
      *
      * @param string $modelName
      *
@@ -1945,7 +1946,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var model;
 
         /**
-         * The model doesn't exist throw an exception
+         * The model does not exist throw an exception
          */
         if unlikely !class_exists(modelName) {
             throw new Exception(

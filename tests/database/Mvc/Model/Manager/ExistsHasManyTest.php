@@ -29,8 +29,6 @@ final class ExistsHasManyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Manager :: existsHasMany()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

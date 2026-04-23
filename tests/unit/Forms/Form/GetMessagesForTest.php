@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetMessagesForTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Forms\Form :: getMessagesFor()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

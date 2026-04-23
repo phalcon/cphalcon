@@ -22,8 +22,6 @@ use function uniqid;
 final class GetSetCookiesTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: getCookies() / setCookies()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-08
      */

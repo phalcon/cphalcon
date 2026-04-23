@@ -38,8 +38,6 @@ final class GetPhqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: getPhql() - with all params
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *

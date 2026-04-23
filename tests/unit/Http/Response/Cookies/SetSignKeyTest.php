@@ -34,10 +34,6 @@ final class SetSignKeyTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: setSignKey()
-     *
-     * @return void
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */

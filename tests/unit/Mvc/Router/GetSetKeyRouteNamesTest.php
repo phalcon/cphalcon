@@ -21,8 +21,6 @@ final class GetSetKeyRouteNamesTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests Phalcon\Mvc\Router :: getKeyRouteNames()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -55,8 +53,6 @@ final class GetSetKeyRouteNamesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Router :: getKeyRouteNames()/setKeyRouteNames()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-11-07
      */

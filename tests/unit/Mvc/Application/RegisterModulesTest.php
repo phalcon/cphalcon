@@ -20,8 +20,9 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Application\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\Support\Modules\Backend\Module;
+use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 
 final class RegisterModulesTest extends AbstractUnitTestCase
 {
@@ -60,11 +61,11 @@ final class RegisterModulesTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'path'      => supportDir('Modules/Frontend/Module.php'),
-                    'className' => \Phalcon\Tests\Support\Modules\Frontend\Module::class,
+                    'className' => FrontendModule::class,
                 ],
                 'backend'  => [
                     'path'      => supportDir('Modules/Backend/Module.php'),
-                    'className' => Module::class,
+                    'className' => BackendModule::class,
                 ],
             ]
         );
@@ -153,8 +154,6 @@ final class RegisterModulesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Application :: registerModules() - bad path throws exception
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-15
      */
@@ -187,8 +186,8 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => dataDir('not-a-real-file.php'),
-                    'className' => \Phalcon\Tests\Support\Modules\Frontend\Module::class,
+                    'path'      => supportDir('not-a-real-file.php'),
+                    'className' => FrontendModule::class,
                 ],
             ]
         );
@@ -197,7 +196,9 @@ final class RegisterModulesTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
+            "Module definition path '"
+            . supportDir('not-a-real-file.php')
+            . "' does not exist"
         );
 
         $application->handle('/index');

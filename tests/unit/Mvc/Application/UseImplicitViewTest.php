@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
+use Phalcon\Mvc\Application;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class UseImplicitViewTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: useImplicitView()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcApplicationUseImplicitView(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $application = new Application();
+        $result      = $application->useImplicitView(false);
+
+        $this->assertInstanceOf(Application::class, $result);
     }
 }

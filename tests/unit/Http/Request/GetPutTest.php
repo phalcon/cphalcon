@@ -24,8 +24,6 @@ use function parse_str;
 final class GetPutTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getPut()
-     *
      * @issue  @13418
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-03
@@ -68,8 +66,6 @@ final class GetPutTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getPut() - json
-     *
      * @issue  @13418
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-03

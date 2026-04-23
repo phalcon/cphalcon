@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -69,47 +68,6 @@ class Apcu extends AbstractAdapter
     }
 
     /**
-     * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
-     */
-    public function decrement(string! key, int value = 1) -> int | bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeDecrement", key);
-
-        let result = this->phpApcuDec(this->getPrefixedKey(key), value);
-
-        this->fire(this->eventType . ":afterDecrement", key);
-
-        return result;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function delete(string! key) -> bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeDelete", key);
-
-        let result = (bool) this->phpApcuDelete(this->getPrefixedKey(key));
-
-        this->fire(this->eventType . ":afterDelete", key);
-
-        return result;
-    }
-
-    /**
      * Stores data in the adapter
      *
      * @param string $prefix
@@ -137,86 +95,6 @@ class Apcu extends AbstractAdapter
     }
 
     /**
-     * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function has(string! key) -> bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeHas", key);
-
-        let result = this->phpApcuExists(this->getPrefixedKey(key));
-
-        this->fire(this->eventType . ":afterHas", key);
-
-        return typeof result === "bool" ? result : false;
-    }
-
-    /**
-     * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
-     */
-    public function increment(string! key, int value = 1) -> int | bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeIncrement", key);
-
-        let result = this->phpApcuInc(this->getPrefixedKey(key), value);
-
-        this->fire(this->eventType . ":afterIncrement", key);
-
-        return result;
-    }
-
-    /**
-     * Stores data in the adapter. If the TTL is `null` (default) or not defined
-     * then the default TTL will be used, as set in this adapter. If the TTL
-     * is `0` or a negative number, a `delete()` will be issued, since this
-     * item has expired. If you need to set this key forever, you should use
-     * the `setForever()` method.
-     *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
-     * @throws Exception
-     */
-    public function set(string! key, var value, var ttl = null) -> bool
-    {
-        var result;
-
-        this->fire(this->eventType . ":beforeSet", key);
-
-        if (typeof ttl === "integer" && ttl < 1) {
-            let result = this->delete(key);
-
-            this->fire(this->eventType . ":afterSet", key);
-
-            return result;
-        }
-
-        let result = this->phpApcuStore(
-            this->getPrefixedKey(key),
-            this->getSerializedData(value),
-            this->getTtl(ttl)
-        );
-
-        this->fire(this->eventType . ":afterSet", key);
-
-        return typeof result === "bool" ? result : false;
-    }
-
-    /**
      * Stores data in the adapter forever. The key needs to manually deleted
      * from the adapter.
      *
@@ -238,13 +116,118 @@ class Apcu extends AbstractAdapter
     }
 
     /**
+     * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     */
+    protected function doDecrement(string! key, int value = 1) -> int | bool
+    {
+        return this->phpApcuDec(this->getPrefixedKey(key), value);
+    }
+
+    /**
+     * Deletes data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function doDelete(string! key) -> bool
+    {
+        return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
+    }
+
+    /**
+     * Deletes multiple keys from APCu in a single call
+     *
+     * @param array $keys
+     * @return bool
+     */
+    protected function doDeleteMultiple(array keys) -> bool
+    {
+        var prefixedKeys = [], key, result;
+
+        for key in keys {
+            let prefixedKeys[] = this->getPrefixedKey(key);
+        }
+
+        let result = this->phpApcuDelete(prefixedKeys);
+
+        // apcu_delete with array returns array of keys that could NOT be deleted
+        return typeof result === "array" && count(result) === 0;
+    }
+
+    /**
      * @param string $key
      *
      * @return mixed
      */
-    protected function doGet(string key)
+    protected function doGetData(string key)
     {
         return this->phpApcuFetch(this->getPrefixedKey(key));
+    }
+
+    /**
+     * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function doHas(string! key) -> bool
+    {
+        var result;
+
+        let result = this->phpApcuExists(this->getPrefixedKey(key));
+
+        return typeof result === "bool" ? result : false;
+    }
+
+    /**
+     * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     */
+    protected function doIncrement(string! key, int value = 1) -> int | bool
+    {
+        return this->phpApcuInc(this->getPrefixedKey(key), value);
+    }
+
+    /**
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
+     *
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function doSet(string! key, var value, var ttl = null) -> bool
+    {
+        var result;
+
+        if (typeof ttl === "integer" && ttl < 1) {
+            return this->delete(key);
+        }
+
+        let result = this->phpApcuStore(
+            this->getPrefixedKey(key),
+            this->getSerializedData(value),
+            this->getTtl(ttl)
+        );
+
+        return typeof result === "bool" ? result : false;
     }
 
     /**

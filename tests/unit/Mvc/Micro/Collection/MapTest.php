@@ -13,18 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Micro\Collection;
 
+use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class MapTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Micro\Collection :: map()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcMicroCollectionMap(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $collection = new Collection();
+        $collection->map('/test', function () {
+            return 'hello';
+        });
+        $handlers = $collection->getHandlers();
+        $this->assertCount(1, $handlers);
     }
 }

@@ -21,12 +21,9 @@ use Phalcon\Tests\AbstractUnitTestCase;
 class GetModuleTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Application :: getModule()
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since  2018-11-13
      * @since  2018-12-26
      */
     public function testMvcApplicationGetModule(): void
@@ -58,12 +55,9 @@ class GetModuleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Application :: getModule() - non-existent
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
+     * @since  2018-11-13
      * @since  2018-12-26
      */
     public function testMvcApplicationGetModuleNonExistent(): void

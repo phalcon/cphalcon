@@ -24,10 +24,6 @@ final class GetAddSetDirectoriesTest extends AbstractUnitTestCase
     use LoaderTrait;
 
     /**
-     * Tests Phalcon\Autoload\Loader :: getDirectories()/addDirectory()/setDirectories()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

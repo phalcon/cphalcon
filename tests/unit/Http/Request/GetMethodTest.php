@@ -21,8 +21,6 @@ use function uniqid;
 final class GetMethodTest extends AbstractHttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getMethod() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -37,8 +35,6 @@ final class GetMethodTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getMethod() - header POST
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -54,8 +50,6 @@ final class GetMethodTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getMethod() - header POST override
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -72,8 +66,6 @@ final class GetMethodTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getMethod() - header spoof
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -91,8 +83,6 @@ final class GetMethodTest extends AbstractHttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Request :: getMethod() - not valid
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */

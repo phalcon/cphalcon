@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class KeyTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Messages :: key()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

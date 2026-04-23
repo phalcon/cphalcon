@@ -23,11 +23,7 @@ final class OpenCloseTest extends AbstractUnitTestCase
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Adapter :: close()
-     *
      * @dataProvider getClassNames
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
@@ -41,11 +37,7 @@ final class OpenCloseTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Session\Adapter :: open()
-     *
      * @dataProvider getClassNames
-     *
-     * @return void
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09

@@ -21,6 +21,10 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
+/**
+ *
+ * @group phql
+ */
 final class AverageTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,8 +54,6 @@ final class AverageTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: average()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *

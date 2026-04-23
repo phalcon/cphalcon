@@ -20,10 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetRealSourcePathTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css local
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -35,10 +31,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - remote
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

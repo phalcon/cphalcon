@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetBaseUriTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Url :: getBaseUri()/setBaseUri()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

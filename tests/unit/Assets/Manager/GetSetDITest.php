@@ -23,8 +23,6 @@ use PHPUnit\Framework\Attributes\Test;
 final class GetSetDITest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Assets\Manager :: getDI() / setDI()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-28
      */

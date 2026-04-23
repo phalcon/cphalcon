@@ -322,7 +322,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let hasService = (bool) container->has(handlerClass);
             if !hasService {
                 /**
-                 * DI doesn't have a service with that name, try to load it
+                 * DI does not have a service with that name, try to load it
                  * using an autoloader
                  */
                 let hasService = class_exists(handlerClass);
@@ -500,7 +500,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         /**
                          * If this is a dispatch exception (e.g. From
                          * forwarding) ensure we don't handle this twice. In
-                         * order to ensure this doesn't happen all other
+                         * order to ensure this does not happen all other
                          * exceptions thrown outside this method in this class
                          * should not call "throwDispatchException" but instead
                          * throw a normal Exception.

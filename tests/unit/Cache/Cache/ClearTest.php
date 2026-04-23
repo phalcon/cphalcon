@@ -23,8 +23,6 @@ use function uniqid;
 final class ClearTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Cache :: clear()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

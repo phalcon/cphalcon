@@ -21,10 +21,6 @@ use function str_repeat;
 final class SpaceTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Encryption\Crypt\Padding\Space :: __construct()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-12
      */

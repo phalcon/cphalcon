@@ -18,8 +18,6 @@ use Phalcon\Support\Registry;
 final class ToJsonTest extends AbstractRegistryTestCase
 {
     /**
-     * Tests Phalcon\Support\Registry :: toJson()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

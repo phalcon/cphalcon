@@ -20,8 +20,6 @@ use Phalcon\Tests\Support\Models\Users;
 final class MissingMethodTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\Behavior\SoftDelete - missingMethod()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-03
      */

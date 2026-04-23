@@ -19,8 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class GetSetDataTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Event - setData() - default
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
      */
@@ -33,8 +31,6 @@ final class GetSetDataTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Events\Event - setData() - constructor
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
      */
@@ -48,8 +44,6 @@ final class GetSetDataTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Events\Event - setData() - empty
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
      */
@@ -67,8 +61,6 @@ final class GetSetDataTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Events\Event - setData() - overwrite
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-06
      */

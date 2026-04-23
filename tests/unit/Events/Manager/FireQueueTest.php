@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class FireQueueTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Events\Manager :: fireQueue()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

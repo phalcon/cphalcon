@@ -37,8 +37,6 @@ final class SetAutoVersionTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addJs() - automatic versioning
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-02-01
      */

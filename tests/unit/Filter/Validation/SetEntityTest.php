@@ -21,8 +21,6 @@ use stdClass;
 final class SetEntityTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: setEntity()
-     *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */

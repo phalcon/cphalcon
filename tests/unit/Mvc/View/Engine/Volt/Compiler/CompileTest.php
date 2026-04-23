@@ -13,18 +13,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class CompileTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compile()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewEngineVoltCompilerCompile(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $viewFile    = supportDir('assets/views/compiler/partial.volt');
+        $compileFile = $viewFile . '.php';
+
+        $compiler = new Compiler();
+        $compiler->compile($viewFile);
+
+        $this->assertFileExists($compileFile);
+        $this->assertSame($compileFile, $compiler->getCompiledTemplatePath());
+
+        $this->safeDeleteFile($compileFile);
     }
 }

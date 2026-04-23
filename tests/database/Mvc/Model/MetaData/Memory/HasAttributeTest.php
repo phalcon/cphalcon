@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class HasAttributeTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Memory :: hasAttribute()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

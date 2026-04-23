@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\StringLength;
 
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetValidatorsTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation\Validator\StringLength :: getValidators()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
@@ -42,5 +42,20 @@ final class GetValidatorsTest extends AbstractUnitTestCase
 
         $this->assertNotEmpty($validator->getValidators(), 'Not empty validators');
         $this->assertCount(2, $validator->getValidators(), 'Has 2 validators');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-23
+     */
+    public function testFilterValidationValidatorStringLengthValidateEmptyThrows(): void
+    {
+        $validator  = new StringLength();
+        $validation = new Validation();
+        $validation->add('name', $validator);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('does not have any validator added');
+        $validation->validate(['name' => 'hello']);
     }
 }

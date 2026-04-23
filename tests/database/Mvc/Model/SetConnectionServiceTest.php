@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SetConnectionServiceTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Mvc\Model - setConnectionService()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

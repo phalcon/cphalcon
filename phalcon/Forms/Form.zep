@@ -253,7 +253,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 /**
-                 * Use the public property if it doesn't have a setter
+                 * Use the public property if it does not have a setter
                  */
                 if (!Settings::get("form.strict_entity_property_check")) {
                     let entity->{key} = filteredValue;
@@ -666,7 +666,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         /**
-         * If the user doesn't pass an entity we use the one in this_ptr->entity
+         * If the user does not pass an entity we use the one in this_ptr->entity
          */
         if typeof entity != "object" && typeof this->entity == "object" {
             let entity = this->entity;
@@ -695,7 +695,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         for element in this->elements {
             let validators = element->getValidators();
 
-            if count(validators) == 0 {
+            /**
+             * Get filters in the element
+             */
+            let filters = element->getFilters();
+
+            if count(validators) == 0 && empty filters {
                 continue;
             }
 
@@ -710,11 +715,6 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             for validator in validators {
                 validation->add(name, validator);
             }
-
-            /**
-             * Get filters in the element
-             */
-            let filters = element->getFilters();
 
             /**
              * Assign the filters to the validation

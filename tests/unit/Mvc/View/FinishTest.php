@@ -13,18 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Mvc\View;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 class FinishTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Mvc\View :: finish()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcViewFinish(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $view = new View();
+        $view->start();
+        $result = $view->finish();
+        $this->assertInstanceOf(View::class, $result);
     }
 }

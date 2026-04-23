@@ -34,10 +34,6 @@ final class CheckTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: checkToken() and destroyToken()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -89,10 +85,6 @@ final class CheckTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Security :: checkToken() and destroyToken() with Request
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

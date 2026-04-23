@@ -24,8 +24,6 @@ use stdClass;
 final class GetMessagesTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Filter\Validation :: getMessages()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */

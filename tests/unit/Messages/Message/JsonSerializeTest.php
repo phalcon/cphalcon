@@ -20,10 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class JsonSerializeTest extends AbstractUnitTestCase
 {
     /**
-     * Tests Phalcon\Messages\Message :: jsonSerialize()
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
