@@ -38,7 +38,7 @@ class Env extends Lazy
      */
     protected varname;
     /**
-     * @var string
+     * @var string|null
      */
     protected vartype = null;
 

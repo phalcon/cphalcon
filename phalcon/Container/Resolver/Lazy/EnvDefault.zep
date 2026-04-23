@@ -33,6 +33,9 @@ use TypeError;
 
 class EnvDefault extends Env
 {
+    /**
+     * @var mixed
+     */
     protected defaultValue;
 
     public function __construct(string! varname, var defaultValue, var vartype = null)

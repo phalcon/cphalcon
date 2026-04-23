@@ -50,7 +50,7 @@ class Resolver implements ResolverService
         return reflection->isInstantiable();
     }
 
-    public function resolveCall(object container, var callableObject, array arguments) -> var
+    public function resolveCall(object ioc, var callableObject, array arguments) -> var
     {
         var closure, reflection, params, resolved;
 
@@ -62,12 +62,12 @@ class Resolver implements ResolverService
 
         let reflection = new ReflectionFunction(closure);
         let params     = reflection->getParameters();
-        let resolved   = this->resolveParameters(container, params, arguments);
+        let resolved   = this->resolveParameters(ioc, params, arguments);
 
         return call_user_func_array(callableObject, resolved);
     }
 
-    public function resolveClass(object container, string! className, array arguments) -> object
+    public function resolveClass(object ioc, string! className, array arguments) -> object
     {
         var reflection, constructor, params, resolved;
 
@@ -79,22 +79,22 @@ class Resolver implements ResolverService
         }
 
         let params   = constructor->getParameters();
-        let resolved = this->resolveParameters(container, params, arguments);
+        let resolved = this->resolveParameters(ioc, params, arguments);
 
         return reflection->newInstanceArgs(resolved);
     }
 
-    public function resolveMethod(object container, var method, object obj) -> void
+    public function resolveMethod(object ioc, var method, object obj) -> void
     {
         var params, resolved;
 
         let params   = method->getParameters();
-        let resolved = this->resolveParameters(container, params, []);
+        let resolved = this->resolveParameters(ioc, params, []);
 
         method->invokeArgs(obj, resolved);
     }
 
-    public function resolveParameter(object container, var parameter) -> mixed
+    public function resolveParameter(object ioc, var parameter) -> mixed
     {
         var type, typeName, declaringClass;
 
@@ -103,8 +103,8 @@ class Resolver implements ResolverService
         if type instanceof ReflectionNamedType && !type->isBuiltin() {
             let typeName = type->getName();
 
-            if method_exists(container, "has") && container->has(typeName) {
-                return container->get(typeName);
+            if method_exists(ioc, "has") && ioc->has(typeName) {
+                return ioc->get(typeName);
             }
         }
 
@@ -124,7 +124,7 @@ class Resolver implements ResolverService
         );
     }
 
-    public function resolveParameters(object container, array parameters, array arguments) -> array
+    public function resolveParameters(object ioc, array parameters, array arguments) -> array
     {
         var position, parameter, name, resolved;
 
@@ -134,22 +134,22 @@ class Resolver implements ResolverService
             let name = parameter->getName();
 
             if array_key_exists(position, arguments) {
-                let resolved[position] = this->resolveArg(container, arguments[position]);
+                let resolved[position] = this->resolveArg(ioc, arguments[position]);
                 continue;
             }
 
             if array_key_exists(name, arguments) {
-                let resolved[position] = this->resolveArg(container, arguments[name]);
+                let resolved[position] = this->resolveArg(ioc, arguments[name]);
                 continue;
             }
 
-            let resolved[position] = this->resolveParameter(container, parameter);
+            let resolved[position] = this->resolveParameter(ioc, parameter);
         }
 
         return resolved;
     }
 
-    public function resolveType(object container, var type) -> mixed
+    public function resolveType(object ioc, var type) -> mixed
     {
         if type instanceof ReflectionNamedType {
             return type->getName();

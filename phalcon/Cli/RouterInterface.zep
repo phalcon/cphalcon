@@ -19,6 +19,8 @@ interface RouterInterface
 {
     /**
      * Adds a route to the router on any HTTP method
+     *
+     * @param string|array|null paths
      */
     public function add(string! pattern, var paths = null) -> <RouteInterface>;
 
@@ -55,6 +57,8 @@ interface RouterInterface
 
     /**
      * Returns a route object by its id
+     *
+     * @param int id
      */
     public function getRouteById(var id) ->  <RouteInterface> | bool;
 

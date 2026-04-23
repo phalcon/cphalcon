@@ -39,11 +39,11 @@ class ServiceDefinition
      */
     protected arguments = [];
     /**
-     * @var string
+     * @var string|null
      */
     protected className = null;
     /**
-     * @var object
+     * @var object|null
      */
     protected container = null;
     /**
@@ -55,7 +55,7 @@ class ServiceDefinition
      */
     protected extenders = [];
     /**
-     * @var callable
+     * @var callable|null
      */
     protected factory = null;
     /**
@@ -70,6 +70,9 @@ class ServiceDefinition
      * @var string
      */
     protected lifetime;
+    /**
+     * @var mixed
+     */
     protected raw = null;
     /**
      * @var string
