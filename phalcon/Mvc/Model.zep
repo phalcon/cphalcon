@@ -594,6 +594,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         manager->initialize(this);
 
         /**
+         * Allow the developer to run initialization code every time
+         * the model is instantiated, including when restored from cache
+         */
+        if method_exists(this, "onConstruct") {
+            this->{"onConstruct"}();
+        }
+
+        /**
          * Fetch serialized props
          */
         if fetch properties, data["attributes"] {
@@ -615,11 +623,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Fetch serialized snapshot when option is active
+         * Fetch serialized snapshot when option is active.
+         * When attributes == snapshot at serialize-time, snapshot is stored
+         * as null. Treat null as "no changes" and fall back to properties.
          */
         if manager->isKeepingSnapshots(this) {
             if fetch snapshot, data["snapshot"] {
-                let this->snapshot = snapshot;
+                let this->snapshot = (snapshot !== null) ? snapshot : properties;
             } else {
                 let this->snapshot = properties;
             }
@@ -2932,6 +2942,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             manager->initialize(this);
 
             /**
+             * Allow the developer to run initialization code every time
+             * the model is instantiated, including when restored from cache
+             */
+            if method_exists(this, "onConstruct") {
+                this->{"onConstruct"}();
+            }
+
+            /**
              * Fetch serialized props
              */
             if fetch properties, attributes["attributes"] {
@@ -2961,11 +2979,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             /**
-             * Fetch serialized snapshot when option is active
+             * Fetch serialized snapshot when option is active.
+             * When attributes == snapshot at serialize-time, snapshot is stored
+             * as null. Treat null as "no changes" and fall back to properties.
              */
             if manager->isKeepingSnapshots(this) {
                 if fetch snapshot, attributes["snapshot"] {
-                    let this->snapshot = snapshot;
+                    let this->snapshot = (snapshot !== null) ? snapshot : properties;
                 } else {
                     let this->snapshot = properties;
                 }
