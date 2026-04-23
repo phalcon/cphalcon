@@ -18,6 +18,8 @@ use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
+use Phalcon\Tests\Support\Models\InvoicesOnConstruct;
 use Phalcon\Tests\Support\Models\InvoicesTypedProperties;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -210,5 +212,75 @@ final class SerializeTest extends AbstractDatabaseTestCase
         /** @var Invoices $newObject */
         $newObject = unserialize($serialized);
         $this->assertEquals(0, $newObject->getDirtyState());
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/15906
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group  mysql
+     * @group  sqlite
+     */
+    public function testMvcModelUnserializeCallsOnConstruct(): void
+    {
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+
+        $invoice                 = new InvoicesOnConstruct();
+        $invoice->inv_cst_id     = 1;
+        $invoice->inv_status_flag = 0;
+        $invoice->inv_title      = $title;
+        $invoice->inv_total      = 10.0;
+        $invoice->inv_created_at = $date;
+        $invoice->save();
+
+        // old-style serialize/unserialize
+        $serialized = $invoice->serialize();
+        $restored   = new InvoicesOnConstruct();
+        $restored->unserialize($serialized);
+
+        $this->assertSame('initialized', $restored->onConstructLabel);
+
+        // PHP 8 __serialize/__unserialize
+        $phpSerialized = serialize($invoice);
+        /** @var InvoicesOnConstruct $phpRestored */
+        $phpRestored = unserialize($phpSerialized);
+
+        $this->assertSame('initialized', $phpRestored->onConstructLabel);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/15837
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group  mysql
+     * @group  sqlite
+     */
+    public function testMvcModelUnserializeRestoresNullSnapshot(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new InvoicesMigration($connection))->insert(10, 1, 0, uniqid('inv-'));
+
+        $invoice = InvoicesKeepSnapshots::findFirst(10);
+        $this->assertNotFalse($invoice);
+
+        // old-style serialize/unserialize
+        $serialized = $invoice->serialize();
+        $restored   = new InvoicesKeepSnapshots();
+        $restored->unserialize($serialized);
+
+        $this->assertIsArray($restored->getChangedFields());
+        $this->assertEmpty($restored->getChangedFields());
+
+        // PHP 8 __serialize/__unserialize
+        $phpSerialized = serialize($invoice);
+        /** @var InvoicesKeepSnapshots $phpRestored */
+        $phpRestored = unserialize($phpSerialized);
+
+        $this->assertIsArray($phpRestored->getChangedFields());
+        $this->assertEmpty($phpRestored->getChangedFields());
     }
 }
