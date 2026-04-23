@@ -1436,16 +1436,35 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              */
             let query = <QueryInterface> builder->getQuery();
 
+            let reusable = (bool) relation->isReusable();
+
+            if reusable {
+                let uniqueKey = unique_key(referencedModel, [intermediateModel, parameters, record->readAttribute(fields)]),
+                    records = this->getReusableRecords(referencedModel, uniqueKey);
+
+                if typeof records == "array" || typeof records == "object" {
+                    return records;
+                }
+            }
+
             switch relation->getType() {
                 case Relation::HAS_MANY_THROUGH:
-                    return query->execute();
+                    let records = query->execute();
+                    break;
 
                 case Relation::HAS_ONE_THROUGH:
-                    return query->setUniqueRow(true)->execute();
+                    let records = query->setUniqueRow(true)->execute();
+                    break;
 
                 default:
                     throw new Exception("Unknown relation type");
             }
+
+            if reusable {
+                this->setReusableRecords(referencedModel, uniqueKey, records);
+            }
+
+            return records;
         }
 
         let conditions = [];
