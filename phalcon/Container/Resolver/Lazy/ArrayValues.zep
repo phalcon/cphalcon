@@ -96,7 +96,7 @@ class ArrayValues extends Lazy implements \ArrayAccess, \Countable, \IteratorAgg
 
     protected function resolveValue(object container, var value) -> var
     {
-        if value instanceof Lazy {
+        if is_object(value) && value instanceof Lazy {
             return value->resolve(container);
         }
 

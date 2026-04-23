@@ -158,9 +158,9 @@ class Resolver implements ResolverService
         return null;
     }
 
-    private function resolveArg(object container, var arg) -> var
+    private function resolveArg(object container, var arg) -> mixed
     {
-        if arg instanceof Lazy {
+        if is_object(arg) && arg instanceof Lazy {
             return arg->resolve(container);
         }
 

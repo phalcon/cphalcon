@@ -40,7 +40,7 @@ abstract class Lazy implements Resolvable
 
     protected function resolveArgument(object container, var argument) -> var
     {
-        if argument instanceof Lazy {
+        if is_object(argument) && argument instanceof Lazy {
             return argument->resolve(container);
         }
 

@@ -428,9 +428,10 @@ class Container implements Collection
 
         let instance = definition->buildService(this);
 
-        if instance instanceof InjectionAwareInterface {
-            instance->setDI(this);
-        }
+//  @todo wire the container with the framework
+//        if instance instanceof InjectionAwareInterface {
+//            instance->setDI(this);
+//        }
 
         let lifetime = definition->getLifetime();
 
@@ -467,7 +468,7 @@ class Container implements Collection
 
         let value = this->parameters[name];
 
-        if value instanceof Lazy {
+        if is_object(value) && value instanceof Lazy {
             let resolved             = value->resolve(this);
             let this->parameters[name] = resolved;
 
