@@ -1229,6 +1229,23 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         /**
+         * Embed RawValue bind params directly in the SQL instead of passing
+         * them to PDO, which would quote them as strings.
+         */
+        for wildcard, value in processed {
+            if typeof value == "object" && value instanceof RawValue {
+                if substr(wildcard, 0, 1) === ":" {
+                    let sqlSelect = str_replace(wildcard, (string) value, sqlSelect);
+                } else {
+                    let sqlSelect = str_replace(":" . wildcard, (string) value, sqlSelect);
+                }
+
+                unset processed[wildcard];
+                unset processedTypes[wildcard];
+            }
+        }
+
+        /**
          * Return the SQL to be executed instead of execute it
          */
         if simulate {
