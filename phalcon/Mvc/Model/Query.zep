@@ -3229,7 +3229,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                     "type"  : "object",
                     "model" : modelName,
                     "column": source,
-                    "balias": lcfirst(modelName)
+                    "balias": (strpos(modelName, "\\") !== false) ? modelName : lcfirst(modelName)
                 ];
 
                 if eager !== null {
@@ -3278,13 +3278,8 @@ class Query implements QueryInterface, InjectionAwareInterface
                 modelName = sqlAliasesModels[columnDomain];
 
             if typeof preparedAlias != "string" {
-
-                /**
-                 * If the best alias is the model name, we lowercase the first
-                 * letter
-                 */
                 if columnDomain == modelName {
-                    let preparedAlias = lcfirst(modelName);
+                    let preparedAlias = (strpos(modelName, "\\") !== false) ? modelName : lcfirst(modelName);
                 } else {
                     let preparedAlias = columnDomain;
                 }
