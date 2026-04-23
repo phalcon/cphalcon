@@ -4967,7 +4967,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                         /**
                          * Field is null when: 1) is not set, 2) is numeric but
-                         * its value is not numeric, 3) is null or 4) is empty string
+                         * its value is not numeric, or 3) is null.
                          * Read the attribute from the this_ptr using the real or renamed name
                          */
                         if fetch value, this->{attributeField} {
@@ -4982,7 +4982,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                             let isNull = true;
                                         }
                                     } else {
-                                        if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
+                                        if value === null {
                                             let isNull = true;
                                         }
                                     }
