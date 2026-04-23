@@ -6,8 +6,8 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: '5.11.1'
-  PHP_VERSION_LIST: '8.1, 8.2, 8.3, 8.4, 8.5'
+  PHALCON_VERSION: '7.0.0'
+  PHP_VERSION_LIST: '8.3, 8.4, 8.5'
   ARCH_LIST: 'x64, x86'
   TS_LIST: 'nts, ts'
 

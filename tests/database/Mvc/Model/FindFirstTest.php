@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
+use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
@@ -406,5 +407,36 @@ final class FindFirstTest extends AbstractDatabaseTestCase
         $model = ModelWithStringPrimary::findFirst($params);
 
         $this->assertSame($found, $model instanceof Model);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16350
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group mysql
+     */
+    public function testMvcModelFindFirstWithRawValueBind(): void
+    {
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4, null, 1, 'test-raw-value', 100, '2000-01-01 00:00:00');
+
+        $invoice = Invoices::findFirst(
+            [
+                'conditions' => 'inv_created_at <= :date: AND inv_status_flag = :status:',
+                'bind'       => [
+                    'date'   => new RawValue('NOW()'),
+                    'status' => 1,
+                ],
+            ]
+        );
+
+        $this->assertNotNull($invoice);
+        $this->assertInstanceOf(Invoices::class, $invoice);
+
+        $expected = 4;
+        $actual   = $invoice->inv_id;
+        $this->assertEquals($expected, $actual);
     }
 }

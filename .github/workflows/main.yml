@@ -17,7 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.11.1
+  PHALCON_VERSION: 7.0.0
   ZEPHIR_PARSER_VERSION: 1.8.0
   # For tests
   LANG: en_US.UTF-8
@@ -70,8 +70,6 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
@@ -82,7 +80,16 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: phpize, php-config
+          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          tools: phpize, php-config, pecl
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Install Composer dependencies
+        run: composer install --ignore-platform-reqs
 
       - name: Validate PIE metadata
         run: |
@@ -93,6 +100,12 @@ jobs:
           if [ "$EXT_NAME" != "phalcon" ]; then echo "::error::extension-name must be phalcon, got: $EXT_NAME"; exit 1; fi
           if [ "$BUILD_PATH" != "build/phalcon" ]; then echo "::error::build-path must be build/phalcon, got: $BUILD_PATH"; exit 1; fi
           echo "PIE metadata OK: type=$TYPE, extension-name=$EXT_NAME, build-path=$BUILD_PATH"
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
 
       - name: Build extension from build/phalcon (same path PIE uses)
         run: |
@@ -146,73 +159,6 @@ jobs:
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
           retention-days: 5
 
-  # Build Phalcon PECL package (artifact consumed by build-and-test and database_test)
-  generate_pecl:
-    name: Build Phalcon PECL package
-    needs: [phpcs, stubs]
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.5'
-          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
-          tools: pecl
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup APT Repositories
-        run: |
-          # Remove Microsoft repos — our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
-
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
-          sudo apt-get install --no-install-recommends -q -y re2c
-
-      - run: composer install --ignore-platform-reqs
-
-      - name: Generate C Code
-        run: |
-          vendor/bin/zephir fullclean
-          vendor/bin/zephir generate
-          (cd build && php gen-build.php)
-
-      - name: Upload compile-errors.log
-        uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: compile-errors
-          path: compile-errors.log
-
-      - name: Create Pecl Package
-        id: pecl_create
-        run: |
-          cp build/phalcon/config.w32 config.w32
-          cp build/phalcon/phalcon.zep.c phalcon.zep.c
-          cp build/phalcon/config.m4 config.m4
-          cp build/phalcon/php_phalcon.h php_phalcon.h
-          cp build/phalcon/phalcon.zep.h phalcon.zep.h
-          pecl package
-          phalcon_package="`ls | grep phalcon-*tgz`"
-          mv $phalcon_package phalcon-pecl.tgz
-
-      - name: Validate Pecl Package
-        run: pecl package-validate phalcon-pecl.tgz
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: 'phalcon-pecl'
-          path: phalcon-pecl.tgz
-
   # Verify the extension installs cleanly from the build/ directory
   install:
     name: Install / PHP ${{ matrix.php }}
@@ -223,8 +169,6 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
@@ -239,10 +183,23 @@ jobs:
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
           tools: pecl
 
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Install Composer dependencies
+        run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
+
       - name: Install from build/ directory
         run: |
           cd build/
-          php gen-build.php
           sudo ./install
 
       - name: Validate extension
@@ -254,15 +211,13 @@ jobs:
       contents: read
 
     name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-    needs: [generate_pecl, install]
+    needs: [phpcs, stubs, install]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
@@ -292,25 +247,33 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}
+          extensions: ${{ env.EXTENSIONS }}, zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
           tools: pecl, phpize, php-config
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v8
-        with:
-          name: phalcon-pecl
-          path: ./phalcon-pecl
+      - name: Install System Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Install Composer dependencies
+        run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
 
       - name: Build Phalcon Extension (Linux)
         if: runner.os == 'Linux'
         id: linux-build
         uses: ./.github/actions/build-phalcon-linux
         with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
           php-version: ${{ matrix.php }}
 
       - name: Upload compiled Phalcon extension (Linux)
@@ -318,7 +281,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
-          path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
+          path: build/phalcon/modules/phalcon.so
           retention-days: 1
 
       - name: Build Phalcon Extension (macOS)
@@ -349,7 +312,7 @@ jobs:
             $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
             $ExtPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
           } else {
-            $ExtPath = "$(php-config --extension-dir)/phalcon.so"
+            $ExtPath = "build/phalcon/modules/phalcon.so"
           }
 
           if ([string]::IsNullOrEmpty($ExtPath) -or -not (Test-Path $ExtPath)) {
@@ -399,8 +362,6 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
@@ -490,7 +451,7 @@ jobs:
         shell: bash
         run: |
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
+          ./.ci/release-notes.sh ./CHANGELOG-7.0.md
 
   database_test:
     permissions:
@@ -542,8 +503,6 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
@@ -690,7 +649,7 @@ jobs:
 
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
-    needs: [generate_pecl, build_extension, unit_test, database_test]
+    needs: [build_extension, unit_test, database_test]
     name: Create Release
     runs-on: ubuntu-latest
 
@@ -709,7 +668,7 @@ jobs:
           find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./.ci/release-notes.sh ./CHANGELOG-7.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1

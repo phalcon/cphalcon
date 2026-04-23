@@ -176,7 +176,7 @@ final class QueryTest extends AbstractDatabaseTestCase
      */
     private function transform(Row $row): CustomersKeepSnapshots
     {
-        $invoice           = $row->readAttribute(lcfirst(CustomersKeepSnapshots::class));
+        $invoice           = $row->readAttribute(CustomersKeepSnapshots::class);
         $customer          = $row->readAttribute('join_1');
         $invoice->customer = $customer;
 

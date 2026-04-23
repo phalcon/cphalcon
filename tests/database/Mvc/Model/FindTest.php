@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use PDO;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
+use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Storage\SerializerFactory;
@@ -572,5 +573,34 @@ final class FindTest extends AbstractDatabaseTestCase
 
         $data = $modelsCache->get('my-cache');
         $this->assertNull($data);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16350
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group mysql
+     */
+    public function testMvcModelFindWithRawValueBind(): void
+    {
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, null, 1, 'raw-value-one', 100, '2000-01-01 00:00:00');
+        $migration->insert(2, null, 1, 'raw-value-two', 200, '2000-06-01 00:00:00');
+        $migration->insert(3, null, 0, 'raw-value-three', 50, '2000-01-01 00:00:00');
+
+        $invoices = Invoices::find(
+            [
+                'conditions' => 'inv_created_at <= :date: AND inv_status_flag = :status:',
+                'bind'       => [
+                    'date'   => new RawValue('NOW()'),
+                    'status' => 1,
+                ],
+            ]
+        );
+
+        $this->assertNotNull($invoices);
+        $this->assertCount(2, $invoices);
     }
 }

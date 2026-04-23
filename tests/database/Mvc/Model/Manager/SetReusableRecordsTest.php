@@ -13,16 +13,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class SetReusableRecordsTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
+     *
+     * @group  sqlite
+     * @group  mysql
+     * @group  pgsql
      */
     public function testMvcModelManagerSetReusableRecords(): void
     {
-        $this->markTestSkipped('Need implementation');
+        /** @var Manager $manager */
+        $manager = $this->container->get('modelsManager');
+
+        $records = ['record1', 'record2'];
+
+        $manager->setReusableRecords('SomeModel', 'key-abc', $records);
+
+        $actual = $manager->getReusableRecords('SomeModel', 'key-abc');
+        $this->assertSame($records, $actual);
     }
 }

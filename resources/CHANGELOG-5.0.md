@@ -27,6 +27,7 @@
   
 ### Fixed
 
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords()` to apply reusable caching for `hasManyToMany` and `hasOneThrough` relations; `reusable: true` was previously ignored for through-relations [#15934](https://github.com/phalcon/cphalcon/issues/15934)
 - Fixed `Phalcon\Filter\Validation\AbstractValidator::messageFactory()` to pass the joined field string to `Phalcon\Messages\Message` instead of the raw array when multiple fields are provided [#16889](https://github.com/phalcon/cphalcon/issues/16889)
 - Fixed `Phalcon\Filter\Validation::bind()` to skip the dependency injection container lookup when `data` is empty, preventing unnecessary `Di\Exception` errors [#16889](https://github.com/phalcon/cphalcon/issues/16889)
 - Fixed `Phalcon\Forms\Form::isValid()` to apply field filters even when no validators are specified (again) [#16830](https://github.com/phalcon/cphalcon/issues/16830)
@@ -45,7 +46,9 @@
 - Fixed `Phalcon\Mvc\Model::unserialize()` to catch `TypeError` when assigning a serialised `null` back to a typed non-nullable PHP property, preventing a crash on the second request when the model is loaded from a cache like APCu [#15711](https://github.com/phalcon/cphalcon/issues/15711)
 - Fixed `Phalcon\Filter\Validation\AbstractValidator::allowEmpty()` to support a value-list array (e.g. `[null, '']`) in addition to the per-field map syntax, using strict `===` comparison so that `'0'` is never silently treated as empty [#15491](https://github.com/phalcon/cphalcon/issues/15491)
 - Fixed `Phalcon\Filter\Validation\Validator\Alpha::validate()` to return `false` when `allowEmpty` is explicitly set to `false` and the submitted value is `null` or an empty string [#16200](https://github.com/phalcon/cphalcon/issues/16200)
+- Fixed `Phalcon\Mvc\Model\Query::getSelectColumn()` to use the full model class name as the `balias` key in a complex resultset when the model is namespaced (e.g. `App\Models\Users`), instead of incorrectly applying `lcfirst()` to the fully-qualified name; non-namespaced models (e.g. `Robots`) retain the existing `lcfirst()` behaviour (`robots`) [#16052](https://github.com/phalcon/cphalcon/issues/16052)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql()` to use a named bind parameter (`:APK0:`) instead of embedding the raw primary-key value in the PHQL string when `findFirst()` is called with a numeric or numeric-string argument; this prevents unbounded growth of the internal PHQL AST cache (`Query::$internalPhqlCache`) in long-running CLI processes [#14656](https://github.com/phalcon/cphalcon/issues/14656)
+- Fixed `Phalcon\Mvc\Model\Query::executeSelect()` to embed `Phalcon\Db\RawValue` bind parameters directly in the SQL string instead of passing them to PDO [#16350](https://github.com/phalcon/cphalcon/issues/16350)
 
 ### Removed
 
