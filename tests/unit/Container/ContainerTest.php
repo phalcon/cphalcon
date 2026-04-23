@@ -39,13 +39,12 @@ use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exception\Invalid;
 use Phalcon\Container\Exception\NotFound;
+use Phalcon\Container\Interop\Service\Collection;
 use Phalcon\Container\Resolver\Lazy\Env;
-use Phalcon\Container\Service\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
-use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;
-use stdClass;
+use RuntimeException;
 
 final class ContainerTest extends AbstractUnitTestCase
 {
@@ -115,6 +114,9 @@ final class ContainerTest extends AbstractUnitTestCase
      */
     public function testContainerCallableGetReturnsClosure(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not implemented: requires Zephir \$this-in-closure support');
+
         $bucket = new Container();
         $bucket->set('fake', FakeService::class);
 
@@ -130,6 +132,9 @@ final class ContainerTest extends AbstractUnitTestCase
      */
     public function testContainerCallableNewReturnsClosureReturningDifferentInstances(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not implemented: requires Zephir \$this-in-closure support');
+
         $bucket = new Container();
         $bucket->set('fake', FakeService::class);
 

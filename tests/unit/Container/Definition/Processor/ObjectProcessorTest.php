@@ -91,7 +91,7 @@ final class ObjectProcessorTest extends AbstractUnitTestCase
 
         $def = $processor->process('myService', $instance, new FakeContainer());
 
-        $this->assertSame(DefinitionType::OBJECT, $def->getType());
+        $this->assertSame(DefinitionType::DEF_OBJECT, $def->getType());
     }
 
     /**

@@ -33,8 +33,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Fake;
 
-use Phalcon\Container\Service\Collection;
-use Phalcon\Container\Service\Provider;
+use Phalcon\Container\Interop\Service\Collection;
+use Phalcon\Container\Interop\Service\Provider;
 
 class FakeServiceProvider implements Provider
 {

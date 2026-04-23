@@ -33,7 +33,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container;
 
-use IocInterop\Interface\IocContainer;
+use Phalcon\Container\Interop\Ioc\IocContainer;
 use Phalcon\Container\Container;
 use Phalcon\Container\ContainerFactory;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;

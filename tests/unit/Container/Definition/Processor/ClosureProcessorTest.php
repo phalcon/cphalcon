@@ -83,7 +83,7 @@ final class ClosureProcessorTest extends AbstractUnitTestCase
 
         $def = $processor->process('myService', $closure, new FakeContainer());
 
-        $this->assertSame(DefinitionType::CLOSURE, $def->getType());
+        $this->assertSame(DefinitionType::DEF_CLOSURE, $def->getType());
     }
 
     /**

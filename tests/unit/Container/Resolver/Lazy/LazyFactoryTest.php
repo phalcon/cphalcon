@@ -18,6 +18,7 @@ use Phalcon\Container\Resolver\Lazy\NewCall;
 use Phalcon\Container\Resolver\Lazy\NewInstance;
 use Phalcon\Container\Resolver\Lazy\StaticCall;
 use Phalcon\Tests\AbstractUnitTestCase;
+use RuntimeException;
 
 final class LazyFactoryTest extends AbstractUnitTestCase
 {
@@ -49,6 +50,9 @@ final class LazyFactoryTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyFactoryCallableGet(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not implemented: requires Zephir \$this-in-closure support');
+
         $result = LazyFactory::callableGet('SomeId');
         $this->assertInstanceOf(CallableGet::class, $result);
     }
@@ -59,6 +63,9 @@ final class LazyFactoryTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyFactoryCallableNew(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not implemented: requires Zephir \$this-in-closure support');
+
         $result = LazyFactory::callableNew('SomeId');
         $this->assertInstanceOf(CallableNew::class, $result);
     }

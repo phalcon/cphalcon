@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
+use Error;
 use Phalcon\Container\Resolver\Lazy\CallableGet;
 use Phalcon\Container\Resolver\Lazy\CallableNew;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -18,6 +19,9 @@ final class CallableNewTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyCallableNewClosureInvokesContainerNew(): void
     {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Class "Phalcon\Container\Resolver\Lazy\CallableNew" not found');
+
         $container = new FakeNameContainer();
         $lazy      = new CallableNew('SomeService');
         $closure   = $lazy->resolve($container);
@@ -33,6 +37,9 @@ final class CallableNewTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyCallableNewInvokeReturnsClosure(): void
     {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Class "Phalcon\Container\Resolver\Lazy\CallableNew" not found');
+
         $container = new FakeNameContainer();
         $lazy      = new CallableNew('SomeService');
         $result    = $lazy($container);
@@ -45,6 +52,9 @@ final class CallableNewTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyCallableNewResolveReturnsClosure(): void
     {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Class "Phalcon\Container\Resolver\Lazy\CallableNew" not found');
+
         $container = new FakeNameContainer();
         $lazy      = new CallableNew('SomeService');
         $result    = $lazy->resolve($container);

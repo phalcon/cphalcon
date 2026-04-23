@@ -51,7 +51,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionAddGetExtenders(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->assertFalse($def->hasExtenders());
 
         $extender = static function (object $instance, object $c) {
@@ -69,7 +69,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionAddTag(): void
     {
-        $def = new ServiceDefinition('mailer', DefinitionType::STRING);
+        $def = new ServiceDefinition('mailer', DefinitionType::DEF_STRING);
         $def->addTag('notifier');
         $this->assertContains('notifier', $def->getTags());
     }
@@ -80,7 +80,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionAddTagDeduplicated(): void
     {
-        $def = new ServiceDefinition('mailer', DefinitionType::STRING);
+        $def = new ServiceDefinition('mailer', DefinitionType::DEF_STRING);
         $def->addTag('notifier');
         $def->addTag('notifier');
         $this->assertCount(1, $def->getTags());
@@ -94,7 +94,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     {
         $lazy      = new FakeServiceWithResolve();
         $container = new FakeContainer();
-        $def       = new ServiceDefinition(Exception::class, DefinitionType::STRING);
+        $def       = new ServiceDefinition(Exception::class, DefinitionType::DEF_STRING);
         $def->setClass(Exception::class);
         $this->setProtectedProperty($def, 'constructorArgs', [$lazy]);
         $def->freeze($container);
@@ -110,7 +110,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionDefaultLifetimeIsScoped(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->assertSame(ServiceLifetime::SCOPED, $def->getLifetime());
     }
 
@@ -121,7 +121,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionFreezeIsIdempotent(): void
     {
         $container = new FakeContainer();
-        $def       = new ServiceDefinition('logger', DefinitionType::CLOSURE);
+        $def       = new ServiceDefinition('logger', DefinitionType::DEF_CLOSURE);
         $def->freeze($container);
         $def->freeze($container);
         $this->assertTrue($def->isFrozen());
@@ -134,7 +134,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionFreezeWithExplicitArgsNoAutowire(): void
     {
         $container = new FakeContainer();
-        $def       = new ServiceDefinition('svc', DefinitionType::STRING);
+        $def       = new ServiceDefinition('svc', DefinitionType::DEF_STRING);
         $def->setClass(stdClass::class);
         $def->setArgument(0, 'value');
         $def->freeze($container);
@@ -148,7 +148,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionGetClassThrowsWhenNotSet(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->expectException(Invalid::class);
         $def->getClass();
     }
@@ -160,7 +160,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionGetConstructorArgsEmpty(): void
     {
         $container = new FakeContainer();
-        $def       = new ServiceDefinition('svc', DefinitionType::CLOSURE);
+        $def       = new ServiceDefinition('svc', DefinitionType::DEF_CLOSURE);
         $def->freeze($container);
 
         $this->assertSame([], $def->getConstructorArgs());
@@ -172,7 +172,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionGetFactoryThrowsWhenNotSet(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->expectException(Invalid::class);
         $def->getFactory();
     }
@@ -183,7 +183,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionGetServiceName(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->assertSame('logger', $def->getServiceName());
     }
 
@@ -193,8 +193,8 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionGetType(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
-        $this->assertSame(DefinitionType::STRING, $def->getType());
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
+        $this->assertSame(DefinitionType::DEF_STRING, $def->getType());
     }
 
     /**
@@ -204,7 +204,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionIsCacheableFalseByDefault(): void
     {
         $container = new FakeContainer();
-        $def       = new ServiceDefinition('logger', DefinitionType::CLOSURE);
+        $def       = new ServiceDefinition('logger', DefinitionType::DEF_CLOSURE);
         $def->freeze($container);
         $this->assertFalse($def->isCacheable());
     }
@@ -215,7 +215,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionIsCacheableOnlyWhenFrozenAndFlagSet(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $def->setIsCacheable(true);
         $this->assertFalse($def->isCacheable());
 
@@ -230,7 +230,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionIsNotFrozenInitially(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $this->assertFalse($def->isFrozen());
     }
 
@@ -240,7 +240,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionSetArgument(): void
     {
-        $def = new ServiceDefinition('db', DefinitionType::STRING);
+        $def = new ServiceDefinition('db', DefinitionType::DEF_STRING);
         $def->setArgument('host', 'localhost');
         $this->assertSame(['host' => 'localhost'], $def->getArguments());
     }
@@ -251,7 +251,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionSetExtendersReplacesAll(): void
     {
-        $def       = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def       = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $extenderA = static function (object $o, object $c) {
             return $o;
         };
@@ -272,7 +272,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionSetGetClass(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $def->setClass('SomeClass');
         $this->assertTrue($def->hasClass());
         $this->assertSame('SomeClass', $def->getClass());
@@ -287,7 +287,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $factory = static function () {
             return new stdClass();
         };
-        $def = new ServiceDefinition('logger', DefinitionType::CLOSURE);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_CLOSURE);
         $def->setFactory($factory);
         $this->assertTrue($def->hasFactory());
         $this->assertSame($factory, $def->getFactory());
@@ -299,7 +299,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionSetGetLifetime(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $def->setLifetime(ServiceLifetime::SINGLETON);
         $this->assertSame(ServiceLifetime::SINGLETON, $def->getLifetime());
     }
@@ -311,7 +311,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionSetterThrowsWhenFrozen(): void
     {
         $container = new FakeContainer();
-        $def       = new ServiceDefinition('logger', DefinitionType::CLOSURE);
+        $def       = new ServiceDefinition('logger', DefinitionType::DEF_CLOSURE);
         $def->freeze($container);
 
         $this->expectException(Invalid::class);
@@ -324,7 +324,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionUnsetClass(): void
     {
-        $def = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $def->setClass('SomeClass');
         $def->unsetClass();
         $this->assertFalse($def->hasClass());
@@ -336,7 +336,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceDefinitionUnsetExtenders(): void
     {
-        $def      = new ServiceDefinition('logger', DefinitionType::STRING);
+        $def      = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
         $extender = static function (object $o, object $c) {
             return $o;
         };
@@ -354,7 +354,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $factory = static function () {
             return new stdClass();
         };
-        $def = new ServiceDefinition('logger', DefinitionType::CLOSURE);
+        $def = new ServiceDefinition('logger', DefinitionType::DEF_CLOSURE);
         $def->setFactory($factory);
         $def->unsetFactory();
         $this->assertFalse($def->hasFactory());

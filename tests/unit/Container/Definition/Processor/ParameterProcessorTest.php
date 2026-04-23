@@ -102,7 +102,7 @@ final class ParameterProcessorTest extends AbstractUnitTestCase
 
         $def = $processor->process('appName', 'MyApp', new FakeContainer());
 
-        $this->assertSame(DefinitionType::PARAMETER, $def->getType());
+        $this->assertSame(DefinitionType::DEF_PARAMETER, $def->getType());
     }
 
     /**
