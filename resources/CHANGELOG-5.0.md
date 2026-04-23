@@ -27,6 +27,7 @@
   
 ### Fixed
 
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords()` to apply reusable caching for `hasManyToMany` and `hasOneThrough` relations; `reusable: true` was previously ignored for through-relations [#15934](https://github.com/phalcon/cphalcon/issues/15934)
 - Fixed `Phalcon\Filter\Validation\AbstractValidator::messageFactory()` to pass the joined field string to `Phalcon\Messages\Message` instead of the raw array when multiple fields are provided [#16889](https://github.com/phalcon/cphalcon/issues/16889)
 - Fixed `Phalcon\Filter\Validation::bind()` to skip the dependency injection container lookup when `data` is empty, preventing unnecessary `Di\Exception` errors [#16889](https://github.com/phalcon/cphalcon/issues/16889)
 - Fixed `Phalcon\Forms\Form::isValid()` to apply field filters even when no validators are specified (again) [#16830](https://github.com/phalcon/cphalcon/issues/16830)
