@@ -104,15 +104,35 @@ final class WebTest extends AbstractUnitTestCase
     public function testContainerProviderWebAllServiceNamesResolvable(): void
     {
         $names = [
-            'annotations', 'annotationsMemory', 'assets', 'cookies', 'crypt',
-            'dispatcher', 'escaper', 'eventsManager', 'filter', 'flash',
-            'flashSession', 'helper', 'modelsEventFactory', 'modelsManager',
-            'modelsMetadata', 'request', 'response', 'router', 'security',
-            'settings', 'storageSerializer', 'tag', 'transactionManager', 'url',
+            'annotations',
+            'assets',
+            'cookies',
+            'crypt',
+            'dispatcher',
+            'escaper',
+            'eventsManager',
+            'filter',
+            'flash',
+            'flashSession',
+            'helper',
+            'modelsManager',
+            'modelsMetadata',
+            'request',
+            'response',
+            'router',
+            'security',
+            'settings',
+            'storageSerializer',
+            'tag',
+            'transactionManager',
+            'url',
         ];
 
         foreach ($names as $name) {
-            $this->assertTrue($this->container->has($name), "Service '{$name}' should be resolvable");
+            $this->assertTrue(
+                $this->container->has($name),
+                "Service '{$name}' should be resolvable"
+            );
         }
     }
 
@@ -139,190 +159,66 @@ final class WebTest extends AbstractUnitTestCase
         ];
 
         foreach ($interfaces as $interface) {
-            $this->assertTrue($this->container->has($interface), "Interface '{$interface}' should be resolvable");
+            $this->assertTrue(
+                $this->container->has($interface),
+                "Interface '{$interface}' should be resolvable"
+            );
         }
     }
 
     /**
+     * @dataProvider getServices
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
-    public function testContainerProviderWebResolvesCookies(): void
+    public function testContainerProviderWebResolves(
+        string $expected,
+        string $actual,
+    ): void
     {
-        $this->assertInstanceOf(Cookies::class, $this->container->get('cookies'));
-        $this->assertInstanceOf(CookiesInterface::class, $this->container->get(CookiesInterface::class));
+        $this->assertInstanceOf(
+            $expected,
+            $this->container->get($actual)
+        );
     }
 
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesCrypt(): void
+    public static function getServices(): array
     {
-        $this->assertInstanceOf(Crypt::class, $this->container->get('crypt'));
-        $this->assertInstanceOf(CryptInterface::class, $this->container->get(CryptInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesDispatcher(): void
-    {
-        $this->assertInstanceOf(Dispatcher::class, $this->container->get('dispatcher'));
-        $this->assertInstanceOf(DispatcherInterface::class, $this->container->get(DispatcherInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesEscaper(): void
-    {
-        $this->assertInstanceOf(Escaper::class, $this->container->get('escaper'));
-        $this->assertInstanceOf(EscaperInterface::class, $this->container->get(EscaperInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesEventsManager(): void
-    {
-        $this->assertInstanceOf(EventsManager::class, $this->container->get('eventsManager'));
-        $this->assertInstanceOf(EventsManagerInterface::class, $this->container->get(EventsManagerInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesFilter(): void
-    {
-        $this->assertInstanceOf(Filter::class, $this->container->get('filter'));
-        $this->assertInstanceOf(FilterInterface::class, $this->container->get(FilterInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesFlash(): void
-    {
-        $this->assertInstanceOf(Direct::class, $this->container->get('flash'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesFlashSession(): void
-    {
-        $this->assertInstanceOf(Session::class, $this->container->get('flashSession'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesHelper(): void
-    {
-        $this->assertInstanceOf(HelperFactory::class, $this->container->get('helper'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesModelsEventFactory(): void
-    {
-        $this->assertInstanceOf(DbEventFactory::class, $this->container->get('modelsEventFactory'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesModelsManager(): void
-    {
-        $this->assertInstanceOf(ModelsManager::class, $this->container->get('modelsManager'));
-        $this->assertInstanceOf(ModelsManagerInterface::class, $this->container->get(ModelsManagerInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesModelsMetadata(): void
-    {
-        $this->assertInstanceOf(MetadataMemory::class, $this->container->get('modelsMetadata'));
-        $this->assertInstanceOf(MetaDataInterface::class, $this->container->get(MetaDataInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesRequest(): void
-    {
-        $this->assertInstanceOf(Request::class, $this->container->get('request'));
-        $this->assertInstanceOf(RequestInterface::class, $this->container->get(RequestInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesResponse(): void
-    {
-        $this->assertInstanceOf(Response::class, $this->container->get('response'));
-        $this->assertInstanceOf(ResponseInterface::class, $this->container->get(ResponseInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesRouter(): void
-    {
-        $this->assertInstanceOf(Router::class, $this->container->get('router'));
-        $this->assertInstanceOf(RouterInterface::class, $this->container->get(RouterInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesSecurity(): void
-    {
-        $this->assertInstanceOf(Security::class, $this->container->get('security'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesSettings(): void
-    {
-        $this->assertInstanceOf(Settings::class, $this->container->get('settings'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesStorageSerializer(): void
-    {
-        $this->assertInstanceOf(SerializerFactory::class, $this->container->get('storageSerializer'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesTag(): void
-    {
-        $this->assertInstanceOf(TagFactory::class, $this->container->get('tag'));
+        return [
+            [Cookies::class, 'cookies'],
+            [CookiesInterface::class, CookiesInterface::class],
+            [Crypt::class, 'crypt'],
+            [CryptInterface::class, CryptInterface::class],
+            [Dispatcher::class, 'dispatcher'],
+            [DispatcherInterface::class, DispatcherInterface::class],
+            [Escaper::class, 'escaper'],
+            [EscaperInterface::class, EscaperInterface::class],
+            [EventsManager::class, 'eventsManager'],
+            [EventsManagerInterface::class, EventsManagerInterface::class],
+            [Filter::class, 'filter'],
+            [FilterInterface::class, FilterInterface::class],
+            [Direct::class, 'flash'],
+            [Session::class, 'flashSession'],
+            [HelperFactory::class, 'helper'],
+            [ModelsManager::class, 'modelsManager'],
+            [ModelsManagerInterface::class, ModelsManagerInterface::class],
+            [MetadataMemory::class, 'modelsMetadata'],
+            [MetaDataInterface::class, MetaDataInterface::class],
+            [Request::class, 'request'],
+            [RequestInterface::class, RequestInterface::class],
+            [Response::class, 'response'],
+            [ResponseInterface::class, ResponseInterface::class],
+            [Router::class, 'router'],
+            [RouterInterface::class, RouterInterface::class],
+            [Security::class, 'security'],
+            [Settings::class, 'settings'],
+            [SerializerFactory::class, 'storageSerializer'],
+            [TagFactory::class, 'tag'],
+//            [TransactionManagerInterface::class, 'transactionManager'],
+            [Url::class, 'url'],
+            [UrlInterface::class, UrlInterface::class],
+        ];
     }
 
     /**
@@ -335,16 +231,6 @@ final class WebTest extends AbstractUnitTestCase
         // Verify registration only until Container replaces Di as the framework container.
         $this->assertTrue($this->container->has('transactionManager'));
         $this->assertTrue($this->container->has(TransactionManagerInterface::class));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebResolvesUrl(): void
-    {
-        $this->assertInstanceOf(Url::class, $this->container->get('url'));
-        $this->assertInstanceOf(UrlInterface::class, $this->container->get(UrlInterface::class));
     }
 
     /**

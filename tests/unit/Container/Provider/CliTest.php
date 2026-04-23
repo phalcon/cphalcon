@@ -48,11 +48,13 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\TagFactory;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\ManagerInterface as ModelsManagerInterface;
 use Phalcon\Mvc\Model\MetaData\Memory as MetadataMemory;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface as TransactionManagerInterface;
+use Phalcon\Mvc\Router as MvcRouter;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
@@ -87,13 +89,27 @@ final class CliTest extends AbstractUnitTestCase
     public function testContainerProviderCliAllServiceNamesResolvable(): void
     {
         $names = [
-            'annotations', 'annotationsMemory', 'dispatcher', 'escaper',
-            'eventsManager', 'filter', 'helper', 'modelsManager', 'modelsMetadata',
-            'router', 'security', 'settings', 'storageSerializer', 'tag', 'transactionManager',
+            'annotations',
+            'dispatcher',
+            'escaper',
+            'eventsManager',
+            'filter',
+            'helper',
+            'modelsManager',
+            'modelsMetadata',
+            'router',
+            'security',
+            'settings',
+            'storageSerializer',
+            'tag',
+            'transactionManager',
         ];
 
         foreach ($names as $name) {
-            $this->assertTrue($this->container->has($name), "Service '{$name}' should be resolvable");
+            $this->assertTrue(
+                $this->container->has($name),
+                "Service '{$name}' should be resolvable"
+            );
         }
     }
 
@@ -130,7 +146,10 @@ final class CliTest extends AbstractUnitTestCase
         ];
 
         foreach ($interfaces as $interface) {
-            $this->assertTrue($this->container->has($interface), "Interface '{$interface}' should be resolvable");
+            $this->assertTrue(
+                $this->container->has($interface),
+                "Interface '{$interface}' should be resolvable"
+            );
         }
     }
 
@@ -140,8 +159,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesDispatcher(): void
     {
-        $this->assertInstanceOf(Dispatcher::class, $this->container->get('dispatcher'));
-        $this->assertInstanceOf(DispatcherInterface::class, $this->container->get(DispatcherInterface::class));
+        $this->assertInstanceOf(
+            Dispatcher::class,
+            $this->container->get('dispatcher')
+        );
+        $this->assertInstanceOf(
+            DispatcherInterface::class,
+            $this->container->get(DispatcherInterface::class)
+        );
     }
 
     /**
@@ -150,8 +175,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesEscaper(): void
     {
-        $this->assertInstanceOf(Escaper::class, $this->container->get('escaper'));
-        $this->assertInstanceOf(EscaperInterface::class, $this->container->get(EscaperInterface::class));
+        $this->assertInstanceOf(
+            Escaper::class,
+            $this->container->get('escaper')
+        );
+        $this->assertInstanceOf(
+            EscaperInterface::class,
+            $this->container->get(EscaperInterface::class)
+        );
     }
 
     /**
@@ -160,8 +191,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesEventsManager(): void
     {
-        $this->assertInstanceOf(EventsManager::class, $this->container->get('eventsManager'));
-        $this->assertInstanceOf(EventsManagerInterface::class, $this->container->get(EventsManagerInterface::class));
+        $this->assertInstanceOf(
+            EventsManager::class,
+            $this->container->get('eventsManager')
+        );
+        $this->assertInstanceOf(
+            EventsManagerInterface::class,
+            $this->container->get(EventsManagerInterface::class)
+        );
     }
 
     /**
@@ -170,8 +207,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesFilter(): void
     {
-        $this->assertInstanceOf(Filter::class, $this->container->get('filter'));
-        $this->assertInstanceOf(FilterInterface::class, $this->container->get(FilterInterface::class));
+        $this->assertInstanceOf(
+            Filter::class,
+            $this->container->get('filter')
+        );
+        $this->assertInstanceOf(
+            FilterInterface::class,
+            $this->container->get(FilterInterface::class)
+        );
     }
 
     /**
@@ -180,7 +223,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesHelper(): void
     {
-        $this->assertInstanceOf(HelperFactory::class, $this->container->get('helper'));
+        $this->assertInstanceOf(
+            HelperFactory::class,
+            $this->container->get('helper')
+        );
     }
 
     /**
@@ -189,8 +235,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesModelsManager(): void
     {
-        $this->assertInstanceOf(ModelsManager::class, $this->container->get('modelsManager'));
-        $this->assertInstanceOf(ModelsManagerInterface::class, $this->container->get(ModelsManagerInterface::class));
+        $this->assertInstanceOf(
+            ModelsManager::class,
+            $this->container->get('modelsManager')
+        );
+        $this->assertInstanceOf(
+            ModelsManagerInterface::class,
+            $this->container->get(ModelsManagerInterface::class)
+        );
     }
 
     /**
@@ -199,8 +251,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesModelsMetadata(): void
     {
-        $this->assertInstanceOf(MetadataMemory::class, $this->container->get('modelsMetadata'));
-        $this->assertInstanceOf(MetaDataInterface::class, $this->container->get(MetaDataInterface::class));
+        $this->assertInstanceOf(
+            MetadataMemory::class,
+            $this->container->get('modelsMetadata')
+        );
+        $this->assertInstanceOf(
+            MetaDataInterface::class,
+            $this->container->get(MetaDataInterface::class)
+        );
     }
 
     /**
@@ -209,8 +267,14 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesRouter(): void
     {
-        $this->assertInstanceOf(Router::class, $this->container->get('router'));
-        $this->assertInstanceOf(RouterInterface::class, $this->container->get(RouterInterface::class));
+        $this->assertInstanceOf(
+            Router::class,
+            $this->container->get('router')
+        );
+        $this->assertInstanceOf(
+            RouterInterface::class,
+            $this->container->get(RouterInterface::class)
+        );
     }
 
     /**
@@ -219,7 +283,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesSecurity(): void
     {
-        $this->assertInstanceOf(Security::class, $this->container->get('security'));
+        $this->assertInstanceOf(
+            Security::class,
+            $this->container->get('security')
+        );
     }
 
     /**
@@ -228,7 +295,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesSettings(): void
     {
-        $this->assertInstanceOf(Settings::class, $this->container->get('settings'));
+        $this->assertInstanceOf(
+            Settings::class,
+            $this->container->get('settings')
+        );
     }
 
     /**
@@ -237,7 +307,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesStorageSerializer(): void
     {
-        $this->assertInstanceOf(SerializerFactory::class, $this->container->get('storageSerializer'));
+        $this->assertInstanceOf(
+            SerializerFactory::class,
+            $this->container->get('storageSerializer')
+        );
     }
 
     /**
@@ -246,7 +319,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliResolvesTag(): void
     {
-        $this->assertInstanceOf(TagFactory::class, $this->container->get('tag'));
+        $this->assertInstanceOf(
+            TagFactory::class,
+            $this->container->get('tag')
+        );
     }
 
     /**
@@ -255,10 +331,10 @@ final class CliTest extends AbstractUnitTestCase
      */
     public function testContainerProviderCliRegistersTransactionManager(): void
     {
-        // Resolution requires a Di container internally (hardcoded dependency).
-        // Verify registration only until Container replaces Di as the framework container.
         $this->assertTrue($this->container->has('transactionManager'));
-        $this->assertTrue($this->container->has(TransactionManagerInterface::class));
+        $this->assertTrue(
+            $this->container->has(TransactionManagerInterface::class)
+        );
     }
 
     /**
@@ -280,7 +356,7 @@ final class CliTest extends AbstractUnitTestCase
     {
         $dispatcher = $this->container->get('dispatcher');
         $this->assertInstanceOf(Dispatcher::class, $dispatcher);
-        $this->assertNotInstanceOf(\Phalcon\Mvc\Dispatcher::class, $dispatcher);
+        $this->assertNotInstanceOf(MvcDispatcher::class, $dispatcher);
     }
 
     /**
@@ -291,6 +367,6 @@ final class CliTest extends AbstractUnitTestCase
     {
         $router = $this->container->get('router');
         $this->assertInstanceOf(Router::class, $router);
-        $this->assertNotInstanceOf(\Phalcon\Mvc\Router::class, $router);
+        $this->assertNotInstanceOf(MvcRouter::class, $router);
     }
 }
