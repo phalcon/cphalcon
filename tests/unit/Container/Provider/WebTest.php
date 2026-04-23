@@ -175,8 +175,7 @@ final class WebTest extends AbstractUnitTestCase
     public function testContainerProviderWebResolves(
         string $expected,
         string $actual,
-    ): void
-    {
+    ): void {
         $this->assertInstanceOf(
             $expected,
             $this->container->get($actual)
