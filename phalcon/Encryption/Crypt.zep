@@ -153,10 +153,14 @@ class Crypt implements CryptInterface
      * @throws Exception
      */
     public function __construct(
-        string cipher = self::DEFAULT_CIPHER,
+        string cipher = "",
         bool useSigning = true,
         <PadFactory> padFactory = null
     ) {
+        if (empty cipher) {
+            let cipher = self::DEFAULT_CIPHER;
+        }
+
         if null === padFactory {
             let padFactory = new PadFactory();
         }
