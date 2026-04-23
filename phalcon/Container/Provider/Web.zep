@@ -38,16 +38,34 @@ class Web implements Provider
     public function provide(<Collection> services) -> void
     {
         services->bind(
-            "Phalcon\\Http\\Response\\CookiesInterface",
-            "Phalcon\\Http\\Response\\Cookies"
+            "Phalcon\\Annotations\\Adapter\\AdapterInterface",
+            "Phalcon\\Annotations\\Adapter\\Memory"
         );
-        services->setAlias("Phalcon\\Http\\Response\\CookiesInterface", "cookies");
+        services->setAlias(
+            "Phalcon\\Annotations\\Adapter\\AdapterInterface",
+            "annotations"
+        );
+
+        services->set("Phalcon\\Assets\\Manager", "Phalcon\\Assets\\Manager");
+        services->setAlias("Phalcon\\Assets\\Manager", "assets");
 
         services->bind(
             "Phalcon\\Encryption\\Crypt\\CryptInterface",
             "Phalcon\\Encryption\\Crypt"
         );
-        services->setAlias("Phalcon\\Encryption\\Crypt\\CryptInterface", "crypt");
+        services->setAlias(
+            "Phalcon\\Encryption\\Crypt\\CryptInterface",
+            "crypt"
+        );
+
+        services->bind(
+            "Phalcon\\Http\\Response\\CookiesInterface",
+            "Phalcon\\Http\\Response\\Cookies"
+        );
+        services->setAlias(
+            "Phalcon\\Http\\Response\\CookiesInterface",
+            "cookies"
+        );
 
         services->bind(
             "Phalcon\\Mvc\\DispatcherInterface",
@@ -59,13 +77,22 @@ class Web implements Provider
             "Phalcon\\Html\\Escaper\\EscaperInterface",
             "Phalcon\\Html\\Escaper"
         );
-        services->setAlias("Phalcon\\Html\\Escaper\\EscaperInterface", "escaper");
+        services->setAlias(
+            "Phalcon\\Html\\Escaper\\EscaperInterface",
+            "escaper"
+        );
 
         services->bind(
             "Phalcon\\Events\\ManagerInterface",
             "Phalcon\\Events\\Manager"
         );
         services->setAlias("Phalcon\\Events\\ManagerInterface", "eventsManager");
+
+        services->set("Phalcon\\Flash\\Direct", "Phalcon\\Flash\\Direct");
+        services->setAlias("Phalcon\\Flash\\Direct", "flash");
+
+        services->set("Phalcon\\Flash\\Session", "Phalcon\\Flash\\Session");
+        services->setAlias("Phalcon\\Flash\\Session", "flashSession");
 
         services->set(
             "Phalcon\\Filter\\FilterInterface",
@@ -75,17 +102,29 @@ class Web implements Provider
         );
         services->setAlias("Phalcon\\Filter\\FilterInterface", "filter");
 
+        services->set(
+            "Phalcon\\Support\\HelperFactory",
+            "Phalcon\\Support\\HelperFactory"
+        );
+        services->setAlias("Phalcon\\Support\\HelperFactory", "helper");
+
         services->bind(
             "Phalcon\\Mvc\\Model\\ManagerInterface",
             "Phalcon\\Mvc\\Model\\Manager"
         );
-        services->setAlias("Phalcon\\Mvc\\Model\\ManagerInterface", "modelsManager");
+        services->setAlias(
+            "Phalcon\\Mvc\\Model\\ManagerInterface",
+            "modelsManager"
+        );
 
         services->bind(
             "Phalcon\\Mvc\\Model\\MetaDataInterface",
             "Phalcon\\Mvc\\Model\\MetaData\\Memory"
         );
-        services->setAlias("Phalcon\\Mvc\\Model\\MetaDataInterface", "modelsMetadata");
+        services->setAlias(
+            "Phalcon\\Mvc\\Model\\MetaDataInterface",
+            "modelsMetadata"
+        );
 
         services->bind(
             "Phalcon\\Http\\RequestInterface",
@@ -105,53 +144,43 @@ class Web implements Provider
         );
         services->setAlias("Phalcon\\Mvc\\RouterInterface", "router");
 
+        services->set(
+            "Phalcon\\Encryption\\Security",
+            "Phalcon\\Encryption\\Security"
+        );
+        services->setAlias("Phalcon\\Encryption\\Security", "security");
+
+        services->set(
+            "Phalcon\\Storage\\SerializerFactory",
+            "Phalcon\\Storage\\SerializerFactory"
+        );
+        services->setAlias(
+            "Phalcon\\Storage\\SerializerFactory",
+            "storageSerializer"
+        );
+
+        services->set(
+            "Phalcon\\Support\\Settings",
+            "Phalcon\\Support\\Settings"
+        );
+        services->setAlias("Phalcon\\Support\\Settings", "settings");
+
+        services->set("Phalcon\\Html\\TagFactory", "Phalcon\\Html\\TagFactory");
+        services->setAlias("Phalcon\\Html\\TagFactory", "tag");
+
         services->bind(
             "Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface",
             "Phalcon\\Mvc\\Model\\Transaction\\Manager"
         );
-        services->setAlias("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface", "transactionManager");
+        services->setAlias(
+        "Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface",
+        "transactionManager"
+        );
 
         services->bind(
             "Phalcon\\Mvc\\Url\\UrlInterface",
             "Phalcon\\Mvc\\Url"
         );
         services->setAlias("Phalcon\\Mvc\\Url\\UrlInterface", "url");
-
-        services->set("Phalcon\\Annotations\\Annotations", "Phalcon\\Annotations\\Annotations")
-            ->setArgument(0, LazyFactory::get("Phalcon\\Annotations\\Adapter\\Memory"));
-        services->setAlias("Phalcon\\Annotations\\Annotations", "annotations");
-
-        services->set("Phalcon\\Annotations\\Adapter\\Memory", "Phalcon\\Annotations\\Adapter\\Memory")
-            ->setArgument(0, LazyFactory::get("Phalcon\\Storage\\SerializerFactory"));
-        services->setAlias("Phalcon\\Annotations\\Adapter\\Memory", "annotationsMemory");
-
-        services->set("Phalcon\\Assets\\Manager", "Phalcon\\Assets\\Manager")
-            ->setArgument(0, LazyFactory::get("Phalcon\\Html\\TagFactory"));
-        services->setAlias("Phalcon\\Assets\\Manager", "assets");
-
-        services->set("Phalcon\\Db\\Event\\Factory", "Phalcon\\Db\\Event\\Factory");
-        services->setAlias("Phalcon\\Db\\Event\\Factory", "modelsEventFactory");
-
-        services->set("Phalcon\\Flash\\Direct", "Phalcon\\Flash\\Direct");
-        services->setAlias("Phalcon\\Flash\\Direct", "flash");
-
-        services->set("Phalcon\\Support\\HelperFactory", "Phalcon\\Support\\HelperFactory");
-        services->setAlias("Phalcon\\Support\\HelperFactory", "helper");
-
-        services->set("Phalcon\\Encryption\\Security", "Phalcon\\Encryption\\Security");
-        services->setAlias("Phalcon\\Encryption\\Security", "security");
-
-        services->set("Phalcon\\Storage\\SerializerFactory", "Phalcon\\Storage\\SerializerFactory");
-        services->setAlias("Phalcon\\Storage\\SerializerFactory", "storageSerializer");
-
-        services->set("Phalcon\\Flash\\Session", "Phalcon\\Flash\\Session");
-        services->setAlias("Phalcon\\Flash\\Session", "flashSession");
-
-        services->set("Phalcon\\Support\\Settings", "Phalcon\\Support\\Settings");
-        services->setAlias("Phalcon\\Support\\Settings", "settings");
-
-        services->set("Phalcon\\Html\\TagFactory", "Phalcon\\Html\\TagFactory")
-            ->setArgument(0, LazyFactory::get("Phalcon\\Html\\Escaper\\EscaperInterface"));
-        services->setAlias("Phalcon\\Html\\TagFactory", "tag");
     }
 }
