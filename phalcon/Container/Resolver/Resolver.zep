@@ -94,7 +94,7 @@ class Resolver implements ResolverService
         method->invokeArgs(obj, resolved);
     }
 
-    public function resolveParameter(object container, var parameter) -> var
+    public function resolveParameter(object container, var parameter) -> mixed
     {
         var type, typeName, declaringClass;
 
@@ -108,8 +108,12 @@ class Resolver implements ResolverService
             }
         }
 
-        if parameter->isOptional() {
+        if parameter->isOptional() && parameter->isDefaultValueAvailable() {
             return parameter->getDefaultValue();
+        }
+
+        if parameter->isOptional() {
+            return null;
         }
 
         let declaringClass = parameter->getDeclaringClass();
