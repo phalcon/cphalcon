@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesMap;
+use Phalcon\Tests\Support\Models\InvoicesWithPrivateSetters;
 use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -115,16 +116,17 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that cloneResultMap() calls model setters during hydration when
-     * orm.disable_assign_setters is false (the default).
+     * Tests that cloneResultMap() does NOT call model setters during hydration.
+     * Setters belong to mass-assignment (assign()); hydration must write raw
+     * DB values directly.
      *
-     * @issue  https://github.com/phalcon/cphalcon/issues/14810
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-22
+     * @since  2026-04-23
      *
      * @group mysql
      */
-    public function testMvcModelCloneResultMapCallsSetters(): void
+    public function testMvcModelCloneResultMapDoesNotCallSetters(): void
     {
         /** @var InvoicesWithSetters $invoice */
         $invoice = Model::cloneResultMap(
@@ -140,11 +142,64 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
             null
         );
 
-        // setInvTitle() prepends 'SET:' → setter must have been called
-        $this->assertSame('SET:original-title', $invoice->inv_title);
+        // Setters must NOT be called — raw DB values must be stored as-is
+        $this->assertSame('original-title', $invoice->inv_title);
+        $this->assertSame(10.0, (float) $invoice->inv_total);
+    }
 
-        // setInvTotal() doubles the value → setter must have been called
+    /**
+     * Tests that assign() still calls model setters (setter behaviour is
+     * intentional for mass-assignment, not for hydration).
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group mysql
+     */
+    public function testMvcModelAssignStillCallsSetters(): void
+    {
+        $invoice = new InvoicesWithSetters();
+        $invoice->assign([
+            'inv_title' => 'original-title',
+            'inv_total' => 10.0,
+        ]);
+
+        // setInvTitle() prepends 'SET:' — setter must have been called
+        $this->assertSame('SET:original-title', $invoice->inv_title);
+        // setInvTotal() doubles the value — setter must have been called
         $this->assertSame(20.0, (float) $invoice->inv_total);
+    }
+
+    /**
+     * Tests that cloneResultMap() sets private model properties directly via
+     * Reflection, without invoking their setters.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     *
+     * @group mysql
+     */
+    public function testMvcModelCloneResultMapDoesNotCallSettersForPrivateProperties(): void
+    {
+        /** @var InvoicesWithPrivateSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithPrivateSetters(),
+            [
+                'inv_id'          => 1,
+                'inv_cst_id'      => 2,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'original-title',
+                'inv_total'       => 10.0,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+                'secretValue'     => 'raw-db-value',
+            ],
+            null
+        );
+
+        // secretValue is private; Reflection must bypass the setter
+        $this->assertSame('raw-db-value', $invoice->getSecretValue());
     }
 
     /**
