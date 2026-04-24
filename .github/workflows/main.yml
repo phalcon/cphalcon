@@ -573,38 +573,19 @@ jobs:
           path: "tests/_output/coverage.xml"
           retention-days: 7
 
-#      - name: Run Database Tests (Sqlite)
-#        env:
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        if: always()
-#        run: vendor/bin/codecept run --coverage-xml=coverage-database-sqlite-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
-#
-#      - name: Upload Database (Sqlite) Coverage
-#        uses: actions/upload-artifact@v7
-#        if: always()
-#        with:
-#          name: coverage-database-sqlite-${{ matrix.php }}
-#          path: tests/_output/coverage-database-sqlite-${{ matrix.php }}.xml
-#          retention-days: 7
-#
-#      - name: Run Database Tests (Postgres)
-#        env:
-#          DATA_POSTGRES_USER: phalcon
-#          DATA_POSTGRES_PASS: secret
-#          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        if: always()
-#        run: vendor/bin/codecept run --coverage-xml=coverage-database-pgsql-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
-#
-#      - name: Upload Database (Postgres) Coverage
-#        uses: actions/upload-artifact@v7
-#        if: always()
-#        with:
-#          name: coverage-database-pgsql-${{ matrix.php }}
-#          path: tests/_output/coverage-database-pgsql-${{ matrix.php }}.xml
-#          retention-days: 7
+      - name: Run Database Tests (SQLite)
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
+        run: vendor/bin/phpunit -c phpunit.sqlite.xml
+      - name: Upload Database (SQLite) Coverage
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: "db-sqlite-${{ matrix.php }}.coverage"
+          path: "tests/_output/coverage.xml"
+          retention-days: 7
 
 # Disabling this from cphalcon because codecov is not finding the sourceset for the coverage report.
 #  upload-coverage:
