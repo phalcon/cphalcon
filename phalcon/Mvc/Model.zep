@@ -114,7 +114,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * @var int
      */
-    protected static int hydrationDepth = 0;
+    protected static hydrationDepth = 0;
 
     /**
      * @var ManagerInterface|null
@@ -909,7 +909,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
     {
-        var instance, key, value;
+        var depth, instance, key, value;
 
         /**
          * Clone the base record
@@ -921,11 +921,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         instance->setDirtyState(dirtyState);
 
-        let self::hydrationDepth++;
+        let depth = self::hydrationDepth;
+        let depth = depth + 1;
+        let self::hydrationDepth = depth;
 
         for key, value in data {
             if unlikely typeof key !== "string" {
-                let self::hydrationDepth--;
+                let depth = self::hydrationDepth;
+                let depth = depth - 1;
+                let self::hydrationDepth = depth;
+
                 throw new Exception(
                     "Invalid key in array data provided to dumpResult() in '" . get_class(base) . "'"
                 );
@@ -934,7 +939,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let instance->{key} = value;
         }
 
-        let self::hydrationDepth--;
+        let depth = self::hydrationDepth;
+        let depth = depth - 1;
+        let self::hydrationDepth = depth;
 
         /**
          * Call afterFetch, this allows the developer to execute actions after a
@@ -968,7 +975,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes;
+        var depth, instance, attribute, key, value, castValue, attributeName,
+            metaData, reverseMap, notNullAttributes;
 
         let instance = clone base;
         if instance instanceof Model {
@@ -985,7 +993,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Assign the data in the model
          */
-        let self::hydrationDepth++;
+        let depth = self::hydrationDepth;
+        let depth = depth + 1;
+        let self::hydrationDepth = depth;
 
         for key, value in data {
             // Only string keys in the data are valid
@@ -1086,7 +1096,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let instance->{attributeName} = castValue;
         }
 
-        let self::hydrationDepth--;
+        let depth = self::hydrationDepth;
+        let depth = depth - 1;
+        let self::hydrationDepth = depth;
 
         /**
          * Models that keep snapshots store the original data in t
