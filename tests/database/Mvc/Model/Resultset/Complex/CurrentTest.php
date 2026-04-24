@@ -100,9 +100,9 @@ final class CurrentTest extends AbstractDatabaseTestCase
 
         $this->assertInstanceOf(Row::class, $row);
         $this->assertInstanceOf(Customers::class, $customer);
-        $this->assertSame('1', $customer->cst_id);
+        $this->assertEquals(1, $customer->cst_id);
         $this->assertInstanceOf(Invoices::class, $invoice);
-        $this->assertSame('1', $invoice->inv_id);
+        $this->assertEquals(1, $invoice->inv_id);
 
         $resultsets->next();
 
@@ -114,7 +114,7 @@ final class CurrentTest extends AbstractDatabaseTestCase
 
         $this->assertInstanceOf(Row::class, $row);
         $this->assertInstanceOf(Customers::class, $customer);
-        $this->assertSame('2', $customer->cst_id);
+        $this->assertEquals(2, $customer->cst_id);
         $this->assertNull($invoice);
     }
 }
