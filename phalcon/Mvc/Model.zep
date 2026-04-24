@@ -4109,10 +4109,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 snapshot[attributeField] = lastInsertedId;
 
             /**
-             * Since the primary key was modified, we delete the uniqueParams
-             * to force any future update to re-build the primary key
+             * Since the primary key was modified, we delete the uniqueKey
+             * and uniqueParams to force any future has() call to re-build
+             * the primary key condition from current attribute values
              */
-            let this->uniqueParams = null;
+            let this->uniqueKey    = null,
+                this->uniqueParams = null;
         }
 
         if success {

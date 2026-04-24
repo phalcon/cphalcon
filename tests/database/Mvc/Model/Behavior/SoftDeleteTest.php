@@ -16,9 +16,12 @@ namespace Phalcon\Tests\Database\Mvc\Model\Behavior;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventManager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesBehavior;
+use Phalcon\Tests\Support\Models\InvoicesBehaviorBelongsToCustomers;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;
@@ -100,6 +103,42 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
 
         /** Check that SoftDelete wasn't working because beforeDelete event return false */
         $this->assertEquals(Invoices::STATUS_PAID, $invoice->inv_status_flag);
+    }
+
+    /**
+     * Tests that SoftDelete does not attempt to create a new record for a
+     * belongsTo related model when the parent model is soft-deleted.
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/16453
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-04-23
+     *
+     * @group mysql
+     */
+    public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
+    {
+        $connection = self::getConnection();
+        (new CustomersMigration($connection));
+
+        $customer                  = new Customers();
+        $customer->cst_status_flag = 1;
+        $customer->cst_name_last   = 'SoftDeleteBelongsTo';
+        $customer->cst_name_first  = 'Test';
+        $this->assertTrue($customer->save());
+
+        $invoice                  = new InvoicesBehaviorBelongsToCustomers();
+        $invoice->inv_status_flag = Invoices::STATUS_PAID;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 100.00;
+        $invoice->customer        = $customer;
+        $this->assertTrue($invoice->save());
+
+        $customerCountBefore = Customers::count();
+
+        $this->assertTrue($invoice->delete());
+        $this->assertEquals(Invoices::STATUS_INACTIVE, $invoice->inv_status_flag);
+        $this->assertEquals($customerCountBefore, Customers::count());
     }
 
     /**
