@@ -17,6 +17,7 @@
 
 ### Added
 
+- Added `Phalcon\Mvc\Model\Resultset::refresh()` to re-execute the underlying query and update the resultset with fresh data from the database [#16409](https://github.com/phalcon/cphalcon/issues/16409)
 - Added `deleteMultiple()` to `Phalcon\Storage\Adapter\*` to delete multiple keys in a single operation using native batch capabilities per adapter [#16859](https://github.com/phalcon/cphalcon/issues/16859)
 - Added key validation per entry in `Phalcon\Cache\AbstractCache::doDeleteMultiple()` throwing `InvalidArgumentException` for keys containing invalid characters [#16859](https://github.com/phalcon/cphalcon/issues/16859)
 - Added named static factory methods `Phalcon\Forms\Exception::tagFactoryNotFound()` and `Phalcon\Forms\Exception::usingParameterRequired()` [#16894](https://github.com/phalcon/cphalcon/issues/16894)
