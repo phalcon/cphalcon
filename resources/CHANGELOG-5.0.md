@@ -28,6 +28,7 @@
   
 ### Fixed
 
+- Fixed `Phalcon\Html\Helper\AbstractHelper::renderAttributes()` to emit boolean HTML5 attributes (e.g. `async`, `defer`) as standalone attribute names instead of `async="1"` when the attribute value is `true` [#16304](https://github.com/phalcon/cphalcon/issues/16304)
 - Fixed `Phalcon\Mvc\Model::getRelated()` to return already-fetched relations from the internal cache (`dirtyRelated` first, then `related`) instead of always querying the database; cache is cleared after `save()` and `delete()` to prevent stale results [#16409](https://github.com/phalcon/cphalcon/issues/16409)
 - Fixed `Phalcon\Db\Result\PdoResult::$rowCount` to use `null` as the uninitialised sentinel instead of `false`, preventing a count of `0` rows being confused with "not yet counted" [#16409](https://github.com/phalcon/cphalcon/issues/16409)
 - Fixed `Phalcon\Mvc\Model::__unserialize()` and `Phalcon\Mvc\Model::unserialize()` to call `onConstruct()` after deserialization, so typed properties initialized in `onConstruct` are correctly set when a model is restored from cache [#15906](https://github.com/phalcon/cphalcon/issues/15906)
