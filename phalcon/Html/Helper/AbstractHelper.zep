@@ -160,7 +160,11 @@ abstract class AbstractHelper
         let result = "";
         for key, value in attributes {
             if typeof key === "string" && null !== value {
-                let result .= key . "=\"" . this->escaper->attributes(value) . "\" ";
+                if (true === value) {
+                    let result .= key . " ";
+                } else {
+                    let result .= key . "=\"" . this->escaper->attributes(value) . "\" ";
+                }
             }
         }
 
