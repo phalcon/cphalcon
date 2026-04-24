@@ -225,6 +225,10 @@ abstract class AbstractDatabaseTestCase extends AbstractUnitTestCase
                 self::$password
             );
 
+            if (self::$driver === 'sqlite') {
+                self::$connection->exec('PRAGMA journal_mode = WAL');
+            }
+
             $queries = explode(';', env('initial_queries', ''));
             $queries = array_filter($queries);
             foreach ($queries as $query) {

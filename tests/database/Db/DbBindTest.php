@@ -40,6 +40,7 @@ final class DbBindTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group  mysql
+     * @group sqlite
      */
     public function testDbBindConvertParams(): void
     {
@@ -142,6 +143,7 @@ final class DbBindTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group  mysql
+     * @group sqlite
      */
     public function testDbBindByType(): void
     {

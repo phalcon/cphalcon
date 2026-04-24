@@ -42,6 +42,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @since  2020-08-02
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelGetRelated(): void
     {
@@ -122,6 +123,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @since  2021-10-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelGetRelatedChangeForeignKey(): void
     {
@@ -214,6 +216,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @since  2026-04-23
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelGetRelatedReturnsCachedResult(): void
     {
@@ -251,6 +254,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @since  2026-04-23
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelGetRelatedPrioritisesDirtyRelated(): void
     {

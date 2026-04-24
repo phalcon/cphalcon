@@ -23,6 +23,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @since  2019-06-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelRowToArray(): void
     {

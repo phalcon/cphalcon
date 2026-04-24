@@ -44,6 +44,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderConstruct(): void
     {
@@ -73,6 +74,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderConstructException(): void
     {

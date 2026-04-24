@@ -73,6 +73,7 @@ final class DropViewTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectDropView(
         string $dialectClass,
@@ -94,6 +95,7 @@ final class DropViewTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectDropViewNotExists(
         string $dialectClass,

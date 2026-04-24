@@ -39,6 +39,7 @@ final class FormTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testLabels(): void
     {
@@ -94,6 +95,7 @@ final class FormTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormValidator(): void
     {
@@ -229,6 +231,7 @@ final class FormTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testElementMessages(): void
     {

@@ -34,6 +34,7 @@ final class GetSQLVariablesTest extends AbstractDatabaseTestCase
      * @since  2021-10-31
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbAdapterGetSqlVariablesInit(): void
     {

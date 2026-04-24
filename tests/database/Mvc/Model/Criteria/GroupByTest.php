@@ -33,6 +33,7 @@ final class GroupByTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelCriteriaGroupBy(): void
     {

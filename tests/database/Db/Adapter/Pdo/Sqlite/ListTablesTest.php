@@ -43,15 +43,23 @@ final class ListTablesTest extends AbstractDatabaseTestCase
         $db = $this->container->get('db');
 
         $expected = [
+            'album',
+            'album_photo',
             'albums',
             'artists',
             'co_customers',
             'co_customers_defaults',
+            'co_dialect',
             'co_invoices',
             'co_manufacturers',
+            'co_rb_test_model',
             'co_setters',
             'co_sources',
+            'complex_default',
             'objects',
+            'personas',
+            'ph_select',
+            'photo',
             'songs',
             'sqlite_sequence',
             'stuff',

@@ -41,6 +41,7 @@ final class GetSetLimitTest extends AbstractDatabaseTestCase
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getLimit() / setLimit()
      *
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderGetSetLimit(): void
     {

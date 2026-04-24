@@ -45,6 +45,7 @@ final class UnderscoreCallTest extends AbstractDatabaseTestCase
      * @since  2019-10-03
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelCall(): void
     {

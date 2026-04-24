@@ -44,6 +44,7 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
      * @since  2019-05-22
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelManagerGetRelationRecords(): void
     {

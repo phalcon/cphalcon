@@ -28,6 +28,7 @@ final class CreateBuilderTest extends AbstractDatabaseTestCase
      * @since  2022-07-04
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function testMvcModelManagerCreateBuilder(): void

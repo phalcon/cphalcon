@@ -42,6 +42,7 @@ final class RefreshTest extends AbstractDatabaseTestCase
     /**
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelRefresh(): void
     {

@@ -50,7 +50,20 @@ CREATE TABLE `album_photo` (
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists album_photo;
+            ",
+            "
+create table album_photo
+(
+    id       integer constraint album_photo_pk primary key autoincrement not null,
+    photo_id integer null,
+    album_id integer null,
+    position integer not null default 999999999
+);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

@@ -33,6 +33,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoFactoryNewInstance(
         string $label,

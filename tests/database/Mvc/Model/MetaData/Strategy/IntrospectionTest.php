@@ -111,6 +111,7 @@ final class IntrospectionTest extends AbstractDatabaseTestCase
      * @since        2023-07-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelMetadataIntrospectionException(): void
     {

@@ -52,6 +52,7 @@ final class DropIndexTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectDropIndex(
         string $dialectClass,

@@ -37,8 +37,8 @@ final class GetTest extends AbstractDatabaseTestCase
      * @since  2012-08-07
      *
      * @group mysql
-     * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelTransactionManagerGet(): void
     {

@@ -130,6 +130,7 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectCreateTable(
         string $dialectClass,
@@ -157,6 +158,7 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectCreateTableException(
         string $dialectClass
@@ -181,6 +183,7 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectCreateTableTemporary(
         string $dialectClass,

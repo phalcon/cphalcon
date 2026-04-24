@@ -59,6 +59,7 @@ final class CountTest extends AbstractDatabaseTestCase
      * @since  2020-01-29
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelCount(): void
     {
@@ -163,6 +164,7 @@ final class CountTest extends AbstractDatabaseTestCase
      * @since  2023-12-26
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function testMvcModelCountColumnMap(): void
@@ -201,7 +203,7 @@ final class CountTest extends AbstractDatabaseTestCase
          * This is here because each engine sorts their groupped results
          * differently
          */
-        if ('mysql' !== self::getDriver()) {
+        if ('pgsql' === self::getDriver() || 'postgres' === self::getDriver()) {
             $matrix = [
                 0 => [3, 1],
                 1 => [2, 12],

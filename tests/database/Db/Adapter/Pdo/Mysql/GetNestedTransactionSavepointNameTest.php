@@ -23,6 +23,7 @@ final class GetNestedTransactionSavepointNameTest extends AbstractDatabaseTestCa
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlGetNestedTransactionSavepointName(): void
     {

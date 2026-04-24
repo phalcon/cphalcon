@@ -42,6 +42,7 @@ final class GetSetTransactionTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelQueryGetSetTransaction(): void
     {

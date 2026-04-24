@@ -60,6 +60,7 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldAddForeignKey(
         string $sql,
@@ -82,6 +83,7 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
         string $sql,
@@ -108,6 +110,7 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldDropForeignKey(
         string $sql,

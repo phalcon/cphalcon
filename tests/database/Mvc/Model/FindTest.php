@@ -57,6 +57,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFind(): void
     {
@@ -79,6 +80,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2024-08-02
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindDeprecationWarning(): void
     {
@@ -124,6 +126,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2021-05-25
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindPrivatePropertyWithRedisCache(): void
     {
@@ -240,6 +243,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2020-10-17
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindResultsetSecondIteration(): void
     {
@@ -302,6 +306,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindWithCache(): void
     {
@@ -376,6 +381,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindWithCacheLifetimeFromCacheService(): void
     {
@@ -442,6 +448,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2021-05-10
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindWithCacheException(): void
     {
@@ -478,6 +485,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2023-06-30
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindWithSpecificColumn(): void
     {
@@ -509,6 +517,7 @@ final class FindTest extends AbstractDatabaseTestCase
      * @since  2024-08-02
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindWithCacheOptionsLifetimePriorityOverCacheService(): void
     {

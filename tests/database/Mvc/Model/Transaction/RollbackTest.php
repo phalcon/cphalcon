@@ -46,6 +46,7 @@ final class RollbackTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function testMvcModelTransactionRollback(): void
@@ -81,6 +82,7 @@ final class RollbackTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function testMvcModelTransactionRollbackException(): void

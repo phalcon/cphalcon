@@ -47,6 +47,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelSerialize(): void
     {
@@ -86,6 +87,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @since  2026-04-22
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
     {
@@ -134,6 +136,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @since  2026-04-22
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelSerializeUnserializeWithTypedNullProperty(): void
     {
@@ -187,6 +190,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @since  2021-11-09
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelSerializeWithDirtyState(): void
     {

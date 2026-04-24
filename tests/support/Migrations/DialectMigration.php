@@ -213,7 +213,56 @@ create table co_dialect
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists co_dialect;
+            ",
+            "
+create table co_dialect
+(
+    field_primary           integer constraint co_dialect_pk primary key autoincrement,
+    field_blob              blob    null,
+    field_binary            blob    null,
+    field_bit               integer null,
+    field_bit_default       integer default 1    null,
+    field_bigint            integer null,
+    field_bigint_default    integer default 1    null,
+    field_boolean           integer null,
+    field_boolean_default   integer default 1    null,
+    field_char              text    null,
+    field_char_default      text    default 'ABC' null,
+    field_decimal           real    null,
+    field_decimal_default   real    default 14.5678 null,
+    field_enum              text    null,
+    field_integer           integer null,
+    field_integer_default   integer default 1    null,
+    field_json              text    null,
+    field_float             real    null,
+    field_float_default     real    default 14.5678 null,
+    field_date              text    null,
+    field_date_default      text    default '2018-10-01' null,
+    field_datetime          text    null,
+    field_datetime_default  text    default '2018-10-01 12:34:56' null,
+    field_time              text    null,
+    field_time_default      text    default '12:34:56' null,
+    field_timestamp         text    null,
+    field_timestamp_default text    default '2018-10-01 12:34:56' null,
+    field_mediumint         integer null,
+    field_mediumint_default integer default 1    null,
+    field_smallint          integer null,
+    field_smallint_default  integer default 1    null,
+    field_tinyint           integer null,
+    field_tinyint_default   integer default 1    null,
+    field_longtext          text    null,
+    field_mediumtext        text    null,
+    field_tinytext          text    null,
+    field_text              text    null,
+    field_varbinary         blob    null,
+    field_varchar           text    null,
+    field_varchar_default   text    default 'D'  null
+);
+            ",
+        ];
     }
 
     protected function getSqlPgsql(): array

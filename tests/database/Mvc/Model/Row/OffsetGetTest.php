@@ -23,6 +23,7 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
      * @since  2019-06-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelRowOffsetGet(): void
     {

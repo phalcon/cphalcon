@@ -32,6 +32,7 @@ final class GetSetWriteConnectionServiceTest extends AbstractDatabaseTestCase
      * @since  2020-01-31
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelGetSetWriteConnectionService(): void
     {

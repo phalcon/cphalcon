@@ -83,6 +83,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirst(): void
     {
@@ -118,6 +119,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstByNotFound(): void
     {
@@ -131,6 +133,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-11-22
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstColumn(): void
     {
@@ -163,6 +166,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstColumnMap(): void
     {
@@ -206,6 +210,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstException(): void
     {
@@ -223,6 +228,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstExtended(): void
     {
@@ -251,6 +257,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2022-02-05
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstExtendedColumn(): void
     {
@@ -280,6 +287,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2022-06-14
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstFoundNotFoundGetRelated(): void
     {
@@ -369,6 +377,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstNotFound(): void
     {
@@ -388,6 +397,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @since        2020-01-27
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelFindFirstStringPrimaryKey(
         array | string $params,

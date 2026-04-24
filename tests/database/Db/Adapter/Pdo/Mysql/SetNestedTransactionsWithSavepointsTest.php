@@ -23,6 +23,7 @@ final class SetNestedTransactionsWithSavepointsTest extends AbstractDatabaseTest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group  mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlSetNestedTransactionsWithSavepoints(): void
     {

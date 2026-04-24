@@ -37,6 +37,7 @@ final class HasChangedTest extends AbstractDatabaseTestCase
      * @since  2019-05-17
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelHasChanged(): void
     {

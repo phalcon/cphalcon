@@ -43,6 +43,7 @@ final class ConnectTest extends AbstractDatabaseTestCase
      * @since  2021-04-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoConnectPersistent(): void
     {

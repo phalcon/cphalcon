@@ -131,6 +131,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectAddForeignKey(
         string $dialectClass,
@@ -158,6 +159,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectAddForeignKeyOnDelete(
         string $dialectClass,
@@ -186,6 +188,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectAddForeignKeyOnUpdate(
         string $dialectClass,

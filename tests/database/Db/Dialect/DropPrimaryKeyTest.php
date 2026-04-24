@@ -70,6 +70,7 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectDropPrimaryKey(
         string $dialectClass,

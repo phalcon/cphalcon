@@ -24,6 +24,7 @@ final class OffsetUnsetTest extends AbstractDatabaseTestCase
      * @since  2019-06-01
      *
      * @group mysql
+     * @group sqlite
      */
     public function testMvcModelRowOffsetUnset(): void
     {

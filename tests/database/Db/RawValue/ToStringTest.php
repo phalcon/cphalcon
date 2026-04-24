@@ -25,6 +25,7 @@ final class ToStringTest extends AbstractDatabaseTestCase
      * @since  2019-04-17
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbRawvalueToString(): void
     {

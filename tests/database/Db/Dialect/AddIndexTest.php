@@ -80,6 +80,7 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectAddIndex(
         string $dialectClass,
@@ -102,6 +103,7 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectAddIndexType(
         string $dialectClass,

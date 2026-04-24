@@ -62,8 +62,8 @@ final class CurrentTest extends AbstractDatabaseTestCase
      * @since  2026-04-23
      *
      * @group mysql
-     * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelResultsetComplexCurrentLeftJoinNullResult(): void
     {

@@ -43,6 +43,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterModelPaginate(): void
     {
@@ -150,6 +151,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateEmpty(): void
     {
@@ -180,6 +182,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateParametersArrayString(): void
     {
@@ -219,6 +222,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateParametersString(): void
     {
@@ -260,6 +264,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @issue  14639
      *
      * @group mysql
+     * @group sqlite
      *
      * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
@@ -310,13 +315,14 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16471
      *
      * @group mysql
+     * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateWithOrder(): void
     {
         /** @var PDO $connection */
         $connection = self::getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId      = 'default';
+        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');

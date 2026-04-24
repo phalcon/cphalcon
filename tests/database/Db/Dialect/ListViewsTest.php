@@ -85,6 +85,7 @@ final class ListViewsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectListViews(
         string $dialectClass,
@@ -106,6 +107,7 @@ final class ListViewsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectListViewsNoSchema(
         string $dialectClass,

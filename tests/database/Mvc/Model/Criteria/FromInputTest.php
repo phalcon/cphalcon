@@ -64,7 +64,7 @@ final class FromInputTest extends AbstractDatabaseTestCase
                 . 'AND [inv_cst_id] = :inv_cst_id: '
                 . 'AND [inv_status_flag] = :inv_status_flag: '
                 . 'AND [inv_title] = :inv_title: '
-                . 'AND [inv_total] LIKE :inv_total: '
+                . 'AND [inv_total] = :inv_total: '
                 . 'AND [inv_created_at] = :inv_created_at:';
         } else {
             $expected = 'SELECT [Phalcon\Tests\Support\Models\Invoices].* '
@@ -85,7 +85,7 @@ final class FromInputTest extends AbstractDatabaseTestCase
                 'inv_cst_id'      => 2,
                 'inv_status_flag' => 3,
                 'inv_title'       => 'title',
-                'inv_total'       => '%100.1%',
+                'inv_total'       => 100.10,
                 'inv_created_at'  => '2020-12-25 01:02:03',
             ];
         } else {

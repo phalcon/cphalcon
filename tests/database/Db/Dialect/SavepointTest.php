@@ -41,6 +41,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectCreateSavepoint(string $dialectClass): void
     {
@@ -60,6 +61,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectReleaseSavepoint(string $dialectClass): void
     {
@@ -79,6 +81,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectRollbackSavepoint(string $dialectClass): void
     {
@@ -98,6 +101,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectSupportsSavepoints(string $dialectClass): void
     {
@@ -115,6 +119,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group sqlite
      */
     public function testDbDialectSupportsReleaseSavepoints(string $dialectClass): void
     {
