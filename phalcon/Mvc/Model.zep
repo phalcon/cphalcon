@@ -2702,7 +2702,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function doSave(<CollectionInterface> visited) -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, relatedToSave, objId;
+            identityField, exists, success, relatedToSave, objId,
+            manager, savedSnapshot, savedOldSnapshot;
         bool hasRelatedToSave;
 
         let objId = spl_object_id(this);
@@ -2807,6 +2808,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
+         * Capture the current snapshot before the write so it can be restored
+         * if postSaveRelatedRecords later rolls back the transaction
+         */
+        let manager = this->getModelsManager();
+
+        if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+            let savedSnapshot    = this->snapshot,
+                savedOldSnapshot = this->oldSnapshot;
+        }
+
+        /**
          * Depending if the record exists we do an update or an insert operation
          */
         if exists {
@@ -2854,6 +2866,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if success === false {
             this->cancelOperation();
+
+            /**
+             * If the transaction was rolled back, restore the snapshot to its
+             * pre-save state so that Dynamic Update can detect changes correctly
+             * on the next save attempt
+             */
+            if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+                let this->snapshot    = savedSnapshot,
+                    this->oldSnapshot = savedOldSnapshot;
+            }
         } else {
             if hasRelatedToSave {
                 /**
