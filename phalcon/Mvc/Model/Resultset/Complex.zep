@@ -76,6 +76,7 @@ class Complex extends Resultset
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
             rowModel, keepSnapshots, sqlAlias, modelName;
+        bool allNull;
 
         let activeRow = this->activeRow;
 
@@ -166,54 +167,69 @@ class Complex extends Resultset
                 }
 
                 /**
-                 * Generate the column value according to the hydration type
+                 * If all values are null, the LEFT JOIN returned no matching row
                  */
-                switch hydrateMode {
-                    case Resultset::HYDRATE_RECORDS:
-                        // Check if the resultset must keep snapshots
-                        if !fetch keepSnapshots, column["keepSnapshots"] {
-                            let keepSnapshots = false;
-                        }
+                let allNull = true;
+                for columnValue in rowModel {
+                    if columnValue !== null {
+                        let allNull = false;
+                        break;
+                    }
+                }
 
-                        if Settings::get("orm.late_state_binding") {
-                            if column["instance"] instanceof Model {
-                                let modelName = get_class(column["instance"]);
-                            } else {
-                                let modelName = "Phalcon\\Mvc\\Model";
+                if allNull {
+                    let value = null;
+                } else {
+                    /**
+                     * Generate the column value according to the hydration type
+                     */
+                    switch hydrateMode {
+                        case Resultset::HYDRATE_RECORDS:
+                            // Check if the resultset must keep snapshots
+                            if !fetch keepSnapshots, column["keepSnapshots"] {
+                                let keepSnapshots = false;
                             }
 
-                            let value = {modelName}::cloneResultMap(
-                                column["instance"],
+                            if Settings::get("orm.late_state_binding") {
+                                if column["instance"] instanceof Model {
+                                    let modelName = get_class(column["instance"]);
+                                } else {
+                                    let modelName = "Phalcon\\Mvc\\Model";
+                                }
+
+                                let value = {modelName}::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            } else {
+                                /**
+                                 * Get the base instance. Assign the values to the
+                                 * attributes using a column map
+                                 */
+                                let value = Model::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            }
+
+                            break;
+
+                        default:
+                            // Other kinds of hydration
+                            let value = Model::cloneResultMapHydrate(
                                 rowModel,
                                 columnMap,
-                                dirtyState,
-                                keepSnapshots
+                                hydrateMode
                             );
-                        } else {
-                            /**
-                             * Get the base instance. Assign the values to the
-                             * attributes using a column map
-                             */
-                            let value = Model::cloneResultMap(
-                                column["instance"],
-                                rowModel,
-                                columnMap,
-                                dirtyState,
-                                keepSnapshots
-                            );
-                        }
 
-                        break;
-
-                    default:
-                        // Other kinds of hydration
-                        let value = Model::cloneResultMapHydrate(
-                            rowModel,
-                            columnMap,
-                            hydrateMode
-                        );
-
-                        break;
+                            break;
+                    }
                 }
 
                 /**
