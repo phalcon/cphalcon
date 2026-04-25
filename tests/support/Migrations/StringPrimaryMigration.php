@@ -18,24 +18,24 @@ class StringPrimaryMigration extends AbstractMigration
 {
     protected $table = "table_with_uuid_primary";
 
-    /**
-     * @param string $uuid
-     * @param int    $id
-     */
     public function insert(
         string $uuid,
-        int $id
+        int $id,
     ) {
-        if (0 === $id) {
-            $id = null;
-        }
-
         $sql = <<<SQL
-insert into table_with_uuid_primary (uuid, int_field)
-VALUES ('{$uuid}', {$id});
+insert into table_with_uuid_primary (
+    uuid, int_field
+) VALUES (
+    :uuid, :id
+);
 SQL;
 
-        $this->connection->exec($sql);
+        $params = [
+            ':uuid' => $uuid,
+            ':id'   => $id,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -54,6 +54,22 @@ create table table_with_uuid_primary
         ];
     }
 
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists table_with_uuid_primary;
+            ",
+            "
+create table table_with_uuid_primary
+(
+    uuid char(36) not null primary key,
+    int_field int null
+);
+            ",
+        ];
+    }
+
     protected function getSqlSqlite(): array
     {
         return [
@@ -67,22 +83,6 @@ create table table_with_uuid_primary
     int_field   integer
 );
             ",
-        ];
-    }
-
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists table_with_uuid_primary;
-            ",
-            "
-create table table_with_uuid_primary
-(
-    uuid char(36) not null primary key,
-    int_field int null
-);
-            "
         ];
     }
 

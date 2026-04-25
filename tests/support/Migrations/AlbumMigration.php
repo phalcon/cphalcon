@@ -19,39 +19,28 @@ class AlbumMigration extends AbstractMigration
 {
     protected $table = 'album';
 
-    /**
-     * @param int      $id
-     * @param string   $title
-     * @param int|null $albumId
-     * @param int|null $photoId
-     *
-     * @return int
-     */
     public function insert(
         ?int $id,
         string $name,
         ?int $albumId = null,
-        ?int $photoId = null
+        ?int $photoId = null,
     ): int {
-
-        $id     = $id ?: 'null';
-        $sql    = <<<SQL
-insert into album (
+        $sql = <<<'SQL'
+INSERT INTO album (
     id, name, album_id, proto_id
-) values (
-    {$id}, {$name}, {$albumId}, '{$photoId}'
+) VALUES (
+    :id, :name, :album_id, :proto_id
 )
 SQL;
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
-        }
+        $params = [
+            ':id'       => $id ?? null,
+            ':name'     => $name,
+            ':album_id' => $albumId ?? null,
+            ':proto_id' => $photoId ?? null,
+        ];
 
-        return $result;
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -62,16 +51,44 @@ drop table if exists `album`;
             ",
             "
 CREATE TABLE `album` (
-	`id`       int(11) UNSIGNED not null AUTO_INCREMENT,
+	`id`       int(11) unsigned not null auto_increment,
 	`name`     varchar(100)     not null collate 'utf8mb4_unicode_520_ci',
 	`album_id` int(11) unsigned null default null,
-	`photo_id` int(11) unsigned null default null COMMENT 'The ID of the featured photo',
+	`photo_id` int(11) unsigned null default null comment 'The ID of the featured photo',
 	primary key (`id`) using BTREE,
 	index `index_foreignkey_album_album` (`album_id`) using BTREE,
 	index `album_ibfk_2` (`photo_id`) using BTREE,
 	constraint `album_ibfk_1` foreign key (`album_id`) references `album` (`id`) on update cascade on delete cascade,
 	constraint `album_ibfk_2` foreign key (`photo_id`) references `photo` (`id`) on update cascade on delete set null
 ) collate='utf8mb4_unicode_520_ci';
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists album;
+            ",
+            "
+CREATE TABLE album (
+    id       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name     VARCHAR(100) NOT NULL,
+    album_id INTEGER REFERENCES album(id) ON DELETE CASCADE,
+    photo_id INTEGER REFERENCES photo(id) ON DELETE SET NULL,
+    CONSTRAINT album_ibfk_1 FOREIGN KEY (album_id) REFERENCES album(id) ON DELETE CASCADE,
+    CONSTRAINT album_ibfk_2 FOREIGN KEY (photo_id) REFERENCES photo(id) ON DELETE SET NULL
+)
+            ",
+            "
+CREATE INDEX index_foreignkey_album_album ON album(album_id)
+            ",
+            "
+CREATE INDEX album_ibfk_2 ON album(photo_id)
+            ",
+            "
+COMMENT ON COLUMN album.photo_id IS 'The ID of the featured photo'            
             ",
         ];
     }
@@ -95,11 +112,6 @@ create table album
     }
 
     protected function getSqlSqlsrv(): array
-    {
-        return [];
-    }
-
-    protected function getSqlPgsql(): array
     {
         return [];
     }

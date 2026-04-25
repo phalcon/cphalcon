@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
-
 class PhotoMigration extends AbstractMigration
 {
     protected $table = 'photo';
@@ -58,6 +56,11 @@ CREATE TABLE `photo` (
         ];
     }
 
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
     protected function getSqlSqlite(): array
     {
         return [
@@ -90,11 +93,6 @@ create table photo
     }
 
     protected function getSqlSqlsrv(): array
-    {
-        return [];
-    }
-
-    protected function getSqlPgsql(): array
     {
         return [];
     }

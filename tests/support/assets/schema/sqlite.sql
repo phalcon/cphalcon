@@ -1,4 +1,6 @@
 
+CREATE SCHEMA IF NOT EXISTS private;
+
 
 drop table if exists album;
             

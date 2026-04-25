@@ -18,26 +18,26 @@ class SourcesMigration extends AbstractMigration
 {
     protected $table = "co_sources";
 
-    /**
-     * @param int    $id
-     * @param string $username
-     * @param string $source
-     */
     public function insert(
         int $id,
         string $username,
-        string $source
+        string $source,
     ) {
-        if (0 === $id) {
-            $id = null;
-        }
-
         $sql = <<<SQL
-insert into co_sources (id, username, source)
-values ({$id}, "{$username}", "{$source}");
+insert into co_sources (
+    id, username, source
+) values (
+    :id, :username, :source
+);
 SQL;
 
-        $this->connection->exec($sql);
+        $params = [
+            ':id'       => $id,
+            ':username' => $username,
+            ':source'   => $source,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -62,6 +62,11 @@ create index co_sources_username_index
         ];
     }
 
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
     protected function getSqlSqlite(): array
     {
         return [
@@ -81,11 +86,6 @@ create index co_sources_username_index
     on co_sources (username);
             ",
         ];
-    }
-
-    protected function getSqlPgsql(): array
-    {
-        return [];
     }
 
     protected function getSqlSqlsrv(): array

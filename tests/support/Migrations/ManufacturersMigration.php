@@ -11,31 +11,28 @@ class ManufacturersMigration extends AbstractMigration
 {
     protected $table = "co_manufacturers";
 
-    /**
-     * @param int         $id
-     * @param string      $name
-     * @param string|null $country
-     * @param int         $foundedYear
-     *
-     * @return int
-     */
     public function insert(
         ?int $id,
         string $name,
         ?string $country,
-        int $foundedYear
+        int $foundedYear,
     ): int {
-        $id          = $id ?: 'null';
-        $country     = $country ? "'{$country}'" : 'null';
-        $sql    = <<<SQL
+        $sql     = <<<SQL
 insert into co_manufacturers (
     id, name, country, founded_year
 ) values (
-    {$id}, '{$name}', {$country}, {$foundedYear}
+    :id, :name, :country, :foundedYear
 )
 SQL;
 
-        return $this->connection->exec($sql);
+        $params = [
+            ':id'          => $id ?? null,
+            ':name'        => $name,
+            ':country'     => $country ?? null,
+            ':foundedYear' => $foundedYear,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -51,23 +48,7 @@ CREATE TABLE `co_manufacturers` (
     `founded_year` INT NOT NULL,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-            "
-        ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists co_manufacturers;",
-            "
-create table co_manufacturers (
-    id integer constraint co_manufacturers_pk primary key autoincrement,
-    name text not null,
-    country text null,
-    founded_year integer not null
-);
-            "
+            ",
         ];
     }
 
@@ -86,7 +67,23 @@ create table co_manufacturers
     country varchar(100) null,
     founded_year int not null
 );
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
             "
+drop table if exists co_manufacturers;",
+            "
+create table co_manufacturers (
+    id integer constraint co_manufacturers_pk primary key autoincrement,
+    name text not null,
+    country text null,
+    founded_year integer not null
+);
+            ",
         ];
     }
 

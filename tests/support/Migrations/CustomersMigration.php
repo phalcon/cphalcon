@@ -22,38 +22,28 @@ class CustomersMigration extends AbstractMigration
 {
     protected $table = 'co_customers';
 
-    /**
-     * @param int|null    $id
-     * @param int         $status
-     * @param string|null $first
-     * @param string|null $last
-     *
-     * @return int
-     */
     public function insert(
         ?int $id,
         int $status = 0,
         ?string $first = null,
-        ?string $last = null
+        ?string $last = null,
     ): int {
-        $id  = $id ?: 'null';
         $sql = <<<SQL
 insert into co_customers (
     cst_id, cst_status_flag, cst_name_first, cst_name_last
 ) values (
-    {$id}, {$status}, '{$first}', '{$last}'
+    :id, :status, :first, :last
 )
 SQL;
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
-        }
+        $params = [
+            ':id'     => $id ?? null,
+            ':status' => $status,
+            ':first'  => $first ?? null,
+            ':last'   => $last ?? null,
+        ];
 
-        return $result;
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -86,7 +76,7 @@ create index co_customers_cst_name_first_index
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getSqlPgsql(): array
     {
         return [
             "
@@ -95,10 +85,10 @@ drop table if exists co_customers;
             "
 create table co_customers
 (
-    cst_id          integer constraint co_customers_pk primary key autoincrement,
-    cst_status_flag integer      null,
-    cst_name_last   text         null,
-    cst_name_first  text         null
+    cst_id          serial not null constraint co_customers_pk primary key,
+    cst_status_flag smallint   null,
+    cst_name_last   varchar(100) null,
+    cst_name_first  varchar(50)  null
 );
             ",
             "
@@ -116,7 +106,7 @@ create index co_customers_cst_name_first_index
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getSqlSqlite(): array
     {
         return [
             "
@@ -125,10 +115,10 @@ drop table if exists co_customers;
             "
 create table co_customers
 (
-    cst_id          serial not null constraint co_customers_pk primary key,
-    cst_status_flag smallint   null,
-    cst_name_last   varchar(100) null,
-    cst_name_first  varchar(50)  null
+    cst_id          integer constraint co_customers_pk primary key autoincrement,
+    cst_status_flag integer      null,
+    cst_name_last   text         null,
+    cst_name_first  text         null
 );
             ",
             "

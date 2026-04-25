@@ -24,32 +24,28 @@ use PHPUnit\Framework\Assert;
 class AlbumsMigration extends AbstractMigration
 {
     protected $table = 'albums';
-    /**
-     * @param int    $id
-     * @param int    $artistsId
-     * @param string $name
-     *
-     * @return int
-     */
-    public function insert(int $id, int $artistsId, string $name): int
-    {
+
+    public function insert(
+        ?int $id,
+        int $artistsId,
+        string $name
+    ): int {
         $sql = <<<SQL
-insert into albums (id, artists_id, name) values ({$id}, {$artistsId}, '{$name}')
+insert into albums (
+    id, artists_id, name
+) values (
+    :id, :artistsId, :name)
 SQL;
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf(
-                    "Failed to insert row #%d into table '%s' using '%s' driver",
-                    $id,
-                    $table,
-                    $driver
-                )
-            );
-        }
-        return $result;
+
+        $params = [
+            ':id'         => $id ?? null,
+            ':artists_id' => $artistsId,
+            ':name'       => $name,
+        ];
+
+        return $this->execute($sql, $params);
     }
+
     protected function getSqlMysql(): array
     {
         return [
@@ -69,25 +65,7 @@ create index albums_artists_id_index on `albums` (`artists_id`);
             ",
         ];
     }
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists albums;
-            ",
-            "
-create table albums
-(
-    id         integer constraint albums_pk primary key autoincrement not null,
-    artists_id integer not null,
-    name       text    not null
-);
-            ",
-            "
-create index albums_artists_id_index on albums (artists_id);
-            ",
-        ];
-    }
+
     protected function getSqlPgsql(): array
     {
         return [
@@ -107,6 +85,27 @@ create index albums_artists_id_index on albums (artists_id);
             ",
         ];
     }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists albums;
+            ",
+            "
+create table albums
+(
+    id         integer constraint albums_pk primary key autoincrement not null,
+    artists_id integer not null,
+    name       text    not null
+);
+            ",
+            "
+create index albums_artists_id_index on albums (artists_id);
+            ",
+        ];
+    }
+
     protected function getSqlSqlsrv(): array
     {
         return [];

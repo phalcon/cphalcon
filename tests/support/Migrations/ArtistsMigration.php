@@ -22,32 +22,24 @@ class ArtistsMigration extends AbstractMigration
 {
     protected $table = 'artists';
 
-    /**
-     * @param int    $id
-     * @param string $name
-     *
-     * @return int
-     */
-    public function insert(int $id, string $name): int
-    {
-        $sql = <<<SQL
-insert into artists (id, name) values ({$id}, '{$name}')
+    public function insert(
+        ?int $id,
+        string $name
+    ): int {
+        $sql = <<<'SQL'
+INSERT INTO artists (
+    id, name
+) VALUES (
+    :id, :name
+)
 SQL;
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf(
-                    "Failed to insert row #%d into table '%s' using '%s' driver",
-                    $id,
-                    $table,
-                    $driver
-                )
-            );
-        }
+        $params = [
+            ':id'       => $id ?? null,
+            ':name'     => $name,
+        ];
 
-        return $result;
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -66,22 +58,6 @@ create table `artists`
         ];
     }
 
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists artists;
-            ",
-            "
-create table artists
-(
-    id   integer constraint artists_pk primary key autoincrement not null,
-    name text not null
-);
-            ",
-        ];
-    }
-
     protected function getSqlPgsql(): array
     {
         return [
@@ -93,6 +69,22 @@ create table artists
 (
     id   serial constraint artists_pk primary key,
     name varchar(100) not null
+);
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists artists;
+            ",
+            "
+create table artists
+(
+    id   integer constraint artists_pk primary key autoincrement not null,
+    name text not null
 );
             ",
         ];

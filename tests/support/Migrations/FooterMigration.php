@@ -29,12 +29,12 @@ class FooterMigration extends AbstractMigration
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getSqlPgsql(): array
     {
         return [];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getSqlSqlite(): array
     {
         return [];
     }

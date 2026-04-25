@@ -22,19 +22,22 @@ class ProductsMigration extends AbstractMigration
 
     public function insert(
         ?int $id,
-        ?string $name = null
+        ?string $name = null,
     ): int {
-        $id    = $id ?: 'null';
-        $name  = $name ?: uniqid();
-        $sql    = <<<SQL
+        $sql  = <<<SQL
 insert into co_products (
     prd_id, prd_name
 ) values (
-    {$id}, {$name}
+    :id, :name
 )
 SQL;
 
-        return $this->connection->exec($sql);
+        $params = [
+            ':id'   => $id ?? null,
+            ':name' => $name ?? null,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -49,13 +52,8 @@ CREATE TABLE `co_products` (
     `prd_name` VARCHAR(70) NULL,
     PRIMARY KEY (`prd_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-            "
+            ",
         ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [];
     }
 
     protected function getSqlPgsql(): array
@@ -72,8 +70,13 @@ create table co_products
       primary key,
       prd_name varchar(70)
 );
-            "
+            ",
         ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [];
     }
 
     protected function getSqlSqlsrv(): array

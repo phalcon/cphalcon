@@ -2,6 +2,50 @@
 CREATE SCHEMA IF NOT EXISTS private;
 
 
+drop table if exists album;
+            
+
+
+CREATE TABLE album (
+    id       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name     VARCHAR(100) NOT NULL,
+    album_id INTEGER REFERENCES album(id) ON DELETE CASCADE,
+    photo_id INTEGER REFERENCES photo(id) ON DELETE SET NULL,
+    CONSTRAINT album_ibfk_1 FOREIGN KEY (album_id) REFERENCES album(id) ON DELETE CASCADE,
+    CONSTRAINT album_ibfk_2 FOREIGN KEY (photo_id) REFERENCES photo(id) ON DELETE SET NULL
+)
+            
+
+
+CREATE INDEX index_foreignkey_album_album ON album(album_id)
+            
+
+
+CREATE INDEX album_ibfk_2 ON album(photo_id)
+            
+
+
+COMMENT ON COLUMN album.photo_id IS 'The ID of the featured photo'            
+            
+
+DROP TABLE IF EXISTS album_photo;
+
+
+CREATE TABLE album_photo (
+    id       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    photo_id INTEGER,
+    album_id INTEGER,
+    position INTEGER NOT NULL DEFAULT 999999999,
+    CONSTRAINT c_fk_album_photo_album_id FOREIGN KEY (album_id) REFERENCES album(id) ON DELETE CASCADE,
+    CONSTRAINT c_fk_album_photo_photo_id FOREIGN KEY (album_photo) REFERENCES photo(id) ON DELETE CASCADE,
+    CONSTRAINT UQ_cadf1c545153612614511f15197cae7b6dacac97 UNIQUE (album_id, photo_id)
+);
+
+CREATE INDEX index_foreignkey_album_photo_photo ON album_photo(photo_id);
+CREATE INDEX index_foreignkey_album_photo_album ON album_photo(album_id);
+
+
+
 drop table if exists albums;
             
 
@@ -118,6 +162,237 @@ create index co_customers_cst_name_last_index
 create index co_customers_cst_name_first_index
     on co_customers (cst_name_first);
             
+
+
+DROP TABLE IF EXISTS co_dialect;
+            
+
+
+CREATE TABLE co_dialect (
+    field_primary            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    field_blob               BYTEA,
+    field_binary             BYTEA,
+    field_bit                BIT(10),
+    field_bit_default        BIT(10) DEFAULT B'1',
+    field_bigint             BIGINT,
+    field_bigint_default     BIGINT DEFAULT 1,
+    field_boolean            SMALLINT,
+    field_boolean_default    SMALLINT DEFAULT 1,
+    field_char               CHAR(10),
+    field_char_default       CHAR(10) DEFAULT 'ABC',
+    field_decimal            NUMERIC(10,4),
+    field_decimal_default    NUMERIC(10,4) DEFAULT 14.5678,
+    field_enum               VARCHAR(10),
+    field_integer            INTEGER,
+    field_integer_default    INTEGER DEFAULT 1,
+    field_json               JSONB,
+    field_float              REAL,
+    field_float_default      REAL DEFAULT 14.5678,
+    field_date               DATE,
+    field_date_default       DATE DEFAULT '2018-10-01',
+    field_datetime           TIMESTAMP,
+    field_datetime_default   TIMESTAMP DEFAULT '2018-10-01 12:34:56',
+    field_time               TIME,
+    field_time_default       TIME DEFAULT '12:34:56',
+    field_timestamp          TIMESTAMP,
+    field_timestamp_default  TIMESTAMP DEFAULT '2018-10-01 12:34:56',
+    field_mediumint          INTEGER,
+    field_mediumint_default  INTEGER DEFAULT 1,
+    field_smallint           SMALLINT,
+    field_smallint_default   SMALLINT DEFAULT 1,
+    field_tinyint            SMALLINT,
+    field_tinyint_default    SMALLINT DEFAULT 1,
+    field_longtext           TEXT,
+    field_mediumtext         TEXT,
+    field_tinytext           TEXT,
+    field_text               TEXT,
+    field_varbinary          BYTEA,
+    field_varchar            VARCHAR(10),
+    field_varchar_default    VARCHAR(10) DEFAULT 'D',
+    UNIQUE (field_integer)
+);
+            
+
+
+CREATE INDEX dialect_table_index ON co_dialect(field_bigint);
+            
+
+
+CREATE INDEX dialect_table_two_fields ON co_dialect(field_char, field_char_default);
+            
+
+
+COMMENT ON COLUMN co_dialect.field_primary IS 'field_primary field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_blob IS 'field_blob field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_binary IS 'field_binary field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_bit IS 'field_bit field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_bit_default IS 'field_bit_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_bigint IS 'field_bigint field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_bigint_default IS 'field_bigint_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_boolean IS 'field_boolean field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_boolean_default IS 'field_boolean_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_char IS 'field_char field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_char_default IS 'field_char_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_decimal IS 'field_decimal field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_decimal_default IS 'field_decimal_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_enum IS 'field_enum field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_integer IS 'field_integer field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_integer_default IS 'field_integer_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_json IS 'field_json field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_float IS 'field_float field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_float_default IS 'field_float_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_date IS 'field_date field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_date_default IS 'field_date_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_datetime IS 'field_datetime field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_datetime_default IS 'field_datetime_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_time IS 'field_time field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_time_default IS 'field_time_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_timestamp IS 'field_timestamp field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_timestamp_default IS 'field_timestamp_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_mediumint IS 'field_mediumint field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_mediumint_default IS 'field_mediumint_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_smallint IS 'field_smallint field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_smallint_default IS 'field_smallint_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_tinyint IS 'field_tinyint field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_tinyint_default IS 'field_tinyint_default field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_longtext IS 'field_longtext field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_mediumtext IS 'field_mediumtext field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_tinytext IS 'field_tinytext field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_text IS 'field_text field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_varbinary IS 'field_varbinary field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_varchar IS 'field_varchar field';
+            
+
+
+COMMENT ON COLUMN co_dialect.field_varchar_default IS 'field_varchar_default field';
+            
+
+
+DROP TABLE IF EXISTS fractal_dates;
+            
+
+
+CREATE TABLE fractal_dates (
+    id           INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    ftime        TIME(2),
+    fdatetime    TIMESTAMP(2),
+    ftimestamp   TIMESTAMP(2)
+);
+
 
 
 drop table if exists co_invoices;

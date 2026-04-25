@@ -20,28 +20,32 @@ class PersonasMigration extends AbstractMigration
 {
     protected $table = 'personas';
 
-    /**
-     * @param string $cedula
-     * @param int    $tipoDocumentoId
-     * @param string $nombres
-     * @param string $telefono
-     * @param float  $cupo
-     * @param string $estado
-     */
     public function insert(
         string $cedula,
         int $tipoDocumentoId = 1,
         string $nombres = 'Test Name',
         string $telefono = '1234567890',
         float $cupo = 0.0,
-        string $estado = 'A'
-    ): void {
+        string $estado = 'A',
+    ): int {
         $sql = <<<SQL
-insert into personas (cedula, tipo_documento_id, nombres, telefono, cupo, estado)
-values ('{$cedula}', {$tipoDocumentoId}, '{$nombres}', '{$telefono}', {$cupo}, '{$estado}')
+insert into personas (
+    cedula, tipo_documento_id, nombres, telefono, cupo, estado
+) values (
+    :cedula, :tipoDocumentoId, :nombres, :telefono, :cupo, :estado
+)
 SQL;
 
-        $this->connection->exec($sql);
+        $params = [
+            ':cedula'          => $cedula,
+            ':tipoDocumentoId' => $tipoDocumentoId,
+            ':nombres'         => $nombres,
+            ':telefono'        => $telefono,
+            ':cupo'            => $cupo,
+            ':estado'          => $estado,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -65,27 +69,6 @@ create table `personas`
         ];
     }
 
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists personas;
-            ",
-            "
-create table personas
-(
-    cedula            text    not null,
-    tipo_documento_id integer not null,
-    nombres           text    not null default '',
-    telefono          text             default null,
-    cupo              real    not null default 0,
-    estado            text    not null default 'A',
-    primary key (cedula)
-);
-            ",
-        ];
-    }
-
     protected function getSqlPgsql(): array
     {
         return [
@@ -101,6 +84,27 @@ create table personas
     telefono          varchar(20)             default null,
     cupo              numeric(16, 2) not null,
     estado            char(1)        not null default 'A',
+    primary key (cedula)
+);
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists personas;
+            ",
+            "
+create table personas
+(
+    cedula            text    not null,
+    tipo_documento_id integer not null,
+    nombres           text    not null default '',
+    telefono          text             default null,
+    cupo              real    not null default 0,
+    estado            text    not null default 'A',
     primary key (cedula)
 );
             ",

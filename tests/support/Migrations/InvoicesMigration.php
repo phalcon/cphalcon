@@ -28,29 +28,25 @@ class InvoicesMigration extends AbstractMigration
         int $status = 0,
         ?string $title = null,
         float $total = 0,
-        ?string $createdAt = null
+        ?string $createdAt = null,
     ): int {
-        $id     = $id ?: 'null';
-        $title  = $title ?: uniqid('', true);
-        $custId = $custId ?: 1;
-        $now    = $createdAt ?: date('Y-m-d H:i:s');
         $sql    = <<<SQL
 insert into co_invoices (
     inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
-    {$id}, {$custId}, {$status}, '{$title}', {$total}, '{$now}'
+    :id, :custId, :status, :title, :total, :now
 )
 SQL;
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
-        }
+        $params = [
+            ':id'     => $id ?? null,
+            ':custId' => $custId ?? 1,
+            ':status' => $status,
+            ':title'  => $title ?: uniqid('', true),
+            ':now'    => $createdAt ?: date('Y-m-d H:i:s'),
+        ];
 
-        return $result;
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -85,38 +81,6 @@ create index co_invoices_inv_created_at_index
         ];
     }
 
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists co_invoices;
-            ",
-            "
-create table co_invoices
-    (
-    inv_id          integer constraint co_invoices_pk primary key autoincrement not null,
-    inv_cst_id      integer,
-    inv_status_flag integer,
-    inv_title       text,
-    inv_total       real,
-    inv_created_at  text
-);
-            ",
-            "
-create index co_invoices_inv_cst_id_index
-    on co_invoices (inv_cst_id);
-            ",
-            "
-create index co_invoices_inv_status_flag_index
-    on co_invoices (inv_status_flag);
-            ",
-            "
-create index co_invoices_inv_created_at_index
-    on co_invoices (inv_created_at);
-            ",
-        ];
-    }
-
     protected function getSqlPgsql(): array
     {
         return [
@@ -145,6 +109,38 @@ create index co_invoices_inv_cst_id_index
             "
 create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists co_invoices;
+            ",
+            "
+create table co_invoices
+    (
+    inv_id          integer constraint co_invoices_pk primary key autoincrement not null,
+    inv_cst_id      integer,
+    inv_status_flag integer,
+    inv_title       text,
+    inv_total       real,
+    inv_created_at  text
+);
+            ",
+            "
+create index co_invoices_inv_cst_id_index
+    on co_invoices (inv_cst_id);
+            ",
+            "
+create index co_invoices_inv_status_flag_index
+    on co_invoices (inv_status_flag);
+            ",
+            "
+create index co_invoices_inv_created_at_index
+    on co_invoices (inv_created_at);
             ",
         ];
     }

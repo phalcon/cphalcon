@@ -18,26 +18,32 @@ class ComplexDefaultMigration extends AbstractMigration
     protected $table = 'complex_default';
 
     /**
-     * @param int|null $id
+     * @param int|null    $id
      * @param string|null $created
      * @param string|null $updated
+     *
      * @return int
      */
     public function insert(
         ?int $id,
         ?string $created = null,
-        ?string $updated = null
+        ?string $updated = null,
     ): int {
-        $id  = $id ?: 'null';
-        $sql = <<<SQL
-insert into complex_default (
+        $sql = <<<'SQL'
+INSERT INTO complex_default (
     id, created, updated
-) values (
-    {$id}, '{$created}', '{$updated}'
+) VALUES (
+    :id, :created, :updated
 )
 SQL;
 
-        return $this->connection->exec($sql);
+        $params = [
+            ':id'      => $id ?? null,
+            ':created' => $created ?? null,
+            ':update'  => $updated ?? null,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -53,24 +59,6 @@ create table complex_default
     `created`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `updated_null` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-);
-            ",
-        ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists complex_default;
-            ",
-            "
-create table complex_default
-(
-    id           integer constraint complex_default_pk primary key autoincrement,
-    created      text default (datetime('now')),
-    updated      text default (datetime('now')),
-    updated_null text null
 );
             ",
         ];
@@ -105,7 +93,25 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_timestamp BEFORE UPDATE
 ON complex_default FOR EACH ROW EXECUTE PROCEDURE 
 update_timestamp();
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
             "
+drop table if exists complex_default;
+            ",
+            "
+create table complex_default
+(
+    id           integer constraint complex_default_pk primary key autoincrement,
+    created      text default (datetime('now')),
+    updated      text default (datetime('now')),
+    updated_null text null
+);
+            ",
         ];
     }
 

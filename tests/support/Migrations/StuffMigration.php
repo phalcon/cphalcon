@@ -18,26 +18,26 @@ class StuffMigration extends AbstractMigration
 {
     protected $table = "stuff";
 
-    /**
-     * @param int    $id
-     * @param string $name
-     * @param int    $type
-     */
     public function insert(
         int $id,
         string $name,
-        int $type
+        int $type,
     ) {
-        if (0 === $id) {
-            $id = null;
-        }
-
         $sql = <<<SQL
-insert into stuff (stf_id, stf_name, stf_type)
-values ({$id}, "{$name}", "{$type}");
+insert into stuff (
+    stf_id, stf_name, stf_type
+) values (
+    :id, :name, :type
+);
 SQL;
 
-        $this->connection->exec($sql);
+        $params = [
+            ':id'   => $id,
+            ':name' => $name,
+            ':type' => $type,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -58,6 +58,11 @@ create table stuff
         ];
     }
 
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
     protected function getSqlSqlite(): array
     {
         return [
@@ -73,11 +78,6 @@ create table stuff
 );
             ",
         ];
-    }
-
-    protected function getSqlPgsql(): array
-    {
-        return [];
     }
 
     protected function getSqlSqlsrv(): array

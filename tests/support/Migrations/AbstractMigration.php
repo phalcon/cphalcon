@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Support\Migrations;
 
 use PDO;
 use Phalcon\DataMapper\Pdo\Connection;
+use PHPUnit\Framework\Assert;
 
 /**
  * Class AbstractMigration
@@ -25,11 +26,6 @@ use Phalcon\DataMapper\Pdo\Connection;
 abstract class AbstractMigration
 {
     /**
-     * @var PDO|Connection
-     */
-    protected $connection;
-
-    /**
      * @var string
      */
     protected $table = '';
@@ -39,11 +35,43 @@ abstract class AbstractMigration
      *
      * @param PDO|Connection|null $connection
      */
-    final public function __construct(PDO|Connection|null $connection = null, bool $withClear = true)
-    {
-        $this->connection = $connection;
-
+    final public function __construct(
+        protected PDO|Connection|null $connection = null,
+        bool $withClear = true
+    ) {
         $withClear && $this->clear();
+    }
+
+    /**
+     * Truncate the table
+     *
+     * @return int The number of rows that were affected
+     */
+    public function clear(): int
+    {
+        if (! $this->connection) {
+            return 0;
+        }
+
+        $driver = $this->getDriverName();
+
+        if ($driver === 'mysql') {
+            $this->connection->exec('SET FOREIGN_KEY_CHECKS=0;');
+            $result = (int)$this->connection->exec('TRUNCATE TABLE ' . $this->table . ';');
+            $this->connection->exec('SET FOREIGN_KEY_CHECKS=1;');
+
+            return $result;
+        }
+
+        if ($driver === 'pgsql' || $driver === 'postgres') {
+            return (int)$this->connection->exec(
+                'TRUNCATE TABLE ' . $this->table . ' RESTART IDENTITY CASCADE;',
+            );
+        }
+
+        return $this->connection->exec(
+            'DELETE FROM ' . $this->table . ';',
+        );
     }
 
     /**
@@ -55,60 +83,13 @@ abstract class AbstractMigration
     {
         $driver = $this
             ->connection
-            ->getAttribute(PDO::ATTR_DRIVER_NAME);
+            ->getAttribute(PDO::ATTR_DRIVER_NAME)
+        ;
 
         $statements = $this->getSql($driver);
         foreach ($statements as $statement) {
             $this->connection->exec($statement);
         }
-    }
-
-    /**
-     *  Retrieve a database connection driver name.
-     *
-     * @return string
-     */
-    public function getDriverName(): string
-    {
-        if (!$this->connection) {
-            return '';
-        }
-
-        return $this
-            ->connection
-            ->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
-
-    /**
-     * Truncate the table
-     *
-     * @return int The number of rows that were affected
-     */
-    public function clear(): int
-    {
-        if (!$this->connection) {
-            return 0;
-        }
-
-        $driver = $this->getDriverName();
-
-        if ($driver === 'mysql') {
-            $this->connection->exec('SET FOREIGN_KEY_CHECKS=0;');
-            $result = (int) $this->connection->exec('TRUNCATE TABLE ' . $this->table . ';');
-            $this->connection->exec('SET FOREIGN_KEY_CHECKS=1;');
-
-            return $result;
-        }
-
-        if ($driver === 'pgsql' || $driver === 'postgres') {
-            return (int) $this->connection->exec(
-                'TRUNCATE TABLE ' . $this->table . ' RESTART IDENTITY CASCADE;'
-            );
-        }
-
-        return $this->connection->exec(
-            'DELETE FROM ' . $this->table . ';'
-        );
     }
 
     /**
@@ -119,8 +100,25 @@ abstract class AbstractMigration
     public function drop(): void
     {
         $this->connection->exec(
-            'drop table if exists ' . $this->table . ';'
+            'drop table if exists ' . $this->table . ';',
         );
+    }
+
+    /**
+     *  Retrieve a database connection driver name.
+     *
+     * @return string
+     */
+    public function getDriverName(): string
+    {
+        if (! $this->connection) {
+            return '';
+        }
+
+        return $this
+            ->connection
+            ->getAttribute(PDO::ATTR_DRIVER_NAME)
+        ;
     }
 
     /**
@@ -147,15 +145,13 @@ abstract class AbstractMigration
         }
     }
 
-    /**
-     * Sets the connection
-     *
-     * @param PDO $connection
-     */
-    public function setConnection(PDO $connection): void
-    {
-        $this->connection = $connection;
-    }
+    abstract protected function getSqlMysql(): array;
+
+    abstract protected function getSqlPgsql(): array;
+
+    abstract protected function getSqlSqlite(): array;
+
+    abstract protected function getSqlSqlsrv(): array;
 
     /**
      * Get table name
@@ -167,11 +163,32 @@ abstract class AbstractMigration
         return $this->table;
     }
 
-    abstract protected function getSqlMysql(): array;
+    /**
+     * Sets the connection
+     *
+     * @param PDO $connection
+     */
+    public function setConnection(PDO $connection): void
+    {
+        $this->connection = $connection;
+    }
 
-    abstract protected function getSqlSqlite(): array;
+    /**
+     * @param string $sql
+     * @param array  $params
+     *
+     * @return int
+     */
+    protected function execute(string $sql, array $params = []): int
+    {
+        if (! $result = $this->connection->executeStatement($sql, $params)) {
+            $table  = $this->getTable();
+            $driver = $this->getDriverName();
+            Assert::fail(
+                sprintf("Failed to insert row into table '%s' using '%s' driver", $table, $driver),
+            );
+        }
 
-    abstract protected function getSqlPgsql(): array;
-
-    abstract protected function getSqlSqlsrv(): array;
+        return $result;
+    }
 }

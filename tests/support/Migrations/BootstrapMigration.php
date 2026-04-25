@@ -30,12 +30,14 @@ class BootstrapMigration extends AbstractMigration
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "CREATE SCHEMA IF NOT EXISTS private;",
+        ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getSqlSqlite(): array
     {
         return [
             "CREATE SCHEMA IF NOT EXISTS private;",

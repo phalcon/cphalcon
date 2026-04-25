@@ -18,27 +18,28 @@ class FractalDatesMigration extends AbstractMigration
 {
     protected $table = "fractal_dates";
 
-    /**
-     * @param int              $id
-     * @param string|null      $time
-     * @param string|null      $dateTime
-     * @param string|null      $timeStamp
-     */
     public function insert(
-        int $id,
+        ?int $id,
         ?string $time = null,
         ?string $dateTime = null,
-        ?string $timeStamp = null
+        ?string $timeStamp = null,
     ) {
-        if (0 === $id) {
-            $id = null;
-        }
         $sql = <<<SQL
-insert into fractal_dates (id, ftime, fdatetime, ftimestamp)
-values ({$id}, "{$time}", "{$dateTime}", "{$timeStamp}");
+insert into fractal_dates (
+    id, ftime, fdatetime, ftimestamp
+) values (
+    :id, :time, :dateTime, :timeStamp
+);
 SQL;
 
-        $this->connection->exec($sql);
+        $params = [
+            ':id'        => $id ?? null,
+            ':time'      => $time,
+            ':dateTime'  => $dateTime ?? null,
+            ':timeStamp' => $timeStamp ?? null,
+        ];
+
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -59,12 +60,24 @@ create table fractal_dates
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+DROP TABLE IF EXISTS fractal_dates;
+            ",
+            "
+CREATE TABLE fractal_dates (
+    id           INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    ftime        TIME(2),
+    fdatetime    TIMESTAMP(2),
+    ftimestamp   TIMESTAMP(2)
+);
+",
+        ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getSqlSqlite(): array
     {
         return [];
     }
