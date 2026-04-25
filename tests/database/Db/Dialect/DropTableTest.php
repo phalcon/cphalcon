@@ -73,6 +73,7 @@ final class DropTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectDropTable(
@@ -95,6 +96,7 @@ final class DropTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectDropTableNotExists(

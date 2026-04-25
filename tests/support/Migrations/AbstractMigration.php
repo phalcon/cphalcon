@@ -179,9 +179,33 @@ abstract class AbstractMigration
      *
      * @return int
      */
+    protected function advanceSequence(string $column, int $id): void
+    {
+        if ($this->getDriverName() !== 'pgsql') {
+            return;
+        }
+
+        $this->connection->exec(
+            sprintf(
+                "SELECT setval(pg_get_serial_sequence('%s', '%s'), %d)",
+                $this->table,
+                $column,
+                $id
+            )
+        );
+    }
+
     protected function execute(string $sql, array $params = []): int
     {
-        if (! $result = $this->connection->executeStatement($sql, $params)) {
+        if ($this->connection instanceof Connection) {
+            $result = $this->connection->executeStatement($sql, $params);
+        } else {
+            $stmt   = $this->connection->prepare($sql);
+            $stmt->execute($params);
+            $result = $stmt->rowCount();
+        }
+
+        if (! $result) {
             $table  = $this->getTable();
             $driver = $this->getDriverName();
             Assert::fail(

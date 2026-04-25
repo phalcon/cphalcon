@@ -47,6 +47,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

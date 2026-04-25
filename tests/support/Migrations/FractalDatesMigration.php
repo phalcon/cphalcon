@@ -18,28 +18,36 @@ class FractalDatesMigration extends AbstractMigration
 {
     protected $table = "fractal_dates";
 
+    /**
+     * @param int              $id
+     * @param string|null      $time
+     * @param string|null      $dateTime
+     * @param string|null      $timeStamp
+     */
     public function insert(
         ?int $id,
         ?string $time = null,
         ?string $dateTime = null,
-        ?string $timeStamp = null,
-    ) {
-        $sql = <<<SQL
-insert into fractal_dates (
-    id, ftime, fdatetime, ftimestamp
-) values (
-    :id, :time, :dateTime, :timeStamp
-);
+        ?string $timeStamp = null
+    ): int {
+        $sql    = <<<SQL
+insert into fractal_dates (id, ftime, fdatetime, ftimestamp)
+values (:id, :time, :dateTime, :timeStamp)
 SQL;
-
         $params = [
-            ':id'        => $id ?? null,
+            ':id'        => $id,
             ':time'      => $time,
-            ':dateTime'  => $dateTime ?? null,
-            ':timeStamp' => $timeStamp ?? null,
+            ':dateTime'  => $dateTime,
+            ':timeStamp' => $timeStamp,
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -60,26 +68,26 @@ create table fractal_dates
         ];
     }
 
+    protected function getSqlSqlite(): array
+    {
+        return [];
+    }
+
     protected function getSqlPgsql(): array
     {
         return [
             "
-DROP TABLE IF EXISTS fractal_dates;
+drop table if exists fractal_dates;
             ",
             "
 CREATE TABLE fractal_dates (
-    id           INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id           serial       constraint fractal_dates_pk primary key,
     ftime        TIME(2),
     fdatetime    TIMESTAMP(2),
     ftimestamp   TIMESTAMP(2)
 );
-",
+            ",
         ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [];
     }
 
     protected function getSqlSqlsrv(): array

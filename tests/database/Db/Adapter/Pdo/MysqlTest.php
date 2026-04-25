@@ -59,7 +59,8 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldAddForeignKey(
@@ -82,7 +83,8 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
@@ -109,7 +111,8 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbAdapterPdoMysqlShouldDropForeignKey(

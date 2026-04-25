@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class ArtistsMigration
@@ -22,24 +21,26 @@ class ArtistsMigration extends AbstractMigration
 {
     protected $table = 'artists';
 
-    public function insert(
-        ?int $id,
-        string $name
-    ): int {
-        $sql = <<<'SQL'
-INSERT INTO artists (
-    id, name
-) VALUES (
-    :id, :name
-)
+    /**
+     * @param int    $id
+     * @param string $name
+     *
+     * @return int
+     */
+    public function insert(int $id, string $name): int
+    {
+        $sql    = <<<SQL
+insert into artists (id, name) values (:id, :name)
 SQL;
-
         $params = [
-            ':id'       => $id ?? null,
-            ':name'     => $name,
+            ':id'   => $id,
+            ':name' => $name,
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+        $this->advanceSequence('id', $id);
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -58,22 +59,6 @@ create table `artists`
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists artists;
-            ",
-            "
-create table artists
-(
-    id   serial constraint artists_pk primary key,
-    name varchar(100) not null
-);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -85,6 +70,22 @@ create table artists
 (
     id   integer constraint artists_pk primary key autoincrement not null,
     name text not null
+);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists artists;
+            ",
+            "
+create table artists
+(
+    id   serial constraint artists_pk primary key,
+    name varchar(100) not null
 );
             ",
         ];

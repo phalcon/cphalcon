@@ -18,19 +18,20 @@ class SettersMigration extends AbstractMigration
 {
     protected $table = "co_setters";
 
+    /**
+     * @param string $column1
+     * @param string $column2
+     * @param string $column3
+     */
     public function insert(
         string $column1,
         string $column2,
-        string $column3,
-    ) {
-        $sql = <<<SQL
-insert into co_setters (
-    column1, column2, column3
-) values (
-    :column1, :column2, :column3
-);
+        string $column3
+    ): int {
+        $sql    = <<<SQL
+insert into co_setters (column1, column2, column3)
+values (:column1, :column2, :column3)
 SQL;
-
         $params = [
             ':column1' => $column1,
             ':column2' => $column2,
@@ -59,24 +60,6 @@ create table co_setters
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists co_setters;
-            ",
-            "
-create table co_setters
-(
-    id      SERIAL PRIMARY KEY,
-    column1 varchar(100) not null,
-    column2 varchar(100) not null,
-    column3 varchar(100) not null
-);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -90,6 +73,24 @@ create table co_setters
     column1    text,
     column2    text,
     column3    text
+);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists co_setters;
+            ",
+            "
+create table co_setters
+(
+    id      SERIAL PRIMARY KEY,
+    column1 varchar(100) not null,
+    column2 varchar(100) not null,
+    column3 varchar(100) not null
 );
             ",
         ];

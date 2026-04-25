@@ -59,6 +59,7 @@ final class CountTest extends AbstractDatabaseTestCase
      * @since  2020-01-29
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelCount(): void
@@ -164,6 +165,7 @@ final class CountTest extends AbstractDatabaseTestCase
      * @since  2023-12-26
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

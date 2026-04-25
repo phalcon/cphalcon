@@ -62,6 +62,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2023-08-09
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function infiniteSaveLoop(): void
@@ -89,6 +90,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-05-10
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSave(): void
@@ -159,6 +161,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveAfterFetchingRelated(): void
@@ -202,6 +205,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-10-09
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveAfterSettingEmptyRelated(): void
@@ -235,6 +239,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveAfterUsingRelatedGetters(): void
@@ -278,6 +283,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-05-17
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
@@ -321,6 +327,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-28
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveCircularRelation(): void
@@ -365,6 +372,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      *
      * @issue  15554
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveMultipleChangedRelationValues(): void
@@ -397,6 +405,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-11-16
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithPropertySource(): void
@@ -450,6 +459,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2020-11-04
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithRelatedManyAndBelongsRecordsProperty(): void
@@ -498,6 +508,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithRelatedRecords(): void
@@ -541,6 +552,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2020-10-31
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithRelatedRecordsProperty(): void
@@ -623,6 +635,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since        2019-08-02
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithTinyInt(string $value): void

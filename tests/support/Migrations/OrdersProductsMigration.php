@@ -20,42 +20,64 @@ class OrdersProductsMigration extends AbstractMigration
 {
     protected $table = "co_orders_x_products";
 
+    /**
+     * @param int $oxp_ord_id
+     * @param int $oxp_prd_id
+     *
+     * @return int
+     */
     public function insert(
-        int $orderId,
-        int $productId,
-        int $quantity,
+        int $oxpOrdId,
+        int $oxpPrdId,
+        int $oxpQuantity
     ): int {
-        $sql          = <<<SQL
+        $sql    = <<<SQL
 insert into co_orders_x_products (
     oxp_ord_id, oxp_prd_id, oxp_quantity
 ) values (
-    :orderId, :productId, :quantity
+    :oxpOrdId, :oxpPrdId, :oxpQuantity
 )
 SQL;
-
         $params = [
-            ':orderId'   => $orderId ?: null,
-            ':productId' => $productId ?: null,
-            ':quantity'  => $quantity ?: null,
+            ':oxpOrdId'   => $oxpOrdId,
+            ':oxpPrdId'   => $oxpPrdId,
+            ':oxpQuantity' => $oxpQuantity,
         ];
 
         return $this->execute($sql, $params);
-        return $this->connection->exec($sql);
     }
 
     protected function getSqlMysql(): array
     {
         return [
             "
-drop table if exists private.`co_orders_x_products`;
+drop table if exists `co_orders_x_products`;
             ",
             "
-CREATE TABLE private.`co_orders_x_products` (
+CREATE TABLE `co_orders_x_products` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
   `oxp_quantity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            "
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists co_orders_x_products;
+            ",
+            "
+create table co_orders_x_products
+(
+    oxp_ord_id   integer not null,
+    oxp_prd_id   integer not null,
+    oxp_quantity integer not null,
+    primary key (oxp_ord_id, oxp_prd_id)
+);
             ",
         ];
     }
@@ -73,13 +95,8 @@ create table private.co_orders_x_products
     oxp_prd_id int not null,
     oxp_quantity int not null
 );
-            ",
+            "
         ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [];
     }
 
     protected function getSqlSqlsrv(): array

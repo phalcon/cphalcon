@@ -18,26 +18,33 @@ class SourcesMigration extends AbstractMigration
 {
     protected $table = "co_sources";
 
+    /**
+     * @param int    $id
+     * @param string $username
+     * @param string $source
+     */
     public function insert(
-        int $id,
+        ?int $id,
         string $username,
-        string $source,
-    ) {
-        $sql = <<<SQL
-insert into co_sources (
-    id, username, source
-) values (
-    :id, :username, :source
-);
+        string $source
+    ): int {
+        $sql    = <<<SQL
+insert into co_sources (id, username, source)
+values (:id, :username, :source)
 SQL;
-
         $params = [
             ':id'       => $id,
             ':username' => $username,
             ':source'   => $source,
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -62,11 +69,6 @@ create index co_sources_username_index
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -84,6 +86,26 @@ create table co_sources
             "
 create index co_sources_username_index
     on co_sources (username);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists co_sources;
+            ",
+            "
+create table co_sources
+(
+    id       serial       constraint co_sources_pk primary key,
+    username varchar(100) null,
+    source   varchar(100) null
+);
+            ",
+            "
+create index co_sources_username_index on co_sources (username);
             ",
         ];
     }

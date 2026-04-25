@@ -71,6 +71,7 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectTruncateTable(
@@ -93,6 +94,7 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectTruncateTableNoSchema(

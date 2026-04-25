@@ -58,6 +58,7 @@ final class AverageTest extends AbstractDatabaseTestCase
      * @since  2020-01-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelAverage(): void

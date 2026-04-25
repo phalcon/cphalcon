@@ -46,6 +46,7 @@ final class RollbackTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -82,6 +83,7 @@ final class RollbackTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

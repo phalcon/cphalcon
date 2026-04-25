@@ -37,6 +37,7 @@ final class GetConnectionTest extends AbstractDatabaseTestCase
      * @since  2012-08-07
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

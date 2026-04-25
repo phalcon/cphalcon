@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use Phalcon\Db\Column;
-use PHPUnit\Framework\Assert;
-
-use function array_values;
 use function pack;
 
 /**
@@ -27,7 +23,7 @@ class DialectMigration extends AbstractMigration
     protected $table = 'co_dialect';
 
     public function insert(
-        ?int $primary,
+        int $primary,
         $blob,
         $binary,
         $bit,
@@ -51,8 +47,10 @@ class DialectMigration extends AbstractMigration
         string $tinytext,
         string $text,
         $varbinary,
-        string $varchar,
+        string $varchar
     ): int {
+        $binaryPack    = pack('I', $binary);
+        $varbinaryPack = pack('I', $varbinary);
         $sql           = <<<SQL
 insert into co_dialect (
     field_primary,
@@ -81,76 +79,62 @@ insert into co_dialect (
     field_varbinary,
     field_varchar
 ) values (
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?
+    :primary,
+    :blob,
+    :binary,
+    :bit,
+    :bigint,
+    :boolean,
+    :char,
+    :decimal,
+    :enum,
+    :integer,
+    :json,
+    :float,
+    :date,
+    :datetime,
+    :time,
+    :timestamp,
+    :mediumint,
+    :smallint,
+    :tinyint,
+    :longtext,
+    :mediumtext,
+    :tinytext,
+    :text,
+    :varbinary,
+    :varchar
 )
 SQL;
-        $binaryPack    = pack('I', $binary);
-        $varbinaryPack = pack('I', $varbinary);
         $params        = [
-            $primary       => Column::BIND_PARAM_INT,
-            $blob          => Column::BIND_PARAM_BLOB,
-            $binaryPack    => Column::BIND_PARAM_BLOB,
-            $bit           => Column::BIND_PARAM_INT,
-            $bigint        => Column::BIND_PARAM_INT,
-            $boolean       => Column::BIND_PARAM_BOOL,
-            $char          => Column::BIND_PARAM_STR,
-            $decimal       => Column::BIND_PARAM_DECIMAL,
-            $enum          => Column::BIND_PARAM_STR,
-            $integer       => Column::BIND_PARAM_INT,
-            $json          => Column::BIND_PARAM_STR,
-            $float         => Column::BIND_PARAM_DECIMAL,
-            $date          => Column::BIND_PARAM_STR,
-            $datetime      => Column::BIND_PARAM_STR,
-            $time          => Column::BIND_PARAM_STR,
-            $timestamp     => Column::BIND_PARAM_STR,
-            $mediumint     => Column::BIND_PARAM_INT,
-            $smallint      => Column::BIND_PARAM_INT,
-            $tinyint       => Column::BIND_PARAM_INT,
-            $longtext      => Column::BIND_PARAM_STR,
-            $mediumtext    => Column::BIND_PARAM_STR,
-            $tinytext      => Column::BIND_PARAM_STR,
-            $text          => Column::BIND_PARAM_STR,
-            $varbinaryPack => Column::BIND_PARAM_BLOB,
-            $varchar       => Column::BIND_PARAM_STR,
+            ':primary'    => $primary,
+            ':blob'       => $blob,
+            ':binary'     => $binaryPack,
+            ':bit'        => $bit,
+            ':bigint'     => $bigint,
+            ':boolean'    => $boolean,
+            ':char'       => $char,
+            ':decimal'    => $decimal,
+            ':enum'       => $enum,
+            ':integer'    => $integer,
+            ':json'       => $json,
+            ':float'      => $float,
+            ':date'       => $date,
+            ':datetime'   => $datetime,
+            ':time'       => $time,
+            ':timestamp'  => $timestamp,
+            ':mediumint'  => $mediumint,
+            ':smallint'   => $smallint,
+            ':tinyint'    => $tinyint,
+            ':longtext'   => $longtext,
+            ':mediumtext' => $mediumtext,
+            ':tinytext'   => $tinytext,
+            ':text'       => $text,
+            ':varbinary'  => $varbinaryPack,
+            ':varchar'    => $varchar,
         ];
 
-        if (! $result = $this->connection->exec($sql, array_keys($params), array_values($params))) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf(
-                    "Failed to insert row #%d into table '%s' using '%s' driver",
-                    $primary,
-                    $table,
-                    $driver,
-                ),
-            );
-        }
-
-        return $result;
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
@@ -206,6 +190,60 @@ create table co_dialect
   key dialect_table_index (field_bigint),
   key dialect_table_two_fields (field_char, field_char_default)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists co_dialect;
+            ",
+            "
+create table co_dialect
+(
+    field_primary           integer constraint co_dialect_pk primary key autoincrement,
+    field_blob              blob    null,
+    field_binary            blob    null,
+    field_bit               integer null,
+    field_bit_default       integer default 1    null,
+    field_bigint            integer null,
+    field_bigint_default    integer default 1    null,
+    field_boolean           integer null,
+    field_boolean_default   integer default 1    null,
+    field_char              text    null,
+    field_char_default      text    default 'ABC' null,
+    field_decimal           real    null,
+    field_decimal_default   real    default 14.5678 null,
+    field_enum              text    null,
+    field_integer           integer null,
+    field_integer_default   integer default 1    null,
+    field_json              text    null,
+    field_float             real    null,
+    field_float_default     real    default 14.5678 null,
+    field_date              text    null,
+    field_date_default      text    default '2018-10-01' null,
+    field_datetime          text    null,
+    field_datetime_default  text    default '2018-10-01 12:34:56' null,
+    field_time              text    null,
+    field_time_default      text    default '12:34:56' null,
+    field_timestamp         text    null,
+    field_timestamp_default text    default '2018-10-01 12:34:56' null,
+    field_mediumint         integer null,
+    field_mediumint_default integer default 1    null,
+    field_smallint          integer null,
+    field_smallint_default  integer default 1    null,
+    field_tinyint           integer null,
+    field_tinyint_default   integer default 1    null,
+    field_longtext          text    null,
+    field_mediumtext        text    null,
+    field_tinytext          text    null,
+    field_text              text    null,
+    field_varbinary         blob    null,
+    field_varchar           text    null,
+    field_varchar_default   text    default 'D'  null
+);
             ",
         ];
     }
@@ -386,60 +424,6 @@ COMMENT ON COLUMN co_dialect.field_varchar IS 'field_varchar field';
             ",
             "
 COMMENT ON COLUMN co_dialect.field_varchar_default IS 'field_varchar_default field';
-            ",
-        ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [
-            "
-drop table if exists co_dialect;
-            ",
-            "
-create table co_dialect
-(
-    field_primary           integer constraint co_dialect_pk primary key autoincrement,
-    field_blob              blob    null,
-    field_binary            blob    null,
-    field_bit               integer null,
-    field_bit_default       integer default 1    null,
-    field_bigint            integer null,
-    field_bigint_default    integer default 1    null,
-    field_boolean           integer null,
-    field_boolean_default   integer default 1    null,
-    field_char              text    null,
-    field_char_default      text    default 'ABC' null,
-    field_decimal           real    null,
-    field_decimal_default   real    default 14.5678 null,
-    field_enum              text    null,
-    field_integer           integer null,
-    field_integer_default   integer default 1    null,
-    field_json              text    null,
-    field_float             real    null,
-    field_float_default     real    default 14.5678 null,
-    field_date              text    null,
-    field_date_default      text    default '2018-10-01' null,
-    field_datetime          text    null,
-    field_datetime_default  text    default '2018-10-01 12:34:56' null,
-    field_time              text    null,
-    field_time_default      text    default '12:34:56' null,
-    field_timestamp         text    null,
-    field_timestamp_default text    default '2018-10-01 12:34:56' null,
-    field_mediumint         integer null,
-    field_mediumint_default integer default 1    null,
-    field_smallint          integer null,
-    field_smallint_default  integer default 1    null,
-    field_tinyint           integer null,
-    field_tinyint_default   integer default 1    null,
-    field_longtext          text    null,
-    field_mediumtext        text    null,
-    field_tinytext          text    null,
-    field_text              text    null,
-    field_varbinary         blob    null,
-    field_varchar           text    null,
-    field_varchar_default   text    default 'D'  null
-);
             ",
         ];
     }

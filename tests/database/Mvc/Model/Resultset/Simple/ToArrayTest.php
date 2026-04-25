@@ -52,6 +52,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @since  2020-01-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

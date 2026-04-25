@@ -44,6 +44,7 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -68,6 +69,7 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
      * @since  2025-04-23
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSnapshotRestoredAfterRelatedRecordRollback(): void

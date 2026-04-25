@@ -38,6 +38,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
      * @since  2021-05-10
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbAdapterPdoQuery(): void

@@ -133,6 +133,7 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectDescribeReferences(
@@ -155,6 +156,7 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbDialectDescribeReferencesNoSchema(

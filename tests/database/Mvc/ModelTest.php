@@ -68,6 +68,7 @@ final class ModelTest extends AbstractDatabaseTestCase
      * @since  2026-04-02
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testExecuteCamelCaseRelation(): void

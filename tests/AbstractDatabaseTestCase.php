@@ -323,7 +323,7 @@ abstract class AbstractDatabaseTestCase extends AbstractUnitTestCase
         foreach ($criteria as $key => $value) {
             $val = $value;
             if (is_string($value)) {
-                $val = '"' . $value . '"';
+                $val = "'" . $value . "'";
             }
 
             $where[] = $key . ' = ' . $val;

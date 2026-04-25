@@ -41,6 +41,7 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
      * setQueryBuilder()
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderGetSetQueryBuilder(): void

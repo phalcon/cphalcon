@@ -52,6 +52,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderPaginate(): void
@@ -101,6 +102,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2020-01-29
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -176,6 +178,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @issue  15266
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
@@ -208,12 +211,15 @@ final class PaginateTest extends AbstractDatabaseTestCase
             ->groupBy('inv_cst_id')
         ;
 
+        $colExpr   = ('pgsql' === self::getDriver())
+            ? 'COALESCE(inv_cst_id, 0)'
+            : 'IFNULL(inv_cst_id, 0)';
         $paginator = new QueryBuilder(
             [
                 'builder' => $builder,
                 'limit'   => 5,
                 'page'    => 1,
-                'columns' => 'IFNULL(inv_cst_id, 0)',
+                'columns' => $colExpr,
             ]
         );
 
@@ -231,6 +237,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @issue  14639
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      *
      * @throws Exception

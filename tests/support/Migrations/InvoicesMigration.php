@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class InvoicesMigration
@@ -28,25 +27,46 @@ class InvoicesMigration extends AbstractMigration
         int $status = 0,
         ?string $title = null,
         float $total = 0,
-        ?string $createdAt = null,
+        ?string $createdAt = null
     ): int {
-        $sql    = <<<SQL
+        $useAutoId = (null === $id || 'default' === $id || 'null' === $id);
+        if ($useAutoId) {
+            $sql = <<<SQL
+insert into co_invoices (
+    inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
+) values (
+    :custId, :status, :title, :total, :createdAt
+)
+SQL;
+        } else {
+            $sql = <<<SQL
 insert into co_invoices (
     inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
-    :id, :custId, :status, :title, :total, :now
+    :id, :custId, :status, :title, :total, :createdAt
 )
 SQL;
+        }
 
         $params = [
-            ':id'     => $id ?? null,
-            ':custId' => $custId ?? 1,
-            ':status' => $status,
-            ':title'  => $title ?: uniqid('', true),
-            ':now'    => $createdAt ?: date('Y-m-d H:i:s'),
+            ':custId'    => $custId ?? 1,
+            ':status'    => $status,
+            ':title'     => $title ?: uniqid('', true),
+            ':total'     => $total,
+            ':createdAt' => $createdAt ?: date('Y-m-d H:i:s'),
         ];
 
-        return $this->execute($sql, $params);
+        if (!$useAutoId) {
+            $params[':id'] = $id;
+        }
+
+        $result = $this->execute($sql, $params);
+
+        if (!$useAutoId && is_int($id)) {
+            $this->advanceSequence('inv_id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -81,38 +101,6 @@ create index co_invoices_inv_created_at_index
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists co_invoices;
-            ",
-            "
-create table co_invoices
-(
-    inv_id          serial constraint co_invoices_pk primary key,
-    inv_cst_id      integer,
-    inv_status_flag smallint,
-    inv_title       varchar(100),
-    inv_total       numeric(10, 2),
-    inv_created_at  timestamp
-);
-            ",
-            "
-create index co_invoices_inv_created_at_index
-    on co_invoices (inv_created_at);
-            ",
-            "
-create index co_invoices_inv_cst_id_index
-    on co_invoices (inv_cst_id);
-            ",
-            "
-create index co_invoices_inv_status_flag_index
-    on co_invoices (inv_status_flag);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -141,6 +129,38 @@ create index co_invoices_inv_status_flag_index
             "
 create index co_invoices_inv_created_at_index
     on co_invoices (inv_created_at);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists co_invoices;
+            ",
+            "
+create table co_invoices
+(
+    inv_id          serial constraint co_invoices_pk primary key,
+    inv_cst_id      integer,
+    inv_status_flag smallint,
+    inv_title       varchar(100),
+    inv_total       numeric(10, 2),
+    inv_created_at  timestamp
+);
+            ",
+            "
+create index co_invoices_inv_created_at_index
+    on co_invoices (inv_created_at);
+            ",
+            "
+create index co_invoices_inv_cst_id_index
+    on co_invoices (inv_cst_id);
+            ",
+            "
+create index co_invoices_inv_status_flag_index
+    on co_invoices (inv_status_flag);
             ",
         ];
     }

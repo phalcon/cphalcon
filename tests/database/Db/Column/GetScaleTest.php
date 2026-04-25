@@ -38,6 +38,7 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbColumnGetScale(): void
@@ -60,6 +61,7 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      * @since  2019-12-23
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbColumnGetScaleDateTimeTimeTimeStamp(): void

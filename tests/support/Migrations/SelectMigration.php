@@ -20,20 +20,21 @@ class SelectMigration extends AbstractMigration
 {
     protected $table = 'ph_select';
 
+    /**
+     * @param string      $name
+     * @param string|null $text
+     */
     public function insert(
         string $name,
-        ?string $text = null,
+        ?string $text = null
     ): int {
-        $sql     = <<<SQL
-insert into ph_select (
-    sel_name, sel_text
-) values (
-    :name, :textVal
-)
+        $sql    = <<<SQL
+insert into ph_select (sel_name, sel_text)
+values (:name, :text)
 SQL;
         $params = [
-            ':text'    => $name,
-            ':textVal' => $text,
+            ':name' => $name,
+            ':text' => $text,
         ];
 
         return $this->execute($sql, $params);
@@ -57,23 +58,6 @@ create table `ph_select`
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists ph_select;
-            ",
-            "
-create table ph_select
-(
-    sel_id   serial      not null constraint ph_select_pk primary key,
-    sel_name varchar(16) not null,
-    sel_text varchar(32)          default null
-);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -87,6 +71,23 @@ create table ph_select
     sel_name text    not null,
     sel_text text             default null,
     primary key (sel_id autoincrement)
+);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists ph_select;
+            ",
+            "
+create table ph_select
+(
+    sel_id   serial      not null constraint ph_select_pk primary key,
+    sel_name varchar(16) not null,
+    sel_text varchar(32)          default null
 );
             ",
         ];

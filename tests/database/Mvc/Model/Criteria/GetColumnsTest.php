@@ -23,6 +23,7 @@ final class GetColumnsTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelCriteriaGetColumns(): void
@@ -42,6 +43,7 @@ final class GetColumnsTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelCriteriaGetColumnsArray(): void

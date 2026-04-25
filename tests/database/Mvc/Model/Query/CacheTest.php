@@ -66,6 +66,7 @@ final class CacheTest extends AbstractDatabaseTestCase
      * @since        2021-05-06
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelQueryCache(

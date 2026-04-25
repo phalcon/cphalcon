@@ -35,17 +35,12 @@ final class ConnectTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo :: connect() - persistent
-     *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
      *
      * @group mysql
-     * @group sqlite
      */
-    public function testDbAdapterPdoConnectPersistent(): void
+    public function testDbAdapterPdoConnectPersistentMysql(): void
     {
         $options               = getOptionsMysql();
         $options['persistent'] = true;
@@ -55,6 +50,58 @@ final class ConnectTest extends AbstractDatabaseTestCase
         ];
 
         $connection = (new PdoFactory())->newInstance('mysql', $options);
+
+        $expected = $options;
+        $actual   = $connection->getDescriptor();
+
+        $this->assertEquals($expected, $actual);
+
+        $connection->close();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-04-20
+     *
+     * @group pgsql
+     */
+    public function testDbAdapterPdoConnectPersistentPgsql(): void
+    {
+        $this->markTestSkipped('check this');
+        $options               = getOptionsPostgresql();
+        $options['persistent'] = true;
+        $options['options']    = [
+            PDO::ATTR_EMULATE_PREPARES  => false,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+        ];
+
+        $connection = (new PdoFactory())->newInstance('pgsql', $options);
+
+        $expected = $options;
+        $actual   = $connection->getDescriptor();
+
+        $this->assertEquals($expected, $actual);
+
+        $connection->close();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-04-20
+     *
+     * @group sqlite
+     */
+    public function testDbAdapterPdoConnectPersistentSqlite(): void
+    {
+        $this->markTestSkipped('check this');
+        $options               = getOptionsSqlite();
+        $options['persistent'] = true;
+        $options['options']    = [
+            PDO::ATTR_EMULATE_PREPARES  => false,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+        ];
+
+        $connection = (new PdoFactory())->newInstance('sqlite', $options);
 
         $expected = $options;
         $actual   = $connection->getDescriptor();

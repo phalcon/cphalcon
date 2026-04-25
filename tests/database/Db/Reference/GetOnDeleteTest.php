@@ -25,7 +25,8 @@ final class GetOnDeleteTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbReferenceGetOnDelete(): void

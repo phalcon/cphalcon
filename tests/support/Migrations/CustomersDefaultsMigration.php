@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class CustomersMigration
@@ -22,29 +21,41 @@ class CustomersDefaultsMigration extends AbstractMigration
 {
     protected $table = 'co_customers_defaults';
 
+    /**
+     * @param int|null    $id
+     * @param int         $status
+     * @param string|null $first
+     * @param string|null $last
+     *
+     * @return int
+     */
     public function insert(
         ?int $id,
         int $status = 0,
         ?string $first = null,
-        ?string $last = null,
+        ?string $last = null
     ): int {
-        $id  = $id ?: 'null';
-        $sql = <<<SQL
+        $sql    = <<<SQL
 insert into co_customers_defaults (
     cst_id, cst_status_flag, cst_name_first, cst_name_last
 ) values (
     :id, :status, :first, :last
 )
 SQL;
-
         $params = [
-            ':id'     => $id ?? null,
+            ':id'     => $id,
             ':status' => $status,
-            ':first'  => $first ?? null,
-            ':last'   => $last ?? null,
+            ':first'  => $first ?? '',
+            ':last'   => $last ?? '',
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('cst_id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -77,7 +88,7 @@ create index co_customers_defaults_cst_name_first_index
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getSqlSqlite(): array
     {
         return [
             "
@@ -86,10 +97,10 @@ drop table if exists co_customers_defaults;
             "
 create table co_customers_defaults
 (
-    cst_id          serial not null constraint co_customers_defaults_pk primary key,
-    cst_status_flag smallint   not null DEFAULT 1,
-    cst_name_last   varchar(100) not null DEFAULT 'cst_default_lastName',
-    cst_name_first  varchar(50)  not null DEFAULT 'cst_default_firstName'
+    cst_id          integer constraint co_customers_defaults_pk primary key autoincrement,
+    cst_status_flag integer      not null DEFAULT 1,
+    cst_name_last   text         not null DEFAULT 'cst_default_lastName',
+    cst_name_first  text         not null DEFAULT 'cst_default_firstName'
 );
             ",
             "
@@ -107,7 +118,7 @@ create index co_customers_defaults_cst_name_first_index
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getSqlPgsql(): array
     {
         return [
             "
@@ -116,10 +127,10 @@ drop table if exists co_customers_defaults;
             "
 create table co_customers_defaults
 (
-    cst_id          integer constraint co_customers_defaults_pk primary key autoincrement,
-    cst_status_flag integer      not null DEFAULT 1,
-    cst_name_last   text         not null DEFAULT 'cst_default_lastName',
-    cst_name_first  text         not null DEFAULT 'cst_default_firstName'
+    cst_id          serial not null constraint co_customers_defaults_pk primary key,
+    cst_status_flag smallint   not null DEFAULT 1,
+    cst_name_last   varchar(100) not null DEFAULT 'cst_default_lastName',
+    cst_name_first  varchar(50)  not null DEFAULT 'cst_default_firstName'
 );
             ",
             "

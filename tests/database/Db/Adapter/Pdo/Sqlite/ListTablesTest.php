@@ -52,10 +52,12 @@ final class ListTablesTest extends AbstractDatabaseTestCase
             'co_dialect',
             'co_invoices',
             'co_manufacturers',
+            'co_orders_x_products',
             'co_rb_test_model',
             'co_setters',
             'co_sources',
             'complex_default',
+            'no_primary_key',
             'objects',
             'personas',
             'ph_select',
@@ -63,6 +65,7 @@ final class ListTablesTest extends AbstractDatabaseTestCase
             'songs',
             'sqlite_sequence',
             'stuff',
+            'table_with_string_field',
             'table_with_uuid_primary',
         ];
 

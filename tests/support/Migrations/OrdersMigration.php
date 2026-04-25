@@ -22,9 +22,9 @@ class OrdersMigration extends AbstractMigration
 
     public function insert(
         ?int $id,
-        ?string $name = null,
+        ?string $name = null
     ): int {
-        $sql  = <<<SQL
+        $sql    = <<<SQL
 insert into co_orders (
     ord_id, ord_name
 ) values (
@@ -32,11 +32,17 @@ insert into co_orders (
 )
 SQL;
         $params = [
-            ':id'   => $id ?? null,
+            ':id'   => $id,
             ':name' => $name ?: uniqid(),
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('ord_id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -51,8 +57,13 @@ CREATE TABLE `co_orders` (
     `ord_name` VARCHAR(70) NULL,
     PRIMARY KEY (`ord_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-            ",
+            "
         ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [];
     }
 
     protected function getSqlPgsql(): array
@@ -69,13 +80,8 @@ create table co_orders
       primary key,
       ord_name varchar(70)
 );
-            ",
+            "
         ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [];
     }
 
     protected function getSqlSqlsrv(): array

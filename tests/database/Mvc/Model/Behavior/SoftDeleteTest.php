@@ -44,6 +44,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
      * @since  2020-10-03
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorSoftDelete(): void
@@ -73,6 +74,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
      * @since  2020-10-03
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(): void
@@ -117,6 +119,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
      * @since  2025-04-23
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
@@ -147,6 +150,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     /**
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorRemoveBehavior(): void

@@ -18,32 +18,36 @@ class ComplexDefaultMigration extends AbstractMigration
     protected $table = 'complex_default';
 
     /**
-     * @param int|null    $id
+     * @param int|null $id
      * @param string|null $created
      * @param string|null $updated
-     *
      * @return int
      */
     public function insert(
         ?int $id,
         ?string $created = null,
-        ?string $updated = null,
+        ?string $updated = null
     ): int {
-        $sql = <<<'SQL'
-INSERT INTO complex_default (
+        $sql    = <<<SQL
+insert into complex_default (
     id, created, updated
-) VALUES (
+) values (
     :id, :created, :updated
 )
 SQL;
-
         $params = [
-            ':id'      => $id ?? null,
-            ':created' => $created ?? null,
-            ':update'  => $updated ?? null,
+            ':id'      => $id,
+            ':created' => $created,
+            ':updated' => $updated,
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -59,6 +63,24 @@ create table complex_default
     `created`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `updated_null` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+);
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists complex_default;
+            ",
+            "
+create table complex_default
+(
+    id           integer constraint complex_default_pk primary key autoincrement,
+    created      text default (datetime('now')),
+    updated      text default (datetime('now')),
+    updated_null text null
 );
             ",
         ];
@@ -93,25 +115,7 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_timestamp BEFORE UPDATE
 ON complex_default FOR EACH ROW EXECUTE PROCEDURE 
 update_timestamp();
-            ",
-        ];
-    }
-
-    protected function getSqlSqlite(): array
-    {
-        return [
             "
-drop table if exists complex_default;
-            ",
-            "
-create table complex_default
-(
-    id           integer constraint complex_default_pk primary key autoincrement,
-    created      text default (datetime('now')),
-    updated      text default (datetime('now')),
-    updated_null text null
-);
-            ",
         ];
     }
 

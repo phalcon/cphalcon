@@ -49,6 +49,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
      * @since  2012-08-07
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -94,6 +95,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
      * @since  2012-08-07
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -143,6 +145,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
      * @since  2026-04-21
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -176,6 +179,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
      * @since  2026-04-21
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */
@@ -215,6 +219,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
      * @since  2012-08-07
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      * @group pgsql
      */

@@ -20,28 +20,33 @@ class ObjectsMigration extends AbstractMigration
 {
     protected $table = "objects";
 
+    /**
+     * @param int    $id
+     * @param string $name
+     * @param int    $type
+     */
     public function insert(
-        int $id,
+        ?int $id,
         string $name,
-        int $type,
-    ) {
-        $sql = <<<SQL
-insert into objects (
-    obj_id, obj_name, obj_type
-) values (
-    :id, :name, :type
-);
+        int $type
+    ): int {
+        $sql    = <<<SQL
+insert into objects (obj_id, obj_name, obj_type)
+values (:id, :name, :type)
 SQL;
-
         $params = [
-            ':id'    => $id > 0 ? $id : null,
-            ':name'  => $name,
-            ':type'  => $type,
+            ':id'   => $id,
+            ':name' => $name,
+            ':type' => $type,
         ];
 
-        return $this->execute($sql, $params);
+        $result = $this->execute($sql, $params);
 
-        $this->connection->exec($sql);
+        if ($id !== null) {
+            $this->advanceSequence('obj_id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -62,23 +67,6 @@ create table objects
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists objects;
-            ",
-            "
-create table objects
-(
-    obj_id serial not null constraint objects_pk primary key,
-    obj_name varchar(100) not null,
-    obj_type smallint not null
-);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -93,6 +81,23 @@ create table objects
     obj_type   integer not null
 );
             ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists objects;
+            ",
+            "
+create table objects
+(
+    obj_id serial not null constraint objects_pk primary key,
+    obj_name varchar(100) not null,
+    obj_type smallint not null
+);
+            "
         ];
     }
 

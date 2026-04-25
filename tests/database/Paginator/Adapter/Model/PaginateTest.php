@@ -43,6 +43,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginate(): void
@@ -102,6 +103,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateBind(): void
@@ -151,6 +153,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateEmpty(): void
@@ -182,6 +185,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateParametersArrayString(): void
@@ -222,6 +226,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateParametersString(): void
@@ -264,6 +269,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @issue  14639
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      *
      * @throws Exception
@@ -315,6 +321,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16471
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelPaginateWithOrder(): void

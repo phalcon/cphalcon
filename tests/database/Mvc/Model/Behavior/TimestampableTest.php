@@ -42,6 +42,7 @@ final class TimestampableTest extends AbstractDatabaseTestCase
      * @since  2020-10-03
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorTimestampable(): void
@@ -73,6 +74,7 @@ final class TimestampableTest extends AbstractDatabaseTestCase
      * @since  2020-10-03
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelBehaviorTimestampableWithBeforeCreateEvent(): void

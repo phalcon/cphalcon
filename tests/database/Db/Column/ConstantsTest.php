@@ -25,6 +25,7 @@ final class ConstantsTest extends AbstractDatabaseTestCase
      * @since  2018-10-26
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testDbColumnConstants(): void

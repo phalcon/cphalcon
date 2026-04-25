@@ -1,6 +1,4 @@
 
-CREATE SCHEMA IF NOT EXISTS private;
-
 
 drop table if exists album;
             
@@ -224,6 +222,18 @@ create table co_manufacturers (
             
 
 
+drop table if exists no_primary_key;
+            
+
+
+create table no_primary_key
+(
+    nokey_id   integer,
+    nokey_name text not null
+);
+            
+
+
 drop table if exists `objects`;
             
 
@@ -233,6 +243,20 @@ create table objects
     obj_id     integer constraint objects_pk primary key autoincrement,
     obj_name   text not null,
     obj_type   integer not null
+);
+            
+
+
+drop table if exists co_orders_x_products;
+            
+
+
+create table co_orders_x_products
+(
+    oxp_ord_id   integer not null,
+    oxp_prd_id   integer not null,
+    oxp_quantity integer not null,
+    primary key (oxp_ord_id, oxp_prd_id)
 );
             
 
@@ -346,6 +370,14 @@ create table co_sources
 create index co_sources_username_index
     on co_sources (username);
             
+
+drop table if exists table_with_string_field;
+
+create table table_with_string_field
+            (
+                id    integer constraint table_with_string_field_pk primary key autoincrement not null,
+                field text not null
+            );
 
 
 drop table if exists table_with_uuid_primary;

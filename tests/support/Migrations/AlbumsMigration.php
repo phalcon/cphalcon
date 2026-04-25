@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class AlbumsMigration
@@ -24,28 +23,29 @@ use PHPUnit\Framework\Assert;
 class AlbumsMigration extends AbstractMigration
 {
     protected $table = 'albums';
-
-    public function insert(
-        ?int $id,
-        int $artistsId,
-        string $name
-    ): int {
-        $sql = <<<SQL
-insert into albums (
-    id, artists_id, name
-) values (
-    :id, :artistsId, :name)
+    /**
+     * @param int    $id
+     * @param int    $artistsId
+     * @param string $name
+     *
+     * @return int
+     */
+    public function insert(int $id, int $artistsId, string $name): int
+    {
+        $sql    = <<<SQL
+insert into albums (id, artists_id, name) values (:id, :artistsId, :name)
 SQL;
-
         $params = [
-            ':id'         => $id ?? null,
-            ':artists_id' => $artistsId,
-            ':name'       => $name,
+            ':id'        => $id,
+            ':artistsId' => $artistsId,
+            ':name'      => $name,
         ];
 
-        return $this->execute($sql, $params);
-    }
+        $result = $this->execute($sql, $params);
+        $this->advanceSequence('id', $id);
 
+        return $result;
+    }
     protected function getSqlMysql(): array
     {
         return [
@@ -65,27 +65,6 @@ create index albums_artists_id_index on `albums` (`artists_id`);
             ",
         ];
     }
-
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists albums;
-            ",
-            "
-create table albums
-(
-    id         serial       constraint albums_pk primary key,
-    artists_id integer      not null,
-    name       varchar(100) not null
-);
-            ",
-            "
-create index albums_artists_id_index on albums (artists_id);
-            ",
-        ];
-    }
-
     protected function getSqlSqlite(): array
     {
         return [
@@ -105,7 +84,25 @@ create index albums_artists_id_index on albums (artists_id);
             ",
         ];
     }
-
+    protected function getSqlPgsql(): array
+    {
+        return [
+            "
+drop table if exists albums;
+            ",
+            "
+create table albums
+(
+    id         serial       constraint albums_pk primary key,
+    artists_id integer      not null,
+    name       varchar(100) not null
+);
+            ",
+            "
+create index albums_artists_id_index on albums (artists_id);
+            ",
+        ];
+    }
     protected function getSqlSqlsrv(): array
     {
         return [];

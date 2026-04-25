@@ -43,6 +43,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2019-11-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testPaginatorAdapterModelConstruct(): void

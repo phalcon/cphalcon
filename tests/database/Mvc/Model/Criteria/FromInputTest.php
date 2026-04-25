@@ -38,6 +38,7 @@ final class FromInputTest extends AbstractDatabaseTestCase
      * @since  2020-03-05
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelCriteriaFromInput(): void

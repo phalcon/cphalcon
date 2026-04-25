@@ -40,6 +40,7 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
      * @since  2019-04-18
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelWriteAttribute(): void
@@ -71,6 +72,7 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(): void
@@ -101,6 +103,7 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelWriteAttributeWithAssociativeArray(): void
