@@ -2,8 +2,8 @@ name: 'Phalcon PHP extension build action (Windows)'
 description: 'Build Phalcon Framework for Windows according to various PHP versions.'
 
 inputs:
-  pecl:
-    description: 'PECL package path'
+  source:
+    description: 'Path to extension source directory (build/phalcon)'
     required: true
   php-version:
     description: 'PHP version'
@@ -58,15 +58,15 @@ runs:
         $OsName = "${{ inputs.os }}".replace('-','').ToLower()
         $ReleaseFolder = if ("${{ inputs.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
         $ReleaseFolder = if ("${{ inputs.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
-        $ReleaseDllPath = "${{ inputs.tools-dir }}\pecl\phalcon\phalcon-${{ inputs.phalcon-version }}\${ReleaseFolder}\php_phalcon.dll"
+        $SourceDir = "${{ inputs.source }}"
+        $ReleaseDllPath = "${SourceDir}\${ReleaseFolder}\php_phalcon.dll"
         $ReleaseZipBall = "phalcon-php${{ inputs.php-version }}-${{ inputs.ts }}-${OsName}-${{ inputs.arch }}"
 
         Write-Output "RELEASE_FOLDER=$ReleaseFolder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "RELEASE_DLL_PATH=$ReleaseDllPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "RELEASE_ZIPBALL=$ReleaseZipBall" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         Write-Output "PHP_ROOT=${{ inputs.tools-dir }}\php" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-        Write-Output "PHP_PECL_PATH=${{ inputs.tools-dir }}\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-        Write-Output "PHP_DEVPACK=${{ inputs.tools-dir }}\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Write-Output "SOURCE_DIR=$SourceDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Setup PHP SDK tool kit
       uses: zephir-lang/setup-php-sdk@v1
@@ -94,24 +94,18 @@ runs:
       shell: powershell
       run: Get-Php (Get-Command php).Path
 
-    - name: Install PECL Package
-      shell: powershell
-      run: |
-        .\.github\scripts\Expand-Item7zip.ps1 "${{ inputs.pecl }}" "${env:TEMP}"
-        .\.github\scripts\Expand-Item7zip.ps1 "${env:TEMP}\phalcon-pecl.tar" "${{ env.PHP_PECL_PATH }}\phalcon"
-
     - name: Phalcon phpize
-      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ inputs.phalcon-version }}'
+      working-directory: ${{ inputs.source }}
       shell: powershell
       run: phpize
 
     - name: Phalcon Configure Project
-      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ inputs.phalcon-version }}'
+      working-directory: ${{ inputs.source }}
       shell: powershell
       run: .\configure.bat --enable-phalcon
 
     - name: Phalcon Build Project
-      working-directory: '${{ env.PHP_PECL_PATH }}\phalcon\phalcon-${{ inputs.phalcon-version }}'
+      working-directory: ${{ inputs.source }}
       shell: powershell
       run: nmake
 
