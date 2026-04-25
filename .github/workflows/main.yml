@@ -277,7 +277,7 @@ jobs:
       contents: read
 
     name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-    needs: [generate_source, install]
+    needs: [generate_source]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
