@@ -60,6 +60,10 @@
 - Fixed `Phalcon\Mvc\Model::doLowInsert()` to also reset `uniqueKey` (in addition to `uniqueParams`) after an auto-increment INSERT so that a subsequent `has()` call on the same record rebuilds the primary-key condition from current attribute values; previously, `uniqueParams` was cleared but `uniqueKey` was kept, causing `has()` to query with a `null` parameter and return `false`, which made `SoftDelete` attempt to INSERT an already-existing `belongsTo` related record instead of updating it [#16453](https://github.com/phalcon/cphalcon/issues/16453)
 - Fixed `Phalcon\Mvc\Model::doSave()` to capture the model snapshot before the INSERT/UPDATE and restore it when `postSaveRelatedRecords` fails and rolls back the transaction; previously, with `orm.update_snapshot_on_save` enabled, the snapshot was permanently updated inside `doLowInsert`/`doLowUpdate` even when the transaction was rolled back, causing Dynamic Update to silently skip the write on the next save attempt [#16410](https://github.com/phalcon/cphalcon/issues/16410)
 - Fixed `Phalcon\Mvc\Model\Resultset\Complex::current()` to return `null` instead of an empty model instance when a `LEFT JOIN` produces no matching row (all column values are `null`) [#16239](https://github.com/phalcon/cphalcon/issues/16239)
+- Fixed the CI run to correctly use updated changes, and reuse artifacts [#16920](https://github.com/phalcon/cphalcon/pull/16920)
+- Fixed the CI run to now run Postgresql tests [#16920](https://github.com/phalcon/cphalcon/pull/16920)
+- Fixed the CI run to now run Sqlite tests [#16920](https://github.com/phalcon/cphalcon/pull/16920)
+- Fixed `Phalcon\Mvc\Model` to handle the `lastInsertId correctly under Postgres [#16920](https://github.com/phalcon/cphalcon/pull/16920)
 
 ### Removed
 
