@@ -2,8 +2,8 @@
 
 services:
   cphalcon-dev-8.1:
-    container_name: cphalcon-dev-8.1
-    hostname: cphalcon-dev-81
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.1
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-81
     build:
       dockerfile: docker/develop/Dockerfile
       args:
@@ -13,8 +13,8 @@ services:
       - .:/srv
 
   cphalcon-dev-8.2:
-    container_name: cphalcon-dev-8.2
-    hostname: cphalcon-dev-82
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.2
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-82
     build:
       dockerfile: docker/develop/Dockerfile
       args:
@@ -24,8 +24,8 @@ services:
       - .:/srv
 
   cphalcon-dev-8.3:
-    container_name: cphalcon-dev-8.3
-    hostname: cphalcon-dev-83
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.3
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-83
     build:
       dockerfile: docker/develop/Dockerfile
       args:
@@ -35,8 +35,8 @@ services:
       - .:/srv
 
   cphalcon-dev-8.4:
-    container_name: cphalcon-dev-8.4
-    hostname: cphalcon-dev-84
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.4
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-84
     build:
       dockerfile: docker/develop/Dockerfile
       args:
@@ -46,8 +46,8 @@ services:
       - .:/srv
 
   cphalcon-dev-8.5:
-    container_name: cphalcon-dev-8.5
-    hostname: cphalcon-dev-85
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.5
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-85
     build:
       dockerfile: docker/develop/Dockerfile
       args:
@@ -57,7 +57,7 @@ services:
       - .:/srv
 
   mysql:
-    container_name: cphalcon-dev-mysql
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-mysql
     image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=secret
@@ -66,7 +66,7 @@ services:
       - MYSQL_PASSWORD=secret
 
   postgres:
-    container_name: cphalcon-dev-postgres
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-postgres
     image: postgres:18-alpine
     environment:
       - POSTGRES_PASSWORD=secret
@@ -74,46 +74,46 @@ services:
       - POSTGRES_DB=phalcon
 
   redis:
-    container_name: cphalcon-dev-redis
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis
     image: redis:8-alpine
 
   redis-node-0:
-    container_name: cphalcon-dev-redis-node-0
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-0
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     environment:
       - 'REDIS_PASSWORD=bitnami'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
 
   redis-node-1:
-    container_name: cphalcon-dev-redis-node-1
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-1
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     environment:
       - 'REDIS_PASSWORD=bitnami'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
 
   redis-node-2:
-    container_name: cphalcon-dev-redis-node-2
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-2
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     environment:
       - 'REDIS_PASSWORD=bitnami'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
 
   redis-node-3:
-    container_name: cphalcon-dev-redis-node-3
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-3
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     environment:
       - 'REDIS_PASSWORD=bitnami'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
 
   redis-node-4:
-    container_name: cphalcon-dev-redis-node-4
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-4
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     environment:
       - 'REDIS_PASSWORD=bitnami'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
 
   redis-node-5:
-    container_name: cphalcon-dev-redis-node-5
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-5
     image: docker.io/bitnamilegacy/redis-cluster:8.2
     depends_on:
       - redis-node-0
@@ -125,9 +125,9 @@ services:
       - 'REDIS_PASSWORD=bitnami'
       - 'REDISCLI_AUTH=bitnami'
       - 'REDIS_CLUSTER_REPLICAS=1'
-      - 'REDIS_NODES=cphalcon-dev-redis-node-0 cphalcon-dev-redis-node-1 cphalcon-dev-redis-node-2 cphalcon-dev-redis-node-3 cphalcon-dev-redis-node-4 cphalcon-dev-redis-node-5'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
       - 'REDIS_CLUSTER_CREATOR=yes'
 
   memcached:
-    container_name: cphalcon-dev-memcached
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-memcached
     image: memcached:1.6-alpine
