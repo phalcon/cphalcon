@@ -37,181 +37,253 @@ class Column implements ColumnInterface
 {
     /**
      * Bind Type Blob
+     *
+     * @var int
      */
     const BIND_PARAM_BLOB = 3;
 
     /**
      * Bind Type Bool
+     *
+     * @var int
      */
     const BIND_PARAM_BOOL = 5;
 
     /**
      * Bind Type Decimal
+     *
+     * @var int
      */
     const BIND_PARAM_DECIMAL = 32;
 
     /**
      * Bind Type Integer
+     *
+     * @var int
      */
     const BIND_PARAM_INT = 1;
 
     /**
      * Bind Type Null
+     *
+     * @var int
      */
     const BIND_PARAM_NULL = 0;
 
     /**
      * Bind Type String
+     *
+     * @var int
      */
     const BIND_PARAM_STR = 2;
 
     /**
      * Skip binding by type
+     *
+     * @var int
      */
     const BIND_SKIP = 1024;
 
     /**
      * Big integer abstract data type
+     *
+     * @var int
      */
     const TYPE_BIGINTEGER = 14;
 
     /**
      * Bit abstract data type
+     *
+     * @var int
      */
     const TYPE_BIT = 19;
 
     /**
      * Binary abstract data type
+     *
+     * @var int
      */
     const TYPE_BINARY = 27;
 
     /**
      * Blob abstract data type
+     *
+     * @var int
      */
     const TYPE_BLOB = 11;
 
     /**
      * Bool abstract data type
+     *
+     * @var int
      */
     const TYPE_BOOLEAN = 8;
 
     /**
      * Char abstract data type
+     *
+     * @var int
      */
     const TYPE_CHAR = 5;
 
     /**
      * Date abstract data type
+     *
+     * @var int
      */
     const TYPE_DATE = 1;
 
     /**
      * Datetime abstract data type
+     *
+     * @var int
      */
     const TYPE_DATETIME = 4;
 
     /**
      * Decimal abstract data type
+     *
+     * @var int
      */
     const TYPE_DECIMAL = 3;
 
     /**
      * Double abstract data type
+     *
+     * @var int
      */
     const TYPE_DOUBLE = 9;
 
     /**
      * Enum abstract data type
+     *
+     * @var int
      */
     const TYPE_ENUM = 18;
 
     /**
      * Float abstract data type
+     *
+     * @var int
      */
     const TYPE_FLOAT = 7;
 
     /**
      * Int abstract data type
+     *
+     * @var int
      */
     const TYPE_INTEGER = 0;
 
     /**
      * Json abstract data type
+     *
+     * @var int
      */
     const TYPE_JSON = 15;
 
     /**
      * Jsonb abstract data type
+     *
+     * @var int
      */
     const TYPE_JSONB = 16;
 
     /**
      * Longblob abstract data type
+     *
+     * @var int
      */
     const TYPE_LONGBLOB = 13;
 
     /**
      * Longtext abstract data type
+     *
+     * @var int
      */
     const TYPE_LONGTEXT = 24;
 
     /**
      * Mediumblob abstract data type
+     *
+     * @var int
      */
     const TYPE_MEDIUMBLOB = 12;
 
     /**
      * Mediumintegerr abstract data type
+     *
+     * @var int
      */
     const TYPE_MEDIUMINTEGER = 21;
 
     /**
      * Mediumtext abstract data type
+     *
+     * @var int
      */
     const TYPE_MEDIUMTEXT = 23;
 
     /**
      * Smallint abstract data type
+     *
+     * @var int
      */
     const TYPE_SMALLINTEGER = 22;
 
     /**
      * Text abstract data type
+     *
+     * @var int
      */
     const TYPE_TEXT = 6;
 
     /**
      * Time abstract data type
+     *
+     * @var int
      */
     const TYPE_TIME = 20;
 
     /**
      * Timestamp abstract data type
+     *
+     * @var int
      */
     const TYPE_TIMESTAMP = 17;
 
     /**
      * Tinyblob abstract data type
+     *
+     * @var int
      */
     const TYPE_TINYBLOB = 10;
 
     /**
      * Tinyint abstract data type
+     *
+     * @var int
      */
     const TYPE_TINYINTEGER = 26;
 
     /**
      * Tinytext abstract data type
+     *
+     * @var int
      */
     const TYPE_TINYTEXT = 25;
 
     /**
      * Varbinary abstract data type
+     *
+     * @var int
      */
     const TYPE_VARBINARY = 28;
 
     /**
      * Varchar abstract data type
+     *
+     * @var int
      */
     const TYPE_VARCHAR = 2;
 

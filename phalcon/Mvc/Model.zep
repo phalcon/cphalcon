@@ -86,13 +86,37 @@ use Serializable;
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
+    /**
+     * @var int
+     */
     const DIRTY_STATE_DETACHED   = 2;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_PERSISTENT = 0;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_TRANSIENT  = 1;
+    /**
+     * @var int
+     */
     const OP_CREATE = 1;
+    /**
+     * @var int
+     */
     const OP_DELETE = 3;
+    /**
+     * @var int
+     */
     const OP_NONE   = 0;
+    /**
+     * @var int
+     */
     const OP_UPDATE = 2;
+    /**
+     * @var string
+     */
     const TRANSACTION_INDEX = "transaction";
 
     /**

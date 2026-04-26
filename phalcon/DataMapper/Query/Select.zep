@@ -22,9 +22,21 @@ use BadMethodCallException;
  */
 class Select extends AbstractConditions
 {
+    /**
+     * @var string
+     */
     const JOIN_INNER   = "INNER";
+    /**
+     * @var string
+     */
     const JOIN_LEFT    = "LEFT";
+    /**
+     * @var string
+     */
     const JOIN_NATURAL = "NATURAL";
+    /**
+     * @var string
+     */
     const JOIN_RIGHT   = "RIGHT";
 
     /**

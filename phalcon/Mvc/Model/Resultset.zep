@@ -73,10 +73,25 @@ use Serializable;
 abstract class Resultset
     implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
 {
+    /**
+     * @var int
+     */
     const HYDRATE_ARRAYS      = 1;
+    /**
+     * @var int
+     */
     const HYDRATE_OBJECTS     = 2;
+    /**
+     * @var int
+     */
     const HYDRATE_RECORDS     = 0;
+    /**
+     * @var int
+     */
     const TYPE_RESULT_FULL    = 0;
+    /**
+     * @var int
+     */
     const TYPE_RESULT_PARTIAL = 1;
 
     /**
