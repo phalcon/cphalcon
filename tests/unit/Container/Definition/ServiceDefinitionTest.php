@@ -36,7 +36,7 @@ namespace Phalcon\Tests\Unit\Container\Definition;
 use Exception;
 use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\ServiceDefinition;
-use Phalcon\Container\Definition\ServiceLifetime;
+use Phalcon\Container\Interop\Service\Lifetime;
 use Phalcon\Container\Exception\Invalid;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Definition\Fake\FakeServiceWithResolve;
@@ -111,7 +111,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionDefaultLifetimeIsScoped(): void
     {
         $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
-        $this->assertSame(ServiceLifetime::SCOPED, $def->getLifetime());
+        $this->assertSame(Lifetime::SCOPED, $def->getLifetime());
     }
 
     /**
@@ -300,8 +300,8 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
     public function testContainerDefinitionServiceDefinitionSetGetLifetime(): void
     {
         $def = new ServiceDefinition('logger', DefinitionType::DEF_STRING);
-        $def->setLifetime(ServiceLifetime::SINGLETON);
-        $this->assertSame(ServiceLifetime::SINGLETON, $def->getLifetime());
+        $def->setLifetime(Lifetime::SINGLETON);
+        $this->assertSame(Lifetime::SINGLETON, $def->getLifetime());
     }
 
     /**
@@ -315,7 +315,7 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $def->freeze($container);
 
         $this->expectException(Invalid::class);
-        $def->setLifetime(ServiceLifetime::SINGLETON);
+        $def->setLifetime(Lifetime::SINGLETON);
     }
 
     /**

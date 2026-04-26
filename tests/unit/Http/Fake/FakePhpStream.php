@@ -23,6 +23,11 @@ namespace Phalcon\Tests\Unit\Http\Fake;
 class FakePhpStream
 {
     /**
+     * @var resource|null
+     */
+    public $context;
+
+    /**
      * @var int
      */
     protected $index = 0;

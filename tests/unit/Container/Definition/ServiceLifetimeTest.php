@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Definition;
 
-use Phalcon\Container\Definition\ServiceLifetime;
+use Phalcon\Container\Interop\Service\Lifetime;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ServiceLifetimeTest extends AbstractUnitTestCase
@@ -15,8 +15,8 @@ final class ServiceLifetimeTest extends AbstractUnitTestCase
      */
     public function testContainerDefinitionServiceLifetimeConstants(): void
     {
-        $this->assertSame('SCOPED', ServiceLifetime::SCOPED);
-        $this->assertSame('SINGLETON', ServiceLifetime::SINGLETON);
-        $this->assertSame('TRANSIENT', ServiceLifetime::TRANSIENT);
+        $this->assertSame('SCOPED', Lifetime::SCOPED);
+        $this->assertSame('SINGLETON', Lifetime::SINGLETON);
+        $this->assertSame('TRANSIENT', Lifetime::TRANSIENT);
     }
 }

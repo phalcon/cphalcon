@@ -36,10 +36,10 @@ namespace Phalcon\Tests\Unit\Container;
 use Closure;
 use Phalcon\Container\Container;
 use Phalcon\Container\Definition\ServiceDefinition;
-use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exception\Invalid;
 use Phalcon\Container\Exception\NotFound;
 use Phalcon\Container\Interop\Service\Collection;
+use Phalcon\Container\Interop\Service\Lifetime;
 use Phalcon\Container\Resolver\Lazy\Env;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
@@ -472,7 +472,7 @@ final class ContainerTest extends AbstractUnitTestCase
     {
         $bucket   = new Container();
         $instance = new FakeService();
-        $bucket->setInstance('fake', $instance, ServiceLifetime::SINGLETON);
+        $bucket->setInstance('fake', $instance, Lifetime::SINGLETON);
 
         $this->assertTrue($bucket->hasInstance('fake'));
     }
@@ -676,7 +676,7 @@ final class ContainerTest extends AbstractUnitTestCase
     {
         $bucket   = new Container();
         $instance = new FakeService();
-        $bucket->setInstance('fake', $instance, ServiceLifetime::SINGLETON);
+        $bucket->setInstance('fake', $instance, Lifetime::SINGLETON);
 
         $this->assertSame($instance, $bucket->getInstance('fake'));
     }
@@ -712,7 +712,7 @@ final class ContainerTest extends AbstractUnitTestCase
     public function testContainerTransientLifetimeReturnsNewInstanceEachGet(): void
     {
         $bucket = new Container();
-        $bucket->set('fake', FakeService::class)->setLifetime(ServiceLifetime::TRANSIENT);
+        $bucket->set('fake', FakeService::class)->setLifetime(Lifetime::TRANSIENT);
 
         $first  = $bucket->get('fake');
         $second = $bucket->get('fake');
@@ -755,7 +755,7 @@ final class ContainerTest extends AbstractUnitTestCase
     {
         $bucket   = new Container();
         $instance = new FakeService();
-        $bucket->setInstance('fake', $instance, ServiceLifetime::SINGLETON);
+        $bucket->setInstance('fake', $instance, Lifetime::SINGLETON);
         $bucket->unsetInstance('fake');
 
         $this->assertFalse($bucket->hasInstance('fake'));
@@ -771,10 +771,10 @@ final class ContainerTest extends AbstractUnitTestCase
         $singleton = new FakeService();
         $scoped    = new FakeService();
 
-        $bucket->setInstance('singleton', $singleton, ServiceLifetime::SINGLETON);
-        $bucket->setInstance('scoped', $scoped, ServiceLifetime::SCOPED);
+        $bucket->setInstance('singleton', $singleton, Lifetime::SINGLETON);
+        $bucket->setInstance('scoped', $scoped, Lifetime::SCOPED);
 
-        $bucket->unsetInstances(ServiceLifetime::SCOPED);
+        $bucket->unsetInstances(Lifetime::SCOPED);
 
         $this->assertTrue($bucket->hasInstance('singleton'));
         $this->assertFalse($bucket->hasInstance('scoped'));
