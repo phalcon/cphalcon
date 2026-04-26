@@ -27,8 +27,8 @@
 namespace Phalcon\Container\Definition;
 
 use Phalcon\Container\Definition\DefinitionType;
-use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exception\Invalid;
+use Phalcon\Container\Interop\Service\Lifetime;
 use ReflectionClass;
 use TypeError;
 
@@ -92,7 +92,7 @@ class ServiceDefinition
         let this->serviceName = serviceName;
         let this->type        = type;
         let this->raw         = raw;
-        let this->lifetime    = ServiceLifetime::SCOPED;
+        let this->lifetime    = Lifetime::SCOPED;
     }
 
     public function addExtender(var extender) -> <ServiceDefinition>

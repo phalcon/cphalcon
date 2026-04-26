@@ -69,33 +69,13 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function convertEncoding(string text, string! from, string! to) -> string
     {
-        /**
-         * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
-         */
-        if from === "latin1" || to === "utf8" {
-            return utf8_encode(text);
+        if unlikely !function_exists("mb_convert_encoding") {
+            throw new Exception(
+                "'mbstring' is required to perform the charset conversion"
+            );
         }
 
-        /**
-         * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
-         */
-        if to === "latin1" || from === "utf8" {
-            return utf8_decode(text);
-        }
-
-        /**
-         * Fallback to mb_convert_encoding
-         */
-        if function_exists("mb_convert_encoding") {
-            return mb_convert_encoding(text, from, to);
-        }
-
-        /**
-         * There are no enough extensions available
-         */
-        throw new Exception(
-            "'mbstring' is required to perform the charset conversion"
-        );
+        return mb_convert_encoding(text, to, from);
     }
 
     /**

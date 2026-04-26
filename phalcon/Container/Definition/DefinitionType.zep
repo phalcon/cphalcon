@@ -29,8 +29,20 @@ namespace Phalcon\Container\Definition;
 
 class DefinitionType
 {
+    /**
+     * @var string
+     */
     const DEF_CLOSURE   = "closure";
+    /**
+     * @var string
+     */
     const DEF_OBJECT    = "object";
+    /**
+     * @var string
+     */
     const DEF_PARAMETER = "parameter";
+    /**
+     * @var string
+     */
     const DEF_STRING    = "string";
 }

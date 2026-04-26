@@ -27,9 +27,20 @@
 
 namespace Phalcon\Container\Interop\Service;
 
-class Lifetime
+interface Lifetime
 {
+    /**
+     * @var string
+     */
     const SCOPED    = "SCOPED";
+
+    /**
+     * @var string
+     */
     const SINGLETON = "SINGLETON";
+
+    /**
+     * @var string
+     */
     const TRANSIENT = "TRANSIENT";
 }

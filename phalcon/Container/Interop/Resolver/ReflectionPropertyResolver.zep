@@ -25,11 +25,9 @@
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
 
-namespace Phalcon\Container\Definition;
+namespace Phalcon\Container\Interop\Resolver;
 
-class ServiceLifetime
+interface ReflectionPropertyResolver
 {
-    const SCOPED    = "SCOPED";
-    const SINGLETON = "SINGLETON";
-    const TRANSIENT = "TRANSIENT";
+    public function resolveProperty(object ioc, var property, object obj) -> void;
 }

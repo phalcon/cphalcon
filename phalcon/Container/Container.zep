@@ -32,8 +32,8 @@ use Phalcon\Container\Definition\Processor\ObjectProcessor;
 use Phalcon\Container\Definition\Processor\Processor;
 use Phalcon\Container\Definition\Processor\StringProcessor;
 use Phalcon\Container\Definition\ServiceDefinition;
-use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exception\Invalid;
+use Phalcon\Container\Interop\Service\Lifetime;
 use Phalcon\Container\Exception\NotFound;
 use Phalcon\Container\Interop\Service\Collection;
 use Phalcon\Container\Resolver\Lazy\Lazy;
@@ -435,7 +435,7 @@ class Container implements Collection
 
         let lifetime = definition->getLifetime();
 
-        if cache && lifetime !== ServiceLifetime::TRANSIENT {
+        if cache && lifetime !== Lifetime::TRANSIENT {
             let this->instances[name]         = instance;
             let this->instanceLifetimes[name] = lifetime;
         }
