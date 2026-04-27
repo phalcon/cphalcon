@@ -24,20 +24,27 @@ class StuffMigration extends AbstractMigration
      * @param int    $type
      */
     public function insert(
-        int $id,
+        ?int $id,
         string $name,
         int $type
-    ) {
-        if (0 === $id) {
-            $id = null;
+    ): int {
+        $sql    = <<<SQL
+insert into stuff (stf_id, stf_name, stf_type)
+values (:id, :name, :type)
+SQL;
+        $params = [
+            ':id'   => $id,
+            ':name' => $name,
+            ':type' => $type,
+        ];
+
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('stf_id', $id);
         }
 
-        $sql = <<<SQL
-insert into stuff (stf_id, stf_name, stf_type)
-values ({$id}, "{$name}", "{$type}");
-SQL;
-
-        $this->connection->exec($sql);
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -77,7 +84,19 @@ create table stuff
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists stuff;
+            ",
+            "
+create table stuff
+(
+    stf_id   serial       constraint stuff_pk primary key,
+    stf_name varchar(100) not null,
+    stf_type smallint     not null
+);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

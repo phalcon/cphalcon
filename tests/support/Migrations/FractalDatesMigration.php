@@ -25,20 +25,29 @@ class FractalDatesMigration extends AbstractMigration
      * @param string|null      $timeStamp
      */
     public function insert(
-        int $id,
+        ?int $id,
         ?string $time = null,
         ?string $dateTime = null,
         ?string $timeStamp = null
-    ) {
-        if (0 === $id) {
-            $id = null;
-        }
-        $sql = <<<SQL
+    ): int {
+        $sql    = <<<SQL
 insert into fractal_dates (id, ftime, fdatetime, ftimestamp)
-values ({$id}, "{$time}", "{$dateTime}", "{$timeStamp}");
+values (:id, :time, :dateTime, :timeStamp)
 SQL;
+        $params = [
+            ':id'        => $id,
+            ':time'      => $time,
+            ':dateTime'  => $dateTime,
+            ':timeStamp' => $timeStamp,
+        ];
 
-        $this->connection->exec($sql);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -66,7 +75,19 @@ create table fractal_dates
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists fractal_dates;
+            ",
+            "
+CREATE TABLE fractal_dates (
+    id           serial       constraint fractal_dates_pk primary key,
+    ftime        TIME(2),
+    fdatetime    TIMESTAMP(2),
+    ftimestamp   TIMESTAMP(2)
+);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

@@ -33,14 +33,41 @@ use Phalcon\Logger\Adapter\AdapterInterface;
  */
 abstract class AbstractLogger
 {
+    /**
+     * @var int
+     */
     const ALERT     = 2;
+    /**
+     * @var int
+     */
     const CRITICAL  = 1;
+    /**
+     * @var int
+     */
     const CUSTOM    = 8;
+    /**
+     * @var int
+     */
     const DEBUG     = 7;
+    /**
+     * @var int
+     */
     const EMERGENCY = 0;
+    /**
+     * @var int
+     */
     const ERROR     = 3;
+    /**
+     * @var int
+     */
     const INFO      = 6;
+    /**
+     * @var int
+     */
     const NOTICE    = 5;
+    /**
+     * @var int
+     */
     const WARNING   = 4;
 
     /**

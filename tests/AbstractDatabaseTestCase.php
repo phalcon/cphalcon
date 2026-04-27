@@ -225,6 +225,10 @@ abstract class AbstractDatabaseTestCase extends AbstractUnitTestCase
                 self::$password
             );
 
+            if (self::$driver === 'sqlite') {
+                self::$connection->exec('PRAGMA journal_mode = WAL');
+            }
+
             $queries = explode(';', env('initial_queries', ''));
             $queries = array_filter($queries);
             foreach ($queries as $query) {
@@ -319,7 +323,7 @@ abstract class AbstractDatabaseTestCase extends AbstractUnitTestCase
         foreach ($criteria as $key => $value) {
             $val = $value;
             if (is_string($value)) {
-                $val = '"' . $value . '"';
+                $val = "'" . $value . "'";
             }
 
             $where[] = $key . ' = ' . $val;

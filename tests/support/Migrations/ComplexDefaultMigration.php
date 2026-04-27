@@ -28,16 +28,26 @@ class ComplexDefaultMigration extends AbstractMigration
         ?string $created = null,
         ?string $updated = null
     ): int {
-        $id  = $id ?: 'null';
-        $sql = <<<SQL
+        $sql    = <<<SQL
 insert into complex_default (
     id, created, updated
 ) values (
-    {$id}, '{$created}', '{$updated}'
+    :id, :created, :updated
 )
 SQL;
+        $params = [
+            ':id'      => $id,
+            ':created' => $created,
+            ':updated' => $updated,
+        ];
 
-        return $this->connection->exec($sql);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
@@ -60,7 +70,20 @@ create table complex_default
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists complex_default;
+            ",
+            "
+create table complex_default
+(
+    id           integer constraint complex_default_pk primary key autoincrement,
+    created      text default (datetime('now')),
+    updated      text default (datetime('now')),
+    updated_null text null
+);
+            ",
+        ];
     }
 
     protected function getSqlPgsql(): array

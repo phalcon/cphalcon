@@ -42,28 +42,97 @@ namespace Phalcon\Filter;
  */
 class Filter implements FilterInterface
 {
+    /**
+     * @var string
+     */
     const FILTER_ABSINT        = "absint";
+    /**
+     * @var string
+     */
     const FILTER_ALNUM         = "alnum";
+    /**
+     * @var string
+     */
     const FILTER_ALPHA         = "alpha";
+    /**
+     * @var string
+     */
     const FILTER_BOOL          = "bool";
+    /**
+     * @var string
+     */
     const FILTER_EMAIL         = "email";
+    /**
+     * @var string
+     */
     const FILTER_FLOAT         = "float";
+    /**
+     * @var string
+     */
     const FILTER_INT           = "int";
+    /**
+     * @var string
+     */
     const FILTER_IP            = "ip";
+    /**
+     * @var string
+     */
     const FILTER_LOWER         = "lower";
+    /**
+     * @var string
+     */
     const FILTER_LOWERFIRST    = "lowerfirst";
+    /**
+     * @var string
+     */
     const FILTER_REGEX         = "regex";
+    /**
+     * @var string
+     */
     const FILTER_REMOVE        = "remove";
+    /**
+     * @var string
+     */
     const FILTER_REPLACE       = "replace";
+    /**
+     * @var string
+     */
     const FILTER_SPECIAL       = "special";
+    /**
+     * @var string
+     */
     const FILTER_SPECIALFULL   = "specialfull";
+    /**
+     * @var string
+     */
     const FILTER_STRING        = "string";
+    /**
+     * @var string
+     */
     const FILTER_STRING_LEGACY = "stringlegacy";
+    /**
+     * @var string
+     */
     const FILTER_STRIPTAGS     = "striptags";
+    /**
+     * @var string
+     */
     const FILTER_TRIM          = "trim";
+    /**
+     * @var string
+     */
     const FILTER_UPPER         = "upper";
+    /**
+     * @var string
+     */
     const FILTER_UPPERFIRST    = "upperfirst";
+    /**
+     * @var string
+     */
     const FILTER_UPPERWORDS    = "upperwords";
+    /**
+     * @var string
+     */
     const FILTER_URL           = "url";
 
     /**

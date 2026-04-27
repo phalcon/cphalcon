@@ -48,6 +48,8 @@ final class GetSetDITest extends AbstractDatabaseTestCase
      * @since  2020-05-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelMetadataGetDIThrowsException(): void
     {
@@ -66,6 +68,8 @@ final class GetSetDITest extends AbstractDatabaseTestCase
      * @since        2020-02-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelMetadataGetSetDI(
         string $service

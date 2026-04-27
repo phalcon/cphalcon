@@ -27,36 +27,38 @@ class OrdersProductsMigration extends AbstractMigration
      * @return int
      */
     public function insert(
-        int $oxp_ord_id,
-        int $oxp_prd_id,
-        int $oxp_quantity
+        int $oxpOrdId,
+        int $oxpPrdId,
+        int $oxpQuantity
     ): int {
-        $oxp_ord_id   = $oxp_ord_id ?: 'null';
-        $oxp_prd_id   = $oxp_prd_id ?: 'null';
-        $oxp_quantity = $oxp_quantity ?: 'null';
         $sql    = <<<SQL
 insert into co_orders_x_products (
     oxp_ord_id, oxp_prd_id, oxp_quantity
 ) values (
-    {$oxp_ord_id}, {$oxp_prd_id}, {$oxp_quantity}
+    :oxpOrdId, :oxpPrdId, :oxpQuantity
 )
 SQL;
+        $params = [
+            ':oxpOrdId'   => $oxpOrdId,
+            ':oxpPrdId'   => $oxpPrdId,
+            ':oxpQuantity' => $oxpQuantity,
+        ];
 
-        return $this->connection->exec($sql);
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array
     {
         return [
             "
-drop table if exists private.`co_orders_x_products`;
+drop table if exists `co_orders_x_products`;
             ",
             "
-CREATE TABLE private.`co_orders_x_products` (
+CREATE TABLE `co_orders_x_products` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
   `oxp_quantity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
@@ -64,7 +66,20 @@ CREATE TABLE private.`co_orders_x_products` (
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists co_orders_x_products;
+            ",
+            "
+create table co_orders_x_products
+(
+    oxp_ord_id   integer not null,
+    oxp_prd_id   integer not null,
+    oxp_quantity integer not null,
+    primary key (oxp_ord_id, oxp_prd_id)
+);
+            ",
+        ];
     }
 
     protected function getSqlPgsql(): array

@@ -50,10 +50,22 @@ use Phalcon\Mvc\Router\RouteInterface;
  */
 class Router extends AbstractInjectionAware implements RouterInterface, EventsAwareInterface
 {
+    /**
+     * @var int
+     */
     const POSITION_FIRST = 0;
+    /**
+     * @var int
+     */
     const POSITION_LAST = 1;
 
+    /**
+     * @var int
+     */
     const URI_SOURCE_GET_URL = 0;
+    /**
+     * @var int
+     */
     const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
     /**

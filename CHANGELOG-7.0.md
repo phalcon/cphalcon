@@ -5,9 +5,13 @@
 
 ### Added
 
+- Added `Phalcon\Container` a new DI container offering lazy loading, aliases, tags and autowiring [#16896](https://github.com/phalcon/cphalcon/issues/16896)
+
 ### Fixed
 
 - [BC] Fixed `Phalcon\Mvc\Model` NOT NULL validation to accept empty strings `""` for string columns (`VARCHAR`, `CHAR`, `TEXT`); previously `""` was incorrectly treated as `null` and triggered a `PresenceOf` validation error. Applications relying on this implicit rejection of empty strings must add an explicit `PresenceOf` or `StringLength(min=1)` validator [#16426](https://github.com/phalcon/cphalcon/issues/16426)
+- Fixed `Phalcon\Cli\Router` to implement `Phalcon\Cli\RouterInterface` [#16896](https://github.com/phalcon/cphalcon/issues/16896)
+- Fixed `Phalcon\Encryption\Crypt::encrypt()` to catch `\ValueError` thrown by `openssl_random_pseudo_bytes()` and rethrow it as `Phalcon\Encryption\Crypt\Exception` [#16896](https://github.com/phalcon/cphalcon/issues/16896)
 
 ### Removed
 

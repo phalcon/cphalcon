@@ -47,6 +47,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-05-07
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscoreGet(): void
     {
@@ -71,6 +73,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-05-07
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscoreGetDirtyRelated(): void
     {
@@ -130,6 +134,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-05-07
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscoreGetIsUsingGetters(): void
     {
@@ -167,6 +173,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-05-07
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscoreGetRelated(): void
     {
@@ -233,6 +241,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-12-24
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscorePrivateProperty(): void
     {
@@ -266,6 +276,8 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
      * @since  2019-12-24
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscorePrivatePropertyException(): void
     {

@@ -85,7 +85,7 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
     private function getExpectedColumnsPostgresql(): array
     {
         return [
-            0  => new Column(
+            0 => new Column(
                 'cedula',
                 [
                     'type'          => 5,
@@ -101,10 +101,10 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
                     'bindType'      => 2,
                 ]
             ),
-            1  => new Column(
+            1 => new Column(
                 'tipo_documento_id',
                 [
-                    'type'          => 0,
+                    'type'          => 22,
                     'isNumeric'     => true,
                     'size'          => 0,
                     'scale'         => 0,
@@ -117,7 +117,7 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
                     'bindType'      => 1,
                 ]
             ),
-            2  => new Column(
+            2 => new Column(
                 'nombres',
                 [
                     'type'          => 2,
@@ -132,7 +132,7 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
                     'bindType'      => 2,
                 ]
             ),
-            3  => new Column(
+            3 => new Column(
                 'telefono',
                 [
                     'type'          => 2,
@@ -144,85 +144,10 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
                     'autoIncrement' => false,
                     'first'         => false,
                     'after'         => 'nombres',
-                ]
-            ),
-            4  => new Column(
-                'direccion',
-                [
-                    'type'          => 2,
-                    'isNumeric'     => false,
-                    'size'          => 100,
-                    'default'       => null,
-                    'unsigned'      => false,
-                    'notNull'       => false,
-                    'autoIncrement' => false,
-                    'first'         => false,
-                    'after'         => 'telefono',
                     'bindType'      => 2,
                 ]
             ),
-            5  => new Column(
-                'email',
-                [
-                    'type'          => 2,
-                    'isNumeric'     => false,
-                    'size'          => 50,
-                    'default'       => null,
-                    'unsigned'      => false,
-                    'notNull'       => false,
-                    'autoIncrement' => false,
-                    'first'         => false,
-                    'after'         => 'direccion',
-                    'bindType'      => 2,
-                ]
-            ),
-            6  => new Column(
-                'fecha_nacimiento',
-                [
-                    'type'          => 1,
-                    'isNumeric'     => false,
-                    'size'          => 0,
-                    'default'       => '1970-01-01',
-                    'unsigned'      => false,
-                    'notNull'       => false,
-                    'autoIncrement' => false,
-                    'first'         => false,
-                    'after'         => 'email',
-                    'bindType'      => 2,
-                ]
-            ),
-            7  => new Column(
-                'ciudad_id',
-                [
-                    'type'          => 0,
-                    'isNumeric'     => true,
-                    'size'          => 0,
-                    'scale'         => 0,
-                    'default'       => '0',
-                    'unsigned'      => false,
-                    'notNull'       => false,
-                    'autoIncrement' => false,
-                    'first'         => false,
-                    'after'         => 'fecha_nacimiento',
-                    'bindType'      => 1,
-                ]
-            ),
-            8  => new Column(
-                'creado_at',
-                [
-                    'type'          => 1,
-                    'isNumeric'     => false,
-                    'size'          => 0,
-                    'default'       => null,
-                    'unsigned'      => false,
-                    'notNull'       => false,
-                    'autoIncrement' => false,
-                    'first'         => false,
-                    'after'         => 'ciudad_id',
-                    'bindType'      => 2,
-                ]
-            ),
-            9  => new Column(
+            4 => new Column(
                 'cupo',
                 [
                     'type'          => 3,
@@ -234,17 +159,17 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
                     'notNull'       => true,
                     'autoIncrement' => false,
                     'first'         => false,
-                    'after'         => 'creado_at',
+                    'after'         => 'telefono',
                     'bindType'      => 32,
                 ]
             ),
-            10 => new Column(
+            5 => new Column(
                 'estado',
                 [
                     'type'          => 5,
                     'isNumeric'     => false,
                     'size'          => 1,
-                    'default'       => null,
+                    'default'       => 'A',
                     'unsigned'      => false,
                     'notNull'       => true,
                     'autoIncrement' => false,

@@ -255,6 +255,18 @@ CREATE TABLE `co_manufacturers` (
             
 
 
+drop table if exists `no_primary_key`;
+            
+
+
+create table no_primary_key
+(
+    `nokey_id`   int(10) unsigned,
+    `nokey_name` varchar(100) not null
+);
+            
+
+
 drop table if exists objects;
             
 
@@ -280,15 +292,15 @@ CREATE TABLE `co_orders` (
             
 
 
-drop table if exists private.`co_orders_x_products`;
+drop table if exists `co_orders_x_products`;
             
 
 
-CREATE TABLE private.`co_orders_x_products` (
+CREATE TABLE `co_orders_x_products` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
   `oxp_quantity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
@@ -334,6 +346,19 @@ CREATE TABLE `photo` (
 	`wins`              int(10) unsigned not null DEFAULT '0',
 	primary key (`id`) using BTREE
 ) collate='utf8mb4_unicode_520_ci';
+            
+
+
+drop table if exists private.`co_orders_x_products`;
+            
+
+
+CREATE TABLE private.`co_orders_x_products` (
+  `oxp_ord_id` int(10) unsigned NOT NULL,
+  `oxp_prd_id` int(10) unsigned NOT NULL,
+  `oxp_quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
 
@@ -414,6 +439,14 @@ create table co_sources
 create index co_sources_username_index
     on co_sources (username);
             
+
+drop table if exists `table_with_string_field`;
+
+create table `table_with_string_field`
+            (
+                `id`    int(10) unsigned not null auto_increment primary key,
+                `field` varchar(255) not null
+            ) engine=InnoDB default charset=utf8;
 
 
 drop table if exists `table_with_uuid_primary`;

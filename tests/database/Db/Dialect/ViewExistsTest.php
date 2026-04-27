@@ -89,6 +89,8 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectViewExists(
         string $dialectClass,
@@ -110,6 +112,8 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectViewExistsNoSchema(
         string $dialectClass,

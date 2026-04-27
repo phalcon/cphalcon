@@ -19,7 +19,13 @@ use Phalcon\Mvc\Model\QueryInterface;
  */
 interface BuilderInterface
 {
+    /**
+     * @var string
+     */
     const OPERATOR_AND = "and";
+    /**
+     * @var string
+     */
     const OPERATOR_OR = "or";
 
     /**

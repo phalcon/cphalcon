@@ -36,18 +36,57 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  */
 class Security extends AbstractInjectionAware
 {
+    /**
+     * @var int
+     */
     const CRYPT_ARGON2I    = 10;
+    /**
+     * @var int
+     */
     const CRYPT_ARGON2ID   = 11;
+    /**
+     * @var int
+     */
     const CRYPT_BCRYPT     = 0;
+    /**
+     * @var int
+     */
     const CRYPT_DEFAULT    = 0;
+    /**
+     * @var int
+     */
     const CRYPT_BLOWFISH   = 4;
+    /**
+     * @var int
+     */
     const CRYPT_BLOWFISH_A = 5;
+    /**
+     * @var int
+     */
     const CRYPT_BLOWFISH_X = 6;
+    /**
+     * @var int
+     */
     const CRYPT_BLOWFISH_Y = 7;
+    /**
+     * @var int
+     */
     const CRYPT_EXT_DES    = 2;
+    /**
+     * @var int
+     */
     const CRYPT_MD5        = 3;
+    /**
+     * @var int
+     */
     const CRYPT_SHA256     = 8;
+    /**
+     * @var int
+     */
     const CRYPT_SHA512     = 9;
+    /**
+     * @var int
+     */
     const CRYPT_STD_DES    = 1;
 
     /**

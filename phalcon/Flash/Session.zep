@@ -23,6 +23,9 @@ use Phalcon\Session\ManagerInterface;
  */
 class Session extends AbstractFlash
 {
+    /**
+     * @var string
+     */
     const SESSION_KEY = "_flashMessages";
 
     /**

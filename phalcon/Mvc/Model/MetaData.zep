@@ -40,21 +40,69 @@ use Phalcon\Support\Settings;
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
+    /**
+     * @var int
+     */
     const MODELS_ATTRIBUTES = 0;
+    /**
+     * @var int
+     */
     const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
+    /**
+     * @var int
+     */
     const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
+    /**
+     * @var int
+     */
     const MODELS_COLUMN_MAP = 0;
+    /**
+     * @var int
+     */
     const MODELS_DATE_AT = 6;
+    /**
+     * @var int
+     */
     const MODELS_DATE_IN = 7;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES = 4;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES_BIND = 9;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES_NUMERIC = 5;
+    /**
+     * @var int
+     */
     const MODELS_DEFAULT_VALUES = 12;
+    /**
+     * @var int
+     */
     const MODELS_EMPTY_STRING_VALUES = 13;
+    /**
+     * @var int
+     */
     const MODELS_IDENTITY_COLUMN = 8;
+    /**
+     * @var int
+     */
     const MODELS_NON_PRIMARY_KEY = 2;
+    /**
+     * @var int
+     */
     const MODELS_NOT_NULL = 3;
+    /**
+     * @var int
+     */
     const MODELS_PRIMARY_KEY = 1;
+    /**
+     * @var int
+     */
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
     /**

@@ -64,6 +64,8 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelIsRelationshipLoadedViaUnderscoreGet(): void
     {
@@ -98,6 +100,8 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelIsRelationshipLoadedViaUnderscoreSet(): void
     {
@@ -133,6 +137,8 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelIsRelationshipLoadedViaCallGetters(): void
     {
@@ -167,6 +173,8 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelIsRelationshipLoadedViaGetRelated(): void
     {

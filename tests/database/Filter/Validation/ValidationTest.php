@@ -60,6 +60,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2016-06-27
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testAppendValidationMessageToTheNonObject(): void
     {
@@ -101,6 +102,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2016-09-26
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testWithEntityAndFilter(): void
     {
@@ -145,6 +147,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2016-09-26
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFilteringEntity(): void
     {
@@ -171,6 +174,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testValidationFiltering(): void
     {
@@ -230,6 +234,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testValidationSetLabels(): void
     {
@@ -325,6 +330,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @since  2016-12-30
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testEmptyValues(): void
     {

@@ -36,7 +36,7 @@ use Phalcon\Cli\Router\RouteInterface;
  * echo $router->getTaskName();
  *```
  */
-class Router extends AbstractInjectionAware
+class Router extends AbstractInjectionAware implements RouterInterface
 {
     /**
      * @var string
@@ -138,7 +138,7 @@ class Router extends AbstractInjectionAware
      * $router->add("/about", "About::main");
      *```
      *
-     * @param string|array paths
+     * @param string|array|null paths
      */
     public function add(string! pattern, paths = null) -> <RouteInterface>
     {
@@ -474,6 +474,7 @@ class Router extends AbstractInjectionAware
     public function setDefaultModule(string moduleName) -> <Router>
     {
         let this->defaultModule = moduleName;
+
         return this;
     }
 
@@ -521,9 +522,11 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default controller name
      */
-    public function setDefaultTask(string taskName) -> void
+    public function setDefaultTask(string taskName) -> <Router>
     {
         let this->defaultTask = taskName;
+
+        return this;
     }
 
     /**

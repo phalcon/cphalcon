@@ -174,6 +174,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumnDefaultFloat(string $dialectClass, string $expected): void
     {
@@ -210,6 +211,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumnDefaultInt(string $dialectClass, string $expected): void
     {
@@ -246,6 +248,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumn(string $dialectClass, string $expected): void
     {
@@ -282,6 +285,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumnDefaultNull(string $dialectClass, string $expected): void
     {
@@ -317,6 +321,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumnDefaultString(string $dialectClass, string $expected): void
     {
@@ -352,6 +357,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group        mysql
+     * @group sqlite
      */
     public function testDbDialectAddColumnDefaultTimestamp(string $dialectClass, string $expected): void
     {

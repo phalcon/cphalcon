@@ -86,13 +86,37 @@ use Serializable;
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
+    /**
+     * @var int
+     */
     const DIRTY_STATE_DETACHED   = 2;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_PERSISTENT = 0;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_TRANSIENT  = 1;
+    /**
+     * @var int
+     */
     const OP_CREATE = 1;
+    /**
+     * @var int
+     */
     const OP_DELETE = 3;
+    /**
+     * @var int
+     */
     const OP_NONE   = 0;
+    /**
+     * @var int
+     */
     const OP_UPDATE = 2;
+    /**
+     * @var string
+     */
     const TRANSACTION_INDEX = "transaction";
 
     /**
@@ -594,6 +618,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         manager->initialize(this);
 
         /**
+         * Allow the developer to run initialization code every time
+         * the model is instantiated, including when restored from cache
+         */
+        if method_exists(this, "onConstruct") {
+            this->{"onConstruct"}();
+        }
+
+        /**
          * Fetch serialized props
          */
         if fetch properties, data["attributes"] {
@@ -615,11 +647,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Fetch serialized snapshot when option is active
+         * Fetch serialized snapshot when option is active.
+         * When attributes == snapshot at serialize-time, snapshot is stored
+         * as null. Treat null as "no changes" and fall back to properties.
          */
         if manager->isKeepingSnapshots(this) {
             if fetch snapshot, data["snapshot"] {
-                let this->snapshot = snapshot;
+                let this->snapshot = (snapshot !== null) ? snapshot : properties;
             } else {
                 let this->snapshot = properties;
             }
@@ -1498,6 +1532,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if (success) {
             let this->related = [];
+            let this->dirtyRelated = [];
             this->modelsManager->clearReusableObjects();
         }
 
@@ -2176,6 +2211,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 //                 */
 //                let this->related[lowerAlias] = result;
 //            }
+            if isset(this->dirtyRelated[lowerAlias]) {
+                return this->dirtyRelated[lowerAlias];
+            }
+            if isset(this->related[lowerAlias]) {
+                return this->related[lowerAlias];
+            }
+
             /**
              * We do not need conditionals here. The models manager stores
              * reusable related records so we utilize that and remove complexity
@@ -2684,7 +2726,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function doSave(<CollectionInterface> visited) -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, relatedToSave, objId;
+            identityField, exists, success, relatedToSave, objId,
+            manager, savedSnapshot, savedOldSnapshot;
         bool hasRelatedToSave;
 
         let objId = spl_object_id(this);
@@ -2789,6 +2832,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
+         * Capture the current snapshot before the write so it can be restored
+         * if postSaveRelatedRecords later rolls back the transaction
+         */
+        let manager = this->getModelsManager();
+
+        if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+            let savedSnapshot    = this->snapshot,
+                savedOldSnapshot = this->oldSnapshot;
+        }
+
+        /**
          * Depending if the record exists we do an update or an insert operation
          */
         if exists {
@@ -2836,6 +2890,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if success === false {
             this->cancelOperation();
+
+            /**
+             * If the transaction was rolled back, restore the snapshot to its
+             * pre-save state so that Dynamic Update can detect changes correctly
+             * on the next save attempt
+             */
+            if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+                let this->snapshot    = savedSnapshot,
+                    this->oldSnapshot = savedOldSnapshot;
+            }
         } else {
             if hasRelatedToSave {
                 /**
@@ -2843,7 +2907,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 let this->dirtyRelated = [];
             }
-
+            let this->related = [];
             this->fireEvent("afterSave");
         }
 
@@ -2932,6 +2996,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             manager->initialize(this);
 
             /**
+             * Allow the developer to run initialization code every time
+             * the model is instantiated, including when restored from cache
+             */
+            if method_exists(this, "onConstruct") {
+                this->{"onConstruct"}();
+            }
+
+            /**
              * Fetch serialized props
              */
             if fetch properties, attributes["attributes"] {
@@ -2961,11 +3033,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             /**
-             * Fetch serialized snapshot when option is active
+             * Fetch serialized snapshot when option is active.
+             * When attributes == snapshot at serialize-time, snapshot is stored
+             * as null. Treat null as "no changes" and fall back to properties.
              */
             if manager->isKeepingSnapshots(this) {
                 if fetch snapshot, attributes["snapshot"] {
-                    let this->snapshot = snapshot;
+                    let this->snapshot = (snapshot !== null) ? snapshot : properties;
                 } else {
                     let this->snapshot = properties;
                 }
@@ -4044,9 +4118,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             /**
-             * Recover the last "insert id" and assign it to the object
+             * Recover the last "insert id" and assign it to the object.
+             * If an explicit identity value was provided the sequence was not
+             * used, so calling lastInsertId() would fail on PostgreSQL because
+             * currval() requires nextval() to have been called in the session.
+             * Reuse the value already present on the model in that case.
              */
-            let lastInsertedId = connection->lastInsertId(sequenceName);
+            fetch value, this->{attributeField};
+
+            if value !== null && value !== "" {
+                let lastInsertedId = value;
+            } else {
+                let lastInsertedId = connection->lastInsertId(sequenceName);
+            }
 
             /**
              * If we want auto casting
@@ -4059,10 +4143,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 snapshot[attributeField] = lastInsertedId;
 
             /**
-             * Since the primary key was modified, we delete the uniqueParams
-             * to force any future update to re-build the primary key
+             * Since the primary key was modified, we delete the uniqueKey
+             * and uniqueParams to force any future has() call to re-build
+             * the primary key condition from current attribute values
              */
-            let this->uniqueParams = null;
+            let this->uniqueKey    = null,
+                this->uniqueParams = null;
         }
 
         if success {
@@ -4967,7 +5053,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                         /**
                          * Field is null when: 1) is not set, 2) is numeric but
-                         * its value is not numeric, or 3) is null.
+                         * its value is not numeric, 3) is null, or 4) is an
+                         * empty string and the field has a non-empty default.
                          * Read the attribute from the this_ptr using the real or renamed name
                          */
                         if fetch value, this->{attributeField} {
@@ -4982,7 +5069,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                             let isNull = true;
                                         }
                                     } else {
-                                        if value === null {
+                                        if value === null || (value === "" && isset defaultValues[field] && defaultValues[field] !== "") {
                                             let isNull = true;
                                         }
                                     }

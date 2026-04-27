@@ -39,6 +39,8 @@ final class QueryTest extends AbstractDatabaseTestCase
      * @since  2020-02-22
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbAdapterPdoQuery(): void
     {

@@ -37,7 +37,9 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlDescribeReferences(): void
     {
@@ -51,7 +53,9 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlDescribeReferencesCount(): void
     {
@@ -65,7 +69,9 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-09-28
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbAdapterPdoMysqlDescribeReferencesColumnsCount(): void
     {

@@ -39,6 +39,7 @@ final class GetConnectionTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelTransactionGetConnection(): void
     {

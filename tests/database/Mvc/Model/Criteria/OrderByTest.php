@@ -33,6 +33,8 @@ final class OrderByTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelCriteriaOrderBy(): void
     {

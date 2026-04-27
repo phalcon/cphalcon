@@ -40,6 +40,7 @@ final class FormElementsTest extends AbstractDatabaseTestCase
      * @since  2017-11-19
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testShouldCancelValidationOnFirstFail(): void
     {

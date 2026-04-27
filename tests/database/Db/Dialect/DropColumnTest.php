@@ -68,6 +68,8 @@ final class DropColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectDropColumn(
         string $dialectClass,

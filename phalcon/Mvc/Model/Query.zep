@@ -78,9 +78,21 @@ use Phalcon\Support\Settings;
  */
 class Query implements QueryInterface, InjectionAwareInterface
 {
+    /**
+     * @var int
+     */
     const TYPE_DELETE = 303;
+    /**
+     * @var int
+     */
     const TYPE_INSERT = 306;
+    /**
+     * @var int
+     */
     const TYPE_SELECT = 309;
+    /**
+     * @var int
+     */
     const TYPE_UPDATE = 300;
 
     /**
@@ -1026,12 +1038,21 @@ class Query implements QueryInterface, InjectionAwareInterface
                     this->modelsInstances[modelName] = model;
             }
 
-            let connection = this->getReadConnection(
-                model,
-                intermediate,
-                bindParams,
-                bindTypes
-            );
+            if isset intermediate["forUpdate"] && intermediate["forUpdate"] {
+                let connection = this->getWriteConnection(
+                    model,
+                    intermediate,
+                    bindParams,
+                    bindTypes
+                );
+            } else {
+                let connection = this->getReadConnection(
+                    model,
+                    intermediate,
+                    bindParams,
+                    bindTypes
+                );
+            }
 
             if typeof connection == "object" {
                 // More than one type of connection is not allowed

@@ -35,13 +35,21 @@ class PersonasMigration extends AbstractMigration
         string $telefono = '1234567890',
         float $cupo = 0.0,
         string $estado = 'A'
-    ): void {
-        $sql = <<<SQL
+    ): int {
+        $sql    = <<<SQL
 insert into personas (cedula, tipo_documento_id, nombres, telefono, cupo, estado)
-values ('{$cedula}', {$tipoDocumentoId}, '{$nombres}', '{$telefono}', {$cupo}, '{$estado}')
+values (:cedula, :tipoDocumentoId, :nombres, :telefono, :cupo, :estado)
 SQL;
+        $params = [
+            ':cedula'          => $cedula,
+            ':tipoDocumentoId' => $tipoDocumentoId,
+            ':nombres'         => $nombres,
+            ':telefono'        => $telefono,
+            ':cupo'            => $cupo,
+            ':estado'          => $estado,
+        ];
 
-        $this->connection->exec($sql);
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array

@@ -44,6 +44,8 @@ final class UnserializeTest extends AbstractDatabaseTestCase
      * @since  2020-05-06
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelResultsetSimpleUnserialize(): void
     {

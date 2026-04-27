@@ -24,56 +24,93 @@ final class LoadTest extends AbstractDatabaseTestCase
 {
     use FactoryTrait;
 
-    /**
-     * Executed before each test
-     *
-     * @return void
-     */
     public function setUp(): void
     {
         $this->init();
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\PdoFactory :: load()
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     * @group  mysql
+     *
+     * @group mysql
      */
-    public function testDbAdapterPdoFactoryLoad(): void
+    public function testDbAdapterPdoFactoryLoadMysql(): void
     {
         $options = $this->config->database;
         $data    = $options->toArray();
 
-        $this->runTests($options, $data);
+        $this->runTests(Mysql::class, $options, $data);
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\PdoFactory :: load() - array
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     * @group  mysql
+     *
+     * @group mysql
      */
-    public function testDbAdapterPdoFactoryLoadArray(): void
+    public function testDbAdapterPdoFactoryLoadMysqlArray(): void
     {
         $options = $this->arrayConfig['database'];
         $data    = $options;
 
-        $this->runTests($options, $data);
+        $this->runTests(Mysql::class, $options, $data);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-19
+     *
+     * @group pgsql
+     */
+    public function testDbAdapterPdoFactoryLoadPgsql(): void
+    {
+        $this->markTestSkipped('Need implementation');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-19
+     *
+     * @group pgsql
+     */
+    public function testDbAdapterPdoFactoryLoadPgsqlArray(): void
+    {
+        $this->markTestSkipped('Need implementation');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-19
+     *
+     * @group sqlite
+     */
+    public function testDbAdapterPdoFactoryLoadSqlite(): void
+    {
+        $this->markTestSkipped('Need implementation');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-19
+     *
+     * @group mysql
+     */
+    public function testDbAdapterPdoFactoryLoadSqliteArray(): void
+    {
+        $this->markTestSkipped('Need implementation');
     }
 
     /**
      * @param mixed $options
      * @param array $data
      */
-    private function runTests(mixed $options, array $data): void
+    private function runTests(string $class, mixed $options, array $data): void
     {
         $factory = new PdoFactory();
         $adapter = $factory->load($options);
 
-        $this->assertInstanceOf(Mysql::class, $adapter);
+        $this->assertInstanceOf($class, $adapter);
 
         $expected = array_intersect_assoc(
             $adapter->getDescriptor(),

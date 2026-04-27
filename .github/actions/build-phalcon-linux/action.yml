@@ -2,24 +2,42 @@ name: 'Phalcon PHP extension build action'
 description: 'Build Phalcon Framework for Linux according to various PHP versions.'
 
 inputs:
+  source:
+    description: 'Path to extension source directory (build/phalcon)'
+    required: true
   php-version:
     description: 'PHP version'
     required: true
+
+outputs:
+  extension-dir:
+    description: 'PHP extension directory'
+    value: ${{ steps.get-ext-dir.outputs.dir }}
 
 runs:
   using: 'composite'
   steps:
     - name: Build Phalcon for Linux
       shell: bash
-      working-directory: ${{ github.workspace }}/build/phalcon
+      working-directory: ${{ inputs.source }}
       run: |
         export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
-        echo "::group::Build Phalcon with phpize"
+        echo "::group::Build Phalcon extension"
         phpize
         ./configure --enable-phalcon
         make
+        sudo make install
         echo "::endgroup::"
+
+    - name: Enable extension
+      shell: bash
+      run: echo "extension=phalcon" | sudo tee /etc/php/${{ inputs.php-version }}/cli/conf.d/99-phalcon.ini
+
+    - name: Get extension directory
+      id: get-ext-dir
+      shell: bash
+      run: echo "dir=$(php-config --extension-dir)" >> $GITHUB_OUTPUT
 
     - name: Check Extension
       shell: bash
-      run: php -d extension=${{ github.workspace }}/build/phalcon/modules/phalcon.so --ri phalcon
+      run: php --ri phalcon

@@ -49,6 +49,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelResultsetUpdate(): void
     {
@@ -69,7 +70,6 @@ final class UpdateTest extends AbstractDatabaseTestCase
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
      */
     public function testMvcModelResultsetUpdateThrowsOnInvalidData(): void
     {

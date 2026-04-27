@@ -71,6 +71,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2019-04-27
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelResultsetSimpleConstructCompletePhql(): void
     {
@@ -112,6 +114,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2019-04-27
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelResultsetSimpleConstructIncompletePhql(): void
     {

@@ -25,6 +25,8 @@ final class GetValueTest extends AbstractDatabaseTestCase
      * @since  2019-04-17
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbRawvalueGetValue(): void
     {

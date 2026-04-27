@@ -43,6 +43,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormElementRender(): void
     {
@@ -81,6 +82,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormRenderEntity(): void
     {
@@ -125,6 +127,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormRenderEntityGetters(): void
     {
@@ -169,6 +172,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormValidatorEntity(): void
     {
@@ -212,6 +216,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormValidatorEntityBind(): void
     {
@@ -267,6 +272,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormValidatorEntityBindSetters(): void
     {
@@ -322,6 +328,7 @@ final class FormsTest extends AbstractDatabaseTestCase
      * @since  2026-04-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testElementAppendMessage(): void
     {

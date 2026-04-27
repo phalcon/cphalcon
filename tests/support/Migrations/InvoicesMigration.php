@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class InvoicesMigration
@@ -30,24 +29,41 @@ class InvoicesMigration extends AbstractMigration
         float $total = 0,
         ?string $createdAt = null
     ): int {
-        $id     = $id ?: 'null';
-        $title  = $title ?: uniqid('', true);
-        $custId = $custId ?: 1;
-        $now    = $createdAt ?: date('Y-m-d H:i:s');
-        $sql    = <<<SQL
+        $useAutoId = (null === $id || 'default' === $id || 'null' === $id);
+        if ($useAutoId) {
+            $sql = <<<SQL
+insert into co_invoices (
+    inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
+) values (
+    :custId, :status, :title, :total, :createdAt
+)
+SQL;
+        } else {
+            $sql = <<<SQL
 insert into co_invoices (
     inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
-    {$id}, {$custId}, {$status}, '{$title}', {$total}, '{$now}'
+    :id, :custId, :status, :title, :total, :createdAt
 )
 SQL;
+        }
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
+        $params = [
+            ':custId'    => $custId ?? 1,
+            ':status'    => $status,
+            ':title'     => $title ?: uniqid('', true),
+            ':total'     => $total,
+            ':createdAt' => $createdAt ?: date('Y-m-d H:i:s'),
+        ];
+
+        if (!$useAutoId) {
+            $params[':id'] = $id;
+        }
+
+        $result = $this->execute($sql, $params);
+
+        if (!$useAutoId && is_int($id)) {
+            $this->advanceSequence('inv_id', $id);
         }
 
         return $result;

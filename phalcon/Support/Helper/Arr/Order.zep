@@ -17,7 +17,13 @@ namespace Phalcon\Support\Helper\Arr;
  */
 class Order
 {
+    /**
+     * @var int
+     */
     const ORDER_ASC  = 1;
+    /**
+     * @var int
+     */
     const ORDER_DESC = 2;
 
     /**

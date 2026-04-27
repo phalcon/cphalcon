@@ -27,14 +27,17 @@ class SelectMigration extends AbstractMigration
     public function insert(
         string $name,
         ?string $text = null
-    ): void {
-        $textVal = $text === null ? 'null' : "'{$text}'";
-        $sql     = <<<SQL
+    ): int {
+        $sql    = <<<SQL
 insert into ph_select (sel_name, sel_text)
-values ('{$name}', {$textVal})
+values (:name, :text)
 SQL;
+        $params = [
+            ':name' => $name,
+            ':text' => $text,
+        ];
 
-        $this->connection->exec($sql);
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array

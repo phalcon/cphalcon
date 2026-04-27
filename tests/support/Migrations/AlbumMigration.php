@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 class AlbumMigration extends AbstractMigration
 {
@@ -33,22 +32,24 @@ class AlbumMigration extends AbstractMigration
         ?int $albumId = null,
         ?int $photoId = null
     ): int {
-
-        $id     = $id ?: 'null';
         $sql    = <<<SQL
 insert into album (
     id, name, album_id, proto_id
 ) values (
-    {$id}, {$name}, {$albumId}, '{$photoId}'
+    :id, :name, :albumId, :photoId
 )
 SQL;
+        $params = [
+            ':id'      => $id ?? null,
+            ':name'    => $name,
+            ':albumId' => $albumId,
+            ':photoId' => $photoId
+        ];
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
         }
 
         return $result;
@@ -78,7 +79,20 @@ CREATE TABLE `album` (
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists album;
+            ",
+            "
+create table album
+(
+    id       integer constraint album_pk primary key autoincrement not null,
+    name     text    not null,
+    album_id integer null,
+    photo_id integer null
+);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array
@@ -88,6 +102,25 @@ CREATE TABLE `album` (
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists album;
+            ",
+            "
+create table album
+(
+    id       serial        constraint album_pk primary key,
+    name     varchar(100)  not null,
+    album_id integer       null,
+    photo_id integer       null
+);
+            ",
+            "
+create index index_foreignkey_album_album on album (album_id);
+            ",
+            "
+create index album_ibfk_2 on album (photo_id);
+            ",
+        ];
     }
 }

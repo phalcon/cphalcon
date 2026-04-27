@@ -41,6 +41,8 @@ final class UnderscoreIssetTest extends AbstractDatabaseTestCase
      * @since  2019-05-22
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelUnderscoreIsset(): void
     {

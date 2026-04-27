@@ -25,17 +25,27 @@ class ManufacturersMigration extends AbstractMigration
         ?string $country,
         int $foundedYear
     ): int {
-        $id          = $id ?: 'null';
-        $country     = $country ? "'{$country}'" : 'null';
         $sql    = <<<SQL
 insert into co_manufacturers (
     id, name, country, founded_year
 ) values (
-    {$id}, '{$name}', {$country}, {$foundedYear}
+    :id, :name, :country, :foundedYear
 )
 SQL;
+        $params = [
+            ':id'          => $id,
+            ':name'        => $name,
+            ':country'     => $country,
+            ':foundedYear' => $foundedYear,
+        ];
 
-        return $this->connection->exec($sql);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array

@@ -24,17 +24,25 @@ class ProductsMigration extends AbstractMigration
         ?int $id,
         ?string $name = null
     ): int {
-        $id    = $id ?: 'null';
-        $name  = $name ?: uniqid();
         $sql    = <<<SQL
 insert into co_products (
     prd_id, prd_name
 ) values (
-    {$id}, {$name}
+    :id, :name
 )
 SQL;
+        $params = [
+            ':id'   => $id,
+            ':name' => $name ?: uniqid(),
+        ];
 
-        return $this->connection->exec($sql);
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('prd_id', $id);
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
