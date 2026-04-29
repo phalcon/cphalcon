@@ -14,19 +14,15 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Support\Models;
 
 /**
- * Model used to verify setter behaviour for mass-assignment (assign()).
+ * Model used to verify that ORM hydration bypasses setters for private
+ * properties, writing the raw DB value directly via Reflection.
  *
  * @see https://github.com/phalcon/cphalcon/issues/16454
  */
-class InvoicesWithSetters extends Invoices
+class InvoicesWithPrivateSetters extends Invoices
 {
-    public function setInvTitle(?string $title): void
+    public function setSecretValue($value): void
     {
-        $this->inv_title = 'SET:' . $title;
-    }
-
-    public function setInvTotal(?float $total): void
-    {
-        $this->inv_total = $total !== null ? $total * 2 : null;
+        parent::setSecretValue('SETTER:' . $value);
     }
 }

@@ -44,6 +44,7 @@ use Phalcon\Filter\Validation\ValidationInterface;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Settings;
+use ReflectionProperty;
 use Serializable;
 
 /**
@@ -133,6 +134,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @var array
      */
     protected errorMessages = [];
+
+    /**
+     * @var int
+     */
+    protected static hydrationDepth = 0;
 
     /**
      * @var ManagerInterface|null
@@ -457,7 +463,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function __set(string property, value)
     {
         var lowerProperty, modelName, manager, relation, referencedModel, item,
-            dirtyState;
+            dirtyState, reflectionProp;
         array related;
 
         /**
@@ -550,19 +556,28 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
-        // Use possible setter.
-        if this->possibleSetter(property, value) {
+        // Use possible setter — skip during ORM hydration.
+        if !self::hydrationDepth && this->possibleSetter(property, value) {
             return value;
         }
 
         /**
          * Throw an exception if there is an attempt to set a non-public
-         * property.
+         * property.  During hydration, use Reflection to write private
+         * properties directly instead of calling their setters.
          */
         if property_exists(this, property) {
             let manager = this->getModelsManager();
 
             if unlikely !manager->isVisibleModelProperty(this, property) {
+                if self::hydrationDepth {
+                    let reflectionProp = new ReflectionProperty(get_class(this), property);
+                    reflectionProp->setAccessible(true);
+                    reflectionProp->setValue(this, value);
+
+                    return value;
+                }
+
                 throw new Exception(
                     "Cannot access property '" . property . "' (not public) in '" . get_class(this) . "'"
                 );
@@ -930,7 +945,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
     {
-        var instance, key, value;
+        var depth, instance, key, value;
 
         /**
          * Clone the base record
@@ -942,8 +957,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         instance->setDirtyState(dirtyState);
 
+        let depth = self::hydrationDepth;
+        let depth = depth + 1;
+        let self::hydrationDepth = depth;
+
         for key, value in data {
             if unlikely typeof key !== "string" {
+                let depth = self::hydrationDepth;
+                let depth = depth - 1;
+                let self::hydrationDepth = depth;
+
                 throw new Exception(
                     "Invalid key in array data provided to dumpResult() in '" . get_class(base) . "'"
                 );
@@ -951,6 +974,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             let instance->{key} = value;
         }
+
+        let depth = self::hydrationDepth;
+        let depth = depth - 1;
+        let self::hydrationDepth = depth;
 
         /**
          * Call afterFetch, this allows the developer to execute actions after a
@@ -984,9 +1011,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
-            disableSetters, setter;
-        array localMethods;
+        var depth, instance, attribute, key, value, castValue, attributeName,
+            metaData, reverseMap, notNullAttributes;
 
         let instance = clone base;
         if instance instanceof Model {
@@ -1000,24 +1026,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
-        let disableSetters = (bool) Settings::get("orm.disable_assign_setters");
-
-        let localMethods = [
-            "setConnectionService"      : 1,
-            "setDirtyState"             : 1,
-            "setEventsManager"          : 1,
-            "setReadConnectionService"  : 1,
-            "setOldSnapshotData"        : 1,
-            "setSchema"                 : 1,
-            "setSnapshotData"           : 1,
-            "setSource"                 : 1,
-            "setTransaction"            : 1,
-            "setWriteConnectionService" : 1
-        ];
-
         /**
          * Assign the data in the model
          */
+        let depth = self::hydrationDepth;
+        let depth = depth + 1;
+        let self::hydrationDepth = depth;
+
         for key, value in data {
             // Only string keys in the data are valid
             if typeof key !== "string" {
@@ -1029,14 +1044,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof columnMap !== "array" {
-                if !disableSetters {
-                    let setter = "set" . camelize(key);
-                    if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
-                        continue;
-                    }
-                }
-
                 let instance->{key} = value;
 
                 continue;
@@ -1071,14 +1078,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof attribute !== "array" {
-                if !disableSetters {
-                    let setter = "set" . camelize(attribute);
-                    if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
-                        continue;
-                    }
-                }
-
                 let instance->{attribute} = value;
 
                 continue;
@@ -1130,16 +1129,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let attributeName = attribute[0],
                 data[key] = castValue;
 
-            if !disableSetters {
-                let setter = "set" . camelize(attributeName);
-                if method_exists(instance, setter) && !isset localMethods[setter] {
-                    instance->{setter}(castValue);
-                    continue;
-                }
-            }
-
             let instance->{attributeName} = castValue;
         }
+
+        let depth = self::hydrationDepth;
+        let depth = depth - 1;
+        let self::hydrationDepth = depth;
 
         /**
          * Models that keep snapshots store the original data in t
