@@ -18,6 +18,7 @@
 
 - Fixed `Phalcon\Di\Injectable::__get()` to no longer cache resolved services as dynamic object properties. Services accessed via magic properties (e.g. `$this->request`) are now re-resolved through the container on each access, so replacing or updating a service in the container is reflected in controllers, views, and other injectable classes. Properties already declared on the class continue to be populated. [#17052](https://github.com/phalcon/cphalcon/issues/17052)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::orderBy()` when the array syntax is used with complex PHQL expressions. Previously any array item containing a space was split as a simple `column direction` pair, corrupting expressions such as `CASE WHEN inv_status_flag = 1 THEN 0 ELSE 1 END ASC`. The builder now only treats a trailing `ASC`/`DESC` as the direction (autoescaping a simple column) and preserves complex expressions verbatim. [#17077](https://github.com/phalcon/cphalcon/issues/17077)
+- Fixed PHQL parser cache to use string-keyed lookups (`zend_hash_str_find`/`zend_hash_str_update`) instead of integer keys derived from `zend_inline_hash_func`, eliminating hash collisions that caused different PHQL queries to return identical cached ASTs [#14791](https://github.com/phalcon/cphalcon/issues/14791)
 
 ### Removed
 
