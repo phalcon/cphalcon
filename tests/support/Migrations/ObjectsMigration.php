@@ -26,20 +26,27 @@ class ObjectsMigration extends AbstractMigration
      * @param int    $type
      */
     public function insert(
-        int $id,
+        ?int $id,
         string $name,
         int $type
-    ) {
-        if (0 === $id) {
-            $id = null;
+    ): int {
+        $sql    = <<<SQL
+insert into objects (obj_id, obj_name, obj_type)
+values (:id, :name, :type)
+SQL;
+        $params = [
+            ':id'   => $id,
+            ':name' => $name,
+            ':type' => $type,
+        ];
+
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('obj_id', $id);
         }
 
-        $sql = <<<SQL
-insert into objects (obj_id, obj_name, obj_type)
-values ({$id}, '{$name}', '{$type}');
-SQL;
-
-        $this->connection->exec($sql);
+        return $result;
     }
 
     protected function getSqlMysql(): array

@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select);
 
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, add);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder);
+PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, selected);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, getTag);
@@ -24,6 +25,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_
 	ZEND_ARG_INFO(0, value)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, raw, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_fromdata, 0, 1, Phalcon\\Html\\Helper\\Input\\Select, 0)
+	ZEND_ARG_OBJ_INFO(0, data, Phalcon\\Html\\Helper\\Input\\Select\\SelectDataInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroup, 0, 0, Phalcon\\Html\\Helper\\Input\\Select, 0)
@@ -54,6 +59,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_select_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Input_Select, add, arginfo_phalcon_html_helper_input_select_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select, addPlaceholder, arginfo_phalcon_html_helper_input_select_addplaceholder, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_Select, fromData, arginfo_phalcon_html_helper_input_select_fromdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select, optGroup, arginfo_phalcon_html_helper_input_select_optgroup, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select, selected, arginfo_phalcon_html_helper_input_select_selected, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select, getTag, arginfo_phalcon_html_helper_input_select_gettag, ZEND_ACC_PROTECTED)

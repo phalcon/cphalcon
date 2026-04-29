@@ -48,6 +48,7 @@ final class InvokeFinderTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelInvokeFinder(): void
     {

@@ -100,6 +100,35 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  16238
+     */
+    public function testMvcRouterAnnotationsAddResourceWithFullyQualifiedClassNameIncludingSuffix(): void
+    {
+        $container = $this->getDi();
+
+        $router = new Annotations(false);
+        $router->setDI($container);
+
+        $router->addResource(
+            'Phalcon\Tests\Support\Controllers\RobotsController',
+            '/'
+        );
+
+        $router->handle('/robots');
+
+        $routes = $router->getRoutes();
+        $this->assertNotEmpty($routes, 'Routes must be registered when FQCN includes the Controller suffix');
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/robots');
+
+        $this->assertSame('robots', $router->getControllerName());
+    }
+
+    /**
      * @dataProvider getRoutesProvider
      *
      * @author Phalcon Team <team@phalcon.io>

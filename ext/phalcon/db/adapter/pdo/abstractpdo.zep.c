@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams)
 		ZEPHIR_INIT_NVAR(&placeMatch);
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "?");
-		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 41, &bindPattern, &_9$$3, &sql_zv);
+		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 40, &bindPattern, &_9$$3, &sql_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&boundSql, &sql_zv);
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString)
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server doesn't
+ * Use this method only when the SQL statement sent to the server does not
  * return any rows
  *
  *```php
@@ -872,7 +872,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 							do {
 								if (ZEPHIR_IS_LONG(&type, 1)) {
 									ZVAL_LONG(&_9$$12, 10);
-									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 42, &value, &_9$$12);
+									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 41, &value, &_9$$12);
 									zephir_check_call_status();
 									break;
 								}
@@ -1057,7 +1057,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 								do {
 									if (ZEPHIR_IS_LONG(&type, 1)) {
 										ZVAL_LONG(&_31$$43, 10);
-										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 42, &value, &_31$$43);
+										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 41, &value, &_31$$43);
 										zephir_check_call_status();
 										break;
 									}
@@ -1483,7 +1483,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query)
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdoresult_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43, this_ptr, &statement, &sqlStatement_zv, &bindParams, &bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 42, this_ptr, &statement, &sqlStatement_zv, &bindParams, &bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1716,7 +1716,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepareRealSql)
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 		ZVAL_LONG(&_16$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 41, &keys, &values, &statement_zv, &_16$$3);
+		ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 40, &keys, &values, &statement_zv, &_16$$3);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("realSqlStatement"), &result);

@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Error opening translation file '", &file_zv, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 137);
 		ZEPHIR_MM_RESTORE();
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZVAL_STR_COPY(&filename_zv, filename);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 143, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 142, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

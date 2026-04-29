@@ -27,13 +27,18 @@ class SettersMigration extends AbstractMigration
         string $column1,
         string $column2,
         string $column3
-    ) {
-        $sql = <<<SQL
+    ): int {
+        $sql    = <<<SQL
 insert into co_setters (column1, column2, column3)
-values ('{$column1}', '{$column2}', '{$column3}');
+values (:column1, :column2, :column3)
 SQL;
+        $params = [
+            ':column1' => $column1,
+            ':column2' => $column2,
+            ':column3' => $column3,
+        ];
 
-        $this->connection->exec($sql);
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array

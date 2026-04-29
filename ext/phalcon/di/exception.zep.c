@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Di_Exception, serviceCannotBeResolved)
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Service '", &name_zv, "' cannot be resolved");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 33, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 32, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -79,8 +79,8 @@ PHP_METHOD(Phalcon_Di_Exception, serviceNotFound)
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVS(&_0, "Service '", &name_zv, "' was not found in the dependency injection container");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 33, &_0);
+	ZEPHIR_CONCAT_SVS(&_0, "Service '", &name_zv, "' is not registered in the container");
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 32, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
 	ZVAL_LONG(&_0, position);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "Unknown service type in parameter on position ", &_0);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 33, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 32, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Call to undefined method or service '", &method_zv, "'");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 33, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 32, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -29,8 +29,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Query, BuilderInterface, phalcon, mvc_model_query_builderinterface, phalcon_mvc_model_query_builderinterface_method_entry);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_AND"), "and");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_OR"), "or");
 
 	return SUCCESS;

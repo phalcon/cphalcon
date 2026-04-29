@@ -30,20 +30,44 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, RepositoryInterface, phalcon, paginator_repositoryinterface, phalcon_paginator_repositoryinterface_method_entry);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_CURRENT_PAGE"), "current");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_FIRST_PAGE"), "first");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_ITEMS"), "items");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_LAST_PAGE"), "last");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_LIMIT"), "limit");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_NEXT_PAGE"), "next");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_PREVIOUS_PAGE"), "previous");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_TOTAL_ITEMS"), "total_items");
 
 	return SUCCESS;

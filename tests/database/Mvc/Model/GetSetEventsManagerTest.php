@@ -58,6 +58,8 @@ final class GetSetEventsManagerTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelGetEventsManager(): void
     {

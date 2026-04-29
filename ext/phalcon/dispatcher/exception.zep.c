@@ -29,16 +29,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_Exception)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Dispatcher, Exception, phalcon, dispatcher_exception, zend_ce_exception, NULL, 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 5);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_CYCLIC_ROUTING"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_HANDLER_NOT_FOUND"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_INVALID_HANDLER"), 3);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_INVALID_PARAMS"), 4);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_dispatcher_exception_ce, SL("EXCEPTION_NO_DI"), 0);
 
 	return SUCCESS;

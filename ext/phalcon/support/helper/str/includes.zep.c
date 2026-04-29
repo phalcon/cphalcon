@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Includes, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZVAL_STR_COPY(&haystack_zv, haystack);
 	ZVAL_STR_COPY(&needle_zv, needle);
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 94, &haystack_zv, &needle_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 93, &haystack_zv, &needle_zv);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_0));
 }

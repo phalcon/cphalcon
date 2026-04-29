@@ -87,13 +87,37 @@ use Serializable;
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
+    /**
+     * @var int
+     */
     const DIRTY_STATE_DETACHED   = 2;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_PERSISTENT = 0;
+    /**
+     * @var int
+     */
     const DIRTY_STATE_TRANSIENT  = 1;
+    /**
+     * @var int
+     */
     const OP_CREATE = 1;
+    /**
+     * @var int
+     */
     const OP_DELETE = 3;
+    /**
+     * @var int
+     */
     const OP_NONE   = 0;
+    /**
+     * @var int
+     */
     const OP_UPDATE = 2;
+    /**
+     * @var string
+     */
     const TRANSACTION_INDEX = "transaction";
 
     /**
@@ -1224,6 +1248,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof record !== "object" || !(record instanceof ModelInterface) {
+                continue;
+            }
+
+            if record->hasSnapshotData() && !record->hasChanged() {
                 continue;
             }
 
@@ -4089,9 +4117,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             /**
-             * Recover the last "insert id" and assign it to the object
+             * Recover the last "insert id" and assign it to the object.
+             * If an explicit identity value was provided the sequence was not
+             * used, so calling lastInsertId() would fail on PostgreSQL because
+             * currval() requires nextval() to have been called in the session.
+             * Reuse the value already present on the model in that case.
              */
-            let lastInsertedId = connection->lastInsertId(sequenceName);
+            fetch value, this->{attributeField};
+
+            if value !== null && value !== "" {
+                let lastInsertedId = value;
+            } else {
+                let lastInsertedId = connection->lastInsertId(sequenceName);
+            }
 
             /**
              * If we want auto casting

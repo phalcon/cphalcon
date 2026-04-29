@@ -31,24 +31,54 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestMethodInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Message, RequestMethodInterface, phalcon, http_message_requestmethodinterface, NULL);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_CONNECT"), "CONNECT");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_DELETE"), "DELETE");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_GET"), "GET");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_HEAD"), "HEAD");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_OPTIONS"), "OPTIONS");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_PATCH"), "PATCH");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_POST"), "POST");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_PURGE"), "PURGE");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_PUT"), "PUT");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_http_message_requestmethodinterface_ce, SL("METHOD_TRACE"), "TRACE");
 
 	return SUCCESS;

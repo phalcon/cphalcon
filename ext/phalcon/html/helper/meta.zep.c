@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	ZVAL_STR_COPY(&content_zv, content);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 335, &_0, &httpEquiv_zv, &content_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 336, &_0, &httpEquiv_zv, &content_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	ZVAL_STR_COPY(&content_zv, content);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 335, &_0, &name_zv, &content_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 336, &_0, &name_zv, &content_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	ZVAL_STR_COPY(&content_zv, content);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 335, &_0, &name_zv, &content_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 336, &_0, &name_zv, &content_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }

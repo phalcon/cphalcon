@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 191, &callback, &data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 190, &callback, &data);
 		zephir_check_call_status();
 		_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
 		if (_1$$3) {

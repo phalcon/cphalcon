@@ -1,5 +1,5 @@
 {%- macro my_input(name, class="input-text") -%}
-    {%- return text_field(name, 'class': class) -%}
+    {%- return inputText(name, null, ['class': class]) -%}
 {%- endmacro -%}
 
 {{- '<p>' ~ my_input('name') ~ '</p>' -}}

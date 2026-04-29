@@ -27,6 +27,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, refresh);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getResult);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Resultset(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset___construct, 0, 0, 1)
@@ -118,6 +120,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_valid, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_refresh, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_getresult, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_zephir_init_properties_phalcon_mvc_model_resultset, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -146,5 +154,7 @@ PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, arginfo_phalcon_mvc_model_resultse
 	PHP_ME(Phalcon_Mvc_Model_Resultset, setIsFresh, arginfo_phalcon_mvc_model_resultset_setisfresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, update, arginfo_phalcon_mvc_model_resultset_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, valid, arginfo_phalcon_mvc_model_resultset_valid, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, refresh, arginfo_phalcon_mvc_model_resultset_refresh, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Mvc_Model_Resultset, getResult, arginfo_phalcon_mvc_model_resultset_getresult, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

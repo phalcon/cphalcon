@@ -5,14 +5,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Stream);
 
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, decrement);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, delete);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, get);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, has);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, increment);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, set);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, setForever);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDecrement);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDelete);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doGet);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doHas);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doIncrement);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, doSet);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeyWithoutPrefix);
@@ -36,42 +36,42 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_clear, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_decrement, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_delete, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_get, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_getkeys, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 0, "''")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_has, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_increment, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_set, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_setforever, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_dodecrement, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_dodelete, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_doget, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_dohas, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream_doincrement, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_doset, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_getdir, 0, 0, IS_STRING, 0)
@@ -138,14 +138,14 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Stream, __construct, arginfo_phalcon_storage_adapter_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, clear, arginfo_phalcon_storage_adapter_stream_clear, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, decrement, arginfo_phalcon_storage_adapter_stream_decrement, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, delete, arginfo_phalcon_storage_adapter_stream_delete, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, get, arginfo_phalcon_storage_adapter_stream_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getKeys, arginfo_phalcon_storage_adapter_stream_getkeys, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, has, arginfo_phalcon_storage_adapter_stream_has, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, increment, arginfo_phalcon_storage_adapter_stream_increment, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, set, arginfo_phalcon_storage_adapter_stream_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, setForever, arginfo_phalcon_storage_adapter_stream_setforever, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doDecrement, arginfo_phalcon_storage_adapter_stream_dodecrement, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doDelete, arginfo_phalcon_storage_adapter_stream_dodelete, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doGet, arginfo_phalcon_storage_adapter_stream_doget, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doHas, arginfo_phalcon_storage_adapter_stream_dohas, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doIncrement, arginfo_phalcon_storage_adapter_stream_doincrement, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, doSet, arginfo_phalcon_storage_adapter_stream_doset, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getDir, arginfo_phalcon_storage_adapter_stream_getdir, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getFilepath, arginfo_phalcon_storage_adapter_stream_getfilepath, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getKeyWithoutPrefix, arginfo_phalcon_storage_adapter_stream_getkeywithoutprefix, ZEND_ACC_PRIVATE)

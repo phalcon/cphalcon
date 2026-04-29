@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle)
 			object_init_ex(&_3$$4, phalcon_tag_exception_ce);
 			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 33, &_4$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 32, &_4$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Tag.zep", 308);
 			ZEPHIR_MM_RESTORE();
@@ -853,7 +853,7 @@ PHP_METHOD(Phalcon_Tag, getTitle)
 		zephir_read_static_property_ce(&_6$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_6$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 300, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 299, &documentPrependTitle);
 			zephir_check_call_status();
 			zephir_is_iterable(&tmp$$5, 0, "phalcon/Tag.zep", 443);
 			if (Z_TYPE_P(&tmp$$5) == IS_ARRAY) {
@@ -1655,7 +1655,7 @@ PHP_METHOD(Phalcon_Tag, preload)
 		zephir_fast_str_replace(&_5$$5, &_6$$5, &_7$$5, &href);
 		ZEPHIR_INIT_VAR(&_8$$5);
 		ZVAL_STRING(&_8$$5, "preload");
-		ZEPHIR_CALL_METHOD(NULL, &link, "__construct", NULL, 507, &_8$$5, &_5$$5, &attributes);
+		ZEPHIR_CALL_METHOD(NULL, &link, "__construct", NULL, 337, &_8$$5, &_5$$5, &attributes);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_8$$5);
 		object_init_ex(&_8$$5, phalcon_html_link_serializer_header_ce);
@@ -1667,7 +1667,7 @@ PHP_METHOD(Phalcon_Tag, preload)
 		ZEPHIR_INIT_VAR(&_10$$5);
 		zephir_create_array(&_10$$5, 1, 0);
 		zephir_array_fast_append(&_10$$5, &link);
-		ZEPHIR_CALL_METHOD(&_9$$5, &_8$$5, "serialize", NULL, 508, &_10$$5);
+		ZEPHIR_CALL_METHOD(&_9$$5, &_8$$5, "serialize", NULL, 338, &_10$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&header);
 		ZEPHIR_CONCAT_SV(&header, "Link: ", &_9$$5);
@@ -1927,7 +1927,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 					zephir_gettype(&_16$$13, &value);
 					ZEPHIR_INIT_NVAR(&_17$$13);
 					ZEPHIR_CONCAT_SVSVS(&_17$$13, "Value at index: '", &key, "' type: '", &_16$$13, "' cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 33, &_17$$13);
+					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 32, &_17$$13);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_15$$13, "phalcon/Tag.zep", 952);
 					ZEPHIR_MM_RESTORE();
@@ -1973,7 +1973,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 						zephir_gettype(&_24$$18, &value);
 						ZEPHIR_INIT_NVAR(&_25$$18);
 						ZEPHIR_CONCAT_SVSVS(&_25$$18, "Value at index: '", &key, "' type: '", &_24$$18, "' cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 33, &_25$$18);
+						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 32, &_25$$18);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_23$$18, "phalcon/Tag.zep", 952);
 						ZEPHIR_MM_RESTORE();
@@ -2743,7 +2743,7 @@ PHP_METHOD(Phalcon_Tag, textArea)
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderattributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 290, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 289, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");

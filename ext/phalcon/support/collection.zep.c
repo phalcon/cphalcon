@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Support_Collection, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 13, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 12, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Support_Collection, getValues)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -784,7 +784,7 @@ PHP_METHOD(Phalcon_Support_Collection, serialize)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 15, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 14, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -861,7 +861,7 @@ PHP_METHOD(Phalcon_Support_Collection, unserialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZVAL_STR_COPY(&data_zv, data);
-	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 16, &data_zv);
+	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 15, &data_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &unserialized);
 	zephir_check_call_status();

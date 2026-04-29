@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "r");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 94, &mode, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 93, &mode, &_0);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter cannot be opened in read mode", "phalcon/Logger/Adapter/Stream.zep", 84);
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 			zephir_read_property(&_7$$4, this_ptr, ZEND_STRL("mode"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZEPHIR_CONCAT_SVSVS(&_8$$4, "The file '", &_6$$4, "' cannot be opened with mode '", &_7$$4, "'");
-			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 417, &_8$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 420, &_8$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$4, "phalcon/Logger/Adapter/Stream.zep", 138);
 			ZEPHIR_MM_RESTORE();
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZVAL_STR_COPY(&filename_zv, filename);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 143, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 142, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

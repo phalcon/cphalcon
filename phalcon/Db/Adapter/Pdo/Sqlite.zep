@@ -125,6 +125,7 @@ class Sqlite extends PdoAdapter
              * Phalcon\Db\Column
              */
             let columnType = field[2];
+            let columnType = strtolower(columnType);
 
             /**
              * The order of these IF statements matters. Since we are using
@@ -146,7 +147,7 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_BIGINTEGER,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::BIND_PARAM_STR;
-            } elseif memstr(columnType, "int") || memstr(columnType, "INT") {
+            } elseif memstr(columnType, "int") {
                 /**
                  * Smallint/Integers/Int are int
                  */
@@ -205,6 +206,13 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_FLOAT,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::TYPE_DECIMAL;
+            } elseif memstr(columnType, "real") {
+                /**
+                 * Real are float
+                 */
+                let definition["type"] = Column::TYPE_FLOAT,
+                    definition["isNumeric"] = true,
+                    definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 
             /**
              * TIMESTAMP

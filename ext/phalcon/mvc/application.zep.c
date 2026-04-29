@@ -278,8 +278,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 					ZEPHIR_INIT_VAR(&_14$$18);
 					object_init_ex(&_14$$18, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_15$$18);
-					ZEPHIR_CONCAT_SVS(&_15$$18, "Module definition path '", &path, "' doesn't exist");
-					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 33, &_15$$18);
+					ZEPHIR_CONCAT_SVS(&_15$$18, "Module definition path '", &path, "' does not exist");
+					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 32, &_15$$18);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_14$$18, "phalcon/Mvc/Application.zep", 218);
 					ZEPHIR_MM_RESTORE();

@@ -23,6 +23,8 @@ final class JsonSerializeTest extends AbstractDatabaseTestCase
      * @since  2019-06-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelRowJsonSerialize(): void
     {

@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct)
 			array_init(&mergedParams);
 			ZEPHIR_INIT_VAR(&mergedTypes);
 			array_init(&mergedTypes);
-			zephir_is_iterable(&conditions, 0, "phalcon/Mvc/Model/Query/Builder.zep", 189);
+			zephir_is_iterable(&conditions, 0, "phalcon/Mvc/Model/Query/Builder.zep", 190);
 			if (Z_TYPE_P(&conditions) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&conditions), _0$$7)
 				{
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct)
 						ZEPHIR_OBS_NVAR(&singleTypes);
 						zephir_array_isset_long_fetch(&singleTypes, &singleConditionArray, 2, 0);
 						if (Z_TYPE_P(&singleCondition) == IS_STRING) {
-							zephir_array_append(&mergedConditions, &singleCondition, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 176);
+							zephir_array_append(&mergedConditions, &singleCondition, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 177);
 						}
 						if (Z_TYPE_P(&singleParams) == IS_ARRAY) {
 							ZEPHIR_INIT_NVAR(&_2$$11);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct)
 							ZEPHIR_OBS_NVAR(&singleTypes);
 							zephir_array_isset_long_fetch(&singleTypes, &singleConditionArray, 2, 0);
 							if (Z_TYPE_P(&singleCondition) == IS_STRING) {
-								zephir_array_append(&mergedConditions, &singleCondition, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 176);
+								zephir_array_append(&mergedConditions, &singleCondition, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 177);
 							}
 							if (Z_TYPE_P(&singleParams) == IS_ARRAY) {
 								ZEPHIR_INIT_NVAR(&_4$$16);
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom)
 	if (_2) {
 		zephir_array_update_zval(&models, &alias_zv, &model_zv, PH_COPY | PH_SEPARATE);
 	} else {
-		zephir_array_append(&models, &model_zv, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 344);
+		zephir_array_append(&models, &model_zv, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 345);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("models"), &models);
 	RETURN_THIS();
@@ -600,9 +600,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, autoescape)
 		Z_PARAM_STR(identifier)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&identifier_zv, identifier);
-	_0 = zephir_memnstr_str(&identifier_zv, SL("["), "phalcon/Mvc/Model/Query/Builder.zep", 418);
+	_0 = zephir_memnstr_str(&identifier_zv, SL("["), "phalcon/Mvc/Model/Query/Builder.zep", 419);
 	if (!(_0)) {
-		_0 = zephir_memnstr_str(&identifier_zv, SL("."), "phalcon/Mvc/Model/Query/Builder.zep", 418);
+		_0 = zephir_memnstr_str(&identifier_zv, SL("."), "phalcon/Mvc/Model/Query/Builder.zep", 419);
 	}
 	_1 = _0;
 	if (!(_1)) {
@@ -996,7 +996,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels)
 	}
 	if (_1) {
 		ZEPHIR_MAKE_REF(&models);
-		ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 485, &models);
+		ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 488, &models);
 		ZEPHIR_UNREF(&models);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -1029,12 +1029,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 {
-	zend_string *_12$$26, *_21$$35, *_32$$43;
-	zend_ulong _11$$26, _20$$35, _31$$43;
+	zend_string *_12$$25, *_21$$34, *_32$$42;
+	zend_ulong _11$$25, _20$$34, _31$$42;
 	zval _2$$8;
-	zend_bool noPrimary = 0, _86$$86;
+	zend_bool noPrimary = 0, _86$$85;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$null, container, models, conditions, model, metaData, modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias, attributeField, phql, column, columns, selectedColumns, selectedColumn, selectedModel, selectedModels, columnAlias, modelColumnAlias, joins, join, joinModel, joinConditions, joinAlias, joinType, group, groupItems, groupItem, having, order, orderItems, orderItem, limit, number, offset, forUpdate, distinct, _0, _1$$8, _3$$17, _4$$17, _5$$19, _6$$13, _7$$13, _8$$13, *_9$$26, _10$$26, _17$$26, _13$$29, _14$$29, _15$$32, _16$$32, *_18$$35, _19$$35, _26$$35, _22$$37, _23$$38, _24$$40, _25$$41, _27$$42, _28$$42, *_29$$43, _30$$43, _37$$43, _38$$43, _33$$45, _34$$45, _35$$48, _36$$48, _39$$50, _40$$50, *_41$$51, _42$$51, _43$$53, _44$$53, _45$$54, _46$$54, _47$$55, _48$$55, _49$$56, _50$$58, _51$$58, _52$$59, _53$$59, _54$$60, _55$$60, _56$$61, _57$$63, *_58$$64, _59$$64, _62$$64, _63$$64, _60$$65, _61$$66, _64$$68, *_65$$70, _66$$70, _77$$70, _78$$70, itemExplode$$73, _67$$73, _68$$73, _69$$73, _70$$73, _71$$71, itemExplode$$76, _72$$76, _73$$76, _74$$76, _75$$76, _76$$74, _79$$77, _80$$83, _81$$86, _82$$86, _83$$86, _84$$86, _85$$86, _87$$87, _88$$87, _89$$87, _90$$87, _91$$87;
+	zval __$null, container, models, conditions, model, metaData, modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias, attributeField, phql, column, columns, selectedColumns, selectedColumn, selectedModel, selectedModels, columnAlias, modelColumnAlias, joins, join, joinModel, joinConditions, joinAlias, joinType, group, groupItems, groupItem, having, order, orderItems, orderItem, limit, number, offset, forUpdate, distinct, _0, _1$$8, _3$$13, _4$$13, _7$$13, _8$$13, _5$$17, _6$$17, *_9$$25, _10$$25, _17$$25, _13$$28, _14$$28, _15$$31, _16$$31, *_18$$34, _19$$34, _26$$34, _22$$36, _23$$37, _24$$39, _25$$40, _27$$41, _28$$41, *_29$$42, _30$$42, _37$$42, _38$$42, _33$$44, _34$$44, _35$$47, _36$$47, _39$$49, _40$$49, *_41$$50, _42$$50, _43$$52, _44$$52, _45$$53, _46$$53, _47$$54, _48$$54, _49$$55, _50$$57, _51$$57, _52$$58, _53$$58, _54$$59, _55$$59, _56$$60, _57$$62, *_58$$63, _59$$63, _62$$63, _63$$63, _60$$64, _61$$65, _64$$67, *_65$$69, _66$$69, _77$$69, _78$$69, itemExplode$$72, _67$$72, _68$$72, _69$$72, _70$$72, _71$$70, itemExplode$$75, _72$$75, _73$$75, _74$$75, _75$$75, _76$$73, _79$$76, _80$$82, _81$$85, _82$$85, _83$$85, _84$$85, _85$$85, _87$$86, _88$$86, _89$$86, _90$$86, _91$$86;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1079,84 +1079,84 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	ZVAL_UNDEF(&distinct);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$8);
-	ZVAL_UNDEF(&_3$$17);
-	ZVAL_UNDEF(&_4$$17);
-	ZVAL_UNDEF(&_5$$19);
-	ZVAL_UNDEF(&_6$$13);
+	ZVAL_UNDEF(&_3$$13);
+	ZVAL_UNDEF(&_4$$13);
 	ZVAL_UNDEF(&_7$$13);
 	ZVAL_UNDEF(&_8$$13);
-	ZVAL_UNDEF(&_10$$26);
-	ZVAL_UNDEF(&_17$$26);
-	ZVAL_UNDEF(&_13$$29);
-	ZVAL_UNDEF(&_14$$29);
-	ZVAL_UNDEF(&_15$$32);
-	ZVAL_UNDEF(&_16$$32);
-	ZVAL_UNDEF(&_19$$35);
-	ZVAL_UNDEF(&_26$$35);
-	ZVAL_UNDEF(&_22$$37);
-	ZVAL_UNDEF(&_23$$38);
-	ZVAL_UNDEF(&_24$$40);
-	ZVAL_UNDEF(&_25$$41);
-	ZVAL_UNDEF(&_27$$42);
-	ZVAL_UNDEF(&_28$$42);
-	ZVAL_UNDEF(&_30$$43);
-	ZVAL_UNDEF(&_37$$43);
-	ZVAL_UNDEF(&_38$$43);
-	ZVAL_UNDEF(&_33$$45);
-	ZVAL_UNDEF(&_34$$45);
-	ZVAL_UNDEF(&_35$$48);
-	ZVAL_UNDEF(&_36$$48);
-	ZVAL_UNDEF(&_39$$50);
-	ZVAL_UNDEF(&_40$$50);
-	ZVAL_UNDEF(&_42$$51);
-	ZVAL_UNDEF(&_43$$53);
-	ZVAL_UNDEF(&_44$$53);
-	ZVAL_UNDEF(&_45$$54);
-	ZVAL_UNDEF(&_46$$54);
-	ZVAL_UNDEF(&_47$$55);
-	ZVAL_UNDEF(&_48$$55);
-	ZVAL_UNDEF(&_49$$56);
-	ZVAL_UNDEF(&_50$$58);
-	ZVAL_UNDEF(&_51$$58);
-	ZVAL_UNDEF(&_52$$59);
-	ZVAL_UNDEF(&_53$$59);
-	ZVAL_UNDEF(&_54$$60);
-	ZVAL_UNDEF(&_55$$60);
-	ZVAL_UNDEF(&_56$$61);
-	ZVAL_UNDEF(&_57$$63);
-	ZVAL_UNDEF(&_59$$64);
-	ZVAL_UNDEF(&_62$$64);
-	ZVAL_UNDEF(&_63$$64);
-	ZVAL_UNDEF(&_60$$65);
-	ZVAL_UNDEF(&_61$$66);
-	ZVAL_UNDEF(&_64$$68);
-	ZVAL_UNDEF(&_66$$70);
-	ZVAL_UNDEF(&_77$$70);
-	ZVAL_UNDEF(&_78$$70);
-	ZVAL_UNDEF(&itemExplode$$73);
-	ZVAL_UNDEF(&_67$$73);
-	ZVAL_UNDEF(&_68$$73);
-	ZVAL_UNDEF(&_69$$73);
-	ZVAL_UNDEF(&_70$$73);
-	ZVAL_UNDEF(&_71$$71);
-	ZVAL_UNDEF(&itemExplode$$76);
-	ZVAL_UNDEF(&_72$$76);
-	ZVAL_UNDEF(&_73$$76);
-	ZVAL_UNDEF(&_74$$76);
-	ZVAL_UNDEF(&_75$$76);
-	ZVAL_UNDEF(&_76$$74);
-	ZVAL_UNDEF(&_79$$77);
-	ZVAL_UNDEF(&_80$$83);
-	ZVAL_UNDEF(&_81$$86);
-	ZVAL_UNDEF(&_82$$86);
-	ZVAL_UNDEF(&_83$$86);
-	ZVAL_UNDEF(&_84$$86);
-	ZVAL_UNDEF(&_85$$86);
-	ZVAL_UNDEF(&_87$$87);
-	ZVAL_UNDEF(&_88$$87);
-	ZVAL_UNDEF(&_89$$87);
-	ZVAL_UNDEF(&_90$$87);
-	ZVAL_UNDEF(&_91$$87);
+	ZVAL_UNDEF(&_5$$17);
+	ZVAL_UNDEF(&_6$$17);
+	ZVAL_UNDEF(&_10$$25);
+	ZVAL_UNDEF(&_17$$25);
+	ZVAL_UNDEF(&_13$$28);
+	ZVAL_UNDEF(&_14$$28);
+	ZVAL_UNDEF(&_15$$31);
+	ZVAL_UNDEF(&_16$$31);
+	ZVAL_UNDEF(&_19$$34);
+	ZVAL_UNDEF(&_26$$34);
+	ZVAL_UNDEF(&_22$$36);
+	ZVAL_UNDEF(&_23$$37);
+	ZVAL_UNDEF(&_24$$39);
+	ZVAL_UNDEF(&_25$$40);
+	ZVAL_UNDEF(&_27$$41);
+	ZVAL_UNDEF(&_28$$41);
+	ZVAL_UNDEF(&_30$$42);
+	ZVAL_UNDEF(&_37$$42);
+	ZVAL_UNDEF(&_38$$42);
+	ZVAL_UNDEF(&_33$$44);
+	ZVAL_UNDEF(&_34$$44);
+	ZVAL_UNDEF(&_35$$47);
+	ZVAL_UNDEF(&_36$$47);
+	ZVAL_UNDEF(&_39$$49);
+	ZVAL_UNDEF(&_40$$49);
+	ZVAL_UNDEF(&_42$$50);
+	ZVAL_UNDEF(&_43$$52);
+	ZVAL_UNDEF(&_44$$52);
+	ZVAL_UNDEF(&_45$$53);
+	ZVAL_UNDEF(&_46$$53);
+	ZVAL_UNDEF(&_47$$54);
+	ZVAL_UNDEF(&_48$$54);
+	ZVAL_UNDEF(&_49$$55);
+	ZVAL_UNDEF(&_50$$57);
+	ZVAL_UNDEF(&_51$$57);
+	ZVAL_UNDEF(&_52$$58);
+	ZVAL_UNDEF(&_53$$58);
+	ZVAL_UNDEF(&_54$$59);
+	ZVAL_UNDEF(&_55$$59);
+	ZVAL_UNDEF(&_56$$60);
+	ZVAL_UNDEF(&_57$$62);
+	ZVAL_UNDEF(&_59$$63);
+	ZVAL_UNDEF(&_62$$63);
+	ZVAL_UNDEF(&_63$$63);
+	ZVAL_UNDEF(&_60$$64);
+	ZVAL_UNDEF(&_61$$65);
+	ZVAL_UNDEF(&_64$$67);
+	ZVAL_UNDEF(&_66$$69);
+	ZVAL_UNDEF(&_77$$69);
+	ZVAL_UNDEF(&_78$$69);
+	ZVAL_UNDEF(&itemExplode$$72);
+	ZVAL_UNDEF(&_67$$72);
+	ZVAL_UNDEF(&_68$$72);
+	ZVAL_UNDEF(&_69$$72);
+	ZVAL_UNDEF(&_70$$72);
+	ZVAL_UNDEF(&_71$$70);
+	ZVAL_UNDEF(&itemExplode$$75);
+	ZVAL_UNDEF(&_72$$75);
+	ZVAL_UNDEF(&_73$$75);
+	ZVAL_UNDEF(&_74$$75);
+	ZVAL_UNDEF(&_75$$75);
+	ZVAL_UNDEF(&_76$$73);
+	ZVAL_UNDEF(&_79$$76);
+	ZVAL_UNDEF(&_80$$82);
+	ZVAL_UNDEF(&_81$$85);
+	ZVAL_UNDEF(&_82$$85);
+	ZVAL_UNDEF(&_83$$85);
+	ZVAL_UNDEF(&_84$$85);
+	ZVAL_UNDEF(&_85$$85);
+	ZVAL_UNDEF(&_87$$86);
+	ZVAL_UNDEF(&_88$$86);
+	ZVAL_UNDEF(&_89$$86);
+	ZVAL_UNDEF(&_90$$86);
+	ZVAL_UNDEF(&_91$$86);
 	ZVAL_UNDEF(&_2$$8);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -1172,12 +1172,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	ZEPHIR_CPY_WRT(&models, &_0);
 	if (Z_TYPE_P(&models) == IS_ARRAY) {
 		if (UNEXPECTED(!(zephir_fast_count_int(&models)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "At least one model is required to build the query", "phalcon/Mvc/Model/Query/Builder.zep", 705);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "At least one model is required to build the query", "phalcon/Mvc/Model/Query/Builder.zep", 706);
 			return;
 		}
 	} else {
 		if (UNEXPECTED(!zephir_is_true(&models))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "At least one model is required to build the query", "phalcon/Mvc/Model/Query/Builder.zep", 711);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "At least one model is required to build the query", "phalcon/Mvc/Model/Query/Builder.zep", 712);
 			return;
 		}
 	}
@@ -1186,11 +1186,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	if (zephir_is_numeric(&conditions)) {
 		if (Z_TYPE_P(&models) == IS_ARRAY) {
 			if (UNEXPECTED(zephir_fast_count_int(&models) > 1)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Cannot build the query. Invalid condition", "phalcon/Mvc/Model/Query/Builder.zep", 726);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Cannot build the query. Invalid condition", "phalcon/Mvc/Model/Query/Builder.zep", 727);
 				return;
 			}
 			zephir_memory_observe(&model);
-			zephir_array_fetch_long(&model, &models, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 729);
+			zephir_array_fetch_long(&model, &models, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 730);
 		} else {
 			ZEPHIR_CPY_WRT(&model, &models);
 		}
@@ -1211,7 +1211,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (zephir_fast_count_int(&primaryKeys)) {
 			zephir_memory_observe(&firstPrimaryKey);
 			if (zephir_array_isset_long_fetch(&firstPrimaryKey, &primaryKeys, 0, 0)) {
-				if (ZEPHIR_GLOBAL(orm).column_renaming) {
+				ZEPHIR_INIT_VAR(&_4$$13);
+				ZVAL_STRING(&_4$$13, "orm.column_renaming");
+				ZEPHIR_CALL_CE_STATIC(&_3$$13, phalcon_support_settings_ce, "get", NULL, 0, &_4$$13);
+				zephir_check_call_status();
+				if (zephir_is_true(&_3$$13)) {
 					ZEPHIR_CALL_METHOD(&columnMap, &metaData, "getcolumnmap", NULL, 0, &modelInstance);
 					zephir_check_call_status();
 				} else {
@@ -1221,36 +1225,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 				if (Z_TYPE_P(&columnMap) == IS_ARRAY) {
 					zephir_memory_observe(&attributeField);
 					if (UNEXPECTED(!(zephir_array_isset_fetch(&attributeField, &columnMap, &firstPrimaryKey, 0)))) {
-						ZEPHIR_INIT_VAR(&_3$$17);
-						object_init_ex(&_3$$17, phalcon_mvc_model_exception_ce);
-						ZEPHIR_INIT_VAR(&_4$$17);
-						ZEPHIR_CONCAT_SVS(&_4$$17, "Column '", &firstPrimaryKey, "' isn't part of the column map");
-						ZEPHIR_CALL_METHOD(NULL, &_3$$17, "__construct", NULL, 33, &_4$$17);
+						ZEPHIR_INIT_VAR(&_5$$17);
+						object_init_ex(&_5$$17, phalcon_mvc_model_exception_ce);
+						ZEPHIR_INIT_VAR(&_6$$17);
+						ZEPHIR_CONCAT_SVS(&_6$$17, "Column '", &firstPrimaryKey, "' isn't part of the column map");
+						ZEPHIR_CALL_METHOD(NULL, &_5$$17, "__construct", NULL, 32, &_6$$17);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_3$$17, "phalcon/Mvc/Model/Query/Builder.zep", 765);
+						zephir_throw_exception_debug(&_5$$17, "phalcon/Mvc/Model/Query/Builder.zep", 766);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 				} else {
 					ZEPHIR_CPY_WRT(&attributeField, &firstPrimaryKey);
 				}
-				if (Z_TYPE_P(&conditions) == IS_STRING) {
-					ZEPHIR_INIT_VAR(&_5$$19);
-					ZEPHIR_CONCAT_SVS(&_5$$19, "'", &conditions, "'");
-					ZEPHIR_CPY_WRT(&conditions, &_5$$19);
-				}
-				ZEPHIR_CALL_METHOD(&_6$$13, this_ptr, "autoescape", NULL, 486, &model);
+				ZEPHIR_INIT_NVAR(&_4$$13);
+				ZVAL_STRING(&_4$$13, "APK0");
+				zephir_update_property_array(this_ptr, SL("bindParams"), &_4$$13, &conditions);
+				ZEPHIR_CALL_METHOD(&_7$$13, this_ptr, "autoescape", NULL, 489, &model);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$13, this_ptr, "autoescape", NULL, 486, &attributeField);
+				ZEPHIR_CALL_METHOD(&_8$$13, this_ptr, "autoescape", NULL, 489, &attributeField);
 				zephir_check_call_status();
-				ZEPHIR_INIT_VAR(&_8$$13);
-				ZEPHIR_CONCAT_VSVSV(&_8$$13, &_6$$13, ".", &_7$$13, " = ", &conditions);
-				ZEPHIR_CPY_WRT(&conditions, &_8$$13);
+				ZEPHIR_INIT_NVAR(&conditions);
+				ZEPHIR_CONCAT_VSVS(&conditions, &_7$$13, ".", &_8$$13, " = :APK0:");
 				noPrimary = 0;
 			}
 		}
 		if (UNEXPECTED(noPrimary)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Source related to this model does not have a primary key defined", "phalcon/Mvc/Model/Query/Builder.zep", 792);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Source related to this model does not have a primary key defined", "phalcon/Mvc/Model/Query/Builder.zep", 790);
 			return;
 		}
 	}
@@ -1273,35 +1274,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (Z_TYPE_P(&columns) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&selectedColumns);
 			array_init(&selectedColumns);
-			zephir_is_iterable(&columns, 0, "phalcon/Mvc/Model/Query/Builder.zep", 825);
+			zephir_is_iterable(&columns, 0, "phalcon/Mvc/Model/Query/Builder.zep", 823);
 			if (Z_TYPE_P(&columns) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columns), _11$$26, _12$$26, _9$$26)
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columns), _11$$25, _12$$25, _9$$25)
 				{
 					ZEPHIR_INIT_NVAR(&columnAlias);
-					if (_12$$26 != NULL) { 
-						ZVAL_STR_COPY(&columnAlias, _12$$26);
+					if (_12$$25 != NULL) { 
+						ZVAL_STR_COPY(&columnAlias, _12$$25);
 					} else {
-						ZVAL_LONG(&columnAlias, _11$$26);
+						ZVAL_LONG(&columnAlias, _11$$25);
 					}
 					ZEPHIR_INIT_NVAR(&column);
-					ZVAL_COPY(&column, _9$$26);
+					ZVAL_COPY(&column, _9$$25);
 					if (Z_TYPE_P(&columnAlias) == IS_LONG) {
-						zephir_array_append(&selectedColumns, &column, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 819);
+						zephir_array_append(&selectedColumns, &column, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 817);
 					} else {
-						ZEPHIR_CALL_METHOD(&_13$$29, this_ptr, "autoescape", NULL, 486, &columnAlias);
+						ZEPHIR_CALL_METHOD(&_13$$28, this_ptr, "autoescape", NULL, 489, &columnAlias);
 						zephir_check_call_status();
-						ZEPHIR_INIT_NVAR(&_14$$29);
-						ZEPHIR_CONCAT_VSV(&_14$$29, &column, " AS ", &_13$$29);
-						zephir_array_append(&selectedColumns, &_14$$29, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 821);
+						ZEPHIR_INIT_NVAR(&_14$$28);
+						ZEPHIR_CONCAT_VSV(&_14$$28, &column, " AS ", &_13$$28);
+						zephir_array_append(&selectedColumns, &_14$$28, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 819);
 					}
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &columns, "rewind", NULL, 0);
 				zephir_check_call_status();
 				while (1) {
-					ZEPHIR_CALL_METHOD(&_10$$26, &columns, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_10$$25, &columns, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_10$$26)) {
+					if (!zend_is_true(&_10$$25)) {
 						break;
 					}
 					ZEPHIR_CALL_METHOD(&columnAlias, &columns, "key", NULL, 0);
@@ -1309,13 +1310,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					ZEPHIR_CALL_METHOD(&column, &columns, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&columnAlias) == IS_LONG) {
-							zephir_array_append(&selectedColumns, &column, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 819);
+							zephir_array_append(&selectedColumns, &column, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 817);
 						} else {
-							ZEPHIR_CALL_METHOD(&_15$$32, this_ptr, "autoescape", NULL, 486, &columnAlias);
+							ZEPHIR_CALL_METHOD(&_15$$31, this_ptr, "autoescape", NULL, 489, &columnAlias);
 							zephir_check_call_status();
-							ZEPHIR_INIT_NVAR(&_16$$32);
-							ZEPHIR_CONCAT_VSV(&_16$$32, &column, " AS ", &_15$$32);
-							zephir_array_append(&selectedColumns, &_16$$32, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 821);
+							ZEPHIR_INIT_NVAR(&_16$$31);
+							ZEPHIR_CONCAT_VSV(&_16$$31, &column, " AS ", &_15$$31);
+							zephir_array_append(&selectedColumns, &_16$$31, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 819);
 						}
 					ZEPHIR_CALL_METHOD(NULL, &columns, "next", NULL, 0);
 					zephir_check_call_status();
@@ -1323,9 +1324,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 			}
 			ZEPHIR_INIT_NVAR(&column);
 			ZEPHIR_INIT_NVAR(&columnAlias);
-			ZEPHIR_INIT_VAR(&_17$$26);
-			zephir_fast_join_str(&_17$$26, SL(", "), &selectedColumns);
-			zephir_concat_self(&phql, &_17$$26);
+			ZEPHIR_INIT_VAR(&_17$$25);
+			zephir_fast_join_str(&_17$$25, SL(", "), &selectedColumns);
+			zephir_concat_self(&phql, &_17$$25);
 		} else {
 			zephir_concat_self(&phql, &columns);
 		}
@@ -1333,37 +1334,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (Z_TYPE_P(&models) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(&selectedColumns);
 			array_init(&selectedColumns);
-			zephir_is_iterable(&models, 0, "phalcon/Mvc/Model/Query/Builder.zep", 846);
+			zephir_is_iterable(&models, 0, "phalcon/Mvc/Model/Query/Builder.zep", 844);
 			if (Z_TYPE_P(&models) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&models), _20$$35, _21$$35, _18$$35)
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&models), _20$$34, _21$$34, _18$$34)
 				{
 					ZEPHIR_INIT_NVAR(&modelColumnAlias);
-					if (_21$$35 != NULL) { 
-						ZVAL_STR_COPY(&modelColumnAlias, _21$$35);
+					if (_21$$34 != NULL) { 
+						ZVAL_STR_COPY(&modelColumnAlias, _21$$34);
 					} else {
-						ZVAL_LONG(&modelColumnAlias, _20$$35);
+						ZVAL_LONG(&modelColumnAlias, _20$$34);
 					}
 					ZEPHIR_INIT_NVAR(&model);
-					ZVAL_COPY(&model, _18$$35);
+					ZVAL_COPY(&model, _18$$34);
 					ZEPHIR_INIT_NVAR(&selectedColumn);
 					if (Z_TYPE_P(&modelColumnAlias) == IS_LONG) {
-						ZEPHIR_CALL_METHOD(&_22$$37, this_ptr, "autoescape", NULL, 486, &model);
+						ZEPHIR_CALL_METHOD(&_22$$36, this_ptr, "autoescape", NULL, 489, &model);
 						zephir_check_call_status();
-						ZEPHIR_CONCAT_VS(&selectedColumn, &_22$$37, ".*");
+						ZEPHIR_CONCAT_VS(&selectedColumn, &_22$$36, ".*");
 					} else {
-						ZEPHIR_CALL_METHOD(&_23$$38, this_ptr, "autoescape", NULL, 486, &modelColumnAlias);
+						ZEPHIR_CALL_METHOD(&_23$$37, this_ptr, "autoescape", NULL, 489, &modelColumnAlias);
 						zephir_check_call_status();
-						ZEPHIR_CONCAT_VS(&selectedColumn, &_23$$38, ".*");
+						ZEPHIR_CONCAT_VS(&selectedColumn, &_23$$37, ".*");
 					}
-					zephir_array_append(&selectedColumns, &selectedColumn, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 843);
+					zephir_array_append(&selectedColumns, &selectedColumn, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 841);
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &models, "rewind", NULL, 0);
 				zephir_check_call_status();
 				while (1) {
-					ZEPHIR_CALL_METHOD(&_19$$35, &models, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_19$$34, &models, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_19$$35)) {
+					if (!zend_is_true(&_19$$34)) {
 						break;
 					}
 					ZEPHIR_CALL_METHOD(&modelColumnAlias, &models, "key", NULL, 0);
@@ -1372,67 +1373,67 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&selectedColumn);
 						if (Z_TYPE_P(&modelColumnAlias) == IS_LONG) {
-							ZEPHIR_CALL_METHOD(&_24$$40, this_ptr, "autoescape", NULL, 486, &model);
+							ZEPHIR_CALL_METHOD(&_24$$39, this_ptr, "autoescape", NULL, 489, &model);
 							zephir_check_call_status();
-							ZEPHIR_CONCAT_VS(&selectedColumn, &_24$$40, ".*");
+							ZEPHIR_CONCAT_VS(&selectedColumn, &_24$$39, ".*");
 						} else {
-							ZEPHIR_CALL_METHOD(&_25$$41, this_ptr, "autoescape", NULL, 486, &modelColumnAlias);
+							ZEPHIR_CALL_METHOD(&_25$$40, this_ptr, "autoescape", NULL, 489, &modelColumnAlias);
 							zephir_check_call_status();
-							ZEPHIR_CONCAT_VS(&selectedColumn, &_25$$41, ".*");
+							ZEPHIR_CONCAT_VS(&selectedColumn, &_25$$40, ".*");
 						}
-						zephir_array_append(&selectedColumns, &selectedColumn, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 843);
+						zephir_array_append(&selectedColumns, &selectedColumn, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 841);
 					ZEPHIR_CALL_METHOD(NULL, &models, "next", NULL, 0);
 					zephir_check_call_status();
 				}
 			}
 			ZEPHIR_INIT_NVAR(&model);
 			ZEPHIR_INIT_NVAR(&modelColumnAlias);
-			ZEPHIR_INIT_VAR(&_26$$35);
-			zephir_fast_join_str(&_26$$35, SL(", "), &selectedColumns);
-			zephir_concat_self(&phql, &_26$$35);
+			ZEPHIR_INIT_VAR(&_26$$34);
+			zephir_fast_join_str(&_26$$34, SL(", "), &selectedColumns);
+			zephir_concat_self(&phql, &_26$$34);
 		} else {
-			ZEPHIR_CALL_METHOD(&_27$$42, this_ptr, "autoescape", NULL, 486, &models);
+			ZEPHIR_CALL_METHOD(&_27$$41, this_ptr, "autoescape", NULL, 489, &models);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_28$$42);
-			ZEPHIR_CONCAT_VS(&_28$$42, &_27$$42, ".*");
-			zephir_concat_self(&phql, &_28$$42);
+			ZEPHIR_INIT_VAR(&_28$$41);
+			ZEPHIR_CONCAT_VS(&_28$$41, &_27$$41, ".*");
+			zephir_concat_self(&phql, &_28$$41);
 		}
 	}
 	if (Z_TYPE_P(&models) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&selectedModels);
 		array_init(&selectedModels);
-		zephir_is_iterable(&models, 0, "phalcon/Mvc/Model/Query/Builder.zep", 868);
+		zephir_is_iterable(&models, 0, "phalcon/Mvc/Model/Query/Builder.zep", 866);
 		if (Z_TYPE_P(&models) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&models), _31$$43, _32$$43, _29$$43)
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&models), _31$$42, _32$$42, _29$$42)
 			{
 				ZEPHIR_INIT_NVAR(&modelAlias);
-				if (_32$$43 != NULL) { 
-					ZVAL_STR_COPY(&modelAlias, _32$$43);
+				if (_32$$42 != NULL) { 
+					ZVAL_STR_COPY(&modelAlias, _32$$42);
 				} else {
-					ZVAL_LONG(&modelAlias, _31$$43);
+					ZVAL_LONG(&modelAlias, _31$$42);
 				}
 				ZEPHIR_INIT_NVAR(&model);
-				ZVAL_COPY(&model, _29$$43);
+				ZVAL_COPY(&model, _29$$42);
 				if (Z_TYPE_P(&modelAlias) == IS_STRING) {
-					ZEPHIR_CALL_METHOD(&_33$$45, this_ptr, "autoescape", NULL, 486, &model);
+					ZEPHIR_CALL_METHOD(&_33$$44, this_ptr, "autoescape", NULL, 489, &model);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_34$$45, this_ptr, "autoescape", NULL, 486, &modelAlias);
+					ZEPHIR_CALL_METHOD(&_34$$44, this_ptr, "autoescape", NULL, 489, &modelAlias);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&selectedModel);
-					ZEPHIR_CONCAT_VSV(&selectedModel, &_33$$45, " AS ", &_34$$45);
+					ZEPHIR_CONCAT_VSV(&selectedModel, &_33$$44, " AS ", &_34$$44);
 				} else {
-					ZEPHIR_CALL_METHOD(&selectedModel, this_ptr, "autoescape", NULL, 486, &model);
+					ZEPHIR_CALL_METHOD(&selectedModel, this_ptr, "autoescape", NULL, 489, &model);
 					zephir_check_call_status();
 				}
-				zephir_array_append(&selectedModels, &selectedModel, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 865);
+				zephir_array_append(&selectedModels, &selectedModel, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 863);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &models, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_30$$43, &models, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_30$$42, &models, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_30$$43)) {
+				if (!zend_is_true(&_30$$42)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&modelAlias, &models, "key", NULL, 0);
@@ -1440,121 +1441,121 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 				ZEPHIR_CALL_METHOD(&model, &models, "current", NULL, 0);
 				zephir_check_call_status();
 					if (Z_TYPE_P(&modelAlias) == IS_STRING) {
-						ZEPHIR_CALL_METHOD(&_35$$48, this_ptr, "autoescape", NULL, 486, &model);
+						ZEPHIR_CALL_METHOD(&_35$$47, this_ptr, "autoescape", NULL, 489, &model);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_36$$48, this_ptr, "autoescape", NULL, 486, &modelAlias);
+						ZEPHIR_CALL_METHOD(&_36$$47, this_ptr, "autoescape", NULL, 489, &modelAlias);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&selectedModel);
-						ZEPHIR_CONCAT_VSV(&selectedModel, &_35$$48, " AS ", &_36$$48);
+						ZEPHIR_CONCAT_VSV(&selectedModel, &_35$$47, " AS ", &_36$$47);
 					} else {
-						ZEPHIR_CALL_METHOD(&selectedModel, this_ptr, "autoescape", NULL, 486, &model);
+						ZEPHIR_CALL_METHOD(&selectedModel, this_ptr, "autoescape", NULL, 489, &model);
 						zephir_check_call_status();
 					}
-					zephir_array_append(&selectedModels, &selectedModel, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 865);
+					zephir_array_append(&selectedModels, &selectedModel, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 863);
 				ZEPHIR_CALL_METHOD(NULL, &models, "next", NULL, 0);
 				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&model);
 		ZEPHIR_INIT_NVAR(&modelAlias);
-		ZEPHIR_INIT_VAR(&_37$$43);
-		zephir_fast_join_str(&_37$$43, SL(", "), &selectedModels);
-		ZEPHIR_INIT_VAR(&_38$$43);
-		ZEPHIR_CONCAT_SV(&_38$$43, " FROM ", &_37$$43);
-		zephir_concat_self(&phql, &_38$$43);
+		ZEPHIR_INIT_VAR(&_37$$42);
+		zephir_fast_join_str(&_37$$42, SL(", "), &selectedModels);
+		ZEPHIR_INIT_VAR(&_38$$42);
+		ZEPHIR_CONCAT_SV(&_38$$42, " FROM ", &_37$$42);
+		zephir_concat_self(&phql, &_38$$42);
 	} else {
-		ZEPHIR_CALL_METHOD(&_39$$50, this_ptr, "autoescape", NULL, 486, &models);
+		ZEPHIR_CALL_METHOD(&_39$$49, this_ptr, "autoescape", NULL, 489, &models);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_40$$50);
-		ZEPHIR_CONCAT_SV(&_40$$50, " FROM ", &_39$$50);
-		zephir_concat_self(&phql, &_40$$50);
+		ZEPHIR_INIT_VAR(&_40$$49);
+		ZEPHIR_CONCAT_SV(&_40$$49, " FROM ", &_39$$49);
+		zephir_concat_self(&phql, &_40$$49);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("joins"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&joins, &_0);
 	if (Z_TYPE_P(&joins) == IS_ARRAY) {
-		zephir_is_iterable(&joins, 0, "phalcon/Mvc/Model/Query/Builder.zep", 923);
+		zephir_is_iterable(&joins, 0, "phalcon/Mvc/Model/Query/Builder.zep", 921);
 		if (Z_TYPE_P(&joins) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&joins), _41$$51)
+			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&joins), _41$$50)
 			{
 				ZEPHIR_INIT_NVAR(&join);
-				ZVAL_COPY(&join, _41$$51);
+				ZVAL_COPY(&join, _41$$50);
 				ZEPHIR_OBS_NVAR(&joinModel);
-				zephir_array_fetch_long(&joinModel, &join, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 883);
+				zephir_array_fetch_long(&joinModel, &join, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 881);
 				ZEPHIR_OBS_NVAR(&joinConditions);
-				zephir_array_fetch_long(&joinConditions, &join, 1, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 888);
+				zephir_array_fetch_long(&joinConditions, &join, 1, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 886);
 				ZEPHIR_OBS_NVAR(&joinAlias);
-				zephir_array_fetch_long(&joinAlias, &join, 2, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 893);
+				zephir_array_fetch_long(&joinAlias, &join, 2, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 891);
 				ZEPHIR_OBS_NVAR(&joinType);
-				zephir_array_fetch_long(&joinType, &join, 3, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 898);
+				zephir_array_fetch_long(&joinType, &join, 3, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 896);
 				if (zephir_is_true(&joinType)) {
-					ZEPHIR_CALL_METHOD(&_43$$53, this_ptr, "autoescape", NULL, 486, &joinModel);
+					ZEPHIR_CALL_METHOD(&_43$$52, this_ptr, "autoescape", NULL, 489, &joinModel);
 					zephir_check_call_status();
-					ZEPHIR_INIT_NVAR(&_44$$53);
-					ZEPHIR_CONCAT_SVSV(&_44$$53, " ", &joinType, " JOIN ", &_43$$53);
-					zephir_concat_self(&phql, &_44$$53);
+					ZEPHIR_INIT_NVAR(&_44$$52);
+					ZEPHIR_CONCAT_SVSV(&_44$$52, " ", &joinType, " JOIN ", &_43$$52);
+					zephir_concat_self(&phql, &_44$$52);
 				} else {
-					ZEPHIR_CALL_METHOD(&_45$$54, this_ptr, "autoescape", NULL, 486, &joinModel);
+					ZEPHIR_CALL_METHOD(&_45$$53, this_ptr, "autoescape", NULL, 489, &joinModel);
 					zephir_check_call_status();
-					ZEPHIR_INIT_NVAR(&_46$$54);
-					ZEPHIR_CONCAT_SV(&_46$$54, " JOIN ", &_45$$54);
-					zephir_concat_self(&phql, &_46$$54);
+					ZEPHIR_INIT_NVAR(&_46$$53);
+					ZEPHIR_CONCAT_SV(&_46$$53, " JOIN ", &_45$$53);
+					zephir_concat_self(&phql, &_46$$53);
 				}
 				if (zephir_is_true(&joinAlias)) {
-					ZEPHIR_CALL_METHOD(&_47$$55, this_ptr, "autoescape", NULL, 486, &joinAlias);
+					ZEPHIR_CALL_METHOD(&_47$$54, this_ptr, "autoescape", NULL, 489, &joinAlias);
 					zephir_check_call_status();
-					ZEPHIR_INIT_NVAR(&_48$$55);
-					ZEPHIR_CONCAT_SV(&_48$$55, " AS ", &_47$$55);
-					zephir_concat_self(&phql, &_48$$55);
+					ZEPHIR_INIT_NVAR(&_48$$54);
+					ZEPHIR_CONCAT_SV(&_48$$54, " AS ", &_47$$54);
+					zephir_concat_self(&phql, &_48$$54);
 				}
 				if (zephir_is_true(&joinConditions)) {
-					ZEPHIR_INIT_NVAR(&_49$$56);
-					ZEPHIR_CONCAT_SV(&_49$$56, " ON ", &joinConditions);
-					zephir_concat_self(&phql, &_49$$56);
+					ZEPHIR_INIT_NVAR(&_49$$55);
+					ZEPHIR_CONCAT_SV(&_49$$55, " ON ", &joinConditions);
+					zephir_concat_self(&phql, &_49$$55);
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &joins, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_42$$51, &joins, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_42$$50, &joins, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_42$$51)) {
+				if (!zend_is_true(&_42$$50)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&join, &joins, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&joinModel);
-					zephir_array_fetch_long(&joinModel, &join, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 883);
+					zephir_array_fetch_long(&joinModel, &join, 0, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 881);
 					ZEPHIR_OBS_NVAR(&joinConditions);
-					zephir_array_fetch_long(&joinConditions, &join, 1, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 888);
+					zephir_array_fetch_long(&joinConditions, &join, 1, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 886);
 					ZEPHIR_OBS_NVAR(&joinAlias);
-					zephir_array_fetch_long(&joinAlias, &join, 2, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 893);
+					zephir_array_fetch_long(&joinAlias, &join, 2, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 891);
 					ZEPHIR_OBS_NVAR(&joinType);
-					zephir_array_fetch_long(&joinType, &join, 3, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 898);
+					zephir_array_fetch_long(&joinType, &join, 3, PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 896);
 					if (zephir_is_true(&joinType)) {
-						ZEPHIR_CALL_METHOD(&_50$$58, this_ptr, "autoescape", NULL, 486, &joinModel);
+						ZEPHIR_CALL_METHOD(&_50$$57, this_ptr, "autoescape", NULL, 489, &joinModel);
 						zephir_check_call_status();
-						ZEPHIR_INIT_NVAR(&_51$$58);
-						ZEPHIR_CONCAT_SVSV(&_51$$58, " ", &joinType, " JOIN ", &_50$$58);
-						zephir_concat_self(&phql, &_51$$58);
+						ZEPHIR_INIT_NVAR(&_51$$57);
+						ZEPHIR_CONCAT_SVSV(&_51$$57, " ", &joinType, " JOIN ", &_50$$57);
+						zephir_concat_self(&phql, &_51$$57);
 					} else {
-						ZEPHIR_CALL_METHOD(&_52$$59, this_ptr, "autoescape", NULL, 486, &joinModel);
+						ZEPHIR_CALL_METHOD(&_52$$58, this_ptr, "autoescape", NULL, 489, &joinModel);
 						zephir_check_call_status();
-						ZEPHIR_INIT_NVAR(&_53$$59);
-						ZEPHIR_CONCAT_SV(&_53$$59, " JOIN ", &_52$$59);
-						zephir_concat_self(&phql, &_53$$59);
+						ZEPHIR_INIT_NVAR(&_53$$58);
+						ZEPHIR_CONCAT_SV(&_53$$58, " JOIN ", &_52$$58);
+						zephir_concat_self(&phql, &_53$$58);
 					}
 					if (zephir_is_true(&joinAlias)) {
-						ZEPHIR_CALL_METHOD(&_54$$60, this_ptr, "autoescape", NULL, 486, &joinAlias);
+						ZEPHIR_CALL_METHOD(&_54$$59, this_ptr, "autoescape", NULL, 489, &joinAlias);
 						zephir_check_call_status();
-						ZEPHIR_INIT_NVAR(&_55$$60);
-						ZEPHIR_CONCAT_SV(&_55$$60, " AS ", &_54$$60);
-						zephir_concat_self(&phql, &_55$$60);
+						ZEPHIR_INIT_NVAR(&_55$$59);
+						ZEPHIR_CONCAT_SV(&_55$$59, " AS ", &_54$$59);
+						zephir_concat_self(&phql, &_55$$59);
 					}
 					if (zephir_is_true(&joinConditions)) {
-						ZEPHIR_INIT_NVAR(&_56$$61);
-						ZEPHIR_CONCAT_SV(&_56$$61, " ON ", &joinConditions);
-						zephir_concat_self(&phql, &_56$$61);
+						ZEPHIR_INIT_NVAR(&_56$$60);
+						ZEPHIR_CONCAT_SV(&_56$$60, " ON ", &joinConditions);
+						zephir_concat_self(&phql, &_56$$60);
 					}
 				ZEPHIR_CALL_METHOD(NULL, &joins, "next", NULL, 0);
 				zephir_check_call_status();
@@ -1564,9 +1565,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	}
 	if (Z_TYPE_P(&conditions) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(&conditions))) {
-			ZEPHIR_INIT_VAR(&_57$$63);
-			ZEPHIR_CONCAT_SV(&_57$$63, " WHERE ", &conditions);
-			zephir_concat_self(&phql, &_57$$63);
+			ZEPHIR_INIT_VAR(&_57$$62);
+			ZEPHIR_CONCAT_SV(&_57$$62, " WHERE ", &conditions);
+			zephir_concat_self(&phql, &_57$$62);
 		}
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("group"), PH_NOISY_CC | PH_READONLY);
@@ -1574,48 +1575,48 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	if (!(ZEPHIR_IS_EMPTY(&group))) {
 		ZEPHIR_INIT_VAR(&groupItems);
 		array_init(&groupItems);
-		zephir_is_iterable(&group, 0, "phalcon/Mvc/Model/Query/Builder.zep", 943);
+		zephir_is_iterable(&group, 0, "phalcon/Mvc/Model/Query/Builder.zep", 941);
 		if (Z_TYPE_P(&group) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&group), _58$$64)
+			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&group), _58$$63)
 			{
 				ZEPHIR_INIT_NVAR(&groupItem);
-				ZVAL_COPY(&groupItem, _58$$64);
-				ZEPHIR_CALL_METHOD(&_60$$65, this_ptr, "autoescape", NULL, 486, &groupItem);
+				ZVAL_COPY(&groupItem, _58$$63);
+				ZEPHIR_CALL_METHOD(&_60$$64, this_ptr, "autoescape", NULL, 489, &groupItem);
 				zephir_check_call_status();
-				zephir_array_append(&groupItems, &_60$$65, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 940);
+				zephir_array_append(&groupItems, &_60$$64, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 938);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &group, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_59$$64, &group, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_59$$63, &group, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_59$$64)) {
+				if (!zend_is_true(&_59$$63)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&groupItem, &group, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_61$$66, this_ptr, "autoescape", NULL, 486, &groupItem);
+					ZEPHIR_CALL_METHOD(&_61$$65, this_ptr, "autoescape", NULL, 489, &groupItem);
 					zephir_check_call_status();
-					zephir_array_append(&groupItems, &_61$$66, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 940);
+					zephir_array_append(&groupItems, &_61$$65, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 938);
 				ZEPHIR_CALL_METHOD(NULL, &group, "next", NULL, 0);
 				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&groupItem);
-		ZEPHIR_INIT_VAR(&_62$$64);
-		zephir_fast_join_str(&_62$$64, SL(", "), &groupItems);
-		ZEPHIR_INIT_VAR(&_63$$64);
-		ZEPHIR_CONCAT_SV(&_63$$64, " GROUP BY ", &_62$$64);
-		zephir_concat_self(&phql, &_63$$64);
+		ZEPHIR_INIT_VAR(&_62$$63);
+		zephir_fast_join_str(&_62$$63, SL(", "), &groupItems);
+		ZEPHIR_INIT_VAR(&_63$$63);
+		ZEPHIR_CONCAT_SV(&_63$$63, " GROUP BY ", &_62$$63);
+		zephir_concat_self(&phql, &_63$$63);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("having"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&having, &_0);
 	if (Z_TYPE_P(&having) != IS_NULL) {
 		if (!(ZEPHIR_IS_EMPTY(&having))) {
-			ZEPHIR_INIT_VAR(&_64$$68);
-			ZEPHIR_CONCAT_SV(&_64$$68, " HAVING ", &having);
-			zephir_concat_self(&phql, &_64$$68);
+			ZEPHIR_INIT_VAR(&_64$$67);
+			ZEPHIR_CONCAT_SV(&_64$$67, " HAVING ", &having);
+			zephir_concat_self(&phql, &_64$$67);
 		}
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("order"), PH_NOISY_CC | PH_READONLY);
@@ -1624,78 +1625,78 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (Z_TYPE_P(&order) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&orderItems);
 			array_init(&orderItems);
-			zephir_is_iterable(&order, 0, "phalcon/Mvc/Model/Query/Builder.zep", 987);
+			zephir_is_iterable(&order, 0, "phalcon/Mvc/Model/Query/Builder.zep", 985);
 			if (Z_TYPE_P(&order) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&order), _65$$70)
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&order), _65$$69)
 				{
 					ZEPHIR_INIT_NVAR(&orderItem);
-					ZVAL_COPY(&orderItem, _65$$70);
+					ZVAL_COPY(&orderItem, _65$$69);
 					if (Z_TYPE_P(&orderItem) == IS_LONG) {
-						zephir_array_append(&orderItems, &orderItem, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 970);
+						zephir_array_append(&orderItems, &orderItem, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 968);
 						continue;
 					}
-					if (zephir_memnstr_str(&orderItem, SL(" "), "phalcon/Mvc/Model/Query/Builder.zep", 975) != 0) {
-						ZEPHIR_INIT_NVAR(&itemExplode$$73);
-						zephir_fast_explode_str(&itemExplode$$73, SL(" "), &orderItem, LONG_MAX);
-						ZEPHIR_CPY_WRT(&itemExplode$$73, &itemExplode$$73);
-						zephir_array_fetch_long(&_68$$73, &itemExplode$$73, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 979);
-						ZEPHIR_CALL_METHOD(&_67$$73, this_ptr, "autoescape", NULL, 486, &_68$$73);
+					if (zephir_memnstr_str(&orderItem, SL(" "), "phalcon/Mvc/Model/Query/Builder.zep", 973) != 0) {
+						ZEPHIR_INIT_NVAR(&itemExplode$$72);
+						zephir_fast_explode_str(&itemExplode$$72, SL(" "), &orderItem, LONG_MAX);
+						ZEPHIR_CPY_WRT(&itemExplode$$72, &itemExplode$$72);
+						zephir_array_fetch_long(&_68$$72, &itemExplode$$72, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 977);
+						ZEPHIR_CALL_METHOD(&_67$$72, this_ptr, "autoescape", NULL, 489, &_68$$72);
 						zephir_check_call_status();
-						zephir_array_fetch_long(&_69$$73, &itemExplode$$73, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 979);
-						ZEPHIR_INIT_NVAR(&_70$$73);
-						ZEPHIR_CONCAT_VSV(&_70$$73, &_67$$73, " ", &_69$$73);
-						zephir_array_append(&orderItems, &_70$$73, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 979);
+						zephir_array_fetch_long(&_69$$72, &itemExplode$$72, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 977);
+						ZEPHIR_INIT_NVAR(&_70$$72);
+						ZEPHIR_CONCAT_VSV(&_70$$72, &_67$$72, " ", &_69$$72);
+						zephir_array_append(&orderItems, &_70$$72, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 977);
 						continue;
 					}
-					ZEPHIR_CALL_METHOD(&_71$$71, this_ptr, "autoescape", NULL, 486, &orderItem);
+					ZEPHIR_CALL_METHOD(&_71$$70, this_ptr, "autoescape", NULL, 489, &orderItem);
 					zephir_check_call_status();
-					zephir_array_append(&orderItems, &_71$$71, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 984);
+					zephir_array_append(&orderItems, &_71$$70, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 982);
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &order, "rewind", NULL, 0);
 				zephir_check_call_status();
 				while (1) {
-					ZEPHIR_CALL_METHOD(&_66$$70, &order, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_66$$69, &order, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_66$$70)) {
+					if (!zend_is_true(&_66$$69)) {
 						break;
 					}
 					ZEPHIR_CALL_METHOD(&orderItem, &order, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&orderItem) == IS_LONG) {
-							zephir_array_append(&orderItems, &orderItem, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 970);
+							zephir_array_append(&orderItems, &orderItem, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 968);
 							continue;
 						}
-						if (zephir_memnstr_str(&orderItem, SL(" "), "phalcon/Mvc/Model/Query/Builder.zep", 975) != 0) {
-							ZEPHIR_INIT_NVAR(&itemExplode$$76);
-							zephir_fast_explode_str(&itemExplode$$76, SL(" "), &orderItem, LONG_MAX);
-							ZEPHIR_CPY_WRT(&itemExplode$$76, &itemExplode$$76);
-							zephir_array_fetch_long(&_73$$76, &itemExplode$$76, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 979);
-							ZEPHIR_CALL_METHOD(&_72$$76, this_ptr, "autoescape", NULL, 486, &_73$$76);
+						if (zephir_memnstr_str(&orderItem, SL(" "), "phalcon/Mvc/Model/Query/Builder.zep", 973) != 0) {
+							ZEPHIR_INIT_NVAR(&itemExplode$$75);
+							zephir_fast_explode_str(&itemExplode$$75, SL(" "), &orderItem, LONG_MAX);
+							ZEPHIR_CPY_WRT(&itemExplode$$75, &itemExplode$$75);
+							zephir_array_fetch_long(&_73$$75, &itemExplode$$75, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 977);
+							ZEPHIR_CALL_METHOD(&_72$$75, this_ptr, "autoescape", NULL, 489, &_73$$75);
 							zephir_check_call_status();
-							zephir_array_fetch_long(&_74$$76, &itemExplode$$76, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 979);
-							ZEPHIR_INIT_NVAR(&_75$$76);
-							ZEPHIR_CONCAT_VSV(&_75$$76, &_72$$76, " ", &_74$$76);
-							zephir_array_append(&orderItems, &_75$$76, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 979);
+							zephir_array_fetch_long(&_74$$75, &itemExplode$$75, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query/Builder.zep", 977);
+							ZEPHIR_INIT_NVAR(&_75$$75);
+							ZEPHIR_CONCAT_VSV(&_75$$75, &_72$$75, " ", &_74$$75);
+							zephir_array_append(&orderItems, &_75$$75, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 977);
 							continue;
 						}
-						ZEPHIR_CALL_METHOD(&_76$$74, this_ptr, "autoescape", NULL, 486, &orderItem);
+						ZEPHIR_CALL_METHOD(&_76$$73, this_ptr, "autoescape", NULL, 489, &orderItem);
 						zephir_check_call_status();
-						zephir_array_append(&orderItems, &_76$$74, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 984);
+						zephir_array_append(&orderItems, &_76$$73, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 982);
 					ZEPHIR_CALL_METHOD(NULL, &order, "next", NULL, 0);
 					zephir_check_call_status();
 				}
 			}
 			ZEPHIR_INIT_NVAR(&orderItem);
-			ZEPHIR_INIT_VAR(&_77$$70);
-			zephir_fast_join_str(&_77$$70, SL(", "), &orderItems);
-			ZEPHIR_INIT_VAR(&_78$$70);
-			ZEPHIR_CONCAT_SV(&_78$$70, " ORDER BY ", &_77$$70);
-			zephir_concat_self(&phql, &_78$$70);
+			ZEPHIR_INIT_VAR(&_77$$69);
+			zephir_fast_join_str(&_77$$69, SL(", "), &orderItems);
+			ZEPHIR_INIT_VAR(&_78$$69);
+			ZEPHIR_CONCAT_SV(&_78$$69, " ORDER BY ", &_77$$69);
+			zephir_concat_self(&phql, &_78$$69);
 		} else {
-			ZEPHIR_INIT_VAR(&_79$$77);
-			ZEPHIR_CONCAT_SV(&_79$$77, " ORDER BY ", &order);
-			zephir_concat_self(&phql, &_79$$77);
+			ZEPHIR_INIT_VAR(&_79$$76);
+			ZEPHIR_CONCAT_SV(&_79$$76, " ORDER BY ", &order);
+			zephir_concat_self(&phql, &_79$$76);
 		}
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("limit"), PH_NOISY_CC | PH_READONLY);
@@ -1705,7 +1706,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		ZVAL_NULL(&number);
 		if (Z_TYPE_P(&limit) == IS_ARRAY) {
 			ZEPHIR_OBS_NVAR(&number);
-			zephir_array_fetch_string(&number, &limit, SL("number"), PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 1001);
+			zephir_array_fetch_string(&number, &limit, SL("number"), PH_NOISY, "phalcon/Mvc/Model/Query/Builder.zep", 999);
 			zephir_memory_observe(&offset);
 			if (zephir_array_isset_string_fetch(&offset, &limit, SL("offset"), 0)) {
 				if (!(zephir_is_numeric(&offset))) {
@@ -1716,8 +1717,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		} else {
 			if (zephir_is_numeric(&limit)) {
 				ZEPHIR_CPY_WRT(&number, &limit);
-				zephir_read_property(&_80$$83, this_ptr, ZEND_STRL("offset"), PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CPY_WRT(&offset, &_80$$83);
+				zephir_read_property(&_80$$82, this_ptr, ZEND_STRL("offset"), PH_NOISY_CC | PH_READONLY);
+				ZEPHIR_CPY_WRT(&offset, &_80$$82);
 				if (Z_TYPE_P(&offset) != IS_NULL) {
 					if (!(zephir_is_numeric(&offset))) {
 						ZEPHIR_INIT_NVAR(&offset);
@@ -1728,34 +1729,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		}
 		if (zephir_is_numeric(&number)) {
 			zephir_concat_self_str(&phql, SL(" LIMIT :APL0:"));
-			ZVAL_LONG(&_81$$86, 10);
-			ZEPHIR_CALL_FUNCTION(&_82$$86, "intval", NULL, 42, &number, &_81$$86);
+			ZVAL_LONG(&_81$$85, 10);
+			ZEPHIR_CALL_FUNCTION(&_82$$85, "intval", NULL, 41, &number, &_81$$85);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_83$$86);
-			ZVAL_STRING(&_83$$86, "APL0");
-			zephir_update_property_array(this_ptr, SL("bindParams"), &_83$$86, &_82$$86);
-			ZEPHIR_INIT_VAR(&_84$$86);
-			ZVAL_STRING(&_84$$86, "APL0");
-			ZEPHIR_INIT_VAR(&_85$$86);
-			ZVAL_LONG(&_85$$86, 1);
-			zephir_update_property_array(this_ptr, SL("bindTypes"), &_84$$86, &_85$$86);
-			_86$$86 = zephir_is_numeric(&offset);
-			if (_86$$86) {
-				_86$$86 = !ZEPHIR_IS_LONG_IDENTICAL(&offset, 0);
+			ZEPHIR_INIT_VAR(&_83$$85);
+			ZVAL_STRING(&_83$$85, "APL0");
+			zephir_update_property_array(this_ptr, SL("bindParams"), &_83$$85, &_82$$85);
+			ZEPHIR_INIT_VAR(&_84$$85);
+			ZVAL_STRING(&_84$$85, "APL0");
+			ZEPHIR_INIT_VAR(&_85$$85);
+			ZVAL_LONG(&_85$$85, 1);
+			zephir_update_property_array(this_ptr, SL("bindTypes"), &_84$$85, &_85$$85);
+			_86$$85 = zephir_is_numeric(&offset);
+			if (_86$$85) {
+				_86$$85 = !ZEPHIR_IS_LONG_IDENTICAL(&offset, 0);
 			}
-			if (_86$$86) {
+			if (_86$$85) {
 				zephir_concat_self_str(&phql, SL(" OFFSET :APL1:"));
-				ZVAL_LONG(&_87$$87, 10);
-				ZEPHIR_CALL_FUNCTION(&_88$$87, "intval", NULL, 42, &offset, &_87$$87);
+				ZVAL_LONG(&_87$$86, 10);
+				ZEPHIR_CALL_FUNCTION(&_88$$86, "intval", NULL, 41, &offset, &_87$$86);
 				zephir_check_call_status();
-				ZEPHIR_INIT_VAR(&_89$$87);
-				ZVAL_STRING(&_89$$87, "APL1");
-				zephir_update_property_array(this_ptr, SL("bindParams"), &_89$$87, &_88$$87);
-				ZEPHIR_INIT_VAR(&_90$$87);
-				ZVAL_STRING(&_90$$87, "APL1");
-				ZEPHIR_INIT_VAR(&_91$$87);
-				ZVAL_LONG(&_91$$87, 1);
-				zephir_update_property_array(this_ptr, SL("bindTypes"), &_90$$87, &_91$$87);
+				ZEPHIR_INIT_VAR(&_89$$86);
+				ZVAL_STRING(&_89$$86, "APL1");
+				zephir_update_property_array(this_ptr, SL("bindParams"), &_89$$86, &_88$$86);
+				ZEPHIR_INIT_VAR(&_90$$86);
+				ZVAL_STRING(&_90$$86, "APL1");
+				ZEPHIR_INIT_VAR(&_91$$86);
+				ZVAL_LONG(&_91$$86, 1);
+				zephir_update_property_array(this_ptr, SL("bindTypes"), &_90$$86, &_91$$86);
 			}
 		}
 	}
@@ -1794,12 +1795,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 487);
+	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 490);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection container is required to access the services related to the ORM", "phalcon/Mvc/Model/Query/Builder.zep", 1058);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection container is required to access the services related to the ORM", "phalcon/Mvc/Model/Query/Builder.zep", 1056);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_2);
@@ -1876,7 +1877,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy)
 	zephir_fetch_params(1, 1, 0, &group);
 	ZEPHIR_SEPARATE_PARAM(group);
 	if (Z_TYPE_P(group) == IS_STRING) {
-		if (zephir_memnstr_str(group, SL(","), "phalcon/Mvc/Model/Query/Builder.zep", 1114)) {
+		if (zephir_memnstr_str(group, SL(","), "phalcon/Mvc/Model/Query/Builder.zep", 1112)) {
 			ZEPHIR_INIT_VAR(&_0$$4);
 			ZEPHIR_INIT_VAR(&_1$$4);
 			ZVAL_STRING(&_1$$4, " ");
@@ -2326,7 +2327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 		offset = &__$null;
 	}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 287, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 286, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -2337,7 +2338,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("limit"), &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_2$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 287, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "abs", NULL, 286, &_2$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("offset"), &_3$$4);
 	}
@@ -3055,11 +3056,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 74, &_2$$3, &operator_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 73, &_2$$3, &operator_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1597);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1595);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3148,11 +3149,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 74, &_2$$3, &operator_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 73, &_2$$3, &operator_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1645);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1643);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3173,7 +3174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Query/Builder.zep", 1676);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Query/Builder.zep", 1674);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _7)
 		{
@@ -3186,7 +3187,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 			ZEPHIR_CPY_WRT(&key, &_10$$5);
 			ZEPHIR_INIT_NVAR(&queryKey);
 			ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1667);
+			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1665);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			hiddenParam++;
 		} ZEND_HASH_FOREACH_END();
@@ -3208,7 +3209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 				ZEPHIR_CPY_WRT(&key, &_12$$6);
 				ZEPHIR_INIT_NVAR(&queryKey);
 				ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1667);
+				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1665);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				hiddenParam++;
 			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
@@ -3281,11 +3282,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotBetween)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 74, &_2$$3, &operator_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 73, &_2$$3, &operator_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1699);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1697);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3374,11 +3375,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Operator % is not available.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 74, &_2$$3, &operator_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 73, &_2$$3, &operator_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 33, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 32, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1746);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Query/Builder.zep", 1744);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3399,7 +3400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Query/Builder.zep", 1777);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Query/Builder.zep", 1775);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _7)
 		{
@@ -3412,7 +3413,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 			ZEPHIR_CPY_WRT(&key, &_10$$5);
 			ZEPHIR_INIT_NVAR(&queryKey);
 			ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1768);
+			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1766);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			hiddenParam++;
 		} ZEND_HASH_FOREACH_END();
@@ -3434,7 +3435,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 				ZEPHIR_CPY_WRT(&key, &_12$$6);
 				ZEPHIR_INIT_NVAR(&queryKey);
 				ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1768);
+				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Query/Builder.zep", 1766);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				hiddenParam++;
 			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);

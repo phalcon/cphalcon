@@ -69,20 +69,44 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("type"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_model_relation_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Relation;
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_CASCADE"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_RESTRICT"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("BELONGS_TO"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY_THROUGH"), 4);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_ONE"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_ONE_THROUGH"), 3);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("NO_ACTION"), 0);
 
 	zend_class_implements(phalcon_mvc_model_relation_ce, 1, phalcon_mvc_model_relationinterface_ce);
@@ -217,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields)
 
 /**
  * Returns an option by the specified name
- * If the option doesn't exist null is returned
+ * If the option does not exist null is returned
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 {

@@ -36,8 +36,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Order)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Arr, Order, phalcon, support_helper_arr_order, phalcon_support_helper_arr_order_method_entry, 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_support_helper_arr_order_ce, SL("ORDER_ASC"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_support_helper_arr_order_ce, SL("ORDER_DESC"), 2);
 
 	return SUCCESS;
@@ -90,7 +96,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		}
 	ZEPHIR_INIT_VAR(&sorted);
 	array_init(&sorted);
-	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 45);
+	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 51);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _0)
 		{
@@ -138,7 +144,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 14, &sorted);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 13, &sorted);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -205,7 +211,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkNonObject)
 	zephir_get_arrval(&sorted, sorted_param);
 	if (Z_TYPE_P(item) != IS_OBJECT) {
 		zephir_memory_observe(&key);
-		zephir_array_fetch(&key, item, attribute, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 85);
+		zephir_array_fetch(&key, item, attribute, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 91);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CTOR(&sorted);

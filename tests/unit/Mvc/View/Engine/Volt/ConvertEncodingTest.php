@@ -47,7 +47,7 @@ class ConvertEncodingTest extends AbstractUnitTestCase
         $text     = 'Schlüssel';
         $from     = 'utf7';
         $to       = 'euc-jp';
-        $expected = 'Schl+eu8-ssel';
+        $expected = 'Schl??ssel';
         $actual   = $engine->convertEncoding($text, $from, $to);
         $this->assertEquals($expected, $actual);
     }

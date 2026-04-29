@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Len, __invoke)
 	} else {
 		ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 249, &text_zv, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 248, &text_zv, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

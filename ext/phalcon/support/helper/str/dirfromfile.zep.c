@@ -67,16 +67,16 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZVAL_STR_COPY(&file_zv, file);
 	ZVAL_LONG(&_0, 8);
-	ZEPHIR_CALL_FUNCTION(&name, "pathinfo", NULL, 97, &file_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&name, "pathinfo", NULL, 96, &file_zv, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, -2);
-	ZEPHIR_CALL_FUNCTION(&start, "mb_substr", NULL, 231, &name, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&start, "mb_substr", NULL, 230, &name, &_0, &_1);
 	zephir_check_call_status();
 	if (!zephir_is_true(&start)) {
 		ZVAL_LONG(&_2$$3, 0);
 		ZVAL_LONG(&_3$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&start, "mb_substr", NULL, 231, &name, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&start, "mb_substr", NULL, 230, &name, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_4);

@@ -42,6 +42,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderConstruct(): void
     {
@@ -53,6 +55,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderConstructWithDi(): void
     {
@@ -79,6 +83,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderConstructLimitAndOffset(): void
     {

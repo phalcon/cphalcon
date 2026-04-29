@@ -25,10 +25,12 @@ use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersDefaults;
 use Phalcon\Tests\Support\Models\CustomersKeepSnapshots;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesHasOneKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesHasOneNotReusable;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesSchema;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -62,6 +64,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2023-08-09
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function infiniteSaveLoop(): void
@@ -89,6 +92,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-05-10
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSave(): void
     {
@@ -158,6 +163,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveAfterFetchingRelated(): void
     {
@@ -200,6 +207,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-10-09
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveAfterSettingEmptyRelated(): void
     {
@@ -232,6 +241,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveAfterUsingRelatedGetters(): void
     {
@@ -274,6 +285,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-05-17
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
     {
@@ -316,6 +329,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-28
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveCircularRelation(): void
     {
@@ -359,6 +374,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      *
      * @issue  15554
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveMultipleChangedRelationValues(): void
     {
@@ -385,11 +402,53 @@ final class SaveTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  16000
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelSaveDoesNotSaveUnmodifiedHasOneRelation(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'firstName', 'lastName');
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
+
+        $invoice  = InvoicesHasOneKeepSnapshots::findFirst(77);
+        $customer = $invoice->getRelated('customer');
+
+        $this->assertNotFalse($customer);
+
+        $eventsManager  = new EventsManager();
+        $customerSaved  = false;
+        $eventsManager->attach(
+            'model:beforeSave',
+            function () use (&$customerSaved): void {
+                $customerSaved = true;
+            }
+        );
+        $customer->setEventsManager($eventsManager);
+
+        $invoice->inv_title = uniqid('inv-updated-', true);
+
+        $this->assertTrue($invoice->save());
+        $this->assertFalse($customerSaved, 'Unmodified hasOne related record must not be saved');
+    }
+
+    /**
      * @issue  #11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function testMvcModelSaveWithPropertySource(): void
@@ -443,6 +502,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2020-11-04
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveWithRelatedManyAndBelongsRecordsProperty(): void
     {
@@ -490,6 +551,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveWithRelatedRecords(): void
     {
@@ -532,6 +595,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2020-10-31
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveWithRelatedRecordsProperty(): void
     {
@@ -613,6 +678,8 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since        2019-08-02
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelSaveWithTinyInt(string $value): void
     {

@@ -26,22 +26,49 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Enum)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Image, Enum, phalcon, image_enum, NULL, 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("AUTO"), 4);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("HEIGHT"), 3);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("INVERSE"), 5);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("NONE"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("PRECISE"), 6);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("TENSILE"), 7);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("WIDTH"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("HORIZONTAL"), 11);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("VERTICAL"), 12);
 
 	return SUCCESS;

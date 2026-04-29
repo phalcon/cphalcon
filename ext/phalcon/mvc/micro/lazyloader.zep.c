@@ -122,8 +122,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_mvc_micro_exception_ce);
 			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' doesn't exist");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 33, &_2$$4);
+			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' does not exist");
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 32, &_2$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 55);
 			ZEPHIR_MM_RESTORE();
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	zephir_create_array(&_4, 2, 0);
 	zephir_array_fast_append(&_4, &handler);
 	zephir_array_fast_append(&_4, &method_zv);
-	ZEPHIR_CALL_FUNCTION(&_5, "array_values", NULL, 14, arguments);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_values", NULL, 13, arguments);
 	zephir_check_call_status();
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, &_5);
 	zephir_check_call_status();

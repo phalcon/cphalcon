@@ -19,6 +19,7 @@ use Phalcon\Image\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 
+use function outputDir;
 use function supportDir;
 
 final class ResizeTest extends AbstractUnitTestCase
@@ -43,7 +44,7 @@ final class ResizeTest extends AbstractUnitTestCase
                 'resize.jpg',
                 50,
                 50,
-                'bf9f8fc5bf9bc0d0',
+                '30787c3c3f1e3c38',
             ],
         ];
     }
@@ -153,6 +154,32 @@ final class ResizeTest extends AbstractUnitTestCase
         $this->assertTrue($actual);
 
         $this->safeDeleteFile($file);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  16316
+     */
+    public function testImageAdapterGdResizePreservesTransparency(): void
+    {
+        $source = supportDir('assets/images/example-png.png');
+        $output = outputDir('tests/image/gd/resize-transparency.png');
+
+        $image = new Gd($source);
+        $image->resize(50, 50)->save($output);
+
+        $this->assertFileExists($output);
+
+        $resized = imagecreatefrompng($output);
+        imagesavealpha($resized, true);
+        $color = imagecolorsforindex($resized, imagecolorat($resized, 0, 0));
+        imagedestroy($resized);
+
+        $this->assertSame(127, $color['alpha'], 'Transparent pixel must remain transparent after resize');
+
+        $this->safeDeleteFile($output);
     }
 
     /**

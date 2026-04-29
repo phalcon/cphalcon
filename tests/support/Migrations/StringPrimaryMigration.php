@@ -24,18 +24,18 @@ class StringPrimaryMigration extends AbstractMigration
      */
     public function insert(
         string $uuid,
-        int $id
-    ) {
-        if (0 === $id) {
-            $id = null;
-        }
-
-        $sql = <<<SQL
+        ?int $intField
+    ): int {
+        $sql    = <<<SQL
 insert into table_with_uuid_primary (uuid, int_field)
-VALUES ('{$uuid}', {$id});
+values (:uuid, :intField)
 SQL;
+        $params = [
+            ':uuid'     => $uuid,
+            ':intField' => $intField,
+        ];
 
-        $this->connection->exec($sql);
+        return $this->execute($sql, $params);
     }
 
     protected function getSqlMysql(): array

@@ -19,8 +19,8 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "kernel/variables.h"
 #include "kernel/fcall.h"
+#include "kernel/variables.h"
 #include "kernel/exception.h"
 
 
@@ -171,9 +171,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		zephir_prepare_virtual_path(&_1$$3, &key_zv, &_2$$3);
 		ZEPHIR_INIT_VAR(&path);
 		ZEPHIR_CONCAT_VVS(&path, &_0$$3, &_1$$3, ".php");
-		ZEPHIR_INIT_VAR(&option);
-		ZVAL_BOOL(&option, ZEPHIR_GLOBAL(orm).exception_on_failed_metadata_save);
 		ZEPHIR_INIT_VAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "orm.exception_on_failed_metadata_save");
+		ZEPHIR_CALL_CE_STATIC(&option, phalcon_support_settings_ce, "get", NULL, 0, &_3$$3);
+		zephir_check_call_status_or_jump(try_end_1);
+		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		zephir_var_export_ex(&_4$$3, &data);
@@ -181,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
 		zephir_file_put_contents(&_3$$3, &path, &_5$$3);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 453, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 456, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -195,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		if (zephir_is_instance_of(&_6, SL("Exception"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 453, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 456, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -220,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &option);
 	if (zephir_is_true(option)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 93);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 94);
 		return;
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);

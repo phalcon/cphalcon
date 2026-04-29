@@ -72,6 +72,8 @@ final class ConstructTest extends AbstractDatabaseTestCase
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelMetadataLibmemcachedConstruct(): void
     {

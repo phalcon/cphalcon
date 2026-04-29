@@ -565,7 +565,11 @@ class Gd extends AbstractAdapter
     {
         var image;
 
-        let image = imagescale(this->image, width, height);
+        let image = imagecreatetruecolor(width, height);
+
+        imagealphablending(image, false);
+        imagesavealpha(image, true);
+        imagecopyresampled(image, this->image, 0, 0, 0, 0, width, height, this->width, this->height);
 
         imagedestroy(this->image);
 

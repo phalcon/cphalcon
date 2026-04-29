@@ -19,8 +19,34 @@ use ReflectionClass;
 
 final class GetExpressionTest extends AbstractUnitTestCase
 {
-    private int $PHQL_T_AND = 266;
-    private int $PHQL_T_OR  = 267;
+    private int $PHQL_T_AND         = 266;
+    private int $PHQL_T_OR          = 267;
+    private int $PHQL_T_BETWEEN     = 331;
+    private int $PHQL_T_BETWEEN_NOT = 332;
+
+    /**
+     * @issue  16812
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     */
+    public function testMvcModelQueryGetExpressionNotBetween(): void
+    {
+        $expected = [
+            'type'  => 'binary-op',
+            'op'    => 'NOT BETWEEN',
+            'left'  => null,
+            'right' => null,
+        ];
+
+        $expr = ['type' => $this->PHQL_T_BETWEEN_NOT];
+
+        $query         = new Query();
+        $reflection    = new ReflectionClass(Query::class);
+        $getExpression = $reflection->getMethod('getExpression');
+        $getExpression->setAccessible(true);
+
+        $this->assertSame($expected, $getExpression->invokeArgs($query, [$expr, false]));
+    }
 
     /**
      * @issue  15553

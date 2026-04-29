@@ -104,7 +104,7 @@ static int zephir_make_fcall_key(zend_string* s, zephir_call_type type, zend_cla
 		t = 1;
 	}
 	else {
-	/* Can safely call only public methods */
+		/* Can safely call only public methods */
 		t = 2;
 	}
 

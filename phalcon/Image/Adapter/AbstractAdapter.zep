@@ -127,9 +127,17 @@ abstract class AbstractAdapter implements AdapterInterface
     public function crop(
         int width,
         int height,
-        int offsetX = null,
-        int offsetY = null
+        var offsetX = null,
+        var offsetY = null
     ) -> <AdapterInterface> {
+        if (null !== offsetX) {
+            let offsetX = (int) offsetX;
+        }
+
+        if (null !== offsetY) {
+            let offsetY = (int) offsetY;
+        }
+
         if (null === offsetX) {
             let offsetX = ((this->width - width) / 2);
         } else {

@@ -42,6 +42,8 @@ final class GetModelsTest extends AbstractDatabaseTestCase
      * @since  2018-04-08
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderGetModelsNull(): void
     {
@@ -56,6 +58,8 @@ final class GetModelsTest extends AbstractDatabaseTestCase
      * @since  2018-04-08
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderGetModelsString(): void
     {
@@ -75,6 +79,8 @@ final class GetModelsTest extends AbstractDatabaseTestCase
      * @since  2018-04-08
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelQueryBuilderGetModelsArray(): void
     {

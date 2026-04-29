@@ -107,7 +107,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
             3 => new Column(
                 'inv_title',
                 [
-                    'type'          => 2,
+                    'type'          => 6,
                     'isNumeric'     => false,
                     'size'          => 0,
                     'default'       => null,
@@ -122,8 +122,8 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
             4 => new Column(
                 'inv_total',
                 [
-                    'type'          => 2,
-                    'isNumeric'     => false,
+                    'type'          => 7,
+                    'isNumeric'     => true,
                     'size'          => 0,
                     'default'       => null,
                     'unsigned'      => false,
@@ -131,13 +131,13 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                     'autoIncrement' => false,
                     'first'         => false,
                     'after'         => 'inv_title',
-                    'bindType'      => 2,
+                    'bindType'      => 32,
                 ]
             ),
             5 => new Column(
                 'inv_created_at',
                 [
-                    'type'          => 2,
+                    'type'          => 6,
                     'isNumeric'     => false,
                     'size'          => 0,
                     'default'       => null,

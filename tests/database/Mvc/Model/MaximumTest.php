@@ -37,6 +37,8 @@ final class MaximumTest extends AbstractDatabaseTestCase
      *
      * @group mysql
      * @group pgsql
+     * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelMaximum(): void
     {

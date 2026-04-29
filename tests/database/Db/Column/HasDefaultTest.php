@@ -114,7 +114,9 @@ final class HasDefaultTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  mysql
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbColumnHasDefault(Column $column, bool $expected): void
     {

@@ -69,6 +69,61 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @return array[]
+     */
+    public static function getPostgresqlBooleanDefaults(): array
+    {
+        return [
+            'true to false' => [true, false, 'false'],
+            'false to true' => [false, true, 'true'],
+        ];
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect\Postgresql :: modifyColumn() - boolean default
+     *
+     * @dataProvider getPostgresqlBooleanDefaults
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2026-04-28
+     *
+     * @issue  15829
+     *
+     * @group pgsql
+     */
+    public function testDbDialectPostgresqlModifyColumnBooleanDefault(
+        bool $oldDefault,
+        bool $newDefault,
+        string $expectedLiteral
+    ): void {
+        $dialect = new Postgresql();
+
+        $columnOld = new Column(
+            'bool_col',
+            [
+                'type'    => Column::TYPE_BOOLEAN,
+                'default' => $oldDefault,
+                'notNull' => false,
+            ]
+        );
+        $columnNew = new Column(
+            'bool_col',
+            [
+                'type'    => Column::TYPE_BOOLEAN,
+                'default' => $newDefault,
+                'notNull' => false,
+            ]
+        );
+
+        $actual = $dialect->modifyColumn('test_table', 'psn', $columnNew, $columnOld);
+
+        $this->assertSame(
+            'ALTER TABLE "psn"."test_table" ALTER COLUMN "bool_col" SET DEFAULT ' . $expectedLiteral,
+            $actual
+        );
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: modifyColumn
      *
      * @dataProvider getDialects
@@ -77,6 +132,8 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectModifyColumn(
         string $dialectClass,
@@ -140,6 +197,8 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectModifyColumnSame(
         string $dialectClass,

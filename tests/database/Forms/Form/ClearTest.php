@@ -62,6 +62,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2019-06-28
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormsFormClearAll(): void
     {
@@ -108,6 +109,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2019-06-28
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormsFormClearFieldsArray(): void
     {
@@ -160,6 +162,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2019-06-28
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testFormsFormClearFieldString(): void
     {
@@ -210,6 +213,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2016-10-01
      *
      * @group  mysql
+     * @group sqlite
      *
      * @todo   Check implementation — uses Tag::setDefault() which needs review
      */
@@ -350,6 +354,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2016-10-01
      *
      * @group  mysql
+     * @group sqlite
      */
     public function testClearFormElementsAndUsingValidation(): void
     {
@@ -449,6 +454,7 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @since  2016-10-01
      *
      * @group  mysql
+     * @group sqlite
      *
      * @todo   Check implementation — uses Tag::getValue() / Tag::setDefault() which need review
      */

@@ -44,6 +44,8 @@ final class GetColumnListTest extends AbstractDatabaseTestCase
      * @since        2017-02-26
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectMysqlGetColumnList(
         array $columns,

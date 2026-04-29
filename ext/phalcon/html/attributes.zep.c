@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 					zephir_gettype(&_7$$5, &value);
 					ZEPHIR_INIT_NVAR(&_8$$5);
 					ZEPHIR_CONCAT_SVSVS(&_8$$5, "Value at index: \"", &key, "\" type: \"", &_7$$5, "\" cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_9, 33, &_8$$5);
+					ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_9, 32, &_8$$5);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_6$$5, "phalcon/Html/Attributes.zep", 74);
 					ZEPHIR_MM_RESTORE();
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 				ZVAL_LONG(&_10$$4, 3);
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				ZVAL_STRING(&_11$$4, "utf-8");
-				ZEPHIR_CALL_FUNCTION(&_12$$4, "htmlspecialchars", &_13, 290, &value, &_10$$4, &_11$$4, &__$true);
+				ZEPHIR_CALL_FUNCTION(&_12$$4, "htmlspecialchars", &_13, 289, &value, &_10$$4, &_11$$4, &__$true);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_14$$4);
 				ZEPHIR_CONCAT_VSVS(&_14$$4, &key, "=\"", &_12$$4, "\" ");
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 						zephir_gettype(&_18$$8, &value);
 						ZEPHIR_INIT_NVAR(&_19$$8);
 						ZEPHIR_CONCAT_SVSVS(&_19$$8, "Value at index: \"", &key, "\" type: \"", &_18$$8, "\" cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_9, 33, &_19$$8);
+						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_9, 32, &_19$$8);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_17$$8, "phalcon/Html/Attributes.zep", 74);
 						ZEPHIR_MM_RESTORE();
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 					ZVAL_LONG(&_20$$7, 3);
 					ZEPHIR_INIT_NVAR(&_21$$7);
 					ZVAL_STRING(&_21$$7, "utf-8");
-					ZEPHIR_CALL_FUNCTION(&_22$$7, "htmlspecialchars", &_13, 290, &value, &_20$$7, &_21$$7, &__$true);
+					ZEPHIR_CALL_FUNCTION(&_22$$7, "htmlspecialchars", &_13, 289, &value, &_20$$7, &_21$$7, &__$true);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_23$$7);
 					ZEPHIR_CONCAT_VSVS(&_23$$7, &key, "=\"", &_22$$7, "\" ");

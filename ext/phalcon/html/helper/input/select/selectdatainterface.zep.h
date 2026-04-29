@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_html_helper_input_select_selectdatainterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_SelectDataInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_selectdatainterface_getoptions, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_select_selectdatainterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Html_Helper_Input_Select_SelectDataInterface, getOptions, arginfo_phalcon_html_helper_input_select_selectdatainterface_getoptions)
+	PHP_FE_END
+};

@@ -50,6 +50,7 @@
  * @method Doctype       doctype(int $flag, string $delimiter)
  * @method string        element(string $tag, string $text, array $attributes = [], bool $raw = false)
  * @method string        form(array $attributes = [])
+ * @method string        friendlyTitle(string $text, string $separator = '-', bool $lowercase = true, mixed $replace = null)
  * @method string        img(string $src, array $attributes = [])
  * @method Checkbox      inputCheckbox(string $name, string $value = null, array $attributes = [])
  * @method Color         inputColor(string $name, string $value = null, array $attributes = [])
@@ -79,6 +80,7 @@
  * @method Link          link(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Meta          meta(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Ol            ol(string $text, array $attributes = [], bool $raw = false)
+ * @method string        preload(string $href, string $type = 'style', array $attributes = [])
  * @method Script        script(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Style         style(string $indent = '    ', string $delimiter = PHP_EOL)
  * @method Title         title(string $indent = '    ', string $delimiter = PHP_EOL)
@@ -93,6 +95,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 	 */
 	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("escaper"), ZEND_ACC_PRIVATE);
 	/**
+	 * @var ResponseInterface|null
+	 */
+	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("response"), ZEND_ACC_PRIVATE);
+	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("services"), ZEND_ACC_PROTECTED);
@@ -104,34 +110,44 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 /**
  * TagFactory constructor.
  *
- * @param Escaper $escaper
- * @param array   $services
+ * @param EscaperInterface       $escaper
+ * @param array                  $services
+ * @param ResponseInterface|null $response
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval services;
-	zval *escaper, escaper_sub, *services_param = NULL;
+	zval *escaper, escaper_sub, *services_param = NULL, *response = NULL, response_sub, __$null;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&response_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&services);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(response, phalcon_http_responseinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 1, &escaper, &services_param);
+	zephir_fetch_params(1, 1, 2, &escaper, &services_param, &response);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
 	}
+	if (!response) {
+		response = &response_sub;
+		response = &__$null;
+	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("response"), response);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -212,10 +228,10 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 {
-	zval _4$$4, _7$$5;
+	zval _4$$4, _7$$5, _10$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, definition, doctype, _0, _9, _10, _1$$3, _2$$3, _3$$4, _5$$4, _6$$5, _8$$5;
+	zval name_zv, definition, doctype, _0, _12, _13, _1$$3, _2$$3, _3$$4, _5$$4, _6$$5, _8$$5, _9$$6, _11$$6;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -223,16 +239,19 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&doctype);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_9$$6);
+	ZVAL_UNDEF(&_11$$6);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_10$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -245,12 +264,12 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "input");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_starts_with", NULL, 337, &name_zv, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_starts_with", NULL, 340, &name_zv, &_1$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_2$$3)) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZVAL_STRING(&_3$$4, "doctype");
-			ZEPHIR_CALL_METHOD(&doctype, this_ptr, "newinstance", NULL, 338, &_3$$4);
+			ZEPHIR_CALL_METHOD(&doctype, this_ptr, "newinstance", NULL, 341, &_3$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_3$$4);
 			ZEPHIR_INIT_VAR(&_4$$4);
@@ -262,21 +281,34 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_3$$4, &definition, &_4$$4);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_3$$4);
-		} else {
+		} else if (ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "preload")) {
 			ZEPHIR_INIT_VAR(&_6$$5);
 			ZEPHIR_INIT_VAR(&_7$$5);
-			zephir_create_array(&_7$$5, 1, 0);
+			zephir_create_array(&_7$$5, 2, 0);
 			zephir_memory_observe(&_8$$5);
 			zephir_read_property(&_8$$5, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
+			zephir_array_fast_append(&_7$$5, &_8$$5);
+			ZEPHIR_OBS_NVAR(&_8$$5);
+			zephir_read_property(&_8$$5, this_ptr, ZEND_STRL("response"), PH_NOISY_CC);
 			zephir_array_fast_append(&_7$$5, &_8$$5);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_6$$5, &definition, &_7$$5);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_6$$5);
+		} else {
+			ZEPHIR_INIT_VAR(&_9$$6);
+			ZEPHIR_INIT_VAR(&_10$$6);
+			zephir_create_array(&_10$$6, 1, 0);
+			zephir_memory_observe(&_11$$6);
+			zephir_read_property(&_11$$6, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
+			zephir_array_fast_append(&_10$$6, &_11$$6);
+			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_9$$6, &definition, &_10$$6);
+			zephir_check_call_status();
+			zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_9$$6);
 		}
 	}
-	zephir_read_property(&_9, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_10, &_9, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 189);
-	RETURN_CTOR(&_10);
+	zephir_read_property(&_12, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_13, &_12, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 210);
+	RETURN_CTOR(&_13);
 }
 
 /**
@@ -321,7 +353,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, getExceptionClass)
 PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 {
 
-	zephir_create_array(return_value, 43, 0);
+	zephir_create_array(return_value, 47, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
 	add_assoc_stringl_ex(return_value, SL("base"), SL("Phalcon\\Html\\Helper\\Base"));
 	add_assoc_stringl_ex(return_value, SL("breadcrumbs"), SL("Phalcon\\Html\\Helper\\Breadcrumbs"));
@@ -331,6 +363,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("doctype"), SL("Phalcon\\Html\\Helper\\Doctype"));
 	add_assoc_stringl_ex(return_value, SL("element"), SL("Phalcon\\Html\\Helper\\Element"));
 	add_assoc_stringl_ex(return_value, SL("form"), SL("Phalcon\\Html\\Helper\\Form"));
+	add_assoc_stringl_ex(return_value, SL("friendlyTitle"), SL("Phalcon\\Html\\Helper\\FriendlyTitle"));
 	add_assoc_stringl_ex(return_value, SL("img"), SL("Phalcon\\Html\\Helper\\Img"));
 	add_assoc_stringl_ex(return_value, SL("inputCheckbox"), SL("Phalcon\\Html\\Helper\\Input\\Checkbox"));
 	add_assoc_stringl_ex(return_value, SL("inputColor"), SL("Phalcon\\Html\\Helper\\Input\\Color"));
@@ -360,6 +393,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, getServices)
 	add_assoc_stringl_ex(return_value, SL("link"), SL("Phalcon\\Html\\Helper\\Link"));
 	add_assoc_stringl_ex(return_value, SL("meta"), SL("Phalcon\\Html\\Helper\\Meta"));
 	add_assoc_stringl_ex(return_value, SL("ol"), SL("Phalcon\\Html\\Helper\\Ol"));
+	add_assoc_stringl_ex(return_value, SL("preload"), SL("Phalcon\\Html\\Helper\\Preload"));
 	add_assoc_stringl_ex(return_value, SL("script"), SL("Phalcon\\Html\\Helper\\Script"));
 	add_assoc_stringl_ex(return_value, SL("style"), SL("Phalcon\\Html\\Helper\\Style"));
 	add_assoc_stringl_ex(return_value, SL("title"), SL("Phalcon\\Html\\Helper\\Title"));

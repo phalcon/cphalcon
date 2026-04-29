@@ -58,52 +58,6 @@ jobs:
       - name: Run PHP_CodeSniffer
         run: composer cs
 
-  # Validate PIE metadata and source-build from local checkout
-  pie_smoke_test:
-    permissions:
-      contents: read
-    name: PIE smoke test / PHP ${{ matrix.php }}
-    runs-on: ubuntu-latest
-    needs: [phpcs]
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        php:
-          - '8.1'
-          - '8.2'
-          - '8.3'
-          - '8.4'
-          - '8.5'
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: phpize, php-config
-
-      - name: Validate PIE metadata
-        run: |
-          TYPE=$(php -r 'echo json_decode(file_get_contents("composer.json"))->type;')
-          EXT_NAME=$(php -r 'echo json_decode(file_get_contents("composer.json"))->{"php-ext"}->{"extension-name"};')
-          BUILD_PATH=$(php -r 'echo json_decode(file_get_contents("composer.json"))->{"php-ext"}->{"build-path"};')
-          if [ "$TYPE" != "php-ext" ]; then echo "::error::composer.json type must be php-ext, got: $TYPE"; exit 1; fi
-          if [ "$EXT_NAME" != "phalcon" ]; then echo "::error::extension-name must be phalcon, got: $EXT_NAME"; exit 1; fi
-          if [ "$BUILD_PATH" != "build/phalcon" ]; then echo "::error::build-path must be build/phalcon, got: $BUILD_PATH"; exit 1; fi
-          echo "PIE metadata OK: type=$TYPE, extension-name=$EXT_NAME, build-path=$BUILD_PATH"
-
-      - name: Build extension from build/phalcon (same path PIE uses)
-        run: |
-          cd build/phalcon
-          phpize
-          ./configure --enable-phalcon
-          make -j"$(nproc)"
-
-      - name: Validate extension loads
-        run: php -d extension=build/phalcon/modules/phalcon.so -r 'echo "phalcon " . (new Phalcon\Support\Version())->get() . PHP_EOL;'
-
   # Generate IDE stubs, validate with Psalm, fix code style and store as artifact
   stubs:
     permissions:
@@ -119,7 +73,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          tools: pecl
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
@@ -146,12 +99,24 @@ jobs:
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
           retention-days: 5
 
-  # Build Phalcon PECL package (artifact consumed by build-and-test and database_test)
-  generate_pecl:
-    name: Build Phalcon PECL package
+  # Generate fresh C source from Zephir, build the extension, and cache
+  # the source tree and compiled .so for all downstream jobs.
+  generate_source:
+    permissions:
+      contents: read
+    name: Generate source / PHP ${{ matrix.php }}
     needs: [phpcs, stubs]
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
 
     steps:
       - uses: actions/checkout@v6
@@ -159,9 +124,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
+          php-version: ${{ matrix.php }}
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
-          tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -192,32 +156,85 @@ jobs:
           name: compile-errors
           path: compile-errors.log
 
-      - name: Create Pecl Package
-        id: pecl_create
-        run: |
-          cp build/phalcon/config.w32 config.w32
-          cp build/phalcon/phalcon.zep.c phalcon.zep.c
-          cp build/phalcon/config.m4 config.m4
-          cp build/phalcon/php_phalcon.h php_phalcon.h
-          cp build/phalcon/phalcon.zep.h phalcon.zep.h
-          pecl package
-          phalcon_package="`ls | grep phalcon-*tgz`"
-          mv $phalcon_package phalcon-pecl.tgz
-
-      - name: Validate Pecl Package
-        run: pecl package-validate phalcon-pecl.tgz
-
-      - name: Upload Artifact
+      - name: Upload source artifact
         uses: actions/upload-artifact@v7
         with:
-          name: 'phalcon-pecl'
-          path: phalcon-pecl.tgz
+          name: phalcon-source-php${{ matrix.php }}
+          path: build/phalcon/
+          retention-days: 1
 
-  # Verify the extension installs cleanly from the build/ directory
+      - name: Build extension
+        run: |
+          cd build/phalcon
+          phpize
+          ./configure --enable-phalcon
+          make -j"$(nproc)"
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
+          path: build/phalcon/modules/phalcon.so
+          retention-days: 1
+
+  # Validate PIE metadata and confirm the extension builds from the
+  # generated source tree that PIE would use.
+  pie_smoke_test:
+    permissions:
+      contents: read
+    name: PIE smoke test / PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    needs: [generate_source]
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: phpize, php-config
+
+      - name: Validate PIE metadata
+        run: |
+          TYPE=$(php -r 'echo json_decode(file_get_contents("composer.json"))->type;')
+          EXT_NAME=$(php -r 'echo json_decode(file_get_contents("composer.json"))->{"php-ext"}->{"extension-name"};')
+          BUILD_PATH=$(php -r 'echo json_decode(file_get_contents("composer.json"))->{"php-ext"}->{"build-path"};')
+          if [ "$TYPE" != "php-ext" ]; then echo "::error::composer.json type must be php-ext, got: $TYPE"; exit 1; fi
+          if [ "$EXT_NAME" != "phalcon" ]; then echo "::error::extension-name must be phalcon, got: $EXT_NAME"; exit 1; fi
+          if [ "$BUILD_PATH" != "build/phalcon" ]; then echo "::error::build-path must be build/phalcon, got: $BUILD_PATH"; exit 1; fi
+          echo "PIE metadata OK: type=$TYPE, extension-name=$EXT_NAME, build-path=$BUILD_PATH"
+
+      - name: Download source artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: phalcon-source-php${{ matrix.php }}
+          path: ./phalcon-source
+
+      - name: Build extension from source (same path PIE uses)
+        run: |
+          cd phalcon-source
+          phpize
+          ./configure --enable-phalcon
+          make -j"$(nproc)"
+
+      - name: Validate extension loads
+        run: php -d extension=phalcon-source/modules/phalcon.so -r 'echo "phalcon " . (new Phalcon\Support\Version())->get() . PHP_EOL;'
+
+  # Verify the extension installs cleanly via the PIE build path
   install:
     name: Install / PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-    needs: [phpcs, stubs]
+    needs: [generate_source]
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -236,17 +253,23 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
-          tools: pecl
+          tools: phpize, php-config
 
-      - name: Install from build/ directory
+      - name: Download source artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: phalcon-source-php${{ matrix.php }}
+          path: ./build/phalcon
+
+      - name: Install extension (PIE path)
         run: |
-          cd build/
-          php gen-build.php
-          sudo ./install
+          cd build/phalcon
+          phpize
+          ./configure --enable-phalcon
+          make -j"$(nproc)"
+          sudo make install
 
       - name: Validate extension
-        if: success()
         run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
 
   build_extension:
@@ -254,7 +277,7 @@ jobs:
       contents: read
 
     name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-    needs: [generate_pecl, install]
+    needs: [generate_source]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
@@ -294,23 +317,23 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
-          tools: pecl, phpize, php-config
+          tools: phpize, php-config
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download Phalcon Pecl Package
+      - name: Download source artifact
         uses: actions/download-artifact@v8
         with:
-          name: phalcon-pecl
-          path: ./phalcon-pecl
+          name: phalcon-source-php${{ matrix.php }}
+          path: ./phalcon-source
 
       - name: Build Phalcon Extension (Linux)
         if: runner.os == 'Linux'
         id: linux-build
         uses: ./.github/actions/build-phalcon-linux
         with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          source: ./phalcon-source
           php-version: ${{ matrix.php }}
 
       - name: Upload compiled Phalcon extension (Linux)
@@ -325,13 +348,13 @@ jobs:
         if: runner.os == 'macOS'
         uses: ./.github/actions/build-phalcon-macos
         with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          source: ./phalcon-source
 
       - name: Build Phalcon Extension (Windows)
         if: runner.os == 'Windows'
         uses: ./.github/actions/build-phalcon-win
         with:
-          pecl: ./phalcon-pecl/phalcon-pecl.tgz
+          source: ./phalcon-source
           php-version: ${{ matrix.php }}
           ts: ${{ matrix.ts }}
           compiler: ${{ matrix.compiler }}
@@ -347,7 +370,7 @@ jobs:
           if ( "${{ runner.os }}" -eq 'Windows' ) {
             $ReleaseFolder = if ("${{ matrix.ts }}" -eq "ts") { "Release_TS" } else { "Release" }
             $ReleaseFolder = if ("${{ matrix.arch }}" -eq "x64") { "x64\${ReleaseFolder}" } else { "${ReleaseFolder}" }
-            $ExtPath = "${{ env.TOOLS_DIR }}\pecl\phalcon\phalcon-${{ env.PHALCON_VERSION }}\${ReleaseFolder}\php_phalcon.dll"
+            $ExtPath = "phalcon-source\${ReleaseFolder}\php_phalcon.dll"
           } else {
             $ExtPath = "$(php-config --extension-dir)/phalcon.so"
           }
@@ -425,7 +448,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          tools: pecl, phpize, php-config
+          tools: phpize, php-config
           coverage: pcov
         env:
           PHPTS: ${{ matrix.ts }}
@@ -492,11 +515,11 @@ jobs:
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md
 
-  database_test:
+  database_mysql_test:
     permissions:
       contents: read
 
-    name: Db / PHP-${{ matrix.php }}
+    name: Db MySQL / PHP-${{ matrix.php }}
     needs: [build_extension]
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -516,6 +539,193 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      redis:
+        image: redis:8-alpine
+        ports:
+          - "6379:6379"
+      memcached:
+        image: memcached:1.6-alpine
+        ports:
+          - "11211:11211"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: "Setup platform specific environment"
+        shell: pwsh
+        run: git config --global core.autocrlf false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
+          coverage: pcov
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download compiled Phalcon extension
+        uses: actions/download-artifact@v8
+        with:
+          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
+          path: ./phalcon-so
+
+      - name: Install Phalcon extension
+        shell: bash
+        run: |
+          EXT_DIR=$(php-config --extension-dir)
+          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
+          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
+          php --ri phalcon
+
+      - name: Prepare test Environment
+        run: |
+          echo "::group::Set up locales"
+          ./.ci/linux-setup-locales.sh
+          echo "::endgroup::"
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
+
+      - name: Install development dependencies with Composer
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--prefer-dist --ignore-platform-reqs"
+
+      - name: Setup Tests
+        run: |
+          cp tests/support/_config/.env.default .env
+          php tests/support/_config/generate-db-schemas.php
+
+      - name: Run Database Tests (MySQL)
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_MYSQL_USER: root
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/phpunit -c phpunit.mysql.xml
+      - name: Upload Database (MySQL) Coverage
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: "db-mysql-${{ matrix.php }}.coverage"
+          path: "tests/_output/coverage.xml"
+          retention-days: 7
+
+  database_sqlite_test:
+    permissions:
+      contents: read
+
+    name: Db Sqlite/ PHP-${{ matrix.php }}
+    needs: [build_extension]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
+      redis:
+        image: redis:8-alpine
+        ports:
+          - "6379:6379"
+      memcached:
+        image: memcached:1.6-alpine
+        ports:
+          - "11211:11211"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: "Setup platform specific environment"
+        shell: pwsh
+        run: git config --global core.autocrlf false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
+          coverage: pcov
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download compiled Phalcon extension
+        uses: actions/download-artifact@v8
+        with:
+          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
+          path: ./phalcon-so
+
+      - name: Install Phalcon extension
+        shell: bash
+        run: |
+          EXT_DIR=$(php-config --extension-dir)
+          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
+          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
+          php --ri phalcon
+
+      - name: Prepare test Environment
+        run: |
+          echo "::group::Set up locales"
+          ./.ci/linux-setup-locales.sh
+          echo "::endgroup::"
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
+
+      - name: Install development dependencies with Composer
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--prefer-dist --ignore-platform-reqs"
+
+      - name: Setup Tests
+        run: |
+          cp tests/support/_config/.env.default .env
+          php tests/support/_config/generate-db-schemas.php
+
+      - name: Run Database Tests (SQLite)
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
+        run: vendor/bin/phpunit -c phpunit.sqlite.xml
+      - name: Upload Database (SQLite) Coverage
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: "db-sqlite-${{ matrix.php }}.coverage"
+          path: "tests/_output/coverage.xml"
+          retention-days: 7
+
+  database_pgsql_test:
+    permissions:
+      contents: read
+
+    name: Db Postgres / PHP-${{ matrix.php }}
+    needs: [build_extension]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
       postgres:
         image: postgres:18-alpine
         ports:
@@ -571,7 +781,6 @@ jobs:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
 
-
       - name: Install Phalcon extension
         shell: bash
         run: |
@@ -599,53 +808,18 @@ jobs:
           cp tests/support/_config/.env.default .env
           php tests/support/_config/generate-db-schemas.php
 
-      - name: Run Database Tests (MySQL)
+      - name: Run Database Tests (Postgres)
         env:
-          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          DATA_MYSQL_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.mysql.xml
-      - name: Upload Database (MySQL) Coverage
+        run: vendor/bin/phpunit -c phpunit.pgsql.xml
+      - name: Upload Database (Postgres) Coverage
         uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: "db-mysql-${{ matrix.php }}.coverage"
+          name: "db-pgsql-${{ matrix.php }}.coverage"
           path: "tests/_output/coverage.xml"
           retention-days: 7
-
-#      - name: Run Database Tests (Sqlite)
-#        env:
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        if: always()
-#        run: vendor/bin/codecept run --coverage-xml=coverage-database-sqlite-${{ matrix.php }}.xml --ext DotReporter database --env sqlite -g sqlite
-#
-#      - name: Upload Database (Sqlite) Coverage
-#        uses: actions/upload-artifact@v7
-#        if: always()
-#        with:
-#          name: coverage-database-sqlite-${{ matrix.php }}
-#          path: tests/_output/coverage-database-sqlite-${{ matrix.php }}.xml
-#          retention-days: 7
-#
-#      - name: Run Database Tests (Postgres)
-#        env:
-#          DATA_POSTGRES_USER: phalcon
-#          DATA_POSTGRES_PASS: secret
-#          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        if: always()
-#        run: vendor/bin/codecept run --coverage-xml=coverage-database-pgsql-${{ matrix.php }}.xml --ext DotReporter database --env pgsql -g pgsql
-#
-#      - name: Upload Database (Postgres) Coverage
-#        uses: actions/upload-artifact@v7
-#        if: always()
-#        with:
-#          name: coverage-database-pgsql-${{ matrix.php }}
-#          path: tests/_output/coverage-database-pgsql-${{ matrix.php }}.xml
-#          retention-days: 7
 
 # Disabling this from cphalcon because codecov is not finding the sourceset for the coverage report.
 #  upload-coverage:
@@ -690,7 +864,13 @@ jobs:
 
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
-    needs: [generate_pecl, build_extension, unit_test, database_test]
+    needs:
+      - generate_source
+      - build_extension
+      - unit_test
+      - database_mysql_test
+      - database_sqlite_test
+      - database_pgsql_test
     name: Create Release
     runs-on: ubuntu-latest
 
@@ -707,7 +887,6 @@ jobs:
         run: |
           mkdir -p ./build-artifacts/release
           find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
-          find ./build-artifacts -type f -name phalcon*.tgz -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
@@ -719,7 +898,7 @@ jobs:
           tag: ${{ github.ref_name }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
+          artifacts: "./build-artifacts/release/*.zip"
           artifactContentType: application/octet-stream
 
   publish_stubs:
@@ -787,4 +966,3 @@ jobs:
           draft: true
           allowUpdates: true
           commit: master
-

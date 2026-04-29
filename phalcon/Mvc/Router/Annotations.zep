@@ -168,6 +168,18 @@ class Annotations extends Router
                  */
                 let controllerName = get_class_ns(handler),
                     namespaceName = get_ns_class(handler);
+
+                /**
+                 * Strip the suffix if the FQCN already includes it,
+                 * so we do not end up with e.g. "InvoicesControllerController"
+                 */
+                if ends_with(controllerName, controllerSuffix) {
+                    let controllerName = substr(
+                        controllerName,
+                        0,
+                        strlen(controllerName) - strlen(controllerSuffix)
+                    );
+                }
             } else {
                 let controllerName = handler;
 

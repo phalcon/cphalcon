@@ -359,6 +359,8 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectGetColumnDefinition(
         array $definition,

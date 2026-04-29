@@ -606,18 +606,13 @@ class Postgresql extends Dialect
 
         // DEFAULT
         if column->getDefault() !== currentColumn->getDefault() {
-            if empty column->getDefault() && !empty currentColumn->getDefault() {
+            if !column->hasDefault() && currentColumn->hasDefault() {
                 let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
             }
 
             if column->hasDefault() {
                 let defaultValue = this->castDefault(column);
-
-                if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-                    let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
-                } else {
-                    let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
-                }
+                let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
             }
         }
 
@@ -697,7 +692,9 @@ class Postgresql extends Dialect
             columnType = column->getType();
 
         if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-            return defaultValue;
+            var boolStr;
+            let boolStr = strtolower((string) defaultValue);
+            return (boolStr == "false" || boolStr == "0" || boolStr == "") ? "false" : "true";
         }
 
         if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {

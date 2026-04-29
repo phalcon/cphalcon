@@ -59,6 +59,39 @@ final class CropTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  16156
+     */
+    public function testImageAdapterGdCropJpgWithZeroOffset(): void
+    {
+        $this->checkJpegSupport();
+
+        $source = supportDir('assets/images/example-jpg.jpg');
+        $output = outputDir('tests/image/gd/crop-zero-offset.jpg');
+
+        $original = imagecreatefromjpeg($source);
+        $expected = imagecolorat($original, 0, 0);
+        imagedestroy($original);
+
+        $image = new Gd($source);
+        $image->crop(200, 200, 0, 0)->save($output);
+
+        $cropped = imagecreatefromjpeg($output);
+        $actual  = imagecolorat($cropped, 0, 0);
+        imagedestroy($cropped);
+
+        $this->assertSame(
+            $expected,
+            $actual,
+            'Crop with offset (0,0) must start from the top-left, not the center'
+        );
+
+        $this->safeDeleteFile($output);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testImageAdapterGdCropJpgWithOffset(): void

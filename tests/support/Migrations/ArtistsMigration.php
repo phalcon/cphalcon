@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class ArtistsMigration
@@ -30,22 +29,16 @@ class ArtistsMigration extends AbstractMigration
      */
     public function insert(int $id, string $name): int
     {
-        $sql = <<<SQL
-insert into artists (id, name) values ({$id}, '{$name}')
+        $sql    = <<<SQL
+insert into artists (id, name) values (:id, :name)
 SQL;
+        $params = [
+            ':id'   => $id,
+            ':name' => $name,
+        ];
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf(
-                    "Failed to insert row #%d into table '%s' using '%s' driver",
-                    $id,
-                    $table,
-                    $driver
-                )
-            );
-        }
+        $result = $this->execute($sql, $params);
+        $this->advanceSequence('id', $id);
 
         return $result;
     }

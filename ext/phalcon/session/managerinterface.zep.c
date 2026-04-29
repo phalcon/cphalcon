@@ -29,10 +29,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Session, ManagerInterface, phalcon, session_managerinterface, phalcon_session_managerinterface_method_entry);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_ACTIVE"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_DISABLED"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_NONE"), 1);
 
 	return SUCCESS;

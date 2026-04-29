@@ -91,6 +91,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
 /**
+ * Clears the internal reusable list
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, clearReusableObjects);
+/**
  * Creates a Phalcon\Mvc\Model\Query and execute it
  *
  * @param array|null $placeholders
@@ -204,6 +208,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween);
 /**
+ * Returns a reusable object from the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ *
+ * @return mixed
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReusableRecords);
+/**
  * Returns the connection to write data related to a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getWriteConnection);
@@ -232,7 +245,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOneThrough);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasManyToMany);
 /**
- * Loads a model throwing an exception if it doesn't exist
+ * Loads a model throwing an exception if it does not exist
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
 /**
@@ -288,6 +301,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setConnectionService);
  * Sets read connection service for a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReadConnectionService);
+/**
+ * Stores a reusable record in the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ * @param mixed  $records
+ *
+ * @return void
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReusableRecords);
 /**
  * Sets the mapped schema for a model
  */

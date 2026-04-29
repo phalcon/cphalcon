@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-use PHPUnit\Framework\Assert;
 
 /**
  * Class CustomersMigration
@@ -36,21 +35,24 @@ class CustomersDefaultsMigration extends AbstractMigration
         ?string $first = null,
         ?string $last = null
     ): int {
-        $id  = $id ?: 'null';
-        $sql = <<<SQL
+        $sql    = <<<SQL
 insert into co_customers_defaults (
     cst_id, cst_status_flag, cst_name_first, cst_name_last
 ) values (
-    {$id}, {$status}, '{$first}', '{$last}'
+    :id, :status, :first, :last
 )
 SQL;
+        $params = [
+            ':id'     => $id,
+            ':status' => $status,
+            ':first'  => $first ?? '',
+            ':last'   => $last ?? '',
+        ];
 
-        if (!$result = $this->connection->exec($sql)) {
-            $table  = $this->getTable();
-            $driver = $this->getDriverName();
-            Assert::fail(
-                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
-            );
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('cst_id', $id);
         }
 
         return $result;

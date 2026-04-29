@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 	} else {
 		}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 290, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 289, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

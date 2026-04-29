@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			object_init_ex(&_12$$14, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(&_13$$14);
 			ZEPHIR_CONCAT_SVS(&_13$$14, "Cannot obtain a route using the name '", &routeName, "'");
-			ZEPHIR_CALL_METHOD(NULL, &_12$$14, "__construct", NULL, 33, &_13$$14);
+			ZEPHIR_CALL_METHOD(NULL, &_12$$14, "__construct", NULL, 32, &_13$$14);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_12$$14, "phalcon/Mvc/Url.zep", 161);
 			ZEPHIR_MM_RESTORE();
@@ -292,11 +292,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		ZVAL_STRING(&_18$$15, "#(?<!:)//+#");
 		ZEPHIR_INIT_VAR(&_19$$15);
 		ZVAL_STRING(&_19$$15, "/");
-		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 41, &_18$$15, &_19$$15, &_17$$15);
+		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 40, &_18$$15, &_19$$15, &_17$$15);
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 496, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 499, args);
 		zephir_check_call_status();
 		_20$$16 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_20$$16) {

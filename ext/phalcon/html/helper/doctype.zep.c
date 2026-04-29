@@ -39,26 +39,59 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Doctype)
 	 * @var int
 	 */
 	zend_declare_property_null(phalcon_html_helper_doctype_ce, SL("type"), ZEND_ACC_PRIVATE);
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML32"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML401_STRICT"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML401_TRANSITIONAL"), 3);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML401_FRAMESET"), 4);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("HTML5"), 5);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML10_STRICT"), 6);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML10_TRANSITIONAL"), 7);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML10_FRAMESET"), 8);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML11"), 9);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML20"), 10);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_html_helper_doctype_ce, SL("XHTML5"), 11);
 
 	return SUCCESS;

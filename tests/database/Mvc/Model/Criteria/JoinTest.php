@@ -41,6 +41,8 @@ final class JoinTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelCriteriaJoin(): void
     {
@@ -69,6 +71,8 @@ final class JoinTest extends AbstractDatabaseTestCase
      * @since  2020-02-06
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      * @group pgsql
      */
     public function testMvcModelCriteriaJoinManyToManyMultipleSchema(): void

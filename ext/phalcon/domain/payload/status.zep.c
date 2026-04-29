@@ -38,44 +38,104 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Status)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Domain\\Payload, Status, phalcon, domain_payload_status, phalcon_domain_payload_status_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("ACCEPTED"), "ACCEPTED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("AUTHENTICATED"), "AUTHENTICATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("AUTHORIZED"), "AUTHORIZED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("CREATED"), "CREATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("DELETED"), "DELETED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("ERROR"), "ERROR");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("FAILURE"), "FAILURE");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("FOUND"), "FOUND");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_ACCEPTED"), "NOT_ACCEPTED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_AUTHENTICATED"), "NOT_AUTHENTICATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_AUTHORIZED"), "NOT_AUTHORIZED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_CREATED"), "NOT_CREATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_DELETED"), "NOT_DELETED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_FOUND"), "NOT_FOUND");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_UPDATED"), "NOT_UPDATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("NOT_VALID"), "NOT_VALID");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("PROCESSING"), "PROCESSING");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("SUCCESS"), "SUCCESS");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("UPDATED"), "UPDATED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("VALID"), "VALID");
 
 	return SUCCESS;

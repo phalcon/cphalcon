@@ -52,6 +52,8 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderPaginate(): void
     {
@@ -100,6 +102,8 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2020-01-29
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      * @group pgsql
      */
     public function testPaginatorAdapterQuerybuilderPaginateGroupBy(): void
@@ -174,6 +178,8 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @issue  15266
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
     {
@@ -181,8 +187,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $connection = self::getConnection();
         $migration  = new InvoicesMigration($connection);
 
-        $this->insertDataInvoices($migration, 2, 'default', 1, 'grp1');
-        $this->insertDataInvoices($migration, 2, 'default', 2, 'grp2');
+        $invId = ('sqlite' === self::getDriver()) ? 'null' : 'default';
+        $this->insertDataInvoices($migration, 2, $invId, 1, 'grp1');
+        $this->insertDataInvoices($migration, 2, $invId, 2, 'grp2');
 
         $now = date('Y-m-d H:i:s');
         $connection->exec(
@@ -204,12 +211,15 @@ final class PaginateTest extends AbstractDatabaseTestCase
             ->groupBy('inv_cst_id')
         ;
 
+        $colExpr   = ('pgsql' === self::getDriver())
+            ? 'COALESCE(inv_cst_id, 0)'
+            : 'IFNULL(inv_cst_id, 0)';
         $paginator = new QueryBuilder(
             [
                 'builder' => $builder,
                 'limit'   => 5,
                 'page'    => 1,
-                'columns' => 'IFNULL(inv_cst_id, 0)',
+                'columns' => $colExpr,
             ]
         );
 
@@ -222,11 +232,66 @@ final class PaginateTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy with
+     * multiple columns (array) generates valid SQL for all databases
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  15912
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testPaginatorAdapterQuerybuilderPaginateGroupByMultipleColumns(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
+
+        // 3 distinct (inv_cst_id, inv_status_flag) groups: (1,0), (1,1), (2,0)
+        $migration->insert($invId, 1, 0, 'inv-a1');
+        $migration->insert($invId, 1, 0, 'inv-a2');
+        $migration->insert($invId, 1, 0, 'inv-a3');
+        $migration->insert($invId, 1, 1, 'inv-b1');
+        $migration->insert($invId, 1, 1, 'inv-b2');
+        $migration->insert($invId, 2, 0, 'inv-c1');
+        $migration->insert($invId, 2, 0, 'inv-c2');
+        $migration->insert($invId, 2, 0, 'inv-c3');
+        $migration->insert($invId, 2, 0, 'inv-c4');
+
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->columns(['inv_cst_id', 'inv_status_flag'])
+            ->from(Invoices::class)
+            ->groupBy(['inv_cst_id', 'inv_status_flag'])
+        ;
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $this->assertInstanceOf(Repository::class, $page);
+        $this->assertSame(3, $page->getTotalItems());
+        $this->assertSame(1, $page->getLast());
+    }
+
+    /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
      * @issue  14639
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      *
      * @throws Exception
      * @author Phalcon Team <team@phalcon.io>

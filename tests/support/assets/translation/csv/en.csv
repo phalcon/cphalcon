@@ -1,3 +1,5 @@
+# This is a comment line - testing skip behavior
+"single-column-key"
 "hi";"Hello"
 "bye";"Good Bye"
 "hello-key";"Hello %name%"

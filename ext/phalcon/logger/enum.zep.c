@@ -29,22 +29,49 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Enum)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Enum, phalcon, logger_enum, NULL, 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("ALERT"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CRITICAL"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CUSTOM"), 8);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("DEBUG"), 7);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("EMERGENCY"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("ERROR"), 3);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("INFO"), 6);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("NOTICE"), 5);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("WARNING"), 4);
 
 	return SUCCESS;

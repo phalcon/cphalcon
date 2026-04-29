@@ -89,6 +89,8 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectTableExists(
         string $dialectClass,
@@ -110,6 +112,8 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      * @since        2020-01-20
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testDbDialectTableExistsNoSchema(
         string $dialectClass,

@@ -67,6 +67,8 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
      * @since        2023-07-01
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testMvcModelMetadataGetAttributes(
         string $service
@@ -136,7 +138,8 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
 
         if (
             'metadataStream' !== $service &&
-            'metadataMemory' !== $service
+            'metadataMemory' !== $service &&
+            'sqlite' !== self::getDriver()
         ) {
             $service = $adapter->getAdapter();
 
@@ -165,6 +168,8 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
      */
     private static function getKeyData(): array
     {
+        $dateUploadedType = ('pgsql' === self::getDriver()) ? 17 : 4;
+
         return [
         'meta-phalcon\tests\support\models\albumphoto' => [
             0 => [
@@ -282,7 +287,7 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
             ],
             4 => [
                 'id' => 0,
-                'date_uploaded' => 4,
+                'date_uploaded' => $dateUploadedType,
                 'original_filename' => 6,
                 'path' => 6,
                 'width' => 22,

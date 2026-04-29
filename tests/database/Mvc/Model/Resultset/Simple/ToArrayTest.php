@@ -54,6 +54,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
+     * @group pgsql
      */
     public function testMvcModelResultsetSimpleToArray(): void
     {

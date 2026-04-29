@@ -18,6 +18,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/concat.h"
 #include "kernel/object.h"
 
 
@@ -63,10 +64,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Encode)
  */
 PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 {
-	zval _4;
+	zval _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long options, depth, ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, *options_param = NULL, *depth_param = NULL, __$null, encoded, error, message, _0, _1, _2$$3, _3$$3;
+	zval *data, data_sub, *options_param = NULL, *depth_param = NULL, __$null, encoded, error, message, _0, _1, _2$$3, _3$$3, _4$$3;
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
@@ -77,7 +78,8 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
@@ -110,13 +112,15 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 		zephir_json_encode(&_2$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 203, &message, &error);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZEPHIR_CONCAT_SV(&_4$$3, "json_encode error: ", &message);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 202, &_4$$3, &error);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Helper/Json/Encode.zep", 64);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_cast_to_string(&_4, &encoded);
-	RETURN_CTOR(&_4);
+	zephir_cast_to_string(&_5, &encoded);
+	RETURN_CTOR(&_5);
 }
 

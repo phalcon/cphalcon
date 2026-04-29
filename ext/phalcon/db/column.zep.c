@@ -158,181 +158,253 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	phalcon_db_column_ce->create_object = zephir_init_properties_Phalcon_Db_Column;
 	/**
 	 * Bind Type Blob
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_BLOB"), 3);
 
 	/**
 	 * Bind Type Bool
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_BOOL"), 5);
 
 	/**
 	 * Bind Type Decimal
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_DECIMAL"), 32);
 
 	/**
 	 * Bind Type Integer
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1);
 
 	/**
 	 * Bind Type Null
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0);
 
 	/**
 	 * Bind Type String
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2);
 
 	/**
 	 * Skip binding by type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_SKIP"), 1024);
 
 	/**
 	 * Big integer abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BIGINTEGER"), 14);
 
 	/**
 	 * Bit abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BIT"), 19);
 
 	/**
 	 * Binary abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BINARY"), 27);
 
 	/**
 	 * Blob abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BLOB"), 11);
 
 	/**
 	 * Bool abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BOOLEAN"), 8);
 
 	/**
 	 * Char abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_CHAR"), 5);
 
 	/**
 	 * Date abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATE"), 1);
 
 	/**
 	 * Datetime abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATETIME"), 4);
 
 	/**
 	 * Decimal abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DECIMAL"), 3);
 
 	/**
 	 * Double abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DOUBLE"), 9);
 
 	/**
 	 * Enum abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_ENUM"), 18);
 
 	/**
 	 * Float abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_FLOAT"), 7);
 
 	/**
 	 * Int abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INTEGER"), 0);
 
 	/**
 	 * Json abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_JSON"), 15);
 
 	/**
 	 * Jsonb abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_JSONB"), 16);
 
 	/**
 	 * Longblob abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_LONGBLOB"), 13);
 
 	/**
 	 * Longtext abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_LONGTEXT"), 24);
 
 	/**
 	 * Mediumblob abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MEDIUMBLOB"), 12);
 
 	/**
 	 * Mediumintegerr abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MEDIUMINTEGER"), 21);
 
 	/**
 	 * Mediumtext abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MEDIUMTEXT"), 23);
 
 	/**
 	 * Smallint abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_SMALLINTEGER"), 22);
 
 	/**
 	 * Text abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TEXT"), 6);
 
 	/**
 	 * Time abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TIME"), 20);
 
 	/**
 	 * Timestamp abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TIMESTAMP"), 17);
 
 	/**
 	 * Tinyblob abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TINYBLOB"), 10);
 
 	/**
 	 * Tinyint abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TINYINTEGER"), 26);
 
 	/**
 	 * Tinytext abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TINYTEXT"), 25);
 
 	/**
 	 * Varbinary abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARBINARY"), 28);
 
 	/**
 	 * Varchar abstract data type
+	 *
+	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARCHAR"), 2);
 
@@ -382,7 +454,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 347);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 419);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
@@ -413,7 +485,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				zephir_update_property_zval(this_ptr, ZEND_STRL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 397);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 469);
 			return;
 		} while(0);
 
@@ -448,7 +520,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 441);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 513);
 				return;
 			} while(0);
 

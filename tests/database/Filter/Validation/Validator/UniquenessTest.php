@@ -48,6 +48,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessSingleField(): void
     {
@@ -86,6 +88,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-07-25
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessSingleFieldConvert(): void
     {
@@ -125,6 +129,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessMultipleFields(): void
     {
@@ -185,6 +191,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-07-25
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessMultipleFieldsConvert(): void
     {
@@ -226,6 +234,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessExceptSingleFieldSingleExcept(): void
     {
@@ -274,6 +284,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessExceptSingleFieldMultipleExcept(): void
     {
@@ -331,6 +343,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldSingleExcept(): void
     {
@@ -391,6 +405,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2016-06-05
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldMultipleExcept(): void
     {
@@ -442,6 +458,8 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @since  2018-06-13
      *
      * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function testFilterValidationValidatorUniquenessIssue13398(): void
     {

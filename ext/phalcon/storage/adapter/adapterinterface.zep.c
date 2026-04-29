@@ -43,6 +43,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, decrement);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, delete);
 /**
+ * Deletes multiple data from the adapter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, deleteMultiple);
+/**
  * Reads data from the adapter
  *
  * @param string key

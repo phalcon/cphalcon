@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 	ZEPHIR_CONCAT_SVS(&_10, "/[", &delimiters, "]+/");
 	ZVAL_LONG(&_11, -1);
 	ZVAL_LONG(&_12, (2 | 1));
-	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 77, &_10, &text_zv, &_11, &_12);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 76, &_10, &text_zv, &_11, &_12);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_13);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
