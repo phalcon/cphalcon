@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData;
@@ -26,12 +27,12 @@ use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersDefaults;
 use Phalcon\Tests\Support\Models\CustomersKeepSnapshots;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesBelongsToCustomers;
 use Phalcon\Tests\Support\Models\InvoicesHasOneKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesHasOneNotReusable;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesSchema;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
-use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -400,6 +401,43 @@ final class SaveTest extends AbstractDatabaseTestCase
 
         $this->assertSame('newFirstName', $customer->cst_name_first);
         $this->assertSame(0, (int) $customer->cst_status_flag);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-30
+     *
+     * @issue  16611
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelSaveNullRelatedAfterCallingGetter(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'firstName', 'lastName');
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
+
+        $invoice = InvoicesBelongsToCustomers::findFirst(77);
+
+        $this->assertNotNull($invoice->inv_cst_id);
+
+        // Calling the getter caches the related customer in $this->related.
+        // Setting the relation to null must clear that cache so that
+        // preSaveRelatedRecords() does not overwrite inv_cst_id on save.
+        $invoice->getCustomer();
+        $invoice->setCustomer(null);
+
+        $this->assertTrue($invoice->save());
+
+        $reloaded = InvoicesBelongsToCustomers::findFirst(77);
+
+        $this->assertNull($reloaded->inv_cst_id);
     }
 
     /**
