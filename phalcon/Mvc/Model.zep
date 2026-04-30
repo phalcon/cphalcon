@@ -1032,7 +1032,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if !disableSetters {
                     let setter = "set" . camelize(key);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
+                        try {
+                            instance->{setter}(value);
+                        } catch \TypeError {
+                            let instance->{key} = value;
+                        }
                         continue;
                     }
                 }
@@ -1074,7 +1078,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if !disableSetters {
                     let setter = "set" . camelize(attribute);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
+                        try {
+                            instance->{setter}(value);
+                        } catch \TypeError {
+                            let instance->{attribute} = value;
+                        }
                         continue;
                     }
                 }
@@ -1133,7 +1141,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if !disableSetters {
                 let setter = "set" . camelize(attributeName);
                 if method_exists(instance, setter) && !isset localMethods[setter] {
-                    instance->{setter}(castValue);
+                    try {
+                        instance->{setter}(castValue);
+                    } catch \TypeError {
+                        let instance->{attributeName} = castValue;
+                    }
                     continue;
                 }
             }
@@ -4993,7 +5005,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if !isset localMethods[possibleSetter] {
-            this->{possibleSetter}(value);
+            try {
+                this->{possibleSetter}(value);
+            } catch \TypeError {
+                let this->{property} = value;
+            }
         }
 
         return true;

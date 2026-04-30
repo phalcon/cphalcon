@@ -19,6 +19,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Models\InvoicesWithSetters;
+use Phalcon\Tests\Support\Models\InvoicesWithTypedSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class CloneResultMapTest extends AbstractDatabaseTestCase
@@ -149,6 +150,40 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
 
         // setInvTotal() doubles the value → setter must have been called
         $this->assertSame(20.0, (float) $invoice->inv_total);
+    }
+
+    /**
+     * Tests that cloneResultMap() does not throw when a setter has a strict
+     * type hint that is incompatible with the raw DB value. The ORM must catch
+     * the TypeError and fall back to direct property assignment.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16956
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-30
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelCloneResultMapSetterTypeErrorFallback(): void
+    {
+        /** @var InvoicesWithTypedSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithTypedSetters(),
+            [
+                'inv_id'          => 1,
+                'inv_cst_id'      => 2,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'raw-string-from-db',
+                'inv_total'       => 10.0,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            null
+        );
+
+        // setInvTitle() expects ?array — the raw string causes a TypeError.
+        // The ORM must NOT throw; it must fall back to direct property assignment.
+        $this->assertSame('raw-string-from-db', $invoice->inv_title);
     }
 
     /**
