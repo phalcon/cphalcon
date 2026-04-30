@@ -1,6 +1,20 @@
 # Changelog
 
-## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (xxxx-xx-xx)
+## [5.12.2](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-xx-xx)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed `Phalcon\Mvc\Model::cloneResultMap()` and `Phalcon\Mvc\Model::possibleSetter()` throwing `TypeError` during hydration when a model setter has a strict type hint (e.g. `?array`) and the raw database value is incompatible; the ORM now catches `TypeError` and falls back to direct property assignment [#16956](https://github.com/phalcon/cphalcon/issues/16956)
+
+### Removed
+
+## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-04-30)
+
+### Changed
 
 ### Added
 
@@ -20,6 +34,8 @@
 - Fixed `Phalcon\Paginator\Adapter\QueryBuilder::paginate()` returning wrong total item count when the query uses `DISTINCT` columns; the count now uses `COUNT(DISTINCT ...)` for a single column and a subquery for multiple columns [#16581](https://github.com/phalcon/cphalcon/issues/16581)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::autoescape()` incorrectly wrapping function expressions (e.g. `DATE_PART(...)`) in brackets when used in `groupBy()`, causing a `"Column does not belong to any of the selected models"` exception [#16599](https://github.com/phalcon/cphalcon/issues/16599)
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029)
+
+### Removed
 
 ## 5.12.0 (2026-04-29)
 
