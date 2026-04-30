@@ -17,14 +17,17 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function preg_replace;
 
 final class RenderTest extends AbstractUnitTestCase
 {
-    private function normalize(string $html): string
+    use DiTrait;
+
+    public function setUp(): void
     {
-        return preg_replace('/[[:cntrl:]]/', '', $html);
+        $this->setNewFactoryDefault();
     }
 
     /** @author Phalcon Team <team@phalcon.io> @since 2026-04-17 */
@@ -108,6 +111,31 @@ final class RenderTest extends AbstractUnitTestCase
         $this->assertStringContainsString('name="status"', $actual);
     }
 
+    /**
+     * Tests that option label text is HTML-escaped to prevent XSS injection.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16660
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-30
+     */
+    public function testRenderEscapesOptionText(): void
+    {
+        $element = new Select(
+            'selector',
+            [
+                1 => 'entry with <script>alert("xss")</script>',
+                2 => 'entry with </option></select>break out',
+            ]
+        );
+
+        $actual = $element->render();
+
+        $this->assertStringNotContainsString('<script>', $actual);
+        $this->assertStringNotContainsString('</select>break out', $actual);
+        $this->assertStringContainsString('&lt;script&gt;', $actual);
+        $this->assertStringContainsString('&lt;/option&gt;&lt;/select&gt;', $actual);
+    }
+
     /** @author Phalcon Team <team@phalcon.io> @since 2026-04-17 */
     public function testRenderReturnsWrapperWhenNoOptions(): void
     {
@@ -117,5 +145,10 @@ final class RenderTest extends AbstractUnitTestCase
         $actual = $this->normalize($element->render());
 
         $this->assertSame('<select id="status" name="status"></select>', $actual);
+    }
+
+    private function normalize(string $html): string
+    {
+        return preg_replace('/[[:cntrl:]]/', '', $html);
     }
 }
