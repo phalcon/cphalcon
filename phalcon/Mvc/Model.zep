@@ -550,6 +550,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        /**
+         * Null assigned to a relationship alias must clear the cached related
+         * records so that preSaveRelatedRecords() does not overwrite the FK
+         * back to its old value during save().
+         *
+         * Pre-assigning this->{property} = null before calling possibleSetter
+         * prevents infinite recursion: once the property exists as a real
+         * (dynamic) property, any subsequent `$this->property = null` inside
+         * the user-defined setter will not re-enter __set.
+         */
+        elseif value === null {
+            let lowerProperty = strtolower(property),
+                modelName     = get_class(this),
+                manager       = this->getModelsManager(),
+                relation      = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
+
+            if typeof relation === "object" {
+                unset this->related[lowerProperty];
+                unset this->dirtyRelated[lowerProperty];
+
+                let this->{property} = null;
+            }
+        }
+
         // Use possible setter.
         if this->possibleSetter(property, value) {
             return value;
