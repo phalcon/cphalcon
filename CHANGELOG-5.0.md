@@ -9,6 +9,7 @@
 ### Fixed
 
 - Fixed `Phalcon\Mvc\Model::cloneResultMap()` and `Phalcon\Mvc\Model::possibleSetter()` throwing `TypeError` during hydration when a model setter has a strict type hint (e.g. `?array`) and the raw database value is incompatible; the ORM now catches `TypeError` and falls back to direct property assignment [#16956](https://github.com/phalcon/cphalcon/issues/16956)
+- Fixed `Phalcon\Tag\Select::optionsFromArray()` not escaping option label text, allowing XSS injection via malicious values; labels are now escaped with `escapeHtml()` and option values with `escapeHtmlAttr()` via the escaper service, consistent with `optionsFromResultset()` [#16660](https://github.com/phalcon/cphalcon/issues/16660)
 
 ### Removed
 
