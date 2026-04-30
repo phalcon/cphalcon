@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.12.2](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-xx-xx)
+## [5.12.2](https://github.com/phalcon/cphalcon/releases/tag/v5.12.2) (2026-xx-xx)
 
 ### Changed
 
