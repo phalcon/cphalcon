@@ -23,6 +23,12 @@ namespace Phalcon\Tests\Unit\Http\Fake;
 class FakePhpStream
 {
     /**
+     * Populated by PHP's stream-wrapper machinery; declared to avoid the
+     * "creation of dynamic property" deprecation introduced in PHP 8.2
+     */
+    public $context = null;
+
+    /**
      * @var int
      */
     protected $index = 0;
