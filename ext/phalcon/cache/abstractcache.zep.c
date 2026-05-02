@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 		ZVAL_STRING(&_7$$3, "The key contains invalid characters");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 0, &_7$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 90);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 91);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 		ZVAL_STRING(&_4$$3, "The keys need to be an array or instance of Traversable");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 109);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 110);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&keysArray);
 	array_init(&keysArray);
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 166);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 167);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _1)
 		{
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 			ZVAL_COPY(&key, _1);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_3, 0, &key);
 			zephir_check_call_status();
-			zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 163);
+			zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 164);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, keys, "rewind", NULL, 0);
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_3, 0, &key);
 				zephir_check_call_status();
-				zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 163);
+				zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 164);
 			ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
 			zephir_check_call_status();
 		}
@@ -462,7 +462,9 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	if (ZEPHIR_IS_STRING_IDENTICAL(&adapterClass, "Phalcon\Cache\Adapter\Redis")) {
+	zephir_memory_observe(&adapterClass);
+	zephir_read_property(&adapterClass, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC);
+	if (zephir_instance_of_ev(&adapterClass, phalcon_cache_adapter_redis_ce)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getadapter", NULL, 0);
 		zephir_check_call_status();
@@ -483,7 +485,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_5$$3);
 	} else {
-		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 231);
+		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 233);
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _6$$4)
 			{
@@ -678,7 +680,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_1, &_0);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 314);
+	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 316);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _4, _5, _2)
 		{

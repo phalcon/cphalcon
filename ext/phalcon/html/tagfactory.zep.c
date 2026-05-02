@@ -279,12 +279,12 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "input");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_starts_with", NULL, 362, &name_zv, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_starts_with", NULL, 358, &name_zv, &_1$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_2$$3)) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZVAL_STRING(&_3$$4, "doctype");
-			ZEPHIR_CALL_METHOD(&doctype, this_ptr, "newinstance", NULL, 363, &_3$$4);
+			ZEPHIR_CALL_METHOD(&doctype, this_ptr, "newinstance", NULL, 359, &_3$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_3$$4);
 			ZEPHIR_INIT_VAR(&_4$$4);
