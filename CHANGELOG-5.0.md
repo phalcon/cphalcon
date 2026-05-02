@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added `Phalcon\Time\Clock` namespace with `ClockInterface`, `SystemClock`, and `FrozenClock` to wrap clock functionality for the application; `SystemClock` returns the current time as a `DateTimeImmutable` in a configurable timezone (with `fromUTC()` and `fromSystemTimezone()` named constructors), while `FrozenClock` returns a fixed instant for deterministic testing and exposes `set()` and `adjust()` to move the clock in place (returning `$this` for fluent chaining) [#16965](https://github.com/phalcon/cphalcon/issues/16965)
+- Added `Phalcon\Time\Clock\Exception` with the `invalidModifier()` named constructor; `FrozenClock::adjust()` throws this exception uniformly across PHP versions when the modifier string cannot be parsed (catching `DateMalformedStringException` on PHP 8.3+ and trapping the `E_WARNING` plus `false` return on earlier versions, leaving the clock state untouched on failure) [#16965](https://github.com/phalcon/cphalcon/issues/16965)
+
 ### Fixed
 
 - Fixed `Phalcon\Mvc\Model::cloneResultMap()` and `Phalcon\Mvc\Model::possibleSetter()` throwing `TypeError` during hydration when a model setter has a strict type hint (e.g. `?array`) and the raw database value is incompatible; the ORM now catches `TypeError` and falls back to direct property assignment [#16956](https://github.com/phalcon/cphalcon/issues/16956)
