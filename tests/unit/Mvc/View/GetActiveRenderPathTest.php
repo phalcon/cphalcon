@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
+use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Tests\Support\Mvc\View\AfterRenderListener;
 use Phalcon\Tests\AbstractUnitTestCase;
 
@@ -60,8 +62,44 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
         ]);
 
         $this->assertEquals(
-            [dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml')],
+            dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
             $view->getActiveRenderPath()
+        );
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16614
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-02
+     */
+    public function testMvcViewGetActiveRenderPathSingleDirMultipleEnginesNotFound(): void
+    {
+        $container     = new Di();
+        $eventsManager = new Manager();
+
+        $view = new View();
+        $view->setDI($container);
+        $view->setViewsDir(dataDir('views' . DIRECTORY_SEPARATOR));
+        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $view->setEventsManager($eventsManager);
+        $view->registerEngines(
+            [
+                '.volt'  => new Php($view),
+                '.phtml' => new Php($view),
+            ]
+        );
+
+        $view->start();
+        $view->render('activerender', 'missing_file');
+        $view->finish();
+
+        $base   = dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'missing_file');
+        $actual = $view->getActiveRenderPath();
+
+        $this->assertIsArray($actual);
+        $this->assertEquals(
+            [$base . '.volt', $base . '.phtml'],
+            $actual
         );
     }
 }
