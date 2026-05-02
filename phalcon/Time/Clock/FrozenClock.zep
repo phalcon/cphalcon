@@ -38,11 +38,12 @@ final class FrozenClock implements ClockInterface
      */
     public function adjust(string modifier) -> <FrozenClock>
     {
-        var ex, modified, version;
+        var ex, modified;
+        bool failed;
 
-        let version = phpversion();
+        let failed = false;
 
-        if version_compare(version, "8.3", ">=") {
+        if version_compare(phpversion(), "8.3", ">=") {
             try {
                 let modified = this->now->modify(modifier);
             } catch Throwable, ex {
@@ -60,9 +61,11 @@ final class FrozenClock implements ClockInterface
             let modified = this->now->modify(modifier);
 
             restore_error_handler();
+
+            let failed = (bool) globals_get("warning.enable");
         }
 
-        if unlikely globals_get("warning.enable") {
+        if unlikely failed || false === modified {
             throw Exception::invalidModifier(modifier);
         }
 
