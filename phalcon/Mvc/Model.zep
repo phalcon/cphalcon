@@ -5031,12 +5031,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if !isset localMethods[possibleSetter] {
-            try {
-                this->{possibleSetter}(value);
-            } catch \TypeError {
-                let this->{property} = value;
-            }
+        if isset localMethods[possibleSetter] {
+            return false;
+        }
+
+        try {
+            this->{possibleSetter}(value);
+        } catch \TypeError {
+            let this->{property} = value;
         }
 
         return true;
