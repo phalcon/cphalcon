@@ -21,6 +21,8 @@
 
 ### Removed
 
+- Removed calls to `version_compare` that led to pre PHP 8.0 code [#16966](https://github.com/phalcon/cphalcon/issues/16966)
+
 ## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-04-30)
 
 ### Changed
