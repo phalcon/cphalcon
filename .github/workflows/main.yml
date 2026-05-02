@@ -27,6 +27,9 @@ env:
   # Windows specific
   TOOLS_DIR: 'C:\tools'
   CACHE_DIR: 'C:\Downloads'
+  PHP_VERSION_LIST: '8.1, 8.2, 8.3, 8.4, 8.5'
+  ARCH_LIST: 'x64, x86'
+  TS_LIST: 'nts, ts'
 
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, pcov, sqlite3, yaml, redis, :memcache, openssl
@@ -858,6 +861,54 @@ jobs:
 #          verbose: true
 #          name: codecov-umbrella
 
+  get_extension_matrix:
+    permissions:
+      contents: read
+    name: "Generate Windows Extension Matrix"
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.extension-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get the extension matrix
+        id: extension-matrix
+        uses: php/php-windows-builder/extension-matrix@v1
+        with:
+          extension-url: https://github.com/phalcon/cphalcon
+          extension-ref: ${{ env.PHALCON_VERSION }}
+          php-version-list: ${{ env.PHP_VERSION_LIST }}
+          arch-list: ${{ env.ARCH_LIST }}
+          ts-list: ${{ env.TS_LIST }}
+
+  build_extension_windows:
+    permissions:
+      contents: read
+    needs: get_extension_matrix
+    runs-on: ${{ matrix.os }}
+    name: "Build Windows / PHP-${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.arch }}"
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.get_extension_matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Generate build folder
+        run: |
+          cd build/
+          php gen-build.php
+          cd ../
+          cp -v build/phalcon/*.* .
+
+      - name: Build the extension
+        uses: php/php-windows-builder/extension@v1
+        with:
+          args: --enable-phalcon
+          php-version: ${{ matrix.php-version }}
+          arch: ${{ matrix.arch }}
+          ts: ${{ matrix.ts }}
+
   release:
     permissions:
       contents: write
@@ -867,6 +918,7 @@ jobs:
     needs:
       - generate_source
       - build_extension
+      - build_extension_windows
       - unit_test
       - database_mysql_test
       - database_sqlite_test
@@ -886,7 +938,7 @@ jobs:
       - name: Prepare Release assets
         run: |
           mkdir -p ./build-artifacts/release
-          find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
