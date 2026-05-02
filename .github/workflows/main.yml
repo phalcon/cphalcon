@@ -17,7 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.12.0
+  PHALCON_VERSION: 5.12.1
   ZEPHIR_PARSER_VERSION: 1.8.0
   # For tests
   LANG: en_US.UTF-8
