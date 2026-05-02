@@ -405,6 +405,43 @@ final class SaveTest extends AbstractDatabaseTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-02
+     *
+     * @issue  16222
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelSaveBelongsToUpdatesExistingParent(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'firstName', 'lastName');
+
+        $invoicesMigration = new InvoicesMigration($connection);
+
+        $customer = Customers::findFirst(1);
+        $this->assertNotNull($customer);
+
+        $customer->cst_name_first = 'updatedFirstName';
+
+        $invoice = new InvoicesBelongsToCustomers();
+        $invoice->inv_title      = uniqid('inv-', true);
+        $invoice->inv_created_at = date('Y-m-d H:i:s');
+        $invoice->setCustomer($customer);
+
+        $this->assertTrue($invoice->save());
+
+        $reloaded = Customers::findFirst(1);
+
+        $this->assertSame('updatedFirstName', $reloaded->cst_name_first);
+        $this->assertSame(1, (int) $invoice->inv_cst_id);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-30
      *
      * @issue  16611
