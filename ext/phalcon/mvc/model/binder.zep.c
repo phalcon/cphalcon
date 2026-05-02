@@ -379,16 +379,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 	ZEPHIR_INIT_VAR(&reflection);
 	if (!ZEPHIR_IS_NULL(&methodName_zv)) {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionmethod")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 465, handler, &methodName_zv);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 463, handler, &methodName_zv);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 156, handler);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 154, handler);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cache"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_0);
-	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 157);
+	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 155);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&paramsKeys);
 	zephir_array_keys(&paramsKeys, &params);
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 			zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 200);
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			ZVAL_STRING(&_7$$5, "Phalcon\\Mvc\\Model");
-			ZEPHIR_CALL_FUNCTION(&_8$$5, "is_subclass_of", &_9, 466, &className, &_7$$5);
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "is_subclass_of", &_9, 464, &className, &_7$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 				if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 				zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 200);
 				ZEPHIR_INIT_NVAR(&_17$$19);
 				ZVAL_STRING(&_17$$19, "Phalcon\\Mvc\\Model");
-				ZEPHIR_CALL_FUNCTION(&_18$$19, "is_subclass_of", &_9, 466, &className, &_17$$19);
+				ZEPHIR_CALL_FUNCTION(&_18$$19, "is_subclass_of", &_9, 464, &className, &_17$$19);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 					if (Z_TYPE_P(&realClasses) == IS_NULL) {

@@ -15,9 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 
@@ -96,56 +93,31 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, __construct)
 /**
  * Serializes data
  *
- * @return JsonSerializable|mixed|string
+ * @return mixed|string
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
 {
-	zval _4$$3;
-	zend_bool _1;
-	zval _0, _2, _5, _6, _7, _8, _3$$3;
+	zval _0, _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
-	_1 = Z_TYPE_P(&_0) == IS_OBJECT;
-	if (_1) {
-		zephir_memory_observe(&_2);
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
-		_1 = !(zephir_is_instance_of(&_2, SL("JsonSerializable")));
-	}
-	if (_1) {
-		ZEPHIR_INIT_VAR(&_3$$3);
-		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_INIT_VAR(&_4$$3);
-		ZEPHIR_CONCAT_SS(&_4$$3, "Data for the JSON serializer cannot be of type 'object' ", "without implementing 'JsonSerializable'");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 205, &_4$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 54);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	zephir_read_property(&_6, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "isserializable", NULL, 0, &_6);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_5)) {
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_7, this_ptr, ZEND_STRL("encode"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_8, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_7, "__invoke", NULL, 0, &_8);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("encode"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_2, "__invoke", NULL, 0, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

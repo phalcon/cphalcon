@@ -32,7 +32,7 @@ class FakeModelBinder implements BinderInterface
         $handler,
         array $params,
         string $cacheKey,
-        string $methodName = null
+        ?string $methodName = null
     ): array {
         return $params;
     }

@@ -47,8 +47,8 @@ class PropertiesComponent extends ServiceComponent
     public function __construct(
         string $name,
         int $type,
-        EscaperInterface $escaper = null,
-        ServiceComponent $service = null
+        ?EscaperInterface $escaper = null,
+        ?ServiceComponent $service = null
     ) {
         $this->escaper = $escaper;
         $this->service = $service;

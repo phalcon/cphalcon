@@ -395,6 +395,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TINYTEXT"), 25);
 
 	/**
+	 * UUID abstract data type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_UUID"), 29);
+
+	/**
 	 * Varbinary abstract data type
 	 *
 	 * @var int
@@ -454,7 +461,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 419);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 426);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
@@ -485,7 +492,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				zephir_update_property_zval(this_ptr, ZEND_STRL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 469);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 476);
 			return;
 		} while(0);
 
@@ -520,7 +527,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 513);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 520);
 				return;
 			} while(0);
 

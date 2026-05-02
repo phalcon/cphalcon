@@ -105,6 +105,7 @@
 #include "phalcon/mvc/routerinterface.zep.h"
 #include "phalcon/mvc/view/engine/abstractengine.zep.h"
 #include "phalcon/session/adapter/abstractadapter.zep.h"
+#include "phalcon/time/clock/clockinterface.zep.h"
 #include "phalcon/translate/interpolator/interpolatorinterface.zep.h"
 #include "phalcon/acl/adapter/abstractadapter.zep.h"
 #include "phalcon/acl/componentinterface.zep.h"
@@ -621,6 +622,9 @@
 #include "phalcon/tag.zep.h"
 #include "phalcon/tag/exception.zep.h"
 #include "phalcon/tag/select.zep.h"
+#include "phalcon/time/clock/exception.zep.h"
+#include "phalcon/time/clock/frozenclock.zep.h"
+#include "phalcon/time/clock/systemclock.zep.h"
 #include "phalcon/translate/adapter/csv.zep.h"
 #include "phalcon/translate/adapter/gettext.zep.h"
 #include "phalcon/translate/adapter/nativearray.zep.h"
@@ -641,8 +645,5 @@
 #include "phalcon/9__closure.zep.h"
 #include "phalcon/10__closure.zep.h"
 #include "phalcon/11__closure.zep.h"
-#include "phalcon/12__closure.zep.h"
-#include "phalcon/13__closure.zep.h"
-#include "phalcon/14__closure.zep.h"
 
 #endif

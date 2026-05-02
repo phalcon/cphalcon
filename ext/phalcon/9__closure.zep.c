@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
 
 
@@ -26,27 +25,18 @@ ZEPHIR_INIT_CLASS(phalcon_9__closure)
 
 PHP_METHOD(phalcon_9__closure, __invoke)
 {
-	zend_bool _1;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *element, element_sub, _0, _2;
+	zend_bool _0;
+	zval *element, element_sub;
 
 	ZVAL_UNDEF(&element_sub);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &element);
-	zephir_memory_observe(&_0);
-	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 93);
-	_1 = Z_TYPE_P(&_0) == IS_ARRAY;
-	if (_1) {
-		zephir_memory_observe(&_2);
-		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 93);
-		_1 = zephir_instance_of_ev(&_2, phalcon_filter_validation_abstractcombinedfieldsvalidator_ce);
+	zephir_fetch_params_without_memory_grow(1, 0, &element);
+	_0 = Z_TYPE_P(element) == IS_LONG;
+	if (!(_0)) {
+		_0 = Z_TYPE_P(element) == IS_STRING;
 	}
-	RETURN_MM_BOOL(_1);
+	RETURN_BOOL(_0);
 }
 

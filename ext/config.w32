@@ -63,6 +63,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "loggerinterface.zep.c abstractlogger.zep.c adapterfactory.zep.c enum.zep.c exception.zep.c item.zep.c logger.zep.c loggerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata/strategy", "strategyinterface.zep.c annotations.zep.c introspection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "abstractadapter.zep.c noop.zep.c libmemcached.zep.c redis.zep.c stream.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/time/clock", "clockinterface.zep.c exception.zep.c frozenclock.zep.c systemclock.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/interpolator", "interpolatorinterface.zep.c associativearray.zep.c indexedarray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "componentinterface.zep.c roleinterface.zep.c component.zep.c componentawareinterface.zep.c enum.zep.c exception.zep.c role.zep.c roleawareinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "readerinterface.zep.c annotation.zep.c annotationsfactory.zep.c collection.zep.c exception.zep.c reader.zep.c reflection.zep.c", "phalcon");
@@ -129,7 +130,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/file", "basename.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/json", "decode.zep.c encode.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/number", "isbetween.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon", "tag.zep.c 0__closure.zep.c 1__closure.zep.c 2__closure.zep.c 3__closure.zep.c 4__closure.zep.c 5__closure.zep.c 6__closure.zep.c 7__closure.zep.c 8__closure.zep.c 9__closure.zep.c 10__closure.zep.c 11__closure.zep.c 12__closure.zep.c 13__closure.zep.c 14__closure.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon", "tag.zep.c 0__closure.zep.c 1__closure.zep.c 2__closure.zep.c 3__closure.zep.c 4__closure.zep.c 5__closure.zep.c 6__closure.zep.c 7__closure.zep.c 8__closure.zep.c 9__closure.zep.c 10__closure.zep.c 11__closure.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate", "exception.zep.c interpolatorfactory.zep.c translatefactory.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
