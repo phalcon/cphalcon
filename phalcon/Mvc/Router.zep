@@ -961,21 +961,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                             /**
                              * Apply the converters anyway
                              */
-                            if typeof converters === "array" {
-                                if fetch converter, converters[part] {
-                                    let parts[part] = call_user_func_array(
-                                        converter,
-                                        [position]
-                                    );
-                                }
-                            } else {
+                            if typeof converters === "array" && fetch converter, converters[part] {
+                                let parts[part] = call_user_func_array(
+                                    converter,
+                                    [position]
+                                );
+                            } elseif typeof position === "integer" {
                                 /**
                                  * Remove the path if the parameter was not
                                  * matched
                                  */
-                                if typeof position === "integer" {
-                                    unset parts[part];
-                                }
+                                unset parts[part];
                             }
                         }
                     }
