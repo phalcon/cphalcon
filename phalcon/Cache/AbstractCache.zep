@@ -210,7 +210,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
         this->fire("cache:beforeGetMultiple", keys);
 
         let results = [];
-        let adapterClass = get_class(this->adapter);
+        let adapterClass = this->adapter;
         if (adapterClass instanceof Redis) {
              let results    = this->adapter->getAdapter()->mget(keys);
              let serializer = this->adapter->getSerializer();
