@@ -23,7 +23,7 @@ class Memory extends AbstractAdapter
      */
     protected data;
 
-    public function __construct()
+    public function __construct(array options = [])
     {
     }
 
