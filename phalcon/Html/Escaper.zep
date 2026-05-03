@@ -10,7 +10,12 @@
 
 namespace Phalcon\Html;
 
+use Phalcon\Html\Escaper\AttributeEscaper;
+use Phalcon\Html\Escaper\CssEscaper;
 use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\Escaper\HtmlEscaper;
+use Phalcon\Html\Escaper\JsEscaper;
+use Phalcon\Html\Escaper\UrlEscaper;
 
 /**
  * Phalcon\Html\Escaper
@@ -18,45 +23,69 @@ use Phalcon\Html\Escaper\EscaperInterface;
  * Escapes different kinds of text securing them. By using this component you
  * may prevent XSS attacks.
  *
+ * The class is a façade over five per-context escapers (`HtmlEscaper`,
+ * `AttributeEscaper`, `CssEscaper`, `JsEscaper`, `UrlEscaper`). Each can be
+ * retrieved via the matching `getXxxEscaper()` accessor and substituted via
+ * the matching `setXxxEscaper()` setter. The legacy `setEncoding`,
+ * `setFlags`, and `setDoubleEncode` continue to fan out to all sub-objects
+ * so existing code keeps working.
+ *
  * This component only works with UTF-8. The PREG extension needs to be compiled
  * with UTF-8 support.
  *
  *```php
  * $escaper = new \Phalcon\Html\Escaper();
  *
- * $escaped = $escaper->escapeCss("font-family: <Verdana>");
+ * $escaped = $escaper->css("font-family: <Verdana>");
  *
  * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *```
+ *
+ * @property AttributeEscaper $attributeEscaper
+ * @property CssEscaper       $cssEscaper
+ * @property HtmlEscaper      $htmlEscaper
+ * @property JsEscaper        $jsEscaper
+ * @property UrlEscaper       $urlEscaper
  */
 class Escaper implements EscaperInterface
 {
     /**
-     * @var bool
+     * @var AttributeEscaper
      */
-    protected doubleEncode = true;
+    protected attributeEscaper;
 
     /**
-     * @var string
+     * @var CssEscaper
      */
-    protected encoding = "utf-8";
+    protected cssEscaper;
 
     /**
-     * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
-     *
-     * @var int
+     * @var HtmlEscaper
      */
-    protected flags = 11;
+    protected htmlEscaper;
 
     /**
-     * Escapes a HTML attribute string or array
-     *
-     * If the input is an array, the keys are the attribute names and the
-     * values are attribute values. If a value is boolean (true/false) then
-     * the attribute will have no value:
-     * `['disabled' => true]` -> `'disabled``
-     *
-     * The resulting string will have attribute pairs separated by a space.
+     * @var JsEscaper
+     */
+    protected jsEscaper;
+
+    /**
+     * @var UrlEscaper
+     */
+    protected urlEscaper;
+
+    public function __construct()
+    {
+        let this->attributeEscaper = new AttributeEscaper(),
+            this->cssEscaper       = new CssEscaper(),
+            this->htmlEscaper      = new HtmlEscaper(),
+            this->jsEscaper        = new JsEscaper(),
+            this->urlEscaper       = new UrlEscaper();
+    }
+
+    /**
+     * Escapes a HTML attribute string or array. Delegates to the configured
+     * `AttributeEscaper`.
      *
      * @param array|string $input
      *
@@ -64,41 +93,11 @@ class Escaper implements EscaperInterface
      */
     public function attributes(var input) -> string
     {
-        var key, result, value;
-
-        if likely (typeof input !== "array") {
-            return this->phpHtmlSpecialChars((string) input);
-        }
-
-        let result = "";
-        for key, value in input {
-            if (null === value || false === value) {
-                continue;
-            }
-
-            let key = trim(key);
-
-            if (typeof value === "array") {
-                let value = implode(" ", value);
-            }
-
-            let result .= this->phpHtmlSpecialChars((string) key);
-
-            if (true !== value) {
-                let result .= "=\""
-                    . this->phpHtmlSpecialChars((string) value)
-                    . "\"";
-            }
-
-            let result .= " ";
-        }
-
-        return rtrim(result);
+        return this->attributeEscaper->escape(input);
     }
 
     /**
-     * Escape CSS strings by replacing non-alphanumeric chars by their
-     * hexadecimal escaped representation
+     * Escape CSS strings. Delegates to the configured `CssEscaper`.
      *
      * @param string $input
      *
@@ -106,74 +105,20 @@ class Escaper implements EscaperInterface
      */
     public function css(string input) -> string
     {
-        var result;
-
-        if unlikely empty input {
-            return "";
-        }
-
-        /**
-         * Normalize encoding to UTF-32
-         * Escape the string
-         */
-        let result = this->doEscapeCss(this->normalizeEncoding(input));
-
-        if typeof result != "string" {
-            return "";
-        }
-
-        return result;
+        return this->cssEscaper->escape(input);
     }
 
     /**
-     * Detect the character encoding of a string to be handled by an encoder.
-     * Special-handling for chr(172) and chr(128) to chr(159) which fail to be
-     * detected by mb_detect_encoding()
-     *
      * @param string $input
      *
      * @return string|null
      */
     final public function detectEncoding(string input) -> string | null
     {
-        var charset;
-
-        /**
-        * Check if charset is ASCII or ISO-8859-1
-        */
-        let charset = phalcon_is_basic_charset(input);
-
-        if typeof charset == "string" {
-            return charset;
-        }
-
-        /**
-        * We require mbstring extension here
-        */
-        if !function_exists("mb_detect_encoding") {
-            return null;
-        }
-
-        /**
-         * Strict encoding detection with fallback to non-strict detection.
-         * Check encoding
-         */
-        for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {
-            if (false !== mb_detect_encoding(input, charset, true)) {
-                return charset;
-            }
-        }
-
-        /**
-         * Fallback to global detection
-         */
-        return mb_detect_encoding(input);
+        return this->htmlEscaper->detectEncoding(input);
     }
 
     /**
-     * Escape CSS strings by replacing non-alphanumeric chars by their
-     * hexadecimal escaped representation
-     *
      * @param string $input
      *
      * @return string
@@ -185,9 +130,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escape JavaScript strings by replacing non-alphanumeric chars by their
-     * hexadecimal escaped representation
-     *
      * @param string $input
      *
      * @return string
@@ -199,8 +141,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a HTML string. Internally uses htmlspecialchars
-     *
      * @param string|null $input
      *
      * @return string
@@ -212,8 +152,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a HTML attribute string
-     *
      * @param string|null $input
      *
      * @return string
@@ -225,8 +163,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a URL. Internally uses rawurlencode
-     *
      * @param string $input
      *
      * @return string
@@ -238,11 +174,27 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * @return AttributeEscaper
+     */
+    public function getAttributeEscaper() -> <AttributeEscaper>
+    {
+        return this->attributeEscaper;
+    }
+
+    /**
+     * @return CssEscaper
+     */
+    public function getCssEscaper() -> <CssEscaper>
+    {
+        return this->cssEscaper;
+    }
+
+    /**
      * @return string
      */
     public function getEncoding() -> string
     {
-        return this->encoding;
+        return this->htmlEscaper->getEncoding();
     }
 
     /**
@@ -250,11 +202,35 @@ class Escaper implements EscaperInterface
      */
     public function getFlags() -> int
     {
-        return this->flags;
+        return this->htmlEscaper->getFlags();
     }
 
     /**
-     * Escapes a HTML string. Internally uses htmlspecialchars
+     * @return HtmlEscaper
+     */
+    public function getHtmlEscaper() -> <HtmlEscaper>
+    {
+        return this->htmlEscaper;
+    }
+
+    /**
+     * @return JsEscaper
+     */
+    public function getJsEscaper() -> <JsEscaper>
+    {
+        return this->jsEscaper;
+    }
+
+    /**
+     * @return UrlEscaper
+     */
+    public function getUrlEscaper() -> <UrlEscaper>
+    {
+        return this->urlEscaper;
+    }
+
+    /**
+     * Escapes a HTML string. Delegates to the configured `HtmlEscaper`.
      *
      * @param string|null $input
      *
@@ -262,20 +238,11 @@ class Escaper implements EscaperInterface
      */
     public function html(string input = null) -> string
     {
-        if null === input {
-            return "";
-        }
-        return htmlspecialchars(
-            input,
-            this->flags,
-            this->encoding,
-            this->doubleEncode
-        );
+        return this->htmlEscaper->escape(input);
     }
 
     /**
-     * Escape javascript strings by replacing non-alphanumeric chars by their
-     * hexadecimal escaped representation
+     * Escape javascript strings. Delegates to the configured `JsEscaper`.
      *
      * @param string $input
      *
@@ -283,101 +250,106 @@ class Escaper implements EscaperInterface
      */
     public function js(string input) -> string
     {
-        var result;
-
-        if unlikely empty input {
-            return "";
-        }
-
-        /**
-         * Normalize encoding to UTF-32
-         * Escape the string
-         */
-        let result = this->doEscapeJs(this->normalizeEncoding(input));
-
-        if typeof result != "string" {
-            return "";
-        }
-
-        return result;
+        return this->jsEscaper->escape(input);
     }
 
     /**
-     * Utility to normalize a string's encoding to UTF-32.
-     *
      * @param string $input
      *
      * @return string
      */
     final public function normalizeEncoding(string input) -> string
     {
-        /**
-         * Convert to UTF-32 (4 byte characters, regardless of actual number of
-         * bytes in the character).
-         */
-        return mb_convert_encoding(
-            input,
-            "UTF-32",
-            this->detectEncoding(input)
-        );
+        return this->htmlEscaper->normalizeEncoding(input);
     }
 
     /**
-     * Sets the double_encode to be used by the escaper
+     * @param AttributeEscaper $escaper
      *
-     *```php
-     * $escaper->setDoubleEncode(false);
-     *```
+     * @return Escaper
+     */
+    public function setAttributeEscaper(<AttributeEscaper> escaper) -> <Escaper>
+    {
+        let this->attributeEscaper = escaper;
+
+        return this;
+    }
+
+    /**
+     * @param CssEscaper $escaper
+     *
+     * @return Escaper
+     */
+    public function setCssEscaper(<CssEscaper> escaper) -> <Escaper>
+    {
+        let this->cssEscaper = escaper;
+
+        return this;
+    }
+
+    /**
+     * Sets the double_encode flag. Fans out to all sub-objects.
      *
      * @param bool $doubleEncode
      */
     public function setDoubleEncode(bool doubleEncode) -> <Escaper>
     {
-        let this->doubleEncode = doubleEncode;
+        this->attributeEscaper->setDoubleEncode(doubleEncode);
+        this->cssEscaper->setDoubleEncode(doubleEncode);
+        this->htmlEscaper->setDoubleEncode(doubleEncode);
+        this->jsEscaper->setDoubleEncode(doubleEncode);
+        this->urlEscaper->setDoubleEncode(doubleEncode);
 
         return this;
     }
 
     /**
-     * Sets the encoding to be used by the escaper
-     *
-     *```php
-     * $escaper->setEncoding("utf-8");
-     *```
+     * Sets the encoding. Fans out to all sub-objects.
      *
      * @param string $encoding
      */
     public function setEncoding(string encoding) -> <EscaperInterface>
     {
-        let this->encoding = encoding;
+        this->attributeEscaper->setEncoding(encoding);
+        this->cssEscaper->setEncoding(encoding);
+        this->htmlEscaper->setEncoding(encoding);
+        this->jsEscaper->setEncoding(encoding);
+        this->urlEscaper->setEncoding(encoding);
 
         return this;
     }
 
     /**
-     * Sets the HTML quoting type for htmlspecialchars
-     *
-     *```php
-     * $escaper->setFlags(ENT_XHTML);
-     *```
+     * Sets the htmlspecialchars flags. Fans out to all sub-objects.
      *
      * @param int $flags
      */
     public function setFlags(int flags) -> <EscaperInterface>
     {
-        let this->flags = flags;
+        this->attributeEscaper->setFlags(flags);
+        this->cssEscaper->setFlags(flags);
+        this->htmlEscaper->setFlags(flags);
+        this->jsEscaper->setFlags(flags);
+        this->urlEscaper->setFlags(flags);
 
         return this;
     }
 
     /**
-     * Sets the HTML quoting type for htmlspecialchars
+     * @param HtmlEscaper $escaper
      *
-     *```php
-     * $escaper->setHtmlQuoteType(ENT_XHTML);
-     *```
-     *
+     * @return Escaper
+     */
+    public function setHtmlEscaper(<HtmlEscaper> escaper) -> <Escaper>
+    {
+        let this->htmlEscaper = escaper;
+
+        return this;
+    }
+
+    /**
      * @param int $flags
+     *
      * @deprecated
      */
     public function setHtmlQuoteType(int flags) -> <EscaperInterface>
@@ -386,7 +358,31 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a URL. Internally uses rawurlencode
+     * @param JsEscaper $escaper
+     *
+     * @return Escaper
+     */
+    public function setJsEscaper(<JsEscaper> escaper) -> <Escaper>
+    {
+        let this->jsEscaper = escaper;
+
+        return this;
+    }
+
+    /**
+     * @param UrlEscaper $escaper
+     *
+     * @return Escaper
+     */
+    public function setUrlEscaper(<UrlEscaper> escaper) -> <Escaper>
+    {
+        let this->urlEscaper = escaper;
+
+        return this;
+    }
+
+    /**
+     * Escapes a URL. Delegates to the configured `UrlEscaper`.
      *
      * @param string $input
      *
@@ -394,43 +390,6 @@ class Escaper implements EscaperInterface
      */
     public function url(string input) -> string
     {
-        return rawurlencode(input);
-    }
-
-    /**
-     * Proxy method for testing
-     *
-     * @param string $input
-     *
-     * @return string
-     */
-    protected function phpHtmlSpecialChars(string input) -> string
-    {
-        return htmlspecialchars(
-            input,
-            this->flags,
-            this->encoding,
-            this->doubleEncode
-        );
-    }
-
-    /**
-     * @param string $input
-     *
-     * @return string
-     */
-    private function doEscapeCss(string input) -> string
-    {
-        return phalcon_escape_css(input);
-    }
-
-    /**
-     * @param string $input
-     *
-     * @return string
-     */
-    private function doEscapeJs(string input) -> string
-    {
-        return phalcon_escape_js(input);
+        return this->urlEscaper->escape(input);
     }
 }
