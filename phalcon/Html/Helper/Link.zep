@@ -4,6 +4,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -19,17 +23,20 @@ class Link extends Style
      * @param string $url
      * @param array  $attributes
      */
-    public function add(string url, array attributes = [])
+    public function add(string url, array attributes = [], int pos = -1)
     {
-        let this->store[] = [
-            "renderTag",
+        this->pushOrPlace(
             [
-                this->getTag(),
-                this->getAttributes(url, attributes),
-                "/"
+                "renderTag",
+                [
+                    this->getTag(),
+                    this->getAttributes(url, attributes),
+                    "/"
+                ],
+                this->indent()
             ],
-            this->indent()
-        ];
+            pos
+        );
 
         return this;
     }
