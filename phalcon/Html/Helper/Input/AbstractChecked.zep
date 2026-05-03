@@ -141,8 +141,11 @@ abstract class AbstractChecked extends AbstractInput
     }
 
     /**
-     * Decides whether the rendered tag carries `checked="checked"` by
-     * comparing the user-supplied `checked` attribute against `value`.
+     * Decides whether the rendered tag carries `checked="checked"`. Two
+     * paths qualify as checked: an unconditional opt-in via
+     * `["checked" => "checked"]` (case-insensitive) or `["checked" => true]`,
+     * and a value-match path where the supplied `checked` attribute equals
+     * the input's `value` (`==` by default, `===` under `strict(true)`).
      */
     protected function processChecked() -> void
     {
@@ -157,14 +160,22 @@ abstract class AbstractChecked extends AbstractInput
         unset attributes["checked"];
 
         if checked !== null {
-            if !fetch value, attributes["value"] {
-                let value = null;
-            }
+            let matched = false;
 
-            if this->strict {
-                let matched = checked === value;
+            if checked === true {
+                let matched = true;
+            } elseif typeof checked === "string" && strtolower(checked) === "checked" {
+                let matched = true;
             } else {
-                let matched = checked == value;
+                if !fetch value, attributes["value"] {
+                    let value = null;
+                }
+
+                if this->strict {
+                    let matched = checked === value;
+                } else {
+                    let matched = checked == value;
+                }
             }
 
             if matched {
