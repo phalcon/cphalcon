@@ -14,26 +14,8 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Doctype;
-use Phalcon\Html\Helper\Input\Color;
-use Phalcon\Html\Helper\Input\Date;
-use Phalcon\Html\Helper\Input\DateTime;
-use Phalcon\Html\Helper\Input\DateTimeLocal;
-use Phalcon\Html\Helper\Input\Email;
-use Phalcon\Html\Helper\Input\File;
-use Phalcon\Html\Helper\Input\Hidden;
-use Phalcon\Html\Helper\Input\Image;
-use Phalcon\Html\Helper\Input\Month;
-use Phalcon\Html\Helper\Input\Numeric;
-use Phalcon\Html\Helper\Input\Password;
-use Phalcon\Html\Helper\Input\Range;
-use Phalcon\Html\Helper\Input\Search;
-use Phalcon\Html\Helper\Input\Submit;
-use Phalcon\Html\Helper\Input\Tel;
-use Phalcon\Html\Helper\Input\Text;
+use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Textarea;
-use Phalcon\Html\Helper\Input\Time;
-use Phalcon\Html\Helper\Input\Url;
-use Phalcon\Html\Helper\Input\Week;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
 
@@ -47,25 +29,25 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     public static function getClasses(): array
     {
         return [
-            'color'          => ['inputColor', Color::class],
-            'date'           => ['inputDate', Date::class],
-            'datetime'       => ['inputDateTime', DateTime::class],
-            'datetime-local' => ['inputDateTimeLocal', DateTimeLocal::class],
-            'email'          => ['inputEmail', Email::class],
-            'file'           => ['inputFile', File::class],
-            'hidden'         => ['inputHidden', Hidden::class],
-            'image'          => ['inputImage', Image::class],
-            'month'          => ['inputMonth', Month::class],
-            'number'         => ['inputNumeric', Numeric::class],
-            'password'       => ['inputPassword', Password::class],
-            'range'          => ['inputRange', Range::class],
-            'search'         => ['inputSearch', Search::class],
-            'submit'         => ['inputSubmit', Submit::class],
-            'tel'            => ['inputTel', Tel::class],
-            'text'           => ['inputText', Text::class],
-            'time'           => ['inputTime', Time::class],
-            'url'            => ['inputUrl', Url::class],
-            'week'           => ['inputWeek', Week::class],
+            'color'          => ['inputColor', 'color'],
+            'date'           => ['inputDate', 'date'],
+            'datetime'       => ['inputDateTime', 'datetime'],
+            'datetime-local' => ['inputDateTimeLocal', 'datetime-local'],
+            'email'          => ['inputEmail', 'email'],
+            'file'           => ['inputFile', 'file'],
+            'hidden'         => ['inputHidden', 'hidden'],
+            'image'          => ['inputImage', 'image'],
+            'month'          => ['inputMonth', 'month'],
+            'number'         => ['inputNumeric', 'number'],
+            'password'       => ['inputPassword', 'password'],
+            'range'          => ['inputRange', 'range'],
+            'search'         => ['inputSearch', 'search'],
+            'submit'         => ['inputSubmit', 'submit'],
+            'tel'            => ['inputTel', 'tel'],
+            'text'           => ['inputText', 'text'],
+            'time'           => ['inputTime', 'time'],
+            'url'            => ['inputUrl', 'url'],
+            'week'           => ['inputWeek', 'week'],
         ];
     }
 
@@ -135,7 +117,7 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
         foreach ($classes as $className => $class) {
             $escaper = new Escaper();
             $doctype = new Doctype();
-            $helper  = new $class[1]($escaper, $doctype);
+            $helper  = new Generic($escaper, $doctype, $class[1]);
 
             $result = $helper($name, $value, $attributes);
 
