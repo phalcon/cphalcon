@@ -35,7 +35,7 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
     {
         $vt = new VoidTag(new Escaper(), new Doctype());
 
-        $this->assertSame('<br>',  $vt('br'));
+        $this->assertSame('<br>', $vt('br'));
         $this->assertSame(
             '<hr class="sep">',
             $vt('hr', ['class' => 'sep'])
@@ -65,7 +65,7 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
 
         $this->assertTrue($factory->has('tag'));
         $this->assertTrue($factory->has('voidTag'));
-        $this->assertSame('<section>',         $factory->tag('section'));
-        $this->assertSame('<input name="x">',  $factory->voidTag('input', ['name' => 'x']));
+        $this->assertSame('<section>', $factory->tag('section'));
+        $this->assertSame('<input name="x">', $factory->voidTag('input', ['name' => 'x']));
     }
 }

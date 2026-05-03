@@ -28,9 +28,9 @@ final class SeriesPositionTest extends AbstractUnitTestCase
     {
         $style = new Style(new Escaper());
         $style('    ', "\n");
-        $style->add('/late.css',  [], 200);
+        $style->add('/late.css', [], 200);
         $style->add('/early.css', [], 50);
-        $style->add('/mid.css',   [], 100);
+        $style->add('/mid.css', [], 100);
 
         $rendered = (string) $style;
 
@@ -67,7 +67,7 @@ final class SeriesPositionTest extends AbstractUnitTestCase
         $rendered = (string) $script;
         // ksort order: 0 (append1), 5 (positioned), 6 (append2)
         $this->assertLessThan(strpos($rendered, '/positioned.js'), strpos($rendered, '/append1.js'));
-        $this->assertLessThan(strpos($rendered, '/append2.js'),    strpos($rendered, '/positioned.js'));
+        $this->assertLessThan(strpos($rendered, '/append2.js'), strpos($rendered, '/positioned.js'));
     }
 
     public function testCollidingPositionsAdvancePastOccupiedSlots(): void
@@ -89,7 +89,7 @@ final class SeriesPositionTest extends AbstractUnitTestCase
     {
         $meta = new Meta(new Escaper());
         $meta('    ', "\n");
-        $meta->addName('a', 'first',  200);
+        $meta->addName('a', 'first', 200);
         $meta->addName('b', 'second', 100);
 
         $rendered = (string) $meta;

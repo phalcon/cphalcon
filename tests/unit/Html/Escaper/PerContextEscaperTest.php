@@ -31,11 +31,11 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
     {
         $facade = new Escaper();
 
-        $this->assertInstanceOf(HtmlEscaper::class,      $facade->getHtmlEscaper());
+        $this->assertInstanceOf(HtmlEscaper::class, $facade->getHtmlEscaper());
         $this->assertInstanceOf(AttributeEscaper::class, $facade->getAttributeEscaper());
-        $this->assertInstanceOf(CssEscaper::class,       $facade->getCssEscaper());
-        $this->assertInstanceOf(JsEscaper::class,        $facade->getJsEscaper());
-        $this->assertInstanceOf(UrlEscaper::class,       $facade->getUrlEscaper());
+        $this->assertInstanceOf(CssEscaper::class, $facade->getCssEscaper());
+        $this->assertInstanceOf(JsEscaper::class, $facade->getJsEscaper());
+        $this->assertInstanceOf(UrlEscaper::class, $facade->getUrlEscaper());
     }
 
     public function testFanOutSettersReachAllContexts(): void
@@ -55,7 +55,7 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
             ] as $sub
         ) {
             $this->assertSame('iso-8859-1', $sub->getEncoding());
-            $this->assertSame(ENT_QUOTES,   $sub->getFlags());
+            $this->assertSame(ENT_QUOTES, $sub->getFlags());
             $this->assertFalse($sub->getDoubleEncode());
         }
     }
@@ -78,9 +78,9 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
         $facade = new Escaper();
 
         $this->assertSame('&lt;b&gt;', $facade->html('<b>'));
-        $this->assertSame('a%2Fb',     $facade->url('a/b'));
-        $this->assertNotSame('',       $facade->css('hi'));
-        $this->assertNotSame('',       $facade->js('hi'));
+        $this->assertSame('a%2Fb', $facade->url('a/b'));
+        $this->assertNotSame('', $facade->css('hi'));
+        $this->assertNotSame('', $facade->js('hi'));
     }
 
     public function testSubObjectIsCallableViaInvoke(): void
@@ -130,7 +130,7 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
         $this->assertStringContainsString('id="x"', $rendered);
         $this->assertStringContainsString('class="foo bar"', $rendered);
         $this->assertStringContainsString('disabled', $rendered);
-        $this->assertStringNotContainsString('hidden',  $rendered);
+        $this->assertStringNotContainsString('hidden', $rendered);
         $this->assertStringNotContainsString('noValue', $rendered);
     }
 }
