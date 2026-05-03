@@ -1,0 +1,54 @@
+
+extern zend_class_entry *phalcon_html_escaper_abstractescaper_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AbstractEscaper);
+
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getDoubleEncode);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getFlags);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, normalizeEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setDoubleEncode);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setFlags);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_detectencoding, 0, 1, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_getdoubleencode, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_getencoding, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_getflags, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_normalizeencoding, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_setdoubleencode, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, doubleEncode, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_setencoding, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_setflags, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_html_escaper_abstractescaper_method_entry) {
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding, arginfo_phalcon_html_escaper_abstractescaper_detectencoding, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, getDoubleEncode, arginfo_phalcon_html_escaper_abstractescaper_getdoubleencode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, getEncoding, arginfo_phalcon_html_escaper_abstractescaper_getencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, getFlags, arginfo_phalcon_html_escaper_abstractescaper_getflags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, normalizeEncoding, arginfo_phalcon_html_escaper_abstractescaper_normalizeencoding, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setDoubleEncode, arginfo_phalcon_html_escaper_abstractescaper_setdoubleencode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setEncoding, arginfo_phalcon_html_escaper_abstractescaper_setencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setFlags, arginfo_phalcon_html_escaper_abstractescaper_setflags, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

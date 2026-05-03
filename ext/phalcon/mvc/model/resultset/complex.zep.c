@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 102);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 106);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray)
 		if (!(zephir_is_true(&_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 506);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 505);
 		zephir_check_call_status();
 		zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset/Complex.zep", 299);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);

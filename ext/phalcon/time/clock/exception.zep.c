@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exception, invalidModifier)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Invalid modifier: \"", &message_zv, "\"");
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, &_0, &_1, ex);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, &_0, &_1, ex);
 	zephir_check_call_status();
 	RETURN_MM();
 }

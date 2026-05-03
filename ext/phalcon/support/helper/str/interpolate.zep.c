@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 5, &message_zv, &replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 3, &message_zv, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

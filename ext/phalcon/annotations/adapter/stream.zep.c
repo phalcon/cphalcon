@@ -141,12 +141,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	ZEPHIR_INIT_NVAR(&_4);
 	zephir_create_closure_ex(&_4, NULL, phalcon_3__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 138, &_4, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_4, &_5);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_6, "unserialize", NULL, 15, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_6);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 139);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 141);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "Cannot read annotation data", "phalcon/Annotations/Adapter/Stream.zep", 91);

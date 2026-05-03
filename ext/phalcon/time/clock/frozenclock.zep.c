@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	ZVAL_STRING(&_1, "8.3");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, ">=");
-	ZEPHIR_CALL_FUNCTION(&_3, "version_compare", NULL, 432, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "version_compare", NULL, 431, &_0, &_1, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 
@@ -131,12 +131,12 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZEPHIR_INIT_NVAR(&_7$$6);
 		zephir_create_closure_ex(&_7$$6, NULL, phalcon_11__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$6, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 138, &_7$$6, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_7$$6, &_8$$6);
 		zephir_check_call_status();
 		zephir_read_property(&_8$$6, this_ptr, ZEND_STRL("now"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&modified, &_8$$6, "modify", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 139);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 141);
 		zephir_check_call_status();
 		failed = ZEPHIR_GLOBAL(warning).enable;
 	}
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromSystemTimezone)
 	object_init_ex(&_0, php_date_get_immutable_ce());
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 108);
+	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 110);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
 	zephir_check_call_status();

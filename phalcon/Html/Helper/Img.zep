@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -28,17 +32,9 @@ class Img extends AbstractHelper
      */
     public function __invoke(string src, array attributes = []) -> string
     {
-        var overrides;
-
-        let overrides = ["src" : src];
-
-        /**
-         * Avoid duplicate "src" and ignore it if it is passed in the attributes
-         */
-        unset attributes["src"];
-
-        let overrides = array_merge(overrides, attributes);
-
-        return this->selfClose("img", overrides);
+        return this->selfClose(
+            "img",
+            this->injectAttribute("src", src, attributes)
+        );
     }
 }

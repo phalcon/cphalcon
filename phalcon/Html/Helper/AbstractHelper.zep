@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -169,6 +173,28 @@ abstract class AbstractHelper
         }
 
         return result;
+    }
+
+    /**
+     * Forces a single key into the attribute array, stripping any user-supplied
+     * value for that key first. Used by helpers whose first positional argument
+     * is itself an attribute (`href` for Anchor, `src` for Img, etc.) to make
+     * sure that argument always wins.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $attributes
+     *
+     * @return array
+     */
+    protected function injectAttribute(string key, string value, array attributes) -> array
+    {
+        unset attributes[key];
+
+        return array_merge(
+            [key: value],
+            attributes
+        );
     }
 
     /**

@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -28,19 +32,12 @@ class Base extends AbstractHelper
      */
     public function __invoke(string href = null, array attributes = []) -> string
     {
-        var overrides = [];
-
         if !empty href {
-            let overrides = ["href" : href];
+            let attributes = this->injectAttribute("href", href, attributes);
+        } else {
+            unset attributes["href"];
         }
 
-        /**
-         * Avoid duplicate "href" and ignore it if it is passed in the attributes
-         */
-        unset attributes["href"];
-
-        let overrides = array_merge(overrides, attributes);
-
-        return this->renderElement("base", overrides);
+        return this->renderElement("base", attributes);
     }
 }
