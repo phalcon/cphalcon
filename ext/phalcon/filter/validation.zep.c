@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Filter_Validation, appendMessage)
 		ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 10);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &messages, "appendmessage", NULL, 312, message);
+	ZEPHIR_CALL_METHOD(NULL, &messages, "appendmessage", NULL, 314, message);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &messages);
 	RETURN_THIS();
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 			zephir_read_property(&_15$$8, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
 			zephir_read_property(&_16$$8, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
 			zephir_read_property(&_17$$8, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_18$$8, "property_exists", &_19, 313, &_17$$8, &field);
+			ZEPHIR_CALL_FUNCTION(&_18$$8, "property_exists", &_19, 315, &_17$$8, &field);
 			zephir_check_call_status();
 			if ((zephir_method_exists(&_15$$8, &method)  == SUCCESS)) {
 				ZEPHIR_CALL_METHOD_ZVAL(NULL, entity, &method, NULL, 0, &value);
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 				zephir_read_property(&_24$$14, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
 				zephir_read_property(&_25$$14, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
 				zephir_read_property(&_26$$14, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_FUNCTION(&_27$$14, "property_exists", &_19, 313, &_26$$14, &field);
+				ZEPHIR_CALL_FUNCTION(&_27$$14, "property_exists", &_19, 315, &_26$$14, &field);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&_24$$14, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, entity, &method, NULL, 0, &value);
@@ -757,7 +757,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getValue)
 				zephir_camelize(&_5$$13, &field_zv, NULL );
 				ZEPHIR_INIT_VAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &_5$$13);
-				ZEPHIR_CALL_FUNCTION(&_6$$13, "property_exists", NULL, 313, &entity, &field_zv);
+				ZEPHIR_CALL_FUNCTION(&_6$$13, "property_exists", NULL, 315, &entity, &field_zv);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
@@ -1464,7 +1464,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 			{
 				ZEPHIR_INIT_NVAR(&singleField);
 				ZVAL_COPY(&singleField, _0$$3);
-				ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "prechecking", &_3, 314, &singleField, validator);
+				ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "prechecking", &_3, 316, &singleField, validator);
 				zephir_check_call_status();
 				zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Filter/Validation.zep", 702);
 				if (zephir_fast_in_array(&__$false, &results)) {
@@ -1483,7 +1483,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 				}
 				ZEPHIR_CALL_METHOD(&singleField, field, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "prechecking", &_3, 314, &singleField, validator);
+					ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "prechecking", &_3, 316, &singleField, validator);
 					zephir_check_call_status();
 					zephir_array_append(&results, &_4$$6, PH_SEPARATE, "phalcon/Filter/Validation.zep", 702);
 					if (zephir_fast_in_array(&__$false, &results)) {

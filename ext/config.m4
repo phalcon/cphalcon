@@ -10,17 +10,16 @@ if test "$PHP_PHALCON" = "yes"; then
 
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/di/injectionawareinterface.zep.c
-	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/filter/validation/validatorinterface.zep.c
 	phalcon/filter/validation/abstractvalidator.zep.c
-	phalcon/html/helper/input/abstractinput.zep.c
+	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
-	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
-	phalcon/factory/abstractfactory.zep.c
+	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/storage/serializer/serializerinterface.zep.c
+	phalcon/factory/abstractfactory.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/di/injectable.zep.c
@@ -42,6 +41,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
+	phalcon/html/escaper/abstractescaper.zep.c
+	phalcon/html/helper/input/abstractinput.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
 	phalcon/datamapper/pdo/connection/pdointerface.zep.c
@@ -96,6 +97,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/abstractvalidatorcomposite.zep.c
 	phalcon/filter/validation/validator/file/size/equal.zep.c
 	phalcon/flash/abstractflash.zep.c
+	phalcon/html/helper/input/abstractchecked.zep.c
 	phalcon/html/helper/input/select/selectdatainterface.zep.c
 	phalcon/html/link/abstractlink.zep.c
 	phalcon/html/link/abstractlinkprovider.zep.c
@@ -141,7 +143,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/attributes/attributesinterface.zep.c
 	phalcon/html/attributes/renderinterface.zep.c
 	phalcon/html/escaper/escaperinterface.zep.c
-	phalcon/html/helper/input/checkbox.zep.c
 	phalcon/html/helper/ol.zep.c
 	phalcon/html/helper/style.zep.c
 	phalcon/html/link/interfaces/evolvablelinkinterface.zep.c
@@ -401,7 +402,12 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/attributes.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/escaper.zep.c
+	phalcon/html/escaper/attributeescaper.zep.c
+	phalcon/html/escaper/cssescaper.zep.c
 	phalcon/html/escaper/exception.zep.c
+	phalcon/html/escaper/htmlescaper.zep.c
+	phalcon/html/escaper/jsescaper.zep.c
+	phalcon/html/escaper/urlescaper.zep.c
 	phalcon/html/escaperfactory.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c
@@ -415,38 +421,22 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/helper/form.zep.c
 	phalcon/html/helper/friendlytitle.zep.c
 	phalcon/html/helper/img.zep.c
-	phalcon/html/helper/input/color.zep.c
-	phalcon/html/helper/input/date.zep.c
-	phalcon/html/helper/input/datetime.zep.c
-	phalcon/html/helper/input/datetimelocal.zep.c
-	phalcon/html/helper/input/email.zep.c
-	phalcon/html/helper/input/file.zep.c
-	phalcon/html/helper/input/hidden.zep.c
-	phalcon/html/helper/input/image.zep.c
-	phalcon/html/helper/input/input.zep.c
-	phalcon/html/helper/input/month.zep.c
-	phalcon/html/helper/input/numeric.zep.c
-	phalcon/html/helper/input/password.zep.c
+	phalcon/html/helper/input/checkbox.zep.c
+	phalcon/html/helper/input/generic.zep.c
 	phalcon/html/helper/input/radio.zep.c
-	phalcon/html/helper/input/range.zep.c
-	phalcon/html/helper/input/search.zep.c
 	phalcon/html/helper/input/select.zep.c
 	phalcon/html/helper/input/select/arraydata.zep.c
 	phalcon/html/helper/input/select/resultsetdata.zep.c
-	phalcon/html/helper/input/submit.zep.c
-	phalcon/html/helper/input/tel.zep.c
-	phalcon/html/helper/input/text.zep.c
 	phalcon/html/helper/input/textarea.zep.c
-	phalcon/html/helper/input/time.zep.c
-	phalcon/html/helper/input/url.zep.c
-	phalcon/html/helper/input/week.zep.c
 	phalcon/html/helper/label.zep.c
 	phalcon/html/helper/link.zep.c
 	phalcon/html/helper/meta.zep.c
 	phalcon/html/helper/preload.zep.c
 	phalcon/html/helper/script.zep.c
+	phalcon/html/helper/tag.zep.c
 	phalcon/html/helper/title.zep.c
 	phalcon/html/helper/ul.zep.c
+	phalcon/html/helper/voidtag.zep.c
 	phalcon/html/link/evolvablelink.zep.c
 	phalcon/html/link/evolvablelinkprovider.zep.c
 	phalcon/html/link/serializer/header.zep.c

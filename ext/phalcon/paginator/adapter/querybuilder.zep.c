@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 		object_init_ex(&_0$$5, phalcon_paginator_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$5);
 		ZEPHIR_CONCAT_SS(&_1$$5, "Parameter 'builder' must be an instance ", "of Phalcon\\Mvc\\Model\\Query\\Builder");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 35, &_1$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 38, &_1$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 80);
 		ZEPHIR_MM_RESTORE();
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			zephir_fast_trim(&_5$$10, &builderColumns, NULL , ZEPHIR_TRIM_BOTH);
 			ZEPHIR_INIT_VAR(&_6$$10);
 			ZVAL_STRING(&_6$$10, "DISTINCT ");
-			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 370, &_5$$10, &_6$$10);
+			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 368, &_5$$10, &_6$$10);
 			zephir_check_call_status();
 			_4$$10 = ZEPHIR_IS_LONG_IDENTICAL(&_7$$10, 0);
 		}

@@ -28,6 +28,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_ResultsetData)
 {
@@ -69,7 +73,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct)
 	zephir_fetch_params(1, 2, 0, &resultset, &using_param);
 	zephir_get_arrval(&using, using_param);
 	if (UNEXPECTED(zephir_fast_count_int(&using) != 2)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The 'using' parameter requires exactly two values", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 37);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The 'using' parameter requires exactly two values", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 41);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("resultset"), resultset);
@@ -102,14 +106,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("using"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingZero);
-	zephir_array_fetch_long(&usingZero, &_0, 0, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 51);
+	zephir_array_fetch_long(&usingZero, &_0, 0, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 55);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("using"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingOne);
-	zephir_array_fetch_long(&usingOne, &_1, 1, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 52);
+	zephir_array_fetch_long(&usingOne, &_1, 1, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 56);
 	ZEPHIR_INIT_VAR(&options);
 	array_init(&options);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("resultset"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_2, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 78);
+	zephir_is_iterable(&_2, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 82);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
 		{
@@ -129,13 +133,13 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions)
 				}
 			} else {
 				if (UNEXPECTED(Z_TYPE_P(&option) != IS_ARRAY)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 68);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 72);
 					return;
 				}
 				ZEPHIR_OBS_NVAR(&optionValue);
-				zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 71);
+				zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 75);
 				ZEPHIR_OBS_NVAR(&optionText);
-				zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 72);
+				zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 76);
 			}
 			zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -164,13 +168,13 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions)
 					}
 				} else {
 					if (UNEXPECTED(Z_TYPE_P(&option) != IS_ARRAY)) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 68);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 72);
 						return;
 					}
 					ZEPHIR_OBS_NVAR(&optionValue);
-					zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 71);
+					zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 75);
 					ZEPHIR_OBS_NVAR(&optionText);
-					zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 72);
+					zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 76);
 				}
 				zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &_2, "next", NULL, 0);

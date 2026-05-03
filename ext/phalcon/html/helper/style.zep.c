@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -26,6 +26,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Style
@@ -53,27 +57,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
 PHP_METHOD(Phalcon_Html_Helper_Style, add)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
-	zval url_zv, *attributes_param = NULL, _1, _3;
+	zval url_zv, *attributes_param = NULL, *pos_param = NULL, _1, _3, _4;
 	zend_string *url = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&url_zv);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
+	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
+		Z_PARAM_LONG(pos)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (ZEND_NUM_ARGS() > 1) {
 		attributes_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		pos_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	ZVAL_STR_COPY(&url_zv, url);
 	if (!attributes_param) {
@@ -82,6 +91,10 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
+	if (!pos_param) {
+		pos = -1;
+	} else {
+		}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -102,7 +115,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "indent", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
-	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
+	ZVAL_LONG(&_4, pos);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushorplace", NULL, 0, &_0, &_4);
+	zephir_check_call_status();
 	RETURN_THIS();
 }
 
