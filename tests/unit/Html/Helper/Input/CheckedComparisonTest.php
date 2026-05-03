@@ -50,6 +50,17 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         ];
     }
 
+    public static function getUnconditionalCheckedExamples(): array
+    {
+        return [
+            'literal "checked"'         => ['checked', true],
+            'literal "CHECKED"'         => ['CHECKED', true],
+            'literal "Checked"'         => ['Checked', true],
+            'boolean true'              => [true, true],
+            'mismatched non-bool value' => ['nope', false],
+        ];
+    }
+
     /**
      * @dataProvider getLooseMatchExamples
      */
@@ -119,6 +130,89 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
             null,
             [
                 'value'   => $value,
+                'checked' => $checked,
+            ]
+        );
+
+        $rendered = (string) $result;
+
+        if ($shouldBeChecked) {
+            $this->assertStringContainsString('checked="checked"', $rendered);
+        } else {
+            $this->assertStringNotContainsString('checked="checked"', $rendered);
+        }
+    }
+
+    /**
+     * `["checked" => "checked"]` (any case) and `["checked" => true]` are
+     * unconditional opt-ins — they render `checked="checked"` regardless of
+     * what `value` is set to and regardless of strict mode.
+     *
+     * @dataProvider getUnconditionalCheckedExamples
+     */
+    public function testCheckboxUnconditionalCheckedAttribute(
+        mixed $checked,
+        bool $shouldBeChecked
+    ): void {
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            '1',
+            [
+                'checked' => $checked,
+            ]
+        );
+
+        $rendered = (string) $result;
+
+        if ($shouldBeChecked) {
+            $this->assertStringContainsString('checked="checked"', $rendered);
+        } else {
+            $this->assertStringNotContainsString('checked="checked"', $rendered);
+        }
+    }
+
+    /**
+     * @dataProvider getUnconditionalCheckedExamples
+     */
+    public function testRadioUnconditionalCheckedAttribute(
+        mixed $checked,
+        bool $shouldBeChecked
+    ): void {
+        $helper = new Radio(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            '1',
+            [
+                'checked' => $checked,
+            ]
+        );
+
+        $rendered = (string) $result;
+
+        if ($shouldBeChecked) {
+            $this->assertStringContainsString('checked="checked"', $rendered);
+        } else {
+            $this->assertStringNotContainsString('checked="checked"', $rendered);
+        }
+    }
+
+    /**
+     * Same opt-ins must hold under `strict(true)`: the unconditional path
+     * does not consult `value`.
+     *
+     * @dataProvider getUnconditionalCheckedExamples
+     */
+    public function testCheckboxUnconditionalCheckedAttributeUnderStrict(
+        mixed $checked,
+        bool $shouldBeChecked
+    ): void {
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $helper->strict();
+        $result = $helper(
+            'x',
+            '1',
+            [
                 'checked' => $checked,
             ]
         );
