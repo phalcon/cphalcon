@@ -73,4 +73,65 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
         $sql = sprintf("DELETE FROM [%s] WHERE inv_id = :id:", Invoices::class);
         $this->assertInstanceOf(StatusInterface::class, $manager->executeQuery($sql, ["id" => 0]));
     }
+
+    /**
+     * @issue  16976
+     * @issue  2373
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelManagerExecuteQueryIssue16976(): void
+    {
+        /** @var ManagerInterface $manager */
+        $manager = $this->getService("modelsManager");
+
+        $manager->executeQuery(
+            sprintf("INSERT INTO [%s] (inv_total) VALUES (0)", Invoices::class)
+        );
+
+        $invoice = Invoices::findFirst(
+            [
+                "order" => "inv_id DESC",
+            ]
+        );
+
+        $this->assertNotFalse($invoice);
+
+        $manager->useDynamicUpdate($invoice, true);
+
+        $id = (int) $invoice->inv_id;
+
+        $manager->executeQuery(
+            sprintf("UPDATE [%s] SET inv_total = 0 WHERE inv_id = :id:", Invoices::class),
+            ["id" => $id]
+        );
+
+        $status = $manager->executeQuery(
+            sprintf(
+                "UPDATE [%s] SET inv_total = inv_total + :inc: WHERE inv_id = :id:",
+                Invoices::class
+            ),
+            [
+                "id"  => $id,
+                "inc" => 2,
+            ]
+        );
+
+        $this->assertInstanceOf(StatusInterface::class, $status);
+        $this->assertTrue($status->success());
+
+        $invoice = Invoices::findFirst(
+            [
+                "conditions" => "inv_id = :id:",
+                "bind"       => ["id" => $id],
+            ]
+        );
+
+        $this->assertNotFalse($invoice);
+        $this->assertSame(2.0, (float) $invoice->inv_total);
+    }
 }

@@ -31,6 +31,7 @@
 - Fixed `Phalcon\Mvc\View::getActiveRenderPath()` returning only the first candidate path as a string when a single `viewsDir` was configured with multiple registered render engines and the view was not found; the method now collapses the internal `activeRenderPaths` array to a string only when it contains exactly one element, returning the full array of candidate paths in all other cases [#16614](https://github.com/phalcon/cphalcon/issues/16614)
 - Fixed `Phalcon\Tag\Select::optionsFromArray()` not escaping option label text, allowing XSS injection via malicious values; labels are now escaped with `escapeHtml()` and option values with `escapeHtmlAttr()` via the escaper service, consistent with `optionsFromResultset()` [#16660](https://github.com/phalcon/cphalcon/issues/16660)
 - Fixed `Phalcon\Mvc\Model::doLowInsert()` throwing `Unable to insert into <table> without data` when saving a model whose only column is an auto-increment primary key; on dialects where `useExplicitIdValue()` is `false` (MySQL, SQLite) the identity branch produced an empty `values` array. The identity column is now added with the connection's default identity value when the resulting `values` array would otherwise be empty [#156](https://github.com/phalcon/phalcon/issues/156)
+- Fixed `Phalcon\Mvc\Model\Query::executeUpdate()` and `Phalcon\Mvc\Model::doLowUpdate()` for PHQL `UPDATE ... SET <expr>` expressions with placeholders (e.g. `col = col + :inc:`): named placeholders embedded in expression SQL are now resolved before creating `RawValue` to avoid PDO "mixed named and positional parameters", and dynamic-update comparisons now always treat `RawValue` assignments as changed so updates are not skipped when the current numeric value is `0` [#16976](https://github.com/phalcon/cphalcon/issues/16976)
 
 ### Removed
 
@@ -60,9 +61,7 @@
 - Fixed `Phalcon\Mvc\Model\Query\Builder::autoescape()` incorrectly wrapping function expressions (e.g. `DATE_PART(...)`) in brackets when used in `groupBy()`, causing a `"Column does not belong to any of the selected models"` exception [#16599](https://github.com/phalcon/cphalcon/issues/16599)
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029)
 
-### Removed
-
-## 5.12.0 (2026-04-29)
+## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
 
 ### Changed
 
@@ -140,8 +139,7 @@
 
 ### Removed
 
-# Changelog
-## 5.11.1 (2026-04-04)
+## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
 ### Changed
 
@@ -157,7 +155,7 @@
 
 ### Removed
 
-## 5.11.0 (2026-04-03)
+## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
 
 ### Changed
 
@@ -187,8 +185,7 @@
 
 ### Removed
 
-# Changelog
-## 5.10.0 (2025-12-25)
+## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
 ### Changed
 
@@ -734,7 +731,7 @@
     - `Phalcon\Cache\CacheInterface`
     - `Phalcon\Cache\AbstractCache` to be used in the cache class but also the proxy-psr16 repo [#15927](https://github.com/phalcon/cphalcon/issues/15927)
 - Added
-    - EvolvableLinkInterface.zep
+    - `Phalcon\Html\Link\Interfaces\EvolvableLinkInterface`
     - `Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface`
     - `Phalcon\Html\Link\Interfaces\LinkInterface`
     - `Phalcon\Html\Link\Interfaces\LinkProviderInterface`

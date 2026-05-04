@@ -1417,7 +1417,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
             number, field, records, exprValue, updateValue, wildcard, record,
-            exception;
+            exception, sqlExpr, namedParams, paramKey, paramKeys, paramValue;
 
         let models = intermediate["models"];
 
@@ -1506,9 +1506,55 @@ class Query implements QueryInterface, InjectionAwareInterface
                     throw new Exception("Not supported");
 
                 default:
-                    let updateValue = new RawValue(
-                        dialect->getSqlExpression(exprValue)
-                    );
+                    let sqlExpr = dialect->getSqlExpression(exprValue);
+
+                    /**
+                     * If the expression contains named placeholders (e.g.
+                     * "col + :param"), resolve them from bindParams so the
+                     * RawValue is free of named params. This prevents a PDO
+                     * "mixed named and positional parameters" error when the
+                     * WHERE clause uses positional "?" markers.
+                     */
+                    let namedParams = [];
+
+                    if preg_match_all("/:([a-zA-Z0-9_]+)/", sqlExpr, namedParams) {
+                        /**
+                         * Sort by length descending so a key like "id" does
+                         * not partially match a longer placeholder like
+                         * ":idx" when running str_replace.
+                         */
+                        let paramKeys = array_unique(namedParams[1]);
+
+                        usort(
+                            paramKeys,
+                            function (a, b) {
+                                return strlen(b) - strlen(a);
+                            }
+                        );
+
+                        for paramKey in paramKeys {
+                            if fetch paramValue, bindParams[paramKey] {
+                                if typeof paramValue == "integer" || typeof paramValue == "double" {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        (string) paramValue,
+                                        sqlExpr
+                                    );
+                                } else {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        connection->escapeString((string) paramValue),
+                                        sqlExpr
+                                    );
+                                }
+
+                                unset selectBindParams[paramKey];
+                                unset selectBindTypes[paramKey];
+                            }
+                        }
+                    }
+
+                    let updateValue = new RawValue(sqlExpr);
 
                     break;
             }
