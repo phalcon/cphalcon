@@ -280,6 +280,17 @@ create table objects
             
 
 
+drop table if exists `co_only_identity`;
+            
+
+
+create table co_only_identity
+(
+    `oid_id` int(10) auto_increment primary key
+);
+            
+
+
 drop table if exists `co_orders`;
             
 
@@ -293,33 +304,25 @@ CREATE TABLE `co_orders` (
             
 
 
-drop table if exists `co_orders_x_products`;
+drop table if exists `co_orders_x_products_mult_comp`;
+            
 
 
-
-CREATE TABLE `co_orders_x_products` (
+CREATE TABLE  `co_orders_x_products_mult_comp` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
-  `oxp_ord_status_flag` tinyint(1) NULL,
+  `oxp_ord_status_flag` tinyint(1) NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
-  `oxp_prd_status_flag` tinyint(1) NULL,
+  `oxp_prd_status_flag` tinyint(1) NOT NULL,
   `oxp_quantity` int(10) unsigned NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`, `oxp_ord_status_flag`, `oxp_prd_status_flag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
-drop table if exists `co_orders_x_products_one`;
-            
-CREATE TABLE  `co_orders_x_products_one` (
-  `oxp_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `oxp_ord_id` int(10) unsigned NOT NULL,
-  `oxp_prd_id` int(10) unsigned NOT NULL,
-  `oxp_quantity` int(10) unsigned NULL,
-  PRIMARY KEY (`oxp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-            
 
 drop table if exists `co_orders_x_products_mult`;
             
+
+
 CREATE TABLE  `co_orders_x_products_mult` (
   `oxp_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oxp_ord_id` int(10) unsigned NOT NULL,
@@ -331,9 +334,12 @@ CREATE TABLE  `co_orders_x_products_mult` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
+
 drop table if exists `co_orders_x_products_one_comp`;
             
-CREATE TABLE  `co_orders_x_products_one_comp` (
+
+
+CREATE TABLE `co_orders_x_products_one_comp` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
   `oxp_quantity` int(10) unsigned NULL,
@@ -341,17 +347,33 @@ CREATE TABLE  `co_orders_x_products_one_comp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
-drop table if exists `co_orders_x_products_mult_comp`;
+
+drop table if exists `co_orders_x_products_one`;
             
-CREATE TABLE  `co_orders_x_products_mult_comp` (
+
+
+CREATE TABLE `co_orders_x_products_one` (
+  `oxp_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oxp_ord_id` int(10) unsigned NOT NULL,
-  `oxp_ord_status_flag` tinyint(1) NOT NULL,
   `oxp_prd_id` int(10) unsigned NOT NULL,
-  `oxp_prd_status_flag` tinyint(1) NOT NULL,
   `oxp_quantity` int(10) unsigned NULL,
-  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`, `oxp_ord_status_flag`, `oxp_prd_status_flag`)
+  PRIMARY KEY (`oxp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
+
+
+drop table if exists `co_orders_x_products`;
+            
+
+
+CREATE TABLE `co_orders_x_products` (
+  `oxp_ord_id` int(10) unsigned NOT NULL,
+  `oxp_prd_id` int(10) unsigned NOT NULL,
+  `oxp_quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
 
 drop table if exists `personas`;
             

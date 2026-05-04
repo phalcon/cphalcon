@@ -4122,6 +4122,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if value === null || value === "" {
                     if useExplicitIdentity {
                         let values[] = defaultValue, bindTypes[] = bindSkip;
+                    } elseif !count(values) {
+                        /**
+                         * Model has only the identity column; force an
+                         * explicit default so the underlying adapter does not
+                         * reject the insert because of an empty values array.
+                         */
+                        let fields[]    = identityField,
+                            values[]    = defaultValue,
+                            bindTypes[] = bindSkip;
                     }
                 } else {
                     /**
@@ -4147,6 +4156,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             } else {
                 if useExplicitIdentity {
                     let values[]    = defaultValue,
+                        bindTypes[] = bindSkip;
+                } elseif !count(values) {
+                    /**
+                     * Model has only the identity column; force an explicit
+                     * default so the underlying adapter does not reject the
+                     * insert because of an empty values array.
+                     */
+                    let fields[]    = identityField,
+                        values[]    = defaultValue,
                         bindTypes[] = bindSkip;
                 }
             }

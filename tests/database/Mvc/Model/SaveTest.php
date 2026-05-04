@@ -22,6 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersDefaultsMigration;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Migrations\OnlyIdentityMigration;
 use Phalcon\Tests\Support\Migrations\SourcesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersDefaults;
@@ -33,6 +34,7 @@ use Phalcon\Tests\Support\Models\InvoicesHasOneNotReusable;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesSchema;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
+use Phalcon\Tests\Support\Models\OnlyIdentity;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -85,6 +87,35 @@ final class SaveTest extends AbstractDatabaseTestCase
         $invoice->customer  = $customer;
         $customer->invoices = [$invoice];
         $customer->save();
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/156
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelSaveOnlyIdentityColumn(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $migration = new OnlyIdentityMigration($connection);
+
+        $model  = new OnlyIdentity();
+        $actual = $model->save();
+
+        $this->assertTrue($actual);
+        $this->assertNotNull($model->oid_id);
+        $this->assertGreaterThan(0, (int) $model->oid_id);
+
+        $second = new OnlyIdentity();
+        $second->save();
+
+        $this->assertGreaterThan((int) $model->oid_id, (int) $second->oid_id);
     }
 
     /**
