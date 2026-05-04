@@ -120,19 +120,25 @@ class Select extends AbstractList
      */
     public function fromData(<SelectDataInterface> data) -> <Select>
     {
-        var key, subKey, subValue, value;
+        var attributes, key, optionAttrs, subAttrs, subKey, subValue, value;
+
+        let attributes = data->getAttributes();
 
         for key, value in data->getOptions() {
             if typeof value == "array" {
                 this->optGroup((string) key);
 
                 for subKey, subValue in value {
-                    this->add((string) subValue, (string) subKey);
+                    let subAttrs = isset(attributes[subKey]) ? attributes[subKey] : [];
+
+                    this->add((string) subValue, (string) subKey, subAttrs);
                 }
 
                 this->optGroup((string) key);
             } else {
-                this->add((string) value, (string) key);
+                let optionAttrs = isset(attributes[key]) ? attributes[key] : [];
+
+                this->add((string) value, (string) key, optionAttrs);
             }
         }
 

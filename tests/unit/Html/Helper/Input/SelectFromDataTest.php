@@ -98,4 +98,61 @@ final class SelectFromDataTest extends AbstractUnitTestCase
 
         $this->assertSame('', (string) $result);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testFromDataAppliesPerOptionAttributes(): void
+    {
+        $escaper = new Escaper();
+        $helper  = new Select($escaper);
+        $result  = $helper('    ', PHP_EOL, ['id' => 'cars']);
+        $result->fromData(new ArrayData(
+            ['1' => 'Ferrari', '2' => 'Ford'],
+            [
+                '1' => ['class' => 'favorite', 'dir' => 'rtl'],
+                '2' => ['disabled' => 'disabled'],
+            ]
+        ));
+
+        $expected = '<select id="cars">' . PHP_EOL
+            . '    <option value="1" class="favorite" dir="rtl">Ferrari</option>' . PHP_EOL
+            . '    <option value="2" disabled="disabled">Ford</option>' . PHP_EOL
+            . '</select>';
+
+        $this->assertSame($expected, (string) $result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testFromDataAppliesPerOptionAttributesInOptgroups(): void
+    {
+        $escaper = new Escaper();
+        $helper  = new Select($escaper);
+        $result  = $helper('    ', PHP_EOL, ['id' => 'cars']);
+        $result->fromData(new ArrayData(
+            [
+                'Italian'  => ['1' => 'Ferrari'],
+                'American' => ['2' => 'Ford'],
+            ],
+            [
+                '1' => ['class' => 'favorite'],
+                '2' => ['disabled' => 'disabled'],
+            ]
+        ));
+
+        $expected = '<select id="cars">' . PHP_EOL
+            . '    <optgroup label="Italian">' . PHP_EOL
+            . '        <option value="1" class="favorite">Ferrari</option>' . PHP_EOL
+            . '    </optgroup>' . PHP_EOL
+            . '    <optgroup label="American">' . PHP_EOL
+            . '        <option value="2" disabled="disabled">Ford</option>' . PHP_EOL
+            . '    </optgroup>' . PHP_EOL
+            . '</select>';
+
+        $this->assertSame($expected, (string) $result);
+    }
 }
