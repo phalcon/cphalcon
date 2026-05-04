@@ -4374,38 +4374,37 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                     if is_object(value) && value instanceof RawValue {
                                         let changed = true;
                                     } else {
+                                        let updateValue = value;
 
-                                    let updateValue = value;
+                                        switch dataType {
 
-                                    switch dataType {
+                                            case Column::TYPE_BOOLEAN:
+                                                let changed = (bool) snapshotValue !== (bool) updateValue;
+                                                break;
 
-                                        case Column::TYPE_BOOLEAN:
-                                            let changed = (bool) snapshotValue !== (bool) updateValue;
-                                            break;
+                                            case Column::TYPE_DECIMAL:
+                                            case Column::TYPE_FLOAT:
+                                                let changed = floatval(snapshotValue) !== floatval(updateValue);
+                                                break;
 
-                                        case Column::TYPE_DECIMAL:
-                                        case Column::TYPE_FLOAT:
-                                            let changed = floatval(snapshotValue) !== floatval(updateValue);
-                                            break;
+                                            case Column::TYPE_INTEGER:
+                                            case Column::TYPE_DATE:
+                                            case Column::TYPE_VARCHAR:
+                                            case Column::TYPE_DATETIME:
+                                            case Column::TYPE_CHAR:
+                                            case Column::TYPE_TEXT:
+                                            case Column::TYPE_VARCHAR:
+                                            case Column::TYPE_BIGINTEGER:
+                                                let changed = (string) snapshotValue !== (string) updateValue;
+                                                break;
 
-                                        case Column::TYPE_INTEGER:
-                                        case Column::TYPE_DATE:
-                                        case Column::TYPE_VARCHAR:
-                                        case Column::TYPE_DATETIME:
-                                        case Column::TYPE_CHAR:
-                                        case Column::TYPE_TEXT:
-                                        case Column::TYPE_VARCHAR:
-                                        case Column::TYPE_BIGINTEGER:
-                                            let changed = (string) snapshotValue !== (string) updateValue;
-                                            break;
-
-                                        /**
-                                        * Any other type is not really supported...
-                                        */
-                                        default:
-                                            let changed = updateValue != snapshotValue;
+                                            /**
+                                            * Any other type is not really supported...
+                                            */
+                                            default:
+                                                let changed = updateValue != snapshotValue;
+                                        }
                                     }
-                                    } // end else (value is not RawValue)
                                 }
                             }
                         }
