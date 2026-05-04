@@ -247,87 +247,77 @@ create table objects
             
 
 
+drop table if exists co_only_identity;
+            
+
+
+create table co_only_identity
+(
+    oid_id integer constraint co_only_identity_pk primary key autoincrement
+);
+            
+
 drop table if exists `co_orders`;
 
-
 create table `co_orders` (
-    `ord_id`          integer constraint ord_id_pk primary key autoincrement,
-    `ord_name`        text NULL,
+    `ord_id` integer constraint ord_id_pk primary key autoincrement,
+    `ord_name` text NULL,
     `ord_status_flag` integer NULL
 );
 
+drop table if exists co_orders_x_products_mult_comp;
 
-drop table if exists `co_products`;
+create table co_orders_x_products_mult_comp (
+  `oxp_ord_id` integer NOT NULL,
+  `oxp_ord_status_flag` integer NULL,
+  `oxp_prd_id` integer NOT NULL,
+  `oxp_prd_status_flag` integer NULL,
+  `oxp_quantity` integer NULL,
+  primary key (`oxp_ord_id`, `oxp_prd_id`, `oxp_ord_status_flag`, `oxp_prd_status_flag`)
+);
 
+drop table if exists co_orders_x_products_mult;
 
-create table `co_products` (
-    `prd_id`          integer constraint prd_id_pk primary key autoincrement,
-    `prd_name`        text NULL,
-    `prd_status_flag` integer NULL
+create table co_orders_x_products_mult (
+  `oxp_id` integer constraint co_oxp_mult_pk primary key autoincrement,
+  `oxp_ord_id` integer NOT NULL,
+  `oxp_ord_status_flag` integer NULL,
+  `oxp_prd_id` integer NOT NULL,
+  `oxp_prd_status_flag` integer NULL,
+  `oxp_quantity` integer NULL
+);
+
+drop table if exists co_orders_x_products_one_comp;
+
+create table co_orders_x_products_one_comp (
+  `oxp_ord_id` integer NOT NULL,
+  `oxp_prd_id` integer NOT NULL,
+  `oxp_quantity` integer NULL,
+  primary key (`oxp_ord_id`, `oxp_prd_id`)
+);
+
+drop table if exists co_orders_x_products_one;
+
+create table co_orders_x_products_one (
+  `oxp_id` integer constraint co_oxp_one_pk primary key autoincrement,
+  `oxp_ord_id` integer NOT NULL,
+  `oxp_prd_id` integer NOT NULL,
+  `oxp_quantity` integer NULL
 );
 
 
 drop table if exists co_orders_x_products;
+            
 
 
 create table co_orders_x_products
 (
-    oxp_ord_id          integer not null,
-    oxp_prd_id          integer not null,
-    oxp_ord_status_flag integer null,
-    oxp_prd_status_flag integer null,
-    oxp_quantity        integer null,
-    primary key (oxp_ord_id, oxp_prd_id)
-);
-
-
-drop table if exists co_orders_x_products_one;
-
-
-create table co_orders_x_products_one (
-    oxp_id     integer constraint co_oxp_one_pk primary key autoincrement,
-    oxp_ord_id integer not null,
-    oxp_prd_id integer not null,
-    oxp_quantity integer null
-);
-
-
-drop table if exists co_orders_x_products_mult;
-
-
-create table co_orders_x_products_mult (
-    oxp_id              integer constraint co_oxp_mult_pk primary key autoincrement,
-    oxp_ord_id          integer not null,
-    oxp_ord_status_flag integer null,
-    oxp_prd_id          integer not null,
-    oxp_prd_status_flag integer null,
-    oxp_quantity        integer null
-);
-
-
-drop table if exists co_orders_x_products_one_comp;
-
-
-create table co_orders_x_products_one_comp (
     oxp_ord_id   integer not null,
     oxp_prd_id   integer not null,
-    oxp_quantity integer null,
+    oxp_quantity integer not null,
     primary key (oxp_ord_id, oxp_prd_id)
 );
-
-
-drop table if exists co_orders_x_products_mult_comp;
-
-
-create table co_orders_x_products_mult_comp (
-    oxp_ord_id          integer not null,
-    oxp_ord_status_flag integer null,
-    oxp_prd_id          integer not null,
-    oxp_prd_status_flag integer null,
-    oxp_quantity        integer null,
-    primary key (oxp_ord_id, oxp_prd_id, oxp_ord_status_flag, oxp_prd_status_flag)
-);
-
+            
 
 
 drop table if exists personas;
@@ -372,6 +362,14 @@ create table photo
     wins              integer not null default 0
 );
             
+
+drop table if exists `co_products`;
+
+create table `co_products` (
+    `prd_id` integer constraint prd_id_pk primary key autoincrement,
+    `prd_name` text NULL,
+    `prd_status_flag` integer NULL
+);
 
 DROP TABLE IF EXISTS co_rb_test_model;
 
