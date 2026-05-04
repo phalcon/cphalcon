@@ -61,9 +61,7 @@
 - Fixed `Phalcon\Mvc\Model\Query\Builder::autoescape()` incorrectly wrapping function expressions (e.g. `DATE_PART(...)`) in brackets when used in `groupBy()`, causing a `"Column does not belong to any of the selected models"` exception [#16599](https://github.com/phalcon/cphalcon/issues/16599)
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029)
 
-### Removed
-
-## 5.12.0 (2026-04-29)
+## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
 
 ### Changed
 
@@ -123,7 +121,7 @@
 - Fixed `Phalcon\Mvc\Model\Query::executeSelect()` to embed `Phalcon\Db\RawValue` bind parameters directly in the SQL string instead of passing them to PDO [#16350](https://github.com/phalcon/cphalcon/issues/16350)
 - Fixed `Phalcon\Mvc\Model\Query::executeSelect()` to use the write connection when the query contains a `FOR UPDATE` clause, instead of always using the read connection [#16032](https://github.com/phalcon/cphalcon/issues/16032)
 - Fixed `Phalcon\Mvc\Model\Query::getExpression()` to emit `NOT BETWEEN` instead of `BETWEEN NOT` for the `PHQL_T_BETWEEN_NOT` token, producing valid SQL [#16812](https://github.com/phalcon/cphalcon/issues/16812)
-- Fixed `Phalcon\Mvc\Model\Query::getSelectColumn()` to use the full model class name as the `balias` key in a complex resultset when the model is namespaced (e.g. `App\Models\Users`), instead of incorrectly applying `lcfirst()` to the fully-qualified name; non-namespaced models (e.g. `Robots`) retain the existing `lcfirst()` behaviour (`robots`) [#16052](https://github.com/phalcon/cphalcon/issues/16052]
+- Fixed `Phalcon\Mvc\Model\Query::getSelectColumn()` to use the full model class name as the `balias` key in a complex resultset when the model is namespaced (e.g. `App\Models\Users`), instead of incorrectly applying `lcfirst()` to the fully-qualified name; non-namespaced models (e.g. `Robots`) retain the existing `lcfirst()` behaviour (`robots`) [#16052](https://github.com/phalcon/cphalcon/issues/16052)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql()` to use a named bind parameter (`:APK0:`) instead of embedding the raw primary-key value in the PHQL string when `findFirst()` is called with a numeric or numeric-string argument; this prevents unbounded growth of the internal PHQL AST cache (`Query::$internalPhqlCache`) in long-running CLI processes [#14656](https://github.com/phalcon/cphalcon/issues/14656)
 - Fixed `Phalcon\Mvc\Model\Resultset\Complex::current()` to return `null` instead of an empty model instance when a `LEFT JOIN` produces no matching row (all column values are `null`) [#16239](https://github.com/phalcon/cphalcon/issues/16239)
 - Fixed `Phalcon\Mvc\Model\Transaction\Manager::collectTransaction()` to keep the correct transactions when rebuilding the list after removal [#16522](https://github.com/phalcon/cphalcon/issues/16522)
@@ -141,8 +139,7 @@
 
 ### Removed
 
-# Changelog
-## 5.11.1 (2026-04-04)
+## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
 ### Changed
 
@@ -158,7 +155,7 @@
 
 ### Removed
 
-## 5.11.0 (2026-04-03)
+## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
 
 ### Changed
 
@@ -188,8 +185,7 @@
 
 ### Removed
 
-# Changelog
-## 5.10.0 (2025-12-25)
+## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
 ### Changed
 
@@ -279,8 +275,16 @@
 - Fixed `Phalcon\Forms\Form` and `Phalcon\Filter\Validation` to correctly handle the `validate()` response when using validation class `beforeValidate()` [#16702](https://github.com/phalcon/cphalcon/issues/16702)
 - Fixed `Phalcon\Support\Debug` to use correct passed arguments in `set_error_handler` callback. PHP v7.2.0 deprecated `errcontext` and has been removed since php v8.0.0 [#16649](https://github.com/phalcon/cphalcon/issues/16686)
 - Fixed `Phalcon\Http\Response\Cookies`, `Phalcon\Http\Response\CookiesInterface` and `Phalcon\Http\Cookie` to use correct cookie default arguments, avoid deprecated null assign warning when trying to assign the same cookie twice [#16649](https://github.com/phalcon/cphalcon/issues/16649)
-- Fixed `Phalcon\Encryption\Crypt` method `checkCipherHashIsAvailable(string $cipher, string $type)` to correctly check the `cipher` or `hash` type [#16822](https://github.com/phalcon/cphalcon/issues/16822)
-- Fixed `Phalcon\Mvc\Model` docblocks [#16825](https://github.com/phalcon/cphalcon/issues/16825)
+- Fixed `Phalcon\Encryption\Crypt` to use `strlen` instead of `mb_strlen` for padding calculations [#16642](https://github.com/phalcon/cphalcon/issues/16642)
+- Fixed `Phalcon\Filter\Validation\Validator\File\MimeType::validate` to close the handle when using `finfo` [#16647](https://github.com/phalcon/cphalcon/issues/16647)
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to explicitly set the `referencedModel` in the conditions along with the `referencedFields` [#16655](https://github.com/phalcon/cphalcon/pull/16655)
+- Fixed `Phalcon\Image\Adapters\AbstractAdapter::watermark` to correctly calculate the Y offset [#16658](https://github.com/phalcon/cphalcon/issues/16658)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher` when calling action methods that do not define parameters to prevent `Unknown named parameter` error.
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
+- Fixed `Phalcon\Filter\Filter` to have the correct docblock for IDE completion
+- Fixed `Phalcon\Mvc\Model\Query` to use the lifetime in the "cache" service if none has been supplied by the options [#16696](https://github.com/phalcon/cphalcon/issues/16696)
+- Fixed `Phalcon\Session\Adapter\Stream::gc()` to throw an exception if something is wrong with `glob()` [#16713](https://github.com/phalcon/cphalcon/issues/16713)
+- Fixed `Phalcon\Http\Request::getBasicAuth()` to return a `null` password if not defined on the server [#16668](https://github.com/phalcon/cphalcon/issues/16668)
 
 ### Removed
 
@@ -325,6 +329,7 @@
 - Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
 - Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
 
+### Removed
 
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
 
@@ -726,6 +731,7 @@
     - `Phalcon\Cache\CacheInterface`
     - `Phalcon\Cache\AbstractCache` to be used in the cache class but also the proxy-psr16 repo [#15927](https://github.com/phalcon/cphalcon/issues/15927)
 - Added
+    - `Phalcon\Html\Link\Interfaces\EvolvableLinkInterface`
     - `Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface`
     - `Phalcon\Html\Link\Interfaces\LinkInterface`
     - `Phalcon\Html\Link\Interfaces\LinkProviderInterface`
@@ -922,8 +928,8 @@
 - Removed `Phalcon\Helper\File` - replaced by `Phalcon\Support\Helper\File\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Removed `Phalcon\Helper\Json` - replaced by `Phalcon\Support\Helper\Json\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Removed `Phalcon\Helper\Number` - replaced by `Phalcon\Support\Helper\Number\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
-- Removed `Phalcon\Helper\Str` - replaced by `Phalcon\Support\Helper\Str\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776]
-- Removed references to `Phalcon\Text`, `Phacon\Helper\*` from the code replacing it with `Phalcon\Support\Helper\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776]
+- Removed `Phalcon\Helper\Str` - replaced by `Phalcon\Support\Helper\Str\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
+- Removed references to `Phalcon\Text`, `Phacon\Helper\*` from the code replacing it with `Phalcon\Support\Helper\*` [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Synchronized tests with `phalcon/phalcon` thus increasing coverage [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 - Changed `Phalcon\Assets\Manager` to require a `Phalcon\Html\TagFactory` in its constructor [#15776](https://github.com/phalcon/cphalcon/issues/15776)
 
@@ -1163,3 +1169,26 @@
 - Corrected `Phalcon\Cache` to cast keys as strings before sending them to adapters [#15249](https://github.com/phalcon/cphalcon/issues/15249)
 - Binding form values with specified whitelist [#15070](https://github.com/phalcon/cphalcon/issues/15070)
 
+## [5.0.0-alpha.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2021-03-31)
+
+### Fixed
+
+- Support for PHP 7.4 and PHP 8.0
+- Fixed `Logger\Log::log()` `log` to recognize all log levels [#15214](https://github.com/phalcon/cphalcon/issues/15214)
+- Changed `setClaims` to be protected so that the `Phalcon\Security\JWT\Builder` class can be properly extended. [#15322](https://github.com/phalcon/cphalcon/issues/15322)
+- Fixed `Phalcon\Mvc\Model::average()` to return `float` value when is `string` [#15287](https://github.com/phalcon/cphalcon/pull/15287)
+- Fixed `Phalcon\Storage\Serializer\Igbinary` to store `is_numeric` and `bool` values properly [#15240](https://github.com/phalcon/cphalcon/pull/15240)
+- Fixed `Phalcon\Validation\Validator\Confirmation` was failing to compare cases such as 000123 = 123 [#15347](https://github.com/phalcon/cphalcon/pull/15347)
+- Fixed `Phalcon\Storage\Adapter` failing to retrieve empty like stored data (such as [], 0, false) [15125](https://github.com/phalcon/cphalcon/issues/15125)
+- Fixed declarations for `function getEventsManager()` to allow null return [15010](https://github.com/phalcon/cphalcon/issues/15010)
+- Removed underscore from method names (starting) to abide with PSR-12 [15345](https://github.com/phalcon/cphalcon/issues/15345)
+- Fixed `Phalcon\Flash\Session::has()` to properly check if any messages are existing [15204](https://github.com/phalcon/cphalcon/issues/15204)
+- Fixed signature of `Phalcon\Forms\Element\Select::__construct()`
+- Fixed signature of `Phalcon\Assets\Manager::addCss()`
+- Fixed signature of `Phalcon\Assets\Manager::addJs()`
+- Fixed signature of `Phalcon\Db\Adapter\AdapterInterface::execute()`, `Phalcon\Db\Adapter\AdapterInterface::fetchOne()` and `Phalcon\Db\Adapter\AdapterInterface::query()`
+- Fixed `Phalcon\Annotations\Reader::parse()` to return constants annotations [#15919](https://github.com/phalcon/cphalcon/issues/15919)
+- Added `Phalcon\Annotations\Reflection::getConstantsAnnotations()` method that returns constants annotations [#15919](https://github.com/phalcon/cphalcon/issues/15919)
+- Changes to the `Phalcon\Annotations\Adapter\AdapterInterface`:
+    - Added `getConstant()` method that returns class constant annotations collection
+    - Added `getConstants()` method that returns class constants annotations array list
