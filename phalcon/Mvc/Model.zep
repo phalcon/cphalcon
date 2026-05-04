@@ -4361,10 +4361,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         let snapshotValue = snapshotValue->getValue();
                                     }
 
-                                    let updateValue = value;
+                                    /**
+                                     * A RawValue holds a SQL expression (e.g.
+                                     * "col + 2"). It cannot be meaningfully
+                                     * compared to a stored scalar, so always
+                                     * treat the field as changed. This fixes
+                                     * the case where the current DB value is 0
+                                     * and the expression evaluates (via
+                                     * floatval) to 0.0, incorrectly suppressing
+                                     * the UPDATE.
+                                     */
                                     if is_object(value) && value instanceof RawValue {
-                                        let updateValue = value->getValue();
-                                    }
+                                        let changed = true;
+                                    } else {
+
+                                    let updateValue = value;
 
                                     switch dataType {
 
@@ -4394,6 +4405,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         default:
                                             let changed = updateValue != snapshotValue;
                                     }
+                                    } // end else (value is not RawValue)
                                 }
                             }
                         }

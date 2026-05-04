@@ -1417,7 +1417,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
             number, field, records, exprValue, updateValue, wildcard, record,
-            exception;
+            exception, sqlExpr, namedParams, paramKey, paramValue;
 
         let models = intermediate["models"];
 
@@ -1506,9 +1506,41 @@ class Query implements QueryInterface, InjectionAwareInterface
                     throw new Exception("Not supported");
 
                 default:
-                    let updateValue = new RawValue(
-                        dialect->getSqlExpression(exprValue)
-                    );
+                    let sqlExpr = dialect->getSqlExpression(exprValue);
+
+                    /**
+                     * If the expression contains named placeholders (e.g.
+                     * "col + :param"), resolve them from bindParams so the
+                     * RawValue is free of named params. This prevents a PDO
+                     * "mixed named and positional parameters" error when the
+                     * WHERE clause uses positional "?" markers.
+                     */
+                    let namedParams = [];
+
+                    if preg_match_all("/:([a-zA-Z0-9_]+)/", sqlExpr, namedParams) {
+                        for paramKey in namedParams[1] {
+                            if fetch paramValue, bindParams[paramKey] {
+                                if typeof paramValue == "integer" || typeof paramValue == "double" {
+                                    let sqlExpr = str_replace(
+                                        ":" . paramKey,
+                                        (string) paramValue,
+                                        sqlExpr
+                                    );
+                                } else {
+                                    let sqlExpr = str_replace(
+                                        ":" . paramKey,
+                                        connection->escapeString((string) paramValue),
+                                        sqlExpr
+                                    );
+                                }
+
+                                unset selectBindParams[paramKey];
+                                unset selectBindTypes[paramKey];
+                            }
+                        }
+                    }
+
+                    let updateValue = new RawValue(sqlExpr);
 
                     break;
             }
