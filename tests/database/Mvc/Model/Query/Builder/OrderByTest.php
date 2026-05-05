@@ -77,4 +77,36 @@ final class OrderByTest extends AbstractDatabaseTestCase
         $actual   = $phql;
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-05
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderOrderByWithComplexExpression(): void
+    {
+        $builder = new Builder();
+        $phql    = $builder
+            ->columns('inv_id, inv_title')
+            ->addFrom(Invoices::class)
+            ->orderBy(
+                [
+                    'CASE WHEN inv_status_flag = 1 THEN 0 ELSE 1 END ASC',
+                    'NOT inv_status_flag',
+                    'inv_title DESC',
+                ]
+            )
+            ->getPhql()
+        ;
+
+        $expected = 'SELECT inv_id, inv_title '
+            . 'FROM [Phalcon\Tests\Support\Models\Invoices] '
+            . 'ORDER BY CASE WHEN inv_status_flag = 1 THEN 0 ELSE 1 END ASC, '
+            . 'NOT inv_status_flag, [inv_title] DESC';
+        $actual   = $phql;
+        $this->assertEquals($expected, $actual);
+    }
 }

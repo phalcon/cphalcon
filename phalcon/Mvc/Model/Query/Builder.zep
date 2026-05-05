@@ -964,16 +964,37 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         continue;
                     }
 
-                    if memstr(orderItem, " ") !== 0 {
-                        var itemExplode;
+                    /**
+                     * For cases 'ORDER BY column ASC' and complex expressions
+                     */
+                    var itemTrimmed, lastSpacePosition;
 
-                        let itemExplode = explode(" ", orderItem);
-                        let orderItems[] = this->autoescape(itemExplode[0]) . " " . itemExplode[1];
+                    let itemTrimmed = trim(orderItem),
+                        lastSpacePosition = strrpos(itemTrimmed, " ");
+
+                    if false !== lastSpacePosition {
+                        var perhapsExpression, perhapsDirection;
+
+                        let perhapsExpression = trim(substr(itemTrimmed, 0, lastSpacePosition)),
+                            perhapsDirection = rtrim(substr(itemTrimmed, lastSpacePosition + 1));
+
+                        if (
+                            strcasecmp(perhapsDirection, "desc") == 0 ||
+                            strcasecmp(perhapsDirection, "asc") == 0
+                        ) {
+                            if !memstr(perhapsExpression, " ") {
+                                let perhapsExpression = this->autoescape(perhapsExpression);
+                            }
+
+                            let orderItems[] = perhapsExpression . " " . perhapsDirection;
+                        } else {
+                            let orderItems[] = itemTrimmed;
+                        }
 
                         continue;
                     }
 
-                    let orderItems[] = this->autoescape(orderItem);
+                    let orderItems[] = this->autoescape(itemTrimmed);
                 }
 
                 let phql .= " ORDER BY " . join(", ", orderItems);
