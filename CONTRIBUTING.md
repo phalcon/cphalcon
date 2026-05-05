@@ -44,6 +44,7 @@ Please report bugs when you've exhausted all of the above options.
 * Add tests relevant to the fixed bug or new feature. Test classes should follow the [PSR-12 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-coding-style-guide.md). 
 * Phalcon is written in [Zephir](https://zephir-lang.com/), please do not submit commits that modify C generated files directly or those whose functionality/fixes are implemented in the C programming language
 * Remove any change to `ext/kernel`, `*.zep.c` and `*.zep.h` files before submitting the pull request
+* Consult the [Contributions](https://docs.phalcon.io/latest/contributions/) section of our documentation and please ensure you read the [AI development](https://docs.phalcon.io/latest/ai-development/) document also
 
 ## Requesting Features
 
