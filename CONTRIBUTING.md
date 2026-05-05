@@ -39,6 +39,7 @@ Please report bugs when you've exhausted all of the above options.
 
 ## Pull Request Checklist
 
+* Every pull request MUST link to an issue. If no issue exists, please create one describing what you pull request addresses.
 * Don't submit your pull requests to the `master` branch. Branch from the required branch and, if needed, rebase to the proper branch before submitting your pull request. If it does not merge cleanly with master you may be asked to rebase your changes
 * Don't put submodule updates in your pull request unless they are to landed commits 
 * Add tests relevant to the fixed bug or new feature. Test classes should follow the [PSR-12 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-coding-style-guide.md). 
