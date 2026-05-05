@@ -8,6 +8,7 @@
 - Changed `Phalcon\Html\Helper\AbstractSeries::__toString()` to `ksort()` its `store` before rendering so entries are emitted in position order rather than registration order; `Phalcon\Html\Helper\Style::add()` and `Phalcon\Html\Helper\Script::add()` now accept an optional `int $pos = -1` argument that is routed through the new protected `pushOrPlace()` helper (negative pushes onto the next auto-increment slot, non-negative places at that key, advancing past occupied slots) [#16971](https://github.com/phalcon/cphalcon/issues/16971)
 - Changed `Phalcon\Html\Helper\Input\Checkbox` and `Phalcon\Html\Helper\Input\Radio` to extend a new shared `Phalcon\Html\Helper\Input\AbstractChecked`; `Radio` no longer extends `Checkbox`. Two paths now render `checked="checked"`: the unconditional opt-ins `["checked" => "checked"]` (case-insensitive) and `["checked" => true]`, and a value-match path comparing the supplied `checked` attribute against the input's `value` (`==` by default for mixed int/string round-tripping, `===` under `strict(true)`) [#16971](https://github.com/phalcon/cphalcon/issues/16971)
 - Changed `Phalcon\Html\TagFactory` to no longer extend `Phalcon\Factory\AbstractFactory`; the registration pipeline now accepts class-strings, closures/callables, or `[className, [depKey, ...]]` / `[className, [depKey, ...], [extraArg, ...]]` tuples, and helpers are lazily cached per name in a separate `instances` map so `set()` overrides correctly invalidate the previous instance. `has()` now reports against the recipe map instead of the resolved-instance map [#16971](https://github.com/phalcon/cphalcon/issues/16971)
+- Changed `Phalcon\Mvc\Url\UrlInterface::get()` signature to match the implementation: the previously undeclared `var baseUri = null` fourth parameter (added to `Phalcon\Mvc\Url::get()` in 2015 but never propagated to the interface) and the new `bool replaceArgs = false` fifth parameter are now part of the contract [#16986](https://github.com/phalcon/cphalcon/issues/16986)
 
 ### Added
 
@@ -19,6 +20,8 @@
 - Added `Phalcon\Time\Clock\Exception` with the `invalidModifier()` named constructor; `FrozenClock::adjust()` throws this exception uniformly across PHP versions when the modifier string cannot be parsed (catching `DateMalformedStringException` on PHP 8.3+ and trapping the `E_WARNING` plus `false` return on earlier versions, leaving the clock state untouched on failure) [#16965](https://github.com/phalcon/cphalcon/issues/16965)
 - Added `Phalcon\Time\Clock` namespace with `ClockInterface`, `SystemClock`, and `FrozenClock` to wrap clock functionality for the application; `SystemClock` returns the current time as a `DateTimeImmutable` in a configurable timezone (with `fromUTC()` and `fromSystemTimezone()` named constructors), while `FrozenClock` returns a fixed instant for deterministic testing and exposes `set()` and `adjust()` to move the clock in place (returning `$this` for fluent chaining) [#16965](https://github.com/phalcon/cphalcon/issues/16965)
 - Added `Raw` factory variants `aRaw`, `buttonRaw`, `elementRaw`, `labelRaw`, `olRaw`, and `ulRaw` to `Phalcon\Html\TagFactory`, each backed by a tuple recipe that pins `raw = true` on the constructor of the underlying helper [#16971](https://github.com/phalcon/cphalcon/issues/16971)
+- Added per-option HTML attribute support to the `Phalcon\Html\Helper\Input\Select` data-provider path: `Phalcon\Html\Helper\Input\Select\SelectDataInterface` now also exposes `getAttributes()` returning `[optionValue => [attrName => stringValue, ...]]`; `ArrayData` accepts a second constructor argument with the resolved per-value attribute map, and `ResultsetData` accepts a third `attributesMap` argument (`htmlAttr => string|callable`) whose closures receive the current row. Resolution happens once in the providers (with `false`/`null` results dropped); rendering continues to flow through the existing `AbstractHelper` attribute pipeline [#16983](https://github.com/phalcon/cphalcon/issues/16983)
+- Added an opt-in `bool $replaceArgs = false` fifth parameter to `Phalcon\Mvc\Url::get()`; when `true` and the supplied `$uri` already contains a query string, the existing query is parsed via `parse_str()` and merged under `array_merge($existing, (array) $args)` so user-supplied keys override colliding ones (e.g. `$url->get('http://example.com?page=1', ['page' => 5], null, null, true)` now returns `http://example.com?page=5` instead of `http://example.com?page=1&page=5`). The default (flag omitted) preserves the legacy append-with-`&` behavior to keep existing callers working [#16986](https://github.com/phalcon/cphalcon/issues/16986)
 
 ### Fixed
 
@@ -32,6 +35,8 @@
 - Fixed `Phalcon\Tag\Select::optionsFromArray()` not escaping option label text, allowing XSS injection via malicious values; labels are now escaped with `escapeHtml()` and option values with `escapeHtmlAttr()` via the escaper service, consistent with `optionsFromResultset()` [#16660](https://github.com/phalcon/cphalcon/issues/16660)
 - Fixed `Phalcon\Mvc\Model::doLowInsert()` throwing `Unable to insert into <table> without data` when saving a model whose only column is an auto-increment primary key; on dialects where `useExplicitIdValue()` is `false` (MySQL, SQLite) the identity branch produced an empty `values` array. The identity column is now added with the connection's default identity value when the resulting `values` array would otherwise be empty [#156](https://github.com/phalcon/phalcon/issues/156)
 - Fixed `Phalcon\Mvc\Model::findFirst()` causing a segmentation fault in high-iteration loops (e.g. 5M iterations) due to unbounded memory growth from the static `internalPhqlCache` and unreleased `PDOStatement` resources; `Phalcon\Mvc\Model\Query::parse()` now evicts oldest cache entries via FIFO when the cache exceeds 1024 entries, and `Phalcon\Db\Result\PdoResult::__destruct()` now explicitly calls `closeCursor()` and nullifies references to release database resources on garbage collection [#16976](https://github.com/phalcon/cphalcon/issues/16976)
+- Fixed `Phalcon\Mvc\Model\Query::executeUpdate()` and `Phalcon\Mvc\Model::doLowUpdate()` for PHQL `UPDATE ... SET <expr>` expressions with placeholders (e.g. `col = col + :inc:`): named placeholders embedded in expression SQL are now resolved before creating `RawValue` to avoid PDO "mixed named and positional parameters", and dynamic-update comparisons now always treat `RawValue` assignments as changed so updates are not skipped when the current numeric value is `0` [#16976](https://github.com/phalcon/cphalcon/issues/16976)
+- Fixed `.ci/release-notes.sh` failing intermittently with `grep: write error: Broken pipe` once `CHANGELOG-5.0.md` grew past the pipe-buffer threshold; the `grep ... | head -n N` pipelines (with `set -o pipefail` active) gave `grep` `SIGPIPE` when `head` closed the FD before `grep` finished writing, aborting the step. Replaced both pipelines with single-pass `awk` programs that exit on the matching line, eliminating the broken-pipe race entirely while keeping the original "extract from the latest `## ` heading down to one line above the next `# ` heading" behavior
 
 ### Removed
 
@@ -61,9 +66,7 @@
 - Fixed `Phalcon\Mvc\Model\Query\Builder::autoescape()` incorrectly wrapping function expressions (e.g. `DATE_PART(...)`) in brackets when used in `groupBy()`, causing a `"Column does not belong to any of the selected models"` exception [#16599](https://github.com/phalcon/cphalcon/issues/16599)
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029)
 
-### Removed
-
-## 5.12.0 (2026-04-29)
+## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
 
 ### Changed
 
@@ -141,8 +144,7 @@
 
 ### Removed
 
-# Changelog
-## 5.11.1 (2026-04-04)
+## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
 ### Changed
 
@@ -158,7 +160,7 @@
 
 ### Removed
 
-## 5.11.0 (2026-04-03)
+## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
 
 ### Changed
 
@@ -188,8 +190,7 @@
 
 ### Removed
 
-# Changelog
-## 5.10.0 (2025-12-25)
+## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
 ### Changed
 
@@ -735,7 +736,7 @@
     - `Phalcon\Cache\CacheInterface`
     - `Phalcon\Cache\AbstractCache` to be used in the cache class but also the proxy-psr16 repo [#15927](https://github.com/phalcon/cphalcon/issues/15927)
 - Added
-    - EvolvableLinkInterface.zep
+    - `Phalcon\Html\Link\Interfaces\EvolvableLinkInterface`
     - `Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface`
     - `Phalcon\Html\Link\Interfaces\LinkInterface`
     - `Phalcon\Html\Link\Interfaces\LinkProviderInterface`

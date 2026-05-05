@@ -25,14 +25,29 @@ class ArrayData implements SelectDataInterface
     /**
      * @var array
      */
+    protected attributes = [];
+
+    /**
+     * @var array
+     */
     protected data = [];
 
     /**
      * @param array data
+     * @param array attributes
      */
-    public function __construct(array data = [])
+    public function __construct(array data = [], array attributes = [])
     {
-        let this->data = data;
+        let this->data       = data;
+        let this->attributes = attributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
     }
 
     /**

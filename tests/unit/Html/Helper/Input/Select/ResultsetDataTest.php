@@ -83,4 +83,105 @@ final class ResultsetDataTest extends AbstractUnitTestCase
 
         $this->assertSame(['1' => 'Ferrari', '2' => 'Ford'], $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testGetAttributesEmptyWhenNoMapProvided(): void
+    {
+        $rows = [
+            ['id' => '1', 'name' => 'Ferrari'],
+            ['id' => '2', 'name' => 'Ford'],
+        ];
+
+        $data = new ResultsetData(new FakeResultset($rows), ['id', 'name']);
+
+        $this->assertSame([], $data->getAttributes());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testGetAttributesAppliesStaticStringToEveryRow(): void
+    {
+        $rows = [
+            ['id' => '1', 'name' => 'Ferrari'],
+            ['id' => '2', 'name' => 'Ford'],
+        ];
+
+        $data = new ResultsetData(
+            new FakeResultset($rows),
+            ['id', 'name'],
+            ['dir' => 'rtl']
+        );
+
+        $expected = [
+            '1' => ['dir' => 'rtl'],
+            '2' => ['dir' => 'rtl'],
+        ];
+
+        $this->assertSame($expected, $data->getAttributes());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testGetAttributesEvaluatesClosurePerRow(): void
+    {
+        $rows = [
+            ['id' => '1', 'name' => 'Ferrari', 'destroyed' => false],
+            ['id' => '2', 'name' => 'Ford', 'destroyed' => true],
+        ];
+
+        $data = new ResultsetData(
+            new FakeResultset($rows),
+            ['id', 'name'],
+            [
+                'disabled' => function ($row) {
+                    return $row['destroyed'] ? 'disabled' : false;
+                },
+                'class'    => function ($row) {
+                    return in_array($row['id'], ['1', '3'], true) ? 'favorite' : false;
+                },
+            ]
+        );
+
+        $expected = [
+            '1' => ['class' => 'favorite'],
+            '2' => ['disabled' => 'disabled'],
+        ];
+
+        $this->assertSame($expected, $data->getAttributes());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testGetAttributesIsResolvedOnceAcrossCalls(): void
+    {
+        $rows  = [['id' => '1', 'name' => 'Ferrari']];
+        $calls = 0;
+
+        $data = new ResultsetData(
+            new FakeResultset($rows),
+            ['id', 'name'],
+            [
+                'class' => function () use (&$calls) {
+                    $calls++;
+
+                    return 'favorite';
+                },
+            ]
+        );
+
+        $data->getAttributes();
+        $data->getOptions();
+        $data->getAttributes();
+
+        $this->assertSame(1, $calls);
+    }
 }

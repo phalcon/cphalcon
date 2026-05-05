@@ -22,5 +22,14 @@ namespace Phalcon\Html\Helper\Input\Select;
  */
 interface SelectDataInterface
 {
+    /**
+     * Returns the per-option attribute map.
+     *
+     * Format: [optionValue => [attrName => stringValue, ...]].
+     * Implementations must return resolved string values; no escaping,
+     * ordering, or rendering is performed here.
+     */
+    public function getAttributes() -> array;
+
     public function getOptions() -> array;
 }
