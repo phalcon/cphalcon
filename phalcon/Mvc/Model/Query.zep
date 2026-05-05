@@ -648,9 +648,20 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         /**
-         * Store the prepared AST in the cache
+         * Store the prepared AST in the cache.
+         * Evict oldest entries when the cache exceeds the limit to prevent
+         * unbounded memory growth in long-running loops with dynamic PHQL.
          */
         if typeof uniqueId == "int" {
+            if count(self::internalPhqlCache) > 1024 {
+                let self::internalPhqlCache = array_slice(
+                    self::internalPhqlCache,
+                    -512,
+                    null,
+                    true
+                );
+            }
+
             let self::internalPhqlCache[uniqueId] = irPhql;
         }
 
