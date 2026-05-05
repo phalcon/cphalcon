@@ -134,9 +134,9 @@ final class GetTest extends AbstractUnitTestCase
 
         parse_str(parse_url($actual, PHP_URL_QUERY), $query);
 
-        $this->assertSame('5',   $query['page']);
+        $this->assertSame('5', $query['page']);
         $this->assertSame('asc', $query['sort']);
-        $this->assertSame('20',  $query['limit']);
+        $this->assertSame('20', $query['limit']);
     }
 
     /**
