@@ -10,6 +10,8 @@
 
 namespace Phalcon\Contracts\Encryption\Security;
 
+use Phalcon\Encryption\Security\Random;
+
 interface CryptoUtils
 {
     public function computeHmac(
