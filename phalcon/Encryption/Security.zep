@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption;
 
+use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\RequestInterface;
@@ -34,7 +35,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * }
  *```
  */
-class Security extends AbstractInjectionAware
+class Security extends AbstractInjectionAware implements SecurityContract
 {
     /**
      * @var int
