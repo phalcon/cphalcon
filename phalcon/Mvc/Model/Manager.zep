@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -1446,8 +1447,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             let reusable = (bool) relation->isReusable();
 
             if reusable {
-                let uniqueKey = unique_key(referencedModel, [intermediateModel, parameters, record->readAttribute(fields)]),
-                    records = this->getReusableRecords(referencedModel, uniqueKey);
+                if record instanceof CacheKeyProvider {
+                    let uniqueKey = record->getUniqueKey();
+                } else {
+                    let uniqueKey = unique_key(
+                        referencedModel,
+                        [intermediateModel, parameters, record->readAttribute(fields)]
+                    );
+                }
+
+                let records = this->getReusableRecords(referencedModel, uniqueKey);
 
                 if typeof records == "array" || typeof records == "object" {
                     return records;
@@ -1544,8 +1553,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let reusable = (bool) relation->isReusable();
 
         if reusable {
-            let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]),
-                records = this->getReusableRecords(referencedModel, uniqueKey);
+            if record instanceof CacheKeyProvider {
+                let uniqueKey = record->getUniqueKey();
+            } else {
+                let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]);
+            }
+
+            let records = this->getReusableRecords(referencedModel, uniqueKey);
 
             if typeof records == "array" || typeof records == "object" {
                 return records;
