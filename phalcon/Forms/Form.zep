@@ -188,7 +188,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      */
     public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
-        var filter, key, value, element, filters, container, filteredValue;
+        var filter, key, value, element, candidate, filters, container, filteredValue;
         array assignData, filteredData;
         string method;
 
@@ -209,7 +209,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
              * Get the element
              */
             if !fetch element, this->elements[key] {
-                continue;
+                let element = null;
+
+                for candidate in this->elements {
+                    if candidate->getAttribute("name") === key {
+                        let element = candidate;
+                        break;
+                    }
+                }
+
+                if element === null {
+                    continue;
+                }
             }
 
             /**
