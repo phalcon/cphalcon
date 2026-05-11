@@ -143,9 +143,7 @@ class TagFactory
      * TagFactory constructor.
      *
      * @param EscaperInterface          $escaper
-     * @param array<string, Closure>    $services  Map of service name to a
-     *                                             zero-arg Closure that returns
-     *                                             the helper instance.
+     * @param array<string, Closure>    $services  Map of service name to a zero-arg Closure with helper instance.
      * @param ResponseInterface|null    $response
      * @param UrlInterface|null         $url
      */
