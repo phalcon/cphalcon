@@ -14,6 +14,7 @@
 
 namespace Phalcon\Html;
 
+use Closure;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\Helper\Base;
@@ -49,25 +50,13 @@ use Phalcon\Mvc\Url\UrlInterface;
  * ServiceLocator implementation for Tag helpers.
  *
  * Built-in services are seeded by the constructor. Users may add or override
- * services via `set()`, passing one of:
- *  - a closure / callable (full recipe)
- *  - a class-string (escaper is injected automatically)
- *  - a `[className, [depKey, ...]]` tuple where each dep key is resolved from
- *    the factory's own services or its injected `response` / `url`
- *  - a `[className, [depKey, ...], [extraArg, ...]]` tuple where the extra
- *    args are passed verbatim to the constructor after the resolved deps
+ * services via `set()`, passing a Closure that returns the helper instance.
  *
  * Helpers are cached per name after first construction.
  *
  * `__call()` resolves the named helper and dispatches to its `__invoke()`,
  * so each entry in the @method block below describes the result of calling
  * `$factory->serviceName(...)` rather than `newInstance("serviceName")`.
- *
- * @property EscaperInterface       $escaper
- * @property ResponseInterface|null $response
- * @property UrlInterface|null      $url
- * @property array                  $factories
- * @property array                  $instances
  *
  * @method string      a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string      aRaw(string $href, string $text, array $attributes = [])
@@ -109,21 +98,26 @@ use Phalcon\Mvc\Url\UrlInterface;
  * @method Generic     inputWeek(string $name, string $value = null, array $attributes = [])
  * @method string      label(string $label, array $attributes = [], bool $raw = false)
  * @method string      labelRaw(string $label, array $attributes = [])
- * @method Link        link(string $indent = '    ', string $delimiter = PHP_EOL)
- * @method Meta        meta(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method Link        link(string $indent = '    ', string $delimiter = "\n")
+ * @method Meta        meta(string $indent = '    ', string $delimiter = "\n")
  * @method Ol          ol(string $indent = '    ', string $delimiter = null, array $attributes = [])
  * @method Ol          olRaw(string $indent = '    ', string $delimiter = null, array $attributes = [])
  * @method string      preload(string $href, string $type = 'style', array $attributes = [])
- * @method Script      script(string $indent = '    ', string $delimiter = PHP_EOL)
- * @method Style       style(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method Script      script(string $indent = '    ', string $delimiter = "\n")
+ * @method Style       style(string $indent = '    ', string $delimiter = "\n")
  * @method string      tag(string $name, array $attributes = [])
- * @method Title       title(string $indent = '    ', string $delimiter = PHP_EOL)
+ * @method Title       title(string $indent = '    ', string $delimiter = "\n")
  * @method Ul          ul(string $indent = '    ', string $delimiter = null, array $attributes = [])
  * @method Ul          ulRaw(string $indent = '    ', string $delimiter = null, array $attributes = [])
  * @method string      voidTag(string $name, array $attributes = [])
  */
 class TagFactory
 {
+    /**
+     * @var Doctype
+     */
+    private doctype;
+
     /**
      * @var EscaperInterface
      */
@@ -152,10 +146,12 @@ class TagFactory
     /**
      * TagFactory constructor.
      *
-     * @param EscaperInterface       $escaper
-     * @param array                  $services
-     * @param ResponseInterface|null $response
-     * @param UrlInterface|null      $url
+     * @param EscaperInterface          $escaper
+     * @param array<string, Closure>    $services  Map of service name to a
+     *                                             zero-arg Closure that returns
+     *                                             the helper instance.
+     * @param ResponseInterface|null    $response
+     * @param UrlInterface|null         $url
      */
     public function __construct(
         <EscaperInterface> escaper,
@@ -165,9 +161,10 @@ class TagFactory
     ) {
         var name, definition;
 
-        let this->escaper  = escaper,
-            this->response = response,
-            this->url      = url,
+        let this->escaper   = escaper,
+            this->response  = response,
+            this->url       = url,
+            this->doctype   = new Doctype(),
             this->factories = this->getDefaultServices();
 
         for name, definition in services {
@@ -181,7 +178,8 @@ class TagFactory
      * @param string $name
      * @param array  $arguments
      *
-     * @return false|mixed
+     * @return mixed
+     * @throws \Phalcon\Html\Exception
      */
     public function __call(string name, array arguments)
     {
@@ -199,7 +197,7 @@ class TagFactory
      */
     public function has(string name) -> bool
     {
-        return isset(this->factories[name]);
+        return isset this->factories[name];
     }
 
     /**
@@ -207,12 +205,12 @@ class TagFactory
      *
      * @param string $name
      *
-     * @return mixed
-     * @throws Exception
+     * @return object
+     * @throws \Phalcon\Html\Exception
      */
-    public function newInstance(string name) -> var
+    public function newInstance(string name) -> object
     {
-        var factory, className, deps, args, depName, resolved, extra, extraArg;
+        var factory;
 
         if !isset this->factories[name] {
             throw new Exception("Service " . name . " is not registered");
@@ -220,139 +218,198 @@ class TagFactory
 
         if !isset this->instances[name] {
             let factory = this->factories[name];
-
-            if typeof factory === "object" || (typeof factory === "array" && is_callable(factory)) {
-                let this->instances[name] = call_user_func(factory);
-            } elseif typeof factory === "array" {
-                let className = factory[0],
-                    deps      = factory[1],
-                    args      = [this->escaper];
-
-                for depName in deps {
-                    let resolved = this->resolveDependency(depName),
-                        args[]   = resolved;
-                }
-
-                if isset factory[2] {
-                    let extra = factory[2];
-                    for extraArg in extra {
-                        let args[] = extraArg;
-                    }
-                }
-
-                let this->instances[name] = create_instance_params(className, args);
-            } else {
-                let this->instances[name] = create_instance_params(
-                    factory,
-                    [this->escaper]
-                );
-            }
+            let this->instances[name] = call_user_func(factory);
         }
 
         return this->instances[name];
     }
 
     /**
-     * Register a helper. Accepts a closure/callable (full recipe), a
-     * class-string (wrapped into a closure that injects the escaper), or a
-     * `[className, [depName, ...]]` tuple where each dep is resolved from
-     * the factory's own services or its injected `response`/`url`.
+     * Register a helper via a zero-argument Closure. The Closure is invoked on
+     * the first matching `newInstance()` call and its return value is cached.
+     * Passing a new definition clears any cached instance so the next call to
+     * `newInstance()` rebuilds it.
      *
-     * @param string $name
-     * @param mixed  $definition
+     * @param string  $name
+     * @param Closure $definition
      */
-    public function set(string name, var definition) -> void
+    public function set(string name, <Closure> definition) -> void
     {
         let this->factories[name] = definition;
         unset(this->instances[name]);
     }
 
     /**
-     * Resolves a dependency key for the tuple form of a service recipe.
-     * Recognized keys: `response`, `url`. Anything else is treated as a
-     * sibling service name and resolved via `newInstance()`. Tuple form is
-     * `[className, [depKey, ...]]` or `[className, [depKey, ...], [extraArg, ...]]`
-     * where extra args are passed through to the constructor verbatim.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    protected function resolveDependency(string name) -> var
-    {
-        if name === "response" {
-            return this->response;
-        }
-
-        if name === "url" {
-            return this->url;
-        }
-
-        return this->newInstance(name);
-    }
-
-    /**
-     * Default service recipes. Each entry is either a class-string (escaper
-     * is injected automatically) or a `[className, [depKey, ...]]` tuple
-     * where each dep key is resolved by `resolveDependency()`.
+     * Default service recipes. Every entry is a Closure that returns a
+     * fully-constructed helper instance. Services are built lazily and cached.
      *
      * @return array
      */
     protected function getDefaultServices() -> array
     {
+        var escaper, response, url;
+
+        let escaper  = this->escaper,
+            response = this->response,
+            url      = this->url;
+
         return [
-            "a"                  : "Phalcon\\Html\\Helper\\Anchor",
-            "aRaw"               : ["Phalcon\\Html\\Helper\\Anchor", [], [null, true]],
-            "base"               : "Phalcon\\Html\\Helper\\Base",
-            "body"               : "Phalcon\\Html\\Helper\\Body",
-            "breadcrumbs"        : ["Phalcon\\Html\\Helper\\Breadcrumbs", ["url"]],
-            "button"             : "Phalcon\\Html\\Helper\\Button",
-            "buttonRaw"          : ["Phalcon\\Html\\Helper\\Button", [], [null, true]],
-            "close"              : "Phalcon\\Html\\Helper\\Close",
-            "doctype"            : "Phalcon\\Html\\Helper\\Doctype",
-            "element"            : "Phalcon\\Html\\Helper\\Element",
-            "elementRaw"         : ["Phalcon\\Html\\Helper\\Element", [], [null, true]],
-            "form"               : "Phalcon\\Html\\Helper\\Form",
-            "friendlyTitle"      : "Phalcon\\Html\\Helper\\FriendlyTitle",
-            "img"                : "Phalcon\\Html\\Helper\\Img",
-            "inputCheckbox"      : ["Phalcon\\Html\\Helper\\Input\\Checkbox", ["doctype"]],
-            "inputColor"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["color"]],
-            "inputDate"          : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["date"]],
-            "inputDateTime"      : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["datetime"]],
-            "inputDateTimeLocal" : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["datetime-local"]],
-            "inputEmail"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["email"]],
-            "inputFile"          : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["file"]],
-            "inputHidden"        : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["hidden"]],
-            "inputImage"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["image"]],
-            "inputInput"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"]],
-            "inputMonth"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["month"]],
-            "inputNumeric"       : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["number"]],
-            "inputPassword"      : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["password"]],
-            "inputRadio"         : ["Phalcon\\Html\\Helper\\Input\\Radio", ["doctype"]],
-            "inputRange"         : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["range"]],
-            "inputSearch"        : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["search"]],
-            "inputSelect"        : ["Phalcon\\Html\\Helper\\Input\\Select", ["doctype"]],
-            "inputSubmit"        : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["submit"]],
-            "inputTel"           : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["tel"]],
-            "inputText"          : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["text"]],
-            "inputTextarea"      : ["Phalcon\\Html\\Helper\\Input\\Textarea", ["doctype"]],
-            "inputTime"          : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["time"]],
-            "inputUrl"           : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["url"]],
-            "inputWeek"          : ["Phalcon\\Html\\Helper\\Input\\Generic", ["doctype"], ["week"]],
-            "label"              : "Phalcon\\Html\\Helper\\Label",
-            "labelRaw"           : ["Phalcon\\Html\\Helper\\Label", [], [null, true]],
-            "link"               : "Phalcon\\Html\\Helper\\Link",
-            "meta"               : "Phalcon\\Html\\Helper\\Meta",
-            "ol"                 : "Phalcon\\Html\\Helper\\Ol",
-            "olRaw"              : ["Phalcon\\Html\\Helper\\Ol", [], [null, true]],
-            "preload"            : ["Phalcon\\Html\\Helper\\Preload", ["response"]],
-            "script"             : "Phalcon\\Html\\Helper\\Script",
-            "style"              : "Phalcon\\Html\\Helper\\Style",
-            "tag"                : "Phalcon\\Html\\Helper\\Tag",
-            "title"              : "Phalcon\\Html\\Helper\\Title",
-            "ul"                 : "Phalcon\\Html\\Helper\\Ul",
-            "ulRaw"              : ["Phalcon\\Html\\Helper\\Ul", [], [null, true]],
-            "voidTag"            : ["Phalcon\\Html\\Helper\\VoidTag", ["doctype"]]
+            "a": function () use (escaper) {
+                return new Anchor(escaper, this->newInstance("doctype"));
+            },
+            "aRaw": function () use (escaper) {
+                return new Anchor(escaper, this->newInstance("doctype"), true);
+            },
+            "base": function () use (escaper) {
+                return new Base(escaper, this->newInstance("doctype"));
+            },
+            "body": function () use (escaper) {
+                return new Body(escaper, this->newInstance("doctype"));
+            },
+            "breadcrumbs": function () use (escaper, url) {
+                return new Breadcrumbs(escaper, url);
+            },
+            "button": function () use (escaper) {
+                return new Button(escaper, this->newInstance("doctype"));
+            },
+            "buttonRaw": function () use (escaper) {
+                return new Button(escaper, this->newInstance("doctype"), true);
+            },
+            "close": function () use (escaper) {
+                return new Close(escaper, this->newInstance("doctype"));
+            },
+            "doctype": function () {
+                return this->doctype;
+            },
+            "element": function () use (escaper) {
+                return new Element(escaper, this->newInstance("doctype"));
+            },
+            "elementRaw": function () use (escaper) {
+                return new Element(escaper, this->newInstance("doctype"), true);
+            },
+            "form": function () use (escaper) {
+                return new Form(escaper, this->newInstance("doctype"));
+            },
+            "friendlyTitle": function () use (escaper) {
+                return new FriendlyTitle(escaper);
+            },
+            "img": function () use (escaper) {
+                return new Img(escaper, this->newInstance("doctype"));
+            },
+            "inputCheckbox": function () use (escaper) {
+                return new Checkbox(escaper, this->newInstance("doctype"));
+            },
+            "inputColor": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "color");
+            },
+            "inputDate": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "date");
+            },
+            "inputDateTime": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "datetime");
+            },
+            "inputDateTimeLocal": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "datetime-local");
+            },
+            "inputEmail": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "email");
+            },
+            "inputFile": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "file");
+            },
+            "inputHidden": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "hidden");
+            },
+            "inputImage": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "image");
+            },
+            "inputInput": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"));
+            },
+            "inputMonth": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "month");
+            },
+            "inputNumeric": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "number");
+            },
+            "inputPassword": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "password");
+            },
+            "inputRadio": function () use (escaper) {
+                return new Radio(escaper, this->newInstance("doctype"));
+            },
+            "inputRange": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "range");
+            },
+            "inputSearch": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "search");
+            },
+            "inputSelect": function () use (escaper) {
+                return new Select(escaper, this->newInstance("doctype"));
+            },
+            "inputSubmit": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "submit");
+            },
+            "inputTel": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "tel");
+            },
+            "inputText": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "text");
+            },
+            "inputTextarea": function () use (escaper) {
+                return new Textarea(escaper, this->newInstance("doctype"));
+            },
+            "inputTime": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "time");
+            },
+            "inputUrl": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "url");
+            },
+            "inputWeek": function () use (escaper) {
+                return new Generic(escaper, this->newInstance("doctype"), "week");
+            },
+            "label": function () use (escaper) {
+                return new Label(escaper, this->newInstance("doctype"));
+            },
+            "labelRaw": function () use (escaper) {
+                return new Label(escaper, this->newInstance("doctype"), true);
+            },
+            "link": function () use (escaper) {
+                return new Link(escaper, this->newInstance("doctype"));
+            },
+            "meta": function () use (escaper) {
+                return new Meta(escaper, this->newInstance("doctype"));
+            },
+            "ol": function () use (escaper) {
+                return new Ol(escaper, this->newInstance("doctype"));
+            },
+            "olRaw": function () use (escaper) {
+                return new Ol(escaper, this->newInstance("doctype"), true);
+            },
+            "preload": function () use (escaper, response) {
+                return new Preload(escaper, response);
+            },
+            "script": function () use (escaper) {
+                return new Script(escaper, this->newInstance("doctype"));
+            },
+            "style": function () use (escaper) {
+                return new Style(escaper, this->newInstance("doctype"));
+            },
+            "tag": function () use (escaper) {
+                return new Tag(escaper, this->newInstance("doctype"));
+            },
+            "title": function () use (escaper) {
+                return new Title(escaper, this->newInstance("doctype"));
+            },
+            "ul": function () use (escaper) {
+                return new Ul(escaper, this->newInstance("doctype"));
+            },
+            "ulRaw": function () use (escaper) {
+                return new Ul(escaper, this->newInstance("doctype"), true);
+            },
+            "voidTag": function () use (escaper) {
+                return new VoidTag(escaper, this->newInstance("doctype"));
+            }
         ];
     }
 }
