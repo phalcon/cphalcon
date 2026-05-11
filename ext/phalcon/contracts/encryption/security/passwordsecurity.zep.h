@@ -1,0 +1,49 @@
+
+extern zend_class_entry *phalcon_contracts_encryption_security_passwordsecurity_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_PasswordSecurity);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_checkhash, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, password, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, passwordHash, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, maxPassLength, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_hash, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, password, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_islegacyhash, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, passwordHash, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, hash, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_setdefaulthash, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
+	ZEND_ARG_TYPE_INFO(0, defaultHash, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_setworkfactor, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
+	ZEND_ARG_TYPE_INFO(0, workFactor, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_passwordsecurity_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, checkHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_checkhash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, hash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_hash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, isLegacyHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_islegacyhash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getHashInformation, arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getDefaultHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, setDefaultHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_setdefaulthash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getWorkFactor, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, setWorkFactor, arginfo_phalcon_contracts_encryption_security_passwordsecurity_setworkfactor)
+	PHP_FE_END
+};

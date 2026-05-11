@@ -166,19 +166,12 @@ jobs:
           path: build/phalcon/
           retention-days: 1
 
-      - name: Build extension
+      - name: Build extension (smoke test)
         run: |
           cd build/phalcon
           phpize
           ./configure --enable-phalcon
           make -j"$(nproc)"
-
-      - name: Upload extension artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
-          path: build/phalcon/modules/phalcon.so
-          retention-days: 1
 
   # Validate PIE metadata and confirm the extension builds from the
   # generated source tree that PIE would use.

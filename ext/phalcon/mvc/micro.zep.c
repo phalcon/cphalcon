@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 441);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_1$$3);
 	}
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 441);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_1$$3);
 	}
@@ -1314,7 +1314,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 441);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_1$$3);
 	}
@@ -1447,7 +1447,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount)
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&lazyHandler);
 		object_init_ex(&lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-		ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 442, &mainHandler);
+		ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 443, &mainHandler);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&lazyHandler, &mainHandler);
@@ -1703,7 +1703,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 441);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_1$$3);
 	}
@@ -2001,7 +2001,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 441);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_1$$3);
 	}

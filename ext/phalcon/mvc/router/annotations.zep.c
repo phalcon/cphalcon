@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle)
 				object_init_ex(&route, phalcon_mvc_router_route_ce);
 				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_4, 114, &prefix);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_5$$6, &route, "getcompiledpattern", &_6, 511);
+				ZEPHIR_CALL_METHOD(&_5$$6, &route, "getcompiledpattern", &_6, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_7$$6);
 				ZVAL_STRING(&_7$$6, "$#");
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle)
 					object_init_ex(&route, phalcon_mvc_router_route_ce);
 					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_4, 114, &prefix);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_31$$30, &route, "getcompiledpattern", &_6, 511);
+					ZEPHIR_CALL_METHOD(&_31$$30, &route, "getcompiledpattern", &_6, 0);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_32$$30);
 					ZVAL_STRING(&_32$$30, "$#");
@@ -1066,7 +1066,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback)
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_61__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("actionPreformatCallback"), &_0$$4);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Mvc/Router/Annotations.zep", 475);

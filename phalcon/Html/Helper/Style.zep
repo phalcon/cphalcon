@@ -35,7 +35,7 @@ class Style extends AbstractSeries
      * @return $this
      * @throws Exception
      */
-    public function add(string url, array attributes = [], int pos = -1)
+    public function add(string url, array attributes = [], int position = -1)
     {
         this->pushOrPlace(
             [
@@ -47,7 +47,7 @@ class Style extends AbstractSeries
                 ],
                 this->indent()
             ],
-            pos
+            position
         );
 
         return this;

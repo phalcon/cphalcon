@@ -1146,7 +1146,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 	if (zephir_array_isset_string_fetch(&className, &trace, SL("class"), 0)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "Phalcon");
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "str_starts_with", NULL, 371, &className, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "str_starts_with", NULL, 372, &className, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&parts);

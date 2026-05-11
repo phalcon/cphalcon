@@ -37,4 +37,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_SelectDataInterface)
 	return SUCCESS;
 }
 
+/**
+ * Returns the per-option attribute map.
+ *
+ * Format: [optionValue => [attrName => stringValue, ...]].
+ * Implementations must return resolved string values; no escaping,
+ * ordering, or rendering is performed here.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Html_Helper_Input_Select_SelectDataInterface, getAttributes);
 ZEPHIR_DOC_METHOD(Phalcon_Html_Helper_Input_Select_SelectDataInterface, getOptions);

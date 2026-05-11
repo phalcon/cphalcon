@@ -1213,13 +1213,20 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 {
 	zend_function *function_ptr;
 	zend_closure *closure;
+	zend_class_entry *scope_ce;
 
 	if ((function_ptr = zend_hash_str_find_ptr(&ce->function_table, method_name, method_length)) == NULL) {
 		ZVAL_NULL(return_value);
 		return FAILURE;
 	}
 
-	zend_create_closure(return_value, function_ptr, ce, ce, this_ptr);
+	/**
+	 * When this_ptr is provided, use its class as the scope so the closure
+	 * can access protected/private members of the enclosing object.
+	 */
+	scope_ce = (this_ptr && Z_TYPE_P(this_ptr) == IS_OBJECT) ? Z_OBJCE_P(this_ptr) : ce;
+
+	zend_create_closure(return_value, function_ptr, scope_ce, scope_ce, this_ptr);
 	// Make sure we can use a closure multiple times
 	closure = (zend_closure*)Z_OBJ_P(return_value);
 	closure->func.internal_function.handler = closure->orig_internal_handler;
