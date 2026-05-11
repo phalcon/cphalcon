@@ -37,7 +37,7 @@ final class SetTest extends AbstractUnitTestCase
         /**
          * Overriding 'a' with 'base'
          */
-        $factory->set('a', Base::class);
+        $factory->set('a', fn() => new Base($escaper));
 
         $service = $factory->newInstance('a');
         $class   = Base::class;
