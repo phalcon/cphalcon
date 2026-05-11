@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
@@ -79,6 +80,54 @@ final class BindTest extends AbstractUnitTestCase
         $form->bind(['banned' => 'yes'], $entity);
 
         $this->assertEquals('yes', $entity->banned);
+    }
+
+    /**
+     * Issue #16982 - Unchecked checkboxes are absent from POST data so the
+     * entity property is never reset. When a Check element has an explicit
+     * "unchecked value" registered, bind() must apply it.
+     */
+    public function testFormsFormBindCheckboxUncheckedAppliesDefault(): void
+    {
+        $form = new Form();
+        $form->add((new Check('ours'))->setUncheckedValue(0));
+
+        $entity = new stdClass();
+        $entity->ours = 1;
+        $form->bind([], $entity);
+
+        $this->assertSame(0, $entity->ours);
+    }
+
+    /**
+     * Issue #16982 - Without setUncheckedValue(), bind() must preserve the
+     * pre-existing behavior and leave the entity property untouched.
+     */
+    public function testFormsFormBindCheckboxWithoutUncheckedValueLeavesEntityAlone(): void
+    {
+        $form = new Form();
+        $form->add(new Check('ours'));
+
+        $entity = new stdClass();
+        $entity->ours = 1;
+        $form->bind([], $entity);
+
+        $this->assertSame(1, $entity->ours);
+    }
+
+    /**
+     * Issue #16982 - When the checkbox IS submitted, the explicit POST value
+     * must win over the registered unchecked value.
+     */
+    public function testFormsFormBindCheckboxExplicitValueWinsOverUncheckedDefault(): void
+    {
+        $form = new Form();
+        $form->add((new Check('ours'))->setUncheckedValue(0));
+
+        $entity = new stdClass();
+        $form->bind(['ours' => 'on'], $entity);
+
+        $this->assertSame('on', $entity->ours);
     }
 
     /**

@@ -16,6 +16,7 @@ use Phalcon\Di\Injectable;
 use Phalcon\Support\Settings;
 use Phalcon\Di\DiInterface;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
@@ -189,6 +190,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
         var filter, key, value, element, candidate, filters, container, filteredValue;
+        var elementName, dataKey;
         array assignData, filteredData;
         string method;
 
@@ -198,6 +200,24 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         if empty whitelist {
             let whitelist = this->whitelist;
+        }
+
+        /**
+         * Unchecked checkboxes are absent from POST data. For any Check
+         * element that opted in via setUncheckedValue(), inject the
+         * registered value so the existing bind loop applies it to the
+         * entity. See cphalcon issue #16982.
+         */
+        for elementName, element in this->elements {
+            if element instanceof Check && element->hasUncheckedValue() {
+                let dataKey = element->getAttribute("name");
+                if dataKey === null {
+                    let dataKey = elementName;
+                }
+                if !array_key_exists(dataKey, data) {
+                    let data[dataKey] = element->getUncheckedValue();
+                }
+            }
         }
 
         let filter = null;
