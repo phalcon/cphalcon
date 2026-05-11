@@ -54,10 +54,6 @@ use Phalcon\Mvc\Url\UrlInterface;
  *
  * Helpers are cached per name after first construction.
  *
- * `__call()` resolves the named helper and dispatches to its `__invoke()`,
- * so each entry in the @method block below describes the result of calling
- * `$factory->serviceName(...)` rather than `newInstance("serviceName")`.
- *
  * @method string      a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string      aRaw(string $href, string $text, array $attributes = [])
  * @method string      base(string $href, array $attributes = [])
