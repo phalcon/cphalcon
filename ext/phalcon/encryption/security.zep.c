@@ -161,6 +161,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_STD_DES"), 1);
 
+	zend_class_implements(phalcon_encryption_security_ce, 1, phalcon_contracts_encryption_security_security_ce);
 	return SUCCESS;
 }
 
@@ -415,7 +416,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 38, &_5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 258);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 259);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -429,7 +430,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 38, &_8$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$5, "phalcon/Encryption/Security.zep", 267);
+		zephir_throw_exception_debug(&_6$$5, "phalcon/Encryption/Security.zep", 268);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
