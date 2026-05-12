@@ -15,6 +15,7 @@ use Iterator;
 use Phalcon\Di\Injectable;
 use Phalcon\Support\Settings;
 use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Forms\Schema;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
@@ -797,6 +798,53 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function key() -> int
     {
         return this->position;
+    }
+
+    /**
+     * Loads elements into the form from a Schema source.
+     *
+     * Each definition in the schema must have at least 'type' and 'name'.
+     * The locator resolves the type string to an element factory; custom
+     * types can be registered on the locator with setElement().
+     *
+     * @param Schema       $schema
+     * @param FormsLocator $locator
+     *
+     * @return Form
+     * @throws Exception
+     */
+    public function load(<Schema> schema, <FormsLocator> locator) -> <Form>
+    {
+        var attributes, definition, element, factory, name, options, type;
+
+        for definition in schema->load() {
+            let type       = strtolower((string) definition["type"]),
+                name       = (string) definition["name"],
+                attributes = isset definition["attributes"] ? (array) definition["attributes"] : [],
+                options    = isset definition["options"]    ? (array) definition["options"]    : [],
+                factory    = locator->getElement(type),
+                element    = {factory}(name, options, attributes);
+
+            if isset definition["label"] && !empty definition["label"] {
+                element->setLabel((string) definition["label"]);
+            }
+
+            if array_key_exists("default", definition) {
+                element->setDefault(definition["default"]);
+            }
+
+            if isset definition["filters"] && !empty definition["filters"] {
+                element->setFilters(definition["filters"]);
+            }
+
+            if isset definition["validators"] && !empty definition["validators"] {
+                element->addValidators(definition["validators"]);
+            }
+
+            this->add(element);
+        }
+
+        return this;
     }
 
     /**
