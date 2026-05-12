@@ -53,7 +53,7 @@ abstract class AbstractInput extends AbstractHelper
             "name" : name
         ];
 
-        if !isset attributes["id"] {
+        if !isset attributes["id"] && !memstr(name, "[") {
             let this->attributes["id"] = name;
         }
 

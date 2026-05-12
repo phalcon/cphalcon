@@ -28,8 +28,10 @@ use Phalcon\Html\Helper\Form;
 use Phalcon\Html\Helper\FriendlyTitle;
 use Phalcon\Html\Helper\Img;
 use Phalcon\Html\Helper\Input\Checkbox;
+use Phalcon\Html\Helper\Input\CheckboxGroup;
 use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Radio;
+use Phalcon\Html\Helper\Input\RadioGroup;
 use Phalcon\Html\Helper\Input\Select;
 use Phalcon\Html\Helper\Input\Textarea;
 use Phalcon\Html\Helper\Label;
@@ -69,6 +71,7 @@ use Phalcon\Mvc\Url\UrlInterface;
  * @method string      friendlyTitle(string $text, string $separator = '-', bool $lowercase = true, mixed $replace = null)
  * @method string      img(string $src, array $attributes = [])
  * @method Checkbox    inputCheckbox(string $name, string $value = null, array $attributes = [])
+ * @method CheckboxGroup inputCheckboxGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
  * @method Generic     inputColor(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputDate(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputDateTime(string $name, string $value = null, array $attributes = [])
@@ -82,6 +85,7 @@ use Phalcon\Mvc\Url\UrlInterface;
  * @method Generic     inputNumeric(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputPassword(string $name, string $value = null, array $attributes = [])
  * @method Radio       inputRadio(string $name, string $value = null, array $attributes = [])
+ * @method RadioGroup    inputRadioGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
  * @method Generic     inputRange(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputSearch(string $name, string $value = null, array $attributes = [])
  * @method Select      inputSelect(string $name, string $value = null, array $attributes = [])
@@ -290,6 +294,9 @@ class TagFactory
             "inputCheckbox": function () use (escaper) {
                 return new Checkbox(escaper, this->newInstance("doctype"));
             },
+            "inputCheckboxGroup": function () use (escaper) {
+                return new CheckboxGroup(escaper, this->newInstance("doctype"));
+            },
             "inputColor": function () use (escaper) {
                 return new Generic(escaper, this->newInstance("doctype"), "color");
             },
@@ -328,6 +335,9 @@ class TagFactory
             },
             "inputRadio": function () use (escaper) {
                 return new Radio(escaper, this->newInstance("doctype"));
+            },
+            "inputRadioGroup": function () use (escaper) {
+                return new RadioGroup(escaper, this->newInstance("doctype"));
             },
             "inputRange": function () use (escaper) {
                 return new Generic(escaper, this->newInstance("doctype"), "range");
