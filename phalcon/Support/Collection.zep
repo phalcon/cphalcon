@@ -186,7 +186,7 @@ class Collection implements
          * If the key is set and is `null` then return the default
          * value also. This aligns with 3.x behavior
          */
-        if unlikely (null === value) {
+        if unlikely (null === value && false === this->strictNull) {
             return defaultValue;
         }
 
