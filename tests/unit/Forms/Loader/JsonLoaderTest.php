@@ -33,7 +33,7 @@ final class JsonLoaderTest extends AbstractUnitTestCase
 
         $this->assertCount(2, $result);
         $this->assertSame('first_name', $result[0]['name']);
-        $this->assertSame('email',      $result[1]['name']);
+        $this->assertSame('email', $result[1]['name']);
     }
 
     public function testLoadPassesThroughExtraKeys(): void
@@ -51,7 +51,7 @@ final class JsonLoaderTest extends AbstractUnitTestCase
         $schema = new JsonLoader($json);
         $result = $schema->load();
 
-        $this->assertSame('City',   $result[0]['label']);
+        $this->assertSame('City', $result[0]['label']);
         $this->assertSame('London', $result[0]['default']);
     }
 
@@ -81,7 +81,7 @@ final class JsonLoaderTest extends AbstractUnitTestCase
 
         $this->assertCount(2, $result);
         $this->assertSame('title', $result[0]['name']);
-        $this->assertSame('body',  $result[1]['name']);
+        $this->assertSame('body', $result[1]['name']);
 
         unlink($path);
     }

@@ -87,8 +87,8 @@ final class LoadFormTest extends AbstractUnitTestCase
         $form = $this->manager->loadForm('register', $schema);
 
         $this->assertCount(3, $form->getElements());
-        $this->assertInstanceOf(Text::class,     $form->get('username'));
-        $this->assertInstanceOf(Email::class,    $form->get('email'));
+        $this->assertInstanceOf(Text::class, $form->get('username'));
+        $this->assertInstanceOf(Email::class, $form->get('email'));
         $this->assertInstanceOf(Password::class, $form->get('password'));
     }
 
