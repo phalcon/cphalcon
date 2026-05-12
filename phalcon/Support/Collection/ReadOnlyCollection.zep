@@ -36,12 +36,15 @@ class ReadOnlyCollection extends Collection
      */
     public function __unserialize(array data) -> void
     {
+        var ex;
+
         let this->constructed = false;
 
         try {
             parent::__unserialize(data);
-        } finally {
+        } catch Throwable, ex {
             let this->constructed = true;
+            throw ex;
         }
     }
 
