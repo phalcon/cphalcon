@@ -160,6 +160,19 @@ class Collection implements
         return count(this->data);
     }
 
+    public function first() -> mixed
+    {
+        var key;
+
+        if (empty(this->data)) {
+            return null;
+        }
+
+        let key = array_key_first(this->data);
+
+        return this->data[key];
+    }
+
     /**
      * Get the element from the collection
      */
@@ -277,6 +290,19 @@ class Collection implements
         }
 
         return records;
+    }
+
+    public function last() -> mixed
+    {
+        var key;
+
+        if (empty(this->data)) {
+            return null;
+        }
+
+        let key = array_key_last(this->data);
+
+        return this->data[key];
     }
 
     /**
