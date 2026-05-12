@@ -13,11 +13,17 @@ runs:
       shell: bash
       run: xcodebuild -version
 
+    - name: Install System Dependencies
+      shell: bash
+      run: brew install pcre2 re2c
+
     - name: Build Phalcon Extension
       shell: bash
       working-directory: ${{ inputs.source }}
       run: |
         export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+        export CPPFLAGS="-I$(brew --prefix pcre2)/include ${CPPFLAGS:-}"
+        export LDFLAGS="-L$(brew --prefix pcre2)/lib ${LDFLAGS:-}"
         echo "::group::Build Phalcon extension"
         phpize
         ./configure --enable-phalcon
