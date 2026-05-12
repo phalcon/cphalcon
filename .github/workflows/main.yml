@@ -102,6 +102,74 @@ jobs:
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
           retention-days: 5
 
+  # Build Phalcon PECL package (kept available alongside PIE for a few
+  # releases to give downstream users time to migrate to PIE).
+  generate_pecl:
+    name: Build Phalcon PECL package
+    needs: [phpcs, stubs]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup APT Repositories
+        run: |
+          # Remove Microsoft repos — our builds often fail due to
+          # unstable/offline Microsoft servers.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
+
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
+      - name: Create Pecl Package
+        id: pecl_create
+        run: |
+          cp build/phalcon/config.w32 config.w32
+          cp build/phalcon/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/config.m4 config.m4
+          cp build/phalcon/php_phalcon.h php_phalcon.h
+          cp build/phalcon/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+
+      - name: Validate Pecl Package
+        run: pecl package-validate phalcon-pecl.tgz
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+
   # Generate fresh C source from Zephir, build the extension, and cache
   # the source tree and compiled .so for all downstream jobs.
   generate_source:
@@ -290,12 +358,19 @@ jobs:
           - 'ts'
         arch:
           - 'x64'
+          - 'arm64'
 
         name:
           - ubuntu-gcc
+          - macos-clang
+
+        exclude:
+          - { name: macos-clang, arch: x64 }
 
         include:
-          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: x64, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: arm64, os: ubuntu-22.04-arm, compiler: gcc }
+          - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
 
     steps:
       - uses: actions/checkout@v6
@@ -336,7 +411,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v7
         with:
-          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
+          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-${{ matrix.arch }}
           path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
           retention-days: 1
 
@@ -910,6 +985,7 @@ jobs:
 
     needs:
       - generate_source
+      - generate_pecl
       - build_extension
       - build_extension_windows
       - unit_test
@@ -932,6 +1008,7 @@ jobs:
         run: |
           mkdir -p ./build-artifacts/release
           find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
@@ -943,7 +1020,7 @@ jobs:
           tag: ${{ github.ref_name }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "./build-artifacts/release/*.zip"
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
           artifactContentType: application/octet-stream
 
   publish_stubs:
