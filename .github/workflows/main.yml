@@ -933,6 +933,7 @@ jobs:
     permissions:
       contents: read
     name: "Generate Windows Extension Matrix"
+    needs: [phpcs, stubs]
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.extension-matrix.outputs.matrix }}
