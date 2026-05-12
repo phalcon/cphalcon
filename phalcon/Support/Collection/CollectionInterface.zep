@@ -27,6 +27,8 @@ interface CollectionInterface
 
     public function clear() -> void;
 
+    public function first() -> var;
+
     public function get(string element, var defaultValue = null, string! cast = null) -> var;
 
     public function getKeys(bool insensitive = true) -> array;
@@ -37,7 +39,13 @@ interface CollectionInterface
 
     public function init(array data = []) -> void;
 
+    public function isEmpty() -> bool;
+
+    public function last() -> var;
+
     public function remove(string element) -> void;
+
+    public function replace(array data) -> void;
 
     public function set(string element, var value) -> void;
 
