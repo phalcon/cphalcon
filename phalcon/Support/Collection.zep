@@ -17,7 +17,6 @@ use IteratorAggregate;
 use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
 use Phalcon\Support\Collection\CollectionInterface;
-use Serializable;
 use Traversable;
 
 /**
@@ -26,7 +25,6 @@ use Traversable;
  * - [Countable](https://www.php.net/manual/en/class.countable.php)
  * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php)
  * - [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable.php)
- * - [Serializable](https://www.php.net/manual/en/class.serializable.php)
  *
  * It can be used in any part of the application that needs collection of data
  * Such implementations are for instance accessing globals `$_GET`, `$_POST`
@@ -35,14 +33,14 @@ use Traversable;
  * @property array $data
  * @property bool  $insensitive
  * @property array $lowerKeys
+ * @property bool  $strictNull
  */
 class Collection implements
     ArrayAccess,
     CollectionInterface,
     Countable,
     IteratorAggregate,
-    JsonSerializable,
-    Serializable
+    JsonSerializable
 {
     /**
      * @var array
@@ -60,11 +58,17 @@ class Collection implements
     protected lowerKeys = [];
 
     /**
+     * @var bool
+     */
+    protected strictNull = false;
+
+    /**
      * Collection constructor.
      */
-    public function __construct(array data = [], bool insensitive = true)
+    public function __construct(array data = [], bool insensitive = true, bool strictNull = false)
     {
         let this->insensitive = insensitive;
+        let this->strictNull  = strictNull;
         this->init(data);
     }
 
@@ -85,11 +89,49 @@ class Collection implements
     }
 
     /**
+     * Returns the state of the collection for serialization, including
+     * configuration flags so the round-trip restores full state.
+     * See [__serialize](https://php.net/manual/en/language.oop5.magic.php#object.serialize)
+     */
+    public function __serialize() -> array
+    {
+        return [
+            "data"        : this->data,
+            "insensitive" : this->insensitive,
+            "strictNull"  : this->strictNull
+        ];
+    }
+
+    /**
      * Magic setter to assign values to an element
      */
     public function __set(string element, value) -> void
     {
         this->set(element, value);
+    }
+
+    /**
+     * Restores the collection state. Accepts both the structured format
+     * emitted by __serialize() and the legacy flat-array format for BC
+     * with previously serialized data.
+     * See [__unserialize](https://php.net/manual/en/language.oop5.magic.php#object.unserialize)
+     */
+    public function __unserialize(array data) -> void
+    {
+        var payload, insensitive, strictNull;
+
+        if isset data["data"] && typeof data["data"] === "array" {
+            let insensitive = isset data["insensitive"] ? (bool) data["insensitive"] : true;
+            let strictNull  = isset data["strictNull"] ? (bool) data["strictNull"] : false;
+            let this->insensitive = insensitive;
+            let this->strictNull  = strictNull;
+            let payload = data["data"];
+            this->init(payload);
+
+            return;
+        }
+
+        this->init(data);
     }
 
     /**
@@ -302,12 +344,11 @@ class Collection implements
     }
 
     /**
-     * String representation of object
-     * See [serialize](https://php.net/manual/en/serializable.serialize.php)
+     * BC - delegate to __serialize()
      */
     public function serialize() -> string | null
     {
-        return serialize(this->toArray());
+        return serialize(this->__serialize());
     }
 
     /**
@@ -342,8 +383,7 @@ class Collection implements
     }
 
     /**
-     * Constructs the object
-     * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
+     * BC — delegate to __unserialize()
      */
     public function unserialize(string data) -> void
     {
@@ -351,17 +391,7 @@ class Collection implements
 
         let unserialized = unserialize(data);
 
-        this->init(unserialized);
-    }
-
-    public function __serialize() -> array
-    {
-        return this->toArray();
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        this->init(data);
+        this->__unserialize(unserialized);
     }
 
     /**
