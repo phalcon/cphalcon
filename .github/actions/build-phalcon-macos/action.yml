@@ -31,6 +31,13 @@ runs:
         sudo make install
         echo "::endgroup::"
 
+    - name: Enable extension
+      shell: bash
+      run: |
+        SCAN_DIR=$(php -r 'echo PHP_CONFIG_FILE_SCAN_DIR;')
+        sudo mkdir -p "$SCAN_DIR"
+        echo "extension=phalcon" | sudo tee "$SCAN_DIR/99-phalcon.ini"
+
     - name: Check Phalcon Extension
       shell: bash
       run: php --ri phalcon
