@@ -33,7 +33,7 @@
  * file that was distributed with this source code.
  */
 /**
- * `Phalcon\Collection` is a supercharged object-oriented array. It implements:
+ * `Phalcon\Support\Collection` is a supercharged object-oriented array. It implements:
  * - [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php)
  * - [Countable](https://www.php.net/manual/en/class.countable.php)
  * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php)

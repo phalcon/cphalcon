@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_support_collection_collectioninterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_CollectionInterface);
+
