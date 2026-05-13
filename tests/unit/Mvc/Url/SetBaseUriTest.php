@@ -273,7 +273,7 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     /**
      * @dataProvider getUrlToSetWithoutDiTwoParam
      *
-     * @issue        @3315
+     * @issue        https://github.com/phalcon/cphalcon/issues/3315
      * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since        2015-02-03
      */

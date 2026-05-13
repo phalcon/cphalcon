@@ -483,7 +483,7 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue 16348
+     * @issue https://github.com/phalcon/cphalcon/issues/16348
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-06-01
      */

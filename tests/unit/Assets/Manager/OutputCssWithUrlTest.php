@@ -38,7 +38,7 @@ final class OutputCssWithUrlTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-04-29
      *
-     * @issue  16570
+     * @issue  https://github.com/phalcon/cphalcon/issues/16570
      */
     public function testAssetsManagerOutputCssUsesUrlStaticBaseUri(): void
     {
@@ -66,7 +66,7 @@ final class OutputCssWithUrlTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-04-29
      *
-     * @issue  16570
+     * @issue  https://github.com/phalcon/cphalcon/issues/16570
      */
     public function testAssetsManagerOutputCssFallsBackWithoutUrlService(): void
     {

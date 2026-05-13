@@ -34,7 +34,7 @@ final class DetachTest extends AbstractUnitTestCase
     /**
      * @dataProvider booleanProvider
      *
-     * @issue 12882
+     * @issue https://github.com/phalcon/cphalcon/issues/12882
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

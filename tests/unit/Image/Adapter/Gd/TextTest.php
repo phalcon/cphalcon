@@ -143,7 +143,7 @@ final class TextTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  15188
+     * @issue  https://github.com/phalcon/cphalcon/issues/15188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
      */

@@ -39,7 +39,7 @@ final class GetTest extends AbstractUnitTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-13
-     * @issue  17005
+     * @issue  https://github.com/phalcon/cphalcon/issues/17005
      */
     public function testConfigGetCastArrayUnwrapsNestedConfig(): void
     {

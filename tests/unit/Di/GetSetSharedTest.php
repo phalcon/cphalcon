@@ -23,7 +23,7 @@ use function spl_object_hash;
 final class GetSetSharedTest extends AbstractUnitTestCase
 {
     /**
-     * @issue 15032
+     * @issue https://github.com/phalcon/cphalcon/issues/15032
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-12-12
      */

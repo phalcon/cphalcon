@@ -37,7 +37,7 @@ final class GetBasicAuthTest extends AbstractHttpBase
         $this->assertSame($expected, $actual);
 
         /**
-         * @issue 16668
+         * @issue https://github.com/phalcon/cphalcon/issues/16668
          */
         unset($_SERVER['PHP_AUTH_USER']);
         unset($_SERVER['PHP_AUTH_PW']);
