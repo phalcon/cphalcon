@@ -86,7 +86,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_offsetset, 0, 2, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO(0, element)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 

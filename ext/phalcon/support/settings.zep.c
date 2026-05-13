@@ -75,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
  */
 PHP_METHOD(Phalcon_Support_Settings, get)
 {
-	zval _1$$21;
+	zval _1$$22;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval key_zv, localOverrides, _0$$4;
 	zend_string *key = NULL;
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&localOverrides);
 	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_1$$21);
+	ZVAL_UNDEF(&_1$$22);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -150,11 +150,14 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.not_null_validations")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).not_null_validations);
 		}
+		if (ZEPHIR_IS_STRING(&key_zv, "orm.resultset_empty_left_join_model")) {
+			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).resultset_empty_left_join_model);
+		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records")) {
-			ZEPHIR_INIT_VAR(&_1$$21);
-			ZEPHIR_INIT_NVAR(&_1$$21);
-			ZVAL_STRING(&_1$$21, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-			RETURN_MM_LONG(zephir_get_intval_ex(&_1$$21));
+			ZEPHIR_INIT_VAR(&_1$$22);
+			ZEPHIR_INIT_NVAR(&_1$$22);
+			ZVAL_STRING(&_1$$22, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
+			RETURN_MM_LONG(zephir_get_intval_ex(&_1$$22));
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);
@@ -206,7 +209,7 @@ PHP_METHOD(Phalcon_Support_Settings, set)
 		array_init(&localOverrides);
 	}
 	do {
-		if (ZEPHIR_IS_STRING(&key_zv, "db.escape_identifiers") || ZEPHIR_IS_STRING(&key_zv, "db.force_casting") || ZEPHIR_IS_STRING(&key_zv, "form.strict_entity_property_check") || ZEPHIR_IS_STRING(&key_zv, "orm.case_insensitive_column_map") || ZEPHIR_IS_STRING(&key_zv, "orm.cast_last_insert_id_to_int") || ZEPHIR_IS_STRING(&key_zv, "orm.cast_on_hydrate") || ZEPHIR_IS_STRING(&key_zv, "orm.column_renaming") || ZEPHIR_IS_STRING(&key_zv, "orm.disable_assign_setters") || ZEPHIR_IS_STRING(&key_zv, "orm.enable_implicit_joins") || ZEPHIR_IS_STRING(&key_zv, "orm.enable_literals") || ZEPHIR_IS_STRING(&key_zv, "orm.events") || ZEPHIR_IS_STRING(&key_zv, "orm.exception_on_failed_save") || ZEPHIR_IS_STRING(&key_zv, "orm.exception_on_failed_metadata_save") || ZEPHIR_IS_STRING(&key_zv, "orm.ignore_unknown_columns") || ZEPHIR_IS_STRING(&key_zv, "orm.late_state_binding") || ZEPHIR_IS_STRING(&key_zv, "orm.not_null_validations") || ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records") || ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save") || ZEPHIR_IS_STRING(&key_zv, "orm.virtual_foreign_keys") || ZEPHIR_IS_STRING(&key_zv, "orm.dynamic_update")) {
+		if (ZEPHIR_IS_STRING(&key_zv, "db.escape_identifiers") || ZEPHIR_IS_STRING(&key_zv, "db.force_casting") || ZEPHIR_IS_STRING(&key_zv, "form.strict_entity_property_check") || ZEPHIR_IS_STRING(&key_zv, "orm.case_insensitive_column_map") || ZEPHIR_IS_STRING(&key_zv, "orm.cast_last_insert_id_to_int") || ZEPHIR_IS_STRING(&key_zv, "orm.cast_on_hydrate") || ZEPHIR_IS_STRING(&key_zv, "orm.column_renaming") || ZEPHIR_IS_STRING(&key_zv, "orm.disable_assign_setters") || ZEPHIR_IS_STRING(&key_zv, "orm.enable_implicit_joins") || ZEPHIR_IS_STRING(&key_zv, "orm.enable_literals") || ZEPHIR_IS_STRING(&key_zv, "orm.events") || ZEPHIR_IS_STRING(&key_zv, "orm.exception_on_failed_save") || ZEPHIR_IS_STRING(&key_zv, "orm.exception_on_failed_metadata_save") || ZEPHIR_IS_STRING(&key_zv, "orm.ignore_unknown_columns") || ZEPHIR_IS_STRING(&key_zv, "orm.late_state_binding") || ZEPHIR_IS_STRING(&key_zv, "orm.not_null_validations") || ZEPHIR_IS_STRING(&key_zv, "orm.resultset_empty_left_join_model") || ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records") || ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save") || ZEPHIR_IS_STRING(&key_zv, "orm.virtual_foreign_keys") || ZEPHIR_IS_STRING(&key_zv, "orm.dynamic_update")) {
 			zephir_array_update_zval(&localOverrides, &key_zv, value, PH_COPY | PH_SEPARATE);
 			zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &localOverrides);
 			break;

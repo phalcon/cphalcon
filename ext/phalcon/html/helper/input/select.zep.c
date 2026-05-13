@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder)
  * Flat entries: key = option value, value = label string.
  * Optgroup entries: key = group label, value = [value => label] array.
  *
- * @param SelectDataInterface data
+ * @param SelectData data
  *
  * @return Select
  */
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 	ZVAL_UNDEF(&_29$$12);
 	ZVAL_UNDEF(&_30$$12);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_html_helper_input_select_selectdatainterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_contracts_html_helper_input_selectdata_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

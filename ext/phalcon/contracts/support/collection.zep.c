@@ -74,7 +74,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Support_Collection, column);
 /**
  * Invokes the callback for every item in the collection.
  *
- * @phpstan-param callable(T, array-key) -> mixed $callback
+ * @phpstan-param callable(T, array-key): mixed $callback
  *
  * @param callable $callback
  *
@@ -84,7 +84,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Support_Collection, each);
 /**
  * Returns a new collection of items for which the callback returns true.
  *
- * @phpstan-param  callable(T, array-key) -> bool $callback
+ * @phpstan-param  callable(T, array-key): bool $callback
  * @phpstan-return static<T>
  *
  * @param callable $callback
@@ -173,7 +173,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Support_Collection, last);
 /**
  * Returns a new collection with the callback applied to every value.
  *
- * @phpstan-param callable(T, array-key) -> mixed $callback
+ * @phpstan-param callable(T, array-key): mixed $callback
  *
  * @param callable $callback
  *
@@ -183,7 +183,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Support_Collection, map);
 /**
  * Reduces the collection to a single value using the callback.
  *
- * @phpstan-param callable(mixed, T, array-key) -> mixed $callback
+ * @phpstan-param callable(mixed, T, array-key): mixed $callback
  *
  * @param callable $callback
  * @param mixed    $initial

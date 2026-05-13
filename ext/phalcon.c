@@ -66,11 +66,11 @@ zend_class_entry *phalcon_cache_cacheinterface_ce;
 zend_class_entry *phalcon_contracts_encryption_security_cryptoutils_ce;
 zend_class_entry *phalcon_contracts_encryption_security_csrfprotection_ce;
 zend_class_entry *phalcon_contracts_encryption_security_passwordsecurity_ce;
+zend_class_entry *phalcon_contracts_html_helper_input_selectdata_ce;
 zend_class_entry *phalcon_domain_payload_readableinterface_ce;
 zend_class_entry *phalcon_domain_payload_writeableinterface_ce;
 zend_class_entry *phalcon_encryption_security_uuid_nodeproviderinterface_ce;
 zend_class_entry *phalcon_encryption_security_uuid_timebaseduuidinterface_ce;
-zend_class_entry *phalcon_html_helper_input_select_selectdatainterface_ce;
 zend_class_entry *phalcon_logger_loggerinterface_ce;
 zend_class_entry *phalcon_mvc_entityinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadata_strategy_strategyinterface_ce;
@@ -766,6 +766,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.late_state_binding", "0", PHP_INI_ALL, OnUpdateBool, orm.late_state_binding, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations", "1", PHP_INI_ALL, OnUpdateBool, orm.not_null_validations, zend_phalcon_globals, phalcon_globals)
 	
+	STD_PHP_INI_BOOLEAN("phalcon.orm.resultset_empty_left_join_model", "1", PHP_INI_ALL, OnUpdateBool, orm.resultset_empty_left_join_model, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_ENTRY("phalcon.orm.resultset_prefetch_records", "0", PHP_INI_ALL, NULL, orm.resultset_prefetch_records, zend_phalcon_globals, phalcon_globals)
 	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.update_snapshot_on_save", "1", PHP_INI_ALL, OnUpdateBool, orm.update_snapshot_on_save, zend_phalcon_globals, phalcon_globals)
@@ -820,11 +821,11 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_Security_CryptoUtils);
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_Security_CsrfProtection);
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_Security_PasswordSecurity);
+	ZEPHIR_INIT(Phalcon_Contracts_Html_Helper_Input_SelectData);
 	ZEPHIR_INIT(Phalcon_Domain_Payload_ReadableInterface);
 	ZEPHIR_INIT(Phalcon_Domain_Payload_WriteableInterface);
 	ZEPHIR_INIT(Phalcon_Encryption_Security_Uuid_NodeProviderInterface);
 	ZEPHIR_INIT(Phalcon_Encryption_Security_Uuid_TimeBasedUuidInterface);
-	ZEPHIR_INIT(Phalcon_Html_Helper_Input_Select_SelectDataInterface);
 	ZEPHIR_INIT(Phalcon_Logger_LoggerInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_EntityInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface);
@@ -1546,6 +1547,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 
 
 	phalcon_globals->orm.parser_cache = NULL;
+
 	phalcon_globals->orm.resultset_prefetch_records = ZSTR_VAL(zend_string_init(ZEND_STRL("0"), 0));
 	phalcon_globals->orm.unique_cache_id = 3;
 

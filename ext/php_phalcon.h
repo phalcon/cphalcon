@@ -43,6 +43,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool late_state_binding;
 	zend_bool not_null_validations;
 	HashTable*  parser_cache;
+	zend_bool resultset_empty_left_join_model;
 	char * resultset_prefetch_records;
 	int unique_cache_id;
 	zend_bool update_snapshot_on_save;

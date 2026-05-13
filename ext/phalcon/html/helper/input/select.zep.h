@@ -30,7 +30,7 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_fromdata, 0, 1, Phalcon\\Html\\Helper\\Input\\Select, 0)
-	ZEND_ARG_OBJ_INFO(0, data, Phalcon\\Html\\Helper\\Input\\Select\\SelectDataInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, data, Phalcon\\Contracts\\Html\\Helper\\Input\\SelectData, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroup, 0, 0, Phalcon\\Html\\Helper\\Input\\Select, 0)

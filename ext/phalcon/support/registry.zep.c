@@ -424,18 +424,18 @@ PHP_METHOD(Phalcon_Support_Registry, offsetSet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *offset, offset_sub, *value, value_sub;
+	zval *element, element_sub, *value, value_sub;
 
-	ZVAL_UNDEF(&offset_sub);
+	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&value_sub);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(offset)
+		Z_PARAM_ZVAL(element)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &offset, &value);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", NULL, 0, offset, value);
+	zephir_fetch_params(1, 2, 0, &element, &value);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", NULL, 0, element, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

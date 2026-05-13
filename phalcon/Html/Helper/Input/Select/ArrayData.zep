@@ -14,13 +14,15 @@
 
 namespace Phalcon\Html\Helper\Input\Select;
 
+use Phalcon\Contracts\Html\Helper\Input\SelectData;
+
 /**
  * Wraps a plain PHP array as a SELECT data provider.
  *
  * Keys are option values; string values are labels;
  * array values define optgroups.
  */
-class ArrayData implements SelectDataInterface
+class ArrayData implements SelectData
 {
     /**
      * @var array
