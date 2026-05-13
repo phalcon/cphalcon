@@ -178,6 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&attribute_zv);
 	ZVAL_STR_COPY(&attribute_zv, attribute);
 	zephir_memory_observe(&value);
 	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute_zv, PH_SILENT_CC))) {
@@ -212,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 452, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 466, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }

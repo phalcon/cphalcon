@@ -79,9 +79,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	}
 	if (!type) {
 		type = zend_string_init(ZEND_STRL("text"), 0);
+		zephir_memory_observe(&type_zv);
 		ZVAL_STR(&type_zv, type);
 	} else {
-		ZVAL_STR_COPY(&type_zv, type);
+		zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();

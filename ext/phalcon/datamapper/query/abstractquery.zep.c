@@ -164,6 +164,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValue)
 	if (ZEND_NUM_ARGS() > 2) {
 		type_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	if (!type_param) {
 		type = -1;
@@ -294,6 +295,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag)
 	if (ZEND_NUM_ARGS() > 1) {
 		enable_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&flag_zv);
 	ZVAL_STR_COPY(&flag_zv, flag);
 	if (!enable_param) {
 		enable = 1;
@@ -342,6 +344,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier)
 	if (ZEND_NUM_ARGS() > 1) {
 		type_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!type_param) {
 		type = 2;
@@ -717,9 +720,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, indent)
 	zephir_get_arrval(&collection, collection_param);
 	if (!glue) {
 		glue = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&glue_zv);
 		ZVAL_STR(&glue_zv, glue);
 	} else {
-		ZVAL_STR_COPY(&glue_zv, glue);
+		zephir_memory_observe(&glue_zv);
+	ZVAL_STR_COPY(&glue_zv, glue);
 	}
 	if (ZEPHIR_IS_EMPTY(&collection)) {
 		RETURN_MM_STRING("");

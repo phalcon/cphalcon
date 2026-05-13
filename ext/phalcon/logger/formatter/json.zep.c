@@ -65,21 +65,27 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (!dateFormat) {
 		dateFormat = zend_string_init(ZEND_STRL("c"), 0);
+		zephir_memory_observe(&dateFormat_zv);
 		ZVAL_STR(&dateFormat_zv, dateFormat);
 	} else {
-		ZVAL_STR_COPY(&dateFormat_zv, dateFormat);
+		zephir_memory_observe(&dateFormat_zv);
+	ZVAL_STR_COPY(&dateFormat_zv, dateFormat);
 	}
 	if (!interpolatorLeft) {
 		interpolatorLeft = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&interpolatorLeft_zv);
 		ZVAL_STR(&interpolatorLeft_zv, interpolatorLeft);
 	} else {
-		ZVAL_STR_COPY(&interpolatorLeft_zv, interpolatorLeft);
+		zephir_memory_observe(&interpolatorLeft_zv);
+	ZVAL_STR_COPY(&interpolatorLeft_zv, interpolatorLeft);
 	}
 	if (!interpolatorRight) {
 		interpolatorRight = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&interpolatorRight_zv);
 		ZVAL_STR(&interpolatorRight_zv, interpolatorRight);
 	} else {
-		ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
+		zephir_memory_observe(&interpolatorRight_zv);
+	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat_zv);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorLeft"), &interpolatorLeft_zv);

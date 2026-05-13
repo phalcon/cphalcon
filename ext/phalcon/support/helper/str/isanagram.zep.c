@@ -61,7 +61,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsAnagram, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&first_zv);
 	ZVAL_STR_COPY(&first_zv, first);
+	zephir_memory_observe(&second_zv);
 	ZVAL_STR_COPY(&second_zv, second);
 	ZVAL_LONG(&_0, 1);
 	ZEPHIR_CALL_FUNCTION(&_1, "count_chars", NULL, 0, &first_zv, &_0);

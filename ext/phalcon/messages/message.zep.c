@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 	if (ZEND_NUM_ARGS() > 4) {
 		metaData_param = ZEND_CALL_ARG(execute_data, 5);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!field) {
 		field = &field_sub;
@@ -109,9 +110,11 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 	}
 	if (!type) {
 		type = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&type_zv);
 		ZVAL_STR(&type_zv, type);
 	} else {
-		ZVAL_STR_COPY(&type_zv, type);
+		zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
 	}
 	if (!code_param) {
 		code = 0;

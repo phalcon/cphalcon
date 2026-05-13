@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 	if (ZEND_NUM_ARGS() > 1) {
 		raw_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&tag_zv);
 	ZVAL_STR_COPY(&tag_zv, tag);
 	if (!raw_param) {
 		raw = 0;

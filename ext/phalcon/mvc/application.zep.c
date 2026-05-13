@@ -171,6 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&uri_zv);
 	ZVAL_STR_COPY(&uri_zv, uri);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
@@ -279,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 					object_init_ex(&_14$$18, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_15$$18);
 					ZEPHIR_CONCAT_SVS(&_15$$18, "Module definition path '", &path, "' does not exist");
-					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 38, &_15$$18);
+					ZEPHIR_CALL_METHOD(NULL, &_14$$18, "__construct", NULL, 49, &_15$$18);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_14$$18, "phalcon/Mvc/Application.zep", 218);
 					ZEPHIR_MM_RESTORE();

@@ -140,6 +140,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index_zv);
 	zephir_check_call_status();
@@ -200,6 +201,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 	if (ZEND_NUM_ARGS() > 1) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&translateKey_zv);
 	ZVAL_STR_COPY(&translateKey_zv, translateKey);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -264,9 +266,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	length_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
+	zephir_memory_observe(&delimiter_zv);
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
+	zephir_memory_observe(&enclosure_zv);
 	ZVAL_STR_COPY(&enclosure_zv, enclosure);
+	zephir_memory_observe(&escape_zv);
 	ZVAL_STR_COPY(&escape_zv, escape);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
@@ -277,7 +283,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Error opening translation file '", &file_zv, "'");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 38, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 137);
 		ZEPHIR_MM_RESTORE();
@@ -340,9 +346,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
+	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 145, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 155, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

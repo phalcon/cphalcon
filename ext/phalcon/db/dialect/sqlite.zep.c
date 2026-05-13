@@ -82,7 +82,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	column = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
+	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);
 	zephir_check_call_status();
@@ -108,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn)
 		} else {
 			ZEPHIR_INIT_VAR(&_7$$5);
 			ZVAL_STRING(&_7$$5, "\"");
-			ZEPHIR_CALL_FUNCTION(&_8$$5, "addcslashes", NULL, 220, &defaultValue, &_7$$5);
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "addcslashes", NULL, 228, &defaultValue, &_7$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_9$$5);
 			ZEPHIR_CONCAT_SVS(&_9$$5, " DEFAULT \"", &_8$$5, "\"");
@@ -186,7 +188,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	index = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
+	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL, 0);
 	zephir_check_call_status();
@@ -213,7 +217,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex)
 	}
 	ZEPHIR_CALL_METHOD(&_6, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", NULL, 64, &_6);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", NULL, 74, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZEPHIR_CONCAT_SVSVS(&_7, " ON \"", &tableName_zv, "\" (", &_5, ")");
@@ -345,7 +349,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	definition_param = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
+	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);
@@ -418,7 +424,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 				} else {
 					ZEPHIR_INIT_NVAR(&_13$$12);
 					ZVAL_STRING(&_13$$12, "\"");
-					ZEPHIR_CALL_FUNCTION(&_14$$12, "addcslashes", &_15, 220, &defaultValue, &_13$$12);
+					ZEPHIR_CALL_FUNCTION(&_14$$12, "addcslashes", &_15, 228, &defaultValue, &_13$$12);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_16$$12);
 					ZEPHIR_CONCAT_SVS(&_16$$12, " DEFAULT \"", &_14$$12, "\"");
@@ -482,7 +488,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 					} else {
 						ZEPHIR_INIT_NVAR(&_26$$20);
 						ZVAL_STRING(&_26$$20, "\"");
-						ZEPHIR_CALL_FUNCTION(&_27$$20, "addcslashes", &_15, 220, &defaultValue, &_26$$20);
+						ZEPHIR_CALL_FUNCTION(&_27$$20, "addcslashes", &_15, 228, &defaultValue, &_26$$20);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_28$$20);
 						ZEPHIR_CONCAT_SVS(&_28$$20, " DEFAULT \"", &_27$$20, "\"");
@@ -527,7 +533,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 				if (_32$$24) {
 					ZEPHIR_CALL_METHOD(&_36$$25, &index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_35$$25, this_ptr, "getcolumnlist", &_37, 64, &_36$$25);
+					ZEPHIR_CALL_METHOD(&_35$$25, this_ptr, "getcolumnlist", &_37, 74, &_36$$25);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_38$$25);
 					ZEPHIR_CONCAT_SVS(&_38$$25, "PRIMARY KEY (", &_35$$25, ")");
@@ -535,7 +541,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 				} else if (_33$$24) {
 					ZEPHIR_CALL_METHOD(&_40$$26, &index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_39$$26, this_ptr, "getcolumnlist", &_37, 64, &_40$$26);
+					ZEPHIR_CALL_METHOD(&_39$$26, this_ptr, "getcolumnlist", &_37, 74, &_40$$26);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_41$$26);
 					ZEPHIR_CONCAT_SVS(&_41$$26, "UNIQUE (", &_39$$26, ")");
@@ -570,7 +576,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 					if (_42$$27) {
 						ZEPHIR_CALL_METHOD(&_46$$28, &index, "getcolumns", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_45$$28, this_ptr, "getcolumnlist", &_37, 64, &_46$$28);
+						ZEPHIR_CALL_METHOD(&_45$$28, this_ptr, "getcolumnlist", &_37, 74, &_46$$28);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_47$$28);
 						ZEPHIR_CONCAT_SVS(&_47$$28, "PRIMARY KEY (", &_45$$28, ")");
@@ -578,7 +584,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 					} else if (_43$$27) {
 						ZEPHIR_CALL_METHOD(&_49$$29, &index, "getcolumns", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_48$$29, this_ptr, "getcolumnlist", &_37, 64, &_49$$29);
+						ZEPHIR_CALL_METHOD(&_48$$29, this_ptr, "getcolumnlist", &_37, 74, &_49$$29);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_50$$29);
 						ZEPHIR_CONCAT_SVS(&_50$$29, "UNIQUE (", &_48$$29, ")");
@@ -602,13 +608,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_55$$31, &reference, "getcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_54$$31, this_ptr, "getcolumnlist", &_37, 64, &_55$$31);
+				ZEPHIR_CALL_METHOD(&_54$$31, this_ptr, "getcolumnlist", &_37, 74, &_55$$31);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_56$$31, &reference, "getreferencedtable", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_58$$31, &reference, "getreferencedcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_57$$31, this_ptr, "getcolumnlist", &_37, 64, &_58$$31);
+				ZEPHIR_CALL_METHOD(&_57$$31, this_ptr, "getcolumnlist", &_37, 74, &_58$$31);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&referenceSql);
 				ZEPHIR_CONCAT_SVSVSSVSVS(&referenceSql, "CONSTRAINT `", &_53$$31, "` FOREIGN KEY (", &_54$$31, ")", " REFERENCES `", &_56$$31, "`(", &_57$$31, ")");
@@ -643,13 +649,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_63$$34, &reference, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_62$$34, this_ptr, "getcolumnlist", &_37, 64, &_63$$34);
+					ZEPHIR_CALL_METHOD(&_62$$34, this_ptr, "getcolumnlist", &_37, 74, &_63$$34);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_64$$34, &reference, "getreferencedtable", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_66$$34, &reference, "getreferencedcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_65$$34, this_ptr, "getcolumnlist", &_37, 64, &_66$$34);
+					ZEPHIR_CALL_METHOD(&_65$$34, this_ptr, "getcolumnlist", &_37, 74, &_66$$34);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&referenceSql);
 					ZEPHIR_CONCAT_SVSVSSVSVS(&referenceSql, "CONSTRAINT `", &_61$$34, "` FOREIGN KEY (", &_62$$34, ")", " REFERENCES `", &_64$$34, "`(", &_65$$34, ")");
@@ -709,12 +715,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&viewName_zv);
 	ZVAL_STR_COPY(&viewName_zv, viewName);
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	zephir_memory_observe(&viewSql);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&viewSql, &definition, SL("sql"), 0)))) {
@@ -752,11 +760,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-		ZVAL_STR_COPY(&schema_zv, schema);
+		zephir_memory_observe(&schema_zv);
+	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA table_info('", &table_zv, "')");
 	RETURN_MM();
@@ -798,11 +808,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-		ZVAL_STR_COPY(&schema_zv, schema);
+		zephir_memory_observe(&schema_zv);
+	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA index_list('", &table_zv, "')");
 	RETURN_MM();
@@ -827,11 +839,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-		ZVAL_STR_COPY(&schema_zv, schema);
+		zephir_memory_observe(&schema_zv);
+	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA foreign_key_list('", &table_zv, "')");
 	RETURN_MM();
@@ -957,11 +971,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable)
 	if (ZEND_NUM_ARGS() > 2) {
 		ifExists_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!ifExists_param) {
 		ifExists = 1;
@@ -1009,11 +1025,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView)
 	if (ZEND_NUM_ARGS() > 2) {
 		ifExists_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&viewName_zv);
 	ZVAL_STR_COPY(&viewName_zv, viewName);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!ifExists_param) {
 		ifExists = 1;
@@ -1223,7 +1241,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_7$$38);
 			ZEPHIR_CONCAT_SV(&_7$$38, "Unrecognized SQLite data type at column ", &_6$$38);
-			ZEPHIR_CALL_METHOD(NULL, &_5$$38, "__construct", NULL, 38, &_7$$38);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$38, "__construct", NULL, 49, &_7$$38);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$38, "phalcon/Db/Dialect/Sqlite.zep", 520);
 			ZEPHIR_MM_RESTORE();
@@ -1243,7 +1261,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition)
 						ZVAL_COPY(&value$$40, _8$$40);
 						ZEPHIR_INIT_NVAR(&_10$$41);
 						ZVAL_STRING(&_10$$41, "\"");
-						ZEPHIR_CALL_FUNCTION(&_11$$41, "addcslashes", &_12, 220, &value$$40, &_10$$41);
+						ZEPHIR_CALL_FUNCTION(&_11$$41, "addcslashes", &_12, 228, &value$$40, &_10$$41);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_13$$41);
 						ZEPHIR_CONCAT_SVS(&_13$$41, "\"", &_11$$41, "\", ");
@@ -1262,7 +1280,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition)
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_14$$42);
 							ZVAL_STRING(&_14$$42, "\"");
-							ZEPHIR_CALL_FUNCTION(&_15$$42, "addcslashes", &_12, 220, &value$$40, &_14$$42);
+							ZEPHIR_CALL_FUNCTION(&_15$$42, "addcslashes", &_12, 228, &value$$40, &_14$$42);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_16$$42);
 							ZEPHIR_CONCAT_SVS(&_16$$42, "\"", &_15$$42, "\", ");
@@ -1282,7 +1300,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition)
 			} else {
 				ZEPHIR_INIT_VAR(&_21$$43);
 				ZVAL_STRING(&_21$$43, "\"");
-				ZEPHIR_CALL_FUNCTION(&_22$$43, "addcslashes", &_12, 220, &typeValues, &_21$$43);
+				ZEPHIR_CALL_FUNCTION(&_22$$43, "addcslashes", &_12, 228, &typeValues, &_21$$43);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_23$$43);
 				ZEPHIR_CONCAT_SVS(&_23$$43, "(\"", &_22$$43, "\")");
@@ -1329,24 +1347,27 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listIndexesSql)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-		ZVAL_STR_COPY(&schema_zv, schema);
+		zephir_memory_observe(&schema_zv);
+	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	if (!keyName) {
 		ZEPHIR_INIT_VAR(&keyName_zv);
 	} else {
-		ZVAL_STR_COPY(&keyName_zv, keyName);
+		zephir_memory_observe(&keyName_zv);
+	ZVAL_STR_COPY(&keyName_zv, keyName);
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 63, &table_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 73, &table_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVS(&_1, "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ", &_0, " COLLATE NOCASE");
 	zephir_get_strval(&sql, &_1);
 	if (!(ZEPHIR_IS_EMPTY(&keyName_zv))) {
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "escape", NULL, 63, &keyName_zv);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "escape", NULL, 73, &keyName_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVS(&_3$$3, " AND name = ", &_2$$3, " COLLATE NOCASE");
@@ -1381,7 +1402,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables)
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	RETURN_MM_STRING("SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name");
 }
@@ -1406,6 +1428,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews)
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
+	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	RETURN_MM_STRING("SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
@@ -1488,11 +1511,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='", &tableName_zv, "'");
 	RETURN_MM();
@@ -1517,11 +1542,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-		ZVAL_STR_COPY(&schema_zv, schema);
+		zephir_memory_observe(&schema_zv);
+	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	RETURN_MM_STRING("");
 }
@@ -1545,7 +1572,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, truncateTable)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&tableName_zv);
 	ZVAL_STR_COPY(&tableName_zv, tableName);
+	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
 		ZEPHIR_INIT_VAR(&table);
@@ -1577,11 +1606,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&viewName_zv);
 	ZVAL_STR_COPY(&viewName_zv, viewName);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-		ZVAL_STR_COPY(&schemaName_zv, schemaName);
+		zephir_memory_observe(&schemaName_zv);
+	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='", &viewName_zv, "'");
 	RETURN_MM();

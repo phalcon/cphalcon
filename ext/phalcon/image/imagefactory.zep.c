@@ -116,17 +116,17 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
-	ZEPHIR_CALL_METHOD(&file, this_ptr, "getarrval", NULL, 434, config, &_1);
+	ZEPHIR_CALL_METHOD(&file, this_ptr, "getarrval", NULL, 448, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "height");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&height, this_ptr, "getarrval", NULL, 434, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&height, this_ptr, "getarrval", NULL, 448, config, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "width");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&width, this_ptr, "getarrval", NULL, 434, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&width, this_ptr, "getarrval", NULL, 448, config, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -166,7 +166,9 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 3) {
 		height_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	if (!width_param) {
 		width = 0;

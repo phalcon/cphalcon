@@ -83,9 +83,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	}
 	if (!message) {
 		message = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&message_zv);
 		ZVAL_STR(&message_zv, message);
 	} else {
-		ZVAL_STR_COPY(&message_zv, message);
+		zephir_memory_observe(&message_zv);
+	ZVAL_STR_COPY(&message_zv, message);
 	}
 	if (!statement_param) {
 		ZEPHIR_INIT_VAR(&statement);

@@ -104,13 +104,16 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	columns_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_OBS_COPY_OR_DUP(&columns, columns_param);
 	if (!type) {
 		type = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&type_zv);
 		ZVAL_STR(&type_zv, type);
 	} else {
-		ZVAL_STR_COPY(&type_zv, type);
+		zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);

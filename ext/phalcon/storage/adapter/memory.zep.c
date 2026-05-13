@@ -132,9 +132,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (!prefix) {
 		prefix = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&prefix_zv);
 		ZVAL_STR(&prefix_zv, prefix);
 	} else {
-		ZVAL_STR_COPY(&prefix_zv, prefix);
+		zephir_memory_observe(&prefix_zv);
+	ZVAL_STR_COPY(&prefix_zv, prefix);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
@@ -170,6 +172,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, setForever)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	value = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "set", NULL, 0, &key_zv, value);
 	zephir_check_call_status();
@@ -209,6 +212,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDecrement)
 	if (ZEND_NUM_ARGS() > 1) {
 		value_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	if (!value_param) {
 		value = 1;
@@ -255,6 +259,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDelete)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 0, &key_zv);
 	zephir_check_call_status();
@@ -289,6 +294,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doGetData)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getprefixedkey", NULL, 0, &key_zv);
@@ -320,6 +326,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doHas)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key_zv);
 	zephir_check_call_status();
@@ -360,6 +367,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doIncrement)
 	if (ZEND_NUM_ARGS() > 1) {
 		value_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	if (!value_param) {
 		value = 1;
@@ -423,6 +431,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doSet)
 	if (ZEND_NUM_ARGS() > 2) {
 		ttl = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	if (!ttl) {
 		ttl = &ttl_sub;

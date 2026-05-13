@@ -130,6 +130,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);

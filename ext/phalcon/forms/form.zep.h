@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Forms_Form, has);
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
 PHP_METHOD(Phalcon_Forms_Form, isValid);
 PHP_METHOD(Phalcon_Forms_Form, key);
+PHP_METHOD(Phalcon_Forms_Form, load);
 PHP_METHOD(Phalcon_Forms_Form, label);
 PHP_METHOD(Phalcon_Forms_Form, next);
 PHP_METHOD(Phalcon_Forms_Form, render);
@@ -140,6 +141,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_key, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_load, 0, 2, Phalcon\\Forms\\Form, 0)
+	ZEND_ARG_OBJ_INFO(0, schema, Phalcon\\Contracts\\Forms\\Schema, 0)
+	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
@@ -225,6 +231,7 @@ PHP_ME(Phalcon_Forms_Form, getMessages, arginfo_phalcon_forms_form_getmessages, 
 	PHP_ME(Phalcon_Forms_Form, hasMessagesFor, arginfo_phalcon_forms_form_hasmessagesfor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, isValid, arginfo_phalcon_forms_form_isvalid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, key, arginfo_phalcon_forms_form_key, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, load, arginfo_phalcon_forms_form_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, label, arginfo_phalcon_forms_form_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, next, arginfo_phalcon_forms_form_next, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, render, arginfo_phalcon_forms_form_render, ZEND_ACC_PUBLIC)

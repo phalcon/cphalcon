@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	if (ZEND_NUM_ARGS() > 1) {
 		attributes_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);

@@ -61,14 +61,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (!hash) {
 		hash = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&hash_zv);
 		ZVAL_STR(&hash_zv, hash);
 	} else {
+	zephir_memory_observe(&hash_zv);
 	ZVAL_STR_COPY(&hash_zv, hash);
 	}
 	if (!encoded) {
 		encoded = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&encoded_zv);
 		ZVAL_STR(&encoded_zv, encoded);
 	} else {
+	zephir_memory_observe(&encoded_zv);
 	ZVAL_STR_COPY(&encoded_zv, encoded);
 	}
 	ZEPHIR_INIT_VAR(&_0);

@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	collection_param = ZEND_CALL_ARG(execute_data, 1);
 	zephir_get_arrval(&collection, collection_param);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);

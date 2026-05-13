@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&data);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
@@ -114,6 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	data = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key_zv);

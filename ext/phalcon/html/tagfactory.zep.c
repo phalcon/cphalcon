@@ -43,10 +43,6 @@
  *
  * Helpers are cached per name after first construction.
  *
- * `__call()` resolves the named helper and dispatches to its `__invoke()`,
- * so each entry in the @method block below describes the result of calling
- * `$factory->serviceName(...)` rather than `newInstance("serviceName")`.
- *
  * @method string      a(string $href, string $text, array $attributes = [], bool $raw = false)
  * @method string      aRaw(string $href, string $text, array $attributes = [])
  * @method string      base(string $href, array $attributes = [])
@@ -62,6 +58,7 @@
  * @method string      friendlyTitle(string $text, string $separator = '-', bool $lowercase = true, mixed $replace = null)
  * @method string      img(string $src, array $attributes = [])
  * @method Checkbox    inputCheckbox(string $name, string $value = null, array $attributes = [])
+ * @method CheckboxGroup inputCheckboxGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
  * @method Generic     inputColor(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputDate(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputDateTime(string $name, string $value = null, array $attributes = [])
@@ -75,6 +72,7 @@
  * @method Generic     inputNumeric(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputPassword(string $name, string $value = null, array $attributes = [])
  * @method Radio       inputRadio(string $name, string $value = null, array $attributes = [])
+ * @method RadioGroup    inputRadioGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
  * @method Generic     inputRange(string $name, string $value = null, array $attributes = [])
  * @method Generic     inputSearch(string $name, string $value = null, array $attributes = [])
  * @method Select      inputSelect(string $name, string $value = null, array $attributes = [])
@@ -136,12 +134,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 /**
  * TagFactory constructor.
  *
- * @param EscaperInterface          $escaper
- * @param array<string, Closure>    $services  Map of service name to a
- *                                             zero-arg Closure that returns
- *                                             the helper instance.
- * @param ResponseInterface|null    $response
- * @param UrlInterface|null         $url
+ * @phpstan-param array<string, Closure> $services
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 {
@@ -194,13 +187,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("url"), url);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_html_helper_doctype_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 358);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 372);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("doctype"), &_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getdefaultservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("factories"), &_1);
-	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 173);
+	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 168);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _4, _5, _2)
 		{
@@ -269,6 +262,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	arguments_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name_zv);
@@ -337,6 +331,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name_zv))) {
@@ -344,9 +339,9 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		object_init_ex(&_1$$3, phalcon_html_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name_zv, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 38, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 216);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 211);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -354,14 +349,14 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	if (!(zephir_array_isset(&_3, &name_zv))) {
 		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&factory);
-		zephir_array_fetch(&factory, &_4$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 220);
+		zephir_array_fetch(&factory, &_4$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 215);
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZEPHIR_CALL_USER_FUNC(&_5$$4, &factory);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_5$$4);
 	}
 	zephir_read_property(&_6, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_7, &_6, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 224);
+	zephir_array_fetch(&_7, &_6, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 219);
 	RETURN_CTOR(&_7);
 }
 
@@ -421,267 +416,277 @@ PHP_METHOD(Phalcon_Html_TagFactory, getDefaultServices)
 	ZEPHIR_CPY_WRT(&response, &_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("url"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&url, &_0);
-	zephir_create_array(return_value, 53, 0);
+	zephir_create_array(return_value, 59, 0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_7__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_7__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("a"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_8__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_8__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("aRaw"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_9__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_9__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("base"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_10__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_10__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("body"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, NULL, phalcon_11__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_11__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_update_static_property_ce(phalcon_11__closure_ce, ZEND_STRL("url"), &url);
-	zephir_array_update_string(return_value, SL("breadcrumbs"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_12__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_12__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("button"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_13__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_13__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("buttonRaw"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_14__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_14__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("close"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_15__closure_ce, SL("__invoke"));
-	zephir_array_update_string(return_value, SL("doctype"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_16__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_16__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("element"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_17__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_17__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("elementRaw"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_18__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_18__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("form"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, NULL, phalcon_19__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_19__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("friendlyTitle"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_20__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_20__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("img"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_21__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_21__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputCheckbox"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_22__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_22__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputColor"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_23__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_23__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputDate"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("a"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_24__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_24__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputDateTime"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("aRaw"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_25__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_25__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputDateTimeLocal"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("base"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_26__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_26__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputEmail"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("body"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_27__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_1, NULL, phalcon_27__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_27__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputFile"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_update_static_property_ce(phalcon_27__closure_ce, ZEND_STRL("url"), &url);
+	zephir_array_update_string(return_value, SL("breadcrumbs"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_28__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_28__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputHidden"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("button"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_29__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_29__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputImage"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("buttonRaw"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_30__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_30__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputInput"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("close"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_31__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_31__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputMonth"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("doctype"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_32__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_32__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputNumeric"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("element"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_33__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_33__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputPassword"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("elementRaw"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_34__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_34__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputRadio"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("form"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, this_ptr, phalcon_35__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_1, NULL, phalcon_35__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_35__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputRange"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("friendlyTitle"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_36__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_36__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputSearch"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("img"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_37__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_37__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputSelect"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputCheckbox"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_38__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_38__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputSubmit"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputCheckboxGroup"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_39__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_39__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputTel"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputColor"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_40__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_40__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputText"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputDate"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_41__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_41__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputTextarea"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputDateTime"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_42__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_42__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputTime"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputDateTimeLocal"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_43__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_43__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputUrl"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputEmail"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_44__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_44__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("inputWeek"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputFile"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_45__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_45__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("label"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputHidden"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_46__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_46__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("labelRaw"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputImage"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_47__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_47__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("link"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputInput"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_48__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_48__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("meta"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputMonth"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_49__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_49__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("ol"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputNumeric"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_50__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_50__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("olRaw"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputPassword"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, NULL, phalcon_51__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_51__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_51__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_update_static_property_ce(phalcon_51__closure_ce, ZEND_STRL("response"), &response);
-	zephir_array_update_string(return_value, SL("preload"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputRadio"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_52__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_52__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("script"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputRadioGroup"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_53__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_53__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("style"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputRange"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_54__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_54__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("tag"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputSearch"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_55__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_55__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("title"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputSelect"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_56__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_56__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("ul"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputSubmit"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_57__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_57__closure_ce, ZEND_STRL("escaper"), &escaper);
-	zephir_array_update_string(return_value, SL("ulRaw"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(return_value, SL("inputTel"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, this_ptr, phalcon_58__closure_ce, SL("__invoke"));
 	zephir_update_static_property_ce(phalcon_58__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("inputText"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_59__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_59__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("inputTextarea"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_60__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_60__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("inputTime"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_61__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_61__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("inputUrl"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_62__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_62__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("inputWeek"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_63__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_63__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("label"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_64__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_64__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("labelRaw"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_65__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_65__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("link"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_66__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_66__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("meta"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_67__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_67__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("ol"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_68__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_68__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("olRaw"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, NULL, phalcon_69__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_69__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_update_static_property_ce(phalcon_69__closure_ce, ZEND_STRL("response"), &response);
+	zephir_array_update_string(return_value, SL("preload"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_70__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_70__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("script"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_71__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_71__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("style"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_72__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_72__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("tag"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_73__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_73__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("title"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_74__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_74__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("ul"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_75__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_75__closure_ce, ZEND_STRL("escaper"), &escaper);
+	zephir_array_update_string(return_value, SL("ulRaw"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_ex(&_1, this_ptr, phalcon_76__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_76__closure_ce, ZEND_STRL("escaper"), &escaper);
 	zephir_array_update_string(return_value, SL("voidTag"), &_1, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 }

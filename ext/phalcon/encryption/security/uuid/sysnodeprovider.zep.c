@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	if ((zephir_function_exists_ex(ZEND_STRL("apcu_fetch")) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "__phalcon_uuid_node");
-		ZEPHIR_CALL_FUNCTION(&cached, "apcu_fetch", NULL, 119, &_1$$4);
+		ZEPHIR_CALL_FUNCTION(&cached, "apcu_fetch", NULL, 129, &_1$$4);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&cached)) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("node"), &cached);
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	if (ZEPHIR_IS_STRING_IDENTICAL(&_2, "Linux")) {
 		ZEPHIR_INIT_VAR(&_3$$6);
 		ZVAL_STRING(&_3$$6, "/sys/class/net/*/address");
-		ZEPHIR_CALL_FUNCTION(&addresses, "glob", NULL, 283, &_3$$6);
+		ZEPHIR_CALL_FUNCTION(&addresses, "glob", NULL, 291, &_3$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&addresses) == IS_ARRAY) {
 			zephir_is_iterable(&addresses, 0, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 75);
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 					ZVAL_STRING(&_11$$8, "");
 					zephir_fast_str_replace(&_9$$8, &_10$$8, &_11$$8, &node);
 					ZEPHIR_CPY_WRT(&node, &_9$$8);
-					ZEPHIR_CALL_METHOD(&_12$$8, this_ptr, "isvalidnode", &_13, 284, &node);
+					ZEPHIR_CALL_METHOD(&_12$$8, this_ptr, "isvalidnode", &_13, 292, &node);
 					zephir_check_call_status();
 					if (zephir_is_true(&_12$$8)) {
 						break;
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 						ZVAL_STRING(&_19$$11, "");
 						zephir_fast_str_replace(&_17$$11, &_18$$11, &_19$$11, &node);
 						ZEPHIR_CPY_WRT(&node, &_17$$11);
-						ZEPHIR_CALL_METHOD(&_20$$11, this_ptr, "isvalidnode", &_13, 284, &node);
+						ZEPHIR_CALL_METHOD(&_20$$11, this_ptr, "isvalidnode", &_13, 292, &node);
 						zephir_check_call_status();
 						if (zephir_is_true(&_20$$11)) {
 							break;
@@ -232,13 +232,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		_21 = ZEPHIR_IS_STRING_IDENTICAL(&_22, "Darwin");
 	}
 	if (_21) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 285);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 293);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_23$$14);
 		ZVAL_STRING(&_23$$14, "ifconfig 2>&1");
-		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 286, &_23$$14);
+		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 294, &_23$$14);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 287);
+		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 295);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_23$$14);
 		ZVAL_STRING(&_23$$14, "/ether\\s+([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i");
@@ -263,13 +263,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		_29 = ZEPHIR_IS_STRING_IDENTICAL(&_30, "Windows");
 	}
 	if (_29) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 285);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 293);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_31$$16);
 		ZVAL_STRING(&_31$$16, "ipconfig /all 2>&1");
-		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 286, &_31$$16);
+		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 294, &_31$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 287);
+		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 295);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_31$$16);
 		ZVAL_STRING(&_31$$16, "/Physical Address[^:]*:\\s+([0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2})/i");
@@ -296,13 +296,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		_38 = ZEPHIR_IS_STRING_IDENTICAL(&_39, "BSD");
 	}
 	if (_38) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 285);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 293);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_40$$18);
 		ZVAL_STRING(&_40$$18, "netstat -i -f link 2>&1");
-		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 286, &_40$$18);
+		ZEPHIR_CALL_FUNCTION(NULL, "passthru", NULL, 294, &_40$$18);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 287);
+		ZEPHIR_CALL_FUNCTION(&output, "ob_get_clean", NULL, 295);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_40$$18);
 		ZVAL_STRING(&_40$$18, "/([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i");
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	}
 	_46 = Z_TYPE_P(&node) == IS_NULL;
 	if (!(_46)) {
-		ZEPHIR_CALL_METHOD(&_47, this_ptr, "isvalidnode", &_13, 284, &node);
+		ZEPHIR_CALL_METHOD(&_47, this_ptr, "isvalidnode", &_13, 292, &node);
 		zephir_check_call_status();
 		_46 = !zephir_is_true(&_47);
 	}
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 			zephir_check_call_status();
 		}
 
-		ZEPHIR_CALL_METHOD(&node, &_48$$20, "getnode", NULL, 288);
+		ZEPHIR_CALL_METHOD(&node, &_48$$20, "getnode", NULL, 296);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("node"), &node);
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		zephir_read_property(&_49$$21, this_ptr, ZEND_STRL("node"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_50$$21);
 		ZVAL_STRING(&_50$$21, "__phalcon_uuid_node");
-		ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 120, &_50$$21, &_49$$21);
+		ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 130, &_50$$21, &_49$$21);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(getThis(), "node");
@@ -366,11 +366,12 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, isValidNode)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&node_zv);
 	ZVAL_STR_COPY(&node_zv, node);
 	if (zephir_fast_strlen_ev(&node_zv) != 12) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_xdigit", NULL, 289, &node_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_xdigit", NULL, 297, &node_zv);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(0);

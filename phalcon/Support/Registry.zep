@@ -76,7 +76,7 @@ final class Registry extends Collection
     /**
      * Magic getter to get an element from the collection
      */
-    final public function __get(string! element) -> var
+    final public function __get(string element) -> mixed
     {
         return parent::get(element);
     }
@@ -84,7 +84,7 @@ final class Registry extends Collection
     /**
      * Magic isset to check whether an element exists or not
      */
-    final public function __isset(string! element) -> bool
+    final public function __isset(string element) -> bool
     {
         return parent::has(element);
     }
@@ -92,7 +92,7 @@ final class Registry extends Collection
     /**
      * Magic setter to assign values to an element
      */
-    final public function __set(string! element, var value) -> void
+    final public function __set(string element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -100,7 +100,7 @@ final class Registry extends Collection
     /**
      * Magic unset to remove an element from the collection
      */
-    final public function __unset(string! element) -> void
+    final public function __unset(string element) -> void
     {
         parent::remove(element);
     }
@@ -130,7 +130,7 @@ final class Registry extends Collection
         string! element,
         var defaultValue = null,
         string! cast = null
-    ) -> var {
+    ) -> mixed {
         return parent::get(element, defaultValue, cast);
     }
 

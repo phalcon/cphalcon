@@ -60,6 +60,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
@@ -84,8 +85,9 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, escape)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 349, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 364, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

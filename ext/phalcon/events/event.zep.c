@@ -121,6 +121,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	if (ZEND_NUM_ARGS() > 3) {
 		cancelable_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	if (!source) {
 		source = &source_sub;
@@ -145,7 +146,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		zephir_gettype(&_2$$3, source);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "The source of ", &type_zv, " event must be an object, got ", &_2$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 38, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
 		ZEPHIR_MM_RESTORE();

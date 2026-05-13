@@ -65,12 +65,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!separator) {
 		separator = zend_string_init(ZEND_STRL("_"), 0);
+		zephir_memory_observe(&separator_zv);
 		ZVAL_STR(&separator_zv, separator);
 	} else {
-		ZVAL_STR_COPY(&separator_zv, separator);
+		zephir_memory_observe(&separator_zv);
+	ZVAL_STR_COPY(&separator_zv, separator);
 	}
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode(&parts, &separator_zv, &text_zv, LONG_MAX);

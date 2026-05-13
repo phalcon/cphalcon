@@ -113,16 +113,19 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	if (ZEND_NUM_ARGS() > 5) {
 		profiler = ZEND_CALL_ARG(execute_data, 6);
 	}
+	zephir_memory_observe(&dsn_zv);
 	ZVAL_STR_COPY(&dsn_zv, dsn);
 	if (!username) {
 		ZEPHIR_INIT_VAR(&username_zv);
 	} else {
-		ZVAL_STR_COPY(&username_zv, username);
+		zephir_memory_observe(&username_zv);
+	ZVAL_STR_COPY(&username_zv, username);
 	}
 	if (!password) {
 		ZEPHIR_INIT_VAR(&password_zv);
 	} else {
-		ZVAL_STR_COPY(&password_zv, password);
+		zephir_memory_observe(&password_zv);
+	ZVAL_STR_COPY(&password_zv, password);
 	}
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -157,7 +160,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 67);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVS(&_3$$3, "Driver not supported [", &_2$$3, "]");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 205, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 26, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection.zep", 68);
 		ZEPHIR_MM_RESTORE();
@@ -179,7 +182,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 206);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 215);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);

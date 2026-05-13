@@ -10,46 +10,14 @@
 
 namespace Phalcon\Support\Collection;
 
+use Phalcon\Contracts\Support\Collection as CollectionContract;
+
 /**
  * Phalcon\Support\Collection\CollectionInterface
  *
- * Interface for Phalcon\Support\Collection class
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Support\Collection} instead.
  */
-interface CollectionInterface
+interface CollectionInterface extends CollectionContract
 {
-    public function __get(string element) -> var;
-
-    public function __isset(string element) -> bool;
-
-    public function __set(string element, value) -> void;
-
-    public function __unset(string element) -> void;
-
-    public function clear() -> void;
-
-    public function first() -> var;
-
-    public function get(string element, var defaultValue = null, string! cast = null) -> var;
-
-    public function getKeys(bool insensitive = true) -> array;
-
-    public function getValues() -> array;
-
-    public function has(string element) -> bool;
-
-    public function init(array data = []) -> void;
-
-    public function isEmpty() -> bool;
-
-    public function last() -> var;
-
-    public function remove(string element) -> void;
-
-    public function replace(array data) -> void;
-
-    public function set(string element, var value) -> void;
-
-    public function toArray() -> array;
-
-    public function toJson(int options = 79) -> string;
 }

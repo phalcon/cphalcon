@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	model = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&type_zv, "beforeDelete")) {
 		RETURN_MM_NULL();

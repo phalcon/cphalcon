@@ -92,6 +92,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	session = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("session"), session);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
@@ -199,6 +200,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "remove", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -233,6 +235,7 @@ PHP_METHOD(Phalcon_Session_Bag, set)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	value = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "set", NULL, 0, &element_zv, value);
 	zephir_check_call_status();

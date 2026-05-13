@@ -78,14 +78,17 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (!indent) {
 		indent = zend_string_init(ZEND_STRL("    "), 0);
+		zephir_memory_observe(&indent_zv);
 		ZVAL_STR(&indent_zv, indent);
 	} else {
-		ZVAL_STR_COPY(&indent_zv, indent);
+		zephir_memory_observe(&indent_zv);
+	ZVAL_STR_COPY(&indent_zv, indent);
 	}
 	if (!delimiter) {
 		ZEPHIR_INIT_VAR(&delimiter_zv);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	if (Z_TYPE_P(&delimiter_zv) == IS_NULL) {
@@ -122,7 +125,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 	zephir_memory_observe(&sorted);
 	zephir_read_property(&sorted, this_ptr, ZEND_STRL("store"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(&sorted);
-	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 42, &sorted);
+	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 53, &sorted);
 	ZEPHIR_UNREF(&sorted);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);

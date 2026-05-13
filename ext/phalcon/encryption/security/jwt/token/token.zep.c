@@ -303,6 +303,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	signer = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_CALL_METHOD(&_0, signer, "getalgheader", NULL, 0);
 	zephir_check_call_status();

@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 	if (!eventName) {
 		ZEPHIR_INIT_VAR(&eventName_zv);
 	} else {
+	zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);

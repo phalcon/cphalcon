@@ -130,6 +130,7 @@ PHP_METHOD(Phalcon_Support_Registry, __get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -152,6 +153,7 @@ PHP_METHOD(Phalcon_Support_Registry, __isset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "has", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -177,6 +179,7 @@ PHP_METHOD(Phalcon_Support_Registry, __set)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	value = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", NULL, 0, &element_zv, value);
 	zephir_check_call_status();
@@ -199,6 +202,7 @@ PHP_METHOD(Phalcon_Support_Registry, __unset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "remove", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -263,6 +267,7 @@ PHP_METHOD(Phalcon_Support_Registry, get)
 	if (ZEND_NUM_ARGS() > 1) {
 		defaultValue = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
@@ -271,6 +276,7 @@ PHP_METHOD(Phalcon_Support_Registry, get)
 	if (!cast) {
 		ZEPHIR_INIT_VAR(&cast_zv);
 	} else {
+	zephir_memory_observe(&cast_zv);
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", NULL, 0, &element_zv, defaultValue, &cast_zv);
@@ -309,6 +315,7 @@ PHP_METHOD(Phalcon_Support_Registry, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "has", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -472,6 +479,7 @@ PHP_METHOD(Phalcon_Support_Registry, remove)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "remove", NULL, 0, &element_zv);
 	zephir_check_call_status();
@@ -514,6 +522,7 @@ PHP_METHOD(Phalcon_Support_Registry, set)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	value = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "set", NULL, 0, &element_zv, value);
 	zephir_check_call_status();
@@ -586,6 +595,7 @@ PHP_METHOD(Phalcon_Support_Registry, unserialize)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "unserialize", NULL, 0, &data_zv);
 	zephir_check_call_status();

@@ -193,6 +193,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	if (ZEND_NUM_ARGS() > 2) {
 		params_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&actionMethod_zv);
 	ZVAL_STR_COPY(&actionMethod_zv, actionMethod);
 	if (!params_param) {
 		ZEPHIR_INIT_VAR(&params);
@@ -252,7 +253,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	zephir_create_array(&_11, 2, 0);
 	zephir_array_fast_append(&_11, &altHandler);
 	zephir_array_fast_append(&_11, &altAction);
-	ZEPHIR_CALL_FUNCTION(&_12, "array_values", NULL, 13, &altParams);
+	ZEPHIR_CALL_FUNCTION(&_12, "array_values", NULL, 22, &altParams);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&result);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&result, &_11, &_12);
@@ -573,7 +574,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 			}
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_34, 94, &handler);
+		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_34, 104, &handler);
 		zephir_check_call_status();
 		zephir_read_property(&_35$$10, this_ptr, ZEND_STRL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
 		isNewHandler = !((zephir_array_isset(&_35$$10, &handlerHash)));
@@ -1182,7 +1183,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActiveMethod)
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("actionName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "tocamelcase", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 89, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 99, &_2$$3);
 		zephir_check_call_status();
 		zephir_memory_observe(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("actionName"), PH_NOISY_CC);
@@ -1823,7 +1824,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModuleName)
 	if (!moduleName) {
 		ZEPHIR_INIT_VAR(&moduleName_zv);
 	} else {
-		ZVAL_STR_COPY(&moduleName_zv, moduleName);
+		zephir_memory_observe(&moduleName_zv);
+	ZVAL_STR_COPY(&moduleName_zv, moduleName);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("moduleName"), &moduleName_zv);
 	ZEPHIR_MM_RESTORE();
@@ -1914,17 +1916,18 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	zephir_memory_observe(&camelCaseInput);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("camelCaseMap"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&camelCaseInput, &_0, &input_zv, 0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "/[_-]+/");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 83, &_1$$3, &input_zv);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 93, &_1$$3, &input_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "ucfirst");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 95, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 14, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&camelCaseInput);
 		zephir_fast_join_str(&camelCaseInput, SL(""), &_3$$3);

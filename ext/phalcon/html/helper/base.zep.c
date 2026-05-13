@@ -78,7 +78,8 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	if (!href) {
 		ZEPHIR_INIT_VAR(&href_zv);
 	} else {
-		ZVAL_STR_COPY(&href_zv, href);
+		zephir_memory_observe(&href_zv);
+	ZVAL_STR_COPY(&href_zv, href);
 	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);

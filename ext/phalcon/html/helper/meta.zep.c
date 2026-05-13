@@ -132,7 +132,9 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	if (ZEND_NUM_ARGS() > 2) {
 		position_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&httpEquiv_zv);
 	ZVAL_STR_COPY(&httpEquiv_zv, httpEquiv);
+	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	if (!position_param) {
 		position = -1;
@@ -141,7 +143,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 354, &_0, &httpEquiv_zv, &content_zv, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 369, &_0, &httpEquiv_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -177,7 +179,9 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	if (ZEND_NUM_ARGS() > 2) {
 		position_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	if (!position_param) {
 		position = -1;
@@ -186,7 +190,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 354, &_0, &name_zv, &content_zv, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 369, &_0, &name_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -222,7 +226,9 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	if (ZEND_NUM_ARGS() > 2) {
 		position_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	if (!position_param) {
 		position = -1;
@@ -231,7 +237,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 354, &_0, &name_zv, &content_zv, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 369, &_0, &name_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -280,8 +286,11 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addElement)
 	if (ZEND_NUM_ARGS() > 3) {
 		position_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
+	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
+	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	if (!position_param) {
 		position = -1;

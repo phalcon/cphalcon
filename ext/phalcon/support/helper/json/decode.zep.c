@@ -96,6 +96,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 	if (ZEND_NUM_ARGS() > 3) {
 		options_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
 	if (!associative_param) {
 		associative = 0;
@@ -125,7 +126,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 		zephir_json_encode(&_3$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 205, &message, &error);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 26, &message, &error);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Support/Helper/Json/Decode.zep", 64);
 		ZEPHIR_MM_RESTORE();

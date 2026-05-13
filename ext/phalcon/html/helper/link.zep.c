@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	if (ZEND_NUM_ARGS() > 2) {
 		position_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -146,6 +147,7 @@ PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	attributes_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&required);
