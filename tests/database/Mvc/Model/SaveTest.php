@@ -405,7 +405,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-21
      *
-     * @issue  15554
+     * @issue  https://github.com/phalcon/cphalcon/issues/15554
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -438,7 +438,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-02
      *
-     * @issue  16222
+     * @issue  https://github.com/phalcon/cphalcon/issues/16222
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -475,7 +475,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-30
      *
-     * @issue  16611
+     * @issue  https://github.com/phalcon/cphalcon/issues/16611
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -512,7 +512,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  16000
+     * @issue  https://github.com/phalcon/cphalcon/issues/16000
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -550,7 +550,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  #11922
+     * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
      *

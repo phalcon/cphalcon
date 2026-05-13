@@ -45,7 +45,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
         $this->setDatabase();
     }
     /**
-     * @issue  15024
+     * @issue  https://github.com/phalcon/cphalcon/issues/15024
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
      *
@@ -75,8 +75,8 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  16976
-     * @issue  2373
+     * @issue  https://github.com/phalcon/cphalcon/issues/16976
+     * @issue  https://github.com/phalcon/cphalcon/issues/2373
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      *

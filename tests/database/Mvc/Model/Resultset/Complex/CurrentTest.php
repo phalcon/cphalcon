@@ -68,7 +68,7 @@ final class CurrentTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-13
-     * @issue  16960
+     * @issue  https://github.com/phalcon/cphalcon/issues/16960
      *
      * @group mysql
      * @group pgsql
@@ -138,8 +138,8 @@ final class CurrentTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     * @issue  16239
-     * @issue  16960
+     * @issue  https://github.com/phalcon/cphalcon/issues/16239
+     * @issue  https://github.com/phalcon/cphalcon/issues/16960
      *
      * @group mysql
      * @group pgsql

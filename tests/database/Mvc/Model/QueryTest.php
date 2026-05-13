@@ -94,7 +94,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  14535
+     * @issue  https://github.com/phalcon/cphalcon/issues/14535
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-01
      *
@@ -121,7 +121,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  14783
+     * @issue  https://github.com/phalcon/cphalcon/issues/14783
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
@@ -178,7 +178,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue 14783
+     * @issue https://github.com/phalcon/cphalcon/issues/14783
      */
     private function transform(Row $row): CustomersKeepSnapshots
     {
