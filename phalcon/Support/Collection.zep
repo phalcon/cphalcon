@@ -16,9 +16,9 @@ use Countable;
 use IteratorAggregate;
 use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
+use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
-use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Traversable;
 
 /**
@@ -216,7 +216,7 @@ class Collection implements
      * Invokes the callback for every item in the collection. Returns the
      * collection itself to allow chaining.
      *
-     * @phpstan-param callable(T, array-key) -> mixed $callback
+     * @phpstan-param callable(T, array-key): mixed $callback
      *
      * @param callable $callback
      *
@@ -237,7 +237,7 @@ class Collection implements
      * Returns a new collection of items for which the callback returns true.
      * Keys are preserved.
      *
-     * @phpstan-param  callable(T, array-key) -> bool $callback
+     * @phpstan-param  callable(T, array-key): bool $callback
      * @phpstan-return static<T>
      *
      * @param callable $callback
@@ -463,7 +463,7 @@ class Collection implements
      * Returns a new collection with the callback applied to every value.
      * Keys are preserved.
      *
-     * @phpstan-param  callable(T, array-key) -> mixed $callback
+     * @phpstan-param  callable(T, array-key): mixed $callback
      * @phpstan-return static<mixed>
      *
      * @param callable $callback
@@ -547,7 +547,7 @@ class Collection implements
      * Reduces the collection to a single value using the callback. The
      * callback receives `($accumulator, $value, $key)`.
      *
-     * @phpstan-param callable(mixed, T, array-key) -> mixed $callback
+     * @phpstan-param callable(mixed, T, array-key): mixed $callback
      *
      * @param callable $callback
      * @param mixed    $initial
