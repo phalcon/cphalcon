@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Url;
 
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
 use Phalcon\Tests\AbstractUnitTestCase;
 
@@ -176,6 +177,52 @@ final class GetTest extends AbstractUnitTestCase
             null,
             'https://example.com/'
         );
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17007
+     */
+    public function testGetUsesProtocolRelativeUrlWhenRouteHasHostname(): void
+    {
+        $router = new Router(false);
+        $router->add('/login', [
+            'module'     => 'account',
+            'controller' => 'auth',
+            'action'     => 'login',
+        ])->setHostname('account.company.com')
+          ->setName('account_login');
+
+        $url = new Url($router);
+        $url->setBaseUri('/');
+
+        $expected = '//account.company.com/login';
+        $actual   = $url->get(['for' => 'account_login']);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17007
+     */
+    public function testGetIgnoresHostnameWhenRouteHasNone(): void
+    {
+        $router = new Router(false);
+        $router->add('/about', [
+            'controller' => 'pages',
+            'action'     => 'about',
+        ])->setName('about');
+
+        $url = new Url($router);
+        $url->setBaseUri('/');
+
+        $expected = '/about';
+        $actual   = $url->get(['for' => 'about']);
 
         $this->assertSame($expected, $actual);
     }
