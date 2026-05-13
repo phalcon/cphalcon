@@ -490,6 +490,11 @@ class CompileStringTest extends AbstractUnitTestCase
                 "{{ readonly|default(false) ? 'readonly=\"readonly\"' : '' }}",
                 '<?= ((empty($readonly) ? (false) : ($readonly)) ? \'readonly="readonly"\' : \'\') ?>',
             ],
+            // Issue: 17002
+            [
+                '{{ \'Let\\\'s Encrypt\' }}',
+                '<?= \'Let\\\'s Encrypt\' ?>',
+            ],
         ];
     }
 
