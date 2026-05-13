@@ -137,6 +137,10 @@
       "type": "hash",
       "default": "NULL"
     },
+    "orm.resultset_empty_left_join_model": {
+      "type": "bool",
+      "default": true
+    },
     "orm.resultset_prefetch_records": {
       "type": "string",
       "default": "0"

@@ -167,7 +167,14 @@ class Complex extends Resultset
                 }
 
                 /**
-                 * If all values are null, the LEFT JOIN returned no matching row
+                 * If all values are null, the LEFT JOIN returned no matching
+                 * row. `orm.resultset_empty_left_join_model` defaults to
+                 * `true`, preserving the pre-5.12 behavior of hydrating an
+                 * empty Model instance (all properties null) so existing
+                 * applications keep working without changes. New code that
+                 * prefers the cleaner "explicit null on no match" semantics
+                 * introduced in 5.12 can opt in by setting the flag to
+                 * `false` (via php.ini, .htaccess, or `Settings::set()`).
                  */
                 let allNull = true;
                 for columnValue in rowModel {
@@ -177,7 +184,7 @@ class Complex extends Resultset
                     }
                 }
 
-                if allNull {
+                if allNull && !Settings::get("orm.resultset_empty_left_join_model") {
                     let value = null;
                 } else {
                     /**
