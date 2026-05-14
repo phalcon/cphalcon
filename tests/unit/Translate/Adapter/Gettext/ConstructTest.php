@@ -19,7 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\FakeGettextFunctionExists;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\MissingGettextExtension;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 final class ConstructTest extends AbstractUnitTestCase
@@ -47,7 +48,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterGettextConstructNoGettextException(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(MissingGettextExtension::class);
         $this->expectExceptionMessage('This class requires the gettext extension for PHP');
 
         (new FakeGettextFunctionExists(
@@ -63,7 +64,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterGettextContentParamDirectoryExist(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(MissingRequiredParameter::class);
         $this->expectExceptionMessage("Parameter 'directory' is required");
 
         (new Gettext(new InterpolatorFactory(), ['locale' => 'en_US.utf8',]));
@@ -76,7 +77,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterGettextContentParamLocaleExist(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(MissingRequiredParameter::class);
         $this->expectExceptionMessage("Parameter 'locale' is required");
 
         (new Gettext(new InterpolatorFactory(), []));

@@ -17,7 +17,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\TranslatorNotRegistered;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 
@@ -51,7 +51,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
     {
 
         $name = uniqid('service-');
-        $this->expectException(Exception::class);
+        $this->expectException(TranslatorNotRegistered::class);
         $this->expectExceptionMessage('Service ' . $name . ' is not registered');
 
         $interpolator = new InterpolatorFactory();
