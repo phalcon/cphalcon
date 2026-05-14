@@ -15,6 +15,10 @@ use RuntimeException;
 use SessionHandlerInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
+use Phalcon\Session\Exceptions\InvalidSessionAdapter;
+use Phalcon\Session\Exceptions\InvalidSessionName;
+use Phalcon\Session\Exceptions\SessionAlreadyStarted;
+use Phalcon\Session\Exceptions\SessionModificationDenied;
 use Phalcon\Support\Helper\Arr\Get;
 
 /**
@@ -265,10 +269,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     public function setId(string sessionId) -> <ManagerInterface>
     {
         if unlikely (true === this->exists()) {
-            throw new Exception(
-                "The session has already been started. " .
-                "To change the id, use regenerateId()"
-            );
+            throw new SessionAlreadyStarted();
         }
 
         session_id(sessionId);
@@ -289,15 +290,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     public function setName(string name) -> <ManagerInterface>
     {
         if unlikely true === this->exists() {
-            throw new Exception(
-                "Cannot set session name after a session has started"
-            );
+            throw new SessionModificationDenied();
         }
 
         if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
-            throw new Exception(
-                "The name contains non alphanum characters"
-            );
+            throw new InvalidSessionName();
         }
 
         let this->name = name;
@@ -341,7 +338,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         }
 
         if unlikely !(this->adapter instanceof SessionHandlerInterface) {
-            throw new Exception("The session adapter is not valid");
+            throw new InvalidSessionAdapter();
         }
 
         /**
