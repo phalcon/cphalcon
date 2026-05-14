@@ -18,6 +18,7 @@ use Phalcon\Support\Helper\Json\Encode;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 use const JSON_HEX_TAG;
+use const JSON_THROW_ON_ERROR;
 
 final class EncodeTest extends AbstractUnitTestCase
 {
@@ -63,5 +64,19 @@ final class EncodeTest extends AbstractUnitTestCase
         );
         $data = pack("H*", 'c32e');
         (new Encode())($data, JSON_HEX_TAG);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-14
+     */
+    public function testSupportHelperJsonEncodeExceptionWithThrowOnError(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            "json_encode error: Malformed UTF-8 characters, possibly incorrectly encoded",
+        );
+        $data = pack("H*", 'c32e');
+        (new Encode())($data, JSON_THROW_ON_ERROR);
     }
 }

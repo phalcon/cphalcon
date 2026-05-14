@@ -691,10 +691,6 @@ class Collection implements
 
         let result = (new Encode())->__invoke(this->jsonSerialize(), options);
 
-        if (false === result) {
-            let result = "";
-        }
-
         return result;
     }
 
