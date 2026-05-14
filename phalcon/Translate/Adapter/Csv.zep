@@ -10,14 +10,20 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
+use Phalcon\Translate\Exceptions\FileOpenError;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * @property array $translate
+ * @phpstan-type TOptions array{
+ *      content?: string,
+ *      delimiter?: string,
+ *      enclosure?: string,
+ *      escape?: string
+ * }
  */
-class Csv extends AbstractAdapter implements ArrayAccess
+class Csv extends AbstractAdapter
 {
     /**
      * @var array
@@ -27,13 +33,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Csv constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                       'content'   => '',
-     *                                       'delimiter' => ';',
-     *                                       'enclosure' => '"',
-     *                                       'escape' => '\\'
-     *                                       ]
+     * @phpstan-param TOptions            $options
      *
      * @throws Exception
      */
@@ -46,7 +46,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
         parent::__construct(interpolator, options);
 
         if unlikely !isset options["content"] {
-            throw new Exception("Parameter 'content' is required");
+            throw new MissingRequiredParameter("content");
         }
 
         if isset options["delimiter"] {
@@ -98,8 +98,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -123,7 +122,8 @@ class Csv extends AbstractAdapter implements ArrayAccess
      * @param string $enclosure
      * @param string $escape
      *
-     * @throws Exception
+     * @return void
+     * @throws FileOpenError
      */
     private function load(string file, int length, string delimiter, string enclosure, string escape) -> void
     {
@@ -132,9 +132,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
         let fileHandler = this->phpFopen(file, "rb");
 
         if unlikely typeof fileHandler !== "resource" {
-            throw new Exception(
-                "Error opening translation file '" . file . "'"
-            );
+            throw new FileOpenError($file);
         }
 
         loop {

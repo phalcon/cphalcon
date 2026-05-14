@@ -10,8 +10,9 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\MissingGettextExtension;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
@@ -30,14 +31,16 @@ use Phalcon\Translate\InterpolatorFactory;
  * );
  * ```
  *
- * Allows translate using gettext
+ * Allows translations using gettext
  *
- * @property int          $category
- * @property string       $defaultDomain
- * @property string|array $directory
- * @property string|false $locale
+ * @phpstan-type TOptions array{
+ *      locale?: string,
+ *      defaultDomain?: string,
+ *      directory?: string,
+ *      category?: string
+ * }
  */
-class Gettext extends AbstractAdapter implements ArrayAccess
+class Gettext extends AbstractAdapter
 {
     /**
      * @var int
@@ -63,21 +66,16 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * Gettext constructor.
      *
      * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                       'locale'        => '',
-     *                                       'defaultDomain' => '',
-     *                                       'directory'     => '',
-     *                                       'category'      => ''
-     *                                       ]
+     * @param TOptions            $options
      *
      * @throws Exception
+     * @throws MissingGettextExtension
+     * @throws MissingRequiredParameter
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
         if unlikely !this->phpFunctionExists("gettext") {
-            throw new Exception(
-                "This class requires the gettext extension for PHP"
-            );
+            throw new MissingGettextExtension();
         }
 
         parent::__construct(interpolator, options);
@@ -115,7 +113,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     }
 
     /**
-     * @return string|array
+     * @phpstan-return array<string, string>|string
      */
     public function getDirectory() -> array | string
     {
@@ -151,11 +149,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * Some languages have more than one form for plural messages dependent on
      * the count.
      *
-     * @param string      $msgid1
-     * @param string      $msgid2
-     * @param int         $count
-     * @param array       $placeholders
-     * @param string|null $domain
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -184,8 +178,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -277,8 +270,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $gettext->setLocale(LC_ALL, ["de_DE@euro", "de_DE", "de", "ge"]);
      * ```
      *
-     * @param int   $category
-     * @param array $localeArray
+     * @phpstan-param array<string, mixed> $localeArray
      *
      * @return false|string
      */
@@ -300,7 +292,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Gets default options
      *
-     * @return array
+     * @phpstan-return array<string, mixed>
      */
     protected function getOptionsDefault() -> array
     {
@@ -313,18 +305,19 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Validator for constructor
      *
-     * @param array $options
+     * @phpstan-param TOptions $options
      *
-     * @throws Exception
+     * @return void
+     * @throws MissingRequiredParameter
      */
     protected function prepareOptions(array! options) -> void
     {
         if unlikely !isset options["locale"] {
-            throw new Exception("Parameter 'locale' is required");
+            throw new MissingRequiredParameter("locale");
         }
 
         if unlikely !isset options["directory"] {
-            throw new Exception("Parameter 'directory' is required");
+            throw new MissingRequiredParameter("directory");
         }
 
         let options = array_merge(
