@@ -17,6 +17,8 @@ use InvalidArgumentException;
 use Phalcon\Support\Helper\Json\Decode;
 use Phalcon\Tests\AbstractUnitTestCase;
 
+use const JSON_THROW_ON_ERROR;
+
 final class DecodeTest extends AbstractUnitTestCase
 {
     /**
@@ -50,5 +52,22 @@ final class DecodeTest extends AbstractUnitTestCase
 
         $data = '{"one';
         (new Decode())($data);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-14
+     */
+    public function testSupportHelperJsonDecodeExceptionWithThrowOnError(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            "Control character error, " .
+            "possibly incorrectly encoded",
+        );
+        $this->expectExceptionCode(3);
+
+        $data = '{"one';
+        (new Decode())($data, false, 512, JSON_THROW_ON_ERROR);
     }
 }
