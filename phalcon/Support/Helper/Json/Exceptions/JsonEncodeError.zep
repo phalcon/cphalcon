@@ -8,13 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Support\Collection;
+namespace Phalcon\Support\Helper\Json\Exceptions;
 
-use Phalcon\Support\Exception as SupportException;
+use InvalidArgumentException;
 
-/**
- * Exceptions for the Collection object
- */
-class Exception extends SupportException
+class JsonEncodeError extends InvalidArgumentException
 {
 }

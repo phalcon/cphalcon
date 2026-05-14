@@ -8,13 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Support\Collection;
+namespace Phalcon\Support\Debug\Exceptions;
 
-use Phalcon\Support\Exception as SupportException;
+use Phalcon\Support\Debug\Exception as DebugException;
 
-/**
- * Exceptions for the Collection object
- */
-class Exception extends SupportException
+class RequestHalted extends DebugException
 {
+    public function __construct()
+    {
+        parent::__construct("Halted request");
+    }
 }
