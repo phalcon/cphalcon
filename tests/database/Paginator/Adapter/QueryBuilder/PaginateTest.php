@@ -176,7 +176,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-21
      *
-     * @issue  15266
+     * @issue  https://github.com/phalcon/cphalcon/issues/15266
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -238,7 +238,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  15912
+     * @issue  https://github.com/phalcon/cphalcon/issues/15912
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -290,7 +290,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-04-29
      *
-     * @issue  16581
+     * @issue  https://github.com/phalcon/cphalcon/issues/16581
      * @group mysql
      * @group pgsql
      * @group sqlite
@@ -332,7 +332,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
-     * @issue  14639
+     * @issue  https://github.com/phalcon/cphalcon/issues/14639
      *
      * @group mysql
      * @group pgsql

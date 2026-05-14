@@ -58,7 +58,7 @@ final class CloseTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  15638
+     * @issue  https://github.com/phalcon/cphalcon/issues/15638
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-03
      */

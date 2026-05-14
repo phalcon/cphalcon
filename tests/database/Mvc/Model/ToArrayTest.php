@@ -317,7 +317,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  #11922
+     * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
      *
@@ -373,7 +373,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  #11922
+     * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
      *

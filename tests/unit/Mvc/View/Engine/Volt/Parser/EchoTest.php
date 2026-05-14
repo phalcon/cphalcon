@@ -148,7 +148,7 @@ final class EchoTest extends AbstractUnitTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
-     * @issue  17002
+     * @issue  https://github.com/phalcon/cphalcon/issues/17002
      */
     public function testMvcViewEngineVoltParserEchoStringDoubleEscapedQuote(): void
     {
@@ -173,7 +173,7 @@ final class EchoTest extends AbstractUnitTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
-     * @issue  17002
+     * @issue  https://github.com/phalcon/cphalcon/issues/17002
      */
     public function testMvcViewEngineVoltParserEchoStringSingleEscapedQuote(): void
     {

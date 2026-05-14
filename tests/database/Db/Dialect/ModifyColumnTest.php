@@ -87,7 +87,7 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2026-04-28
      *
-     * @issue  15829
+     * @issue  https://github.com/phalcon/cphalcon/issues/15829
      *
      * @group pgsql
      */

@@ -117,7 +117,8 @@ class Url extends AbstractInjectionAware implements UrlInterface
         bool replaceArgs = false
     ) -> string {
         string strUri;
-        var existing, queryPos, queryString, router, container, routeName, route;
+        var container, existing, hostname, queryPos, queryString,
+            router, routeName, route;
 
         if local == null {
             if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
@@ -185,6 +186,24 @@ class Url extends AbstractInjectionAware implements UrlInterface
                 route->getReversedPaths(),
                 uri
             );
+
+            /**
+             * If the route has a hostname restriction, prepend it as a
+             * protocol-relative URL so the generated link works under
+             * both HTTP and HTTPS.  The baseUri is not prepended in this
+             * case because the hostname already provides the authority.
+             */
+            let hostname = route->getHostname();
+
+            if hostname !== null && hostname !== "" {
+                if substr(uri, 0, 1) !== "/" {
+                    let uri = "//" . hostname . "/" . uri;
+                } else {
+                    let uri = "//" . hostname . uri;
+                }
+
+                let local = false;
+            }
         }
 
         if local {

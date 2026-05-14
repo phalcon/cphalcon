@@ -154,7 +154,7 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue 14584
+     * @issue https://github.com/phalcon/cphalcon/issues/14584
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-07
      */

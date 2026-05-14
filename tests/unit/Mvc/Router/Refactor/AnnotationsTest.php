@@ -103,7 +103,7 @@ final class AnnotationsTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  16238
+     * @issue  https://github.com/phalcon/cphalcon/issues/16238
      */
     public function testMvcRouterAnnotationsAddResourceWithFullyQualifiedClassNameIncludingSuffix(): void
     {

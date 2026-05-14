@@ -453,7 +453,7 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue 16186
+     * @issue https://github.com/phalcon/cphalcon/issues/16186
      */
     public function testCliConsoleHandleNoAction(): void
     {

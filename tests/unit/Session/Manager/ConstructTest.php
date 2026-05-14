@@ -34,7 +34,7 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  14933
+     * @issue  https://github.com/phalcon/cphalcon/issues/14933
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-05
      */

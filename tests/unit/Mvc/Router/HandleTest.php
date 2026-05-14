@@ -280,7 +280,7 @@ final class HandleTest extends AbstractUnitTestCase
     /**
      * @dataProvider getUrlsWithColons
      *
-     * @issue        16741
+     * @issue        https://github.com/phalcon/cphalcon/issues/16741
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-04
      */

@@ -23,7 +23,7 @@ final class ExtractRealUriTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * @issue        16749
+     * @issue        https://github.com/phalcon/cphalcon/issues/16749
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-11
      */

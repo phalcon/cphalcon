@@ -55,7 +55,7 @@ final class GetFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  15027
+     * @issue  https://github.com/phalcon/cphalcon/issues/15027
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
      *
