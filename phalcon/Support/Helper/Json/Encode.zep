@@ -21,9 +21,8 @@ use InvalidArgumentException;
  * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
  * JSON_UNESCAPED_SLASHES
  *
- * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
- * thrown in the case of an error. Otherwise, any error will throw
- * InvalidArgumentException
+ * Any error will throw InvalidArgumentException, regardless of whether
+ * JSON_THROW_ON_ERROR is specified in the options.
  *
  * @see  https://www.ietf.org/rfc/rfc4627.txt
  */
@@ -44,21 +43,20 @@ class Encode
         int options = 79,
         int depth = 512
     ) -> string {
-        var encoded, error, message;
+        var encoded, error, ex, message;
 
         /**
          * Need to clear the json_last_error() before the code below
          */
-        let encoded = json_encode(null),
-            encoded = json_encode(data, options, depth),
-            error   = json_last_error(),
-            message = json_last_error_msg();
+        try {
+            let encoded = json_encode(null),
+                encoded = json_encode(data, options, depth),
+                error   = json_last_error(),
+                message = json_last_error_msg();
+        } catch \JsonException, ex {
+            throw new InvalidArgumentException(ex->getMessage(), ex->getCode(), ex);
+        }
 
-        /**
-         * The above will throw an exception when JSON_THROW_ON_ERROR is
-         * specified. If not, the code below will handle the exception when
-         * an error occurs
-         */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
             throw new InvalidArgumentException("json_encode error: " . message, error);
