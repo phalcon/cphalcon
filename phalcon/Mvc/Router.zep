@@ -129,6 +129,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected matches = [];
 
     /**
+     * @var array
+     */
+    protected methodRoutes = [];
+
+    /**
+     * @var bool
+     */
+    protected methodRoutesDirty = true;
+
+    /**
      * @var string
      */
     protected module = "";
@@ -175,31 +185,31 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function __construct(bool! defaultRoutes = true)
     {
-        array routes = [];
-
         if defaultRoutes {
             /**
              * Two routes are added by default to match /:controller/:action and
              * /:controller/:action/:params
              */
-            let routes[] = new Route(
-                "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
-                [
-                    "controller": 1
-                ]
+            this->attach(
+                new Route(
+                    "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
+                    [
+                        "controller": 1
+                    ]
+                )
             );
 
-            let routes[] = new Route(
-                "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
-                [
-                    "controller": 1,
-                    "action":     2,
-                    "params":     3
-                ]
+            this->attach(
+                new Route(
+                    "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
+                    [
+                        "controller": 1,
+                        "action":     2,
+                        "params":     3
+                    ]
+                )
             );
         }
-
-        let this->routes = routes;
     }
 
     /**
@@ -514,6 +524,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 throw new Exception("Invalid route position");
         }
 
+        let this->methodRoutesDirty = true;
+
         return this;
     }
 
@@ -522,7 +534,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function clear() -> void
     {
-        let this->routes = [];
+        let this->routes            = [],
+            this->methodRoutes      = [],
+            this->methodRoutesDirty = true;
     }
 
     /**
@@ -596,6 +610,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
+     * Returns the routes indexed by HTTP method.
+     * Routes with no HTTP constraint are stored under the "*" key.
+     *
+     * @return array
+     */
+    public function getMethodRoutes() -> array
+    {
+        if this->methodRoutesDirty {
+            this->rebuildMethodIndex();
+        }
+
+        return this->methodRoutes;
+    }
+
+    /**
      * Returns the processed module name
      */
     public function getModuleName() -> string
@@ -658,6 +687,29 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             realUri  = urlParts[0];
 
         return realUri;
+    }
+
+    protected function rebuildMethodIndex() -> void
+    {
+        var route, methods, method;
+
+        let this->methodRoutes = [];
+
+        for route in this->routes {
+            let methods = route->getHttpMethods();
+
+            if methods === null {
+                let this->methodRoutes["*"][] = route;
+            } elseif typeof methods == "string" {
+                let this->methodRoutes[methods][] = route;
+            } else {
+                for method in methods {
+                    let this->methodRoutes[method][] = route;
+                }
+            }
+        }
+
+        let this->methodRoutesDirty = false;
     }
 
     /**
@@ -741,11 +793,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string! uri) -> void
     {
-        var action, beforeMatch, container, controller, converter, converters,
-            currentHostName, eventsManager, handledUri, hostname, matched,
-            matches, matchPosition, methods, module, notFoundPaths, params,
-            paramsStr, part, parts, paths, pattern, position, realUri,
-            regexHostName, request, route, routeFound, strParams, vnamespace;
+        var action, beforeMatch, candidateRoutes, container, controller,
+            converter, converters, currentHostName, eventsManager, handledUri,
+            hostname, matched, matches, matchPosition, methodCandidates,
+            module, notFoundPaths, params, paramsStr, part, parts, paths,
+            pattern, position, realUri, regexHostName, request, requestMethod,
+            route, routeFound, strParams, vnamespace;
 
         if !uri {
             /**
@@ -795,24 +848,32 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         let request = <RequestInterface> container->get("request");
 
         /**
+         * Build a candidate list of routes that match the request method.
+         * Routes with no HTTP constraint are stored under "*" and are always
+         * included. This avoids iterating the full route array per request.
+         */
+        if this->methodRoutesDirty {
+            this->rebuildMethodIndex();
+        }
+
+        let requestMethod    = request->getMethod(),
+            methodCandidates = [],
+            candidateRoutes  = [];
+
+        if fetch methodCandidates, this->methodRoutes[requestMethod] {
+            let candidateRoutes = methodCandidates;
+        }
+
+        if fetch methodCandidates, this->methodRoutes["*"] {
+            let candidateRoutes = array_merge(candidateRoutes, methodCandidates);
+        }
+
+        /**
          * Routes are traversed in reversed order
          */
-        for route in reverse this->routes {
-            let params = [],
+        for route in reverse candidateRoutes {
+            let params  = [],
                 matches = null;
-
-            /**
-             * Look for HTTP method constraints
-             */
-            let methods = route->getHttpMethods();
-            if methods !== null {
-                /**
-                 * Check if the current method is allowed by the route
-                 */
-                if request->isMethod(methods, true) === false {
-                    continue;
-                }
-            }
 
             /**
              * Look for hostname constraints
@@ -1099,7 +1160,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function mount(<GroupInterface> group) -> <RouterInterface>
     {
-        var groupRoutes, beforeMatch, hostname, routes, route, eventsManager;
+        var groupRoutes, beforeMatch, hostname, route, eventsManager;
 
         let eventsManager = this->eventsManager;
 
@@ -1135,9 +1196,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
         }
 
-        let routes = this->routes;
-
-        let this->routes = array_merge(routes, groupRoutes);
+        for route in groupRoutes {
+            this->attach(route);
+        }
 
         return this;
     }
