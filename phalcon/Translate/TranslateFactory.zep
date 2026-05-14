@@ -17,7 +17,7 @@ use Phalcon\Translate\Adapter\AdapterInterface;
 /**
  * @property InterpolatorFactory $interpolator
  *
- * @psalm-type TConfig = array{
+ * @psalm-type TConfig array{
  *      adapter: string,
  *      options?: array{
  *          content: string,

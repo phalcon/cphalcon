@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Time\Clock;
 
 use DateTimeImmutable;
 use Phalcon\Tests\AbstractUnitTestCase;
-use Phalcon\Time\Clock\Exception;
+use Phalcon\Time\Clock\Exceptions\InvalidModifier;
 use Phalcon\Time\Clock\FrozenClock;
 
 use function date_default_timezone_get;
@@ -42,8 +42,8 @@ final class FrozenClockTest extends AbstractUnitTestCase
 
     public function testAdjustException(): void
     {
+        $this->expectException(InvalidModifier::class);
         $this->expectExceptionMessage('Invalid modifier: "invalid"');
-        $this->expectException(Exception::class);
 
         $clock = FrozenClock::fromUTC();
         $clock->adjust('invalid');

@@ -17,6 +17,7 @@ namespace Phalcon\Time\Clock;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use Phalcon\Time\Clock\Exceptions\InvalidModifier;
 use Throwable;
 
 final class FrozenClock implements ClockInterface
@@ -47,7 +48,7 @@ final class FrozenClock implements ClockInterface
             try {
                 let modified = this->now->modify(modifier);
             } catch Throwable, ex {
-                throw Exception::invalidModifier(modifier, ex);
+                throw new InvalidModifier($modifier, $ex);
             }
         } else {
             globals_set("warning.enable", false);
@@ -66,7 +67,7 @@ final class FrozenClock implements ClockInterface
         }
 
         if unlikely failed || false === modified {
-            throw Exception::invalidModifier(modifier);
+            throw new InvalidModifier($modifier);
         }
 
         let this->now = modified;
