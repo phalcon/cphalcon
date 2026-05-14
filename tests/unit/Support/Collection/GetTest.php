@@ -121,4 +121,21 @@ final class GetTest extends AbstractCollectionTestCase
 
         $this->assertSame('fallback', $collection->get('missing', 'fallback'));
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  17005
+     */
+    public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
+    {
+        $nested = new Collection(['inKey' => 'inValue']);
+        $collection = new Collection(['outKey' => $nested]);
+
+        $extractedArray = $collection->get('outKey', [], 'array');
+
+        $this->assertIsArray($extractedArray);
+        $this->assertArrayHasKey('inKey', $extractedArray);
+        $this->assertSame('inValue', $extractedArray['inKey']);
+    }
 }

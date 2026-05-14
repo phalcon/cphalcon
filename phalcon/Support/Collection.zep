@@ -318,7 +318,15 @@ class Collection implements
         }
 
         if unlikely cast {
-            settype(value, cast);
+            if (
+                cast === "array" &&
+                typeof value === "object" &&
+                method_exists(value, "toArray")
+            ) {
+                let value = value->toArray();
+            } else {
+                settype(value, cast);
+            }
         }
 
         return value;
