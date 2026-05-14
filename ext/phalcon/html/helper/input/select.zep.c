@@ -102,11 +102,13 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add)
 	if (ZEND_NUM_ARGS() > 3) {
 		raw_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!value) {
 		ZEPHIR_INIT_VAR(&value_zv);
 	} else {
-		ZVAL_STR_COPY(&value_zv, value);
+		zephir_memory_observe(&value_zv);
+	ZVAL_STR_COPY(&value_zv, value);
 	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -118,7 +120,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add)
 		raw = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 353, &attributes, &value_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 368, &attributes, &value_zv);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -194,6 +196,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder)
 	if (ZEND_NUM_ARGS() > 3) {
 		raw_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!value) {
 		value = &value_sub;
@@ -525,7 +528,8 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup)
 	if (!label) {
 		ZEPHIR_INIT_VAR(&label_zv);
 	} else {
-		ZVAL_STR_COPY(&label_zv, label);
+		zephir_memory_observe(&label_zv);
+	ZVAL_STR_COPY(&label_zv, label);
 	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -614,6 +618,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, placeholder)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
@@ -739,6 +744,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupStart)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	attributes_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&label_zv);
 	ZVAL_STR_COPY(&label_zv, label);
 	zephir_get_arrval(&attributes, attributes_param);
 	zephir_array_update_string(&attributes, SL("label"), &label_zv, PH_COPY | PH_SEPARATE);

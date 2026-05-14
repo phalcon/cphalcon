@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			object_init_ex(&_12$$14, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(&_13$$14);
 			ZEPHIR_CONCAT_SVS(&_13$$14, "Cannot obtain a route using the name '", &routeName, "'");
-			ZEPHIR_CALL_METHOD(NULL, &_12$$14, "__construct", NULL, 38, &_13$$14);
+			ZEPHIR_CALL_METHOD(NULL, &_12$$14, "__construct", NULL, 49, &_13$$14);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_12$$14, "phalcon/Mvc/Url.zep", 177);
 			ZEPHIR_MM_RESTORE();
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		ZVAL_STRING(&_18$$15, "#(?<!:)//+#");
 		ZEPHIR_INIT_VAR(&_19$$15);
 		ZVAL_STRING(&_19$$15, "/");
-		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 47, &_18$$15, &_19$$15, &_17$$15);
+		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 57, &_18$$15, &_19$$15, &_17$$15);
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(args)) {
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			zephir_substr(&_23$$17, uri, zephir_get_intval(&_22$$17), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 			zephir_cast_to_string(&_24$$17, &_23$$17);
 			ZEPHIR_MAKE_REF(&existing);
-			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 377, &_24$$17, &existing);
+			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 391, &_24$$17, &existing);
 			ZEPHIR_UNREF(&existing);
 			zephir_check_call_status();
 			zephir_get_arrval(&_25$$17, args);
@@ -594,7 +594,8 @@ PHP_METHOD(Phalcon_Mvc_Url, path)
 	if (!path) {
 		ZEPHIR_INIT_VAR(&path_zv);
 	} else {
-		ZVAL_STR_COPY(&path_zv, path);
+		zephir_memory_observe(&path_zv);
+	ZVAL_STR_COPY(&path_zv, path);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("basePath"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &path_zv);

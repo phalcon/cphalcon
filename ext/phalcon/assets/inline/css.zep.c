@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 	if (ZEND_NUM_ARGS() > 2) {
 		attributes_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	if (!filter_param) {
 		filter = 1;

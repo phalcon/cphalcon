@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Logger_Logger, alert)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -125,6 +126,7 @@ PHP_METHOD(Phalcon_Logger_Logger, critical)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -170,6 +172,7 @@ PHP_METHOD(Phalcon_Logger_Logger, debug)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -215,6 +218,7 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -261,6 +265,7 @@ PHP_METHOD(Phalcon_Logger_Logger, error)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -308,6 +313,7 @@ PHP_METHOD(Phalcon_Logger_Logger, info)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -359,6 +365,7 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 	if (ZEND_NUM_ARGS() > 2) {
 		context_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -406,6 +413,7 @@ PHP_METHOD(Phalcon_Logger_Logger, notice)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -454,6 +462,7 @@ PHP_METHOD(Phalcon_Logger_Logger, warning)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);

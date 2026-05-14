@@ -133,6 +133,7 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add)
 	if (ZEND_NUM_ARGS() > 2) {
 		raw_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);

@@ -170,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	minimum = ZEND_CALL_ARG(execute_data, 2);
 	maximum = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
 	zephir_memory_observe(&hiddenParam);
 	zephir_read_property(&hiddenParam, this_ptr, ZEND_STRL("hiddenParamNumber"), PH_NOISY_CC);
@@ -396,6 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&conditions_zv);
 	ZVAL_STR_COPY(&conditions_zv, conditions);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "conditions");
@@ -589,12 +591,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	container = ZEND_CALL_ARG(execute_data, 1);
 	data_param = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&modelName_zv);
 	ZVAL_STR_COPY(&modelName_zv, modelName);
 	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
 	if (!operator) {
 		operator = zend_string_init(ZEND_STRL("AND"), 0);
+		zephir_memory_observe(&operator_zv);
 		ZVAL_STR(&operator_zv, operator);
 	} else {
+	zephir_memory_observe(&operator_zv);
 	ZVAL_STR_COPY(&operator_zv, operator);
 	}
 	ZEPHIR_INIT_VAR(&conditions);
@@ -721,19 +726,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 455, container);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 469, container);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&conditions)) {
 		ZEPHIR_INIT_VAR(&_16$$16);
 		ZEPHIR_INIT_VAR(&_17$$16);
 		ZEPHIR_CONCAT_SVS(&_17$$16, " ", &operator_zv, " ");
 		zephir_fast_join(&_16$$16, &_17$$16, &conditions);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 465, &_16$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 479, &_16$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 466, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 480, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 456, &modelName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 470, &modelName_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 }
@@ -1025,6 +1030,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	if (ZEND_NUM_ARGS() > 2) {
 		alias = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	if (!conditions) {
 		conditions = &conditions_sub;
@@ -1079,6 +1085,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	values_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
 	ZEPHIR_OBS_COPY_OR_DUP(&values, values_param);
 	if (!(zephir_fast_count_int(&values))) {
@@ -1214,6 +1221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 	if (ZEND_NUM_ARGS() > 3) {
 		type = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	if (!conditions) {
 		conditions = &conditions_sub;
@@ -1301,6 +1309,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	if (ZEND_NUM_ARGS() > 2) {
 		alias = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	if (!conditions) {
 		conditions = &conditions_sub;
@@ -1354,11 +1363,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 	} else {
 		}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 308, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 316, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 308, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 316, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {
@@ -1423,6 +1432,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	minimum = ZEND_CALL_ARG(execute_data, 2);
 	maximum = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
 	zephir_memory_observe(&hiddenParam);
 	zephir_read_property(&hiddenParam, this_ptr, ZEND_STRL("hiddenParamNumber"), PH_NOISY_CC);
@@ -1486,6 +1496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	values_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
 	ZEPHIR_OBS_COPY_OR_DUP(&values, values_param);
 	zephir_memory_observe(&hiddenParam);
@@ -1562,6 +1573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&orderColumns_zv);
 	ZVAL_STR_COPY(&orderColumns_zv, orderColumns);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "order");
@@ -1667,6 +1679,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	if (ZEND_NUM_ARGS() > 2) {
 		alias = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	if (!conditions) {
 		conditions = &conditions_sub;
@@ -1795,6 +1808,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where)
 	if (ZEND_NUM_ARGS() > 2) {
 		bindTypes = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&conditions_zv);
 	ZVAL_STR_COPY(&conditions_zv, conditions);
 	if (!bindParams) {
 		bindParams = &bindParams_sub;

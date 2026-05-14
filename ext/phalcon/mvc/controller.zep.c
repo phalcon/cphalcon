@@ -165,6 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 	if (ZEND_NUM_ARGS() > 2) {
 		cancellable_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	if (!data) {
 		data = &data_sub;

@@ -147,6 +147,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index_zv);
 	zephir_check_call_status();
@@ -211,6 +212,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &index_zv);
 	zephir_check_call_status();
@@ -261,7 +263,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery)
 	if (ZEND_NUM_ARGS() > 3) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&msgid1_zv);
 	ZVAL_STR_COPY(&msgid1_zv, msgid1);
+	zephir_memory_observe(&msgid2_zv);
 	ZVAL_STR_COPY(&msgid2_zv, msgid2);
 	if (UNEXPECTED(Z_TYPE_P(count_param) != IS_LONG)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'count' must be of the type int"));
@@ -277,6 +281,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery)
 	if (!domain) {
 		ZEPHIR_INIT_VAR(&domain_zv);
 	} else {
+	zephir_memory_observe(&domain_zv);
 	ZVAL_STR_COPY(&domain_zv, domain);
 	}
 	if (!(!(ZEPHIR_IS_EMPTY(&domain_zv)))) {
@@ -327,6 +332,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query)
 	if (ZEND_NUM_ARGS() > 1) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&translateKey_zv);
 	ZVAL_STR_COPY(&translateKey_zv, translateKey);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -497,7 +503,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain)
 	if (!domain) {
 		ZEPHIR_INIT_VAR(&domain_zv);
 	} else {
-		ZVAL_STR_COPY(&domain_zv, domain);
+		zephir_memory_observe(&domain_zv);
+	ZVAL_STR_COPY(&domain_zv, domain);
 	}
 	ZEPHIR_RETURN_CALL_FUNCTION("textdomain", NULL, 0, &domain_zv);
 	zephir_check_call_status();

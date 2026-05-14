@@ -322,21 +322,28 @@ void zephir_get_arg(zval* return_value, zend_long idx);
 void zephir_module_init();
 
 /**
- * PHP changed zend_parse_arg_array() to accept zval** instead of zval*.
- * The Z_PARAM_ARRAY(dest) macro passes &dest, so on the new API dest must
- * be a zval* (pointer) variable, whereas on the old API it must be a zval
- * (value) variable.  The change was first introduced in PHP 8.5 and then
- * backported to all maintained branches (8.1.34+, 8.2.28+, 8.3.21+,
- * 8.4.7+).  Because a simple PHP_VERSION_ID check cannot reliably detect
- * the backport, config.m4 runs a compile test and defines
- * ZEPHIR_ARRAY_PARAM_DOUBLE_PTR when the new signature is in use.
+ * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).
+ * The inline function has taken `zval **dest` since at least PHP 7.0, so the
+ * variable passed to the macro must be a `zval *` for `&dest` to have the
+ * correct type. Zephir always emits a `<name>_param` companion of type `zval *`
+ * for array parameters; we forward that here.
+ *
+ * Historical note: previous versions of this header conditionally selected
+ * between `dest` (a `zval` value) and `dest_ptr` (a `zval *`) based on a
+ * config.m4 autoconf probe (`ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`). The `dest`
+ * branch was always wrong — the underlying signature has been `zval **dest`
+ * since PHP 7.0 — but it only surfaced as a warning once GCC 14 promoted
+ * `-Wincompatible-pointer-types` to default-on. Downstream projects that
+ * ship a stale `config.m4` (e.g. cphalcon) didn't get the probe defined and
+ * fell into the broken branch, producing hundreds of warnings on PHP 8.5
+ * (see https://github.com/zephir-lang/zephir/issues/2462).
+ *
+ * The probe is no longer needed and has been removed from
+ * templates/engine/config.m4. The legacy `ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`
+ * macro is now a no-op — if a stale generated `config.m4` still emits it,
+ * the definition is harmless.
  */
-#ifdef ZEPHIR_ARRAY_PARAM_DOUBLE_PTR
-# define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
-# define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
-#else
-# define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest)
-# define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest)
-#endif
+#define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
+#define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

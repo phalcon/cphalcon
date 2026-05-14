@@ -268,6 +268,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray)
 	data_param = ZEND_CALL_ARG(execute_data, 1);
 	value = ZEND_CALL_ARG(execute_data, 2);
 	zephir_get_arrval(&data, data_param);
+	zephir_memory_observe(&closeOption_zv);
 	ZVAL_STR_COPY(&closeOption_zv, closeOption);
 	ZEPHIR_INIT_VAR(&code);
 	ZVAL_STRING(&code, "");
@@ -440,6 +441,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	resultset = ZEND_CALL_ARG(execute_data, 1);
 	using = ZEND_CALL_ARG(execute_data, 2);
 	value = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&closeOption_zv);
 	ZVAL_STR_COPY(&closeOption_zv, closeOption);
 	ZEPHIR_INIT_VAR(&code);
 	ZVAL_STRING(&code, "");

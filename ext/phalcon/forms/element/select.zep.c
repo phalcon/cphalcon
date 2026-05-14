@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
 	if (ZEND_NUM_ARGS() > 2) {
 		attributes_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options) {
 		options = &options_sub;

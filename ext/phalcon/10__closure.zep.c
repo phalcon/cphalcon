@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -21,7 +22,6 @@ ZEPHIR_INIT_CLASS(phalcon_10__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 10__closure, phalcon, 10__closure, phalcon_10__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_10__closure_ce, SL("escaper"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
@@ -29,22 +29,26 @@ PHP_METHOD(phalcon_10__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval escaper, _0, _1;
-	zval *this_ptr = getThis();
+	zval options, attributes;
+	zval *name_param = NULL, *options_param = NULL, *attributes_param = NULL;
+	zval name;
 
-	ZVAL_UNDEF(&escaper);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&attributes);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(name_param)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
+		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
+	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_static_property_ce(&escaper, phalcon_10__closure_ce, SL("escaper"), PH_NOISY_CC);
-
-	object_init_ex(return_value, phalcon_html_helper_body_ce);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "doctype");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
+	zephir_fetch_params(1, 3, 0, &name_param, &options_param, &attributes_param);
+	zephir_get_strval(&name, name_param);
+	zephir_get_arrval(&options, options_param);
+	zephir_get_arrval(&attributes, attributes_param);
+	object_init_ex(return_value, phalcon_forms_element_date_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
@@ -90,13 +91,14 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&input_zv))) {
 		RETURN_MM_STRING("");
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 346, &input_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 361, &input_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 348, &_0);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 363, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_STRING) {
 		RETURN_MM_STRING("");

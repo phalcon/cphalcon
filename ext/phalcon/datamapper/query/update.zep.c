@@ -121,6 +121,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, column)
 	if (ZEND_NUM_ARGS() > 2) {
 		type_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&column_zv);
 	ZVAL_STR_COPY(&column_zv, column);
 	if (!value) {
 		value = &value_sub;
@@ -241,6 +242,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, from)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "FROM");
@@ -272,7 +274,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Update.zep", 101);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 217);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 226);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "WHERE");
@@ -400,6 +402,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, set)
 	if (ZEND_NUM_ARGS() > 1) {
 		value = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&column_zv);
 	ZVAL_STR_COPY(&column_zv, column);
 	if (!value) {
 		value = &value_sub;

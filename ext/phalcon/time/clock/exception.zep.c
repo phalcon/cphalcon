@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exception, invalidModifier)
 	if (ZEND_NUM_ARGS() > 1) {
 		ex = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!ex) {
 		ex = &ex_sub;
@@ -71,7 +72,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exception, invalidModifier)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Invalid modifier: \"", &message_zv, "\"");
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, &_0, &_1, ex);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 49, &_0, &_1, ex);
 	zephir_check_call_status();
 	RETURN_MM();
 }

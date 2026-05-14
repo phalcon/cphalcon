@@ -18,9 +18,12 @@
 #include "kernel/globals.h"
 #include "kernel/main.h"
 
-/* Working with scopes */
+/* Working with scopes.
+ * In PHP 8.5, EG(fake_scope) became `const zend_class_entry *` while
+ * zend_get_executed_scope() still returns non-const. The cast keeps the
+ * assignment well-typed on both PHP 8.4 (non-const target) and 8.5+ (const). */
 # define zephir_get_scope(e) ((e) ? zend_get_executed_scope() : EG(fake_scope))
-# define zephir_set_scope(s) EG(fake_scope) = (s)
+# define zephir_set_scope(s) EG(fake_scope) = (zend_class_entry *) (s)
 
 /** Class Retrieving/Checking */
 int zephir_class_exists(zval *class_name, int autoload);

@@ -243,7 +243,9 @@ PHP_METHOD(Phalcon_Encryption_Security, checkHash)
 	if (ZEND_NUM_ARGS() > 2) {
 		maxPassLength_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&password_zv);
 	ZVAL_STR_COPY(&password_zv, password);
+	zephir_memory_observe(&passwordHash_zv);
 	ZVAL_STR_COPY(&passwordHash_zv, passwordHash);
 	if (!maxPassLength_param) {
 		maxPassLength = 0;
@@ -256,7 +258,7 @@ PHP_METHOD(Phalcon_Encryption_Security, checkHash)
 	if (_0) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("password_verify", NULL, 252, &password_zv, &passwordHash_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("password_verify", NULL, 260, &password_zv, &passwordHash_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -310,13 +312,13 @@ PHP_METHOD(Phalcon_Encryption_Security, checkToken)
 		destroyIfValid = 1;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processtokenkey", NULL, 253, &tokenKey);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processtokenkey", NULL, 261, &tokenKey);
 	zephir_check_call_status();
 	zephir_get_strval(&tokenKey, &_0);
 	if (!(!(ZEPHIR_IS_EMPTY(&tokenKey)))) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(&userToken, this_ptr, "processusertoken", NULL, 254, &tokenKey, tokenValue);
+	ZEPHIR_CALL_METHOD(&userToken, this_ptr, "processusertoken", NULL, 262, &tokenKey, tokenValue);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&knownToken, this_ptr, "getrequesttoken", NULL, 0);
 	zephir_check_call_status();
@@ -385,8 +387,11 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 	if (ZEND_NUM_ARGS() > 3) {
 		raw_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
+	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
+	zephir_memory_observe(&algo_zv);
 	ZVAL_STR_COPY(&algo_zv, algo);
 	if (!raw_param) {
 		raw = 0;
@@ -395,7 +400,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 	/* try_start_1: */
 
 		ZVAL_BOOL(&_0$$3, (raw ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 234, &algo_zv, &data_zv, &key_zv, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 242, &algo_zv, &data_zv, &key_zv, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -412,9 +417,9 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 			object_init_ex(&_3$$4, phalcon_encryption_security_exception_ce);
 			ZEPHIR_INIT_VAR(&_4$$4);
 			ZVAL_STRING(&_4$$4, "Unknown hashing algorithm: %s");
-			ZEPHIR_CALL_FUNCTION(&_5$$4, "sprintf", NULL, 80, &_4$$4, &algo_zv);
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "sprintf", NULL, 90, &_4$$4, &algo_zv);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 38, &_5$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 49, &_5$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 259);
 			ZEPHIR_MM_RESTORE();
@@ -426,9 +431,9 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		object_init_ex(&_6$$5, phalcon_encryption_security_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$5);
 		ZVAL_STRING(&_7$$5, "Unknown hashing algorithm: %s");
-		ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", NULL, 80, &_7$$5, &algo_zv);
+		ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", NULL, 90, &_7$$5, &algo_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 38, &_8$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 49, &_8$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$5, "phalcon/Encryption/Security.zep", 268);
 		ZEPHIR_MM_RESTORE();
@@ -507,8 +512,9 @@ PHP_METHOD(Phalcon_Encryption_Security, getHashInformation)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&hash_zv);
 	ZVAL_STR_COPY(&hash_zv, hash);
-	ZEPHIR_RETURN_CALL_FUNCTION("password_get_info", NULL, 255, &hash_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("password_get_info", NULL, 263, &hash_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -795,6 +801,7 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&password_zv);
 	ZVAL_STR_COPY(&password_zv, password);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -802,11 +809,11 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_CALL_METHOD(&cost, this_ptr, "processcost", NULL, 256, &options);
+	ZEPHIR_CALL_METHOD(&cost, this_ptr, "processcost", NULL, 264, &options);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&formatted, "sprintf", NULL, 80, &_0, &cost);
+	ZEPHIR_CALL_FUNCTION(&formatted, "sprintf", NULL, 90, &_0, &cost);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&prefix);
 	ZVAL_STRING(&prefix, "");
@@ -836,14 +843,14 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 		if (ZEPHIR_IS_LONG(&_1, 5)) {
 			ZEPHIR_INIT_VAR(&_2$$6);
 			ZVAL_STRING(&_2$$6, "$2a$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 80, &_2$$6, &formatted);
+			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 90, &_2$$6, &formatted);
 			zephir_check_call_status();
 			break;
 		}
 		if (ZEPHIR_IS_LONG(&_1, 6)) {
 			ZEPHIR_INIT_VAR(&_3$$7);
 			ZVAL_STRING(&_3$$7, "$2x$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 80, &_3$$7, &formatted);
+			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 90, &_3$$7, &formatted);
 			zephir_check_call_status();
 			break;
 		}
@@ -857,7 +864,7 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&salt);
 		ZEPHIR_CONCAT_VVS(&salt, &prefix, &_4$$9, "$");
-		ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 257, &password_zv, &salt);
+		ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 265, &password_zv, &salt);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -865,11 +872,11 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	zephir_create_array(&_6, 1, 0);
 	zephir_array_update_string(&_6, SL("cost"), &cost, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CPY_WRT(&options, &_6);
-	ZEPHIR_CALL_METHOD(&algorithm, this_ptr, "processalgorithm", NULL, 258);
+	ZEPHIR_CALL_METHOD(&algorithm, this_ptr, "processalgorithm", NULL, 266);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "processargonoptions", NULL, 259, &options);
+	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "processargonoptions", NULL, 267, &options);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("password_hash", NULL, 260, &password_zv, &algorithm, &arguments);
+	ZEPHIR_RETURN_CALL_FUNCTION("password_hash", NULL, 268, &password_zv, &algorithm, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1002,7 +1009,9 @@ PHP_METHOD(Phalcon_Encryption_Security, getLocalService)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	zephir_memory_observe(&_0);
 	zephir_read_property_zval(&_0, this_ptr, &property_zv, PH_NOISY_CC);
@@ -1193,7 +1202,8 @@ PHP_METHOD(Phalcon_Encryption_Security, processTokenKey)
 	if (!tokenKey) {
 		ZEPHIR_INIT_VAR(&tokenKey_zv);
 	} else {
-		ZVAL_STR_COPY(&tokenKey_zv, tokenKey);
+		zephir_memory_observe(&tokenKey_zv);
+	ZVAL_STR_COPY(&tokenKey_zv, tokenKey);
 	}
 	ZEPHIR_CPY_WRT(&key, &tokenKey_zv);
 	ZEPHIR_INIT_VAR(&_0);
@@ -1243,11 +1253,13 @@ PHP_METHOD(Phalcon_Encryption_Security, processUserToken)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&tokenKey_zv);
 	ZVAL_STR_COPY(&tokenKey_zv, tokenKey);
 	if (!tokenValue) {
 		ZEPHIR_INIT_VAR(&tokenValue_zv);
 	} else {
-		ZVAL_STR_COPY(&tokenValue_zv, tokenValue);
+		zephir_memory_observe(&tokenValue_zv);
+	ZVAL_STR_COPY(&tokenValue_zv, tokenValue);
 	}
 	ZEPHIR_CPY_WRT(&userToken, &tokenValue_zv);
 	if (!(!(ZEPHIR_IS_EMPTY(&tokenValue_zv)))) {

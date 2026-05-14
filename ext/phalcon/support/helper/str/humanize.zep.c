@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Humanize, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_trim(&_0, &text_zv, NULL , ZEPHIR_TRIM_BOTH);
@@ -66,7 +67,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Humanize, __invoke)
 	ZVAL_STRING(&_1, "#[_-]+#");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, " ");
-	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 47, &_1, &_2, &_0);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 57, &_1, &_2, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	if (Z_TYPE_P(&result) == IS_NULL) {

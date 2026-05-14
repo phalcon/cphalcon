@@ -401,7 +401,7 @@ static inline zend_class_entry *zephir_lookup_class_ce(
 ) {
 	zend_class_entry *original_ce = ce;
 	zend_property_info *info;
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	zval member;
 
 	ZVAL_STRINGL(&member, property_name, property_length);
@@ -445,7 +445,7 @@ int zephir_read_property_ex(
 	const char *property_name,
 	uint32_t property_length, int flags
 ) {
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	int retval;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -586,7 +586,7 @@ int zephir_update_property_zval_ex(
 	unsigned int property_length,
 	zval *value
 ) {
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	int retval;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -904,7 +904,7 @@ int zephir_unset_property(zval* object, const char* name)
 	}
 
 	zval member;
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 
 	ZVAL_STRING(&member, name);
 

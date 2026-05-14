@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
 		ZVAL_LONG(&_0$$3, 0);
@@ -68,7 +69,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 310, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 318, &input_zv);
 	zephir_check_call_status();
 	zephir_fast_strtoupper(return_value, &_2);
 	RETURN_MM();

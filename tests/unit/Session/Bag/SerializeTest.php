@@ -44,7 +44,14 @@ final class SerializeTest extends AbstractUnitTestCase
 
         $collection->init($data);
 
-        $expected = serialize($data);
+        $expected = serialize(
+            [
+                'data'        => $data,
+                'insensitive' => true,
+                'strictNull'  => false,
+                'type'        => null,
+            ]
+        );
         $actual   = $collection->serialize();
         $this->assertEquals($expected, $actual);
     }

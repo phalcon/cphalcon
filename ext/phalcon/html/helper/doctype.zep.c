@@ -153,9 +153,11 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 		}
 	if (!delimiter) {
 		delimiter = zend_string_init(ZEND_STRL("\n"), 0);
+		zephir_memory_observe(&delimiter_zv);
 		ZVAL_STR(&delimiter_zv, delimiter);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, type);

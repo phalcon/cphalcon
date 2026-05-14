@@ -129,6 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct)
 	if (ZEND_NUM_ARGS() > 2) {
 		httpMethods = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -354,6 +355,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	prevCh = '\0';
 	bracketCount = 0;
@@ -674,7 +676,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("paths"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 113, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 123, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -849,6 +851,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;

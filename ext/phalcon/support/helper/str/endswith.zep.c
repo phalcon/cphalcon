@@ -66,7 +66,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_EndsWith, __invoke)
 	if (ZEND_NUM_ARGS() > 2) {
 		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&haystack_zv);
 	ZVAL_STR_COPY(&haystack_zv, haystack);
+	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
 	if (!ignoreCase_param) {
 		ignoreCase = 1;

@@ -256,6 +256,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 2) {
 		timezone = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!adapters_param) {
 		ZEPHIR_INIT_VAR(&adapters);
@@ -268,7 +269,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 		timezone = &__$null;
 	}
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 440, &name_zv, &adapters, timezone);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 454, &name_zv, &adapters, timezone);
 	zephir_check_call_status();
 	RETURN_MM();
 }

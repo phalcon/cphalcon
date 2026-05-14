@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
-use Phalcon\Tests\Unit\Support\Fake\FakeCollectionPhpJsonEncode;
+use InvalidArgumentException;
+use Phalcon\Support\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ToJsonTest extends AbstractCollectionTestCase
@@ -46,10 +47,12 @@ final class ToJsonTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionToJsonEncodeFail(): void
     {
-        $data = $this->getData();
-        $collection = new FakeCollectionPhpJsonEncode($data);
+        $collection = new Collection();
+        $collection->set('handle', fopen('php://memory', 'r'));
 
-        $actual = $collection->toJson();
-        $this->assertEmpty($actual);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('json_encode error: Type is not supported');
+
+        $collection->toJson();
     }
 }

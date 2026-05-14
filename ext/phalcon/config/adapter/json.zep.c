@@ -73,6 +73,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_helper_json_decode_ce);
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_file_get_contents(&_2, &filePath_zv);
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "__invoke", NULL, 201, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "__invoke", NULL, 211, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();

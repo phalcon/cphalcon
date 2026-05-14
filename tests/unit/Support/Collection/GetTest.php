@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
+use Phalcon\Support\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
@@ -86,5 +87,38 @@ final class GetTest extends AbstractCollectionTestCase
 
         $actual = $collection->get('value', null, $cast);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionGetReturnsDefaultForNullByDefaultBC(): void
+    {
+        $collection = new Collection(['key' => null]);
+
+        $this->assertSame('fallback', $collection->get('key', 'fallback'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionGetReturnsNullWhenStrictNullEnabled(): void
+    {
+        $collection = new Collection(['key' => null], true, true);
+
+        $this->assertNull($collection->get('key', 'fallback'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionGetReturnsDefaultForMissingKeyEvenWhenStrict(): void
+    {
+        $collection = new Collection([], true, true);
+
+        $this->assertSame('fallback', $collection->get('missing', 'fallback'));
     }
 }
