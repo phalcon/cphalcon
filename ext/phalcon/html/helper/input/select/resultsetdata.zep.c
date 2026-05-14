@@ -59,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_ResultsetData)
 	zend_declare_property_null(phalcon_html_helper_input_select_resultsetdata_ce, SL("using"), ZEND_ACC_PROTECTED);
 	phalcon_html_helper_input_select_resultsetdata_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_Select_ResultsetData;
 
-	zend_class_implements(phalcon_html_helper_input_select_resultsetdata_ce, 1, phalcon_html_helper_input_select_selectdatainterface_ce);
+	zend_class_implements(phalcon_html_helper_input_select_resultsetdata_ce, 1, phalcon_contracts_html_helper_input_selectdata_ce);
 	return SUCCESS;
 }
 
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct)
 		zephir_get_arrval(&attributesMap, attributesMap_param);
 	}
 	if (UNEXPECTED(zephir_fast_count_int(&using) != 2)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The 'using' parameter requires exactly two values", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The 'using' parameter requires exactly two values", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 61);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("resultset"), resultset);
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, readField)
 		zephir_read_property_zval(&_0$$3, option, &field_zv, PH_NOISY_CC);
 		RETURN_CCTOR(&_0$$3);
 	}
-	zephir_array_fetch(&_1, option, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 106);
+	zephir_array_fetch(&_1, option, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 107);
 	RETURN_CTOR(&_1);
 }
 
@@ -233,16 +233,16 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("using"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingZero);
-	zephir_array_fetch_long(&usingZero, &_0, 0, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 119);
+	zephir_array_fetch_long(&usingZero, &_0, 0, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 120);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("using"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingOne);
-	zephir_array_fetch_long(&usingOne, &_1, 1, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 120);
+	zephir_array_fetch_long(&usingOne, &_1, 1, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 121);
 	ZEPHIR_INIT_VAR(&options);
 	array_init(&options);
 	ZEPHIR_INIT_VAR(&attrs);
 	array_init(&attrs);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("resultset"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_2, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 157);
+	zephir_is_iterable(&_2, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 158);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
 		{
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				_5$$3 = Z_TYPE_P(&option) != IS_ARRAY;
 			}
 			if (_5$$3) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 128);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 129);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readfield", &_6, 0, &option, &usingZero);
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				ZEPHIR_INIT_NVAR(&optionAttrs);
 				array_init(&optionAttrs);
 				zephir_read_property(&_8$$5, this_ptr, ZEND_STRL("attributesMap"), PH_NOISY_CC | PH_READONLY);
-				zephir_is_iterable(&_8$$5, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 151);
+				zephir_is_iterable(&_8$$5, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 152);
 				if (Z_TYPE_P(&_8$$5) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_8$$5), _11$$5, _12$$5, _9$$5)
 					{
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 					_18$$15 = Z_TYPE_P(&option) != IS_ARRAY;
 				}
 				if (_18$$15) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 128);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Resultset returned an invalid value", "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 129);
 					return;
 				}
 				ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readfield", &_6, 0, &option, &usingZero);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 					ZEPHIR_INIT_NVAR(&optionAttrs);
 					array_init(&optionAttrs);
 					zephir_read_property(&_20$$17, this_ptr, ZEND_STRL("attributesMap"), PH_NOISY_CC | PH_READONLY);
-					zephir_is_iterable(&_20$$17, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 151);
+					zephir_is_iterable(&_20$$17, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 152);
 					if (Z_TYPE_P(&_20$$17) == IS_ARRAY) {
 						ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_20$$17), _23$$17, _24$$17, _21$$17)
 						{

@@ -15,7 +15,7 @@
 namespace Phalcon\Html\Helper\Input;
 
 use Phalcon\Html\Helper\AbstractList;
-use Phalcon\Html\Helper\Input\Select\SelectDataInterface;
+use Phalcon\Contracts\Html\Helper\Input\SelectData;
 
 /**
  * Class Select
@@ -114,11 +114,11 @@ class Select extends AbstractList
      * Flat entries: key = option value, value = label string.
      * Optgroup entries: key = group label, value = [value => label] array.
      *
-     * @param SelectDataInterface data
+     * @param SelectData data
      *
      * @return Select
      */
-    public function fromData(<SelectDataInterface> data) -> <Select>
+    public function fromData(<SelectData> data) -> <Select>
     {
         var attributes, key, optionAttrs, subAttrs, subKey, subValue, value;
 

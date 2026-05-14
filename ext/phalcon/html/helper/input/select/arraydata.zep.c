@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_ArrayData)
 	zend_declare_property_null(phalcon_html_helper_input_select_arraydata_ce, SL("data"), ZEND_ACC_PROTECTED);
 	phalcon_html_helper_input_select_arraydata_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_Select_ArrayData;
 
-	zend_class_implements(phalcon_html_helper_input_select_arraydata_ce, 1, phalcon_html_helper_input_select_selectdatainterface_ce);
+	zend_class_implements(phalcon_html_helper_input_select_arraydata_ce, 1, phalcon_contracts_html_helper_input_selectdata_ce);
 	return SUCCESS;
 }
 

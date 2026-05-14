@@ -15,9 +15,10 @@
 namespace Phalcon\Html\Helper\Input\Select;
 
 use InvalidArgumentException;
+use Phalcon\Contracts\Html\Helper\Input\SelectData;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ResultsetData implements SelectDataInterface
+class ResultsetData implements SelectData
 {
     /**
      * @var array

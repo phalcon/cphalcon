@@ -30,9 +30,9 @@
  * Return format: [value => label] for flat options;
  * [groupLabel => [value => label, ...]] for optgroups.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_SelectDataInterface)
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Html_Helper_Input_SelectData)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Html\\Helper\\Input\\Select, SelectDataInterface, phalcon, html_helper_input_select_selectdatainterface, phalcon_html_helper_input_select_selectdatainterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Html\\Helper\\Input, SelectData, phalcon, contracts_html_helper_input_selectdata, phalcon_contracts_html_helper_input_selectdata_method_entry);
 
 	return SUCCESS;
 }
@@ -44,5 +44,5 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_SelectDataInterface)
  * Implementations must return resolved string values; no escaping,
  * ordering, or rendering is performed here.
  */
-ZEPHIR_DOC_METHOD(Phalcon_Html_Helper_Input_Select_SelectDataInterface, getAttributes);
-ZEPHIR_DOC_METHOD(Phalcon_Html_Helper_Input_Select_SelectDataInterface, getOptions);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Html_Helper_Input_SelectData, getAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Html_Helper_Input_SelectData, getOptions);
