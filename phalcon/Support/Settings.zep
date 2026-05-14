@@ -118,6 +118,9 @@ class Settings
             case "orm.not_null_validations":
                 return (bool) globals_get("orm.not_null_validations");
 
+            case "orm.resultset_empty_left_join_model":
+                return (bool) globals_get("orm.resultset_empty_left_join_model");
+
             case "orm.resultset_prefetch_records":
                 return (int) globals_get("orm.resultset_prefetch_records");
 
@@ -172,6 +175,7 @@ class Settings
             case "orm.ignore_unknown_columns":
             case "orm.late_state_binding":
             case "orm.not_null_validations":
+            case "orm.resultset_empty_left_join_model":
             case "orm.resultset_prefetch_records":
             case "orm.update_snapshot_on_save":
             case "orm.virtual_foreign_keys":
