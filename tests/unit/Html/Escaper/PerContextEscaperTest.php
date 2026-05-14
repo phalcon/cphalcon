@@ -18,6 +18,7 @@ use Phalcon\Html\Escaper\HtmlEscaper;
 use Phalcon\Html\Escaper\JsEscaper;
 use Phalcon\Html\Escaper\UrlEscaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Html\Escaper\Fake\FakeHtmlEscaper;
 
 /**
  * Verifies that the `Escaper` façade exposes its five per-context sub-objects
@@ -95,17 +96,7 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
     {
         $facade = new Escaper();
 
-        // anonymous subclass that records its calls
-        $custom = new class extends HtmlEscaper {
-            public string $last = '';
-
-            public function escape(string $input = null): string
-            {
-                $this->last = (string) $input;
-
-                return '<<<' . parent::escape($input) . '>>>';
-            }
-        };
+        $custom = new FakeHtmlEscaper();
 
         $facade->setHtmlEscaper($custom);
 

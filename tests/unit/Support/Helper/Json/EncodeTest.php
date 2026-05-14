@@ -74,7 +74,7 @@ final class EncodeTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            "Malformed UTF-8 characters, possibly incorrectly encoded",
+            "json_encode error: Malformed UTF-8 characters, possibly incorrectly encoded",
         );
         $data = pack("H*", 'c32e');
         (new Encode())($data, JSON_THROW_ON_ERROR);

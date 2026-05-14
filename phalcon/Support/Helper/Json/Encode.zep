@@ -54,7 +54,7 @@ class Encode
                 error   = json_last_error(),
                 message = json_last_error_msg();
         } catch \JsonException, ex {
-            throw new InvalidArgumentException(ex->getMessage(), ex->getCode(), ex);
+            throw new InvalidArgumentException("json_encode error: " . ex->getMessage(), ex->getCode(), ex);
         }
 
         if (JSON_ERROR_NONE !== error) {

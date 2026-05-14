@@ -45,7 +45,7 @@ final class DecodeTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            "Control character error, " .
+            "json_decode error: Control character error, " .
             "possibly incorrectly encoded",
         );
         $this->expectExceptionCode(3);
@@ -62,7 +62,7 @@ final class DecodeTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            "Control character error, " .
+            "json_decode error: Control character error, " .
             "possibly incorrectly encoded",
         );
         $this->expectExceptionCode(3);
