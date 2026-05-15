@@ -164,7 +164,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
         $metadata = [
             // field_primary            int auto_increment primary key,
             0  => [
-                'getAfterPosition' => "",
+                'getAfterPosition' => null,
                 'getBindType'      => Column::BIND_PARAM_INT,
                 'getComment'       => "field_primary field",
                 'getDefault'       => null,

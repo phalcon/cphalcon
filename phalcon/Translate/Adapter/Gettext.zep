@@ -55,7 +55,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     protected directory;
 
     /**
-     * @var string
+     * @var string | false
      */
     protected locale;
 
@@ -125,7 +125,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * @return string
      */
-    public function getLocale() -> string
+    public function getLocale() -> string | false
     {
         return this->locale;
     }
