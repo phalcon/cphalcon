@@ -80,11 +80,11 @@ final class RefreshTokenTest extends AbstractUnitTestCase
         $second->setAutoRefresh(false);
 
         $this->assertSame($tokenSeed, $second->getToken());
-        $this->assertSame($keySeed,   $second->getTokenKey());
+        $this->assertSame($keySeed, $second->getTokenKey());
 
         // Repeated calls are stable too.
         $this->assertSame($tokenSeed, $second->getToken());
-        $this->assertSame($keySeed,   $second->getTokenKey());
+        $this->assertSame($keySeed, $second->getTokenKey());
 
         $session->destroy();
     }
@@ -140,7 +140,7 @@ final class RefreshTokenTest extends AbstractUnitTestCase
         $keyAfter   = $security->getTokenKey();
 
         $this->assertNotSame($tokenBefore, $tokenAfter);
-        $this->assertNotSame($keyBefore,   $keyAfter);
+        $this->assertNotSame($keyBefore, $keyAfter);
 
         // New values are reflected in the session.
         $this->assertSame($tokenAfter, $security->getSessionToken());
