@@ -1790,7 +1790,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ],
      *     'hydration' => null
      * ]
-     * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
+     * @return \Phalcon\Mvc\Model\Resultset<int, T>
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
