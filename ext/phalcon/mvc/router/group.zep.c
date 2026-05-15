@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths)
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
+	RETURN_MEMBER(getThis(), "prefix");
 }
 
 /**

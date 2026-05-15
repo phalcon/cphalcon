@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER_TYPED(getThis(), "expire", IS_STRING);
+	RETURN_MM_MEMBER_TYPED(getThis(), "expire", IS_LONG);
 }
 
 /**

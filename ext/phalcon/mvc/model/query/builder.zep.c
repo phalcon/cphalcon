@@ -957,7 +957,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "having", IS_STRING);
+	RETURN_MEMBER(getThis(), "having");
 }
 
 /**

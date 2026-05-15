@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Igbinary)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 {
@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		RETURN_MM_MEMBER_TYPED(getThis(), "data", IS_STRING);
+		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "doserialize", NULL, 0, &_2);
