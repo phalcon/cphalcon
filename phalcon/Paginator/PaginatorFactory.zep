@@ -101,9 +101,10 @@ class PaginatorFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "model"        : "Phalcon\\Paginator\\Adapter\\Model",
-            "nativeArray"  : "Phalcon\\Paginator\\Adapter\\NativeArray",
-            "queryBuilder" : "Phalcon\\Paginator\\Adapter\\QueryBuilder"
+            "model"               : "Phalcon\\Paginator\\Adapter\\Model",
+            "nativeArray"         : "Phalcon\\Paginator\\Adapter\\NativeArray",
+            "queryBuilder"        : "Phalcon\\Paginator\\Adapter\\QueryBuilder",
+            "queryBuilderCursor"  : "Phalcon\\Paginator\\Adapter\\QueryBuilderCursor"
         ];
     }
 }
