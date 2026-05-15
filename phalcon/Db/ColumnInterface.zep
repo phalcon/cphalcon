@@ -12,6 +12,13 @@ namespace Phalcon\Db;
 
 /**
  * Interface for Phalcon\Db\Column
+ *
+ * @todo v7 — promote the generated-column methods below to required interface
+ *            members. They live as commented-out stubs to avoid breaking
+ *            third-party implementations of this interface in the v5 line:
+ *              - getGenerationExpression() : string | null
+ *              - isGenerated()             : bool
+ *              - isGenerationStored()      : bool
  */
 interface ColumnInterface
 {
@@ -29,6 +36,14 @@ interface ColumnInterface
      * Returns default value of column
      */
     public function getDefault() -> var;
+
+    /**
+     * @todo v7 — uncomment when promoting generated-column API.
+     *
+     * Returns the generation expression for a generated/computed column,
+     * or null when the column is not generated.
+     */
+    // public function getGenerationExpression() -> string | null;
 
     /**
      * Returns column name
@@ -75,6 +90,20 @@ interface ColumnInterface
      * Check whether column have first position in table
      */
     public function isFirst() -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting generated-column API.
+     *
+     * Whether the column is a generated/computed column.
+     */
+    // public function isGenerated() -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting generated-column API.
+     *
+     * Whether a generated column is STORED. false = VIRTUAL.
+     */
+    // public function isGenerationStored() -> bool;
 
     /**
      * Not null

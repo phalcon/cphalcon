@@ -152,14 +152,16 @@ class Postgresql extends PdoAdapter
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
-            columnName, charSize, numericSize, numericScale;
+            columnName, charSize, numericSize, numericScale, isGenerated,
+            generationExpression;
 
         let oldColumn = null, columns = [];
 
         /**
          * We're using FETCH_NUM to fetch the columns
-         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null,
-         * 6: key, 7: extra, 8: position, 9 default
+         *   0:name, 1:type, 2:size, 3:numericsize, 4:numericscale, 5:null,
+         *   6:key, 7:extra, 8:position, 9:default, 10:comment,
+         *   11:is_generated, 12:generation_expression
          */
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
@@ -489,24 +491,45 @@ class Postgresql extends PdoAdapter
             }
 
             /**
-             * Check if the column is auto increment
+             * Detect a generated/computed column. PostgreSQL only supports
+             * STORED. `is_generated` is the string 'ALWAYS' for generated
+             * columns and 'NEVER' otherwise.
              */
-            if field[7] == "auto_increment" {
-                let definition["autoIncrement"] = true;
+            let isGenerated = false;
+            if isset field[11] {
+                let isGenerated = (field[11] === "ALWAYS");
             }
 
-            /**
-             * Check if the column has default values
-             */
-            if field[9] !== null {
-                let definition["default"] = preg_replace(
-                    "/^'|'?::[[:alnum:][:space:]]+$/",
-                    "",
-                    field[9]
-                );
+            if isGenerated {
+                if isset field[12] && field[12] !== null {
+                    let generationExpression = field[12];
+                } else {
+                    let generationExpression = "";
+                }
 
-                if strcasecmp(definition["default"], "null") == 0 {
-                    let definition["default"] = null;
+                let definition["generated"] = generationExpression;
+                let definition["generationStored"] = true;
+            } else {
+                /**
+                 * Check if the column is auto increment
+                 */
+                if field[7] == "auto_increment" {
+                    let definition["autoIncrement"] = true;
+                }
+
+                /**
+                 * Check if the column has default values
+                 */
+                if field[9] !== null {
+                    let definition["default"] = preg_replace(
+                        "/^'|'?::[[:alnum:][:space:]]+$/",
+                        "",
+                        field[9]
+                    );
+
+                    if strcasecmp(definition["default"], "null") == 0 {
+                        let definition["default"] = null;
+                    }
                 }
             }
 

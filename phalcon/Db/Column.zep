@@ -337,6 +337,23 @@ class Column implements ColumnInterface
     protected first = false;
 
     /**
+     * Generation expression for `GENERATED ALWAYS AS (...)`. Null when the
+     * column is not a generated/computed column.
+     *
+     * @var string|null
+     */
+    protected generated = null;
+
+    /**
+     * Whether a generated column is `STORED` (true) or `VIRTUAL` (false).
+     * Ignored when the column is not generated. PostgreSQL only supports
+     * `STORED` and emits it regardless of this flag.
+     *
+     * @var bool
+     */
+    protected generationStored = false;
+
+    /**
      * The column have some numeric type?
      *
      * @var bool
@@ -415,7 +432,7 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues, comment;
+            typeValues, comment, generated, generationStored;
 
         let this->name = name;
 
@@ -549,6 +566,42 @@ class Column implements ColumnInterface
          if fetch comment, definition["comment"] {
             let this->comment = comment;
         }
+
+        /**
+         * Generated/computed column expression. When a non-empty string is
+         * provided the column is marked as generated and DEFAULT /
+         * AUTO_INCREMENT are no longer compatible at the dialect level.
+         */
+        if fetch generated, definition["generated"] {
+            if generated !== null {
+                if unlikely typeof generated != "string" {
+                    throw new Exception(
+                        "Column generation expression must be a string"
+                    );
+                }
+
+                if unlikely this->autoIncrement {
+                    throw new Exception(
+                        "Generated column cannot also be auto-increment"
+                    );
+                }
+
+                if unlikely this->defaultValue !== null {
+                    throw new Exception(
+                        "Generated column cannot have a default value"
+                    );
+                }
+
+                let this->generated = generated;
+            }
+        }
+
+        /**
+         * Storage flag for generated columns. true = STORED, false = VIRTUAL.
+         */
+        if fetch generationStored, definition["generationStored"] {
+            let this->generationStored = (bool) generationStored;
+        }
     }
 
     /**
@@ -581,6 +634,15 @@ class Column implements ColumnInterface
     public function getDefault() -> var
     {
         return this->defaultValue;
+    }
+
+    /**
+     * Returns the generation expression for a generated/computed column.
+     * Returns `null` when the column is not generated.
+     */
+    public function getGenerationExpression() -> string | null
+    {
+        return this->generated;
     }
 
     /**
@@ -657,6 +719,23 @@ class Column implements ColumnInterface
     public function isFirst() -> bool
     {
         return this->first;
+    }
+
+    /**
+     * Whether the column is a generated/computed column.
+     */
+    public function isGenerated() -> bool
+    {
+        return this->generated !== null;
+    }
+
+    /**
+     * Whether a generated column is `STORED`. `false` means `VIRTUAL`.
+     * Always meaningful only when `isGenerated()` is `true`.
+     */
+    public function isGenerationStored() -> bool
+    {
+        return this->generationStored;
     }
 
     /**

@@ -87,7 +87,7 @@ class Mysql extends PdoAdapter
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, oldColumn, sizePattern, matches,
-            matchOne, matchTwo, columnName;
+            matchOne, matchTwo, columnName, extraValue, generationExpression;
         array definition;
 
         let oldColumn = null,
@@ -102,9 +102,10 @@ class Mysql extends PdoAdapter
 
         /**
          * Get the SQL to describe a table
-         * We're using FETCH_NUM to fetch the columns
-         * Get the describe
-         * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+         * We're using FETCH_NUM to fetch the columns.
+         * Field Indexes (from `Mysql::describeColumns()`):
+         *   0:Field, 1:Type, 2:Collation, 3:Null, 4:Key, 5:Default, 6:Extra,
+         *   7:Privileges, 8:Comment, 9:GenerationExpression
          */
         for field in fields {
             /**
@@ -429,24 +430,44 @@ class Mysql extends PdoAdapter
             }
 
             /**
-             * Check if the column is auto increment
+             * Detect a generated/computed column from the EXTRA flag and
+             * populate the expression from GENERATION_EXPRESSION.
+             *
+             * `EXTRA` contains `VIRTUAL GENERATED` or `STORED GENERATED` for
+             * generated columns; `COLUMN_DEFAULT` is always NULL for them so
+             * the regular default/auto-increment branches below are skipped.
              */
-            if field[6] == "auto_increment" {
-                let definition["autoIncrement"] = true;
-            }
-
-            /**
-             * Check if the column has default value
-             */
-            if field[5] !== null {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = field[5] . " " . field[6];
+            let extraValue = field[6];
+            if extraValue !== null && memstr(extraValue, "GENERATED") {
+                if isset field[9] {
+                    let generationExpression = field[9];
                 } else {
-                    let definition["default"] = field[5];
+                    let generationExpression = "";
                 }
+
+                let definition["generated"] = generationExpression;
+                let definition["generationStored"] = memstr(extraValue, "STORED");
             } else {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = "NULL " . field[6];
+                /**
+                 * Check if the column is auto increment
+                 */
+                if extraValue == "auto_increment" {
+                    let definition["autoIncrement"] = true;
+                }
+
+                /**
+                 * Check if the column has default value
+                 */
+                if field[5] !== null {
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = field[5] . " " . extraValue;
+                    } else {
+                        let definition["default"] = field[5];
+                    }
+                } else {
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = "NULL " . extraValue;
+                    }
                 }
             }
 

@@ -639,6 +639,33 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
+     * generated/computed column. Returns an empty string when the column is
+     * not generated. When `forceStored` is `true` the clause is always emitted
+     * as `STORED` regardless of the column's `isGenerationStored()` flag —
+     * PostgreSQL uses this since it only supports stored generated columns.
+     */
+    protected function getGeneratedClause(<ColumnInterface> column, bool forceStored = false) -> string
+    {
+        var expression;
+        string storage;
+
+        if !column->isGenerated() {
+            return "";
+        }
+
+        let expression = column->getGenerationExpression();
+
+        if forceStored || column->isGenerationStored() {
+            let storage = "STORED";
+        } else {
+            let storage = "VIRTUAL";
+        }
+
+        return " GENERATED ALWAYS AS (" . expression . ") " . storage;
+    }
+
+    /**
      * Resolve *
      */
     final protected function getSqlExpressionAll(array! expression, string escapeChar = null) -> string

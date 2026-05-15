@@ -38,9 +38,11 @@ class Sqlite extends Dialect
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
 
-        let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+        let sql .= "\"" . column->getName() . "\" "
+            . this->getColumnDefinition(column)
+            . this->getGeneratedClause(column);
 
-        if column->hasDefault() {
+        if !column->isGenerated() && column->hasDefault() {
             let defaultValue = column->getDefault();
 
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
@@ -56,7 +58,7 @@ class Sqlite extends Dialect
             let sql .= " NULL";
         }
 
-        if column->isAutoincrement() {
+        if !column->isGenerated() && column->isAutoincrement() {
             let sql .= " PRIMARY KEY AUTOINCREMENT";
         }
 
@@ -149,33 +151,37 @@ class Sqlite extends Dialect
         let createLines = [];
 
         for column in columns {
-            let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+            let columnLine = "`" . column->getName() . "` "
+                . this->getColumnDefinition(column)
+                . this->getGeneratedClause(column);
 
-            /**
-             * Mark the column as primary key
-             */
-            if column->isPrimary() && !hasPrimary {
-                let columnLine .= " PRIMARY KEY";
-                let hasPrimary = true;
-            }
+            if !column->isGenerated() {
+                /**
+                 * Mark the column as primary key
+                 */
+                if column->isPrimary() && !hasPrimary {
+                    let columnLine .= " PRIMARY KEY";
+                    let hasPrimary = true;
+                }
 
-            /**
-             * Add an AUTOINCREMENT clause
-             */
-            if column->isAutoIncrement() && hasPrimary {
-                let columnLine .= " AUTOINCREMENT";
-            }
+                /**
+                 * Add an AUTOINCREMENT clause
+                 */
+                if column->isAutoIncrement() && hasPrimary {
+                    let columnLine .= " AUTOINCREMENT";
+                }
 
-            /**
-             * Add a Default clause
-             */
-            if column->hasDefault() {
-                let defaultValue = column->getDefault();
+                /**
+                 * Add a Default clause
+                 */
+                if column->hasDefault() {
+                    let defaultValue = column->getDefault();
 
-                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                    let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
-                } else {
-                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                        let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+                    } else {
+                        let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
                 }
             }
 
@@ -264,7 +270,16 @@ class Sqlite extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        return "PRAGMA table_info('" . table . "')";
+        /**
+         * `table_xinfo` mirrors `table_info` but exposes the `hidden` column:
+         *   0 = ordinary, 1 = hidden (virtual table internal),
+         *   2 = VIRTUAL generated, 3 = STORED generated.
+         *
+         * The adapter loop uses this to populate the generated-column flag
+         * (cphalcon issue [#14719] umbrella). The expression itself is not
+         * exposed by any pragma in SQLite, so it is not reverse-engineered.
+         */
+        return "PRAGMA table_xinfo('" . table . "')";
     }
 
     /**

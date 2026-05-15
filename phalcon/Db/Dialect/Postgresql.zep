@@ -36,12 +36,13 @@ class Postgresql extends Dialect
         var columnDefinition;
         string sql;
 
-        let columnDefinition = this->getColumnDefinition(column);
+        let columnDefinition = this->getColumnDefinition(column)
+            . this->getGeneratedClause(column, true);
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
         let sql .= "\"" . column->getName() . "\" " . columnDefinition;
 
-        if column->hasDefault() {
+        if !column->isGenerated() && column->hasDefault() {
             let sql .= " DEFAULT " . this->castDefault(column);
         }
 
@@ -159,13 +160,14 @@ class Postgresql extends Dialect
         let primaryColumns = [];
 
         for column in columns {
-            let columnDefinition = this->getColumnDefinition(column);
+            let columnDefinition = this->getColumnDefinition(column)
+                . this->getGeneratedClause(column, true);
             let columnLine = "\"" . column->getName() . "\" " . columnDefinition;
 
             /**
-             * Add a Default clause
+             * Add a Default clause (skipped for generated columns)
              */
-            if column->hasDefault() {
+            if !column->isGenerated() && column->hasDefault() {
                 let columnLine .= " DEFAULT " . this->castDefault(column);
             }
 
@@ -294,7 +296,49 @@ class Postgresql extends Dialect
             let schema = "public";
         }
 
-        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default, des.description FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) LEFT JOIN ( SELECT objsubid, description, relname, nspname FROM pg_description JOIN pg_class ON pg_description.objoid = pg_class.oid JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid ) des ON ( des.objsubid = C.ordinal_position AND C.table_schema = des.nspname AND C.TABLE_NAME = des.relname ) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+        /**
+         * Adapter loop reads by ordinal index:
+         *   0:Field, 1:Type, 2:Size, 3:NumericSize, 4:NumericScale, 5:Null,
+         *   6:Key, 7:Extra, 8:Position, 9:column_default, 10:description
+         *
+         * Positions 11 (IsGenerated) and 12 (GenerationExpression) are
+         * appended for the generated column round-trip
+         * (cphalcon issue [#14719] umbrella). `is_generated` is 'ALWAYS' for
+         * stored generated columns in PostgreSQL 12+, 'NEVER' otherwise.
+         * PostgreSQL only supports STORED generated columns.
+         */
+        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, "
+            . "c.character_maximum_length AS Size, "
+            . "c.numeric_precision AS NumericSize, "
+            . "c.numeric_scale AS NumericScale, c.is_nullable AS Null, "
+            . "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, "
+            . "CASE WHEN c.data_type LIKE '%int%' AND "
+            . "c.column_default LIKE '%nextval%' THEN 'auto_increment' "
+            . "ELSE '' END AS Extra, c.ordinal_position AS Position, "
+            . "c.column_default, des.description, "
+            . "c.is_generated AS IsGenerated, "
+            . "c.generation_expression AS GenerationExpression "
+            . "FROM information_schema.columns c "
+            . "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, "
+            . "kcu.table_schema FROM information_schema.table_constraints tc "
+            . "INNER JOIN information_schema.key_column_usage kcu on "
+            . "(kcu.constraint_name = tc.constraint_name and "
+            . "kcu.table_name=tc.table_name and "
+            . "kcu.table_schema=tc.table_schema) "
+            . "WHERE tc.constraint_type='PRIMARY KEY') pkc "
+            . "ON (c.column_name=pkc.column_name AND "
+            . "c.table_schema = pkc.table_schema AND "
+            . "c.table_name=pkc.table_name) "
+            . "LEFT JOIN ( SELECT objsubid, description, relname, nspname "
+            . "FROM pg_description "
+            . "JOIN pg_class ON pg_description.objoid = pg_class.oid "
+            . "JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid "
+            . ") des ON ( des.objsubid = C.ordinal_position "
+            . "AND C.table_schema = des.nspname "
+            . "AND C.TABLE_NAME = des.relname ) "
+            . "WHERE c.table_schema='" . schema . "' "
+            . "AND c.table_name='" . table . "' "
+            . "ORDER BY c.ordinal_position";
     }
 
     /**
