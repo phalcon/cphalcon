@@ -186,8 +186,24 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
                     'hostname' => 'api.example.com',
                     'paths'    => ['namespace' => 'App\\Api\\V1\\Controllers'],
                     'routes'   => [
-                        ['method' => 'get',  'pattern' => '/users', 'paths' => ['controller' => 'users', 'action' => 'index']],
-                        ['method' => 'post', 'pattern' => '/users', 'paths' => ['controller' => 'users', 'action' => 'create']],
+                        [
+                            'method'  => 'get',
+                            'pattern' => '/users',
+                            'paths'   =>
+                                [
+                                    'controller' => 'users',
+                                    'action'     => 'index',
+                                ]
+                        ],
+                        [
+                            'method'  => 'post',
+                            'pattern' => '/users',
+                            'paths'   =>
+                                [
+                                    'controller' => 'users',
+                                    'action'     => 'create',
+                                ]
+                        ],
                     ],
                 ],
             ],
