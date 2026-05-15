@@ -10,20 +10,15 @@
 
 namespace Phalcon\Db;
 
-/**
- * Interface for Phalcon\Db\Check
- */
-interface CheckInterface
-{
-    /**
-     * Gets the CHECK expression (the SQL boolean predicate).
-     */
-    public function getExpression() -> string;
+use Phalcon\Contracts\Db\Check as CheckContract;
 
-    /**
-     * Gets the constraint name. An empty string indicates an unnamed CHECK
-     * constraint — the dialect will emit the clause without a `CONSTRAINT`
-     * prefix in that case.
-     */
-    public function getName() -> string;
+/**
+ * Phalcon\Db\CheckInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Check} instead.
+ */
+interface CheckInterface extends CheckContract
+{
 }
