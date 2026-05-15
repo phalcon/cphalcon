@@ -219,7 +219,7 @@ abstract class Dialect implements DialectInterface
     public function getSqlExpression(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         int i;
-        var type, times, postTimes, rawValue, value;
+        var type, times, postTimes, rawValue, value, nestedDefinition;
         array placeholders;
 
         if unlikely !fetch type, expression["type"] {
@@ -333,9 +333,20 @@ abstract class Dialect implements DialectInterface
 
             /**
              * Resolve SELECT
+             *
+             * Propagate the outer bindCounts into the nested SELECT
+             * definition so that array placeholders inside a sub-select
+             * are re-expanded against the current bind values instead of
+             * the parse-time `times` baked into the cached irPhql. The
+             * local copy avoids mutating the cached intermediate. See
+             * issue #17004.
              */
             case "select":
-                return "(" . this->select(expression["value"]) . ")";
+                let nestedDefinition = expression["value"];
+                if count(bindCounts) {
+                    let nestedDefinition["bindCounts"] = bindCounts;
+                }
+                return "(" . this->select(nestedDefinition) . ")";
 
             /**
              * Resolve CAST of values
