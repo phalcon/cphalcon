@@ -584,7 +584,7 @@ class Di implements DiInterface
      */
     public function removeShared(string! name) -> void
     {
-        var sharedInstances;
+        var sharedInstances, service;
 
         let sharedInstances = this->sharedInstances;
 
@@ -596,6 +596,16 @@ class Di implements DiInterface
         unset sharedInstances[name];
 
         let this->sharedInstances = sharedInstances;
+
+        /**
+         * `Service::resolve` caches the resolved instance on the Service
+         * itself for shared services; clear that too so the next
+         * `getShared()` call goes through full resolution.
+         */
+        if isset this->services[name] {
+            let service = this->services[name];
+            service->setSharedInstance(null);
+        }
     }
 
     /**
