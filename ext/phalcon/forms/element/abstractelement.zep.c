@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getForm)
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getLabel)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "label", IS_STRING);
+	RETURN_MEMBER(getThis(), "label");
 }
 
 /**

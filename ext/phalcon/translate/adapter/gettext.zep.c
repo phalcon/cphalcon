@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Gettext)
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("directory"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string
+	 * @var string | false
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("locale"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_translate_adapter_gettext_ce, 1, zend_ce_arrayaccess);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory)
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "locale", IS_STRING);
+	RETURN_MEMBER(getThis(), "locale");
 }
 
 /**

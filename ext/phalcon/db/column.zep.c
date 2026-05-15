@@ -60,9 +60,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	/**
 	 * Column Position
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	zend_declare_property_string(phalcon_db_column_ce, SL("after"), "", ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED);
 	/**
 	 * Column is autoIncrement?
 	 *
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "after", IS_STRING);
+	RETURN_MEMBER(getThis(), "after");
 }
 
 /**
@@ -618,7 +618,7 @@ PHP_METHOD(Phalcon_Db_Column, getSize)
 PHP_METHOD(Phalcon_Db_Column, getType)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
+	RETURN_MEMBER(getThis(), "type");
 }
 
 /**
