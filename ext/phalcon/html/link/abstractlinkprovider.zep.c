@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
 {
 
-	RETURN_MEMBER(getThis(), "links");
+	RETURN_MEMBER_TYPED(getThis(), "links", IS_ARRAY);
 }
 
 /**

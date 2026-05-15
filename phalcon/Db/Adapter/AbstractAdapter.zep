@@ -707,7 +707,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets the active connection unique identifier
      */
-    public function getConnectionId() -> string
+    public function getConnectionId() -> int
     {
         return this->connectionId;
     }

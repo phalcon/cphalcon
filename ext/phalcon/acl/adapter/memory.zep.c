@@ -1143,7 +1143,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveFunction)
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveFunctionCustomArgumentsCount)
 {
 
-	RETURN_MEMBER(getThis(), "activeFunctionCustomArgumentsCount");
+	RETURN_MEMBER_TYPED(getThis(), "activeFunctionCustomArgumentsCount", IS_LONG);
 }
 
 /**
@@ -1161,7 +1161,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveKey)
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getComponents)
 {
 
-	RETURN_MEMBER(getThis(), "components");
+	RETURN_MEMBER_TYPED(getThis(), "components", IS_ARRAY);
 }
 
 /**
@@ -1197,7 +1197,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getInheritedRoles)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "");
 	if (ZEPHIR_IS_IDENTICAL(&_0, &roleName_zv)) {
-		RETURN_MM_MEMBER(getThis(), "roleInherits");
+		RETURN_MM_MEMBER_TYPED(getThis(), "roleInherits", IS_ARRAY);
 	}
 	zephir_memory_observe(&result);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("roleInherits"), PH_NOISY_CC | PH_READONLY);
@@ -1215,7 +1215,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getInheritedRoles)
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction)
 {
 
-	RETURN_MEMBER(getThis(), "noArgumentsDefaultAction");
+	RETURN_MEMBER_TYPED(getThis(), "noArgumentsDefaultAction", IS_LONG);
 }
 
 /**
@@ -1224,7 +1224,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction)
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles)
 {
 
-	RETURN_MEMBER(getThis(), "roles");
+	RETURN_MEMBER_TYPED(getThis(), "roles", IS_ARRAY);
 }
 
 /**

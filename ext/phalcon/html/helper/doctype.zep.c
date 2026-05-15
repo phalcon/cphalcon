@@ -261,6 +261,6 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 PHP_METHOD(Phalcon_Html_Helper_Doctype, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
 }
 

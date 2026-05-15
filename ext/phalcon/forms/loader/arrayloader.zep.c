@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 	}
 	ZEPHIR_INIT_NVAR(&definition);
 	ZEPHIR_INIT_NVAR(&index);
-	RETURN_MM_MEMBER(getThis(), "definitions");
+	RETURN_MM_MEMBER_TYPED(getThis(), "definitions", IS_ARRAY);
 }
 
 /**

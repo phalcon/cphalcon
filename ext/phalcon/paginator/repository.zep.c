@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 PHP_METHOD(Phalcon_Paginator_Repository, getAliases)
 {
 
-	RETURN_MEMBER(getThis(), "aliases");
+	RETURN_MEMBER_TYPED(getThis(), "aliases", IS_ARRAY);
 }
 
 /**
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems)
 PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize)
 {
 
-	RETURN_MEMBER(getThis(), "properties");
+	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
 }
 
 /**

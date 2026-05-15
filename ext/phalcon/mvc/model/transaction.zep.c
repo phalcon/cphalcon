@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection)
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages)
 {
 
-	RETURN_MEMBER(getThis(), "messages");
+	RETURN_MEMBER_TYPED(getThis(), "messages", IS_ARRAY);
 }
 
 /**

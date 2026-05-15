@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encryptBase64)
 PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableCiphers)
 {
 
-	RETURN_MEMBER(getThis(), "availableCiphers");
+	RETURN_MEMBER_TYPED(getThis(), "availableCiphers", IS_ARRAY);
 }
 
 /**
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableCiphers)
 PHP_METHOD(Phalcon_Encryption_Crypt, getAuthData)
 {
 
-	RETURN_MEMBER(getThis(), "authData");
+	RETURN_MEMBER_TYPED(getThis(), "authData", IS_STRING);
 }
 
 /**
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getAuthData)
 PHP_METHOD(Phalcon_Encryption_Crypt, getAuthTag)
 {
 
-	RETURN_MEMBER(getThis(), "authTag");
+	RETURN_MEMBER_TYPED(getThis(), "authTag", IS_STRING);
 }
 
 /**
@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getAuthTag)
 PHP_METHOD(Phalcon_Encryption_Crypt, getAuthTagLength)
 {
 
-	RETURN_MEMBER(getThis(), "authTagLength");
+	RETURN_MEMBER_TYPED(getThis(), "authTagLength", IS_LONG);
 }
 
 /**
@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableHashAlgorithms)
 PHP_METHOD(Phalcon_Encryption_Crypt, getHashAlgorithm)
 {
 
-	RETURN_MEMBER(getThis(), "hashAlgorithm");
+	RETURN_MEMBER_TYPED(getThis(), "hashAlgorithm", IS_STRING);
 }
 
 /**
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getHashAlgorithm)
 PHP_METHOD(Phalcon_Encryption_Crypt, getCipher)
 {
 
-	RETURN_MEMBER(getThis(), "cipher");
+	RETURN_MEMBER_TYPED(getThis(), "cipher", IS_STRING);
 }
 
 /**
@@ -744,7 +744,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getCipher)
 PHP_METHOD(Phalcon_Encryption_Crypt, getKey)
 {
 
-	RETURN_MEMBER(getThis(), "key");
+	RETURN_MEMBER_TYPED(getThis(), "key", IS_STRING);
 }
 
 /**
@@ -1721,7 +1721,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getBlockSize)
 	ZVAL_STR_COPY(&mode_zv, mode);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("ivLength"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_GT_LONG(&_0, 0)) {
-		RETURN_MM_MEMBER(getThis(), "ivLength");
+		RETURN_MM_MEMBER_TYPED(getThis(), "ivLength", IS_LONG);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "-", &mode_zv);

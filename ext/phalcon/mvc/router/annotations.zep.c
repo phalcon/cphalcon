@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource)
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources)
 {
 
-	RETURN_MEMBER(getThis(), "handlers");
+	RETURN_MEMBER_TYPED(getThis(), "handlers", IS_ARRAY);
 }
 
 /**

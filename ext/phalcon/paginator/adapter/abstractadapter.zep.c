@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getLimit)
 {
 
-	RETURN_MEMBER(getThis(), "limitRows");
+	RETURN_MEMBER_TYPED(getThis(), "limitRows", IS_LONG);
 }
 
 /**

@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("node"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
-		RETURN_MM_MEMBER(getThis(), "node");
+		RETURN_MM_MEMBER_TYPED(getThis(), "node", IS_STRING);
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("apcu_fetch")) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&cached)) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("node"), &cached);
-			RETURN_MM_MEMBER(getThis(), "node");
+			RETURN_MM_MEMBER_TYPED(getThis(), "node", IS_STRING);
 		}
 	}
 	ZEPHIR_INIT_VAR(&node);
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 130, &_50$$21, &_49$$21);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "node");
+	RETURN_MM_MEMBER_TYPED(getThis(), "node", IS_STRING);
 }
 
 /**

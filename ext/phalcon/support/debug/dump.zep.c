@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, setStyles)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &defaultStyles, &styles);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("styles"), &_0);
-	RETURN_MM_MEMBER(getThis(), "styles");
+	RETURN_MM_MEMBER_TYPED(getThis(), "styles", IS_ARRAY);
 }
 
 /**

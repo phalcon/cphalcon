@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Component)
 	/**
 	 * Component description
 	 *
-	 * @var string
+	 * @var string | null
 	 */
 	zend_declare_property_null(phalcon_acl_component_ce, SL("description"), ZEND_ACC_PRIVATE);
 	/**
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 PHP_METHOD(Phalcon_Acl_Component, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Acl_Component, getDescription)
@@ -101,6 +101,6 @@ PHP_METHOD(Phalcon_Acl_Component, getDescription)
 PHP_METHOD(Phalcon_Acl_Component, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 

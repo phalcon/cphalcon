@@ -79,7 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Config)
 PHP_METHOD(Phalcon_Config_Config, getPathDelimiter)
 {
 
-	RETURN_MEMBER(getThis(), "pathDelimiter");
+	RETURN_MEMBER_TYPED(getThis(), "pathDelimiter", IS_STRING);
 }
 
 /**

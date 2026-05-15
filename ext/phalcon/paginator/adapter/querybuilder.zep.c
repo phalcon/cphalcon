@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage)
 {
 
-	RETURN_MEMBER(getThis(), "page");
+	RETURN_MEMBER_TYPED(getThis(), "page", IS_LONG);
 }
 
 /**

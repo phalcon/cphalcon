@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate)
 	}
 	zephir_read_property(&_4, this_ptr, ZEND_STRL("template"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_4)) {
-		RETURN_MM_MEMBER(getThis(), "template");
+		RETURN_MM_MEMBER_TYPED(getThis(), "template", IS_STRING);
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_get_class(&_5, this_ptr, 0);
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate)
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplates)
 {
 
-	RETURN_MEMBER(getThis(), "templates");
+	RETURN_MEMBER_TYPED(getThis(), "templates", IS_ARRAY);
 }
 
 /**

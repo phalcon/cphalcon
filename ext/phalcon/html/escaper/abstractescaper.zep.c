@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getDoubleEncode)
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getEncoding)
 {
 
-	RETURN_MEMBER(getThis(), "encoding");
+	RETURN_MEMBER_TYPED(getThis(), "encoding", IS_STRING);
 }
 
 /**
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getEncoding)
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, getFlags)
 {
 
-	RETURN_MEMBER(getThis(), "flags");
+	RETURN_MEMBER_TYPED(getThis(), "flags", IS_LONG);
 }
 
 /**

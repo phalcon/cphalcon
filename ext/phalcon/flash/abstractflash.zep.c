@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutomaticHtml)
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses)
 {
 
-	RETURN_MEMBER(getThis(), "cssClasses");
+	RETURN_MEMBER_TYPED(getThis(), "cssClasses", IS_ARRAY);
 }
 
 /**
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses)
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssIconClasses)
 {
 
-	RETURN_MEMBER(getThis(), "cssIconClasses");
+	RETURN_MEMBER_TYPED(getThis(), "cssIconClasses", IS_ARRAY);
 }
 
 /**
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssIconClasses)
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate)
 {
 
-	RETURN_MEMBER(getThis(), "customTemplate");
+	RETURN_MEMBER_TYPED(getThis(), "customTemplate", IS_STRING);
 }
 
 /**
@@ -724,7 +724,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate)
 	ZEPHIR_INIT_VAR(&iconString);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("customTemplate"), PH_NOISY_CC | PH_READONLY);
 	if (!(ZEPHIR_IS_EMPTY(&_2))) {
-		RETURN_MM_MEMBER(getThis(), "customTemplate");
+		RETURN_MM_MEMBER_TYPED(getThis(), "customTemplate", IS_STRING);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cssClassses_zv))) {
 		ZEPHIR_INIT_NVAR(&divString);

@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 PHP_METHOD(Phalcon_Db_Reference, getColumns)
 {
 
-	RETURN_MEMBER(getThis(), "columns");
+	RETURN_MEMBER_TYPED(getThis(), "columns", IS_ARRAY);
 }
 
 /**
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns)
 PHP_METHOD(Phalcon_Db_Reference, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Db_Reference, getName)
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns)
 {
 
-	RETURN_MEMBER(getThis(), "referencedColumns");
+	RETURN_MEMBER_TYPED(getThis(), "referencedColumns", IS_ARRAY);
 }
 
 /**
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema)
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable)
 {
 
-	RETURN_MEMBER(getThis(), "referencedTable");
+	RETURN_MEMBER_TYPED(getThis(), "referencedTable", IS_STRING);
 }
 
 /**

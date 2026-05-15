@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_AbstractUuid)
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "uid");
+	RETURN_MEMBER_TYPED(getThis(), "uid", IS_STRING);
 }
 
 /**
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString)
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, jsonSerialize)
 {
 
-	RETURN_MEMBER(getThis(), "uid");
+	RETURN_MEMBER_TYPED(getThis(), "uid", IS_STRING);
 }
 
 /**

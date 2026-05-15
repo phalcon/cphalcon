@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements)
 PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedNanoseconds)
 {
 
-	RETURN_MEMBER(getThis(), "totalNanoseconds");
+	RETURN_MEMBER_TYPED(getThis(), "totalNanoseconds", IS_DOUBLE);
 }
 
 /**
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds)
 PHP_METHOD(Phalcon_Db_Profiler, getProfiles)
 {
 
-	RETURN_MEMBER(getThis(), "allProfiles");
+	RETURN_MEMBER_TYPED(getThis(), "allProfiles", IS_ARRAY);
 }
 
 /**

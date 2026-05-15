@@ -878,7 +878,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit)
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName)
 {
 
-	RETURN_MEMBER(getThis(), "model");
+	RETURN_MEMBER_TYPED(getThis(), "model", IS_STRING);
 }
 
 /**
@@ -909,7 +909,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrderBy)
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams)
 {
 
-	RETURN_MEMBER(getThis(), "params");
+	RETURN_MEMBER_TYPED(getThis(), "params", IS_ARRAY);
 }
 
 /**
@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "INNER");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1183,9 +1183,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 {
-	zval join, _1$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, *type = NULL, type_sub, __$null, mergedJoins, currentJoins, _0, _4, _2$$5, _3$$6;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, *type = NULL, type_sub, __$null;
 	zend_string *model = NULL;
 	zval *this_ptr = getThis();
 
@@ -1194,14 +1194,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 	ZVAL_UNDEF(&alias_sub);
 	ZVAL_UNDEF(&type_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&mergedJoins);
-	ZVAL_UNDEF(&currentJoins);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_2$$5);
-	ZVAL_UNDEF(&_3$$6);
-	ZVAL_UNDEF(&join);
-	ZVAL_UNDEF(&_1$$4);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(model)
@@ -1235,37 +1227,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 		type = &type_sub;
 		type = &__$null;
 	}
-	ZEPHIR_INIT_VAR(&join);
-	zephir_create_array(&join, 4, 0);
-	zephir_array_fast_append(&join, &model_zv);
-	zephir_array_fast_append(&join, conditions);
-	zephir_array_fast_append(&join, alias);
-	zephir_array_fast_append(&join, type);
-	zephir_memory_observe(&currentJoins);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&currentJoins, &_0, SL("joins"), 0)) {
-		if (Z_TYPE_P(&currentJoins) == IS_ARRAY) {
-			ZEPHIR_INIT_VAR(&_1$$4);
-			zephir_create_array(&_1$$4, 1, 0);
-			zephir_array_fast_append(&_1$$4, &join);
-			ZEPHIR_INIT_VAR(&mergedJoins);
-			zephir_fast_array_merge(&mergedJoins, &currentJoins, &_1$$4);
-		} else {
-			ZEPHIR_INIT_VAR(&_2$$5);
-			zephir_create_array(&_2$$5, 1, 0);
-			zephir_array_fast_append(&_2$$5, &join);
-			ZEPHIR_CPY_WRT(&mergedJoins, &_2$$5);
-		}
-	} else {
-		ZEPHIR_INIT_VAR(&_3$$6);
-		zephir_create_array(&_3$$6, 1, 0);
-		zephir_array_fast_append(&_3$$6, &join);
-		ZEPHIR_CPY_WRT(&mergedJoins, &_3$$6);
-	}
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "joins");
-	zephir_update_property_array(this_ptr, SL("params"), &_4, &mergedJoins);
-	RETURN_THIS();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, type);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**
@@ -1321,7 +1285,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "LEFT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1505,7 +1469,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 782);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 765);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _0)
 		{
@@ -1516,7 +1480,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 			zephir_get_strval(&key, &_2$$3);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVS(&_3$$3, ":", &key, ":");
-			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 772);
+			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 755);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			SEPARATE_ZVAL(&hiddenParam);
 			zephir_increment(&hiddenParam);
@@ -1537,7 +1501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 				zephir_get_strval(&key, &_4$$4);
 				ZEPHIR_INIT_NVAR(&_5$$4);
 				ZEPHIR_CONCAT_SVS(&_5$$4, ":", &key, ":");
-				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 772);
+				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 755);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				SEPARATE_ZVAL(&hiddenParam);
 				zephir_increment(&hiddenParam);
@@ -1691,7 +1655,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "RIGHT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1851,6 +1815,100 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where)
 			zephir_update_property_array(this_ptr, SL("params"), &_8$$8, bindTypes);
 		}
 	}
+	RETURN_THIS();
+}
+
+/**
+ * Appends a JOIN clause to the criteria params under a non-conflicting
+ * name. Internal wrappers (innerJoin/leftJoin/rightJoin/join) all
+ * delegate here so that the call site is not subject to Zephir's
+ * name collision between the public `join()` method and PHP's
+ * built-in `join()` function.
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, addJoinClause)
+{
+	zval join, _1$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, *type = NULL, type_sub, __$null, mergedJoins, currentJoins, _0, _4, _2$$5, _3$$6;
+	zend_string *model = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&model_zv);
+	ZVAL_UNDEF(&conditions_sub);
+	ZVAL_UNDEF(&alias_sub);
+	ZVAL_UNDEF(&type_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&mergedJoins);
+	ZVAL_UNDEF(&currentJoins);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&join);
+	ZVAL_UNDEF(&_1$$4);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(model)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(conditions)
+		Z_PARAM_ZVAL_OR_NULL(alias)
+		Z_PARAM_ZVAL_OR_NULL(type)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		conditions = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		alias = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		type = ZEND_CALL_ARG(execute_data, 4);
+	}
+	zephir_memory_observe(&model_zv);
+	ZVAL_STR_COPY(&model_zv, model);
+	if (!conditions) {
+		conditions = &conditions_sub;
+		conditions = &__$null;
+	}
+	if (!alias) {
+		alias = &alias_sub;
+		alias = &__$null;
+	}
+	if (!type) {
+		type = &type_sub;
+		type = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&join);
+	zephir_create_array(&join, 4, 0);
+	zephir_array_fast_append(&join, &model_zv);
+	zephir_array_fast_append(&join, conditions);
+	zephir_array_fast_append(&join, alias);
+	zephir_array_fast_append(&join, type);
+	zephir_memory_observe(&currentJoins);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_string_fetch(&currentJoins, &_0, SL("joins"), 0)) {
+		if (Z_TYPE_P(&currentJoins) == IS_ARRAY) {
+			ZEPHIR_INIT_VAR(&_1$$4);
+			zephir_create_array(&_1$$4, 1, 0);
+			zephir_array_fast_append(&_1$$4, &join);
+			ZEPHIR_INIT_VAR(&mergedJoins);
+			zephir_fast_array_merge(&mergedJoins, &currentJoins, &_1$$4);
+		} else {
+			ZEPHIR_INIT_VAR(&_2$$5);
+			zephir_create_array(&_2$$5, 1, 0);
+			zephir_array_fast_append(&_2$$5, &join);
+			ZEPHIR_CPY_WRT(&mergedJoins, &_2$$5);
+		}
+	} else {
+		ZEPHIR_INIT_VAR(&_3$$6);
+		zephir_create_array(&_3$$6, 1, 0);
+		zephir_array_fast_append(&_3$$6, &join);
+		ZEPHIR_CPY_WRT(&mergedJoins, &_3$$6);
+	}
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "joins");
+	zephir_update_property_array(this_ptr, SL("params"), &_4, &mergedJoins);
 	RETURN_THIS();
 }
 

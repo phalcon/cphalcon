@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 PHP_METHOD(Phalcon_Forms_Element_CheckGroup, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**

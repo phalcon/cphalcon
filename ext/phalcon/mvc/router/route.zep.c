@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern)
 {
 
-	RETURN_MEMBER(getThis(), "compiledPattern");
+	RETURN_MEMBER_TYPED(getThis(), "compiledPattern", IS_STRING);
 }
 
 /**
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters)
 {
 
-	RETURN_MEMBER(getThis(), "converters");
+	RETURN_MEMBER_TYPED(getThis(), "converters", IS_ARRAY);
 }
 
 /**
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getId)
 {
 
-	RETURN_MEMBER(getThis(), "id");
+	RETURN_MEMBER_TYPED(getThis(), "id", IS_STRING);
 }
 
 /**
@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getName)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths)
 {
 
-	RETURN_MEMBER(getThis(), "paths");
+	RETURN_MEMBER_TYPED(getThis(), "paths", IS_ARRAY);
 }
 
 /**
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern)
 {
 
-	RETURN_MEMBER(getThis(), "pattern");
+	RETURN_MEMBER_TYPED(getThis(), "pattern", IS_STRING);
 }
 
 /**
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths)
 PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId)
 {
 
-	RETURN_MEMBER(getThis(), "id");
+	RETURN_MEMBER_TYPED(getThis(), "id", IS_STRING);
 }
 
 /**

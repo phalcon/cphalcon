@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations)
 {
 
-	RETURN_MEMBER(getThis(), "annotations");
+	RETURN_MEMBER_TYPED(getThis(), "annotations", IS_ARRAY);
 }
 
 /**
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has)
 PHP_METHOD(Phalcon_Annotations_Collection, key)
 {
 
-	RETURN_MEMBER(getThis(), "position");
+	RETURN_MEMBER_TYPED(getThis(), "position", IS_LONG);
 }
 
 /**

@@ -1055,7 +1055,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getEventsManager)
 PHP_METHOD(Phalcon_Mvc_Router, getActionName)
 {
 
-	RETURN_MEMBER(getThis(), "action");
+	RETURN_MEMBER_TYPED(getThis(), "action", IS_STRING);
 }
 
 /**
@@ -1064,7 +1064,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getActionName)
 PHP_METHOD(Phalcon_Mvc_Router, getControllerName)
 {
 
-	RETURN_MEMBER(getThis(), "controller");
+	RETURN_MEMBER_TYPED(getThis(), "controller", IS_STRING);
 }
 
 /**
@@ -1105,7 +1105,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults)
 PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames)
 {
 
-	RETURN_MEMBER(getThis(), "keyRouteNames");
+	RETURN_MEMBER_TYPED(getThis(), "keyRouteNames", IS_ARRAY);
 }
 
 /**
@@ -1114,7 +1114,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames)
 PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteIds)
 {
 
-	RETURN_MEMBER(getThis(), "keyRouteIds");
+	RETURN_MEMBER_TYPED(getThis(), "keyRouteIds", IS_ARRAY);
 }
 
 /**
@@ -1132,7 +1132,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute)
 PHP_METHOD(Phalcon_Mvc_Router, getMatches)
 {
 
-	RETURN_MEMBER(getThis(), "matches");
+	RETURN_MEMBER_TYPED(getThis(), "matches", IS_ARRAY);
 }
 
 /**
@@ -1157,7 +1157,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getMethodRoutes)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "rebuildmethodindex", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "methodRoutes");
+	RETURN_MM_MEMBER_TYPED(getThis(), "methodRoutes", IS_ARRAY);
 }
 
 /**
@@ -1166,7 +1166,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getMethodRoutes)
 PHP_METHOD(Phalcon_Mvc_Router, getModuleName)
 {
 
-	RETURN_MEMBER(getThis(), "module");
+	RETURN_MEMBER_TYPED(getThis(), "module", IS_STRING);
 }
 
 /**
@@ -1175,7 +1175,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getModuleName)
 PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName)
 {
 
-	RETURN_MEMBER(getThis(), "namespaceName");
+	RETURN_MEMBER_TYPED(getThis(), "namespaceName", IS_STRING);
 }
 
 /**
@@ -1184,7 +1184,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName)
 PHP_METHOD(Phalcon_Mvc_Router, getParams)
 {
 
-	RETURN_MEMBER(getThis(), "params");
+	RETURN_MEMBER_TYPED(getThis(), "params", IS_ARRAY);
 }
 
 /**
@@ -1558,7 +1558,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName)
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes)
 {
 
-	RETURN_MEMBER(getThis(), "routes");
+	RETURN_MEMBER_TYPED(getThis(), "routes", IS_ARRAY);
 }
 
 /**

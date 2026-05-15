@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getMessages)
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -509,7 +509,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOption)
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -518,7 +518,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOptions)
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValidators)
 {
 
-	RETURN_MEMBER(getThis(), "validators");
+	RETURN_MEMBER_TYPED(getThis(), "validators", IS_ARRAY);
 }
 
 /**

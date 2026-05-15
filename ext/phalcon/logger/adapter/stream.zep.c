@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close)
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**

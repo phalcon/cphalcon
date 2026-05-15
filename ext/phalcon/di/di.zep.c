@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Di_Di, getService)
 PHP_METHOD(Phalcon_Di_Di, getServices)
 {
 
-	RETURN_MEMBER(getThis(), "services");
+	RETURN_MEMBER_TYPED(getThis(), "services", IS_ARRAY);
 }
 
 /**

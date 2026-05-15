@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count)
 {
 
-	RETURN_MEMBER(getThis(), "count");
+	RETURN_MEMBER_TYPED(getThis(), "count", IS_LONG);
 }
 
 /**
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst)
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode)
 {
 
-	RETURN_MEMBER(getThis(), "hydrateMode");
+	RETURN_MEMBER_TYPED(getThis(), "hydrateMode", IS_LONG);
 }
 
 /**
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast)
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages)
 {
 
-	RETURN_MEMBER(getThis(), "errorMessages");
+	RETURN_MEMBER_TYPED(getThis(), "errorMessages", IS_ARRAY);
 }
 
 /**

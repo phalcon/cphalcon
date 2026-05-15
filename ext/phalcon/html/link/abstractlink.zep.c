@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetAttributes)
 PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetHref)
 {
 
-	RETURN_MEMBER(getThis(), "href");
+	RETURN_MEMBER_TYPED(getThis(), "href", IS_STRING);
 }
 
 /**

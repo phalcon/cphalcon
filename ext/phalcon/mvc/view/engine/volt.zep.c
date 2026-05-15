@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getEventsManager)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**

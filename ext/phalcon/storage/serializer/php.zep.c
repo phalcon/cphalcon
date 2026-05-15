@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Php)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize)
 {

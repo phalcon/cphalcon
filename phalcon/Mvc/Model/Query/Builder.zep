@@ -623,7 +623,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Return the current having clause
      */
-    public function getHaving() -> string
+    public function getHaving() -> string | null
     {
         return this->having;
     }

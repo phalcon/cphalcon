@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 PHP_METHOD(Phalcon_Logger_Item, getContext)
 {
 
-	RETURN_MEMBER(getThis(), "context");
+	RETURN_MEMBER_TYPED(getThis(), "context", IS_ARRAY);
 }
 
 /**
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Logger_Item, getDateTime)
 PHP_METHOD(Phalcon_Logger_Item, getMessage)
 {
 
-	RETURN_MEMBER(getThis(), "message");
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
 /**
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage)
 PHP_METHOD(Phalcon_Logger_Item, getLevel)
 {
 
-	RETURN_MEMBER(getThis(), "level");
+	RETURN_MEMBER_TYPED(getThis(), "level", IS_LONG);
 }
 
 /**
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Logger_Item, getLevel)
 PHP_METHOD(Phalcon_Logger_Item, getLevelName)
 {
 
-	RETURN_MEMBER(getThis(), "levelName");
+	RETURN_MEMBER_TYPED(getThis(), "levelName", IS_STRING);
 }
 
 zend_object *zephir_init_properties_Phalcon_Logger_Item(zend_class_entry *class_type)

@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix)
 PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes)
 {
 
-	RETURN_MEMBER(getThis(), "routes");
+	RETURN_MEMBER_TYPED(getThis(), "routes", IS_ARRAY);
 }
 
 /**

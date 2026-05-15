@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __set)
 PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath)
 {
 
-	RETURN_MEMBER(getThis(), "activeRenderPath");
+	RETURN_MEMBER_TYPED(getThis(), "activeRenderPath", IS_STRING);
 }
 
 /**
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath)
 PHP_METHOD(Phalcon_Mvc_View_Simple, getContent)
 {
 
-	RETURN_MEMBER(getThis(), "content");
+	RETURN_MEMBER_TYPED(getThis(), "content", IS_STRING);
 }
 
 /**
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getEventsManager)
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
 {
 
-	RETURN_MEMBER(getThis(), "viewParams");
+	RETURN_MEMBER_TYPED(getThis(), "viewParams", IS_ARRAY);
 }
 
 /**
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
 PHP_METHOD(Phalcon_Mvc_View_Simple, getRegisteredEngines)
 {
 
-	RETURN_MEMBER(getThis(), "registeredEngines");
+	RETURN_MEMBER_TYPED(getThis(), "registeredEngines", IS_ARRAY);
 }
 
 /**
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getVar)
 PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir)
 {
 
-	RETURN_MEMBER(getThis(), "viewsDir");
+	RETURN_MEMBER_TYPED(getThis(), "viewsDir", IS_STRING);
 }
 
 /**
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render)
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 0);
 	zephir_check_call_status();
-	RETURN_MM_MEMBER(getThis(), "content");
+	RETURN_MM_MEMBER_TYPED(getThis(), "content", IS_STRING);
 }
 
 /**

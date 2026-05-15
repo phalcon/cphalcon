@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues)
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "store");
+	RETURN_MEMBER_TYPED(getThis(), "store", IS_ARRAY);
 }
 
 /**

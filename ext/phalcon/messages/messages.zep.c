@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize)
 PHP_METHOD(Phalcon_Messages_Messages, key)
 {
 
-	RETURN_MEMBER(getThis(), "position");
+	RETURN_MEMBER_TYPED(getThis(), "position", IS_LONG);
 }
 
 /**

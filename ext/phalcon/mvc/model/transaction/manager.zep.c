@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get)
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDbService)
 {
 
-	RETURN_MEMBER(getThis(), "service");
+	RETURN_MEMBER_TYPED(getThis(), "service", IS_STRING);
 }
 
 /**

@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners)
 PHP_METHOD(Phalcon_Events_Manager, getResponses)
 {
 
-	RETURN_MEMBER(getThis(), "responses");
+	RETURN_MEMBER_TYPED(getThis(), "responses", IS_ARRAY);
 }
 
 /**

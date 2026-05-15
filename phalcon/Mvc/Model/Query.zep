@@ -606,7 +606,15 @@ class Query implements QueryInterface, InjectionAwareInterface
                         // Assign the type to the query
                         let this->type = ast["type"];
 
-                        return irPhql;
+                        /**
+                         * Refresh schema/source for every model referenced
+                         * in the cached intermediate representation. The
+                         * cache is keyed by the PHQL string only, so models
+                         * that change their schema/source at runtime would
+                         * otherwise keep producing SQL with the stale value
+                         * baked in at first parse. See issue #17020.
+                         */
+                        return this->refreshSchemasInIntermediate(irPhql);
                     }
                 }
             }
@@ -3576,6 +3584,73 @@ class Query implements QueryInterface, InjectionAwareInterface
             return connection;
         }
         return model->getWriteConnection();
+    }
+
+    /**
+     * Refreshes the schema/source of every model referenced in a cached
+     * intermediate representation. The PHQL cache is keyed by the PHQL
+     * string only, so a model that switches its schema or source at
+     * runtime (for instance via setSchema()/setSource() in initialize())
+     * would otherwise see the value frozen at first parse. See #17020.
+     */
+    final protected function refreshSchemasInIntermediate(array irPhql) -> array
+    {
+        var manager, models, tables, modelName, model, schema, source,
+            currentTable, alias, index;
+
+        let manager = this->manager;
+
+        if typeof manager != "object" {
+            return irPhql;
+        }
+
+        if !fetch models, irPhql["models"] {
+            return irPhql;
+        }
+
+        if !fetch tables, irPhql["tables"] {
+            return irPhql;
+        }
+
+        for index, modelName in models {
+            if !isset tables[index] {
+                continue;
+            }
+
+            let model = manager->load(modelName),
+                schema = model->getSchema(),
+                source = model->getSource(),
+                currentTable = tables[index],
+                alias = null;
+
+            /**
+             * Extract the alias from the cached entry (when present) so it
+             * survives the rebuild. The cached shape is either a plain
+             * source string, [source, schema], [source, null, alias] or
+             * [source, schema, alias].
+             */
+            if typeof currentTable == "array" && isset currentTable[2] {
+                let alias = currentTable[2];
+            }
+
+            if schema {
+                if alias !== null {
+                    let tables[index] = [source, schema, alias];
+                } else {
+                    let tables[index] = [source, schema];
+                }
+            } else {
+                if alias !== null {
+                    let tables[index] = [source, null, alias];
+                } else {
+                    let tables[index] = source;
+                }
+            }
+        }
+
+        let irPhql["tables"] = tables;
+
+        return irPhql;
     }
 
     /**

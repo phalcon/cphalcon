@@ -3644,7 +3644,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields)
 PHP_METHOD(Phalcon_Mvc_Model, getDirtyState)
 {
 
-	RETURN_MEMBER(getThis(), "dirtyState");
+	RETURN_MEMBER_TYPED(getThis(), "dirtyState", IS_LONG);
 }
 
 /**
@@ -3775,7 +3775,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages)
 		ZEPHIR_INIT_NVAR(&message);
 		RETURN_CTOR(&filtered);
 	}
-	RETURN_MM_MEMBER(getThis(), "errorMessages");
+	RETURN_MM_MEMBER_TYPED(getThis(), "errorMessages", IS_ARRAY);
 }
 
 /**
@@ -3843,7 +3843,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData)
 PHP_METHOD(Phalcon_Mvc_Model, getOperationMade)
 {
 
-	RETURN_MEMBER(getThis(), "operationMade");
+	RETURN_MEMBER_TYPED(getThis(), "operationMade", IS_LONG);
 }
 
 /**
@@ -3852,7 +3852,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getOperationMade)
 PHP_METHOD(Phalcon_Mvc_Model, getOldSnapshotData)
 {
 
-	RETURN_MEMBER(getThis(), "oldSnapshot");
+	RETURN_MEMBER_TYPED(getThis(), "oldSnapshot", IS_ARRAY);
 }
 
 /**
@@ -4066,7 +4066,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema)
 PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData)
 {
 
-	RETURN_MEMBER(getThis(), "snapshot");
+	RETURN_MEMBER_TYPED(getThis(), "snapshot", IS_ARRAY);
 }
 
 /**

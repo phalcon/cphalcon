@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getAdapter)
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer)
 {
 
-	RETURN_MEMBER(getThis(), "defaultSerializer");
+	RETURN_MEMBER_TYPED(getThis(), "defaultSerializer", IS_STRING);
 }
 
 /**
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getKeys)
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getLifetime)
 {
 
-	RETURN_MEMBER(getThis(), "lifetime");
+	RETURN_MEMBER_TYPED(getThis(), "lifetime", IS_LONG);
 }
 
 /**
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getLifetime)
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefix)
 {
 
-	RETURN_MEMBER(getThis(), "prefix");
+	RETURN_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
 }
 
 /**
@@ -1014,7 +1014,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getTtl)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ttl);
 	if (Z_TYPE_P(ttl) == IS_NULL) {
-		RETURN_MM_MEMBER(getThis(), "lifetime");
+		RETURN_MM_MEMBER_TYPED(getThis(), "lifetime", IS_LONG);
 	}
 	_0 = Z_TYPE_P(ttl) == IS_OBJECT;
 	if (_0) {

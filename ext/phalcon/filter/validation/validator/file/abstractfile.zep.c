@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFileEmpty)
 {
 
-	RETURN_MEMBER(getThis(), "messageFileEmpty");
+	RETURN_MEMBER_TYPED(getThis(), "messageFileEmpty", IS_STRING);
 }
 
 /**
@@ -527,7 +527,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFile
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniSize)
 {
 
-	RETURN_MEMBER(getThis(), "messageIniSize");
+	RETURN_MEMBER_TYPED(getThis(), "messageIniSize", IS_STRING);
 }
 
 /**
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniS
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageValid)
 {
 
-	RETURN_MEMBER(getThis(), "messageValid");
+	RETURN_MEMBER_TYPED(getThis(), "messageValid", IS_STRING);
 }
 
 /**

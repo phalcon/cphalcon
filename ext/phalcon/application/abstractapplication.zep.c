@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct)
 PHP_METHOD(Phalcon_Application_AbstractApplication, getDefaultModule)
 {
 
-	RETURN_MEMBER(getThis(), "defaultModule");
+	RETURN_MEMBER_TYPED(getThis(), "defaultModule", IS_STRING);
 }
 
 /**
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModules)
 {
 
-	RETURN_MEMBER(getThis(), "modules");
+	RETURN_MEMBER_TYPED(getThis(), "modules", IS_ARRAY);
 }
 
 /**

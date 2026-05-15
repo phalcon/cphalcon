@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager)
 PHP_METHOD(Phalcon_Mvc_Micro, getHandlers)
 {
 
-	RETURN_MEMBER(getThis(), "handlers");
+	RETURN_MEMBER_TYPED(getThis(), "handlers", IS_ARRAY);
 }
 
 /**

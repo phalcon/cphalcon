@@ -1,0 +1,54 @@
+
+extern zend_class_entry *phalcon_contracts_paginator_repository_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Paginator_Repository);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getaliases, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getcurrent, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getfirst, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getitems, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getlast, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getlimit, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getnext, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_getprevious, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_paginator_repository_gettotalitems, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_paginator_repository_setaliases, 0, 1, Phalcon\\Contracts\\Paginator\\Repository, 0)
+	ZEND_ARG_ARRAY_INFO(0, aliases, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_paginator_repository_setproperties, 0, 1, Phalcon\\Contracts\\Paginator\\Repository, 0)
+	ZEND_ARG_ARRAY_INFO(0, properties, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_paginator_repository_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getAliases, arginfo_phalcon_contracts_paginator_repository_getaliases)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getCurrent, arginfo_phalcon_contracts_paginator_repository_getcurrent)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getFirst, arginfo_phalcon_contracts_paginator_repository_getfirst)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getItems, arginfo_phalcon_contracts_paginator_repository_getitems)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getLast, arginfo_phalcon_contracts_paginator_repository_getlast)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getLimit, arginfo_phalcon_contracts_paginator_repository_getlimit)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getNext, arginfo_phalcon_contracts_paginator_repository_getnext)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getPrevious, arginfo_phalcon_contracts_paginator_repository_getprevious)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, getTotalItems, arginfo_phalcon_contracts_paginator_repository_gettotalitems)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, setAliases, arginfo_phalcon_contracts_paginator_repository_setaliases)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Paginator_Repository, setProperties, arginfo_phalcon_contracts_paginator_repository_setproperties)
+	PHP_FE_END
+};

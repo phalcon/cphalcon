@@ -547,7 +547,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "INNER");
+        return this->addJoinClause(model, conditions, alias, "INNER");
     }
 
     /**
@@ -633,24 +633,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
-        var mergedJoins, currentJoins;
-        array join;
-
-        let join = [model, conditions, alias, type];
-
-        if fetch currentJoins, this->params["joins"] {
-            if typeof currentJoins == "array" {
-                let mergedJoins = array_merge(currentJoins, [join]);
-            } else {
-                let mergedJoins = [join];
-            }
-        } else {
-            let mergedJoins = [join];
-        }
-
-        let this->params["joins"] = mergedJoins;
-
-        return this;
+        return this->addJoinClause(model, conditions, alias, type);
     }
 
     /**
@@ -668,7 +651,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "LEFT");
+        return this->addJoinClause(model, conditions, alias, "LEFT");
     }
 
     /**
@@ -828,7 +811,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "RIGHT");
+        return this->addJoinClause(model, conditions, alias, "RIGHT");
     }
 
     /**
@@ -895,6 +878,35 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
                 let this->params["bindTypes"] = bindTypes;
             }
         }
+
+        return this;
+    }
+
+    /**
+     * Appends a JOIN clause to the criteria params under a non-conflicting
+     * name. Internal wrappers (innerJoin/leftJoin/rightJoin/join) all
+     * delegate here so that the call site is not subject to Zephir's
+     * name collision between the public `join()` method and PHP's
+     * built-in `join()` function.
+     */
+    private function addJoinClause(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    {
+        var mergedJoins, currentJoins;
+        array join;
+
+        let join = [model, conditions, alias, type];
+
+        if fetch currentJoins, this->params["joins"] {
+            if typeof currentJoins == "array" {
+                let mergedJoins = array_merge(currentJoins, [join]);
+            } else {
+                let mergedJoins = [join];
+            }
+        } else {
+            let mergedJoins = [join];
+        }
+
+        let this->params["joins"] = mergedJoins;
 
         return this;
     }

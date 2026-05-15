@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter)
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat)
 {
 
-	RETURN_MEMBER(getThis(), "dateFormat");
+	RETURN_MEMBER_TYPED(getThis(), "dateFormat", IS_STRING);
 }
 
 /**

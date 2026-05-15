@@ -60,9 +60,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	/**
 	 * Column Position
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	zend_declare_property_string(phalcon_db_column_ce, SL("after"), "", ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED);
 	/**
 	 * Column is autoIncrement?
 	 *
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition)
 PHP_METHOD(Phalcon_Db_Column, getBindType)
 {
 
-	RETURN_MEMBER(getThis(), "bindType");
+	RETURN_MEMBER_TYPED(getThis(), "bindType", IS_LONG);
 }
 
 /**
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Db_Column, getDefault)
 PHP_METHOD(Phalcon_Db_Column, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Db_Column, getName)
 PHP_METHOD(Phalcon_Db_Column, getScale)
 {
 
-	RETURN_MEMBER(getThis(), "scale");
+	RETURN_MEMBER_TYPED(getThis(), "scale", IS_LONG);
 }
 
 /**
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Db_Column, getType)
 PHP_METHOD(Phalcon_Db_Column, getTypeReference)
 {
 
-	RETURN_MEMBER(getThis(), "typeReference");
+	RETURN_MEMBER_TYPED(getThis(), "typeReference", IS_LONG);
 }
 
 /**

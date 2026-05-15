@@ -28,12 +28,12 @@ interface ReferenceInterface
     /**
      * Gets the referenced on delete
      */
-    public function getOnDelete() -> string;
+    public function getOnDelete() -> string | null;
 
     /**
      * Gets the referenced on update
      */
-    public function getOnUpdate() -> string;
+    public function getOnUpdate() -> string | null;
 
     /**
      * Gets referenced columns
@@ -43,7 +43,7 @@ interface ReferenceInterface
     /**
      * Gets the schema where referenced table is
      */
-    public function getReferencedSchema() -> string;
+    public function getReferencedSchema() -> string | null;
 
     /**
      * Gets the referenced table
@@ -53,5 +53,5 @@ interface ReferenceInterface
     /**
      * Gets the schema where referenced table is
      */
-    public function getSchemaName() -> string;
+    public function getSchemaName() -> string | null;
 }
