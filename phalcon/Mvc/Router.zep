@@ -10,12 +10,14 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Mvc\Router\Exception;
+use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\RouteInterface;
@@ -1149,6 +1151,213 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     public function isExactControllerName() -> bool
     {
         return true;
+    }
+
+    /**
+     * Loads routes from an array or Phalcon\Config\Config instance.
+     *
+     *```php
+     * $router->loadFromConfig(
+     *      [
+     *          'routes' => [
+     *              [
+     *                  'method'  => 'get',
+     *                  'pattern' => '/users',
+     *                  'paths'   => 'Users::index',
+     *              ],
+     *          ],
+     *      ]
+     *  );
+     *```
+     *
+     * @param array|ConfigInterface config
+     *
+     * @return RouterInterface
+     */
+    public function loadFromConfig(var config) -> <RouterInterface>
+    {
+        var routes, routeData, defaults, notFoundPaths, removeExtra, groups, groupData;
+
+        if typeof config === "object" {
+            if !(config instanceof ConfigInterface) {
+                throw new Exception(
+                    "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
+                );
+            }
+            let config = config->toArray();
+        }
+
+        if typeof config !== "array" {
+            throw new Exception(
+                "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
+            );
+        }
+
+        if isset config["removeExtraSlashes"] {
+            let removeExtra = config["removeExtraSlashes"];
+            this->removeExtraSlashes((bool) removeExtra);
+        }
+
+        if isset config["defaults"] {
+            let defaults = config["defaults"];
+            if typeof defaults !== "array" {
+                throw new Exception("'defaults' must be an array");
+            }
+            this->setDefaults(defaults);
+        }
+
+        if fetch routes, config["routes"] {
+            if typeof routes !== "array" {
+                throw new Exception("'routes' must be an array");
+            }
+            for routeData in routes {
+                this->addRouteFromConfig(routeData);
+            }
+        }
+
+        if fetch groups, config["groups"] {
+            if typeof groups !== "array" {
+                throw new Exception("'groups' must be an array");
+            }
+            for groupData in groups {
+                this->mountGroupFromConfig(groupData);
+            }
+        }
+
+        if fetch notFoundPaths, config["notFound"] {
+            this->notFound(notFoundPaths);
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds a single route from a config array entry. Used by loadFromConfig.
+     *
+     * @param array routeData
+     *
+     * @return void
+     */
+    protected function addRouteFromConfig(array routeData) -> void
+    {
+        var method, methodClass, pattern, paths, route;
+
+        if !fetch pattern, routeData["pattern"] {
+            throw new Exception("Route config entry is missing 'pattern'");
+        }
+
+        if !fetch paths, routeData["paths"] {
+            throw new Exception("Route config entry is missing 'paths'");
+        }
+
+        let method = "";
+        if isset routeData["method"] && routeData["method"] !== null {
+            let method = strtolower((string) routeData["method"]);
+        }
+
+        switch method {
+            case "":
+            case "connect":
+            case "delete":
+            case "get":
+            case "head":
+            case "options":
+            case "patch":
+            case "post":
+            case "purge":
+            case "put":
+            case "trace":
+                let methodClass = "add" . ucfirst(method);
+                let route = this->{methodClass}(pattern, paths);
+                break;
+            default:
+                throw new Exception(
+                    "Unknown HTTP method '" . method . "' in route config"
+                );
+        }
+
+        if isset routeData["name"] {
+            route->setName((string) routeData["name"]);
+        }
+        if isset routeData["hostname"] {
+            route->setHostname((string) routeData["hostname"]);
+        }
+    }
+
+    /**
+     * Builds a Group from a config entry and mounts it. Used by loadFromConfig.
+     *
+     * @param array groupData
+     *
+     * @return void
+     */
+    protected function mountGroupFromConfig(array groupData) -> void
+    {
+        var group, paths, routes, routeData, method, methodClass, pattern, routePaths, route;
+
+        let paths = null;
+        if isset groupData["paths"] {
+            let paths = groupData["paths"];
+        }
+
+        let group = new Group(paths);
+
+        if isset groupData["prefix"] {
+            group->setPrefix((string) groupData["prefix"]);
+        }
+
+        if isset groupData["hostname"] {
+            group->setHostname((string) groupData["hostname"]);
+        }
+
+        if !fetch routes, groupData["routes"] {
+            let routes = [];
+        }
+
+        if typeof routes !== "array" {
+            throw new Exception("Group 'routes' must be an array");
+        }
+
+        for routeData in routes {
+            if !fetch pattern, routeData["pattern"] {
+                throw new Exception("Group route entry is missing 'pattern'");
+            }
+            if !fetch routePaths, routeData["paths"] {
+                throw new Exception("Group route entry is missing 'paths'");
+            }
+
+            let method = "";
+            if isset routeData["method"] && routeData["method"] !== null {
+                let method = strtolower((string) routeData["method"]);
+            }
+
+            switch method {
+                case "":
+                case "connect":
+                case "delete":
+                case "get":
+                case "head":
+                case "options":
+                case "patch":
+                case "post":
+                case "purge":
+                case "put":
+                case "trace":
+                    let methodClass = "add" . ucfirst(method);
+                    let route = group->{methodClass}(pattern, routePaths);
+                    break;
+                default:
+                    throw new Exception(
+                        "Unknown HTTP method '" . method . "' in group route config"
+                    );
+            }
+
+            if isset routeData["name"] {
+                route->setName((string) routeData["name"]);
+            }
+        }
+
+        this->mount(group);
     }
 
     /**
