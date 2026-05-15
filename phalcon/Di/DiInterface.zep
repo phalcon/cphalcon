@@ -62,9 +62,29 @@ interface DiInterface extends ArrayAccess
     public function has(string! name) -> bool;
 
     /**
+     * Check whether the DI has a cached shared instance for a service name.
+     *
+     * Unlike `has()`, which reports on the service *definition* registry,
+     * this method reports only on the resolved-instance cache populated by
+     * `getShared()`. A service can be registered (`has()` returns true)
+     * without yet having a shared instance (`hasShared()` returns false).
+     */
+    public function hasShared(string! name) -> bool;
+
+    /**
      * Removes a service in the services container
      */
     public function remove(string! name) -> void;
+
+    /**
+     * Removes the cached shared instance for a service, leaving the service
+     * definition intact so the next `getShared()` call rebuilds it.
+     *
+     * Useful in fork-based multi-process setups where a child inherits the
+     * parent's resource handle (e.g. a database connection) and needs to
+     * discard the cached instance without re-registering the service.
+     */
+    public function removeShared(string! name) -> void;
 
     /**
      * Resets the internal default DI

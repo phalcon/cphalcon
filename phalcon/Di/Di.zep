@@ -470,6 +470,23 @@ class Di implements DiInterface
     }
 
     /**
+     * Check whether the DI has a cached shared instance for a service name.
+     *
+     * Unlike `has()`, which reports on the service *definition* registry,
+     * this method reports only on the resolved-instance cache populated by
+     * `getShared()`.
+     */
+    public function hasShared(string! name) -> bool
+    {
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
+
+        return isset(this->sharedInstances[name]);
+    }
+
+    /**
      * Allows to obtain a shared service using the array syntax
      *
      *```php
@@ -559,6 +576,36 @@ class Di implements DiInterface
         let aliases               = aliases;
         let this->services        = services;
         let this->sharedInstances = sharedInstances;
+    }
+
+    /**
+     * Removes the cached shared instance for a service, leaving the service
+     * definition intact so the next `getShared()` call rebuilds it.
+     */
+    public function removeShared(string! name) -> void
+    {
+        var sharedInstances, service;
+
+        let sharedInstances = this->sharedInstances;
+
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
+
+        unset sharedInstances[name];
+
+        let this->sharedInstances = sharedInstances;
+
+        /**
+         * `Service::resolve` caches the resolved instance on the Service
+         * itself for shared services; clear that too so the next
+         * `getShared()` call goes through full resolution.
+         */
+        if isset this->services[name] {
+            let service = this->services[name];
+            service->setSharedInstance(null);
+        }
     }
 
     /**
