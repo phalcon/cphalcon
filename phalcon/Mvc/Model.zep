@@ -1792,7 +1792,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ]
      * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
      */
-    public static function find(var parameters = null)
+    public static function find(var parameters = null) -> <ResultsetInterface>
     {
         var params, query, resultset, hydration;
 
