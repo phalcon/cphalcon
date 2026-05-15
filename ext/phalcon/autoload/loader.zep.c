@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getCheckedPath)
 PHP_METHOD(Phalcon_Autoload_Loader, getClasses)
 {
 
-	RETURN_MEMBER(getThis(), "classes");
+	RETURN_MEMBER_TYPED(getThis(), "classes", IS_ARRAY);
 }
 
 /**
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getClasses)
 PHP_METHOD(Phalcon_Autoload_Loader, getDebug)
 {
 
-	RETURN_MEMBER(getThis(), "debug");
+	RETURN_MEMBER_TYPED(getThis(), "debug", IS_ARRAY);
 }
 
 /**
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getDebug)
 PHP_METHOD(Phalcon_Autoload_Loader, getDirectories)
 {
 
-	RETURN_MEMBER(getThis(), "directories");
+	RETURN_MEMBER_TYPED(getThis(), "directories", IS_ARRAY);
 }
 
 /**
@@ -484,7 +484,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getDirectories)
 PHP_METHOD(Phalcon_Autoload_Loader, getExtensions)
 {
 
-	RETURN_MEMBER(getThis(), "extensions");
+	RETURN_MEMBER_TYPED(getThis(), "extensions", IS_ARRAY);
 }
 
 /**
@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getExtensions)
 PHP_METHOD(Phalcon_Autoload_Loader, getFiles)
 {
 
-	RETURN_MEMBER(getThis(), "files");
+	RETURN_MEMBER_TYPED(getThis(), "files", IS_ARRAY);
 }
 
 /**
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getFoundPath)
 PHP_METHOD(Phalcon_Autoload_Loader, getNamespaces)
 {
 
-	RETURN_MEMBER(getThis(), "namespaces");
+	RETURN_MEMBER_TYPED(getThis(), "namespaces", IS_ARRAY);
 }
 
 /**

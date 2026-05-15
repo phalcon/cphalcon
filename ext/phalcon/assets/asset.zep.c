@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getAssetKey)
 PHP_METHOD(Phalcon_Assets_Asset, getAttributes)
 {
 
-	RETURN_MEMBER(getThis(), "attributes");
+	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
 /**
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getFilter)
 PHP_METHOD(Phalcon_Assets_Asset, getPath)
 {
 
-	RETURN_MEMBER(getThis(), "path");
+	RETURN_MEMBER_TYPED(getThis(), "path", IS_STRING);
 }
 
 /**
@@ -477,19 +477,19 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri)
 PHP_METHOD(Phalcon_Assets_Asset, getSourcePath)
 {
 
-	RETURN_MEMBER(getThis(), "sourcePath");
+	RETURN_MEMBER_TYPED(getThis(), "sourcePath", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Assets_Asset, getTargetPath)
 {
 
-	RETURN_MEMBER(getThis(), "targetPath");
+	RETURN_MEMBER_TYPED(getThis(), "targetPath", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Assets_Asset, getTargetUri)
 {
 
-	RETURN_MEMBER(getThis(), "targetUri");
+	RETURN_MEMBER_TYPED(getThis(), "targetUri", IS_STRING);
 }
 
 /**
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getTargetUri)
 PHP_METHOD(Phalcon_Assets_Asset, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**
@@ -796,7 +796,7 @@ PHP_METHOD(Phalcon_Assets_Asset, checkPath)
 	zephir_memory_observe(&_0);
 	zephir_read_property_zval(&_0, this_ptr, &property_zv, PH_NOISY_CC);
 	if (1 == ZEPHIR_IS_EMPTY(&_0)) {
-		RETURN_MM_MEMBER(getThis(), "path");
+		RETURN_MM_MEMBER_TYPED(getThis(), "path", IS_STRING);
 	}
 	zephir_memory_observe(&_1);
 	zephir_read_property_zval(&_1, this_ptr, &property_zv, PH_NOISY_CC);

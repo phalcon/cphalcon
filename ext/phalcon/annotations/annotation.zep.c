@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument)
 PHP_METHOD(Phalcon_Annotations_Annotation, getArguments)
 {
 
-	RETURN_MEMBER(getThis(), "arguments");
+	RETURN_MEMBER_TYPED(getThis(), "arguments", IS_ARRAY);
 }
 
 /**
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArguments)
 PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments)
 {
 
-	RETURN_MEMBER(getThis(), "exprArguments");
+	RETURN_MEMBER_TYPED(getThis(), "exprArguments", IS_ARRAY);
 }
 
 /**

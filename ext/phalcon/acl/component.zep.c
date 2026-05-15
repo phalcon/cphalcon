@@ -89,18 +89,18 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 PHP_METHOD(Phalcon_Acl_Component, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Acl_Component, getDescription)
 {
 
-	RETURN_MEMBER(getThis(), "description");
+	RETURN_MEMBER_TYPED(getThis(), "description", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Acl_Component, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 

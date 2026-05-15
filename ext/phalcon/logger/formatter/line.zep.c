@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
 {
 
-	RETURN_MEMBER(getThis(), "format");
+	RETURN_MEMBER_TYPED(getThis(), "format", IS_STRING);
 }
 
 /**

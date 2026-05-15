@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getAttributes)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "resolve", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "resolvedAttributes");
+	RETURN_MM_MEMBER_TYPED(getThis(), "resolvedAttributes", IS_ARRAY);
 }
 
 /**
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "resolve", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "resolvedOptions");
+	RETURN_MM_MEMBER_TYPED(getThis(), "resolvedOptions", IS_ARRAY);
 }
 
 /**

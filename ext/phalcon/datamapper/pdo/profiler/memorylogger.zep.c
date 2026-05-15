@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getLogLevel)
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages)
 {
 
-	RETURN_MEMBER(getThis(), "messages");
+	RETURN_MEMBER_TYPED(getThis(), "messages", IS_ARRAY);
 }
 
 /**

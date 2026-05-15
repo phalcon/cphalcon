@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count)
 PHP_METHOD(Phalcon_Assets_Collection, getAssets)
 {
 
-	RETURN_MEMBER(getThis(), "assets");
+	RETURN_MEMBER_TYPED(getThis(), "assets", IS_ARRAY);
 }
 
 /**
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getAssets)
 PHP_METHOD(Phalcon_Assets_Collection, getAttributes)
 {
 
-	RETURN_MEMBER(getThis(), "attributes");
+	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
 /**
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getAttributes)
 PHP_METHOD(Phalcon_Assets_Collection, getCodes)
 {
 
-	RETURN_MEMBER(getThis(), "codes");
+	RETURN_MEMBER_TYPED(getThis(), "codes", IS_ARRAY);
 }
 
 /**
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getCodes)
 PHP_METHOD(Phalcon_Assets_Collection, getFilters)
 {
 
-	RETURN_MEMBER(getThis(), "filters");
+	RETURN_MEMBER_TYPED(getThis(), "filters", IS_ARRAY);
 }
 
 /**
@@ -563,7 +563,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getJoin)
 PHP_METHOD(Phalcon_Assets_Collection, getPrefix)
 {
 
-	RETURN_MEMBER(getThis(), "prefix");
+	RETURN_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
 }
 
 /**
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 PHP_METHOD(Phalcon_Assets_Collection, getSourcePath)
 {
 
-	RETURN_MEMBER(getThis(), "sourcePath");
+	RETURN_MEMBER_TYPED(getThis(), "sourcePath", IS_STRING);
 }
 
 /**
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetIsLocal)
 PHP_METHOD(Phalcon_Assets_Collection, getTargetPath)
 {
 
-	RETURN_MEMBER(getThis(), "targetPath");
+	RETURN_MEMBER_TYPED(getThis(), "targetPath", IS_STRING);
 }
 
 /**
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetPath)
 PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
 {
 
-	RETURN_MEMBER(getThis(), "targetUri");
+	RETURN_MEMBER_TYPED(getThis(), "targetUri", IS_STRING);
 }
 
 /**
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
 PHP_METHOD(Phalcon_Assets_Collection, getVersion)
 {
 
-	RETURN_MEMBER(getThis(), "version");
+	RETURN_MEMBER_TYPED(getThis(), "version", IS_STRING);
 }
 
 /**

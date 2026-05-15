@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getPassphrase)
 {
 
-	RETURN_MEMBER(getThis(), "passphrase");
+	RETURN_MEMBER_TYPED(getThis(), "passphrase", IS_STRING);
 }
 
 /**

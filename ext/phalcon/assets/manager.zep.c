@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get)
 PHP_METHOD(Phalcon_Assets_Manager, getCollections)
 {
 
-	RETURN_MEMBER(getThis(), "collections");
+	RETURN_MEMBER_TYPED(getThis(), "collections", IS_ARRAY);
 }
 
 /**
@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs)
 PHP_METHOD(Phalcon_Assets_Manager, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**

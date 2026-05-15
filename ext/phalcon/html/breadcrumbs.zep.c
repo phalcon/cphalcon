@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear)
 PHP_METHOD(Phalcon_Html_Breadcrumbs, getSeparator)
 {
 
-	RETURN_MEMBER(getThis(), "separator");
+	RETURN_MEMBER_TYPED(getThis(), "separator", IS_STRING);
 }
 
 /**
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator)
 PHP_METHOD(Phalcon_Html_Breadcrumbs, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "elements");
+	RETURN_MEMBER_TYPED(getThis(), "elements", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *class_type)

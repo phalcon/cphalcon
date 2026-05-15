@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapters)
 {
 
-	RETURN_MEMBER(getThis(), "adapters");
+	RETURN_MEMBER_TYPED(getThis(), "adapters", IS_ARRAY);
 }
 
 /**
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapters)
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLogLevel)
 {
 
-	RETURN_MEMBER(getThis(), "logLevel");
+	RETURN_MEMBER_TYPED(getThis(), "logLevel", IS_LONG);
 }
 
 /**
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLogLevel)
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**

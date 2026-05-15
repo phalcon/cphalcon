@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 {
 
-	RETURN_MEMBER(getThis(), "handlers");
+	RETURN_MEMBER_TYPED(getThis(), "handlers", IS_ARRAY);
 }
 
 /**
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix)
 {
 
-	RETURN_MEMBER(getThis(), "prefix");
+	RETURN_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
 }
 
 /**

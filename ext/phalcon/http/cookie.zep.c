@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getDomain)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "domain");
+	RETURN_MM_MEMBER_TYPED(getThis(), "domain", IS_STRING);
 }
 
 /**
@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "expire");
+	RETURN_MM_MEMBER_TYPED(getThis(), "expire", IS_STRING);
 }
 
 /**
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly)
 PHP_METHOD(Phalcon_Http_Cookie, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getName)
 PHP_METHOD(Phalcon_Http_Cookie, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getPath)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_MEMBER(getThis(), "path");
+	RETURN_MM_MEMBER_TYPED(getThis(), "path", IS_STRING);
 }
 
 /**

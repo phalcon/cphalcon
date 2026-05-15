@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getConstantsAnnotations)
 			ZEPHIR_INIT_NVAR(&constant);
 		}
 	}
-	RETURN_MM_MEMBER(getThis(), "constantAnnotations");
+	RETURN_MM_MEMBER_TYPED(getThis(), "constantAnnotations", IS_ARRAY);
 }
 
 /**
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
 			ZEPHIR_INIT_NVAR(&property);
 		}
 	}
-	RETURN_MM_MEMBER(getThis(), "propertyAnnotations");
+	RETURN_MM_MEMBER_TYPED(getThis(), "propertyAnnotations", IS_ARRAY);
 }
 
 /**
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 			ZEPHIR_INIT_NVAR(&methodName);
 		}
 	}
-	RETURN_MM_MEMBER(getThis(), "methodAnnotations");
+	RETURN_MM_MEMBER_TYPED(getThis(), "methodAnnotations", IS_ARRAY);
 }
 
 /**
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData)
 {
 
-	RETURN_MEMBER(getThis(), "reflectionData");
+	RETURN_MEMBER_TYPED(getThis(), "reflectionData", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Annotations_Reflection(zend_class_entry *class_type)

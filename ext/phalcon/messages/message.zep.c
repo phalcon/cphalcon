@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 PHP_METHOD(Phalcon_Messages_Message, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "message");
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
 /**
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Messages_Message, __toString)
 PHP_METHOD(Phalcon_Messages_Message, getCode)
 {
 
-	RETURN_MEMBER(getThis(), "code");
+	RETURN_MEMBER_TYPED(getThis(), "code", IS_LONG);
 }
 
 /**
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Messages_Message, getCode)
 PHP_METHOD(Phalcon_Messages_Message, getField)
 {
 
-	RETURN_MEMBER(getThis(), "field");
+	RETURN_MEMBER_TYPED(getThis(), "field", IS_STRING);
 }
 
 /**
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Messages_Message, getField)
 PHP_METHOD(Phalcon_Messages_Message, getMessage)
 {
 
-	RETURN_MEMBER(getThis(), "message");
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
 /**
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Messages_Message, getMessage)
 PHP_METHOD(Phalcon_Messages_Message, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Messages_Message, getType)
 PHP_METHOD(Phalcon_Messages_Message, getMetaData)
 {
 
-	RETURN_MEMBER(getThis(), "metaData");
+	RETURN_MEMBER_TYPED(getThis(), "metaData", IS_ARRAY);
 }
 
 /**

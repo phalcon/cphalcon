@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct)
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getErrors)
 {
 
-	RETURN_MEMBER(getThis(), "errors");
+	RETURN_MEMBER_TYPED(getThis(), "errors", IS_ARRAY);
 }
 
 /**

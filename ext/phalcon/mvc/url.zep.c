@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 PHP_METHOD(Phalcon_Mvc_Url, getBasePath)
 {
 
-	RETURN_MEMBER(getThis(), "basePath");
+	RETURN_MEMBER_TYPED(getThis(), "basePath", IS_STRING);
 }
 
 /**
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("staticBaseUri"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
-		RETURN_MM_MEMBER(getThis(), "staticBaseUri");
+		RETURN_MM_MEMBER_TYPED(getThis(), "staticBaseUri", IS_STRING);
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getbaseuri", NULL, 0);
 	zephir_check_call_status();

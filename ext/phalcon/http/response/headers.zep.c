@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw)
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "headers");
+	RETURN_MEMBER_TYPED(getThis(), "headers", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type)

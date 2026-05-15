@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 PHP_METHOD(Phalcon_Cli_Dispatcher, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOptions)
 PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName)
 {
 
-	RETURN_MEMBER(getThis(), "handlerName");
+	RETURN_MEMBER_TYPED(getThis(), "handlerName", IS_STRING);
 }
 
 /**
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName)
 PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskSuffix)
 {
 
-	RETURN_MEMBER(getThis(), "handlerSuffix");
+	RETURN_MEMBER_TYPED(getThis(), "handlerSuffix", IS_STRING);
 }
 
 /**

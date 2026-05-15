@@ -3030,7 +3030,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getCompiledTemplatePath)
 {
 
-	RETURN_MEMBER(getThis(), "compiledTemplatePath");
+	RETURN_MEMBER_TYPED(getThis(), "compiledTemplatePath", IS_STRING);
 }
 
 /**
@@ -3052,7 +3052,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getExtensions)
 {
 
-	RETURN_MEMBER(getThis(), "extensions");
+	RETURN_MEMBER_TYPED(getThis(), "extensions", IS_ARRAY);
 }
 
 /**
@@ -3063,7 +3063,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getExtensions)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters)
 {
 
-	RETURN_MEMBER(getThis(), "filters");
+	RETURN_MEMBER_TYPED(getThis(), "filters", IS_ARRAY);
 }
 
 /**
@@ -3074,7 +3074,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFunctions)
 {
 
-	RETURN_MEMBER(getThis(), "functions");
+	RETURN_MEMBER_TYPED(getThis(), "functions", IS_ARRAY);
 }
 
 /**
@@ -3117,7 +3117,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -3128,7 +3128,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getTemplatePath)
 {
 
-	RETURN_MEMBER(getThis(), "currentPath");
+	RETURN_MEMBER_TYPED(getThis(), "currentPath", IS_STRING);
 }
 
 /**
@@ -3186,7 +3186,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_engine_volt_exception_ce, "The unique compilation prefix is invalid", "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2127);
 		return;
 	}
-	RETURN_MM_MEMBER(getThis(), "prefix");
+	RETURN_MM_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
 }
 
 /**

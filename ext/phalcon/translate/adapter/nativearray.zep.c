@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "translate");
+	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type)

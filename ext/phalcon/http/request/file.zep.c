@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getError)
 PHP_METHOD(Phalcon_Http_Request_File, getExtension)
 {
 
-	RETURN_MEMBER(getThis(), "extension");
+	RETURN_MEMBER_TYPED(getThis(), "extension", IS_STRING);
 }
 
 /**
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey)
 PHP_METHOD(Phalcon_Http_Request_File, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 PHP_METHOD(Phalcon_Http_Request_File, getSize)
 {
 
-	RETURN_MEMBER(getThis(), "size");
+	RETURN_MEMBER_TYPED(getThis(), "size", IS_LONG);
 }
 
 /**
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getSize)
 PHP_METHOD(Phalcon_Http_Request_File, getTempName)
 {
 
-	RETURN_MEMBER(getThis(), "tmp");
+	RETURN_MEMBER_TYPED(getThis(), "tmp", IS_STRING);
 }
 
 /**
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName)
 PHP_METHOD(Phalcon_Http_Request_File, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**

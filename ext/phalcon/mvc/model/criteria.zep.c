@@ -878,7 +878,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit)
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName)
 {
 
-	RETURN_MEMBER(getThis(), "model");
+	RETURN_MEMBER_TYPED(getThis(), "model", IS_STRING);
 }
 
 /**
@@ -909,7 +909,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrderBy)
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams)
 {
 
-	RETURN_MEMBER(getThis(), "params");
+	RETURN_MEMBER_TYPED(getThis(), "params", IS_ARRAY);
 }
 
 /**
@@ -1006,7 +1006,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
+	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0, _1;
 	zend_string *model = NULL;
 	zval *this_ptr = getThis();
 
@@ -1015,6 +1015,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	ZVAL_UNDEF(&alias_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
@@ -1042,9 +1043,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "INNER");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "join", NULL, 481, &model_zv, conditions, alias, &_0, this_ptr);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&_1);
 }
 
 /**
@@ -1285,7 +1286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
+	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0, _1;
 	zend_string *model = NULL;
 	zval *this_ptr = getThis();
 
@@ -1294,6 +1295,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	ZVAL_UNDEF(&alias_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
@@ -1321,9 +1323,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "LEFT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "join", NULL, 481, &model_zv, conditions, alias, &_0, this_ptr);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&_1);
 }
 
 /**
@@ -1655,7 +1657,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
+	zval model_zv, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0, _1;
 	zend_string *model = NULL;
 	zval *this_ptr = getThis();
 
@@ -1664,6 +1666,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	ZVAL_UNDEF(&alias_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(model)
@@ -1691,9 +1694,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "RIGHT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "join", NULL, 0, &model_zv, conditions, alias, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "join", NULL, 481, &model_zv, conditions, alias, &_0, this_ptr);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(&_1);
 }
 
 /**

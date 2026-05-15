@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName)
 {
 
-	RETURN_MEMBER(getThis(), "handlerName");
+	RETURN_MEMBER_TYPED(getThis(), "handlerName", IS_STRING);
 }
 
 /**
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName)
 {
 
-	RETURN_MEMBER(getThis(), "previousActionName");
+	RETURN_MEMBER_TYPED(getThis(), "previousActionName", IS_STRING);
 }
 
 /**
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName)
 {
 
-	RETURN_MEMBER(getThis(), "previousHandlerName");
+	RETURN_MEMBER_TYPED(getThis(), "previousHandlerName", IS_STRING);
 }
 
 /**
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName)
 {
 
-	RETURN_MEMBER(getThis(), "previousNamespaceName");
+	RETURN_MEMBER_TYPED(getThis(), "previousNamespaceName", IS_STRING);
 }
 
 /**

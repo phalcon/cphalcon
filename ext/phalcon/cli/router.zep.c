@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Cli_Router, add)
 PHP_METHOD(Phalcon_Cli_Router, getActionName)
 {
 
-	RETURN_MEMBER(getThis(), "action");
+	RETURN_MEMBER_TYPED(getThis(), "action", IS_STRING);
 }
 
 /**
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Cli_Router, getMatchedRoute)
 PHP_METHOD(Phalcon_Cli_Router, getMatches)
 {
 
-	RETURN_MEMBER(getThis(), "matches");
+	RETURN_MEMBER_TYPED(getThis(), "matches", IS_ARRAY);
 }
 
 /**
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Cli_Router, getMatches)
 PHP_METHOD(Phalcon_Cli_Router, getModuleName)
 {
 
-	RETURN_MEMBER(getThis(), "module");
+	RETURN_MEMBER_TYPED(getThis(), "module", IS_STRING);
 }
 
 /**
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Cli_Router, getParams)
 PHP_METHOD(Phalcon_Cli_Router, getParameters)
 {
 
-	RETURN_MEMBER(getThis(), "params");
+	RETURN_MEMBER_TYPED(getThis(), "params", IS_ARRAY);
 }
 
 /**
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName)
 PHP_METHOD(Phalcon_Cli_Router, getRoutes)
 {
 
-	RETURN_MEMBER(getThis(), "routes");
+	RETURN_MEMBER_TYPED(getThis(), "routes", IS_ARRAY);
 }
 
 /**
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRoutes)
 PHP_METHOD(Phalcon_Cli_Router, getTaskName)
 {
 
-	RETURN_MEMBER(getThis(), "task");
+	RETURN_MEMBER_TYPED(getThis(), "task", IS_STRING);
 }
 
 /**

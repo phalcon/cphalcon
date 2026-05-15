@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists)
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory)
 {
 
-	RETURN_MEMBER(getThis(), "category");
+	RETURN_MEMBER_TYPED(getThis(), "category", IS_LONG);
 }
 
 /**
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory)
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDefaultDomain)
 {
 
-	RETURN_MEMBER(getThis(), "defaultDomain");
+	RETURN_MEMBER_TYPED(getThis(), "defaultDomain", IS_STRING);
 }
 
 /**
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory)
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale)
 {
 
-	RETURN_MEMBER(getThis(), "locale");
+	RETURN_MEMBER_TYPED(getThis(), "locale", IS_STRING);
 }
 
 /**

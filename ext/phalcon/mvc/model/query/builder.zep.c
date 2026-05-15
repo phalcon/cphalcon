@@ -890,7 +890,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getBindParams)
 {
 
-	RETURN_MEMBER(getThis(), "bindParams");
+	RETURN_MEMBER_TYPED(getThis(), "bindParams", IS_ARRAY);
 }
 
 /**
@@ -899,7 +899,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getBindParams)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getBindTypes)
 {
 
-	RETURN_MEMBER(getThis(), "bindTypes");
+	RETURN_MEMBER_TYPED(getThis(), "bindTypes", IS_ARRAY);
 }
 
 /**
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy)
 {
 
-	RETURN_MEMBER(getThis(), "group");
+	RETURN_MEMBER_TYPED(getThis(), "group", IS_ARRAY);
 }
 
 /**
@@ -957,7 +957,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving)
 {
 
-	RETURN_MEMBER(getThis(), "having");
+	RETURN_MEMBER_TYPED(getThis(), "having", IS_STRING);
 }
 
 /**
@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getJoins)
 {
 
-	RETURN_MEMBER(getThis(), "joins");
+	RETURN_MEMBER_TYPED(getThis(), "joins", IS_ARRAY);
 }
 
 /**
@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels)
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset)
 {
 
-	RETURN_MEMBER(getThis(), "offset");
+	RETURN_MEMBER_TYPED(getThis(), "offset", IS_LONG);
 }
 
 /**

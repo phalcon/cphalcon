@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
 {
 
-	RETURN_MEMBER(getThis(), "definition");
+	RETURN_MEMBER_TYPED(getThis(), "definition", IS_STRING);
 }
 
 /**

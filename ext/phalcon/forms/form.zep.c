@@ -985,7 +985,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAttributes)
 PHP_METHOD(Phalcon_Forms_Form, getElements)
 {
 
-	RETURN_MEMBER(getThis(), "elements");
+	RETURN_MEMBER_TYPED(getThis(), "elements", IS_ARRAY);
 }
 
 /**
@@ -1213,7 +1213,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption)
 PHP_METHOD(Phalcon_Forms_Form, getUserOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -1343,7 +1343,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValidation)
 PHP_METHOD(Phalcon_Forms_Form, getWhitelist)
 {
 
-	RETURN_MEMBER(getThis(), "whitelist");
+	RETURN_MEMBER_TYPED(getThis(), "whitelist", IS_ARRAY);
 }
 
 /**
@@ -1661,7 +1661,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 PHP_METHOD(Phalcon_Forms_Form, key)
 {
 
-	RETURN_MEMBER(getThis(), "position");
+	RETURN_MEMBER_TYPED(getThis(), "position", IS_LONG);
 }
 
 /**

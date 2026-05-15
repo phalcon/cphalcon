@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList)
 PHP_METHOD(Phalcon_Db_Dialect, getCustomFunctions)
 {
 
-	RETURN_MEMBER(getThis(), "customFunctions");
+	RETURN_MEMBER_TYPED(getThis(), "customFunctions", IS_ARRAY);
 }
 
 /**

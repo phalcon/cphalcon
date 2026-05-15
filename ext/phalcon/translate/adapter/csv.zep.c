@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "translate");
+	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
 }
 
 /**

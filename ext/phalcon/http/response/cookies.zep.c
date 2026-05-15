@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies)
 {
 
-	RETURN_MEMBER(getThis(), "cookies");
+	RETURN_MEMBER_TYPED(getThis(), "cookies", IS_ARRAY);
 }
 
 /**

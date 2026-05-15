@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, __construct)
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, getAttributes)
 {
 
-	RETURN_MEMBER(getThis(), "attributes");
+	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
 /**
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, getAttributes)
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "data");
+	RETURN_MEMBER_TYPED(getThis(), "data", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Select_ArrayData(zend_class_entry *class_type)

@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Encryption_Security, destroyToken)
 PHP_METHOD(Phalcon_Encryption_Security, getDefaultHash)
 {
 
-	RETURN_MEMBER(getThis(), "defaultHash");
+	RETURN_MEMBER_TYPED(getThis(), "defaultHash", IS_LONG);
 }
 
 /**
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Encryption_Security, getRandom)
 PHP_METHOD(Phalcon_Encryption_Security, getRandomBytes)
 {
 
-	RETURN_MEMBER(getThis(), "numberBytes");
+	RETURN_MEMBER_TYPED(getThis(), "numberBytes", IS_LONG);
 }
 
 /**
@@ -755,7 +755,7 @@ PHP_METHOD(Phalcon_Encryption_Security, getTokenKey)
 PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
 {
 
-	RETURN_MEMBER(getThis(), "workFactor");
+	RETURN_MEMBER_TYPED(getThis(), "workFactor", IS_LONG);
 }
 
 /**

@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Session_Manager, getName)
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_2$$3);
 	}
-	RETURN_MM_MEMBER(getThis(), "name");
+	RETURN_MM_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Session_Manager, has)
 PHP_METHOD(Phalcon_Session_Manager, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**

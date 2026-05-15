@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel)
 {
 
-	RETURN_MEMBER(getThis(), "intermediateModel");
+	RETURN_MEMBER_TYPED(getThis(), "intermediateModel", IS_STRING);
 }
 
 /**
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
 }
 
 /**
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel)
 {
 
-	RETURN_MEMBER(getThis(), "referencedModel");
+	RETURN_MEMBER_TYPED(getThis(), "referencedModel", IS_STRING);
 }
 
 /**

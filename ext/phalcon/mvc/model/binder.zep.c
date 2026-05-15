@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel)
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getBoundModels)
 {
 
-	RETURN_MEMBER(getThis(), "boundModels");
+	RETURN_MEMBER_TYPED(getThis(), "boundModels", IS_ARRAY);
 }
 
 /**
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getBoundModels)
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getOriginalValues)
 {
 
-	RETURN_MEMBER(getThis(), "originalValues");
+	RETURN_MEMBER_TYPED(getThis(), "originalValues", IS_ARRAY);
 }
 
 /**

@@ -49,6 +49,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getTable);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getWriteConnection);
+PHP_METHOD(Phalcon_Mvc_Model_Query, refreshSchemasInIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect);
@@ -263,6 +264,10 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_refreshschemasinintermediate, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, irPhql, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__preparedelete, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -327,6 +332,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getSingleJoin, arginfo_phalcon_mvc_model_query_getsinglejoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getTable, arginfo_phalcon_mvc_model_query_gettable, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getWriteConnection, arginfo_phalcon_mvc_model_query_getwriteconnection, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, refreshSchemasInIntermediate, arginfo_phalcon_mvc_model_query_refreshschemasinintermediate, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareDelete, arginfo_phalcon_mvc_model_query__preparedelete, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareInsert, arginfo_phalcon_mvc_model_query__prepareinsert, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareSelect, arginfo_phalcon_mvc_model_query__prepareselect, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)

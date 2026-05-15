@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 {
 
-	RETURN_MEMBER(getThis(), "defaultAccess");
+	RETURN_MEMBER_TYPED(getThis(), "defaultAccess", IS_LONG);
 }
 
 /**

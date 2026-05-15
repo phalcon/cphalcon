@@ -195,10 +195,11 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getExceptionClass)
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices)
 {
 
-	zephir_create_array(return_value, 3, 0);
+	zephir_create_array(return_value, 4, 0);
 	add_assoc_stringl_ex(return_value, SL("model"), SL("Phalcon\\Paginator\\Adapter\\Model"));
 	add_assoc_stringl_ex(return_value, SL("nativeArray"), SL("Phalcon\\Paginator\\Adapter\\NativeArray"));
 	add_assoc_stringl_ex(return_value, SL("queryBuilder"), SL("Phalcon\\Paginator\\Adapter\\QueryBuilder"));
+	add_assoc_stringl_ex(return_value, SL("queryBuilderCursor"), SL("Phalcon\\Paginator\\Adapter\\QueryBuilderCursor"));
 	return;
 }
 

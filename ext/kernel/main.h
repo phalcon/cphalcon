@@ -187,6 +187,68 @@ extern zend_string* i_self;
   zephir_return_property(return_value, object, SL(member_name)); \
   RETURN_MM();
 
+/**
+ * Throws a TypeError that matches PHP's userland return-type message format:
+ *   "Class\Method(): Return value must be of type <expected>, <actual> returned"
+ *
+ * Used by RETURN_*_MEMBER_TYPED macros to enforce strict scalar return types
+ * on methods that return a runtime value (e.g. `return this->property`) where
+ * the static checker in src/Statements/ReturnStatement.php can't prove the
+ * type matches. Without this, internal C extensions bypass the engine's
+ * return-type verification (which only runs in ZEND_DEBUG builds).
+ *
+ * See https://github.com/zephir-lang/zephir/issues/1991
+ */
+static inline void zephir_throw_return_type_error(uint32_t expected_type, zval *retval)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	const char *expected = zend_get_type_by_const(expected_type);
+	const char *actual   = zend_zval_type_name(retval);
+
+	if (ex && ex->func && ex->func->common.function_name) {
+		zend_string *fname = ex->func->common.function_name;
+		zend_class_entry *scope = ex->func->common.scope;
+		if (scope) {
+			zend_type_error("%s::%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(scope->name), ZSTR_VAL(fname), expected, actual);
+		} else {
+			zend_type_error("%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(fname), expected, actual);
+		}
+	} else {
+		zend_type_error("Return value must be of type %s, %s returned",
+			expected, actual);
+	}
+}
+
+/**
+ * Same as RETURN_MEMBER but verifies that the property's runtime type matches
+ * the method's declared return type. Throws TypeError on mismatch.
+ * Used when the method body is `return this->prop` and the method declares
+ * a strict scalar return type like `-> string`.
+ */
+#define RETURN_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      return; \
+    } \
+    return; \
+  } while (0)
+
+/** Memory-grow-aware variant of RETURN_MEMBER_TYPED. */
+#define RETURN_MM_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      ZEPHIR_MM_RESTORE(); \
+      return; \
+    } \
+    RETURN_MM(); \
+  } while (0)
+
 #define RETURN_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \

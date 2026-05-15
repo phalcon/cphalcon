@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 PHP_METHOD(Phalcon_Db_Index, getColumns)
 {
 
-	RETURN_MEMBER(getThis(), "columns");
+	RETURN_MEMBER_TYPED(getThis(), "columns", IS_ARRAY);
 }
 
 /**
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns)
 PHP_METHOD(Phalcon_Db_Index, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -145,6 +145,6 @@ PHP_METHOD(Phalcon_Db_Index, getName)
 PHP_METHOD(Phalcon_Db_Index, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 

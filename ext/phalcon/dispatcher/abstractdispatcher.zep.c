@@ -1144,7 +1144,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, forward)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActionName)
 {
 
-	RETURN_MEMBER(getThis(), "actionName");
+	RETURN_MEMBER_TYPED(getThis(), "actionName", IS_STRING);
 }
 
 /**
@@ -1153,7 +1153,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActionName)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActionSuffix)
 {
 
-	RETURN_MEMBER(getThis(), "actionSuffix");
+	RETURN_MEMBER_TYPED(getThis(), "actionSuffix", IS_STRING);
 }
 
 /**
@@ -1237,7 +1237,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getBoundModels)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getDefaultNamespace)
 {
 
-	RETURN_MEMBER(getThis(), "defaultNamespace");
+	RETURN_MEMBER_TYPED(getThis(), "defaultNamespace", IS_STRING);
 }
 
 /**
@@ -1255,7 +1255,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getEventsManager)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getHandlerSuffix)
 {
 
-	RETURN_MEMBER(getThis(), "handlerSuffix");
+	RETURN_MEMBER_TYPED(getThis(), "handlerSuffix", IS_STRING);
 }
 
 /**
@@ -1282,7 +1282,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getModuleName)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getNamespaceName)
 {
 
-	RETURN_MEMBER(getThis(), "namespaceName");
+	RETURN_MEMBER_TYPED(getThis(), "namespaceName", IS_STRING);
 }
 
 /**
@@ -1428,7 +1428,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParams)
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameters)
 {
 
-	RETURN_MEMBER(getThis(), "params");
+	RETURN_MEMBER_TYPED(getThis(), "params", IS_ARRAY);
 }
 
 /**

@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, append)
 PHP_METHOD(Phalcon_Html_Helper_Title, get)
 {
 
-	RETURN_MEMBER(getThis(), "title");
+	RETURN_MEMBER_TYPED(getThis(), "title", IS_STRING);
 }
 
 /**

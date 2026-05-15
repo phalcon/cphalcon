@@ -1643,7 +1643,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getColumnList)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getConnectionId)
 {
 
-	RETURN_MEMBER(getThis(), "connectionId");
+	RETURN_MEMBER_TYPED(getThis(), "connectionId", IS_STRING);
 }
 
 /**
@@ -1729,7 +1729,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDefaultValue)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDescriptor)
 {
 
-	RETURN_MEMBER(getThis(), "descriptor");
+	RETURN_MEMBER_TYPED(getThis(), "descriptor", IS_ARRAY);
 }
 
 /**
@@ -1747,7 +1747,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDialect)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDialectType)
 {
 
-	RETURN_MEMBER(getThis(), "dialectType");
+	RETURN_MEMBER_TYPED(getThis(), "dialectType", IS_STRING);
 }
 
 /**
@@ -1779,7 +1779,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getNestedTransactionSavepointName
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getRealSQLStatement)
 {
 
-	RETURN_MEMBER(getThis(), "realSqlStatement");
+	RETURN_MEMBER_TYPED(getThis(), "realSqlStatement", IS_STRING);
 }
 
 /**
@@ -1788,7 +1788,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getRealSQLStatement)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLBindTypes)
 {
 
-	RETURN_MEMBER(getThis(), "sqlBindTypes");
+	RETURN_MEMBER_TYPED(getThis(), "sqlBindTypes", IS_ARRAY);
 }
 
 /**
@@ -1797,7 +1797,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLBindTypes)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLStatement)
 {
 
-	RETURN_MEMBER(getThis(), "sqlStatement");
+	RETURN_MEMBER_TYPED(getThis(), "sqlStatement", IS_STRING);
 }
 
 /**
@@ -1806,7 +1806,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLStatement)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLVariables)
 {
 
-	RETURN_MEMBER(getThis(), "sqlVariables");
+	RETURN_MEMBER_TYPED(getThis(), "sqlVariables", IS_ARRAY);
 }
 
 /**
@@ -1815,7 +1815,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLVariables)
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**

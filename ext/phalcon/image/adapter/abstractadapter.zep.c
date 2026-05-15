@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, flip)
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getHeight)
 {
 
-	RETURN_MEMBER(getThis(), "height");
+	RETURN_MEMBER_TYPED(getThis(), "height", IS_LONG);
 }
 
 /**
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getImage)
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getMime)
 {
 
-	RETURN_MEMBER(getThis(), "mime");
+	RETURN_MEMBER_TYPED(getThis(), "mime", IS_STRING);
 }
 
 /**
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getMime)
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getRealpath)
 {
 
-	RETURN_MEMBER(getThis(), "realpath");
+	RETURN_MEMBER_TYPED(getThis(), "realpath", IS_STRING);
 }
 
 /**
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getRealpath)
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
 }
 
 /**
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getType)
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, getWidth)
 {
 
-	RETURN_MEMBER(getThis(), "width");
+	RETURN_MEMBER_TYPED(getThis(), "width", IS_LONG);
 }
 
 /**

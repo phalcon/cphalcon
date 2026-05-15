@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct)
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows)
 {
 
-	RETURN_MEMBER(getThis(), "affectedRows");
+	RETURN_MEMBER_TYPED(getThis(), "affectedRows", IS_LONG);
 }
 
 /**
@@ -1248,7 +1248,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getInternalHandler)
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getTransactionLevel)
 {
 
-	RETURN_MEMBER(getThis(), "transactionLevel");
+	RETURN_MEMBER_TYPED(getThis(), "transactionLevel", IS_LONG);
 }
 
 /**

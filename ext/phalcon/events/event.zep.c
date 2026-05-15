@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource)
 PHP_METHOD(Phalcon_Events_Event, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**

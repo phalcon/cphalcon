@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getMessages)
 PHP_METHOD(Phalcon_Filter_Validation, getValidators)
 {
 
-	RETURN_MEMBER(getThis(), "validators");
+	RETURN_MEMBER_TYPED(getThis(), "validators", IS_ARRAY);
 }
 
 /**

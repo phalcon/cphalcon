@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogFormat)
 {
 
-	RETURN_MEMBER(getThis(), "logFormat");
+	RETURN_MEMBER_TYPED(getThis(), "logFormat", IS_STRING);
 }
 
 /**
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogger)
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogLevel)
 {
 
-	RETURN_MEMBER(getThis(), "logLevel");
+	RETURN_MEMBER_TYPED(getThis(), "logLevel", IS_STRING);
 }
 
 /**
