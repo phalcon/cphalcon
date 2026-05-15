@@ -124,7 +124,7 @@ class Console extends AbstractApplication
 
         let dispatcher = <Dispatcher> this->container->getShared("dispatcher");
 
-        dispatcher->setModuleName(router->getModuleName());
+        dispatcher->setModuleName(moduleName);
         dispatcher->setTaskName(router->getTaskName());
         dispatcher->setActionName(router->getActionName());
         dispatcher->setParams(router->getParameters());

@@ -623,4 +623,34 @@ final class HandleTest extends AbstractUnitTestCase
         $actual = $console->handle([]);
         $this->assertFalse($actual);
     }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17013
+     */
+    public function testCliConsoleHandlePropagatesDefaultModuleToDispatcher(): void
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $console->setDefaultModule('backend');
+
+        $dispatcher = $console->dispatcher;
+        $dispatcher->setNamespaceName('Phalcon\Tests\Support\Modules\Backend\Tasks');
+
+        $console->handle(
+            [
+                'action' => 'noop',
+            ]
+        );
+
+        $this->assertSame('backend', $dispatcher->getModuleName());
+    }
 }

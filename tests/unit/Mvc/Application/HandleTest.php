@@ -14,10 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Exception;
+use Phalcon\Di\Di;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class HandleTest extends AbstractUnitTestCase
@@ -97,6 +101,50 @@ final class HandleTest extends AbstractUnitTestCase
         $expected = 'whoops: whups bad controller';
         $actual   = $response->getContent();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17013
+     */
+    public function testMvcApplicationHandlePropagatesDefaultModuleToDispatcher(): void
+    {
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'className' => FrontendModule::class,
+                ],
+            ]
+        );
+        $application->setDefaultModule('frontend');
+        $application->setDI($di);
+
+        $application->handle('/index');
+
+        $dispatcher = $di->getShared('dispatcher');
+        $this->assertSame('frontend', $dispatcher->getModuleName());
     }
 
     /**
