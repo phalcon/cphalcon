@@ -11,6 +11,7 @@
 namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\Dialect;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
@@ -53,6 +54,15 @@ class Postgresql extends Dialect
         }
 
         return sql;
+    }
+
+    /**
+     * Generates SQL to add a CHECK constraint to an existing table.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " ADD " . this->getCheckClause(check, "\"");
     }
 
     /**
@@ -125,7 +135,7 @@ class Postgresql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, indexType, onDelete, onUpdate,
-            columnDefinition;
+            columnDefinition, checks, check;
         array createLines, primaryColumns;
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
@@ -256,6 +266,15 @@ class Postgresql extends Dialect
             }
         }
 
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "\"");
+            }
+        }
+
         let sql .= join(",\n\t", createLines) . "\n)";
         if isset definition["options"] {
             let sql .= " " . this->getTableOptions(definition);
@@ -367,6 +386,15 @@ class Postgresql extends Dialect
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN \"" . columnName . "\"";
+    }
+
+    /**
+     * Generates SQL to delete a CHECK constraint from a table
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP CONSTRAINT \"" . checkName . "\"";
     }
 
     /**

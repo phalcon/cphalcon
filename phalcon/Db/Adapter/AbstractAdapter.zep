@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
@@ -217,6 +218,21 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 column
+            )
+        );
+    }
+
+    /**
+     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
+     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->addCheck(
+                tableName,
+                schemaName,
+                check
             )
         );
     }
@@ -474,6 +490,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 columnName
+            )
+        );
+    }
+
+    /**
+     * Drops a CHECK constraint from a table. SQLite throws.
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropCheck(
+                tableName,
+                schemaName,
+                checkName
             )
         );
     }

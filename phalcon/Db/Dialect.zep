@@ -639,6 +639,30 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Builds a CHECK constraint clause from a `CheckInterface`, using the
+     * provided escape character for the constraint name (so each dialect
+     * gets its native quoting). Returns the clause body — the dialect's
+     * `createTable()` / `addCheck()` is expected to prefix `ADD` or place
+     * the result on its own line as appropriate.
+     */
+    protected function getCheckClause(<CheckInterface> check, string escapeChar = "`") -> string
+    {
+        var name;
+        string clause;
+
+        let name = check->getName();
+
+        let clause = "";
+        if name !== "" {
+            let clause = "CONSTRAINT " . escapeChar . name . escapeChar . " ";
+        }
+
+        let clause .= "CHECK (" . check->getExpression() . ")";
+
+        return clause;
+    }
+
+    /**
      * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
      * generated/computed column. Returns an empty string when the column is
      * not generated. When `forceStored` is `true` the clause is always emitted

@@ -19,9 +19,22 @@ use Phalcon\Db\ReferenceInterface;
 
 /**
  * Interface for Phalcon\Db adapters
+ *
+ * @todo v7 — promote the CHECK-constraint methods below to required interface
+ *            members. They live as commented-out stubs to avoid breaking
+ *            third-party implementations of this interface in the v5 line:
+ *              - addCheck()  : bool
+ *              - dropCheck() : bool
  */
 interface AdapterInterface
 {
+    /**
+     * @todo v7 — uncomment when promoting the CHECK-constraint API.
+     *
+     * Adds a CHECK constraint to a table.
+     */
+    // public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> bool;
+
     /**
      * Adds a column to a table
      */
@@ -116,6 +129,13 @@ interface AdapterInterface
      * Drops a column from a table
      */
     public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting the CHECK-constraint API.
+     *
+     * Drops a CHECK constraint from a table.
+     */
+    // public function dropCheck(string! tableName, string! schemaName, string! checkName) -> bool;
 
     /**
      * Drops a foreign key from a table

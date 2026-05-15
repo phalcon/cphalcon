@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
@@ -66,6 +67,17 @@ class Sqlite extends Dialect
     }
 
     /**
+     * SQLite cannot ALTER an existing table to add a CHECK constraint;
+     * the constraint must be declared at CREATE TABLE time.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
+    {
+        throw new Exception(
+            "Adding a CHECK constraint to an existing table is not supported by SQLite"
+        );
+    }
+
+    /**
      * Generates SQL to add an index to a table
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
@@ -119,7 +131,7 @@ class Sqlite extends Dialect
     {
         var columns, table, temporary, options, createLines, columnLine,
             column, indexes, index, indexName, indexType, references, reference,
-            defaultValue, referenceSql, onDelete, onUpdate;
+            defaultValue, referenceSql, onDelete, onUpdate, checks, check;
         bool hasPrimary;
         string sql;
 
@@ -238,6 +250,15 @@ class Sqlite extends Dialect
             }
         }
 
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "`");
+            }
+        }
+
         let sql .= join(",\n\t", createLines) . "\n)";
 
         return sql;
@@ -312,6 +333,16 @@ class Sqlite extends Dialect
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
     {
         throw new Exception("Dropping DB column is not supported by SQLite");
+    }
+
+    /**
+     * SQLite cannot DROP a CHECK constraint from an existing table.
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
+    {
+        throw new Exception(
+            "Dropping a CHECK constraint is not supported by SQLite"
+        );
     }
 
     /**

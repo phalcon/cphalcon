@@ -11,6 +11,7 @@
 namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\Dialect;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
@@ -81,6 +82,16 @@ class Mysql extends Dialect
     }
 
     /**
+     * Generates SQL to add a CHECK constraint to an existing table.
+     * Enforced by MySQL 8.0.16+.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " ADD " . this->getCheckClause(check, "`");
+    }
+
+    /**
      * Generates SQL to add an index to a table
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
@@ -146,7 +157,7 @@ class Mysql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, columnLine, indexType, onDelete,
-            onUpdate, defaultValue, upperDefaultValue;
+            onUpdate, defaultValue, upperDefaultValue, checks, check;
         array createLines;
         string indexSql, referenceSql, sql;
 
@@ -278,6 +289,15 @@ class Mysql extends Dialect
             }
         }
 
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "`");
+            }
+        }
+
         let sql .= join(",\n\t", createLines) . "\n)";
 
         if isset definition["options"] {
@@ -378,6 +398,15 @@ class Mysql extends Dialect
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN `" . columnName . "`";
+    }
+
+    /**
+     * Generates SQL to delete a CHECK constraint from a table
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP CHECK `" . checkName . "`";
     }
 
     /**

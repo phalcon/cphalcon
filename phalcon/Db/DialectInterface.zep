@@ -12,6 +12,12 @@ namespace Phalcon\Db;
 
 /**
  * Interface for Phalcon\Db dialects
+ *
+ * @todo v7 — promote the CHECK-constraint methods below to required interface
+ *            members. They live as commented-out stubs to avoid breaking
+ *            third-party implementations of this interface in the v5 line:
+ *              - addCheck()  : string
+ *              - dropCheck() : string
  */
 interface DialectInterface
 {
@@ -19,6 +25,13 @@ interface DialectInterface
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting the CHECK-constraint API.
+     *
+     * Generates SQL to add a CHECK constraint to an existing table.
+     */
+    // public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string;
 
     /**
      * Generates SQL to add an index to a table
@@ -69,6 +82,13 @@ interface DialectInterface
      * Generates SQL to delete a column from a table
      */
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting the CHECK-constraint API.
+     *
+     * Generates SQL to delete a CHECK constraint from a table.
+     */
+    // public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string;
 
     /**
      * Generates SQL to delete a foreign key from a table
