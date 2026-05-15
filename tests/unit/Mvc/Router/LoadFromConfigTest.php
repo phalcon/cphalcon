@@ -154,7 +154,7 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
         ]);
 
         $router->handle('/no/such/route');
-        $this->assertSame('errors',  $router->getControllerName());
+        $this->assertSame('errors', $router->getControllerName());
         $this->assertSame('show404', $router->getActionName());
     }
 
@@ -171,8 +171,8 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $router->handle('/about/');
 
-        $this->assertSame('About',  $router->getControllerName());
-        $this->assertSame('index',  $router->getActionName());
+        $this->assertSame('About', $router->getControllerName());
+        $this->assertSame('index', $router->getActionName());
     }
 
     public function testLoadFromConfigMountsGroups(): void
@@ -195,9 +195,9 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
 
         $routes = $router->getRoutes();
         $this->assertCount(2, $routes);
-        $this->assertSame('/api/v1/users',     $routes[0]->getPattern());
-        $this->assertSame('api.example.com',   $routes[0]->getHostname());
-        $this->assertSame('GET',  $routes[0]->getHttpMethods());
+        $this->assertSame('/api/v1/users', $routes[0]->getPattern());
+        $this->assertSame('api.example.com', $routes[0]->getHostname());
+        $this->assertSame('GET', $routes[0]->getHttpMethods());
         $this->assertSame('POST', $routes[1]->getHttpMethods());
     }
 
