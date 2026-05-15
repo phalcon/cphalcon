@@ -297,9 +297,9 @@ class Column implements ColumnInterface
     /**
      * Column Position
      *
-     * @var string
+     * @var string|null
      */
-    protected after = "";
+    protected after = null;
 
     /**
      * Column is autoIncrement?
@@ -554,7 +554,7 @@ class Column implements ColumnInterface
     /**
      * Check whether field absolute to position in table
      */
-    public function getAfterPosition() -> string
+    public function getAfterPosition() -> string | null
     {
         return this->after;
     }
@@ -610,7 +610,7 @@ class Column implements ColumnInterface
     /**
      * Column data type
      */
-    public function getType() -> int
+    public function getType() -> int | string
     {
         return this->type;
     }

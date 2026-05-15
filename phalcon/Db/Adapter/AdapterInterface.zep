@@ -205,7 +205,7 @@ interface AdapterInterface
     /**
      * Gets the active connection unique identifier
      */
-    public function getConnectionId() -> string;
+    public function getConnectionId() -> int;
 
     /**
      * Return descriptor used to connect to the active database

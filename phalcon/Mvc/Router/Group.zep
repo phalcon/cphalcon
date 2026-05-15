@@ -355,7 +355,7 @@ class Group implements GroupInterface
     /**
      * Returns the common prefix for all the routes
      */
-    public function getPrefix() -> string
+    public function getPrefix() -> string | null
     {
         return this->prefix;
     }
