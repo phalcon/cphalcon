@@ -490,8 +490,14 @@ class Mysql extends PdoAdapter
              * `EXTRA` contains `VIRTUAL GENERATED` or `STORED GENERATED` for
              * generated columns; `COLUMN_DEFAULT` is always NULL for them so
              * the regular default/auto-increment branches below are skipped.
+             *
+             * Note: a non-generated column with `DEFAULT CURRENT_TIMESTAMP`
+             * has EXTRA `DEFAULT_GENERATED` (and possibly `on update ...`),
+             * which also contains the substring `GENERATED`. Match the
+             * specific `VIRTUAL GENERATED` / `STORED GENERATED` tokens to
+             * avoid the false positive.
              */
-            if extraValue !== null && memstr(extraValue, "GENERATED") {
+            if extraValue !== null && (memstr(extraValue, "VIRTUAL GENERATED") || memstr(extraValue, "STORED GENERATED")) {
                 if isset field[9] {
                     let generationExpression = field[9];
                 } else {

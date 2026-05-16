@@ -104,7 +104,7 @@ class Index implements IndexInterface
      *
      * @var string
      */
-    protected type;
+    protected type = "";
 
     /**
      * Optional partial-index `WHERE` predicate. Supported by PostgreSQL and
