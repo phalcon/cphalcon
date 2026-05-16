@@ -23,9 +23,10 @@ use Phalcon\Db\ResultInterface;
  * @todo v7 — promote the methods below to required interface members. They
  *            live as commented-out stubs to avoid breaking third-party
  *            implementations of this interface in the v5 line:
- *              - addCheck()  : bool
- *              - dropCheck() : bool
- *              - returning() : string
+ *              - addCheck()         : bool
+ *              - dropCheck()        : bool
+ *              - onConflictUpdate() : string
+ *              - returning()        : string
  */
 interface Adapter
 {
@@ -390,6 +391,13 @@ interface Adapter
         array! bindParams = [],
         array! bindTypes = []
     ) -> <ResultInterface> | bool;
+
+    /**
+     * @todo v7 — uncomment when promoting ON CONFLICT API.
+     *
+     * Appends an ON CONFLICT (...) DO UPDATE SET ... upsert clause.
+     */
+    // public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string;
 
     /**
      * Releases given savepoint

@@ -20,9 +20,10 @@ use Phalcon\Db\ReferenceInterface;
  * @todo v7 — promote the methods below to required interface members. They
  *            live as commented-out stubs to avoid breaking third-party
  *            implementations of this interface in the v5 line:
- *              - addCheck()  : string
- *              - dropCheck() : string
- *              - returning() : string
+ *              - addCheck()         : string
+ *              - dropCheck()        : string
+ *              - onConflictUpdate() : string
+ *              - returning()        : string
  */
 interface Dialect
 {
@@ -187,6 +188,13 @@ interface Dialect
         <ColumnInterface> column,
         <ColumnInterface> currentColumn = null
     ) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting ON CONFLICT API.
+     *
+     * Appends an ON CONFLICT (...) DO UPDATE SET ... upsert clause.
+     */
+    // public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string;
 
     /**
      * Registers custom SQL functions

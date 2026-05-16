@@ -1213,6 +1213,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. Supported by
+     * PostgreSQL and SQLite 3.24+; MySQL throws.
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        return this->dialect->onConflictUpdate(
+            sqlQuery,
+            conflictColumns,
+            updateColumns
+        );
+    }
+
+    /**
      * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
      * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
      * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.

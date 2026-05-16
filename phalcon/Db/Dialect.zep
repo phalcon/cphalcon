@@ -477,6 +477,41 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Appends an `ON CONFLICT (col, ...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. The syntax is the
+     * SQL standard form recognized by PostgreSQL (9.5+) and SQLite (3.24+).
+     * MySQL overrides this method to throw because its `ON DUPLICATE KEY
+     * UPDATE` has a different shape (deferred to parser item #23).
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        var col;
+        array assignments;
+
+        if unlikely empty conflictColumns {
+            throw new Exception(
+                "ON CONFLICT requires at least one conflict-target column"
+            );
+        }
+
+        if unlikely empty updateColumns {
+            throw new Exception(
+                "ON CONFLICT DO UPDATE requires at least one update column"
+            );
+        }
+
+        let assignments = [];
+        for col in updateColumns {
+            let assignments[] = this->escape((string) col)
+                . " = excluded." . this->escape((string) col);
+        }
+
+        return sqlQuery
+            . " ON CONFLICT (" . this->getColumnList(conflictColumns) . ")"
+            . " DO UPDATE SET " . implode(", ", assignments);
+    }
+
+    /**
      * Returns a SQL statement extended with a `RETURNING` clause so the
      * INSERT/UPDATE/DELETE returns rows. Supported by PostgreSQL and
      * SQLite 3.35+. Pass `["*"]` for `RETURNING *`, or a list of column

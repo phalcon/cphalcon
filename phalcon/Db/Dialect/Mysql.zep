@@ -867,6 +867,21 @@ class Mysql extends Dialect
     }
 
     /**
+     * MySQL does not support the SQL-standard `ON CONFLICT DO UPDATE`
+     * upsert syntax — it has its own `INSERT ... ON DUPLICATE KEY UPDATE`
+     * which requires PHQL grammar work (deferred). The base helper is
+     * overridden here to throw, preventing accidental emission of invalid
+     * SQL on MySQL connections.
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        throw new Exception(
+            "ON CONFLICT upserts are not supported by MySQL; use "
+            . "INSERT ... ON DUPLICATE KEY UPDATE via raw SQL instead"
+        );
+    }
+
+    /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause. The `modifier`
      * argument is accepted for signature parity with the contract but is
      * silently ignored on MySQL — its legacy `LOCK IN SHARE MODE` syntax has
