@@ -365,6 +365,62 @@ class Column implements ColumnInterface
     const TYPE_DATERANGE = 39;
 
     /**
+     * Spatial `GEOMETRY` base type (MySQL 5.7+; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_GEOMETRY = 40;
+
+    /**
+     * Spatial `POINT` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_POINT = 41;
+
+    /**
+     * Spatial `LINESTRING` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_LINESTRING = 42;
+
+    /**
+     * Spatial `POLYGON` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_POLYGON = 43;
+
+    /**
+     * Spatial `MULTIPOINT` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTIPOINT = 44;
+
+    /**
+     * Spatial `MULTILINESTRING` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTILINESTRING = 45;
+
+    /**
+     * Spatial `MULTIPOLYGON` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTIPOLYGON = 46;
+
+    /**
+     * Spatial `GEOMETRYCOLLECTION` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_GEOMETRYCOLLECTION = 47;
+
+    /**
      * Column Position
      *
      * @var string|null

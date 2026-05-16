@@ -371,6 +371,50 @@ class Mysql extends PdoAdapter
                     break;
 
                 /**
+                 * Spatial types — order matters: detect the multi-* and
+                 * geometrycollection variants before the bare names.
+                 */
+                case starts_with(columnType, "multipoint", true):
+                    let definition["type"] = Column::TYPE_MULTIPOINT;
+
+                    break;
+
+                case starts_with(columnType, "multilinestring", true):
+                    let definition["type"] = Column::TYPE_MULTILINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "multipolygon", true):
+                    let definition["type"] = Column::TYPE_MULTIPOLYGON;
+
+                    break;
+
+                case starts_with(columnType, "geometrycollection", true):
+                    let definition["type"] = Column::TYPE_GEOMETRYCOLLECTION;
+
+                    break;
+
+                case starts_with(columnType, "linestring", true):
+                    let definition["type"] = Column::TYPE_LINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "polygon", true):
+                    let definition["type"] = Column::TYPE_POLYGON;
+
+                    break;
+
+                case starts_with(columnType, "point", true):
+                    let definition["type"] = Column::TYPE_POINT;
+
+                    break;
+
+                case starts_with(columnType, "geometry", true):
+                    let definition["type"] = Column::TYPE_GEOMETRY;
+
+                    break;
+
+                /**
                  * Default
                  */
                 default:

@@ -723,6 +723,62 @@ class Mysql extends Dialect
 
                 break;
 
+            case Column::TYPE_GEOMETRY:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRY";
+                }
+
+                break;
+
+            case Column::TYPE_POINT:
+                if empty columnSql {
+                    let columnSql .= "POINT";
+                }
+
+                break;
+
+            case Column::TYPE_LINESTRING:
+                if empty columnSql {
+                    let columnSql .= "LINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_POLYGON:
+                if empty columnSql {
+                    let columnSql .= "POLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOINT:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOINT";
+                }
+
+                break;
+
+            case Column::TYPE_MULTILINESTRING:
+                if empty columnSql {
+                    let columnSql .= "MULTILINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOLYGON:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_GEOMETRYCOLLECTION:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRYCOLLECTION";
+                }
+
+                break;
+
             default:
                 if unlikely empty columnSql {
                     throw new Exception(
