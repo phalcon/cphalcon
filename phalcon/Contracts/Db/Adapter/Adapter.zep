@@ -23,10 +23,13 @@ use Phalcon\Db\ResultInterface;
  * @todo v7 — promote the methods below to required interface members. They
  *            live as commented-out stubs to avoid breaking third-party
  *            implementations of this interface in the v5 line:
- *              - addCheck()         : bool
- *              - dropCheck()        : bool
- *              - onConflictUpdate() : string
- *              - returning()        : string
+ *              - addCheck()                : bool
+ *              - createMaterializedView()  : bool
+ *              - dropCheck()               : bool
+ *              - dropMaterializedView()    : bool
+ *              - onConflictUpdate()        : string
+ *              - refreshMaterializedView() : bool
+ *              - returning()               : string
  */
 interface Adapter
 {
@@ -393,11 +396,32 @@ interface Adapter
     ) -> <ResultInterface> | bool;
 
     /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Creates a materialized view (PostgreSQL only).
+     */
+    // public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Drops a materialized view (PostgreSQL only).
+     */
+    // public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> bool;
+
+    /**
      * @todo v7 — uncomment when promoting ON CONFLICT API.
      *
      * Appends an ON CONFLICT (...) DO UPDATE SET ... upsert clause.
      */
     // public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Refreshes a materialized view (PostgreSQL only).
+     */
+    // public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> bool;
 
     /**
      * Releases given savepoint

@@ -1213,6 +1213,50 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Creates a materialized view (PostgreSQL only — MySQL and SQLite
+     * throw via the dialect).
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->createMaterializedView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
+    }
+
+    /**
+     * Drops a materialized view (PostgreSQL only).
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropMaterializedView(
+                viewName,
+                schemaName,
+                ifExists
+            )
+        );
+    }
+
+    /**
+     * Refreshes a materialized view (PostgreSQL only). Pass
+     * `concurrent = true` for non-blocking refresh.
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->refreshMaterializedView(
+                viewName,
+                schemaName,
+                concurrent
+            )
+        );
+    }
+
+    /**
      * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
      * upsert clause to the supplied INSERT statement. Supported by
      * PostgreSQL and SQLite 3.24+; MySQL throws.

@@ -20,10 +20,13 @@ use Phalcon\Db\ReferenceInterface;
  * @todo v7 — promote the methods below to required interface members. They
  *            live as commented-out stubs to avoid breaking third-party
  *            implementations of this interface in the v5 line:
- *              - addCheck()         : string
- *              - dropCheck()        : string
- *              - onConflictUpdate() : string
- *              - returning()        : string
+ *              - addCheck()                : string
+ *              - createMaterializedView()  : string
+ *              - dropCheck()               : string
+ *              - dropMaterializedView()    : string
+ *              - onConflictUpdate()        : string
+ *              - refreshMaterializedView() : string
+ *              - returning()               : string
  */
 interface Dialect
 {
@@ -190,11 +193,32 @@ interface Dialect
     ) -> string;
 
     /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Generates SQL to create a materialized view (PostgreSQL only).
+     */
+    // public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Generates SQL to drop a materialized view (PostgreSQL only).
+     */
+    // public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string;
+
+    /**
      * @todo v7 — uncomment when promoting ON CONFLICT API.
      *
      * Appends an ON CONFLICT (...) DO UPDATE SET ... upsert clause.
      */
     // public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting materialized-view API.
+     *
+     * Generates SQL to refresh a materialized view (PostgreSQL only).
+     */
+    // public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string;
 
     /**
      * Registers custom SQL functions

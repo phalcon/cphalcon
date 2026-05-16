@@ -477,6 +477,41 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Generates SQL to create a materialized view. Supported by PostgreSQL
+     * (`CREATE MATERIALIZED VIEW name AS <sql>`). Other dialects inherit
+     * this throw — MySQL and SQLite have no materialized-view concept.
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
+     * Generates SQL to drop a materialized view. Supported by PostgreSQL.
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
+     * Generates SQL to refresh a materialized view. Supported by
+     * PostgreSQL. Pass `concurrent = true` for `REFRESH MATERIALIZED VIEW
+     * CONCURRENTLY ...`, which avoids blocking concurrent SELECTs (requires
+     * the view to have a unique index).
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
      * Appends an `ON CONFLICT (col, ...) DO UPDATE SET col = excluded.col`
      * upsert clause to the supplied INSERT statement. The syntax is the
      * SQL standard form recognized by PostgreSQL (9.5+) and SQLite (3.24+).

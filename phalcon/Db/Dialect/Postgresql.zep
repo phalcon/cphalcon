@@ -298,6 +298,24 @@ class Postgresql extends Dialect
     }
 
     /**
+     * Generates SQL to create a materialized view.
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
+    {
+        var viewSql;
+
+        if unlikely !fetch viewSql, definition["sql"] {
+            throw new Exception(
+                "The index 'sql' is required in the definition array"
+            );
+        }
+
+        return "CREATE MATERIALIZED VIEW "
+            . this->prepareTable(viewName, schemaName)
+            . " AS " . viewSql;
+    }
+
+    /**
      * Generates SQL to create a view
      */
     public function createView(string! viewName, array! definition, string schemaName = null) -> string
@@ -451,6 +469,22 @@ class Postgresql extends Dialect
     }
 
     /**
+     * Generates SQL to drop a materialized view.
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
+    {
+        var view;
+
+        let view = this->prepareTable(viewName, schemaName);
+
+        if ifExists {
+            return "DROP MATERIALIZED VIEW IF EXISTS " . view;
+        }
+
+        return "DROP MATERIALIZED VIEW " . view;
+    }
+
+    /**
      * Generates SQL to drop a view
      */
     public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
@@ -464,6 +498,24 @@ class Postgresql extends Dialect
         }
 
         return "DROP VIEW " . view;
+    }
+
+    /**
+     * Generates SQL to refresh a materialized view. When `concurrent` is
+     * true, emits `REFRESH MATERIALIZED VIEW CONCURRENTLY ...` (avoids
+     * blocking concurrent SELECTs; requires a unique index on the view).
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
+    {
+        var view;
+
+        let view = this->prepareTable(viewName, schemaName);
+
+        if concurrent {
+            return "REFRESH MATERIALIZED VIEW CONCURRENTLY " . view;
+        }
+
+        return "REFRESH MATERIALIZED VIEW " . view;
     }
 
     /**
