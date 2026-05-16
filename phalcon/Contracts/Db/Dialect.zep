@@ -208,9 +208,14 @@ interface Dialect
     public function select(array! definition) -> string;
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a shared-lock clause. MySQL emits
+     * `LOCK IN SHARE MODE`; PostgreSQL emits `FOR SHARE`; SQLite returns the
+     * original query unchanged. The optional `modifier` appends a row-lock
+     * disposition keyword (`Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED`)
+     * for PostgreSQL — MySQL's legacy `LOCK IN SHARE MODE` does not support
+     * modifiers, so non-empty values are silently ignored on MySQL.
      */
-    public function sharedLock(string! sqlQuery) -> string;
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string;
 
     /**
      * Checks whether the platform supports releasing savepoints.

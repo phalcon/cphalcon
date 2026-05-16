@@ -1203,11 +1203,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a shared-lock clause. The optional
+     * `modifier` is passed straight to the dialect (use
+     * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->sharedLock(sqlQuery);
+        return this->dialect->sharedLock(sqlQuery, modifier);
     }
 
     /**

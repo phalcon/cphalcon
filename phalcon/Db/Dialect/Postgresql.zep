@@ -700,12 +700,29 @@ class Postgresql extends Dialect
     }
 
     /**
-     * Returns a SQL modified a shared lock statement. For now this method
-     * returns the original query
+     * Returns a SQL modified with a `FOR SHARE` clause — PostgreSQL's
+     * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
+     * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`
+     * or `Dialect::LOCK_SKIP_LOCKED`).
+     *
+     *```php
+     * echo $dialect->sharedLock("SELECT * FROM robots");
+     * // SELECT * FROM robots FOR SHARE
+     *
+     * echo $dialect->sharedLock(
+     *     "SELECT * FROM robots",
+     *     Dialect::LOCK_NOWAIT
+     * );
+     * // SELECT * FROM robots FOR SHARE NOWAIT
+     *```
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
-        return sqlQuery;
+        if modifier !== "" {
+            return sqlQuery . " FOR SHARE " . modifier;
+        }
+
+        return sqlQuery . " FOR SHARE";
     }
 
     /**

@@ -846,7 +846,11 @@ class Mysql extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a LOCK IN SHARE MODE clause. The `modifier`
+     * argument is accepted for signature parity with the contract but is
+     * silently ignored on MySQL — its legacy `LOCK IN SHARE MODE` syntax has
+     * no `NOWAIT` / `SKIP LOCKED` variant. Callers needing those modifiers
+     * should target PostgreSQL or stay on `forUpdate()`.
      *
      *```php
      * $sql = $dialect->sharedLock("SELECT * FROM robots");
@@ -854,7 +858,7 @@ class Mysql extends Dialect
      * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
      *```
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
         return sqlQuery . " LOCK IN SHARE MODE";
     }

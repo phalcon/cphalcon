@@ -647,10 +647,10 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified a shared lock statement. For now this method
-     * returns the original query
+     * SQLite has no row-level shared-lock construct, so the original query
+     * is returned unchanged regardless of the `modifier` argument.
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
         return sqlQuery;
     }

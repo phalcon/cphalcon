@@ -406,9 +406,12 @@ interface Adapter
     public function rollbackSavepoint(string! name) -> bool;
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a shared-lock clause. See the dialect's
+     * `sharedLock()` for per-engine semantics. The optional `modifier` is
+     * passed straight through (use `Dialect::LOCK_NOWAIT` /
+     * `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock(string! sqlQuery) -> string;
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string;
 
     /**
      * Set if nested transactions should use savepoints
