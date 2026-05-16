@@ -509,8 +509,9 @@ class Mysql extends PdoAdapter
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexType, indexObjects, columns, name;
-        bool invisible;
+        var indexes, index, keyName, indexType, indexObjects, columns, name,
+            directions, collation;
+        bool invisible, anyDirection;
 
         let indexes = [];
 
@@ -530,6 +531,31 @@ class Mysql extends PdoAdapter
 
             let columns[] = index["Column_name"];
             let indexes[keyName]["columns"] = columns;
+
+            /**
+             * `SHOW INDEXES.Collation` is `A` for ASC, `D` for DESC (the
+             * latter only meaningful from MySQL 8.0, where DESC indexes are
+             * actually honored). Older versions and unsorted indexes report
+             * NULL — treat those as ASC.
+             */
+            if !isset indexes[keyName]["directions"] {
+                let directions = [];
+            } else {
+                let directions = indexes[keyName]["directions"];
+            }
+
+            let collation = "";
+            if isset index["Collation"] && index["Collation"] !== null {
+                let collation = (string) index["Collation"];
+            }
+
+            if collation == "D" {
+                let directions[] = "DESC";
+            } else {
+                let directions[] = "ASC";
+            }
+
+            let indexes[keyName]["directions"] = directions;
 
             if keyName == "PRIMARY" {
                 let indexes[keyName]["type"] = "PRIMARY";
@@ -559,12 +585,31 @@ class Mysql extends PdoAdapter
                 let invisible = (bool) index["invisible"];
             }
 
+            /**
+             * Only carry `directions` through to the Index when at least one
+             * column is non-ASC. All-ASC defaults to an empty array so the
+             * dialect emits the legacy plain `(col1, col2)` rendering.
+             */
+            let directions  = index["directions"],
+                anyDirection = false;
+            for collation in directions {
+                if collation == "DESC" {
+                    let anyDirection = true;
+                    break;
+                }
+            }
+
+            if !anyDirection {
+                let directions = [];
+            }
+
             let indexObjects[name] = new Index(
                 name,
                 [
-                    "columns":   index["columns"],
-                    "type":      index["type"],
-                    "invisible": invisible
+                    "columns":    index["columns"],
+                    "type":       index["type"],
+                    "invisible":  invisible,
+                    "directions": directions
                 ]
             );
         }

@@ -63,6 +63,16 @@ class Index implements IndexInterface
     protected columns;
 
     /**
+     * Per-column sort directions (`ASC` / `DESC`). Empty array means
+     * "emit no per-column direction" — preserves the legacy plain
+     * `(col1, col2)` rendering. When populated, entries shorter than
+     * the columns list default to `ASC` for the missing positions.
+     *
+     * @var array
+     */
+    protected directions = [];
+
+    /**
      * Whether the index is declared `INVISIBLE` (MySQL 8.0+). Invisible
      * indexes are ignored by the optimizer — useful for testing what
      * happens when an index is removed before actually dropping it.
@@ -97,7 +107,7 @@ class Index implements IndexInterface
      */
     public function __construct(string! name, array! columnsOrDefinition, string type = "")
     {
-        var definitionType, invisible;
+        var definitionType, invisible, directions;
 
         let this->name = name;
 
@@ -117,6 +127,16 @@ class Index implements IndexInterface
             if fetch invisible, columnsOrDefinition["invisible"] {
                 let this->invisible = (bool) invisible;
             }
+
+            if fetch directions, columnsOrDefinition["directions"] {
+                if unlikely typeof directions != "array" {
+                    throw new Exception(
+                        "Index definition 'directions' key must be an array"
+                    );
+                }
+
+                let this->directions = directions;
+            }
         } else {
             let this->columns = columnsOrDefinition;
             let this->type    = type;
@@ -129,6 +149,18 @@ class Index implements IndexInterface
     public function getColumns() -> array
     {
         return this->columns;
+    }
+
+    /**
+     * Returns the per-column sort directions array (`ASC` / `DESC`).
+     * Empty array means the index was declared without explicit per-column
+     * directions and dialects emit the columns plainly. When populated,
+     * entries are aligned with `getColumns()`; missing trailing positions
+     * default to `ASC` at emission time.
+     */
+    public function getDirections() -> array
+    {
+        return this->directions;
     }
 
     /**

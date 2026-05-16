@@ -148,7 +148,7 @@ class Mysql extends Dialect
         }
 
         let sql .= "`" . index->getName() . "` ("
-            . this->getColumnList(index->getColumns()) . ")";
+            . this->getIndexColumnList(index) . ")";
 
         if index->isInvisible() {
             let sql .= " INVISIBLE";
@@ -278,12 +278,12 @@ class Mysql extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" {
-                    let indexSql = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let indexSql = "PRIMARY KEY (" . this->getIndexColumnList(index) . ")";
                 } else {
                     if !empty indexType {
-                        let indexSql = indexType . " KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = indexType . " KEY `" . indexName . "` (" . this->getIndexColumnList(index) . ")";
                     } else {
-                        let indexSql = "KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = "KEY `" . indexName . "` (" . this->getIndexColumnList(index) . ")";
                     }
 
                     if index->isInvisible() {

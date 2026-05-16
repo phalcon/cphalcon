@@ -13,11 +13,11 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Index.
  *
- * @todo v7 — promote the invisible-index method below to a required
- *            interface member. It lives as a commented-out stub to avoid
- *            breaking third-party implementations of this interface in the
- *            v5 line:
- *              - isInvisible() : bool
+ * @todo v7 — promote the methods below to required interface members.
+ *            They live as commented-out stubs to avoid breaking third-party
+ *            implementations of this interface in the v5 line:
+ *              - getDirections() : array
+ *              - isInvisible()   : bool
  */
 interface Index
 {
@@ -25,6 +25,14 @@ interface Index
      * Gets the columns that corresponds the index
      */
     public function getColumns() -> array;
+
+    /**
+     * @todo v7 — uncomment when promoting descending-index API.
+     *
+     * Returns the per-column sort directions (`ASC` / `DESC`). Empty array
+     * means no per-column direction was declared.
+     */
+    // public function getDirections() -> array;
 
     /**
      * Gets the index name

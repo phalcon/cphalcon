@@ -112,7 +112,7 @@ class Sqlite extends Dialect
             let sql .= "\"" . index->getName() . "\"";
         }
 
-        let sql .= " ON \"" . tableName . "\" (" . this->getColumnList(index->getColumns()) . ")";
+        let sql .= " ON \"" . tableName . "\" (" . this->getIndexColumnList(index) . ")";
 
         return sql;
     }
@@ -226,9 +226,9 @@ class Sqlite extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" && !hasPrimary {
-                    let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let createLines[] = "PRIMARY KEY (" . this->getIndexColumnList(index) . ")";
                 } elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
-                    let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
+                    let createLines[] = "UNIQUE (" . this->getIndexColumnList(index) . ")";
                 }
             }
         }

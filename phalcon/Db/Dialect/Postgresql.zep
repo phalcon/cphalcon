@@ -116,7 +116,7 @@ class Postgresql extends Dialect
         }
         let sql .= " INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
-        let sql .= " (" . this->getColumnList(index->getColumns()) . ")";
+        let sql .= " (" . this->getIndexColumnList(index) . ")";
 
         return sql;
     }
@@ -222,14 +222,16 @@ class Postgresql extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" {
-                    let indexSql = "CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let indexSql = "CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getIndexColumnList(index) . ")";
                 } else {
                     if !empty indexType {
-                        let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = "CONSTRAINT \"" . indexName . "\" "
+                            . indexType . " ("
+                            . this->getIndexColumnList(index) . ")";
                     } else {
                         let indexSqlAfterCreate .= "CREATE INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
-                        let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
+                        let indexSqlAfterCreate .= " (" . this->getIndexColumnList(index) . ");";
                     }
                 }
 

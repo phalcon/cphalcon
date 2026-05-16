@@ -679,6 +679,47 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Builds the per-index parenthesized column list, honoring per-column
+     * sort directions when the index declares any. Returns the bare
+     * comma-separated `getColumnList()` output when no directions are set,
+     * preserving the legacy rendering exactly. When directions are set,
+     * each column is followed by ` ASC` or ` DESC`; trailing positions
+     * absent from the directions array default to `ASC`.
+     */
+    protected function getIndexColumnList(<IndexInterface> index) -> string
+    {
+        var columns, directions, parts, i, column, direction, upper;
+
+        let columns    = index->getColumns();
+        let directions = index->getDirections();
+
+        if empty directions {
+            return this->getColumnList(columns);
+        }
+
+        let parts = [],
+            i     = 0;
+
+        for column in columns {
+            if fetch direction, directions[i] {
+                let upper = strtoupper((string) direction);
+
+                if upper == "DESC" {
+                    let parts[] = this->escape(column) . " DESC";
+                } else {
+                    let parts[] = this->escape(column) . " ASC";
+                }
+            } else {
+                let parts[] = this->escape(column) . " ASC";
+            }
+
+            let i = i + 1;
+        }
+
+        return implode(", ", parts);
+    }
+
+    /**
      * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
      * generated/computed column. Returns an empty string when the column is
      * not generated. When `forceStored` is `true` the clause is always emitted
