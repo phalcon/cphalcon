@@ -648,6 +648,76 @@ class Postgresql extends Dialect
 
                 break;
 
+            case Column::TYPE_BYTEA:
+                if empty columnSql {
+                    let columnSql .= "BYTEA";
+                }
+
+                break;
+
+            case Column::TYPE_INET:
+                if empty columnSql {
+                    let columnSql .= "INET";
+                }
+
+                break;
+
+            case Column::TYPE_CIDR:
+                if empty columnSql {
+                    let columnSql .= "CIDR";
+                }
+
+                break;
+
+            case Column::TYPE_MACADDR:
+                if empty columnSql {
+                    let columnSql .= "MACADDR";
+                }
+
+                break;
+
+            case Column::TYPE_INT4RANGE:
+                if empty columnSql {
+                    let columnSql .= "INT4RANGE";
+                }
+
+                break;
+
+            case Column::TYPE_INT8RANGE:
+                if empty columnSql {
+                    let columnSql .= "INT8RANGE";
+                }
+
+                break;
+
+            case Column::TYPE_NUMRANGE:
+                if empty columnSql {
+                    let columnSql .= "NUMRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_TSRANGE:
+                if empty columnSql {
+                    let columnSql .= "TSRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_TSTZRANGE:
+                if empty columnSql {
+                    let columnSql .= "TSTZRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_DATERANGE:
+                if empty columnSql {
+                    let columnSql .= "DATERANGE";
+                }
+
+                break;
+
             default:
                 if unlikely empty columnSql {
                     throw new Exception(
@@ -672,6 +742,10 @@ class Postgresql extends Dialect
                         let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
                     }
                 }
+        }
+
+        if column->isArray() {
+            let columnSql .= "[]";
         }
 
         return columnSql;

@@ -295,11 +295,90 @@ class Column implements ColumnInterface
     const TYPE_VARCHAR = 2;
 
     /**
+     * PostgreSQL `BYTEA` binary type
+     *
+     * @var int
+     */
+    const TYPE_BYTEA = 30;
+
+    /**
+     * PostgreSQL `INET` IPv4/IPv6 address type
+     *
+     * @var int
+     */
+    const TYPE_INET = 31;
+
+    /**
+     * PostgreSQL `CIDR` network-address type
+     *
+     * @var int
+     */
+    const TYPE_CIDR = 32;
+
+    /**
+     * PostgreSQL `MACADDR` MAC-address type
+     *
+     * @var int
+     */
+    const TYPE_MACADDR = 33;
+
+    /**
+     * PostgreSQL `INT4RANGE` range-of-integer type
+     *
+     * @var int
+     */
+    const TYPE_INT4RANGE = 34;
+
+    /**
+     * PostgreSQL `INT8RANGE` range-of-bigint type
+     *
+     * @var int
+     */
+    const TYPE_INT8RANGE = 35;
+
+    /**
+     * PostgreSQL `NUMRANGE` range-of-numeric type
+     *
+     * @var int
+     */
+    const TYPE_NUMRANGE = 36;
+
+    /**
+     * PostgreSQL `TSRANGE` range-of-timestamp (without time zone) type
+     *
+     * @var int
+     */
+    const TYPE_TSRANGE = 37;
+
+    /**
+     * PostgreSQL `TSTZRANGE` range-of-timestamp (with time zone) type
+     *
+     * @var int
+     */
+    const TYPE_TSTZRANGE = 38;
+
+    /**
+     * PostgreSQL `DATERANGE` range-of-date type
+     *
+     * @var int
+     */
+    const TYPE_DATERANGE = 39;
+
+    /**
      * Column Position
      *
      * @var string|null
      */
     protected after = null;
+
+    /**
+     * Whether the column is an array of its base type. Recognized by the
+     * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`). MySQL and SQLite
+     * ignore the flag.
+     *
+     * @var bool
+     */
+    protected isArray = false;
 
     /**
      * Column is autoIncrement?
@@ -441,7 +520,8 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues, comment, generated, generationStored, invisible;
+            typeValues, comment, generated, generationStored, invisible,
+            isArray;
 
         let this->name = name;
 
@@ -618,6 +698,13 @@ class Column implements ColumnInterface
         if fetch invisible, definition["invisible"] {
             let this->invisible = (bool) invisible;
         }
+
+        /**
+         * Whether the column is an array of its base type (PostgreSQL).
+         */
+        if fetch isArray, definition["array"] {
+            let this->isArray = (bool) isArray;
+        }
     }
 
     /**
@@ -719,6 +806,16 @@ class Column implements ColumnInterface
         }
 
         return this->defaultValue !== null;
+    }
+
+    /**
+     * Whether the column is an array of its base type. Recognized by the
+     * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`); MySQL and SQLite
+     * ignore the flag.
+     */
+    public function isArray() -> bool
+    {
+        return this->isArray;
     }
 
     /**

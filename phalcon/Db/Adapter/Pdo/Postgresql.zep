@@ -459,12 +459,89 @@ class Postgresql extends PdoAdapter
                     break;
 
                 /**
+                 * BYTEA
+                 */
+                case memstr(columnType, "bytea"):
+                    let definition["type"] = Column::TYPE_BYTEA;
+
+                    break;
+
+                /**
+                 * INET
+                 */
+                case memstr(columnType, "inet"):
+                    let definition["type"] = Column::TYPE_INET;
+
+                    break;
+
+                /**
+                 * CIDR
+                 */
+                case memstr(columnType, "cidr"):
+                    let definition["type"] = Column::TYPE_CIDR;
+
+                    break;
+
+                /**
+                 * MACADDR
+                 */
+                case memstr(columnType, "macaddr"):
+                    let definition["type"] = Column::TYPE_MACADDR;
+
+                    break;
+
+                /**
+                 * Range types — order matters: more-specific names first
+                 * (`tstzrange` before `tsrange`, etc.).
+                 */
+                case memstr(columnType, "int4range"):
+                    let definition["type"] = Column::TYPE_INT4RANGE;
+
+                    break;
+
+                case memstr(columnType, "int8range"):
+                    let definition["type"] = Column::TYPE_INT8RANGE;
+
+                    break;
+
+                case memstr(columnType, "numrange"):
+                    let definition["type"] = Column::TYPE_NUMRANGE;
+
+                    break;
+
+                case memstr(columnType, "tstzrange"):
+                    let definition["type"] = Column::TYPE_TSTZRANGE;
+
+                    break;
+
+                case memstr(columnType, "tsrange"):
+                    let definition["type"] = Column::TYPE_TSRANGE;
+
+                    break;
+
+                case memstr(columnType, "daterange"):
+                    let definition["type"] = Column::TYPE_DATERANGE;
+
+                    break;
+
+                /**
                  * Default
                  */
                 default:
                     let definition["type"] = Column::TYPE_VARCHAR;
 
                     break;
+            }
+
+            /**
+             * Detect PostgreSQL array types. `data_type` reads `ARRAY` for
+             * array columns; in that case we still need the inner type
+             * (already captured above via the `columnType` switch on the
+             * element type's name when present in `udt_name` patterns), but
+             * for `information_schema.data_type == ARRAY` we just flag it.
+             */
+            if memstr(columnType, "ARRAY") || memstr(columnType, "[]") {
+                let definition["array"] = true;
             }
 
             /**

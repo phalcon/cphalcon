@@ -13,11 +13,11 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Column.
  *
- * @todo v7 — promote the generated-column and invisible-column methods below
- *            to required interface members. They live as commented-out stubs
- *            to avoid breaking third-party implementations of this interface
- *            in the v5 line:
+ * @todo v7 — promote the methods below to required interface members.
+ *            They live as commented-out stubs to avoid breaking third-party
+ *            implementations of this interface in the v5 line:
  *              - getGenerationExpression() : string | null
+ *              - isArray()                 : bool
  *              - isGenerated()             : bool
  *              - isGenerationStored()      : bool
  *              - isInvisible()             : bool
@@ -82,6 +82,13 @@ interface Column
      * Check whether column has default value
      */
     public function hasDefault() -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting array-column API.
+     *
+     * Whether the column is an array of its base type (PostgreSQL).
+     */
+    // public function isArray() -> bool;
 
     /**
      * Auto-Increment
