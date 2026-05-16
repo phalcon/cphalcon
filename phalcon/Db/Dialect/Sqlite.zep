@@ -654,6 +654,32 @@ class Sqlite extends Dialect
     }
 
     /**
+     * Appends a `RETURNING` clause to the supplied INSERT/UPDATE/DELETE
+     * statement. Supported by SQLite 3.35+. Pass `["*"]` for `RETURNING *`,
+     * or a list of column names.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        var first;
+
+        if unlikely empty columns {
+            throw new Exception(
+                "RETURNING requires at least one column or '*'"
+            );
+        }
+
+        if count(columns) == 1 {
+            let first = (string) columns[0];
+
+            if first == "*" {
+                return sqlQuery . " RETURNING *";
+            }
+        }
+
+        return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
      * SQLite has no row-level shared-lock construct, so the original query
      * is returned unchanged regardless of the `modifier` argument.
      */

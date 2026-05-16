@@ -477,6 +477,20 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Returns a SQL statement extended with a `RETURNING` clause so the
+     * INSERT/UPDATE/DELETE returns rows. Supported by PostgreSQL and
+     * SQLite 3.35+. Pass `["*"]` for `RETURNING *`, or a list of column
+     * names. The base implementation throws — MySQL inherits it because
+     * MySQL has no RETURNING construct.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        throw new Exception(
+            "RETURNING clauses are not supported by this dialect"
+        );
+    }
+
+    /**
      * Generate SQL to release a savepoint
      */
     public function releaseSavepoint(string! name) -> string

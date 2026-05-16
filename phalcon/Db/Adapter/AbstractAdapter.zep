@@ -1213,6 +1213,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
+     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
+     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        return this->dialect->returning(sqlQuery, columns);
+    }
+
+    /**
      * Check whether the database system requires a sequence to produce
      * auto-numeric values
      */

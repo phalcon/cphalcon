@@ -20,11 +20,12 @@ use Phalcon\Db\ResultInterface;
 /**
  * Canonical contract for Phalcon\Db adapters.
  *
- * @todo v7 — promote the CHECK-constraint methods below to required interface
- *            members. They live as commented-out stubs to avoid breaking
- *            third-party implementations of this interface in the v5 line:
+ * @todo v7 — promote the methods below to required interface members. They
+ *            live as commented-out stubs to avoid breaking third-party
+ *            implementations of this interface in the v5 line:
  *              - addCheck()  : bool
  *              - dropCheck() : bool
+ *              - returning() : string
  */
 interface Adapter
 {
@@ -394,6 +395,13 @@ interface Adapter
      * Releases given savepoint
      */
     public function releaseSavepoint(string! name) -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting RETURNING API.
+     *
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE statement.
+     */
+    // public function returning(string! sqlQuery, array! columns) -> string;
 
     /**
      * Rollbacks the active transaction in the connection

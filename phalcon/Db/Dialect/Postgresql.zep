@@ -706,6 +706,31 @@ class Postgresql extends Dialect
     }
 
     /**
+     * Appends a `RETURNING` clause to the supplied INSERT/UPDATE/DELETE
+     * statement. Pass `["*"]` for `RETURNING *`, or a list of column names.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        var first;
+
+        if unlikely empty columns {
+            throw new Exception(
+                "RETURNING requires at least one column or '*'"
+            );
+        }
+
+        if count(columns) == 1 {
+            let first = (string) columns[0];
+
+            if first == "*" {
+                return sqlQuery . " RETURNING *";
+            }
+        }
+
+        return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
      * Returns a SQL modified with a `FOR SHARE` clause — PostgreSQL's
      * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
      * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`
