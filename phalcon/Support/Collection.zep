@@ -16,7 +16,6 @@ use Countable;
 use IteratorAggregate;
 use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
-use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
 use Traversable;
@@ -222,7 +221,7 @@ class Collection implements
      *
      * @return static
      */
-    public function each(callable callback) -> <CollectionContract>
+    public function each(callable callback) -> <CollectionInterface>
     {
         var key, value;
 
@@ -244,7 +243,7 @@ class Collection implements
      *
      * @return static
      */
-    public function filter(callable callback) -> <CollectionContract>
+    public function filter(callable callback) -> <CollectionInterface>
     {
         var key, result, value;
 
@@ -478,7 +477,7 @@ class Collection implements
      *
      * @return static
      */
-    public function map(callable callback) -> <CollectionContract>
+    public function map(callable callback) -> <CollectionInterface>
     {
         var key, result, value;
 
@@ -639,7 +638,7 @@ class Collection implements
      *
      * @return static
      */
-    public function sort(var callback = null, int order = 4) -> <CollectionContract>
+    public function sort(var callback = null, int order = 4) -> <CollectionInterface>
     {
         var result;
 
@@ -727,7 +726,7 @@ class Collection implements
      *
      * @return static
      */
-    public function where(string propertyOrMethod, mixed value) -> <CollectionContract>
+    public function where(string propertyOrMethod, mixed value) -> <CollectionInterface>
     {
         var key, result, item;
 
