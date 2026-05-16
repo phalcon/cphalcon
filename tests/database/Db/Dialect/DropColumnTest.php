@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Database\Db\Dialect;
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
-use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 
 final class DropColumnTest extends AbstractDatabaseTestCase
@@ -36,27 +35,11 @@ final class DropColumnTest extends AbstractDatabaseTestCase
                 Postgresql::class,
                 'ALTER TABLE "schema"."table" DROP COLUMN "column"',
             ],
+            [
+                Sqlite::class,
+                'ALTER TABLE "schema"."table" DROP COLUMN "column"',
+            ],
         ];
-    }
-
-    /**
-     * Tests Phalcon\Db\Dialect :: dropColumn - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     *
-     * @group sqlite
-     */
-    public function testDbDialectDropColumnSqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Dropping DB column is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $dialect->dropColumn('table', 'schema', 'column');
     }
 
     /**

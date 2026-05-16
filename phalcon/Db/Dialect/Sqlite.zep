@@ -340,11 +340,17 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Generates SQL to delete a column from a table
+     * Generates SQL to delete a column from a table.
+     *
+     * SQLite 3.35+ supports `ALTER TABLE ... DROP COLUMN ...` directly. On
+     * older versions the server rejects the statement at execution time;
+     * cphalcon no longer pre-empts that rejection at the dialect level so
+     * callers on 3.35+ can use the feature.
      */
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
     {
-        throw new Exception("Dropping DB column is not supported by SQLite");
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP COLUMN \"" . columnName . "\"";
     }
 
     /**
