@@ -52,6 +52,10 @@ class Mysql extends Dialect
             let sql .= " NULL";
         }
 
+        if column->isInvisible() {
+            let sql .= " INVISIBLE";
+        }
+
         if !column->isGenerated() {
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
@@ -206,6 +210,10 @@ class Mysql extends Dialect
                 // Query won't be executed if NULL wasn't specified
                 // Even if DEFAULT NULL was specified
                 let columnLine .= " NULL";
+            }
+
+            if column->isInvisible() {
+                let columnLine .= " INVISIBLE";
             }
 
             if !column->isGenerated() {
@@ -801,6 +809,10 @@ class Mysql extends Dialect
             // Query won't be executed if NULL wasn't specified
             // Even if DEFAULT NULL was specified
             let sql .= " NULL";
+        }
+
+        if column->isInvisible() {
+            let sql .= " INVISIBLE";
         }
 
         if !column->isGenerated() {

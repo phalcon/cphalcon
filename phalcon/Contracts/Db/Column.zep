@@ -13,12 +13,14 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Column.
  *
- * @todo v7 — promote the generated-column methods below to required interface
- *            members. They live as commented-out stubs to avoid breaking
- *            third-party implementations of this interface in the v5 line:
+ * @todo v7 — promote the generated-column and invisible-column methods below
+ *            to required interface members. They live as commented-out stubs
+ *            to avoid breaking third-party implementations of this interface
+ *            in the v5 line:
  *              - getGenerationExpression() : string | null
  *              - isGenerated()             : bool
  *              - isGenerationStored()      : bool
+ *              - isInvisible()             : bool
  */
 interface Column
 {
@@ -104,6 +106,13 @@ interface Column
      * Whether a generated column is STORED. false = VIRTUAL.
      */
     // public function isGenerationStored() -> bool;
+
+    /**
+     * @todo v7 — uncomment when promoting invisible-column API.
+     *
+     * Whether the column is declared INVISIBLE (MySQL 8.0.23+).
+     */
+    // public function isInvisible() -> bool;
 
     /**
      * Not null

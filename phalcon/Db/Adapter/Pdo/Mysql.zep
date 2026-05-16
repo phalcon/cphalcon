@@ -430,6 +430,16 @@ class Mysql extends PdoAdapter
             }
 
             /**
+             * Detect an INVISIBLE column from the EXTRA flag (MySQL 8.0.23+).
+             * EXTRA may concatenate INVISIBLE with other flags, e.g.
+             * `INVISIBLE STORED GENERATED`, so we use a substring match.
+             */
+            let extraValue = field[6];
+            if extraValue !== null && memstr(extraValue, "INVISIBLE") {
+                let definition["invisible"] = true;
+            }
+
+            /**
              * Detect a generated/computed column from the EXTRA flag and
              * populate the expression from GENERATION_EXPRESSION.
              *
@@ -437,7 +447,6 @@ class Mysql extends PdoAdapter
              * generated columns; `COLUMN_DEFAULT` is always NULL for them so
              * the regular default/auto-increment branches below are skipped.
              */
-            let extraValue = field[6];
             if extraValue !== null && memstr(extraValue, "GENERATED") {
                 if isset field[9] {
                     let generationExpression = field[9];

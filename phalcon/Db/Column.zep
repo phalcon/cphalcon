@@ -361,6 +361,15 @@ class Column implements ColumnInterface
     protected isNumeric = false;
 
     /**
+     * Whether the column is `INVISIBLE` (MySQL 8.0.23+). Invisible columns
+     * are excluded from `SELECT *` expansion but can still be referenced
+     * explicitly.
+     *
+     * @var bool
+     */
+    protected invisible = false;
+
+    /**
      * Column's name
      *
      * @var string
@@ -432,7 +441,7 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues, comment, generated, generationStored;
+            typeValues, comment, generated, generationStored, invisible;
 
         let this->name = name;
 
@@ -602,6 +611,13 @@ class Column implements ColumnInterface
         if fetch generationStored, definition["generationStored"] {
             let this->generationStored = (bool) generationStored;
         }
+
+        /**
+         * Whether the column is INVISIBLE (MySQL 8.0.23+).
+         */
+        if fetch invisible, definition["invisible"] {
+            let this->invisible = (bool) invisible;
+        }
     }
 
     /**
@@ -736,6 +752,17 @@ class Column implements ColumnInterface
     public function isGenerationStored() -> bool
     {
         return this->generationStored;
+    }
+
+    /**
+     * Whether the column is declared `INVISIBLE` (MySQL 8.0.23+). Invisible
+     * columns are excluded from `SELECT *` expansion but can still be
+     * referenced explicitly. PostgreSQL and SQLite have no equivalent and
+     * dialects targeting them ignore the flag.
+     */
+    public function isInvisible() -> bool
+    {
+        return this->invisible;
     }
 
     /**
