@@ -510,6 +510,7 @@ class Mysql extends PdoAdapter
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexType, indexObjects, columns, name;
+        bool invisible;
 
         let indexes = [];
 
@@ -539,15 +540,32 @@ class Mysql extends PdoAdapter
             } else {
                 let indexes[keyName]["type"] = "";
             }
+
+            /**
+             * `Visible` is a MySQL 8.0+ column from `SHOW INDEXES` — `NO`
+             * marks an INVISIBLE index. On older MySQL versions the field
+             * is absent and the index defaults to visible.
+             */
+            if isset index["Visible"] && index["Visible"] == "NO" {
+                let indexes[keyName]["invisible"] = true;
+            }
         }
 
         let indexObjects = [];
 
         for name, index in indexes {
+            let invisible = false;
+            if isset index["invisible"] {
+                let invisible = (bool) index["invisible"];
+            }
+
             let indexObjects[name] = new Index(
                 name,
-                index["columns"],
-                index["type"]
+                [
+                    "columns":   index["columns"],
+                    "type":      index["type"],
+                    "invisible": invisible
+                ]
             );
         }
 

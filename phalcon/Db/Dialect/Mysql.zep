@@ -147,7 +147,12 @@ class Mysql extends Dialect
             let sql .= " ADD INDEX ";
         }
 
-        let sql .= "`" . index->getName() . "` (" . this->getColumnList(index->getColumns()) . ")";
+        let sql .= "`" . index->getName() . "` ("
+            . this->getColumnList(index->getColumns()) . ")";
+
+        if index->isInvisible() {
+            let sql .= " INVISIBLE";
+        }
 
         return sql;
     }
@@ -279,6 +284,10 @@ class Mysql extends Dialect
                         let indexSql = indexType . " KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
                     } else {
                         let indexSql = "KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+                    }
+
+                    if index->isInvisible() {
+                        let indexSql .= " INVISIBLE";
                     }
                 }
 
