@@ -13,9 +13,9 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Column.
  *
- * @todo v7 — promote the methods below to required interface members.
- *            They live as commented-out stubs to avoid breaking third-party
- *            implementations of this interface in the v5 line:
+ * @todo v7 — these will become required interface members. They are
+ *            omitted from the v5 line to avoid breaking third-party
+ *            implementors:
  *              - getGenerationExpression() : string | null
  *              - isArray()                 : bool
  *              - isGenerated()             : bool
@@ -38,14 +38,6 @@ interface Column
      * Returns default value of column
      */
     public function getDefault() -> var;
-
-    /**
-     * @todo v7 — uncomment when promoting generated-column API.
-     *
-     * Returns the generation expression for a generated/computed column,
-     * or null when the column is not generated.
-     */
-    // public function getGenerationExpression() -> string | null;
 
     /**
      * Returns column name
@@ -84,13 +76,6 @@ interface Column
     public function hasDefault() -> bool;
 
     /**
-     * @todo v7 — uncomment when promoting array-column API.
-     *
-     * Whether the column is an array of its base type (PostgreSQL).
-     */
-    // public function isArray() -> bool;
-
-    /**
      * Auto-Increment
      */
     public function isAutoIncrement() -> bool;
@@ -99,27 +84,6 @@ interface Column
      * Check whether column have first position in table
      */
     public function isFirst() -> bool;
-
-    /**
-     * @todo v7 — uncomment when promoting generated-column API.
-     *
-     * Whether the column is a generated/computed column.
-     */
-    // public function isGenerated() -> bool;
-
-    /**
-     * @todo v7 — uncomment when promoting generated-column API.
-     *
-     * Whether a generated column is STORED. false = VIRTUAL.
-     */
-    // public function isGenerationStored() -> bool;
-
-    /**
-     * @todo v7 — uncomment when promoting invisible-column API.
-     *
-     * Whether the column is declared INVISIBLE (MySQL 8.0.23+).
-     */
-    // public function isInvisible() -> bool;
 
     /**
      * Not null

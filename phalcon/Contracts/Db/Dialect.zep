@@ -17,9 +17,9 @@ use Phalcon\Db\ReferenceInterface;
 /**
  * Canonical contract for Phalcon\Db dialects.
  *
- * @todo v7 — promote the methods below to required interface members. They
- *            live as commented-out stubs to avoid breaking third-party
- *            implementations of this interface in the v5 line:
+ * @todo v7 — these will become required interface members. They are
+ *            omitted from the v5 line to avoid breaking third-party
+ *            implementors:
  *              - addCheck()                : string
  *              - createMaterializedView()  : string
  *              - dropCheck()               : string
@@ -54,13 +54,6 @@ interface Dialect
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting the CHECK-constraint API.
-     *
-     * Generates SQL to add a CHECK constraint to an existing table.
-     */
-    // public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string;
 
     /**
      * Generates SQL to add an index to a table
@@ -111,13 +104,6 @@ interface Dialect
      * Generates SQL to delete a column from a table
      */
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting the CHECK-constraint API.
-     *
-     * Generates SQL to delete a CHECK constraint from a table.
-     */
-    // public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string;
 
     /**
      * Generates SQL to delete a foreign key from a table
@@ -193,44 +179,9 @@ interface Dialect
     ) -> string;
 
     /**
-     * @todo v7 — uncomment when promoting materialized-view API.
-     *
-     * Generates SQL to create a materialized view (PostgreSQL only).
-     */
-    // public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting materialized-view API.
-     *
-     * Generates SQL to drop a materialized view (PostgreSQL only).
-     */
-    // public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting ON CONFLICT API.
-     *
-     * Appends an ON CONFLICT (...) DO UPDATE SET ... upsert clause.
-     */
-    // public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting materialized-view API.
-     *
-     * Generates SQL to refresh a materialized view (PostgreSQL only).
-     */
-    // public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string;
-
-    /**
      * Registers custom SQL functions
      */
     public function registerCustomFunction(string name, callable customFunction) -> <\Phalcon\Db\Dialect>;
-
-    /**
-     * @todo v7 — uncomment when promoting RETURNING API.
-     *
-     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE statement.
-     */
-    // public function returning(string! sqlQuery, array! columns) -> string;
 
     /**
      * Generate SQL to release a savepoint

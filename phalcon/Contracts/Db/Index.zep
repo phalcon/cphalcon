@@ -13,9 +13,9 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Index.
  *
- * @todo v7 — promote the methods below to required interface members.
- *            They live as commented-out stubs to avoid breaking third-party
- *            implementations of this interface in the v5 line:
+ * @todo v7 — these will become required interface members. They are
+ *            omitted from the v5 line to avoid breaking third-party
+ *            implementors:
  *              - getDirections() : array
  *              - getWhere()      : string
  *              - isConcurrent()  : bool
@@ -29,14 +29,6 @@ interface Index
     public function getColumns() -> array;
 
     /**
-     * @todo v7 — uncomment when promoting descending-index API.
-     *
-     * Returns the per-column sort directions (`ASC` / `DESC`). Empty array
-     * means no per-column direction was declared.
-     */
-    // public function getDirections() -> array;
-
-    /**
      * Gets the index name
      */
     public function getName() -> string;
@@ -46,24 +38,4 @@ interface Index
      */
     public function getType() -> string;
 
-    /**
-     * @todo v7 — uncomment when promoting partial-index API.
-     *
-     * Returns the partial-index WHERE predicate, or "" when none.
-     */
-    // public function getWhere() -> string;
-
-    /**
-     * @todo v7 — uncomment when promoting CREATE INDEX CONCURRENTLY API.
-     *
-     * Whether the index is built CONCURRENTLY (PostgreSQL only).
-     */
-    // public function isConcurrent() -> bool;
-
-    /**
-     * @todo v7 — uncomment when promoting invisible-index API.
-     *
-     * Whether the index is declared INVISIBLE (MySQL 8.0+).
-     */
-    // public function isInvisible() -> bool;
 }
