@@ -16,6 +16,7 @@ use Countable;
 use IteratorAggregate;
 use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
+use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
 use Traversable;

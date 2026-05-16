@@ -12,7 +12,6 @@ namespace Phalcon\Contracts\Support;
 
 use ArrayAccess;
 use IteratorAggregate;
-use Phalcon\Support\Collection\CollectionInterface;
 
 /**
  * Canonical contract for Phalcon\Support\Collection.
@@ -85,7 +84,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function filter(callable callback) -> <CollectionInterface>;
+    public function filter(callable callback) -> <Collection>;
 
     /**
      * Returns the first value in the collection or null when empty.
@@ -188,7 +187,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function map(callable callback) -> <CollectionInterface>;
+    public function map(callable callback) -> <Collection>;
 
     /**
      * Reduces the collection to a single value using the callback.
@@ -236,7 +235,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function sort(callable callback = null, int order = 4) -> <CollectionInterface>;
+    public function sort(callable callback = null, int order = 4) -> <Collection>;
 
     /**
      * Returns the collection as an array.
@@ -274,5 +273,5 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function where(string propertyOrMethod, mixed value) -> <CollectionInterface>;
+    public function where(string propertyOrMethod, mixed value) -> <Collection>;
 }
