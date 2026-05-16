@@ -118,6 +118,10 @@ class Postgresql extends Dialect
 
         let sql .= " (" . this->getIndexColumnList(index) . ")";
 
+        if index->getWhere() !== "" {
+            let sql .= " WHERE " . index->getWhere();
+        }
+
         return sql;
     }
 

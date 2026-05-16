@@ -97,6 +97,16 @@ class Index implements IndexInterface
     protected type;
 
     /**
+     * Optional partial-index `WHERE` predicate. Supported by PostgreSQL and
+     * SQLite (`CREATE INDEX ... WHERE <expr>`); MySQL has no partial-index
+     * concept and its dialect ignores this value. Empty string means no
+     * predicate.
+     *
+     * @var string
+     */
+    protected where = "";
+
+    /**
      * Phalcon\Db\Index constructor.
      *
      * Accepts either the legacy positional form `(name, columns, type)` or a
@@ -107,7 +117,7 @@ class Index implements IndexInterface
      */
     public function __construct(string! name, array! columnsOrDefinition, string type = "")
     {
-        var definitionType, invisible, directions;
+        var definitionType, invisible, directions, where;
 
         let this->name = name;
 
@@ -136,6 +146,16 @@ class Index implements IndexInterface
                 }
 
                 let this->directions = directions;
+            }
+
+            if fetch where, columnsOrDefinition["where"] {
+                if unlikely typeof where != "string" {
+                    throw new Exception(
+                        "Index definition 'where' key must be a string"
+                    );
+                }
+
+                let this->where = where;
             }
         } else {
             let this->columns = columnsOrDefinition;
@@ -177,6 +197,16 @@ class Index implements IndexInterface
     public function getType() -> string
     {
         return this->type;
+    }
+
+    /**
+     * Returns the partial-index `WHERE` predicate, or an empty string when
+     * the index has none. Supported by PostgreSQL and SQLite; ignored by
+     * the MySQL dialect (MySQL has no partial-index feature).
+     */
+    public function getWhere() -> string
+    {
+        return this->where;
     }
 
     /**

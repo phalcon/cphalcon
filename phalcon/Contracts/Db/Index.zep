@@ -17,6 +17,7 @@ namespace Phalcon\Contracts\Db;
  *            They live as commented-out stubs to avoid breaking third-party
  *            implementations of this interface in the v5 line:
  *              - getDirections() : array
+ *              - getWhere()      : string
  *              - isInvisible()   : bool
  */
 interface Index
@@ -43,6 +44,13 @@ interface Index
      * Gets the index type
      */
     public function getType() -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting partial-index API.
+     *
+     * Returns the partial-index WHERE predicate, or "" when none.
+     */
+    // public function getWhere() -> string;
 
     /**
      * @todo v7 — uncomment when promoting invisible-index API.

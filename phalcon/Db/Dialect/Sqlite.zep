@@ -114,6 +114,10 @@ class Sqlite extends Dialect
 
         let sql .= " ON \"" . tableName . "\" (" . this->getIndexColumnList(index) . ")";
 
+        if index->getWhere() !== "" {
+            let sql .= " WHERE " . index->getWhere();
+        }
+
         return sql;
     }
 
