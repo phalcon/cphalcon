@@ -16,6 +16,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
@@ -766,8 +767,18 @@ class Postgresql extends Dialect
         var defaultValue, columnDefinition, columnType;
         string  preparedValue;
 
-        let defaultValue = column->getDefault(),
-            columnDefinition = this->getColumnDefinition(column),
+        let defaultValue = column->getDefault();
+
+        /**
+         * RawValue defaults are emitted verbatim — this is how the caller
+         * signals an SQL expression (e.g. `nextval('seq')`, `gen_random_uuid()`,
+         * a function call, or any other dialect-specific expression).
+         */
+        if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+            return defaultValue->getValue();
+        }
+
+        let columnDefinition = this->getColumnDefinition(column),
             columnType = column->getType();
 
         if memstr(strtoupper(columnDefinition), "BOOLEAN") {

@@ -17,6 +17,7 @@ use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 
 /**
@@ -46,7 +47,9 @@ class Sqlite extends Dialect
         if !column->isGenerated() && column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                let sql .= " DEFAULT " . defaultValue->getValue();
+            } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -189,7 +192,9 @@ class Sqlite extends Dialect
                 if column->hasDefault() {
                     let defaultValue = column->getDefault();
 
-                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                    if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                        let columnLine .= " DEFAULT " . defaultValue->getValue();
+                    } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                         let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                     } else {
                         let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";

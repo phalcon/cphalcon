@@ -16,6 +16,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
@@ -54,12 +55,17 @@ class Mysql extends Dialect
         if !column->isGenerated() {
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
-                let upperDefaultValue = strtoupper(defaultValue);
 
-                if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                    let sql .= " DEFAULT " . defaultValue;
+                if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                    let sql .= " DEFAULT " . defaultValue->getValue();
                 } else {
-                    let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    let upperDefaultValue = strtoupper(defaultValue);
+
+                    if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                        let sql .= " DEFAULT " . defaultValue;
+                    } else {
+                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
                 }
             }
 
@@ -208,12 +214,17 @@ class Mysql extends Dialect
                  */
                 if column->hasDefault() {
                     let defaultValue = column->getDefault();
-                    let upperDefaultValue = strtoupper(defaultValue);
 
-                    if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                        let columnLine .= " DEFAULT " . defaultValue;
+                    if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                        let columnLine .= " DEFAULT " . defaultValue->getValue();
                     } else {
-                        let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        let upperDefaultValue = strtoupper(defaultValue);
+
+                        if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                            let columnLine .= " DEFAULT " . defaultValue;
+                        } else {
+                            let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        }
                     }
                 }
 
@@ -795,12 +806,17 @@ class Mysql extends Dialect
         if !column->isGenerated() {
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
-                let upperDefaultValue = strtoupper(defaultValue);
 
-                if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                    let sql .= " DEFAULT " . defaultValue;
-                }  else {
-                    let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                    let sql .= " DEFAULT " . defaultValue->getValue();
+                } else {
+                    let upperDefaultValue = strtoupper(defaultValue);
+
+                    if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                        let sql .= " DEFAULT " . defaultValue;
+                    }  else {
+                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
                 }
             }
 
