@@ -410,10 +410,12 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause. For SQLite it returns
-     * the original query
+     * Returns a SQL modified with a FOR UPDATE clause. SQLite has no
+     * row-level locking, so the original query is returned unchanged
+     * regardless of the `modifier` argument (`NOWAIT` / `SKIP LOCKED` are
+     * silently ignored).
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string
     {
         return sqlQuery;
     }

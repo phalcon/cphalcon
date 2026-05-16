@@ -91,16 +91,32 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
+     * appends a row-lock disposition keyword.
      *
      *```php
      * $sql = $dialect->forUpdate("SELECT * FROM robots");
-     *
      * echo $sql; // SELECT * FROM robots FOR UPDATE
+     *
+     * $sql = $dialect->forUpdate(
+     *     "SELECT * FROM robots",
+     *     Dialect::LOCK_NOWAIT
+     * );
+     * echo $sql; // SELECT * FROM robots FOR UPDATE NOWAIT
+     *
+     * $sql = $dialect->forUpdate(
+     *     "SELECT * FROM robots",
+     *     Dialect::LOCK_SKIP_LOCKED
+     * );
+     * echo $sql; // SELECT * FROM robots FOR UPDATE SKIP LOCKED
      *```
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string
     {
+        if modifier !== "" {
+            return sqlQuery . " FOR UPDATE " . modifier;
+        }
+
         return sqlQuery . " FOR UPDATE";
     }
 

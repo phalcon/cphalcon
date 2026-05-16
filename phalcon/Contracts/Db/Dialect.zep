@@ -26,6 +26,26 @@ use Phalcon\Db\ReferenceInterface;
 interface Dialect
 {
     /**
+     * No row-lock modifier — the default behavior for `forUpdate()`.
+     */
+    const LOCK_NONE = "";
+
+    /**
+     * Append `NOWAIT` to the `FOR UPDATE` clause — the query fails immediately
+     * if a row it needs is locked instead of blocking. MySQL 8.0+ and
+     * PostgreSQL 9.5+ recognize this. SQLite has no row-level locking and
+     * silently ignores the modifier.
+     */
+    const LOCK_NOWAIT = "NOWAIT";
+
+    /**
+     * Append `SKIP LOCKED` to the `FOR UPDATE` clause — the query returns
+     * rows that are not currently locked and silently skips ones that are.
+     * MySQL 8.0+ and PostgreSQL 9.5+ recognize this. SQLite ignores it.
+     */
+    const LOCK_SKIP_LOCKED = "SKIP LOCKED";
+
+    /**
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string;
@@ -120,9 +140,11 @@ interface Dialect
     public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string;
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
+     * appends a row-lock disposition keyword — pass `Dialect::LOCK_NOWAIT`
+     * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery) -> string;
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string;
 
     /**
      * Gets the column name in RDBMS

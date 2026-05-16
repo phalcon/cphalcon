@@ -213,9 +213,11 @@ interface Adapter
     public function fetchOne(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
+     * appends a row-lock disposition keyword — pass `Dialect::LOCK_NOWAIT`
+     * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery) -> string;
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string;
 
     /**
      * Returns the SQL column definition from a column
