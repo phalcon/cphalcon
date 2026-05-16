@@ -686,14 +686,28 @@ abstract class Dialect implements DialectInterface
      * each column is followed by ` ASC` or ` DESC`; trailing positions
      * absent from the directions array default to `ASC`.
      */
-    protected function getIndexColumnList(<IndexInterface> index) -> string
+    protected function getIndexColumnList(<IndexInterface> index, bool wrapExpressions = true) -> string
     {
-        var columns, directions, parts, i, column, direction, upper;
+        var columns, directions, parts, i, column, direction, upper, rendered;
+        bool hasExpression;
 
-        let columns    = index->getColumns();
-        let directions = index->getDirections();
+        let columns       = index->getColumns();
+        let directions    = index->getDirections();
+        let hasExpression = false;
 
-        if empty directions {
+        for column in columns {
+            if typeof column == "object" && column instanceof RawValue {
+                let hasExpression = true;
+                break;
+            }
+        }
+
+        /**
+         * Fast path: no expressions and no directions — return the legacy
+         * `getColumnList()` rendering verbatim so existing tests and call
+         * sites see no diff.
+         */
+        if !hasExpression && empty directions {
             return this->getColumnList(columns);
         }
 
@@ -701,19 +715,32 @@ abstract class Dialect implements DialectInterface
             i     = 0;
 
         for column in columns {
-            if fetch direction, directions[i] {
-                let upper = strtoupper((string) direction);
-
-                if upper == "DESC" {
-                    let parts[] = this->escape(column) . " DESC";
+            if typeof column == "object" && column instanceof RawValue {
+                if wrapExpressions {
+                    let rendered = "(" . column->getValue() . ")";
                 } else {
-                    let parts[] = this->escape(column) . " ASC";
+                    let rendered = column->getValue();
                 }
             } else {
-                let parts[] = this->escape(column) . " ASC";
+                let rendered = this->escape(column);
             }
 
-            let i = i + 1;
+            if !empty directions {
+                if fetch direction, directions[i] {
+                    let upper = strtoupper((string) direction);
+
+                    if upper == "DESC" {
+                        let rendered .= " DESC";
+                    } else {
+                        let rendered .= " ASC";
+                    }
+                } else {
+                    let rendered .= " ASC";
+                }
+            }
+
+            let parts[] = rendered;
+            let i      = i + 1;
         }
 
         return implode(", ", parts);
