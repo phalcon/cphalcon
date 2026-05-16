@@ -63,6 +63,16 @@ class Index implements IndexInterface
     protected columns;
 
     /**
+     * Whether to build the index without taking a strong lock that blocks
+     * writes — emits `CONCURRENTLY` between `INDEX` and the index name on
+     * PostgreSQL (`CREATE INDEX CONCURRENTLY name ON ...`). MySQL and
+     * SQLite have no equivalent and ignore the flag.
+     *
+     * @var bool
+     */
+    protected concurrent = false;
+
+    /**
      * Per-column sort directions (`ASC` / `DESC`). Empty array means
      * "emit no per-column direction" — preserves the legacy plain
      * `(col1, col2)` rendering. When populated, entries shorter than
@@ -117,7 +127,7 @@ class Index implements IndexInterface
      */
     public function __construct(string! name, array! columnsOrDefinition, string type = "")
     {
-        var definitionType, invisible, directions, where;
+        var definitionType, invisible, directions, where, concurrent;
 
         let this->name = name;
 
@@ -156,6 +166,10 @@ class Index implements IndexInterface
                 }
 
                 let this->where = where;
+            }
+
+            if fetch concurrent, columnsOrDefinition["concurrently"] {
+                let this->concurrent = (bool) concurrent;
             }
         } else {
             let this->columns = columnsOrDefinition;
@@ -207,6 +221,15 @@ class Index implements IndexInterface
     public function getWhere() -> string
     {
         return this->where;
+    }
+
+    /**
+     * Whether the index is built `CONCURRENTLY` (PostgreSQL only). MySQL
+     * and SQLite have no equivalent and ignore the flag.
+     */
+    public function isConcurrent() -> bool
+    {
+        return this->concurrent;
     }
 
     /**

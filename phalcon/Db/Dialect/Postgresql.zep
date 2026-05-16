@@ -114,7 +114,13 @@ class Postgresql extends Dialect
         if !empty indexType {
             let sql .= " " . indexType;
         }
-        let sql .= " INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
+        let sql .= " INDEX";
+
+        if index->isConcurrent() {
+            let sql .= " CONCURRENTLY";
+        }
+
+        let sql .= " \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
         let sql .= " (" . this->getIndexColumnList(index) . ")";
 

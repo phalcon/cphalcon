@@ -18,6 +18,7 @@ namespace Phalcon\Contracts\Db;
  *            implementations of this interface in the v5 line:
  *              - getDirections() : array
  *              - getWhere()      : string
+ *              - isConcurrent()  : bool
  *              - isInvisible()   : bool
  */
 interface Index
@@ -51,6 +52,13 @@ interface Index
      * Returns the partial-index WHERE predicate, or "" when none.
      */
     // public function getWhere() -> string;
+
+    /**
+     * @todo v7 — uncomment when promoting CREATE INDEX CONCURRENTLY API.
+     *
+     * Whether the index is built CONCURRENTLY (PostgreSQL only).
+     */
+    // public function isConcurrent() -> bool;
 
     /**
      * @todo v7 — uncomment when promoting invisible-index API.
