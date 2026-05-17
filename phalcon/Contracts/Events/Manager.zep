@@ -90,6 +90,11 @@ interface Manager
     public function getResponses() -> array;
 
     /**
+     * Returns the list of registered subscriber instances.
+     */
+    public function getSubscribers() -> array;
+
+    /**
      * Check whether the given event type has any listeners.
      */
     public function hasListeners(string type) -> bool;

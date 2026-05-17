@@ -377,6 +377,15 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Returns the list of registered subscriber instances. Useful for
+     * introspection and test setup/teardown.
+     */
+    public function getSubscribers() -> array
+    {
+        return array_values(this->subscribers);
+    }
+
+    /**
      * Check whether certain type of event has listeners
      */
     public function hasListeners(string! type) -> bool
