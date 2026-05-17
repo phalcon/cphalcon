@@ -32,6 +32,22 @@ class Manager implements ManagerInterface
     protected enablePriorities = false;
 
     /**
+     * Parsed-eventType cache. Memoizes the strpos + substr work done in
+     * fire() so the same event name fired repeatedly (the common case
+     * for db:beforeQuery, model:afterSave, etc.) collapses to a single
+     * hash lookup.
+     *
+     * Shape: `eventNameCache[$eventType] = [typePrefix, eventName]`
+     *
+     * Unbounded by design — distinct event types in a typical Phalcon
+     * application are well under 100 keys, and the cache never needs
+     * invalidation (parse is deterministic for a given eventType string).
+     *
+     * @var array
+     */
+    protected eventNameCache = [];
+
+    /**
      * Listener storage. Shape:
      *
      *   events[$eventType] = [
@@ -274,7 +290,8 @@ class Manager implements ManagerInterface
         var data = null,
         bool cancelable = true
     ) {
-        var colonPos, event, events, fireEvents, status, type;
+        var cached, colonPos, event, eventName, events, fireEvents,
+            status, type;
         bool hasFullQueue, hasTypeQueue;
 
         let events = this->events;
@@ -283,13 +300,25 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        let colonPos = strpos(eventType, ":");
+        // Cache hit: the eventType parse is deterministic, and the same
+        // names fire over and over (db:beforeQuery × N per request etc.).
+        // After warm-up this collapses to a single hash lookup.
+        if fetch cached, this->eventNameCache[eventType] {
+            let type      = cached[0];
+            let eventName = cached[1];
+        } else {
+            let colonPos = strpos(eventType, ":");
 
-        if unlikely colonPos === false {
-            throw new Exception("Invalid event type " . eventType);
+            if unlikely colonPos === false {
+                throw new Exception("Invalid event type " . eventType);
+            }
+
+            let type      = substr(eventType, 0, colonPos);
+            let eventName = substr(eventType, colonPos + 1);
+
+            let this->eventNameCache[eventType] = [type, eventName];
         }
 
-        let type         = substr(eventType, 0, colonPos);
         let hasTypeQueue = isset events[type];
         let hasFullQueue = isset events[eventType];
 
@@ -304,12 +333,7 @@ class Manager implements ManagerInterface
             let this->responses = [];
         }
 
-        let event = new Event(
-            substr(eventType, colonPos + 1),
-            source,
-            data,
-            cancelable
-        );
+        let event  = new Event(eventName, source, data, cancelable);
         let status = null;
 
         if hasTypeQueue {
