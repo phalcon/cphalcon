@@ -12,7 +12,6 @@ namespace Phalcon\Events;
 
 use Closure;
 use Phalcon\Contracts\Events\Subscriber;
-use SplPriorityQueue;
 
 /**
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if
@@ -33,6 +32,15 @@ class Manager implements ManagerInterface
     protected enablePriorities = false;
 
     /**
+     * Listener storage. Shape:
+     *
+     *   events[$eventType] = [
+     *       [handler, priority],
+     *       ...
+     *   ]
+     *
+     * kept sorted by priority descending (FIFO within the same priority).
+     *
      * @var array
      */
     protected events = [];
@@ -77,33 +85,62 @@ class Manager implements ManagerInterface
      *
      * @param object|callable handler
      */
-    public function attach(string! eventType, var handler, int! priority = self::DEFAULT_PRIORITY) -> void
-    {
-        var priorityQueue;
+    public function attach(
+        string eventType,
+        var handler,
+        int priority = self::DEFAULT_PRIORITY
+    ) -> void {
+        var existing, queue;
+        int index, insertAt;
+        array newQueue, tuple;
 
         if unlikely false === this->isValidHandler(handler) {
-            throw new Exception("Event handler must be an Object or Callable");
-        }
-
-        if !fetch priorityQueue, this->events[eventType] {
-            // Create a SplPriorityQueue to store the events with priorities
-            let priorityQueue = new SplPriorityQueue();
-
-            // Set extraction flags to extract only the Data
-            priorityQueue->setExtractFlags(
-                SplPriorityQueue::EXTR_DATA
+            throw new Exception(
+                "Event handler must be an Object or Callable"
             );
-
-            // Append the events to the queue
-            let this->events[eventType] = priorityQueue;
         }
 
         if !this->enablePriorities {
             let priority = self::DEFAULT_PRIORITY;
         }
 
-        // Insert the handler in the queue
-        priorityQueue->insert(handler, priority);
+        let tuple = [handler, priority];
+
+        if !fetch queue, this->events[eventType] {
+            let this->events[eventType] = [tuple];
+
+            return;
+        }
+
+        // Sorted-insert: descending priority, FIFO within same priority.
+        let insertAt = -1;
+
+        for index, existing in queue {
+            if existing[1] < priority {
+                let insertAt = index;
+
+                break;
+            }
+        }
+
+        if insertAt == -1 {
+            let queue[] = tuple;
+            let this->events[eventType] = queue;
+
+            return;
+        }
+
+        let newQueue = [];
+
+        for index, existing in queue {
+            if index == insertAt {
+                let newQueue[] = tuple;
+            }
+
+            let newQueue[] = existing;
+        }
+
+        let this->events[eventType] = newQueue;
     }
 
     /**
@@ -144,47 +181,28 @@ class Manager implements ManagerInterface
     /**
      * Detach the listener from the events manager
      *
-     * @param object handler
+     * @param object|callable handler
      */
-    public function detach(string! eventType, var handler) -> void
+    public function detach(string eventType, var handler) -> void
     {
-        var priorityQueue, newPriorityQueue, data;
+        var existing, newQueue, queue;
 
         if unlikely false === this->isValidHandler(handler) {
-            throw new Exception("Event handler must be an Object or Callable");
+            throw new Exception(
+                "Event handler must be an Object or Callable"
+            );
         }
 
-        if fetch priorityQueue, this->events[eventType] {
-            /**
-             * SplPriorityQueue does not have a method for element deletion so we
-             * need to rebuild queue
-             */
-            let newPriorityQueue = new SplPriorityQueue();
+        if fetch queue, this->events[eventType] {
+            let newQueue = [];
 
-            newPriorityQueue->setExtractFlags(
-                SplPriorityQueue::EXTR_DATA
-            );
-
-            priorityQueue->setExtractFlags(
-                SplPriorityQueue::EXTR_BOTH
-            );
-
-            priorityQueue->top();
-
-            while priorityQueue->valid() {
-                let data = priorityQueue->current();
-
-                priorityQueue->next();
-
-                if data["data"] !== handler {
-                    newPriorityQueue->insert(
-                        data["data"],
-                        data["priority"]
-                    );
+            for existing in queue {
+                if existing[0] !== handler {
+                    let newQueue[] = existing;
                 }
             }
 
-            let this->events[eventType] = newPriorityQueue;
+            let this->events[eventType] = newQueue;
         }
     }
 
@@ -230,9 +248,13 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(string! eventType, object source, var data = null, bool cancelable = true)
-    {
-        var events, eventParts, type, eventName, event, status, fireEvents;
+    public function fire(
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) {
+        var event, eventName, eventParts, events, fireEvents, status, type;
 
         let events = this->events;
 
@@ -246,8 +268,8 @@ class Manager implements ManagerInterface
         }
 
         let eventParts = explode(":", eventType),
-            type = eventParts[0],
-            eventName = eventParts[1];
+            type       = eventParts[0],
+            eventName  = eventParts[1];
 
         let status = null;
 
@@ -261,18 +283,12 @@ class Manager implements ManagerInterface
 
         // Check if events are grouped by type
         if fetch fireEvents, events[type] {
-            if typeof fireEvents == "object" {
-                // Call the events queue
-                let status = this->fireQueue(fireEvents, event);
-            }
+            let status = this->fireQueue(fireEvents, event);
         }
 
         // Check if there are listeners for the event type itself
         if fetch fireEvents, events[eventType] {
-            if typeof fireEvents == "object" {
-                // Call the events queue
-                let status = this->fireQueue(fireEvents, event);
-            }
+            let status = this->fireQueue(fireEvents, event);
         }
 
         return status;
@@ -283,58 +299,33 @@ class Manager implements ManagerInterface
      *
      * @return mixed
      */
-    final public function fireQueue(<SplPriorityQueue> queue, <EventInterface> event)
+    final public function fireQueue(array queue, <EventInterface> event)
     {
-        var status, eventName, data, iterator, source, handler;
-        bool collect, cancelable;
+        var data, eventName, handler, source, status, tuple;
+        bool cancelable, collect;
 
-        let status = null;
-
-        // Get the event type
-        let eventName = event->getType();
-
-        if unlikely typeof eventName != "string" {
-            throw new Exception("The event type not valid");
-        }
-
-        // Get the object who triggered the event
-        let source = event->getSource();
-
-        // Get extra data passed to the event
-        let data = event->getData();
-
-        // Tell if the event is cancelable
+        let status     = null;
+        let eventName  = event->getType();
+        let source     = event->getSource();
+        let data       = event->getData();
         let cancelable = (bool) event->isCancelable();
+        let collect    = (bool) this->collect;
 
-        // Responses need to be traced?
-        let collect = (bool) this->collect;
+        for tuple in queue {
+            let handler = tuple[0];
 
-        // We need to clone the queue before iterate over it
-        let iterator = clone queue;
-
-        // Move the queue to the top
-        iterator->top();
-
-        while iterator->valid() {
-            // Get the current data
-            let handler = iterator->current();
-
-            iterator->next();
-
-            // Only handler objects are valid
             if unlikely false === this->isValidHandler(handler) {
                 continue;
             }
 
-            // Check if the event is a closure
+            // Check if the event is a closure / callable
             if handler instanceof Closure || is_callable(handler) {
-                // Call the function in the PHP userland
                 let status = call_user_func_array(
                     handler,
                     [event, source, data]
                 );
             } else {
-                // Check if the listener has implemented an event with the same name
+                // Object listener — method named after the event
                 if !method_exists(handler, eventName) {
                     continue;
                 }
@@ -342,16 +333,12 @@ class Manager implements ManagerInterface
                 let status = handler->{eventName}(event, source, data);
             }
 
-            // Trace the response
             if collect {
                 let this->responses[] = status;
             }
 
-            if cancelable {
-                // Check if the event was stopped by the user
-                if event->isStopped() {
-                    break;
-                }
+            if cancelable && event->isStopped() {
+                break;
             }
         }
 
@@ -361,25 +348,17 @@ class Manager implements ManagerInterface
     /**
      * Returns all the attached listeners of a certain type
      */
-    public function getListeners(string! type) -> array
+    public function getListeners(string type) -> array
     {
-        var fireEvents, priorityQueue;
+        var existing, queue;
         array listeners;
-
-        if !fetch fireEvents, this->events[type] {
-            return [];
-        }
 
         let listeners = [];
 
-        let priorityQueue = clone fireEvents;
-
-        priorityQueue->top();
-
-        while priorityQueue->valid() {
-            let listeners[] = priorityQueue->current();
-
-            priorityQueue->next();
+        if fetch queue, this->events[type] {
+            for existing in queue {
+                let listeners[] = existing[0];
+            }
         }
 
         return listeners;
@@ -436,8 +415,7 @@ class Manager implements ManagerInterface
      */
     public function removeSubscriber(<Subscriber> subscriber) -> void
     {
-        var eventName, events, params;
-        int key;
+        var eventName, events, key, params;
 
         let key = spl_object_id(subscriber);
 
