@@ -21,6 +21,13 @@ interface Manager
     const DEFAULT_PRIORITY = 100;
 
     /**
+     * Registers an event subscriber. The subscriber's getSubscribedEvents()
+     * map is parsed and each entry is attached through the regular listener
+     * pipeline.
+     */
+    public function addSubscriber(<Subscriber> subscriber) -> void;
+
+    /**
      * Returns whether priority ordering is currently enabled.
      */
     public function arePrioritiesEnabled() -> bool;

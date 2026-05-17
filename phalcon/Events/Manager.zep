@@ -11,6 +11,7 @@
 namespace Phalcon\Events;
 
 use Closure;
+use Phalcon\Contracts\Events\Subscriber;
 use SplPriorityQueue;
 
 /**
@@ -40,6 +41,36 @@ class Manager implements ManagerInterface
      * @var array
      */
     protected responses = [];
+
+    /**
+     * @var array
+     */
+    protected subscribers = [];
+
+    /**
+     * Registers an event subscriber. The subscriber's getSubscribedEvents()
+     * map is parsed and each entry is attached through the regular listener
+     * pipeline.
+     */
+    public function addSubscriber(<Subscriber> subscriber) -> void
+    {
+        var eventName, events, params;
+
+        let this->subscribers[spl_object_id(subscriber)] = subscriber;
+
+        let events = call_user_func(
+            [get_class(subscriber), "getSubscribedEvents"]
+        );
+
+        for eventName, params in events {
+            this->processSubscriberEntry(
+                subscriber,
+                eventName,
+                params,
+                false
+            );
+        }
+    }
 
     /**
      * Attach a listener to the events manager
@@ -369,5 +400,89 @@ class Manager implements ManagerInterface
         }
 
         return true;
+    }
+
+    /**
+     * Parses one entry of a subscriber's getSubscribedEvents() map and either
+     * attaches or detaches the resulting listeners depending on `detaching`.
+     */
+    private function processSubscriberEntry(
+        object subscriber,
+        string eventName,
+        var params,
+        bool detaching
+    ) -> void {
+        var firstParam, listener, methodName;
+        int priority;
+
+        if typeof params == "string" {
+            if detaching {
+                this->detach(eventName, [subscriber, params]);
+            } else {
+                this->attach(eventName, [subscriber, params]);
+            }
+
+            return;
+        }
+
+        if unlikely typeof params != "array" {
+            throw new Exception(
+                "Invalid event subscriber configuration for " . eventName
+            );
+        }
+
+        if !fetch firstParam, params[0] {
+            throw new Exception(
+                "Invalid event subscriber configuration for " . eventName
+            );
+        }
+
+        if typeof firstParam == "string" {
+            let methodName = firstParam;
+            let priority   = self::DEFAULT_PRIORITY;
+
+            if isset params[1] {
+                let priority = (int) params[1];
+            }
+
+            if detaching {
+                this->detach(eventName, [subscriber, methodName]);
+            } else {
+                this->attach(
+                    eventName,
+                    [subscriber, methodName],
+                    priority
+                );
+            }
+
+            return;
+        }
+
+        if typeof firstParam == "array" {
+            for listener in params {
+                let methodName = listener[0];
+                let priority   = self::DEFAULT_PRIORITY;
+
+                if isset listener[1] {
+                    let priority = (int) listener[1];
+                }
+
+                if detaching {
+                    this->detach(eventName, [subscriber, methodName]);
+                } else {
+                    this->attach(
+                        eventName,
+                        [subscriber, methodName],
+                        priority
+                    );
+                }
+            }
+
+            return;
+        }
+
+        throw new Exception(
+            "Invalid event subscriber configuration for " . eventName
+        );
     }
 }
