@@ -44,6 +44,12 @@ interface Manager
     ) -> void;
 
     /**
+     * Removes every registered subscriber and detaches each listener they
+     * contributed. Listeners attached via attach() are untouched.
+     */
+    public function clearSubscribers() -> void;
+
+    /**
      * Toggle response collection on/off.
      */
     public function collectResponses(bool collect) -> void;

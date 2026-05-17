@@ -115,6 +115,24 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Removes every registered subscriber and detaches each listener they
+     * contributed. Listeners attached via attach() are untouched.
+     *
+     * Iterates a snapshot of `subscribers` so removeSubscriber() can safely
+     * mutate the original property during the walk.
+     */
+    public function clearSubscribers() -> void
+    {
+        var snapshot, subscriber;
+
+        let snapshot = this->subscribers;
+
+        for subscriber in snapshot {
+            this->removeSubscriber(subscriber);
+        }
+    }
+
+    /**
      * Tells the event manager if it needs to collect all the responses returned
      * by every registered listener in a single fire
      */
