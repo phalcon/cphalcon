@@ -87,7 +87,7 @@ class Mysql extends PdoAdapter
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, oldColumn, sizePattern, matches,
-            matchOne, matchTwo, columnName;
+            matchOne, matchTwo, columnName, extraValue, generationExpression;
         array definition;
 
         let oldColumn = null,
@@ -102,9 +102,10 @@ class Mysql extends PdoAdapter
 
         /**
          * Get the SQL to describe a table
-         * We're using FETCH_NUM to fetch the columns
-         * Get the describe
-         * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+         * We're using FETCH_NUM to fetch the columns.
+         * Field Indexes (from `Mysql::describeColumns()`):
+         *   0:Field, 1:Type, 2:Collation, 3:Null, 4:Key, 5:Default, 6:Extra,
+         *   7:Privileges, 8:Comment, 9:GenerationExpression
          */
         for field in fields {
             /**
@@ -370,6 +371,50 @@ class Mysql extends PdoAdapter
                     break;
 
                 /**
+                 * Spatial types — order matters: detect the multi-* and
+                 * geometrycollection variants before the bare names.
+                 */
+                case starts_with(columnType, "multipoint", true):
+                    let definition["type"] = Column::TYPE_MULTIPOINT;
+
+                    break;
+
+                case starts_with(columnType, "multilinestring", true):
+                    let definition["type"] = Column::TYPE_MULTILINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "multipolygon", true):
+                    let definition["type"] = Column::TYPE_MULTIPOLYGON;
+
+                    break;
+
+                case starts_with(columnType, "geometrycollection", true):
+                    let definition["type"] = Column::TYPE_GEOMETRYCOLLECTION;
+
+                    break;
+
+                case starts_with(columnType, "linestring", true):
+                    let definition["type"] = Column::TYPE_LINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "polygon", true):
+                    let definition["type"] = Column::TYPE_POLYGON;
+
+                    break;
+
+                case starts_with(columnType, "point", true):
+                    let definition["type"] = Column::TYPE_POINT;
+
+                    break;
+
+                case starts_with(columnType, "geometry", true):
+                    let definition["type"] = Column::TYPE_GEOMETRY;
+
+                    break;
+
+                /**
                  * Default
                  */
                 default:
@@ -429,24 +474,59 @@ class Mysql extends PdoAdapter
             }
 
             /**
-             * Check if the column is auto increment
+             * Detect an INVISIBLE column from the EXTRA flag (MySQL 8.0.23+).
+             * EXTRA may concatenate INVISIBLE with other flags, e.g.
+             * `INVISIBLE STORED GENERATED`, so we use a substring match.
              */
-            if field[6] == "auto_increment" {
-                let definition["autoIncrement"] = true;
+            let extraValue = field[6];
+            if extraValue !== null && memstr(extraValue, "INVISIBLE") {
+                let definition["invisible"] = true;
             }
 
             /**
-             * Check if the column has default value
+             * Detect a generated/computed column from the EXTRA flag and
+             * populate the expression from GENERATION_EXPRESSION.
+             *
+             * `EXTRA` contains `VIRTUAL GENERATED` or `STORED GENERATED` for
+             * generated columns; `COLUMN_DEFAULT` is always NULL for them so
+             * the regular default/auto-increment branches below are skipped.
+             *
+             * Note: a non-generated column with `DEFAULT CURRENT_TIMESTAMP`
+             * has EXTRA `DEFAULT_GENERATED` (and possibly `on update ...`),
+             * which also contains the substring `GENERATED`. Match the
+             * specific `VIRTUAL GENERATED` / `STORED GENERATED` tokens to
+             * avoid the false positive.
              */
-            if field[5] !== null {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = field[5] . " " . field[6];
+            if extraValue !== null && (memstr(extraValue, "VIRTUAL GENERATED") || memstr(extraValue, "STORED GENERATED")) {
+                if isset field[9] {
+                    let generationExpression = field[9];
                 } else {
-                    let definition["default"] = field[5];
+                    let generationExpression = "";
                 }
+
+                let definition["generated"] = generationExpression;
+                let definition["generationStored"] = memstr(extraValue, "STORED");
             } else {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = "NULL " . field[6];
+                /**
+                 * Check if the column is auto increment
+                 */
+                if extraValue == "auto_increment" {
+                    let definition["autoIncrement"] = true;
+                }
+
+                /**
+                 * Check if the column has default value
+                 */
+                if field[5] !== null {
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = field[5] . " " . extraValue;
+                    } else {
+                        let definition["default"] = field[5];
+                    }
+                } else {
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = "NULL " . extraValue;
+                    }
                 }
             }
 
@@ -479,7 +559,9 @@ class Mysql extends PdoAdapter
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexType, indexObjects, columns, name;
+        var indexes, index, keyName, indexType, indexObjects, columns, name,
+            directions, collation;
+        bool invisible, anyDirection;
 
         let indexes = [];
 
@@ -500,6 +582,31 @@ class Mysql extends PdoAdapter
             let columns[] = index["Column_name"];
             let indexes[keyName]["columns"] = columns;
 
+            /**
+             * `SHOW INDEXES.Collation` is `A` for ASC, `D` for DESC (the
+             * latter only meaningful from MySQL 8.0, where DESC indexes are
+             * actually honored). Older versions and unsorted indexes report
+             * NULL — treat those as ASC.
+             */
+            if !isset indexes[keyName]["directions"] {
+                let directions = [];
+            } else {
+                let directions = indexes[keyName]["directions"];
+            }
+
+            let collation = "";
+            if isset index["Collation"] && index["Collation"] !== null {
+                let collation = (string) index["Collation"];
+            }
+
+            if collation == "D" {
+                let directions[] = "DESC";
+            } else {
+                let directions[] = "ASC";
+            }
+
+            let indexes[keyName]["directions"] = directions;
+
             if keyName == "PRIMARY" {
                 let indexes[keyName]["type"] = "PRIMARY";
             } elseif indexType == "FULLTEXT" {
@@ -509,15 +616,51 @@ class Mysql extends PdoAdapter
             } else {
                 let indexes[keyName]["type"] = "";
             }
+
+            /**
+             * `Visible` is a MySQL 8.0+ column from `SHOW INDEXES` — `NO`
+             * marks an INVISIBLE index. On older MySQL versions the field
+             * is absent and the index defaults to visible.
+             */
+            if isset index["Visible"] && index["Visible"] == "NO" {
+                let indexes[keyName]["invisible"] = true;
+            }
         }
 
         let indexObjects = [];
 
         for name, index in indexes {
+            let invisible = false;
+            if isset index["invisible"] {
+                let invisible = (bool) index["invisible"];
+            }
+
+            /**
+             * Only carry `directions` through to the Index when at least one
+             * column is non-ASC. All-ASC defaults to an empty array so the
+             * dialect emits the legacy plain `(col1, col2)` rendering.
+             */
+            let directions  = index["directions"],
+                anyDirection = false;
+            for collation in directions {
+                if collation == "DESC" {
+                    let anyDirection = true;
+                    break;
+                }
+            }
+
+            if !anyDirection {
+                let directions = [];
+            }
+
             let indexObjects[name] = new Index(
                 name,
-                index["columns"],
-                index["type"]
+                [
+                    "columns":    index["columns"],
+                    "type":       index["type"],
+                    "invisible":  invisible,
+                    "directions": directions
+                ]
             );
         }
 

@@ -295,11 +295,146 @@ class Column implements ColumnInterface
     const TYPE_VARCHAR = 2;
 
     /**
+     * PostgreSQL `BYTEA` binary type
+     *
+     * @var int
+     */
+    const TYPE_BYTEA = 30;
+
+    /**
+     * PostgreSQL `INET` IPv4/IPv6 address type
+     *
+     * @var int
+     */
+    const TYPE_INET = 31;
+
+    /**
+     * PostgreSQL `CIDR` network-address type
+     *
+     * @var int
+     */
+    const TYPE_CIDR = 32;
+
+    /**
+     * PostgreSQL `MACADDR` MAC-address type
+     *
+     * @var int
+     */
+    const TYPE_MACADDR = 33;
+
+    /**
+     * PostgreSQL `INT4RANGE` range-of-integer type
+     *
+     * @var int
+     */
+    const TYPE_INT4RANGE = 34;
+
+    /**
+     * PostgreSQL `INT8RANGE` range-of-bigint type
+     *
+     * @var int
+     */
+    const TYPE_INT8RANGE = 35;
+
+    /**
+     * PostgreSQL `NUMRANGE` range-of-numeric type
+     *
+     * @var int
+     */
+    const TYPE_NUMRANGE = 36;
+
+    /**
+     * PostgreSQL `TSRANGE` range-of-timestamp (without time zone) type
+     *
+     * @var int
+     */
+    const TYPE_TSRANGE = 37;
+
+    /**
+     * PostgreSQL `TSTZRANGE` range-of-timestamp (with time zone) type
+     *
+     * @var int
+     */
+    const TYPE_TSTZRANGE = 38;
+
+    /**
+     * PostgreSQL `DATERANGE` range-of-date type
+     *
+     * @var int
+     */
+    const TYPE_DATERANGE = 39;
+
+    /**
+     * Spatial `GEOMETRY` base type (MySQL 5.7+; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_GEOMETRY = 40;
+
+    /**
+     * Spatial `POINT` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_POINT = 41;
+
+    /**
+     * Spatial `LINESTRING` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_LINESTRING = 42;
+
+    /**
+     * Spatial `POLYGON` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_POLYGON = 43;
+
+    /**
+     * Spatial `MULTIPOINT` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTIPOINT = 44;
+
+    /**
+     * Spatial `MULTILINESTRING` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTILINESTRING = 45;
+
+    /**
+     * Spatial `MULTIPOLYGON` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_MULTIPOLYGON = 46;
+
+    /**
+     * Spatial `GEOMETRYCOLLECTION` type (MySQL; PostgreSQL + PostGIS)
+     *
+     * @var int
+     */
+    const TYPE_GEOMETRYCOLLECTION = 47;
+
+    /**
      * Column Position
      *
      * @var string|null
      */
     protected after = null;
+
+    /**
+     * Whether the column is an array of its base type. Recognized by the
+     * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`). MySQL and SQLite
+     * ignore the flag.
+     *
+     * @var bool
+     */
+    protected isArray = false;
 
     /**
      * Column is autoIncrement?
@@ -337,11 +472,37 @@ class Column implements ColumnInterface
     protected first = false;
 
     /**
+     * Generation expression for `GENERATED ALWAYS AS (...)`. Null when the
+     * column is not a generated/computed column.
+     *
+     * @var string|null
+     */
+    protected generated = null;
+
+    /**
+     * Whether a generated column is `STORED` (true) or `VIRTUAL` (false).
+     * Ignored when the column is not generated. PostgreSQL only supports
+     * `STORED` and emits it regardless of this flag.
+     *
+     * @var bool
+     */
+    protected generationStored = false;
+
+    /**
      * The column have some numeric type?
      *
      * @var bool
      */
     protected isNumeric = false;
+
+    /**
+     * Whether the column is `INVISIBLE` (MySQL 8.0.23+). Invisible columns
+     * are excluded from `SELECT *` expansion but can still be referenced
+     * explicitly.
+     *
+     * @var bool
+     */
+    protected invisible = false;
 
     /**
      * Column's name
@@ -415,7 +576,8 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues, comment;
+            typeValues, comment, generated, generationStored, invisible,
+            isArray;
 
         let this->name = name;
 
@@ -549,6 +711,56 @@ class Column implements ColumnInterface
          if fetch comment, definition["comment"] {
             let this->comment = comment;
         }
+
+        /**
+         * Generated/computed column expression. When a non-empty string is
+         * provided the column is marked as generated and DEFAULT /
+         * AUTO_INCREMENT are no longer compatible at the dialect level.
+         */
+        if fetch generated, definition["generated"] {
+            if generated !== null {
+                if unlikely typeof generated != "string" {
+                    throw new Exception(
+                        "Column generation expression must be a string"
+                    );
+                }
+
+                if unlikely this->autoIncrement {
+                    throw new Exception(
+                        "Generated column cannot also be auto-increment"
+                    );
+                }
+
+                if unlikely this->defaultValue !== null {
+                    throw new Exception(
+                        "Generated column cannot have a default value"
+                    );
+                }
+
+                let this->generated = generated;
+            }
+        }
+
+        /**
+         * Storage flag for generated columns. true = STORED, false = VIRTUAL.
+         */
+        if fetch generationStored, definition["generationStored"] {
+            let this->generationStored = (bool) generationStored;
+        }
+
+        /**
+         * Whether the column is INVISIBLE (MySQL 8.0.23+).
+         */
+        if fetch invisible, definition["invisible"] {
+            let this->invisible = (bool) invisible;
+        }
+
+        /**
+         * Whether the column is an array of its base type (PostgreSQL).
+         */
+        if fetch isArray, definition["array"] {
+            let this->isArray = (bool) isArray;
+        }
     }
 
     /**
@@ -581,6 +793,15 @@ class Column implements ColumnInterface
     public function getDefault() -> var
     {
         return this->defaultValue;
+    }
+
+    /**
+     * Returns the generation expression for a generated/computed column.
+     * Returns `null` when the column is not generated.
+     */
+    public function getGenerationExpression() -> string | null
+    {
+        return this->generated;
     }
 
     /**
@@ -644,6 +865,16 @@ class Column implements ColumnInterface
     }
 
     /**
+     * Whether the column is an array of its base type. Recognized by the
+     * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`); MySQL and SQLite
+     * ignore the flag.
+     */
+    public function isArray() -> bool
+    {
+        return this->isArray;
+    }
+
+    /**
      * Auto-Increment
      */
     public function isAutoIncrement() -> bool
@@ -657,6 +888,34 @@ class Column implements ColumnInterface
     public function isFirst() -> bool
     {
         return this->first;
+    }
+
+    /**
+     * Whether the column is a generated/computed column.
+     */
+    public function isGenerated() -> bool
+    {
+        return this->generated !== null;
+    }
+
+    /**
+     * Whether a generated column is `STORED`. `false` means `VIRTUAL`.
+     * Always meaningful only when `isGenerated()` is `true`.
+     */
+    public function isGenerationStored() -> bool
+    {
+        return this->generationStored;
+    }
+
+    /**
+     * Whether the column is declared `INVISIBLE` (MySQL 8.0.23+). Invisible
+     * columns are excluded from `SELECT *` expansion but can still be
+     * referenced explicitly. PostgreSQL and SQLite have no equivalent and
+     * dialects targeting them ignore the flag.
+     */
+    public function isInvisible() -> bool
+    {
+        return this->invisible;
     }
 
     /**

@@ -152,14 +152,16 @@ class Postgresql extends PdoAdapter
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
-            columnName, charSize, numericSize, numericScale;
+            columnName, charSize, numericSize, numericScale, isGenerated,
+            generationExpression;
 
         let oldColumn = null, columns = [];
 
         /**
          * We're using FETCH_NUM to fetch the columns
-         * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null,
-         * 6: key, 7: extra, 8: position, 9 default
+         *   0:name, 1:type, 2:size, 3:numericsize, 4:numericscale, 5:null,
+         *   6:key, 7:extra, 8:position, 9:default, 10:comment,
+         *   11:is_generated, 12:generation_expression
          */
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
@@ -457,12 +459,89 @@ class Postgresql extends PdoAdapter
                     break;
 
                 /**
+                 * BYTEA
+                 */
+                case memstr(columnType, "bytea"):
+                    let definition["type"] = Column::TYPE_BYTEA;
+
+                    break;
+
+                /**
+                 * INET
+                 */
+                case memstr(columnType, "inet"):
+                    let definition["type"] = Column::TYPE_INET;
+
+                    break;
+
+                /**
+                 * CIDR
+                 */
+                case memstr(columnType, "cidr"):
+                    let definition["type"] = Column::TYPE_CIDR;
+
+                    break;
+
+                /**
+                 * MACADDR
+                 */
+                case memstr(columnType, "macaddr"):
+                    let definition["type"] = Column::TYPE_MACADDR;
+
+                    break;
+
+                /**
+                 * Range types — order matters: more-specific names first
+                 * (`tstzrange` before `tsrange`, etc.).
+                 */
+                case memstr(columnType, "int4range"):
+                    let definition["type"] = Column::TYPE_INT4RANGE;
+
+                    break;
+
+                case memstr(columnType, "int8range"):
+                    let definition["type"] = Column::TYPE_INT8RANGE;
+
+                    break;
+
+                case memstr(columnType, "numrange"):
+                    let definition["type"] = Column::TYPE_NUMRANGE;
+
+                    break;
+
+                case memstr(columnType, "tstzrange"):
+                    let definition["type"] = Column::TYPE_TSTZRANGE;
+
+                    break;
+
+                case memstr(columnType, "tsrange"):
+                    let definition["type"] = Column::TYPE_TSRANGE;
+
+                    break;
+
+                case memstr(columnType, "daterange"):
+                    let definition["type"] = Column::TYPE_DATERANGE;
+
+                    break;
+
+                /**
                  * Default
                  */
                 default:
                     let definition["type"] = Column::TYPE_VARCHAR;
 
                     break;
+            }
+
+            /**
+             * Detect PostgreSQL array types. `data_type` reads `ARRAY` for
+             * array columns; in that case we still need the inner type
+             * (already captured above via the `columnType` switch on the
+             * element type's name when present in `udt_name` patterns), but
+             * for `information_schema.data_type == ARRAY` we just flag it.
+             */
+            if memstr(columnType, "ARRAY") || memstr(columnType, "[]") {
+                let definition["array"] = true;
             }
 
             /**
@@ -489,24 +568,45 @@ class Postgresql extends PdoAdapter
             }
 
             /**
-             * Check if the column is auto increment
+             * Detect a generated/computed column. PostgreSQL only supports
+             * STORED. `is_generated` is the string 'ALWAYS' for generated
+             * columns and 'NEVER' otherwise.
              */
-            if field[7] == "auto_increment" {
-                let definition["autoIncrement"] = true;
+            let isGenerated = false;
+            if isset field[11] {
+                let isGenerated = (field[11] === "ALWAYS");
             }
 
-            /**
-             * Check if the column has default values
-             */
-            if field[9] !== null {
-                let definition["default"] = preg_replace(
-                    "/^'|'?::[[:alnum:][:space:]]+$/",
-                    "",
-                    field[9]
-                );
+            if isGenerated {
+                if isset field[12] && field[12] !== null {
+                    let generationExpression = field[12];
+                } else {
+                    let generationExpression = "";
+                }
 
-                if strcasecmp(definition["default"], "null") == 0 {
-                    let definition["default"] = null;
+                let definition["generated"] = generationExpression;
+                let definition["generationStored"] = true;
+            } else {
+                /**
+                 * Check if the column is auto increment
+                 */
+                if field[7] == "auto_increment" {
+                    let definition["autoIncrement"] = true;
+                }
+
+                /**
+                 * Check if the column has default values
+                 */
+                if field[9] !== null {
+                    let definition["default"] = preg_replace(
+                        "/^'|'?::[[:alnum:][:space:]]+$/",
+                        "",
+                        field[9]
+                    );
+
+                    if strcasecmp(definition["default"], "null") == 0 {
+                        let definition["default"] = null;
+                    }
                 }
             }
 

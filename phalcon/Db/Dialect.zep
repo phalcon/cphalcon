@@ -91,16 +91,32 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
+     * appends a row-lock disposition keyword.
      *
      *```php
      * $sql = $dialect->forUpdate("SELECT * FROM robots");
-     *
      * echo $sql; // SELECT * FROM robots FOR UPDATE
+     *
+     * $sql = $dialect->forUpdate(
+     *     "SELECT * FROM robots",
+     *     Dialect::LOCK_NOWAIT
+     * );
+     * echo $sql; // SELECT * FROM robots FOR UPDATE NOWAIT
+     *
+     * $sql = $dialect->forUpdate(
+     *     "SELECT * FROM robots",
+     *     Dialect::LOCK_SKIP_LOCKED
+     * );
+     * echo $sql; // SELECT * FROM robots FOR UPDATE SKIP LOCKED
      *```
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string
     {
+        if modifier !== "" {
+            return sqlQuery . " FOR UPDATE " . modifier;
+        }
+
         return sqlQuery . " FOR UPDATE";
     }
 
@@ -461,6 +477,90 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Generates SQL to create a materialized view. Supported by PostgreSQL
+     * (`CREATE MATERIALIZED VIEW name AS <sql>`). Other dialects inherit
+     * this throw — MySQL and SQLite have no materialized-view concept.
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
+     * Generates SQL to drop a materialized view. Supported by PostgreSQL.
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
+     * Generates SQL to refresh a materialized view. Supported by
+     * PostgreSQL. Pass `concurrent = true` for `REFRESH MATERIALIZED VIEW
+     * CONCURRENTLY ...`, which avoids blocking concurrent SELECTs (requires
+     * the view to have a unique index).
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
+    {
+        throw new Exception(
+            "Materialized views are not supported by this dialect"
+        );
+    }
+
+    /**
+     * Appends an `ON CONFLICT (col, ...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. The syntax is the
+     * SQL standard form recognized by PostgreSQL (9.5+) and SQLite (3.24+).
+     * MySQL overrides this method to throw because its `ON DUPLICATE KEY
+     * UPDATE` has a different shape (deferred to parser item #23).
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        var col;
+        array assignments;
+
+        if unlikely empty conflictColumns {
+            throw new Exception(
+                "ON CONFLICT requires at least one conflict-target column"
+            );
+        }
+
+        if unlikely empty updateColumns {
+            throw new Exception(
+                "ON CONFLICT DO UPDATE requires at least one update column"
+            );
+        }
+
+        let assignments = [];
+        for col in updateColumns {
+            let assignments[] = this->escape((string) col)
+                . " = excluded." . this->escape((string) col);
+        }
+
+        return sqlQuery
+            . " ON CONFLICT (" . this->getColumnList(conflictColumns) . ")"
+            . " DO UPDATE SET " . implode(", ", assignments);
+    }
+
+    /**
+     * Returns a SQL statement extended with a `RETURNING` clause so the
+     * INSERT/UPDATE/DELETE returns rows. Supported by PostgreSQL and
+     * SQLite 3.35+. Pass `["*"]` for `RETURNING *`, or a list of column
+     * names. The base implementation throws — MySQL inherits it because
+     * MySQL has no RETURNING construct.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        throw new Exception(
+            "RETURNING clauses are not supported by this dialect"
+        );
+    }
+
+    /**
      * Generate SQL to release a savepoint
      */
     public function releaseSavepoint(string! name) -> string
@@ -636,6 +736,125 @@ abstract class Dialect implements DialectInterface
         }
 
         return column->getType();
+    }
+
+    /**
+     * Builds a CHECK constraint clause from a `CheckInterface`, using the
+     * provided escape character for the constraint name (so each dialect
+     * gets its native quoting). Returns the clause body — the dialect's
+     * `createTable()` / `addCheck()` is expected to prefix `ADD` or place
+     * the result on its own line as appropriate.
+     */
+    protected function getCheckClause(<CheckInterface> check, string escapeChar = "`") -> string
+    {
+        var name;
+        string clause;
+
+        let name = check->getName();
+
+        let clause = "";
+        if name !== "" {
+            let clause = "CONSTRAINT " . escapeChar . name . escapeChar . " ";
+        }
+
+        let clause .= "CHECK (" . check->getExpression() . ")";
+
+        return clause;
+    }
+
+    /**
+     * Builds the per-index parenthesized column list, honoring per-column
+     * sort directions when the index declares any. Returns the bare
+     * comma-separated `getColumnList()` output when no directions are set,
+     * preserving the legacy rendering exactly. When directions are set,
+     * each column is followed by ` ASC` or ` DESC`; trailing positions
+     * absent from the directions array default to `ASC`.
+     */
+    protected function getIndexColumnList(<IndexInterface> index, bool wrapExpressions = true) -> string
+    {
+        var columns, directions, parts, i, column, direction, upper, rendered;
+        bool hasExpression;
+
+        let columns       = index->getColumns();
+        let directions    = index->getDirections();
+        let hasExpression = false;
+
+        for column in columns {
+            if typeof column == "object" && column instanceof RawValue {
+                let hasExpression = true;
+                break;
+            }
+        }
+
+        /**
+         * Fast path: no expressions and no directions — return the legacy
+         * `getColumnList()` rendering verbatim so existing tests and call
+         * sites see no diff.
+         */
+        if !hasExpression && empty directions {
+            return this->getColumnList(columns);
+        }
+
+        let parts = [],
+            i     = 0;
+
+        for column in columns {
+            if typeof column == "object" && column instanceof RawValue {
+                if wrapExpressions {
+                    let rendered = "(" . column->getValue() . ")";
+                } else {
+                    let rendered = column->getValue();
+                }
+            } else {
+                let rendered = this->escape(column);
+            }
+
+            if !empty directions {
+                if fetch direction, directions[i] {
+                    let upper = strtoupper((string) direction);
+
+                    if upper == "DESC" {
+                        let rendered .= " DESC";
+                    } else {
+                        let rendered .= " ASC";
+                    }
+                } else {
+                    let rendered .= " ASC";
+                }
+            }
+
+            let parts[] = rendered;
+            let i      = i + 1;
+        }
+
+        return implode(", ", parts);
+    }
+
+    /**
+     * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
+     * generated/computed column. Returns an empty string when the column is
+     * not generated. When `forceStored` is `true` the clause is always emitted
+     * as `STORED` regardless of the column's `isGenerationStored()` flag —
+     * PostgreSQL uses this since it only supports stored generated columns.
+     */
+    protected function getGeneratedClause(<ColumnInterface> column, bool forceStored = false) -> string
+    {
+        var expression;
+        string storage;
+
+        if !column->isGenerated() {
+            return "";
+        }
+
+        let expression = column->getGenerationExpression();
+
+        if forceStored || column->isGenerationStored() {
+            let storage = "STORED";
+        } else {
+            let storage = "VIRTUAL";
+        }
+
+        return " GENERATED ALWAYS AS (" . expression . ") " . storage;
     }
 
     /**
