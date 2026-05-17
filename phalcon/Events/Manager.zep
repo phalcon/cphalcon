@@ -274,7 +274,9 @@ class Manager implements ManagerInterface
         var data = null,
         bool cancelable = true
     ) {
-        var event, eventName, eventParts, events, fireEvents, status, type;
+        var event, events, fireEvents, status, type;
+        int colonPos;
+        bool hasFullQueue, hasTypeQueue;
 
         let events = this->events;
 
@@ -282,33 +284,43 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        // All valid events must have a colon separator
-        if unlikely !memstr(eventType, ":") {
+        let colonPos = strpos(eventType, ":");
+
+        if unlikely colonPos === false {
             throw new Exception("Invalid event type " . eventType);
         }
 
-        let eventParts = explode(":", eventType),
-            type       = eventParts[0],
-            eventName  = eventParts[1];
+        let type         = substr(eventType, 0, colonPos);
+        let hasTypeQueue = isset events[type];
+        let hasFullQueue = isset events[eventType];
 
-        let status = null;
+        // Short-circuit BEFORE allocating Event: in production most fires
+        // have zero matching listeners (a model lifecycle event with no
+        // user-attached behavior, a DB event without a tracer, etc.).
+        if !hasTypeQueue && !hasFullQueue {
+            return null;
+        }
 
-        // Responses must be traced?
         if this->collect {
             let this->responses = [];
         }
 
-        // Create the event context
-        let event = new Event(eventName, source, data, cancelable);
+        let event = new Event(
+            substr(eventType, colonPos + 1),
+            source,
+            data,
+            cancelable
+        );
+        let status = null;
 
-        // Check if events are grouped by type
-        if fetch fireEvents, events[type] {
-            let status = this->fireQueue(fireEvents, event);
+        if hasTypeQueue {
+            let fireEvents = events[type];
+            let status     = this->fireQueue(fireEvents, event);
         }
 
-        // Check if there are listeners for the event type itself
-        if fetch fireEvents, events[eventType] {
-            let status = this->fireQueue(fireEvents, event);
+        if hasFullQueue {
+            let fireEvents = events[eventType];
+            let status     = this->fireQueue(fireEvents, event);
         }
 
         return status;
