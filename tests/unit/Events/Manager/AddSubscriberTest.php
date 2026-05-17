@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Events\Manager\Fake\MultiListenerSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\PrioritySubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
 
@@ -60,6 +61,27 @@ final class AddSubscriberTest extends AbstractUnitTestCase
             $highPrioritySubscriber->calls,
             'Subscriber method (priority 250) must run before closure '
             . '(priority 50)'
+        );
+    }
+
+    public function testAddSubscriberMultiListenerForm(): void
+    {
+        $manager = new Manager();
+        $manager->enablePriorities(true);
+
+        $multiSubscriber = new MultiListenerSubscriber();
+        $manager->addSubscriber($multiSubscriber);
+
+        $listeners = $manager->getListeners('test:multi');
+        $this->assertCount(3, $listeners);
+
+        $manager->fire('test:multi', $this);
+
+        // Priority order:
+        //   second (250) > first (DEFAULT_PRIORITY = 100) > third (50)
+        $this->assertSame(
+            ['second', 'first', 'third'],
+            $multiSubscriber->calls
         );
     }
 }
