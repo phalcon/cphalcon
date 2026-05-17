@@ -99,8 +99,8 @@ class Manager implements ManagerInterface
         var handler,
         int priority = self::DEFAULT_PRIORITY
     ) -> void {
-        var existing, queue;
-        int index, insertAt, kind;
+        var existing, index, queue;
+        int insertAt, kind;
         array newQueue, tuple;
 
         // Classify the handler kind ONCE so fireQueue() doesn't have to
@@ -274,8 +274,7 @@ class Manager implements ManagerInterface
         var data = null,
         bool cancelable = true
     ) {
-        var event, events, fireEvents, status, type;
-        int colonPos;
+        var colonPos, event, events, fireEvents, status, type;
         bool hasFullQueue, hasTypeQueue;
 
         let events = this->events;
@@ -348,9 +347,13 @@ class Manager implements ManagerInterface
             let handler = tuple[0];
             let kind    = (int) tuple[1];
 
-            // Closure: most common path, direct invocation, no array alloc.
+            // Closure: most common path, direct invocation via Zephir's
+            // `{var}(...)` callable-invocation syntax. This goes through
+            // PHP's normal closure call path so arity mismatch (closure
+            // declares fewer params than we pass) is tolerated, unlike
+            // `handler->__invoke(...)` which uses a strict C call.
             if kind == 0 {
-                let status = handler(event, source, data);
+                let status = {handler}(event, source, data);
             } elseif kind == 2 {
                 // Plain object — method named after the event.
                 if !method_exists(handler, eventName) {
