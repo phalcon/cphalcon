@@ -403,6 +403,38 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Removes a previously registered subscriber. Detaches every listener the
+     * subscriber declared via getSubscribedEvents(). Idempotent — calling
+     * with a subscriber that was never added (or already removed) is a no-op.
+     */
+    public function removeSubscriber(<Subscriber> subscriber) -> void
+    {
+        var eventName, events, params;
+        int key;
+
+        let key = spl_object_id(subscriber);
+
+        if !isset this->subscribers[key] {
+            return;
+        }
+
+        unset this->subscribers[key];
+
+        let events = call_user_func(
+            [get_class(subscriber), "getSubscribedEvents"]
+        );
+
+        for eventName, params in events {
+            this->processSubscriberEntry(
+                subscriber,
+                eventName,
+                params,
+                true
+            );
+        }
+    }
+
+    /**
      * Parses one entry of a subscriber's getSubscribedEvents() map and either
      * attaches or detaches the resulting listeners depending on `detaching`.
      */

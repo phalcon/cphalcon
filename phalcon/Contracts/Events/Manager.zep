@@ -103,4 +103,10 @@ interface Manager
      * Returns true when the given handler is an object or callable.
      */
     public function isValidHandler(var handler) -> bool;
+
+    /**
+     * Removes a previously registered subscriber. Detaches every listener the
+     * subscriber declared via getSubscribedEvents(). Idempotent.
+     */
+    public function removeSubscriber(<Subscriber> subscriber) -> void;
 }
