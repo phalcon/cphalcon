@@ -10,52 +10,15 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Contracts\Events\Manager as ManagerContract;
+
 /**
- * Interface for Phalcon\Events managers.
+ * Phalcon\Events\ManagerInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Events\Manager} instead.
  */
-interface ManagerInterface
+interface ManagerInterface extends ManagerContract
 {
-    /**
-     * @var int
-     */
-    const DEFAULT_PRIORITY = 100;
-
-    /**
-     * Attach a listener to the events manager
-     *
-     * @param object|callable handler
-     */
-    public function attach(string! eventType, handler, int! priority = self::DEFAULT_PRIORITY) -> void;
-
-    /**
-     * Detach the listener from the events manager
-     *
-     * @param object handler
-     */
-    public function detach(string! eventType, handler) -> void;
-
-    /**
-     * Removes all events from the EventsManager
-     */
-    public function detachAll(string! type = null) -> void;
-
-    /**
-     * Fires an event in the events manager causing the active listeners to be
-     * notified about it
-     *
-     * @param object source
-     * @param mixed  data
-     * @return mixed
-     */
-    public function fire(string! eventType, object source, var data = null, bool cancelable = true);
-
-    /**
-     * Returns all the attached listeners of a certain type
-     */
-    public function getListeners(string! type) -> array;
-
-    /**
-     * Check whether certain type of event has listeners
-     */
-    public function hasListeners(string! type) -> bool;
 }
