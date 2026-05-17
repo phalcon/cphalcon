@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Events\Exception;
 use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Events\Manager\Fake\InvalidSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\MultiListenerSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\PrioritySubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
@@ -83,5 +85,17 @@ final class AddSubscriberTest extends AbstractUnitTestCase
             ['second', 'first', 'third'],
             $multiSubscriber->calls
         );
+    }
+
+    public function testAddSubscriberRejectsInvalidConfig(): void
+    {
+        $manager = new Manager();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Invalid event subscriber configuration for test:broken'
+        );
+
+        $manager->addSubscriber(new InvalidSubscriber());
     }
 }
