@@ -35,11 +35,20 @@ class Manager implements ManagerInterface
      * Listener storage. Shape:
      *
      *   events[$eventType] = [
-     *       [handler, priority],
+     *       [handler, kind, priority],
      *       ...
      *   ]
      *
      * kept sorted by priority descending (FIFO within the same priority).
+     *
+     * `kind` is classified once at attach() time so fireQueue() can
+     * dispatch via a simple branch:
+     *
+     *   0 — Closure: direct invocation, no array alloc per call
+     *   1 — generic callable (array, string, invokable object):
+     *       call_user_func_array
+     *   2 — plain object: dynamic dispatch via method named after the
+     *       event (the classic Phalcon listener pattern)
      *
      * @var array
      */
@@ -91,10 +100,21 @@ class Manager implements ManagerInterface
         int priority = self::DEFAULT_PRIORITY
     ) -> void {
         var existing, queue;
-        int index, insertAt;
+        int index, insertAt, kind;
         array newQueue, tuple;
 
-        if unlikely false === this->isValidHandler(handler) {
+        // Classify the handler kind ONCE so fireQueue() doesn't have to
+        // run instanceof / is_callable per fire per listener.
+        if handler instanceof Closure {
+            let kind = 0;
+        } elseif is_callable(handler) {
+            // Generic callable: [obj, method], [class, method], 'function',
+            // or an invokable object (one with __invoke).
+            let kind = 1;
+        } elseif typeof handler == "object" {
+            // Plain object — method-named-after-event dispatch.
+            let kind = 2;
+        } else {
             throw new Exception(
                 "Event handler must be an Object or Callable"
             );
@@ -104,7 +124,7 @@ class Manager implements ManagerInterface
             let priority = self::DEFAULT_PRIORITY;
         }
 
-        let tuple = [handler, priority];
+        let tuple = [handler, kind, priority];
 
         if !fetch queue, this->events[eventType] {
             let this->events[eventType] = [tuple];
@@ -116,7 +136,7 @@ class Manager implements ManagerInterface
         let insertAt = -1;
 
         for index, existing in queue {
-            if existing[1] < priority {
+            if existing[2] < priority {
                 let insertAt = index;
 
                 break;
@@ -303,6 +323,7 @@ class Manager implements ManagerInterface
     {
         var data, eventName, handler, source, status, tuple;
         bool cancelable, collect;
+        int kind;
 
         let status     = null;
         let eventName  = event->getType();
@@ -313,24 +334,24 @@ class Manager implements ManagerInterface
 
         for tuple in queue {
             let handler = tuple[0];
+            let kind    = (int) tuple[1];
 
-            if unlikely false === this->isValidHandler(handler) {
-                continue;
-            }
-
-            // Check if the event is a closure / callable
-            if handler instanceof Closure || is_callable(handler) {
-                let status = call_user_func_array(
-                    handler,
-                    [event, source, data]
-                );
-            } else {
-                // Object listener — method named after the event
+            // Closure: most common path, direct invocation, no array alloc.
+            if kind == 0 {
+                let status = handler(event, source, data);
+            } elseif kind == 2 {
+                // Plain object — method named after the event.
                 if !method_exists(handler, eventName) {
                     continue;
                 }
 
                 let status = handler->{eventName}(event, source, data);
+            } else {
+                // Generic callable.
+                let status = call_user_func_array(
+                    handler,
+                    [event, source, data]
+                );
             }
 
             if collect {
