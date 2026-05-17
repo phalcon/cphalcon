@@ -238,17 +238,23 @@ class Manager implements ManagerInterface
                 }
             }
 
-            let this->events[eventType] = newQueue;
+            // Drop the key when the last listener is gone so fire() can
+            // short-circuit cleanly and hasListeners() tells the truth.
+            if count(newQueue) > 0 {
+                let this->events[eventType] = newQueue;
+            } else {
+                unset this->events[eventType];
+            }
         }
     }
 
     /**
      * Removes all events from the EventsManager
      */
-    public function detachAll(string! type = null) -> void
+    public function detachAll(string type = null) -> void
     {
         if type === null {
-            let this->events = null;
+            let this->events = [];
         } else {
             if isset this->events[type] {
                 unset this->events[type];
@@ -341,7 +347,7 @@ class Manager implements ManagerInterface
             let status     = this->fireQueue(fireEvents, event);
         }
 
-        if hasFullQueue {
+        if hasFullQueue && (!cancelable || !event->isStopped()) {
             let fireEvents = events[eventType];
             let status     = this->fireQueue(fireEvents, event);
         }
@@ -369,7 +375,7 @@ class Manager implements ManagerInterface
 
         for tuple in queue {
             let handler = tuple[0];
-            let kind    = (int) tuple[1];
+            let kind    = tuple[1];
 
             // Closure: most common path, direct invocation via Zephir's
             // `{var}(...)` callable-invocation syntax. This goes through
