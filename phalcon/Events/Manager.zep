@@ -96,13 +96,12 @@ class Manager implements ManagerInterface
      */
     public function addSubscriber(<Subscriber> subscriber) -> void
     {
-        var eventName, events, params;
+        var className, eventName, events, params;
 
         let this->subscribers[spl_object_id(subscriber)] = subscriber;
 
-        let events = call_user_func(
-            [get_class(subscriber), "getSubscribedEvents"]
-        );
+        let className = get_class(subscriber);
+        let events    = {className}::getSubscribedEvents();
 
         for eventName, params in events {
             this->processSubscriberEntry(
@@ -505,7 +504,7 @@ class Manager implements ManagerInterface
      */
     public function removeSubscriber(<Subscriber> subscriber) -> void
     {
-        var eventName, events, key, params;
+        var className, eventName, events, key, params;
 
         let key = spl_object_id(subscriber);
 
@@ -515,9 +514,8 @@ class Manager implements ManagerInterface
 
         unset this->subscribers[key];
 
-        let events = call_user_func(
-            [get_class(subscriber), "getSubscribedEvents"]
-        );
+        let className = get_class(subscriber);
+        let events    = {className}::getSubscribedEvents();
 
         for eventName, params in events {
             this->processSubscriberEntry(
