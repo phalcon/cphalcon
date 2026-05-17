@@ -48,6 +48,15 @@ class Manager implements ManagerInterface
     protected eventNameCache = [];
 
     /**
+     * Memoized method_exists() results for the OBJECT_METHOD dispatch
+     * path in fireQueue(). Keyed by `handlerClass => [methodName => bool]`.
+     * A class doesn't gain methods at runtime so the lookup is permanent.
+     *
+     * @var array
+     */
+    protected methodExistsCache = [];
+
+    /**
      * Listener storage. Shape:
      *
      *   events[$eventType] = [
@@ -362,7 +371,8 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(array queue, <EventInterface> event)
     {
-        var data, eventName, handler, source, status, tuple;
+        var classCache, data, eventName, handler, handlerClass, hasMethod,
+            source, status, tuple;
         bool cancelable, collect;
         int kind;
 
@@ -386,7 +396,21 @@ class Manager implements ManagerInterface
                 let status = {handler}(event, source, data);
             } elseif kind == 2 {
                 // Plain object — method named after the event.
-                if !method_exists(handler, eventName) {
+                // Cache method_exists per (class, eventName) — classes
+                // don't gain methods at runtime.
+                let handlerClass = get_class(handler);
+
+                if !fetch classCache, this->methodExistsCache[handlerClass] {
+                    let classCache = [];
+                }
+
+                if !fetch hasMethod, classCache[eventName] {
+                    let hasMethod          = method_exists(handler, eventName);
+                    let classCache[eventName] = hasMethod;
+                    let this->methodExistsCache[handlerClass] = classCache;
+                }
+
+                if !hasMethod {
                     continue;
                 }
 
