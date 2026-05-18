@@ -3510,7 +3510,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSource)
 				ZEPHIR_INIT_NVAR(&block);
 				ZVAL_COPY(&block, _3$$7);
 				if (Z_TYPE_P(&name) == IS_STRING) {
-					if (zephir_array_isset_value(&blocks, &name)) {
+					if (zephir_array_key_exists(&blocks, &name)) {
 						ZEPHIR_OBS_NVAR(&localBlock);
 						zephir_array_fetch(&localBlock, &blocks, &name, PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2315);
 						zephir_update_property_zval(this_ptr, ZEND_STRL("currentBlock"), &name);
@@ -3555,7 +3555,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSource)
 				ZEPHIR_CALL_METHOD(&block, &extendedBlocks, "current", NULL, 0);
 				zephir_check_call_status();
 					if (Z_TYPE_P(&name) == IS_STRING) {
-						if (zephir_array_isset_value(&blocks, &name)) {
+						if (zephir_array_key_exists(&blocks, &name)) {
 							ZEPHIR_OBS_NVAR(&localBlock);
 							zephir_array_fetch(&localBlock, &blocks, &name, PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2315);
 							zephir_update_property_zval(this_ptr, ZEND_STRL("currentBlock"), &name);

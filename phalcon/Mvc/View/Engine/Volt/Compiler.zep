@@ -2308,7 +2308,7 @@ class Compiler implements InjectionAwareInterface
                  * If name is a string then is a block name
                  */
                 if typeof name == "string" {
-                    if isset blocks[name] {
+                    if array_key_exists(name, blocks) {
                         /**
                          * The block is set in the local template
                          */

@@ -4955,7 +4955,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if unlikely !isset arguments[0] {
+        if unlikely !array_key_exists(0, arguments) {
             throw new Exception(
                 "The static method '" . method . "' in '" . get_called_class() . "' requires one argument"
             );

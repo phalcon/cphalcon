@@ -9162,11 +9162,11 @@ PHP_METHOD(Phalcon_Mvc_Model, groupResult)
  */
 PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 {
-	zend_class_entry *_15;
+	zend_class_entry *_16;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval arguments, _11$$14;
-	zval method_zv, *arguments_param = NULL, extraMethod, type, modelName, value, model, attributes, field, extraMethodFirst, metaData, params, _14, _0$$3, _1$$4, _2$$5, _3$$7, _4$$7, _5$$7, _6$$13, _7$$13, _8$$13, _9$$14, _10$$14, _12$$15, _13$$15;
+	zval arguments, _12$$14;
+	zval method_zv, *arguments_param = NULL, extraMethod, type, modelName, value, model, attributes, field, extraMethodFirst, metaData, params, _3, _15, _0$$3, _1$$4, _2$$5, _4$$7, _5$$7, _6$$7, _7$$13, _8$$13, _9$$13, _10$$14, _11$$14, _13$$15, _14$$15;
 	zend_string *method = NULL;
 
 	ZVAL_UNDEF(&method_zv);
@@ -9180,22 +9180,23 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	ZVAL_UNDEF(&extraMethodFirst);
 	ZVAL_UNDEF(&metaData);
 	ZVAL_UNDEF(&params);
-	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$5);
-	ZVAL_UNDEF(&_3$$7);
 	ZVAL_UNDEF(&_4$$7);
 	ZVAL_UNDEF(&_5$$7);
-	ZVAL_UNDEF(&_6$$13);
+	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_7$$13);
 	ZVAL_UNDEF(&_8$$13);
-	ZVAL_UNDEF(&_9$$14);
+	ZVAL_UNDEF(&_9$$13);
 	ZVAL_UNDEF(&_10$$14);
-	ZVAL_UNDEF(&_12$$15);
-	ZVAL_UNDEF(&_13$$15);
-	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_11$$14);
+	ZVAL_UNDEF(&_13$$15);
+	ZVAL_UNDEF(&_14$$15);
+	ZVAL_UNDEF(&arguments);
+	ZVAL_UNDEF(&_12$$14);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(method)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
@@ -9232,16 +9233,17 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (!(zephir_is_true(&extraMethod))) {
 		RETURN_MM_BOOL(0);
 	}
-	if (UNEXPECTED(!(zephir_array_isset_value_long(&arguments, 0)))) {
-		ZEPHIR_INIT_VAR(&_3$$7);
-		object_init_ex(&_3$$7, phalcon_mvc_model_exception_ce);
+	ZVAL_LONG(&_3, 0);
+	if (UNEXPECTED(!(zephir_array_key_exists(&arguments, &_3)))) {
 		ZEPHIR_INIT_VAR(&_4$$7);
-		zephir_get_called_class(&_4$$7);
+		object_init_ex(&_4$$7, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$7);
-		ZEPHIR_CONCAT_SVSVS(&_5$$7, "The static method '", &method_zv, "' in '", &_4$$7, "' requires one argument");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 49, &_5$$7);
+		zephir_get_called_class(&_5$$7);
+		ZEPHIR_INIT_VAR(&_6$$7);
+		ZEPHIR_CONCAT_SVSVS(&_6$$7, "The static method '", &method_zv, "' in '", &_5$$7, "' requires one argument");
+		ZEPHIR_CALL_METHOD(NULL, &_4$$7, "__construct", NULL, 49, &_6$$7);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model.zep", 4961);
+		zephir_throw_exception_debug(&_4$$7, "phalcon/Mvc/Model.zep", 4961);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -9267,15 +9269,15 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 			ZEPHIR_INIT_NVAR(&field);
 			zephir_uncamelize(&field, &extraMethod, NULL );
 			if (UNEXPECTED(!(zephir_array_isset_value(&attributes, &field)))) {
-				ZEPHIR_INIT_VAR(&_6$$13);
-				object_init_ex(&_6$$13, phalcon_mvc_model_exception_ce);
 				ZEPHIR_INIT_VAR(&_7$$13);
-				zephir_get_called_class(&_7$$13);
+				object_init_ex(&_7$$13, phalcon_mvc_model_exception_ce);
 				ZEPHIR_INIT_VAR(&_8$$13);
-				ZEPHIR_CONCAT_SVSVS(&_8$$13, "Cannot resolve attribute '", &extraMethod, "' in the model '", &_7$$13, "'");
-				ZEPHIR_CALL_METHOD(NULL, &_6$$13, "__construct", NULL, 49, &_8$$13);
+				zephir_get_called_class(&_8$$13);
+				ZEPHIR_INIT_VAR(&_9$$13);
+				ZEPHIR_CONCAT_SVSVS(&_9$$13, "Cannot resolve attribute '", &extraMethod, "' in the model '", &_8$$13, "'");
+				ZEPHIR_CALL_METHOD(NULL, &_7$$13, "__construct", NULL, 49, &_9$$13);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$13, "phalcon/Mvc/Model.zep", 4998);
+				zephir_throw_exception_debug(&_7$$13, "phalcon/Mvc/Model.zep", 4998);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -9285,32 +9287,32 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	zephir_array_isset_long_fetch(&value, &arguments, 0, 0);
 	ZEPHIR_INIT_VAR(&params);
 	if (Z_TYPE_P(&value) != IS_NULL) {
-		ZEPHIR_INIT_VAR(&_9$$14);
-		zephir_create_array(&_9$$14, 2, 0);
 		ZEPHIR_INIT_VAR(&_10$$14);
-		ZEPHIR_CONCAT_SVS(&_10$$14, "[", &field, "] = ?0");
-		zephir_array_update_string(&_9$$14, SL("conditions"), &_10$$14, PH_COPY | PH_SEPARATE);
+		zephir_create_array(&_10$$14, 2, 0);
 		ZEPHIR_INIT_VAR(&_11$$14);
-		zephir_create_array(&_11$$14, 1, 0);
-		zephir_array_fast_append(&_11$$14, &value);
-		zephir_array_update_string(&_9$$14, SL("bind"), &_11$$14, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CPY_WRT(&params, &_9$$14);
+		ZEPHIR_CONCAT_SVS(&_11$$14, "[", &field, "] = ?0");
+		zephir_array_update_string(&_10$$14, SL("conditions"), &_11$$14, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(&_12$$14);
+		zephir_create_array(&_12$$14, 1, 0);
+		zephir_array_fast_append(&_12$$14, &value);
+		zephir_array_update_string(&_10$$14, SL("bind"), &_12$$14, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CPY_WRT(&params, &_10$$14);
 	} else {
-		ZEPHIR_INIT_VAR(&_12$$15);
-		zephir_create_array(&_12$$15, 1, 0);
 		ZEPHIR_INIT_VAR(&_13$$15);
-		ZEPHIR_CONCAT_SVS(&_13$$15, "[", &field, "] IS NULL");
-		zephir_array_update_string(&_12$$15, SL("conditions"), &_13$$15, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CPY_WRT(&params, &_12$$15);
+		zephir_create_array(&_13$$15, 1, 0);
+		ZEPHIR_INIT_VAR(&_14$$15);
+		ZEPHIR_CONCAT_SVS(&_14$$15, "[", &field, "] IS NULL");
+		zephir_array_update_string(&_13$$15, SL("conditions"), &_14$$15, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CPY_WRT(&params, &_13$$15);
 	}
 	zephir_array_unset_long(&arguments, 0, PH_SEPARATE);
 	zephir_array_unset_string(&arguments, SL("conditions"), PH_SEPARATE);
 	zephir_array_unset_string(&arguments, SL("bind"), PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_14);
-	zephir_fast_array_merge(&_14, &params, &arguments);
-	ZEPHIR_CPY_WRT(&params, &_14);
-	_15 = zephir_fetch_class(&modelName);
-	ZEPHIR_RETURN_CALL_CE_STATIC_ZVAL(_15, type, NULL, 0, &params);
+	ZEPHIR_INIT_VAR(&_15);
+	zephir_fast_array_merge(&_15, &params, &arguments);
+	ZEPHIR_CPY_WRT(&params, &_15);
+	_16 = zephir_fetch_class(&modelName);
+	ZEPHIR_RETURN_CALL_CE_STATIC_ZVAL(_16, type, NULL, 0, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 }
