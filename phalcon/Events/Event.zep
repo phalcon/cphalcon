@@ -25,7 +25,7 @@ use Phalcon\Contracts\Events\Stoppable;
  * }
  * ```
  */
-class Event implements EventInterface, Stoppable
+final class Event implements EventInterface, Stoppable
 {
     /**
      * Is event cancelable?
@@ -67,13 +67,18 @@ class Event implements EventInterface, Stoppable
      *
      * @param object source
      */
-    public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
-    {
+    public function __construct(
+        string type,
+        var source = null,
+        var data = null,
+        bool cancelable = true
+    ) {
         if unlikely null !== source && typeof source !== "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );
         }
+
         let this->type       = type,
             this->source     = source,
             this->data       = data,
