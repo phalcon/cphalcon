@@ -14,7 +14,6 @@ use FilesystemIterator;
 use Iterator;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
 use Phalcon\Support\Exception as SupportException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
