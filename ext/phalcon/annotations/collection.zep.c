@@ -427,6 +427,6 @@ PHP_METHOD(Phalcon_Annotations_Collection, valid)
 	ZVAL_UNDEF(&_1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("position"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &_1));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &_1));
 }
 

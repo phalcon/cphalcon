@@ -187,14 +187,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 				zephir_array_update_string(&_10$$5, SL("filePath"), &configName, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$5, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CPY_WRT(&configInstance, &_10$$5);
-			} else if (!(zephir_array_isset_string(&configInstance, SL("adapter")))) {
+			} else if (!(zephir_array_isset_value_string(&configInstance, SL("adapter")))) {
 				zephir_array_update_string(&configInstance, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch_string(&_11$$3, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Grouped.zep", 105);
 			ZEPHIR_INIT_NVAR(&_12$$3);
 			ZVAL_STRING(&_12$$3, "array");
 			if (ZEPHIR_IS_IDENTICAL(&_12$$3, &_11$$3)) {
-				if (!(zephir_array_isset_string(&configInstance, SL("config")))) {
+				if (!(zephir_array_isset_value_string(&configInstance, SL("config")))) {
 					ZEPHIR_INIT_NVAR(&_13$$9);
 					object_init_ex(&_13$$9, phalcon_config_exception_ce);
 					ZEPHIR_INIT_NVAR(&_14$$9);
@@ -263,14 +263,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 					zephir_array_update_string(&_24$$13, SL("filePath"), &configName, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&_24$$13, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 					ZEPHIR_CPY_WRT(&configInstance, &_24$$13);
-				} else if (!(zephir_array_isset_string(&configInstance, SL("adapter")))) {
+				} else if (!(zephir_array_isset_value_string(&configInstance, SL("adapter")))) {
 					zephir_array_update_string(&configInstance, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch_string(&_25$$11, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Grouped.zep", 105);
 				ZEPHIR_INIT_NVAR(&_26$$11);
 				ZVAL_STRING(&_26$$11, "array");
 				if (ZEPHIR_IS_IDENTICAL(&_26$$11, &_25$$11)) {
-					if (!(zephir_array_isset_string(&configInstance, SL("config")))) {
+					if (!(zephir_array_isset_value_string(&configInstance, SL("config")))) {
 						ZEPHIR_INIT_NVAR(&_27$$17);
 						object_init_ex(&_27$$17, phalcon_config_exception_ce);
 						ZEPHIR_INIT_NVAR(&_28$$17);

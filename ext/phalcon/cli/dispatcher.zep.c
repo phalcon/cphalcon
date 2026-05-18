@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
@@ -82,20 +82,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher)
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 {
-	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval params, _2;
 	zend_string *actionMethod = NULL;
-	zval *handler, handler_sub, actionMethod_zv, params, *params_param = NULL, _0, _1, _2;
+	zval *handler, handler_sub, actionMethod_zv, *params_param = NULL, localParams, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&actionMethod_zv);
-	ZVAL_UNDEF(&params);
+	ZVAL_UNDEF(&localParams);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ZVAL(handler)
 		Z_PARAM_STR(actionMethod)
@@ -116,18 +116,17 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 22, &params);
+	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 22, &params);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&params, &_0);
-	ZEPHIR_INIT_VAR(&_1);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	zephir_fast_array_merge(&_1, &params, &_2);
-	ZEPHIR_CPY_WRT(&params, &_1);
-	ZEPHIR_INIT_VAR(&_3);
-	zephir_create_array(&_3, 2, 0);
-	zephir_array_fast_append(&_3, handler);
-	zephir_array_fast_append(&_3, &actionMethod_zv);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &params);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_fast_array_merge(&_0, &localParams, &_1);
+	ZEPHIR_CPY_WRT(&localParams, &_0);
+	ZEPHIR_INIT_VAR(&_2);
+	zephir_create_array(&_2, 2, 0);
+	zephir_array_fast_append(&_2, handler);
+	zephir_array_fast_append(&_2, &actionMethod_zv);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_2, &localParams);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -266,7 +265,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &option);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, option));
+	RETURN_BOOL(zephir_array_isset_value(&_0, option));
 }
 
 /**

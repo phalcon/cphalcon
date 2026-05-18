@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 		}
 		zephir_read_property(&_15$$9, this_ptr, ZEND_STRL("modules"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&modules, &_15$$9);
-		if (UNEXPECTED(!(zephir_array_isset(&modules, &moduleName)))) {
+		if (UNEXPECTED(!(zephir_array_isset_value(&modules, &moduleName)))) {
 			ZEPHIR_INIT_VAR(&_16$$12);
 			object_init_ex(&_16$$12, phalcon_cli_console_exception_ce);
 			ZEPHIR_INIT_VAR(&_17$$12);

@@ -1188,7 +1188,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 	}
 	zephir_memory_observe(&functionName);
 	zephir_array_fetch_string(&functionName, &trace, SL("function"), PH_NOISY, "phalcon/Support/Debug.zep", 628);
-	if (zephir_array_isset_string(&trace, SL("class"))) {
+	if (zephir_array_isset_value_string(&trace, SL("class"))) {
 		ZEPHIR_CPY_WRT(&functionNameWithLink, &functionName);
 	} else {
 		if (1 == (zephir_function_exists(&functionName) == SUCCESS)) {
@@ -1260,7 +1260,7 @@ PHP_METHOD(Phalcon_Support_Debug, showTraceItem)
 		ZEPHIR_CONCAT_SVS(&_22$$14, "(", &_21$$14, ")");
 		zephir_concat_self(&html, &_22$$14);
 	}
-	if (zephir_array_isset_string(&trace, SL("file"))) {
+	if (zephir_array_isset_value_string(&trace, SL("file"))) {
 		zephir_memory_observe(&file);
 		zephir_array_fetch_string(&file, &trace, SL("file"), PH_NOISY, "phalcon/Support/Debug.zep", 690);
 		zephir_memory_observe(&_23$$17);
@@ -1736,7 +1736,7 @@ PHP_METHOD(Phalcon_Support_Debug, printSuperglobal)
 			ZVAL_COPY(&value, _3);
 			ZEPHIR_CALL_FUNCTION(&_7$$3, "mb_strtolower", &_8, 8, &key);
 			zephir_check_call_status();
-			if (!(zephir_array_isset(&filter, &_7$$3))) {
+			if (!(zephir_array_isset_value(&filter, &_7$$3))) {
 				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "getvardump", &_10, 0, &value);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$4);
@@ -1759,7 +1759,7 @@ PHP_METHOD(Phalcon_Support_Debug, printSuperglobal)
 			zephir_check_call_status();
 				ZEPHIR_CALL_FUNCTION(&_12$$5, "mb_strtolower", &_8, 8, &key);
 				zephir_check_call_status();
-				if (!(zephir_array_isset(&filter, &_12$$5))) {
+				if (!(zephir_array_isset_value(&filter, &_12$$5))) {
 					ZEPHIR_CALL_METHOD(&_13$$6, this_ptr, "getvardump", &_10, 0, &value);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_14$$6);

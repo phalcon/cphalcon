@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 					ZEPHIR_OBS_NVAR(&value);
 					zephir_array_isset_fetch(&value, &row, &alias, 0);
 				}
-				if (zephir_array_isset_string(&column, SL("balias"))) {
+				if (zephir_array_isset_value_string(&column, SL("balias"))) {
 					ZEPHIR_CPY_WRT(&attribute, &alias);
 				} else {
 					ZEPHIR_INIT_NVAR(&_27$$31);
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 						ZEPHIR_OBS_NVAR(&value);
 						zephir_array_isset_fetch(&value, &row, &alias, 0);
 					}
-					if (zephir_array_isset_string(&column, SL("balias"))) {
+					if (zephir_array_isset_value_string(&column, SL("balias"))) {
 						ZEPHIR_CPY_WRT(&attribute, &alias);
 					} else {
 						ZEPHIR_INIT_NVAR(&_47$$57);

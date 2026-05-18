@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 		if (ZEPHIR_IS_STRING(&adapter, "ini")) {
 			ZEPHIR_INIT_VAR(&param);
 			ZVAL_LONG(&param, 1);
-			if (zephir_array_isset_string(&configArray, SL("mode"))) {
+			if (zephir_array_isset_value_string(&configArray, SL("mode"))) {
 				ZEPHIR_OBS_NVAR(&param);
 				zephir_array_fetch_string(&param, &configArray, SL("mode"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 71);
 			}
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load)
 		if (ZEPHIR_IS_STRING(&adapter, "yaml")) {
 			ZEPHIR_INIT_NVAR(&param);
 			ZVAL_NULL(&param);
-			if (zephir_array_isset_string(&configArray, SL("callbacks"))) {
+			if (zephir_array_isset_value_string(&configArray, SL("callbacks"))) {
 				ZEPHIR_OBS_NVAR(&param);
 				zephir_array_fetch_string(&param, &configArray, SL("callbacks"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 78);
 			}
@@ -335,11 +335,11 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, checkConfigArray)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
-	if (1 != zephir_array_isset_string(&config, SL("filePath"))) {
+	if (1 != zephir_array_isset_value_string(&config, SL("filePath"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 195);
 		return;
 	}
-	if (1 != zephir_array_isset_string(&config, SL("adapter"))) {
+	if (1 != zephir_array_isset_value_string(&config, SL("adapter"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 201);
 		return;
 	}

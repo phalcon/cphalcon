@@ -386,6 +386,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, variables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&output);
+	ZVAL_STRING(&output, "");
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_args(&_0);
 	zephir_is_iterable(&_0, 0, "phalcon/Support/Debug/Dump.zep", 198);

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&claim_zv, claim);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_0, &claim_zv)) {
+	if (zephir_array_isset_value(&_0, &claim_zv)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_2$$3, &_1$$3, &claim_zv, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Validator.zep", 87);
 		RETURN_CTORW(&_2$$3);

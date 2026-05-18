@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	if (1 == zephir_array_isset_string(&options, SL("mode"))) {
+	if (1 == zephir_array_isset_value_string(&options, SL("mode"))) {
 		zephir_memory_observe(&mode);
 		zephir_array_fetch_string(&mode, &options, SL("mode"), PH_NOISY, "phalcon/Logger/Adapter/Stream.zep", 82);
 	} else {

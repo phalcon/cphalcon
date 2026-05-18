@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 		ZEPHIR_INIT_NVAR(&localOverrides);
 		array_init(&localOverrides);
 	}
-	if (zephir_array_isset(&localOverrides, &key_zv)) {
+	if (zephir_array_isset_value(&localOverrides, &key_zv)) {
 		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Settings.zep", 68);
 		RETURN_CTOR(&_0$$4);
 	}

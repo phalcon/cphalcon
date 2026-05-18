@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate)
 	_0 = !ZEPHIR_IS_NULL(&field_zv);
 	if (_0) {
 		zephir_read_property(&_1, this_ptr, ZEND_STRL("templates"), PH_NOISY_CC | PH_READONLY);
-		_0 = zephir_array_isset(&_1, &field_zv);
+		_0 = zephir_array_isset_value(&_1, &field_zv);
 	}
 	if (_0) {
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("templates"), PH_NOISY_CC | PH_READONLY);
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, hasOption)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &key_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
 /**
@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray)
 	ZVAL_STR_COPY(&field_zv, field);
 	_0 = Z_TYPE_P(value) == IS_ARRAY;
 	if (_0) {
-		_0 = zephir_array_isset(value, &field_zv);
+		_0 = zephir_array_isset_value(value, &field_zv);
 	}
 	if (_0) {
 		zephir_array_fetch(&_1$$3, value, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/AbstractValidator.zep", 295);

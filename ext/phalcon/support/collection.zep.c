@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-	_0 = zephir_array_isset_string(&data, SL("data"));
+	_0 = zephir_array_isset_value_string(&data, SL("data"));
 	if (_0) {
 		zephir_memory_observe(&_1);
 		zephir_array_fetch_string(&_1, &data, SL("data"), PH_NOISY, "phalcon/Support/Collection.zep", 152);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_2$$3);
-		if (zephir_array_isset_string(&data, SL("insensitive"))) {
+		if (zephir_array_isset_value_string(&data, SL("insensitive"))) {
 			ZEPHIR_OBS_NVAR(&_2$$3);
 			zephir_array_fetch_string(&_2$$3, &data, SL("insensitive"), PH_NOISY, "phalcon/Support/Collection.zep", 153);
 		} else {
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 			zephir_update_property_zval(this_ptr, ZEND_STRL("insensitive"), &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&_2$$3);
-		if (zephir_array_isset_string(&data, SL("strictNull"))) {
+		if (zephir_array_isset_value_string(&data, SL("strictNull"))) {
 			ZEPHIR_OBS_NVAR(&_2$$3);
 			zephir_array_fetch_string(&_2$$3, &data, SL("strictNull"), PH_NOISY, "phalcon/Support/Collection.zep", 154);
 		} else {
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 			zephir_update_property_zval(this_ptr, ZEND_STRL("strictNull"), &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&_2$$3);
-		if (zephir_array_isset_string(&data, SL("type"))) {
+		if (zephir_array_isset_value_string(&data, SL("type"))) {
 			ZEPHIR_OBS_NVAR(&_2$$3);
 			zephir_array_fetch_string(&_2$$3, &data, SL("type"), PH_NOISY, "phalcon/Support/Collection.zep", 155);
 		} else {
@@ -750,7 +750,7 @@ PHP_METHOD(Phalcon_Support_Collection, get)
 	zephir_check_call_status();
 	zephir_get_strval(&element, &_0);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
-	if (UNEXPECTED(1 != zephir_array_isset(&_1, &element))) {
+	if (UNEXPECTED(1 != zephir_array_isset_value(&_1, &element))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -912,7 +912,7 @@ PHP_METHOD(Phalcon_Support_Collection, has)
 	zephir_check_call_status();
 	zephir_get_strval(&element, &_0);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
-	RETURN_MM_BOOL(zephir_array_isset(&_1, &element));
+	RETURN_MM_BOOL(zephir_array_isset_value(&_1, &element));
 }
 
 /**
@@ -1886,7 +1886,7 @@ PHP_METHOD(Phalcon_Support_Collection, extractValue)
 	ZVAL_STR_COPY(&propertyOrMethod_zv, propertyOrMethod);
 	if (Z_TYPE_P(item) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		if (zephir_array_isset(item, &propertyOrMethod_zv)) {
+		if (zephir_array_isset_value(item, &propertyOrMethod_zv)) {
 			ZEPHIR_OBS_NVAR(&_0$$3);
 			zephir_array_fetch(&_0$$3, item, &propertyOrMethod_zv, PH_NOISY, "phalcon/Support/Collection.zep", 775);
 		} else {

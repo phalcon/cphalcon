@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 						}
 						ZEPHIR_INIT_NVAR(&subValue);
 						ZVAL_COPY(&subValue, _7$$4);
-						if (zephir_array_isset(&attributes, &subKey)) {
+						if (zephir_array_isset_value(&attributes, &subKey)) {
 							ZEPHIR_OBS_NVAR(&subAttrs);
 							zephir_array_fetch(&subAttrs, &attributes, &subKey, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 132);
 						} else {
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 						zephir_check_call_status();
-							if (zephir_array_isset(&attributes, &subKey)) {
+							if (zephir_array_isset_value(&attributes, &subKey)) {
 								ZEPHIR_OBS_NVAR(&subAttrs);
 								zephir_array_fetch(&subAttrs, &attributes, &subKey, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 132);
 							} else {
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_6, 0, &_16$$4);
 				zephir_check_call_status();
 			} else {
-				if (zephir_array_isset(&attributes, &key)) {
+				if (zephir_array_isset_value(&attributes, &key)) {
 					ZEPHIR_OBS_NVAR(&optionAttrs);
 					zephir_array_fetch(&optionAttrs, &attributes, &key, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 139);
 				} else {
@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 							}
 							ZEPHIR_INIT_NVAR(&subValue);
 							ZVAL_COPY(&subValue, _20$$9);
-							if (zephir_array_isset(&attributes, &subKey)) {
+							if (zephir_array_isset_value(&attributes, &subKey)) {
 								ZEPHIR_OBS_NVAR(&subAttrs);
 								zephir_array_fetch(&subAttrs, &attributes, &subKey, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 132);
 							} else {
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 							zephir_check_call_status();
 							ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 							zephir_check_call_status();
-								if (zephir_array_isset(&attributes, &subKey)) {
+								if (zephir_array_isset_value(&attributes, &subKey)) {
 									ZEPHIR_OBS_NVAR(&subAttrs);
 									zephir_array_fetch(&subAttrs, &attributes, &subKey, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 132);
 								} else {
@@ -460,7 +460,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_6, 0, &_28$$9);
 					zephir_check_call_status();
 				} else {
-					if (zephir_array_isset(&attributes, &key)) {
+					if (zephir_array_isset_value(&attributes, &key)) {
 						ZEPHIR_OBS_NVAR(&optionAttrs);
 						zephir_array_fetch(&optionAttrs, &attributes, &key, PH_NOISY, "phalcon/Html/Helper/Input/Select.zep", 139);
 					} else {

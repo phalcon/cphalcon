@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 219, &collection);
 		zephir_check_call_status();
 	}
-	if (!(zephir_array_isset(&collection, &requested))) {
+	if (!(zephir_array_isset_value(&collection, &requested))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		object_init_ex(&_2$$5, phalcon_datamapper_pdo_exception_connectionnotfound_ce);
 		ZEPHIR_INIT_VAR(&_3$$5);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	}
 	ZEPHIR_INIT_VAR(&instanceName);
 	ZEPHIR_CONCAT_VSV(&instanceName, &type_zv, "-", &requested);
-	if (!(zephir_array_isset(&instances, &instanceName))) {
+	if (!(zephir_array_isset_value(&instances, &instanceName))) {
 		ZEPHIR_INIT_VAR(&_4$$6);
 		zephir_array_fetch(&_5$$6, &collection, &requested, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 217);
 		ZEPHIR_CALL_USER_FUNC(&_4$$6, &_5$$6);

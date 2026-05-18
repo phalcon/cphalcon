@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind)
 	} else {
 		}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_string(&_0, SL("bind")))) {
+	if (!(zephir_array_isset_value_string(&_0, SL("bind")))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		array_init(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);

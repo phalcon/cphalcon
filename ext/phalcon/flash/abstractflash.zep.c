@@ -721,7 +721,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate)
 	ZEPHIR_CONCAT_SV(&_1, "<div%divString%>%iconString%%message%</div>", &_0);
 	zephir_get_strval(&template, &_1);
 	ZEPHIR_INIT_VAR(&divString);
+	ZVAL_STRING(&divString, "");
 	ZEPHIR_INIT_VAR(&iconString);
+	ZVAL_STRING(&iconString, "");
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("customTemplate"), PH_NOISY_CC | PH_READONLY);
 	if (!(ZEPHIR_IS_EMPTY(&_2))) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "customTemplate", IS_STRING);
@@ -876,7 +878,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses)
 	ZVAL_STR_COPY(&type_zv, type);
 	ZEPHIR_INIT_VAR(&content);
 	ZVAL_STRING(&content, "");
-	if (zephir_array_isset(&collection, &type_zv)) {
+	if (zephir_array_isset_value(&collection, &type_zv)) {
 		ZEPHIR_OBS_NVAR(&content);
 		zephir_array_fetch(&content, &collection, &type_zv, PH_NOISY, "phalcon/Flash/AbstractFlash.zep", 484);
 	}

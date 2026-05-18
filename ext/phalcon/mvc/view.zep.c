@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Mvc_View, __isset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &key_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
 /**
@@ -2455,7 +2455,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 	renderLevel = zephir_get_intval(&_9);
 	if (renderLevel) {
 		if (renderLevel >= 1) {
-			if (!(zephir_array_isset_long(&disabledLevels, 1))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 1))) {
 				ZVAL_UNDEF(&_10$$15);
 				ZVAL_LONG(&_10$$15, 1);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_10$$15);
@@ -2469,7 +2469,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 2) {
-			if (!(zephir_array_isset_long(&disabledLevels, 2))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 2))) {
 				ZVAL_UNDEF(&_11$$17);
 				ZVAL_LONG(&_11$$17, 2);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_11$$17);
@@ -2521,7 +2521,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 3) {
-			if (!(zephir_array_isset_long(&disabledLevels, 3))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 3))) {
 				ZVAL_UNDEF(&_18$$21);
 				ZVAL_LONG(&_18$$21, 3);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_18$$21);
@@ -2537,7 +2537,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 4) {
-			if (!(zephir_array_isset_long(&disabledLevels, 4))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 4))) {
 				ZVAL_UNDEF(&_20$$23);
 				ZVAL_LONG(&_20$$23, 4);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_20$$23);
@@ -2589,7 +2589,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 5) {
-			if (!(zephir_array_isset_long(&disabledLevels, 5))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 5))) {
 				ZVAL_UNDEF(&_27$$27);
 				ZVAL_LONG(&_27$$27, 5);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_27$$27);

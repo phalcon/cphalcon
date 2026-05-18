@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 	_9 = Z_TYPE_P(&_8) == IS_ARRAY;
 	if (_9) {
 		zephir_read_property(&_10, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
-		_9 = zephir_array_isset(&_10, &field_zv);
+		_9 = zephir_array_isset_value(&_10, &field_zv);
 	}
 	if (_9) {
 		zephir_read_property(&_11$$4, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);

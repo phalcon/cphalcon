@@ -1654,7 +1654,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind)
 		ZVAL_LONG(&key, _0$$3);
 	}
 	if (Z_TYPE_P(arguments) == IS_ARRAY) {
-		if (zephir_array_isset_long(arguments, 1)) {
+		if (zephir_array_isset_value_long(arguments, 1)) {
 			zephir_memory_observe(&type);
 			zephir_array_fetch_long(&type, arguments, 1, PH_NOISY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 743);
 		} else {

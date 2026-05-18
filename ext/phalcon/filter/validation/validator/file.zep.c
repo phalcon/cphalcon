@@ -233,21 +233,21 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 		zephir_check_call_status();
 	}
 
-	if (zephir_array_isset_string(&options, SL("messageFileEmpty"))) {
+	if (zephir_array_isset_value_string(&options, SL("messageFileEmpty"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "messageFileEmpty");
 		ZEPHIR_CALL_METHOD(&messageFileEmpty, &helper, "__invoke", NULL, 177, &options, &_0$$3);
 		zephir_check_call_status();
 		zephir_array_unset_string(&options, SL("messageFileEmpty"), PH_SEPARATE);
 	}
-	if (zephir_array_isset_string(&options, SL("messageIniSize"))) {
+	if (zephir_array_isset_value_string(&options, SL("messageIniSize"))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "messageIniSize");
 		ZEPHIR_CALL_METHOD(&messageIniSize, &helper, "__invoke", NULL, 177, &options, &_1$$4);
 		zephir_check_call_status();
 		zephir_array_unset_string(&options, SL("messageIniSize"), PH_SEPARATE);
 	}
-	if (zephir_array_isset_string(&options, SL("messageValid"))) {
+	if (zephir_array_isset_value_string(&options, SL("messageValid"))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		ZVAL_STRING(&_2$$5, "messageValid");
 		ZEPHIR_CALL_METHOD(&messageValid, &helper, "__invoke", NULL, 177, &options, &_2$$5);

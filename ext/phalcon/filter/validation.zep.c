@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getValueByEntity)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	if (zephir_isset_property_zval(entity, &field_zv)) {
+	if (zephir_isset_property_value_zval(entity, &field_zv)) {
 		zephir_memory_observe(&_2$$5);
 		zephir_read_property_zval(&_2$$5, entity, &field_zv, PH_NOISY_CC);
 		RETURN_CCTOR(&_2$$5);
@@ -647,13 +647,13 @@ PHP_METHOD(Phalcon_Filter_Validation, getValueByData)
 		RETURN_CCTOR(&value);
 	}
 	if (Z_TYPE_P(data) == IS_ARRAY) {
-		if (zephir_array_isset(data, &field_zv)) {
+		if (zephir_array_isset_value(data, &field_zv)) {
 			zephir_array_fetch(&_1$$5, data, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation.zep", 358);
 			RETURN_CTOR(&_1$$5);
 		}
 	}
 	if (Z_TYPE_P(data) == IS_OBJECT) {
-		if (zephir_isset_property_zval(data, &field_zv)) {
+		if (zephir_isset_property_value_zval(data, &field_zv)) {
 			zephir_memory_observe(&_2$$7);
 			zephir_read_property_zval(&_2$$7, data, &field_zv, PH_NOISY_CC);
 			RETURN_CCTOR(&_2$$7);

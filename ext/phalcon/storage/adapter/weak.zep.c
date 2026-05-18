@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doDelete)
 		RETURN_BOOL(0);
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("weakList"), PH_NOISY_CC | PH_READONLY);
-	exists = zephir_array_isset(&_1, &key_zv);
+	exists = zephir_array_isset_value(&_1, &key_zv);
 	zephir_unset_property_array(this_ptr, ZEND_STRL("weakList"), &key_zv);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("weakList"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_2, &key_zv, PH_SEPARATE);
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("fetching"), &key_zv);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("weakList"), PH_NOISY_CC | PH_READONLY);
-	if (0 == zephir_array_isset(&_0, &key_zv)) {
+	if (0 == zephir_array_isset_value(&_0, &key_zv)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("fetching"), &__$null);
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doHas)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("weakList"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &key_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
 /**
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doSet)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("weakList"), PH_NOISY_CC | PH_READONLY);
-	if (0 == zephir_array_isset(&_0, &key_zv)) {
+	if (0 == zephir_array_isset_value(&_0, &key_zv)) {
 		_2$$4 = zephir_fetch_class_str_ex(SL("WeakReference"), ZEND_FETCH_CLASS_AUTO);
 		ZEPHIR_CALL_CE_STATIC(&_1$$4, _2$$4, "create", NULL, 0, value);
 		zephir_check_call_status();

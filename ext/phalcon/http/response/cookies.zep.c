@@ -271,9 +271,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has)
 	zephir_get_global(&_COOKIE, SL("_COOKIE"));
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
-	_1 = zephir_array_isset(&_0, &name_zv);
+	_1 = zephir_array_isset_value(&_0, &name_zv);
 	if (!(_1)) {
-		_1 = zephir_array_isset(&_COOKIE, &name_zv);
+		_1 = zephir_array_isset_value(&_COOKIE, &name_zv);
 	}
 	RETURN_BOOL(_1);
 }

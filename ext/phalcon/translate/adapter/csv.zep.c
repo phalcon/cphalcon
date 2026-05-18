@@ -86,25 +86,25 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
 	zephir_get_arrval(&options, options_param);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_csv_ce, getThis(), "__construct", NULL, 0, interpolator, &options);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_array_isset_string(&options, SL("content"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("content"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Parameter 'content' is required", "phalcon/Translate/Adapter/Csv.zep", 49);
 		return;
 	}
-	if (zephir_array_isset_string(&options, SL("delimiter"))) {
+	if (zephir_array_isset_value_string(&options, SL("delimiter"))) {
 		zephir_memory_observe(&delimiter);
 		zephir_array_fetch_string(&delimiter, &options, SL("delimiter"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 53);
 	} else {
 		ZEPHIR_INIT_NVAR(&delimiter);
 		ZVAL_STRING(&delimiter, ";");
 	}
-	if (zephir_array_isset_string(&options, SL("enclosure"))) {
+	if (zephir_array_isset_value_string(&options, SL("enclosure"))) {
 		zephir_memory_observe(&enclosure);
 		zephir_array_fetch_string(&enclosure, &options, SL("enclosure"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 59);
 	} else {
 		ZEPHIR_INIT_NVAR(&enclosure);
 		ZVAL_STRING(&enclosure, "\"");
 	}
-	if (zephir_array_isset_string(&options, SL("escape"))) {
+	if (zephir_array_isset_value_string(&options, SL("escape"))) {
 		zephir_memory_observe(&escape);
 		zephir_array_fetch_string(&escape, &options, SL("escape"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 65);
 	} else {
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&index_zv, index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &index_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
 }
 
 /**
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		zephir_substr(&_7$$4, &_5$$4, 0 , 1 , 0);
 		_8$$4 = ZEPHIR_IS_STRING_IDENTICAL(&_7$$4, "#");
 		if (!(_8$$4)) {
-			_8$$4 = !(zephir_array_isset_long(&data, 1));
+			_8$$4 = !(zephir_array_isset_value_long(&data, 1));
 		}
 		if (_8$$4) {
 			continue;

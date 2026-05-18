@@ -547,6 +547,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 		zephir_get_strval(&sql, &_1$$6);
 	}
 	ZEPHIR_INIT_VAR(&indexSqlAfterCreate);
+	ZVAL_STRING(&indexSqlAfterCreate, "");
 	ZEPHIR_INIT_VAR(&createLines);
 	array_init(&createLines);
 	ZEPHIR_INIT_VAR(&primaryColumns);
@@ -700,6 +701,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 				ZEPHIR_CALL_METHOD(&indexType, &index, "gettype", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&indexSql);
+				ZVAL_STRING(&indexSql, "");
 				if (ZEPHIR_IS_STRING(&indexName, "PRIMARY")) {
 					ZEPHIR_CALL_METHOD(&_45$$22, this_ptr, "getindexcolumnlist", &_46, 0, &index);
 					zephir_check_call_status();
@@ -748,6 +750,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					ZEPHIR_CALL_METHOD(&indexType, &index, "gettype", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&indexSql);
+					ZVAL_STRING(&indexSql, "");
 					if (ZEPHIR_IS_STRING(&indexName, "PRIMARY")) {
 						ZEPHIR_CALL_METHOD(&_55$$28, this_ptr, "getindexcolumnlist", &_46, 0, &index);
 						zephir_check_call_status();
@@ -924,7 +927,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	ZEPHIR_INIT_VAR(&_96);
 	ZEPHIR_CONCAT_VS(&_96, &_95, "\n)");
 	zephir_concat_self(&sql, &_96);
-	if (zephir_array_isset_string(&definition, SL("options"))) {
+	if (zephir_array_isset_value_string(&definition, SL("options"))) {
 		ZEPHIR_CALL_METHOD(&_97$$43, this_ptr, "gettableoptions", NULL, 0, &definition);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_98$$43);
@@ -1796,6 +1799,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 		if (!(ZEPHIR_IS_EMPTY(&typeValues))) {
 			if (Z_TYPE_P(&typeValues) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(&valueSql$$76);
+				ZVAL_STRING(&valueSql$$76, "");
 				zephir_is_iterable(&typeValues, 0, "phalcon/Db/Dialect/Postgresql.zep", 796);
 				if (Z_TYPE_P(&typeValues) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&typeValues), _8$$76)
@@ -2007,6 +2011,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn)
 		ZEPHIR_SEPARATE_PARAM(currentColumn);
 	}
 	ZEPHIR_INIT_VAR(&sql);
+	ZVAL_STRING(&sql, "");
 	ZEPHIR_CALL_METHOD(&columnDefinition, this_ptr, "getcolumndefinition", NULL, 0, column);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);

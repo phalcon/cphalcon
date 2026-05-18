@@ -707,7 +707,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processMask)
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&color, "imagecolorsforindex", &_24, 432, &maskImage, &index);
 			zephir_check_call_status();
-			if (1 == zephir_array_isset_string(&color, SL("red"))) {
+			if (1 == zephir_array_isset_value_string(&color, SL("red"))) {
 				zephir_array_fetch_string(&_25$$6, &color, SL("red"), PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 348);
 				ZVAL_DOUBLE(&_26$$6, zephir_safe_div_zval_long(&_25$$6, 2));
 				alpha = (127 - zephir_get_intval(&_26$$6));
@@ -1547,7 +1547,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processText)
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed", "phalcon/Image/Adapter/Gd.zep", 762);
 			return;
 		}
-		if (1 == zephir_array_isset_long(&space, 0)) {
+		if (1 == zephir_array_isset_value_long(&space, 0)) {
 			zephir_memory_observe(&_7$$5);
 			zephir_array_fetch_long(&_7$$5, &space, 0, PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 766);
 			bottomLeftX = zephir_get_intval(&_7$$5);

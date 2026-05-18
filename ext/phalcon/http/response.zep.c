@@ -1552,7 +1552,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 		add_index_stringl(&statusCodes, 530, SL("Origin DNS Error"));
 		add_index_stringl(&statusCodes, 598, SL("Network read timeout error"));
 		add_index_stringl(&statusCodes, 599, SL("Network Connect Timeout Error"));
-		if (UNEXPECTED(!(zephir_array_isset_long(&statusCodes, code)))) {
+		if (UNEXPECTED(!(zephir_array_isset_value_long(&statusCodes, code)))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard status-code given without a message", "phalcon/Http/Response.zep", 824);
 			return;
 		}

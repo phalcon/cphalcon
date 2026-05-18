@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("dialect"), &dialectClass);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("descriptor"), &descriptor);
-	_3 = zephir_array_isset_string(&descriptor, SL("options"));
+	_3 = zephir_array_isset_value_string(&descriptor, SL("options"));
 	if (_3) {
 		zephir_memory_observe(&_4);
 		zephir_array_fetch_string(&_4, &descriptor, SL("options"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 206);
@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView)
 		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
-	if (UNEXPECTED(!(zephir_array_isset_string(&definition, SL("sql"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&definition, SL("sql"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The table must contain at least one column", "phalcon/Db/Adapter/AbstractAdapter.zep", 332);
 		return;
 	}
@@ -710,7 +710,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes)
 			ZEPHIR_INIT_NVAR(&index);
 			ZVAL_COPY(&index, _4);
 			zephir_array_fetch_long(&keyName, &index, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/AbstractAdapter.zep", 399);
-			if (!(zephir_array_isset(&indexes, &keyName))) {
+			if (!(zephir_array_isset_value(&indexes, &keyName))) {
 				ZEPHIR_INIT_NVAR(&columns);
 				array_init(&columns);
 			} else {
@@ -734,7 +734,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes)
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&keyName);
 				zephir_array_fetch_long(&keyName, &index, 2, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 399);
-				if (!(zephir_array_isset(&indexes, &keyName))) {
+				if (!(zephir_array_isset_value(&indexes, &keyName))) {
 					ZEPHIR_INIT_NVAR(&columns);
 					array_init(&columns);
 				} else {
@@ -885,7 +885,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeReferences)
 			ZEPHIR_INIT_NVAR(&reference);
 			ZVAL_COPY(&reference, _4);
 			zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/AbstractAdapter.zep", 441);
-			if (!(zephir_array_isset(&references, &constraintName))) {
+			if (!(zephir_array_isset_value(&references, &constraintName))) {
 				ZEPHIR_OBS_NVAR(&referencedSchema);
 				zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 444);
 				ZEPHIR_OBS_NVAR(&referencedTable);
@@ -933,7 +933,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeReferences)
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&constraintName);
 				zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 441);
-				if (!(zephir_array_isset(&references, &constraintName))) {
+				if (!(zephir_array_isset_value(&references, &constraintName))) {
 					ZEPHIR_OBS_NVAR(&referencedSchema);
 					zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 444);
 					ZEPHIR_OBS_NVAR(&referencedTable);

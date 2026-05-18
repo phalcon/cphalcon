@@ -617,17 +617,17 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zval tag_zv, *attributes_param = NULL, close, *close_param = NULL, attrs, escapedAttrs, _3, _4, _5, _0$$3, _1$$3, _2$$3;
-	zend_string *tag = NULL;
+	zval tag_zv, *attributes_param = NULL, close_zv, attrs, escapedAttrs, localClose, _3, _4, _0$$3, _1$$3, _2$$3;
+	zend_string *tag = NULL, *close = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tag_zv);
-	ZVAL_UNDEF(&close);
+	ZVAL_UNDEF(&close_zv);
 	ZVAL_UNDEF(&attrs);
 	ZVAL_UNDEF(&escapedAttrs);
+	ZVAL_UNDEF(&localClose);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
@@ -636,15 +636,12 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 		Z_PARAM_STR(tag)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
-		Z_PARAM_ZVAL(close_param)
+		Z_PARAM_STR(close)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (ZEND_NUM_ARGS() > 1) {
 		attributes_param = ZEND_CALL_ARG(execute_data, 2);
-	}
-	if (ZEND_NUM_ARGS() > 2) {
-		close_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	zephir_memory_observe(&tag_zv);
 	ZVAL_STR_COPY(&tag_zv, tag);
@@ -654,11 +651,13 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!close_param) {
-		ZEPHIR_INIT_VAR(&close);
-		ZVAL_STRING(&close, "");
+	if (!close) {
+		close = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&close_zv);
+		ZVAL_STR(&close_zv, close);
 	} else {
-		zephir_get_strval(&close, close_param);
+		zephir_memory_observe(&close_zv);
+	ZVAL_STR_COPY(&close_zv, close);
 	}
 	ZEPHIR_INIT_VAR(&escapedAttrs);
 	ZVAL_STRING(&escapedAttrs, "");
@@ -675,19 +674,17 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 		ZEPHIR_CONCAT_SV(&escapedAttrs, " ", &_1$$3);
 	}
 	ZEPHIR_INIT_VAR(&_3);
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_fast_trim(&_4, &close, NULL , ZEPHIR_TRIM_BOTH);
-	if (ZEPHIR_IS_EMPTY(&_4)) {
-		ZEPHIR_INIT_NVAR(&_3);
-		ZVAL_STRING(&_3, "");
+	zephir_fast_trim(&_3, &close_zv, NULL , ZEPHIR_TRIM_BOTH);
+	if (ZEPHIR_IS_EMPTY(&_3)) {
+		ZEPHIR_INIT_VAR(&localClose);
+		ZVAL_STRING(&localClose, "");
 	} else {
-		ZEPHIR_INIT_VAR(&_5);
-		zephir_fast_trim(&_5, &close, NULL , ZEPHIR_TRIM_BOTH);
-		ZEPHIR_INIT_NVAR(&_3);
-		ZEPHIR_CONCAT_SV(&_3, " ", &_5);
+		ZEPHIR_INIT_VAR(&_4);
+		zephir_fast_trim(&_4, &close_zv, NULL , ZEPHIR_TRIM_BOTH);
+		ZEPHIR_INIT_NVAR(&localClose);
+		ZEPHIR_CONCAT_SV(&localClose, " ", &_4);
 	}
-	ZEPHIR_CPY_WRT(&close, &_3);
-	ZEPHIR_CONCAT_SVVVS(return_value, "<", &tag_zv, &escapedAttrs, &close, ">");
+	ZEPHIR_CONCAT_SVVVS(return_value, "<", &tag_zv, &escapedAttrs, &localClose, ">");
 	RETURN_MM();
 }
 

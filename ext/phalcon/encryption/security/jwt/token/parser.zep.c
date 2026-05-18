@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 81);
 		return;
 	}
-	_3 = zephir_array_isset_string(&decoded, SL("aud"));
+	_3 = zephir_array_isset_value_string(&decoded, SL("aud"));
 	if (_3) {
 		zephir_memory_observe(&_4);
 		zephir_array_fetch_string(&_4, &decoded, SL("aud"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Parser.zep", 87);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 110);
 		return;
 	}
-	if (!(zephir_array_isset_string(&decoded, SL("typ")))) {
+	if (!(zephir_array_isset_value_string(&decoded, SL("typ")))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (missing 'typ' element)", "phalcon/Encryption/Security/JWT/Token/Parser.zep", 116);
 		return;
 	}

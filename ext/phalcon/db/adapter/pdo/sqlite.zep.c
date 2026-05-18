@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
-	if (zephir_array_isset_string(&descriptor, SL("charset"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "SQLite does not allow the charset to be changed in the DSN.");
 		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_0$$3);
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect)
 	if (zephir_array_isset_string_fetch(&dbname, &descriptor, SL("dbname"), 0)) {
 		zephir_array_update_string(&descriptor, SL("dsn"), &dbname, PH_COPY | PH_SEPARATE);
 		zephir_array_unset_string(&descriptor, SL("dbname"), PH_SEPARATE);
-	} else if (UNEXPECTED(!(zephir_array_isset_string(&descriptor, SL("dsn"))))) {
+	} else if (UNEXPECTED(!(zephir_array_isset_value_string(&descriptor, SL("dsn"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The database must be specified with either 'dbname' or 'dsn'.", "phalcon/Db/Adapter/Pdo/Sqlite.zep", 82);
 		return;
 	}
@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 			}
 			hiddenFlag = 0;
-			if (zephir_array_isset_long(&field, 6)) {
+			if (zephir_array_isset_value_long(&field, 6)) {
 				ZEPHIR_OBS_NVAR(&_32$$28);
 				zephir_array_fetch_long(&_32$$28, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 308);
 				hiddenFlag = zephir_get_intval(&_32$$28);
@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 				}
 				hiddenFlag = 0;
-				if (zephir_array_isset_long(&field, 6)) {
+				if (zephir_array_isset_value_long(&field, 6)) {
 					ZEPHIR_OBS_NVAR(&_76$$57);
 					zephir_array_fetch_long(&_76$$57, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 308);
 					hiddenFlag = zephir_get_intval(&_76$$57);
@@ -769,13 +769,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 			ZVAL_COPY(&index, _4);
 			ZEPHIR_OBS_NVAR(&keyName);
 			zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 356);
-			if (!(zephir_array_isset(&indexes, &keyName))) {
+			if (!(zephir_array_isset_value(&indexes, &keyName))) {
 				ZEPHIR_INIT_NVAR(&_6$$4);
 				array_init(&_6$$4);
 				zephir_array_update_zval(&indexes, &keyName, &_6$$4, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch(&_7$$3, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 362);
-			if (!(zephir_array_isset_string(&_7$$3, SL("columns")))) {
+			if (!(zephir_array_isset_value_string(&_7$$3, SL("columns")))) {
 				ZEPHIR_INIT_NVAR(&columns);
 				array_init(&columns);
 			} else {
@@ -859,13 +859,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&keyName);
 				zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 356);
-				if (!(zephir_array_isset(&indexes, &keyName))) {
+				if (!(zephir_array_isset_value(&indexes, &keyName))) {
 					ZEPHIR_INIT_NVAR(&_26$$14);
 					array_init(&_26$$14);
 					zephir_array_update_zval(&indexes, &keyName, &_26$$14, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch(&_27$$13, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 362);
-				if (!(zephir_array_isset_string(&_27$$13, SL("columns")))) {
+				if (!(zephir_array_isset_value_string(&_27$$13, SL("columns")))) {
 					ZEPHIR_INIT_NVAR(&columns);
 					array_init(&columns);
 				} else {
@@ -1082,7 +1082,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 			ZVAL_COPY(&reference, _4);
 			ZEPHIR_INIT_NVAR(&constraintName);
 			ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &number);
-			if (!(zephir_array_isset(&references, &constraintName))) {
+			if (!(zephir_array_isset_value(&references, &constraintName))) {
 				ZEPHIR_INIT_NVAR(&referencedSchema);
 				ZVAL_NULL(&referencedSchema);
 				ZEPHIR_OBS_NVAR(&referencedTable);
@@ -1132,7 +1132,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&constraintName);
 				ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &number);
-				if (!(zephir_array_isset(&references, &constraintName))) {
+				if (!(zephir_array_isset_value(&references, &constraintName))) {
 					ZEPHIR_INIT_NVAR(&referencedSchema);
 					ZVAL_NULL(&referencedSchema);
 					ZEPHIR_OBS_NVAR(&referencedTable);

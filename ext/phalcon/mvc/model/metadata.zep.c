@@ -790,12 +790,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute)
 	ZEPHIR_CALL_METHOD(&columnMap, this_ptr, "getreversecolumnmap", NULL, 0, model);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&columnMap) == IS_ARRAY) {
-		RETURN_MM_BOOL(zephir_array_isset(&columnMap, &attribute_zv));
+		RETURN_MM_BOOL(zephir_array_isset_value(&columnMap, &attribute_zv));
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "readmetadata", NULL, 42, model);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_1, &_0, 4, PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 549);
-	RETURN_MM_BOOL(zephir_array_isset(&_1, &attribute_zv));
+	RETURN_MM_BOOL(zephir_array_isset_value(&_1, &attribute_zv));
 }
 
 /**
@@ -1296,11 +1296,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex)
 	ZEPHIR_INIT_VAR(&key);
 	zephir_get_class(&key, model, 1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_0, &key)) {
+	if (zephir_array_isset_value(&_0, &key)) {
 		zephir_update_property_array_multi(this_ptr, SL("metaData"), data, SL("zl"), 2, &key, index);
 	} else {
 		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("pendingMetaDataWrites"), PH_NOISY_CC | PH_READONLY);
-		if (!(zephir_array_isset(&_1$$4, &key))) {
+		if (!(zephir_array_isset_value(&_1$$4, &key))) {
 			ZEPHIR_INIT_VAR(&_2$$5);
 			array_init(&_2$$5);
 			zephir_update_property_array(this_ptr, SL("pendingMetaDataWrites"), &key, &_2$$5);
@@ -1385,7 +1385,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 	if (EXPECTED(Z_TYPE_P(key) != IS_NULL)) {
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&metaData, &_0$$3);
-		if (0 == zephir_array_isset(&metaData, key)) {
+		if (0 == zephir_array_isset_value(&metaData, key)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			ZEPHIR_CONCAT_SV(&_1$$4, "meta-", key);
 			zephir_get_strval(&prefixKey, &_1$$4);
@@ -1423,7 +1423,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 				zephir_check_call_status();
 			}
 			zephir_read_property(&_5$$4, this_ptr, ZEND_STRL("pendingMetaDataWrites"), PH_NOISY_CC | PH_READONLY);
-			if (zephir_array_isset(&_5$$4, key)) {
+			if (zephir_array_isset_value(&_5$$4, key)) {
 				zephir_read_property(&_6$$10, this_ptr, ZEND_STRL("pendingMetaDataWrites"), PH_NOISY_CC | PH_READONLY);
 				zephir_array_fetch(&_7$$10, &_6$$10, key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 884);
 				zephir_is_iterable(&_7$$10, 0, "phalcon/Mvc/Model/MetaData.zep", 887);
@@ -1510,7 +1510,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
-	if (1 == zephir_array_isset(&_2, key)) {
+	if (1 == zephir_array_isset_value(&_2, key)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_3);
@@ -1633,7 +1633,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey)
 	ZEPHIR_INIT_VAR(&key);
 	zephir_get_class(&key, model, 1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
-	if (0 == zephir_array_isset(&_0, &key)) {
+	if (0 == zephir_array_isset_value(&_0, &key)) {
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "initializemetadata", NULL, 47, model, &key);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_1$$3)) {
@@ -1669,7 +1669,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMapUniqueKey)
 	ZEPHIR_INIT_VAR(&key);
 	zephir_get_class(&key, model, 1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
-	if (0 == zephir_array_isset(&_0, &key)) {
+	if (0 == zephir_array_isset_value(&_0, &key)) {
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "initializecolumnmap", NULL, 48, model, &key);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_1$$3)) {

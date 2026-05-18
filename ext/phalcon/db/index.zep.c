@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	ZVAL_STR_COPY(&type_zv, type);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
-	if (zephir_array_isset_string(&columnsOrDefinition, SL("columns"))) {
+	if (zephir_array_isset_value_string(&columnsOrDefinition, SL("columns"))) {
 		zephir_memory_observe(&_0$$3);
 		zephir_array_fetch_string(&_0$$3, &columnsOrDefinition, SL("columns"), PH_NOISY, "phalcon/Db/Index.zep", 135);
 		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {

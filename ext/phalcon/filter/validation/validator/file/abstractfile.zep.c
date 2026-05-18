@@ -186,9 +186,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&value) == IS_ARRAY;
 	if (_0) {
-		_1 = 1 != zephir_array_isset_string(&value, SL("error"));
+		_1 = 1 != zephir_array_isset_value_string(&value, SL("error"));
 		if (!(_1)) {
-			_1 = 1 != zephir_array_isset_string(&value, SL("tmp_name"));
+			_1 = 1 != zephir_array_isset_value_string(&value, SL("tmp_name"));
 		}
 		_2 = _1;
 		if (!(_2)) {
@@ -270,13 +270,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&value) == IS_ARRAY;
 	if (_0) {
-		_1 = 1 != zephir_array_isset_string(&value, SL("name"));
+		_1 = 1 != zephir_array_isset_value_string(&value, SL("name"));
 		if (!(_1)) {
-			_1 = 1 != zephir_array_isset_string(&value, SL("type"));
+			_1 = 1 != zephir_array_isset_value_string(&value, SL("type"));
 		}
 		_2 = _1;
 		if (!(_2)) {
-			_2 = 1 != zephir_array_isset_string(&value, SL("size"));
+			_2 = 1 != zephir_array_isset_value_string(&value, SL("size"));
 		}
 		_0 = _2;
 	}
@@ -376,11 +376,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 	if (zephir_is_true(&_FILES)) {
 		ZEPHIR_CPY_WRT(&files, &_FILES);
 	}
-	if (zephir_array_isset_string(&server, SL("REQUEST_METHOD"))) {
+	if (zephir_array_isset_value_string(&server, SL("REQUEST_METHOD"))) {
 		ZEPHIR_OBS_NVAR(&method);
 		zephir_array_fetch_string(&method, &server, SL("REQUEST_METHOD"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 218);
 	}
-	if (zephir_array_isset_string(&server, SL("CONTENT_LENGTH"))) {
+	if (zephir_array_isset_value_string(&server, SL("CONTENT_LENGTH"))) {
 		ZEPHIR_OBS_NVAR(&length);
 		zephir_array_fetch_string(&length, &server, SL("CONTENT_LENGTH"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 221);
 	}
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 	if (!(_4)) {
 		_5 = Z_TYPE_P(&value) == IS_ARRAY;
 		if (_5) {
-			_5 = 1 == zephir_array_isset_string(&value, SL("error"));
+			_5 = 1 == zephir_array_isset_value_string(&value, SL("error"));
 		}
 		_6 = _5;
 		if (_6) {
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	ZEPHIR_CONCAT_SVS(&_2, "/^([0-9]+(?:\\.[0-9]+)?)(", &_0, ")?/Di");
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_preg_match(&_3, &_2, &size_zv, &matches, 0, 0 , 0 );
-	if (1 == zephir_array_isset_long(&matches, 2)) {
+	if (1 == zephir_array_isset_value_long(&matches, 2)) {
 		ZEPHIR_OBS_NVAR(&unit);
 		zephir_array_fetch_long(&unit, &matches, 2, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 288);
 	}
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
 	if (!(_0)) {
 		_1 = Z_TYPE_P(&value) == IS_ARRAY;
 		if (_1) {
-			_1 = 1 == zephir_array_isset_string(&value, SL("error"));
+			_1 = 1 == zephir_array_isset_value_string(&value, SL("error"));
 		}
 		_2 = _1;
 		if (_2) {

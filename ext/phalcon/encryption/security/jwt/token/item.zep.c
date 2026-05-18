@@ -161,6 +161,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 60);
-	RETURN_BOOL(zephir_array_isset(&_1, &name_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_1, &name_zv));
 }
 

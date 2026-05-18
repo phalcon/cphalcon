@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &index);
-	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index));
+	RETURN_BOOL(zephir_isset_property_value_zval(this_ptr, index));
 }
 
 /**

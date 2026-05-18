@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 		return;
 	}
 	defaultRoutes = 1;
-	if (zephir_array_isset_string(config, SL("defaultRoutes"))) {
+	if (zephir_array_isset_value_string(config, SL("defaultRoutes"))) {
 		zephir_memory_observe(&_1$$6);
 		zephir_array_fetch_string(&_1$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 66);
 		defaultRoutes = zephir_get_boolval(&_1$$6);

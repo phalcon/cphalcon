@@ -81,11 +81,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 			ZVAL_COPY(&item, _0);
 			_2$$3 = Z_TYPE_P(&item) == IS_OBJECT;
 			if (_2$$3) {
-				_2$$3 = zephir_isset_property_zval(&item, &element_zv);
+				_2$$3 = zephir_isset_property_value_zval(&item, &element_zv);
 			}
 			_3$$3 = Z_TYPE_P(&item) == IS_ARRAY;
 			if (_3$$3) {
-				_3$$3 = zephir_array_isset(&item, &element_zv);
+				_3$$3 = zephir_array_isset_value(&item, &element_zv);
 			}
 			if (_2$$3) {
 				ZEPHIR_OBS_NVAR(&_4$$4);
@@ -109,11 +109,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 			zephir_check_call_status();
 				_6$$6 = Z_TYPE_P(&item) == IS_OBJECT;
 				if (_6$$6) {
-					_6$$6 = zephir_isset_property_zval(&item, &element_zv);
+					_6$$6 = zephir_isset_property_value_zval(&item, &element_zv);
 				}
 				_7$$6 = Z_TYPE_P(&item) == IS_ARRAY;
 				if (_7$$6) {
-					_7$$6 = zephir_array_isset(&item, &element_zv);
+					_7$$6 = zephir_array_isset_value(&item, &element_zv);
 				}
 				if (_6$$6) {
 					ZEPHIR_OBS_NVAR(&_8$$7);

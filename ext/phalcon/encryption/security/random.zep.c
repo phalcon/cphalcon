@@ -547,6 +547,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, base)
 		ZVAL_LONG(n, 16);
 	}
 	ZEPHIR_INIT_VAR(&byteString);
+	ZVAL_STRING(&byteString, "");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "bytes", NULL, 0, n);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);

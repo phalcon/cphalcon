@@ -1022,7 +1022,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 	ZEPHIR_INIT_VAR(&_104);
 	ZEPHIR_CONCAT_VS(&_104, &_103, "\n)");
 	zephir_concat_self(&sql, &_104);
-	if (zephir_array_isset_string(&definition, SL("options"))) {
+	if (zephir_array_isset_value_string(&definition, SL("options"))) {
 		ZEPHIR_CALL_METHOD(&_105$$56, this_ptr, "gettableoptions", NULL, 0, &definition);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_106$$56);

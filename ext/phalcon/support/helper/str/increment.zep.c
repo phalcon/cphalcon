@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode(&parts, &separator_zv, &text_zv, LONG_MAX);
 	number = 1;
-	if (1 == zephir_array_isset_long(&parts, 1)) {
+	if (1 == zephir_array_isset_value_long(&parts, 1)) {
 		zephir_memory_observe(&_0$$3);
 		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
 		number = (zephir_get_intval(&_0$$3) + 1);

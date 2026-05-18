@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 			{
 				ZEPHIR_INIT_NVAR(&match);
 				ZVAL_COPY(&match, _6$$5);
-				_8$$6 = !(zephir_array_isset_long(&match, 0));
+				_8$$6 = !(zephir_array_isset_value_long(&match, 0));
 				if (!(_8$$6)) {
-					_8$$6 = !(zephir_array_isset_long(&match, 1));
+					_8$$6 = !(zephir_array_isset_value_long(&match, 1));
 				}
 				if (_8$$6) {
 					continue;
@@ -198,9 +198,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				}
 				ZEPHIR_CALL_METHOD(&match, &matches, "current", NULL, 0);
 				zephir_check_call_status();
-					_17$$8 = !(zephir_array_isset_long(&match, 0));
+					_17$$8 = !(zephir_array_isset_value_long(&match, 0));
 					if (!(_17$$8)) {
-						_17$$8 = !(zephir_array_isset_long(&match, 1));
+						_17$$8 = !(zephir_array_isset_value_long(&match, 1));
 					}
 					if (_17$$8) {
 						continue;

@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	}
 	_2 = _1;
 	if (_2) {
-		_2 = 1 == zephir_array_isset(element, method);
+		_2 = 1 == zephir_array_isset_value(element, method);
 	}
 	if (_2) {
 		zephir_memory_observe(&key$$3);

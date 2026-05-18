@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_34, 104, &handler);
 		zephir_check_call_status();
 		zephir_read_property(&_35$$10, this_ptr, ZEND_STRL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
-		isNewHandler = !((zephir_array_isset(&_35$$10, &handlerHash)));
+		isNewHandler = !((zephir_array_isset_value(&_35$$10, &handlerHash)));
 		if (isNewHandler) {
 			zephir_update_property_array(this_ptr, SL("handlerHashes"), &handlerHash, &__$true);
 		}
@@ -1469,7 +1469,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParameter)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &param);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, param));
+	RETURN_BOOL(zephir_array_isset_value(&_0, param));
 }
 
 /**

@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, preload)
 	ZEPHIR_CALL_METHOD(&_2, &container, "has", NULL, 0, &_3);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {
-		if (zephir_array_isset_long(&params, 1)) {
+		if (zephir_array_isset_value_long(&params, 1)) {
 			zephir_memory_observe(&attributes);
 			zephir_array_fetch_long(&attributes, &params, 1, PH_NOISY, "phalcon/Mvc/View/Engine/Volt.zep", 220);
 		} else {

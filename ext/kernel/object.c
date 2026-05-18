@@ -391,6 +391,60 @@ int zephir_isset_property_zval(zval *object, const zval *property)
 	return 0;
 }
 
+/*
+ * PHP isset() semantics for object properties: the property exists AND its
+ * value is not IS_NULL. Delegates to the object's has_property handler with
+ * ZEND_PROPERTY_ISSET (mode 0), which is the same path the engine takes for
+ * the ZEND_ISSET_ISEMPTY_PROP_OBJ opcode — this gives correct behaviour for
+ * std objects, __isset magic, typed-uninitialized properties, etc.
+ * See https://github.com/zephir-lang/zephir/issues/2385.
+ */
+int zephir_isset_property_value(zval *object, const char *property_name, unsigned int property_length)
+{
+	zend_string *member;
+	int result;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	member = zend_string_init(property_name, property_length, 0);
+	result = Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), member, 0, NULL);
+	zend_string_release(member);
+
+	return result;
+}
+
+int zephir_isset_property_value_zval(zval *object, const zval *property)
+{
+	if (Z_TYPE_P(object) != IS_OBJECT || Z_TYPE_P(property) != IS_STRING) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	return Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), Z_STR_P(property), 0, NULL);
+}
+
+int zephir_isset_property_value_fast(zval *object, zend_string *property_name)
+{
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	return Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), property_name, 0, NULL);
+}
+
 /**
  * Lookup for the real owner of the property
  */

@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
-	if (zephir_array_isset_string(&descriptor, SL("charset"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "Postgres does not allow the charset to be changed in the DSN.");
 		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_0$$3);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 		ZEPHIR_INIT_NVAR(&schema);
 		ZVAL_NULL(&schema);
 	}
-	if (zephir_array_isset_string(&descriptor, SL("password"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("password"))) {
 		zephir_memory_observe(&_1$$6);
 		zephir_array_fetch_string(&_1$$6, &descriptor, SL("password"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 85);
 		_2$$6 = Z_TYPE_P(&_1$$6) == IS_STRING;
@@ -806,12 +806,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 			}
 			isGenerated = 0;
-			if (zephir_array_isset_long(&field, 11)) {
+			if (zephir_array_isset_value_long(&field, 11)) {
 				zephir_array_fetch_long(&_59$$48, &field, 11, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 577);
 				isGenerated = (ZEPHIR_IS_STRING_IDENTICAL(&_59$$48, "ALWAYS"));
 			}
 			if (isGenerated) {
-				_60$$49 = zephir_array_isset_long(&field, 12);
+				_60$$49 = zephir_array_isset_value_long(&field, 12);
 				if (_60$$49) {
 					zephir_array_fetch_long(&_61$$49, &field, 12, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 581);
 					_60$$49 = Z_TYPE_P(&_61$$49) != IS_NULL;
@@ -1190,12 +1190,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 				}
 				isGenerated = 0;
-				if (zephir_array_isset_long(&field, 11)) {
+				if (zephir_array_isset_value_long(&field, 11)) {
 					zephir_array_fetch_long(&_131$$102, &field, 11, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 577);
 					isGenerated = (ZEPHIR_IS_STRING_IDENTICAL(&_131$$102, "ALWAYS"));
 				}
 				if (isGenerated) {
-					_132$$103 = zephir_array_isset_long(&field, 12);
+					_132$$103 = zephir_array_isset_value_long(&field, 12);
 					if (_132$$103) {
 						zephir_array_fetch_long(&_133$$103, &field, 12, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 581);
 						_132$$103 = Z_TYPE_P(&_133$$103) != IS_NULL;
@@ -1350,7 +1350,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 			ZEPHIR_INIT_NVAR(&reference);
 			ZVAL_COPY(&reference, _4);
 			zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 649);
-			if (!(zephir_array_isset(&references, &constraintName))) {
+			if (!(zephir_array_isset_value(&references, &constraintName))) {
 				ZEPHIR_OBS_NVAR(&referencedSchema);
 				zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 652);
 				ZEPHIR_OBS_NVAR(&referencedTable);
@@ -1410,7 +1410,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&constraintName);
 				zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 649);
-				if (!(zephir_array_isset(&references, &constraintName))) {
+				if (!(zephir_array_isset_value(&references, &constraintName))) {
 					ZEPHIR_OBS_NVAR(&referencedSchema);
 					zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 652);
 					ZEPHIR_OBS_NVAR(&referencedTable);

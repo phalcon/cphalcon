@@ -986,13 +986,15 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *key = NULL;
-	zval payload, *payload_param = NULL, key_zv, __$true, directory, _0, _2, _3, _4, _1$$3;
+	zval *payload_param = NULL, key_zv, __$true, directory, localPayload, _0, _2, _3, _4, _1$$3;
+	zval payload;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&directory);
+	ZVAL_UNDEF(&localPayload);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
@@ -1008,9 +1010,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 	zephir_get_arrval(&payload, payload_param);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_FUNCTION(&_0, "serialize", NULL, 16, &payload);
+	ZEPHIR_CALL_FUNCTION(&localPayload, "serialize", NULL, 16, &payload);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&payload, &_0);
 	ZEPHIR_CALL_METHOD(&directory, this_ptr, "getdir", NULL, 141, &key_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "is_dir", NULL, 155, &directory);
@@ -1023,7 +1024,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &directory, &key_zv);
 	ZVAL_LONG(&_4, 2);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfileputcontents", NULL, 0, &_3, &payload, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfileputcontents", NULL, 0, &_3, &localPayload, &_4);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_2));
 }

@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &name_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
 }
 
 /**
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset(&_0, &name_zv))) {
+	if (!(zephir_array_isset_value(&_0, &name_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_html_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset(&_3, &name_zv))) {
+	if (!(zephir_array_isset_value(&_3, &name_zv))) {
 		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&factory);
 		zephir_array_fetch(&factory, &_4$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 215);
