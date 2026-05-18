@@ -251,7 +251,7 @@ abstract class AbstractHelper
         array attributes = [],
         string close = ""
     ) -> string {
-        var attrs, close, escapedAttrs;
+        var attrs, escapedAttrs, localClose;
 
         let escapedAttrs = "";
         if (true !== empty(attributes)) {
@@ -259,9 +259,9 @@ abstract class AbstractHelper
                 escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
         }
 
-        let close = empty(trim(close)) ? "" : " " . trim(close);
+        let localClose = empty(trim(close)) ? "" : " " . trim(close);
 
-        return "<" . tag . escapedAttrs . close . ">";
+        return "<" . tag . escapedAttrs . localClose . ">";
     }
 
     /**

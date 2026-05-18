@@ -634,13 +634,13 @@ class Loader extends AbstractEventsAware
         string className,
         bool isDirectory = false
     ) -> bool {
-        var className, dirSeparator, directory, extension, extensions,
-            filePath, fixedDirectory, nsSeparator;
+        var dirSeparator, directory, extension, extensions,
+            filePath, fixedDirectory, localClassName, nsSeparator;
 
-        let dirSeparator = DIRECTORY_SEPARATOR,
-            nsSeparator  = "\\",
-            className    = str_replace(nsSeparator, dirSeparator, className),
-            extensions   = this->extensions;
+        let dirSeparator   = DIRECTORY_SEPARATOR,
+            nsSeparator    = "\\",
+            localClassName = str_replace(nsSeparator, dirSeparator, className),
+            extensions     = this->extensions;
 
         for directory in directories {
             /**
@@ -652,7 +652,7 @@ class Loader extends AbstractEventsAware
                 /**
                  * Create a possible path for the file
                  */
-                let filePath          = fixedDirectory . className . "." . extension,
+                let filePath          = fixedDirectory . localClassName . "." . extension,
                     this->checkedPath = filePath;
 
                 this->fireManagerEvent("loader:beforeCheckPath", filePath);

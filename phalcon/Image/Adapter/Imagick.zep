@@ -221,13 +221,14 @@ class Imagick extends AbstractAdapter
         int blue,
         int opacity
     ) -> void {
-        var background, color, opacity, pixel1, pixel2, result;
+        var background, color, localOpacity, pixel1, pixel2, result;
 
-        let opacity    /= 100;
-        let color      = sprintf("rgb(%d, %d, %d)", red, green, blue);
-        let pixel1     = new ImagickPixel(color);
-        let pixel2     = new ImagickPixel("transparent");
-        let background = new ImagickNative();
+        let localOpacity  = opacity;
+        let localOpacity /= 100;
+        let color         = sprintf("rgb(%d, %d, %d)", red, green, blue);
+        let pixel1        = new ImagickPixel(color);
+        let pixel2        = new ImagickPixel("transparent");
+        let background    = new ImagickNative();
 
         this->image->setIteratorIndex(0);
 
@@ -244,7 +245,7 @@ class Imagick extends AbstractAdapter
 
             background->evaluateImage(
                 constant("Imagick::EVALUATE_MULTIPLY"),
-                opacity,
+                localOpacity,
                 constant("Imagick::CHANNEL_ALPHA")
             );
 
