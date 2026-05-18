@@ -10,6 +10,8 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Contracts\Events\Stoppable;
+
 /**
  * This class offers contextual information of a fired event in the
  * EventsManager
@@ -23,7 +25,7 @@ namespace Phalcon\Events;
  * }
  * ```
  */
-class Event implements EventInterface
+final class Event implements EventInterface, Stoppable
 {
     /**
      * Is event cancelable?
@@ -65,13 +67,18 @@ class Event implements EventInterface
      *
      * @param object source
      */
-    public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
-    {
+    public function __construct(
+        string type,
+        var source = null,
+        var data = null,
+        bool cancelable = true
+    ) {
         if unlikely null !== source && typeof source !== "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );
         }
+
         let this->type       = type,
             this->source     = source,
             this->data       = data,
@@ -105,6 +112,15 @@ class Event implements EventInterface
     public function isCancelable() -> bool
     {
         return this->cancelable;
+    }
+
+    /**
+     * Returns whether propagation must stop. PSR-14 alias backed by the same
+     * `stopped` flag as `isStopped()`; calling `stop()` flips both.
+     */
+    public function isPropagationStopped() -> bool
+    {
+        return this->stopped;
     }
 
     /**
