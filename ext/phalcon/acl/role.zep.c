@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role)
 	/**
 	 * Role description
 	 *
-	 * @var string
+	 * @var string | null
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE);
 	/**
@@ -69,11 +69,13 @@ PHP_METHOD(Phalcon_Acl_Role, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!description) {
 		ZEPHIR_INIT_VAR(&description_zv);
 	} else {
-		ZVAL_STR_COPY(&description_zv, description);
+		zephir_memory_observe(&description_zv);
+	ZVAL_STR_COPY(&description_zv, description);
 	}
 	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "*"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/Acl/Role.zep", 38);
@@ -87,7 +89,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct)
 PHP_METHOD(Phalcon_Acl_Role, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Acl_Role, getDescription)
@@ -99,6 +101,6 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription)
 PHP_METHOD(Phalcon_Acl_Role, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 

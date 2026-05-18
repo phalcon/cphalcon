@@ -175,7 +175,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Returns the current expiration time
      */
-    public function getExpiration() -> string
+    public function getExpiration() -> int
     {
         if !this->restored {
             this->restore();

@@ -32,7 +32,12 @@ final class SerializeTest extends AbstractRegistryTestCase
         $registry = new Registry($data);
 
         $this->assertSame(
-            serialize($data),
+            serialize([
+                'data'        => $data,
+                'insensitive' => true,
+                'strictNull'  => false,
+                'type'        => null,
+            ]),
             $registry->serialize(),
         );
     }

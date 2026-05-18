@@ -123,7 +123,7 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  15439
+     * @issue  https://github.com/phalcon/cphalcon/issues/15439
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-05-25
      *
@@ -381,7 +381,7 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue 16696
+     * @issue https://github.com/phalcon/cphalcon/issues/16696
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *

@@ -21,21 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * This interface must for those classes that accept an EventsManager and
- * dispatch events
+ * Phalcon\Events\EventsAwareInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Events\EventsAware} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventsAwareInterface, phalcon, events_eventsawareinterface, phalcon_events_eventsawareinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventsAwareInterface, phalcon, events_eventsawareinterface, NULL);
 
+	zend_class_implements(phalcon_events_eventsawareinterface_ce, 1, phalcon_contracts_events_eventsaware_ce);
 	return SUCCESS;
 }
 
-/**
- * Returns the internal event manager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventsAwareInterface, getEventsManager);
-/**
- * Sets the events manager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventsAwareInterface, setEventsManager);

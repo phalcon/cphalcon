@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, validate)
 		RETURN_MM_BOOL(1);
 	}
 	zephir_cast_to_string(&_1, &value);
-	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 320, &_1);
+	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 333, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&valid))) {
 		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
@@ -179,17 +179,18 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&number_zv);
 	ZVAL_STR_COPY(&number_zv, number);
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 309, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 323, &number_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 98, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 112, &number_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 321, &_1);
+	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 334, &_1);
 	zephir_check_call_status();
 	zephir_is_iterable(&digits, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 112);
 	if (Z_TYPE_P(&digits) == IS_ARRAY) {
@@ -239,9 +240,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 98, &hash);
+	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 112, &hash);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 322, &_8);
+	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 335, &_8);
 	zephir_check_call_status();
 	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
 }

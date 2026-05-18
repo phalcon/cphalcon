@@ -16,17 +16,17 @@ namespace Phalcon\Acl;
 interface ComponentInterface
 {
     /**
+     * Magic method __toString
+     */
+    public function __toString() -> string;
+
+    /**
      * Returns component description
      */
-    public function getDescription() -> string;
+    public function getDescription() -> string | null;
 
     /**
      * Returns the component name
      */
     public function getName() -> string;
-
-    /**
-     * Magic method __toString
-     */
-    public function __toString() -> string;
 }

@@ -25,6 +25,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Close
@@ -65,6 +69,7 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 	if (ZEND_NUM_ARGS() > 1) {
 		raw_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&tag_zv);
 	ZVAL_STR_COPY(&tag_zv, tag);
 	if (!raw_param) {
 		raw = 0;

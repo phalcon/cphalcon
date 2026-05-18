@@ -11,10 +11,12 @@
 namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\Dialect;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
@@ -36,7 +38,10 @@ class Mysql extends Dialect
         var afterPosition, defaultValue, upperDefaultValue;
         string sql;
 
-        let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
+        let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+                . " ADD `" . column->getName() . "` "
+                . this->getColumnDefinition(column)
+                . this->getGeneratedClause(column);
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
@@ -47,19 +52,30 @@ class Mysql extends Dialect
             let sql .= " NULL";
         }
 
-        if column->hasDefault() {
-            let defaultValue = column->getDefault();
-            let upperDefaultValue = strtoupper(defaultValue);
-
-            if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                let sql .= " DEFAULT " . defaultValue;
-            } else {
-                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-            }
+        if column->isInvisible() {
+            let sql .= " INVISIBLE";
         }
 
-        if column->isAutoIncrement() {
-            let sql .= " AUTO_INCREMENT";
+        if !column->isGenerated() {
+            if column->hasDefault() {
+                let defaultValue = column->getDefault();
+
+                if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                    let sql .= " DEFAULT " . defaultValue->getValue();
+                } else {
+                    let upperDefaultValue = strtoupper(defaultValue);
+
+                    if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                        let sql .= " DEFAULT " . defaultValue;
+                    } else {
+                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
+                }
+            }
+
+            if column->isAutoIncrement() {
+                let sql .= " AUTO_INCREMENT";
+            }
         }
 
         if column->isFirst() {
@@ -73,6 +89,16 @@ class Mysql extends Dialect
         }
 
         return sql;
+    }
+
+    /**
+     * Generates SQL to add a CHECK constraint to an existing table.
+     * Enforced by MySQL 8.0.16+.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " ADD " . this->getCheckClause(check, "`");
     }
 
     /**
@@ -121,7 +147,12 @@ class Mysql extends Dialect
             let sql .= " ADD INDEX ";
         }
 
-        let sql .= "`" . index->getName() . "` (" . this->getColumnList(index->getColumns()) . ")";
+        let sql .= "`" . index->getName() . "` ("
+            . this->getIndexColumnList(index) . ")";
+
+        if index->isInvisible() {
+            let sql .= " INVISIBLE";
+        }
 
         return sql;
     }
@@ -141,7 +172,7 @@ class Mysql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, columnLine, indexType, onDelete,
-            onUpdate, defaultValue, upperDefaultValue;
+            onUpdate, defaultValue, upperDefaultValue, checks, check;
         array createLines;
         string indexSql, referenceSql, sql;
 
@@ -170,7 +201,9 @@ class Mysql extends Dialect
         let createLines = [];
 
         for column in columns {
-            let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+            let columnLine = "`" . column->getName() . "` "
+                . this->getColumnDefinition(column)
+                . this->getGeneratedClause(column);
 
             /**
              * Add a NOT NULL clause
@@ -184,25 +217,36 @@ class Mysql extends Dialect
                 let columnLine .= " NULL";
             }
 
-            /**
-             * Add a Default clause
-             */
-            if column->hasDefault() {
-                let defaultValue = column->getDefault();
-                let upperDefaultValue = strtoupper(defaultValue);
-
-                if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                    let columnLine .= " DEFAULT " . defaultValue;
-                } else {
-                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-                }
+            if column->isInvisible() {
+                let columnLine .= " INVISIBLE";
             }
 
-            /**
-             * Add an AUTO_INCREMENT clause
-             */
-            if column->isAutoIncrement() {
-                let columnLine .= " AUTO_INCREMENT";
+            if !column->isGenerated() {
+                /**
+                 * Add a Default clause
+                 */
+                if column->hasDefault() {
+                    let defaultValue = column->getDefault();
+
+                    if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                        let columnLine .= " DEFAULT " . defaultValue->getValue();
+                    } else {
+                        let upperDefaultValue = strtoupper(defaultValue);
+
+                        if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                            let columnLine .= " DEFAULT " . defaultValue;
+                        } else {
+                            let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        }
+                    }
+                }
+
+                /**
+                 * Add an AUTO_INCREMENT clause
+                 */
+                if column->isAutoIncrement() {
+                    let columnLine .= " AUTO_INCREMENT";
+                }
             }
 
             /**
@@ -234,12 +278,16 @@ class Mysql extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" {
-                    let indexSql = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let indexSql = "PRIMARY KEY (" . this->getIndexColumnList(index) . ")";
                 } else {
                     if !empty indexType {
-                        let indexSql = indexType . " KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = indexType . " KEY `" . indexName . "` (" . this->getIndexColumnList(index) . ")";
                     } else {
-                        let indexSql = "KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = "KEY `" . indexName . "` (" . this->getIndexColumnList(index) . ")";
+                    }
+
+                    if index->isInvisible() {
+                        let indexSql .= " INVISIBLE";
                     }
                 }
 
@@ -266,6 +314,15 @@ class Mysql extends Dialect
                 }
 
                 let createLines[] = referenceSql;
+            }
+        }
+
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "`");
             }
         }
 
@@ -305,7 +362,36 @@ class Mysql extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        return "SHOW FULL COLUMNS FROM " . this->prepareTable(table, schema);
+        string sql, schemaClause;
+
+        if schema {
+            let schemaClause = "'" . schema . "'";
+        } else {
+            let schemaClause = "DATABASE()";
+        }
+
+        /**
+         * The result-set shape mirrors `SHOW FULL COLUMNS FROM ...` so the
+         * adapter loop continues to read by ordinal index:
+         *
+         *   0:Field, 1:Type, 2:Collation, 3:Null, 4:Key, 5:Default, 6:Extra,
+         *   7:Privileges, 8:Comment
+         *
+         * Position 9 — GenerationExpression — is appended for the generated
+         * column round-trip (cphalcon issue [#14719] umbrella).
+         */
+        let sql = "SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, "
+                . "COLLATION_NAME AS `Collation`, IS_NULLABLE AS `Null`, "
+                . "COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, "
+                . "EXTRA AS `Extra`, PRIVILEGES AS `Privileges`, "
+                . "COLUMN_COMMENT AS `Comment`, "
+                . "GENERATION_EXPRESSION AS `GenerationExpression` "
+                . "FROM `INFORMATION_SCHEMA`.`COLUMNS` "
+                . "WHERE `TABLE_SCHEMA` = " . schemaClause . " "
+                . "AND `TABLE_NAME` = '" . table . "' "
+                . "ORDER BY `ORDINAL_POSITION`";
+
+        return sql;
     }
 
     /**
@@ -340,6 +426,15 @@ class Mysql extends Dialect
     public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN `" . columnName . "`";
+    }
+
+    /**
+     * Generates SQL to delete a CHECK constraint from a table
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP CHECK `" . checkName . "`";
     }
 
     /**
@@ -628,6 +723,62 @@ class Mysql extends Dialect
 
                 break;
 
+            case Column::TYPE_GEOMETRY:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRY";
+                }
+
+                break;
+
+            case Column::TYPE_POINT:
+                if empty columnSql {
+                    let columnSql .= "POINT";
+                }
+
+                break;
+
+            case Column::TYPE_LINESTRING:
+                if empty columnSql {
+                    let columnSql .= "LINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_POLYGON:
+                if empty columnSql {
+                    let columnSql .= "POLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOINT:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOINT";
+                }
+
+                break;
+
+            case Column::TYPE_MULTILINESTRING:
+                if empty columnSql {
+                    let columnSql .= "MULTILINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOLYGON:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_GEOMETRYCOLLECTION:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRYCOLLECTION";
+                }
+
+                break;
+
             default:
                 if unlikely empty columnSql {
                     throw new Exception(
@@ -702,7 +853,8 @@ class Mysql extends Dialect
         var afterPosition, defaultValue, upperDefaultValue, columnDefinition;
         string sql;
 
-        let columnDefinition = this->getColumnDefinition(column),
+        let columnDefinition = this->getColumnDefinition(column)
+            . this->getGeneratedClause(column),
             sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
         if typeof currentColumn != "object" {
@@ -724,19 +876,30 @@ class Mysql extends Dialect
             let sql .= " NULL";
         }
 
-        if column->hasDefault() {
-            let defaultValue = column->getDefault();
-            let upperDefaultValue = strtoupper(defaultValue);
-
-            if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
-                let sql .= " DEFAULT " . defaultValue;
-            }  else {
-                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-            }
+        if column->isInvisible() {
+            let sql .= " INVISIBLE";
         }
 
-        if column->isAutoIncrement() {
-            let sql .= " AUTO_INCREMENT";
+        if !column->isGenerated() {
+            if column->hasDefault() {
+                let defaultValue = column->getDefault();
+
+                if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                    let sql .= " DEFAULT " . defaultValue->getValue();
+                } else {
+                    let upperDefaultValue = strtoupper(defaultValue);
+
+                    if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                        let sql .= " DEFAULT " . defaultValue;
+                    }  else {
+                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
+                }
+            }
+
+            if column->isAutoIncrement() {
+                let sql .= " AUTO_INCREMENT";
+            }
         }
 
         /**
@@ -760,7 +923,26 @@ class Mysql extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * MySQL does not support the SQL-standard `ON CONFLICT DO UPDATE`
+     * upsert syntax — it has its own `INSERT ... ON DUPLICATE KEY UPDATE`
+     * which requires PHQL grammar work (deferred). The base helper is
+     * overridden here to throw, preventing accidental emission of invalid
+     * SQL on MySQL connections.
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        throw new Exception(
+            "ON CONFLICT upserts are not supported by MySQL; use "
+            . "INSERT ... ON DUPLICATE KEY UPDATE via raw SQL instead"
+        );
+    }
+
+    /**
+     * Returns a SQL modified with a LOCK IN SHARE MODE clause. The `modifier`
+     * argument is accepted for signature parity with the contract but is
+     * silently ignored on MySQL — its legacy `LOCK IN SHARE MODE` syntax has
+     * no `NOWAIT` / `SKIP LOCKED` variant. Callers needing those modifiers
+     * should target PostgreSQL or stay on `forUpdate()`.
      *
      *```php
      * $sql = $dialect->sharedLock("SELECT * FROM robots");
@@ -768,7 +950,7 @@ class Mysql extends Dialect
      * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
      *```
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
         return sqlQuery . " LOCK IN SHARE MODE";
     }

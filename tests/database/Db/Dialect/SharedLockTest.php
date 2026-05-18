@@ -32,7 +32,7 @@ final class SharedLockTest extends AbstractDatabaseTestCase
             ],
             [
                 Postgresql::class,
-                'SQL-QUERY',
+                'SQL-QUERY FOR SHARE',
             ],
             [
                 Sqlite::class,

@@ -152,33 +152,45 @@ abstract class Select
      */
     private static function optionsFromArray(array data, var value, string closeOption) -> string
     {
-        var strValue, strOptionValue, code, optionValue, optionText, escaped;
+        var strValue, strOptionValue, code, optionValue, optionText, escaped,
+            escapedText, escaper;
 
-        let code = "";
+        let code    = "",
+            escaper = <EscaperInterface> BaseTag::getEscaperService();
 
         for optionValue, optionText in data {
-            let escaped = htmlspecialchars(optionValue);
+            let escaped = escaper->escapeHtmlAttr(optionValue);
 
             if typeof optionText == "array" {
-                let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+                let code .= "\t<optgroup label=\"" . escaped . "\">"
+                    . PHP_EOL
+                    . self::optionsFromArray(optionText, value, closeOption)
+                    . "\t</optgroup>"
+                    . PHP_EOL;
 
                 continue;
             }
 
+            let escapedText = escaper->escapeHtml(optionText);
+
             if typeof value == "array" {
                 if in_array(optionValue, value) {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
+                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">"
+                        . escapedText . closeOption;
                 } else {
-                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
+                    let code .= "\t<option value=\"" . escaped . "\">"
+                        . escapedText . closeOption;
                 }
             } else {
                 let strOptionValue = (string) optionValue,
                     strValue = (string) value;
 
                 if strOptionValue === strValue {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
+                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">"
+                        . escapedText . closeOption;
                 } else {
-                    let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
+                    let code .= "\t<option value=\"" . escaped . "\">"
+                        . escapedText . closeOption;
                 }
             }
         }

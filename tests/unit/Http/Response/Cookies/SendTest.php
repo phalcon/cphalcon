@@ -52,7 +52,7 @@ final class SendTest extends AbstractHttpBase
     }
 
     /**
-     * @issue  15334
+     * @issue  https://github.com/phalcon/cphalcon/issues/15334
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-22
      */

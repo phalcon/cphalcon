@@ -1518,7 +1518,7 @@ class Compiler implements InjectionAwareInterface
 
                 case PHVOLT_T_STRING:
                     if likely doubleQuotes === false {
-                        let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
+                        let exprCode = "'" . expr["value"] . "'";
                     } else {
                         let exprCode = "\"" . expr["value"] . "\"";
                     }
@@ -2308,7 +2308,7 @@ class Compiler implements InjectionAwareInterface
                  * If name is a string then is a block name
                  */
                 if typeof name == "string" {
-                    if isset blocks[name] {
+                    if array_key_exists(name, blocks) {
                         /**
                          * The block is set in the local template
                          */

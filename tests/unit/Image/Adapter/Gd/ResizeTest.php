@@ -160,7 +160,7 @@ final class ResizeTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  16316
+     * @issue  https://github.com/phalcon/cphalcon/issues/16316
      */
     public function testImageAdapterGdResizePreservesTransparency(): void
     {

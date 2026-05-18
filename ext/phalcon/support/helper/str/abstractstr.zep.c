@@ -75,7 +75,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
 	if (ZEND_NUM_ARGS() > 2) {
 		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&haystack_zv);
 	ZVAL_STR_COPY(&haystack_zv, haystack);
+	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
 	if (!ignoreCase_param) {
 		ignoreCase = 1;
@@ -87,9 +89,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 7, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 8, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 7, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 8, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);
@@ -141,6 +143,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -150,15 +153,19 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	}
 	if (!left) {
 		left = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&left_zv);
 		ZVAL_STR(&left_zv, left);
 	} else {
-		ZVAL_STR_COPY(&left_zv, left);
+		zephir_memory_observe(&left_zv);
+	ZVAL_STR_COPY(&left_zv, left);
 	}
 	if (!right) {
 		right = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&right_zv);
 		ZVAL_STR(&right_zv, right);
 	} else {
-		ZVAL_STR_COPY(&right_zv, right);
+		zephir_memory_observe(&right_zv);
+	ZVAL_STR_COPY(&right_zv, right);
 	}
 	if (ZEPHIR_IS_EMPTY(&context)) {
 		RETURN_MM_STR(zend_string_copy(input));
@@ -233,12 +240,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toLower)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!encoding) {
 		encoding = zend_string_init(ZEND_STRL("UTF-8"), 0);
+		zephir_memory_observe(&encoding_zv);
 		ZVAL_STR(&encoding_zv, encoding);
 	} else {
-		ZVAL_STR_COPY(&encoding_zv, encoding);
+		zephir_memory_observe(&encoding_zv);
+	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 1);
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text_zv, &_0, &encoding_zv);
@@ -279,7 +289,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toStartsWith)
 	if (ZEND_NUM_ARGS() > 2) {
 		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&haystack_zv);
 	ZVAL_STR_COPY(&haystack_zv, haystack);
+	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
 	if (!ignoreCase_param) {
 		ignoreCase = 1;
@@ -291,9 +303,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toStartsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 7, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 8, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 7, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 8, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);
@@ -327,12 +339,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toUpper)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!encoding) {
 		encoding = zend_string_init(ZEND_STRL("UTF-8"), 0);
+		zephir_memory_observe(&encoding_zv);
 		ZVAL_STR(&encoding_zv, encoding);
 	} else {
-		ZVAL_STR_COPY(&encoding_zv, encoding);
+		zephir_memory_observe(&encoding_zv);
+	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 0);
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &text_zv, &_0, &encoding_zv);

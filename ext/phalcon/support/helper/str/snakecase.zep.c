@@ -61,11 +61,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_SnakeCase, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!delimiters) {
 		ZEPHIR_INIT_VAR(&delimiters_zv);
 	} else {
-		ZVAL_STR_COPY(&delimiters_zv, delimiters);
+		zephir_memory_observe(&delimiters_zv);
+	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
 	ZEPHIR_CALL_METHOD(&output, this_ptr, "processarray", NULL, 0, &text_zv, &delimiters_zv);
 	zephir_check_call_status();

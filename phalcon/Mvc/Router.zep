@@ -10,12 +10,14 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Mvc\Router\Exception;
+use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\RouteInterface;
@@ -129,6 +131,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected matches = [];
 
     /**
+     * @var array
+     */
+    protected methodRoutes = [];
+
+    /**
+     * @var bool
+     */
+    protected methodRoutesDirty = true;
+
+    /**
      * @var string
      */
     protected module = "";
@@ -175,31 +187,31 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function __construct(bool! defaultRoutes = true)
     {
-        array routes = [];
-
         if defaultRoutes {
             /**
              * Two routes are added by default to match /:controller/:action and
              * /:controller/:action/:params
              */
-            let routes[] = new Route(
-                "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
-                [
-                    "controller": 1
-                ]
+            this->attach(
+                new Route(
+                    "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u",
+                    [
+                        "controller": 1
+                    ]
+                )
             );
 
-            let routes[] = new Route(
-                "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
-                [
-                    "controller": 1,
-                    "action":     2,
-                    "params":     3
-                ]
+            this->attach(
+                new Route(
+                    "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
+                    [
+                        "controller": 1,
+                        "action":     2,
+                        "params":     3
+                    ]
+                )
             );
         }
-
-        let this->routes = routes;
     }
 
     /**
@@ -514,6 +526,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 throw new Exception("Invalid route position");
         }
 
+        let this->methodRoutesDirty = true;
+
         return this;
     }
 
@@ -522,7 +536,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function clear() -> void
     {
-        let this->routes = [];
+        let this->routes            = [],
+            this->methodRoutes      = [],
+            this->methodRoutesDirty = true;
     }
 
     /**
@@ -596,6 +612,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
+     * Returns the routes indexed by HTTP method.
+     * Routes with no HTTP constraint are stored under the "*" key.
+     *
+     * @return array
+     */
+    public function getMethodRoutes() -> array
+    {
+        if this->methodRoutesDirty {
+            this->rebuildMethodIndex();
+        }
+
+        return this->methodRoutes;
+    }
+
+    /**
      * Returns the processed module name
      */
     public function getModuleName() -> string
@@ -658,6 +689,29 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             realUri  = urlParts[0];
 
         return realUri;
+    }
+
+    protected function rebuildMethodIndex() -> void
+    {
+        var route, methods, method;
+
+        let this->methodRoutes = [];
+
+        for route in this->routes {
+            let methods = route->getHttpMethods();
+
+            if methods === null {
+                let this->methodRoutes["*"][] = route;
+            } elseif typeof methods == "string" {
+                let this->methodRoutes[methods][] = route;
+            } else {
+                for method in methods {
+                    let this->methodRoutes[method][] = route;
+                }
+            }
+        }
+
+        let this->methodRoutesDirty = false;
     }
 
     /**
@@ -741,11 +795,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string! uri) -> void
     {
-        var action, beforeMatch, container, controller, converter, converters,
-            currentHostName, eventsManager, handledUri, hostname, matched,
-            matches, matchPosition, methods, module, notFoundPaths, params,
-            paramsStr, part, parts, paths, pattern, position, realUri,
-            regexHostName, request, route, routeFound, strParams, vnamespace;
+        var action, beforeMatch, candidateRoutes, container, controller,
+            converter, converters, currentHostName, eventsManager, handledUri,
+            hostname, matched, matches, matchPosition, methodCandidates,
+            module, notFoundPaths, params, paramsStr, part, parts, paths,
+            pattern, position, realUri, regexHostName, request, requestMethod,
+            route, routeFound, strParams, vnamespace;
 
         if !uri {
             /**
@@ -795,24 +850,32 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         let request = <RequestInterface> container->get("request");
 
         /**
+         * Build a candidate list of routes that match the request method.
+         * Routes with no HTTP constraint are stored under "*" and are always
+         * included. This avoids iterating the full route array per request.
+         */
+        if this->methodRoutesDirty {
+            this->rebuildMethodIndex();
+        }
+
+        let requestMethod    = request->getMethod(),
+            methodCandidates = [],
+            candidateRoutes  = [];
+
+        if fetch methodCandidates, this->methodRoutes[requestMethod] {
+            let candidateRoutes = methodCandidates;
+        }
+
+        if fetch methodCandidates, this->methodRoutes["*"] {
+            let candidateRoutes = array_merge(candidateRoutes, methodCandidates);
+        }
+
+        /**
          * Routes are traversed in reversed order
          */
-        for route in reverse this->routes {
-            let params = [],
+        for route in reverse candidateRoutes {
+            let params  = [],
                 matches = null;
-
-            /**
-             * Look for HTTP method constraints
-             */
-            let methods = route->getHttpMethods();
-            if methods !== null {
-                /**
-                 * Check if the current method is allowed by the route
-                 */
-                if request->isMethod(methods, true) === false {
-                    continue;
-                }
-            }
 
             /**
              * Look for hostname constraints
@@ -961,21 +1024,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                             /**
                              * Apply the converters anyway
                              */
-                            if typeof converters === "array" {
-                                if fetch converter, converters[part] {
-                                    let parts[part] = call_user_func_array(
-                                        converter,
-                                        [position]
-                                    );
-                                }
-                            } else {
+                            if typeof converters === "array" && fetch converter, converters[part] {
+                                let parts[part] = call_user_func_array(
+                                    converter,
+                                    [position]
+                                );
+                            } elseif typeof position === "integer" {
                                 /**
                                  * Remove the path if the parameter was not
                                  * matched
                                  */
-                                if typeof position === "integer" {
-                                    unset parts[part];
-                                }
+                                unset parts[part];
                             }
                         }
                     }
@@ -1095,6 +1154,213 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
+     * Loads routes from an array or Phalcon\Config\Config instance.
+     *
+     *```php
+     * $router->loadFromConfig(
+     *      [
+     *          'routes' => [
+     *              [
+     *                  'method'  => 'get',
+     *                  'pattern' => '/users',
+     *                  'paths'   => 'Users::index',
+     *              ],
+     *          ],
+     *      ]
+     *  );
+     *```
+     *
+     * @param array|ConfigInterface config
+     *
+     * @return RouterInterface
+     */
+    public function loadFromConfig(var config) -> <RouterInterface>
+    {
+        var routes, routeData, defaults, notFoundPaths, removeExtra, groups, groupData;
+
+        if typeof config === "object" {
+            if !(config instanceof ConfigInterface) {
+                throw new Exception(
+                    "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
+                );
+            }
+            let config = config->toArray();
+        }
+
+        if typeof config !== "array" {
+            throw new Exception(
+                "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
+            );
+        }
+
+        if isset config["removeExtraSlashes"] {
+            let removeExtra = config["removeExtraSlashes"];
+            this->removeExtraSlashes((bool) removeExtra);
+        }
+
+        if isset config["defaults"] {
+            let defaults = config["defaults"];
+            if typeof defaults !== "array" {
+                throw new Exception("'defaults' must be an array");
+            }
+            this->setDefaults(defaults);
+        }
+
+        if fetch routes, config["routes"] {
+            if typeof routes !== "array" {
+                throw new Exception("'routes' must be an array");
+            }
+            for routeData in routes {
+                this->addRouteFromConfig(routeData);
+            }
+        }
+
+        if fetch groups, config["groups"] {
+            if typeof groups !== "array" {
+                throw new Exception("'groups' must be an array");
+            }
+            for groupData in groups {
+                this->mountGroupFromConfig(groupData);
+            }
+        }
+
+        if fetch notFoundPaths, config["notFound"] {
+            this->notFound(notFoundPaths);
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds a single route from a config array entry. Used by loadFromConfig.
+     *
+     * @param array routeData
+     *
+     * @return void
+     */
+    protected function addRouteFromConfig(array routeData) -> void
+    {
+        var method, methodClass, pattern, paths, route;
+
+        if !fetch pattern, routeData["pattern"] {
+            throw new Exception("Route config entry is missing 'pattern'");
+        }
+
+        if !fetch paths, routeData["paths"] {
+            throw new Exception("Route config entry is missing 'paths'");
+        }
+
+        let method = "";
+        if isset routeData["method"] && routeData["method"] !== null {
+            let method = strtolower((string) routeData["method"]);
+        }
+
+        switch method {
+            case "":
+            case "connect":
+            case "delete":
+            case "get":
+            case "head":
+            case "options":
+            case "patch":
+            case "post":
+            case "purge":
+            case "put":
+            case "trace":
+                let methodClass = "add" . ucfirst(method);
+                let route = this->{methodClass}(pattern, paths);
+                break;
+            default:
+                throw new Exception(
+                    "Unknown HTTP method '" . method . "' in route config"
+                );
+        }
+
+        if isset routeData["name"] {
+            route->setName((string) routeData["name"]);
+        }
+        if isset routeData["hostname"] {
+            route->setHostname((string) routeData["hostname"]);
+        }
+    }
+
+    /**
+     * Builds a Group from a config entry and mounts it. Used by loadFromConfig.
+     *
+     * @param array groupData
+     *
+     * @return void
+     */
+    protected function mountGroupFromConfig(array groupData) -> void
+    {
+        var group, paths, routes, routeData, method, methodClass, pattern, routePaths, route;
+
+        let paths = null;
+        if isset groupData["paths"] {
+            let paths = groupData["paths"];
+        }
+
+        let group = new Group(paths);
+
+        if isset groupData["prefix"] {
+            group->setPrefix((string) groupData["prefix"]);
+        }
+
+        if isset groupData["hostname"] {
+            group->setHostname((string) groupData["hostname"]);
+        }
+
+        if !fetch routes, groupData["routes"] {
+            let routes = [];
+        }
+
+        if typeof routes !== "array" {
+            throw new Exception("Group 'routes' must be an array");
+        }
+
+        for routeData in routes {
+            if !fetch pattern, routeData["pattern"] {
+                throw new Exception("Group route entry is missing 'pattern'");
+            }
+            if !fetch routePaths, routeData["paths"] {
+                throw new Exception("Group route entry is missing 'paths'");
+            }
+
+            let method = "";
+            if isset routeData["method"] && routeData["method"] !== null {
+                let method = strtolower((string) routeData["method"]);
+            }
+
+            switch method {
+                case "":
+                case "connect":
+                case "delete":
+                case "get":
+                case "head":
+                case "options":
+                case "patch":
+                case "post":
+                case "purge":
+                case "put":
+                case "trace":
+                    let methodClass = "add" . ucfirst(method);
+                    let route = group->{methodClass}(pattern, routePaths);
+                    break;
+                default:
+                    throw new Exception(
+                        "Unknown HTTP method '" . method . "' in group route config"
+                    );
+            }
+
+            if isset routeData["name"] {
+                route->setName((string) routeData["name"]);
+            }
+        }
+
+        this->mount(group);
+    }
+
+    /**
      * Mounts a group of routes in the router
      *
      * @param GroupInterface group
@@ -1103,7 +1369,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function mount(<GroupInterface> group) -> <RouterInterface>
     {
-        var groupRoutes, beforeMatch, hostname, routes, route, eventsManager;
+        var groupRoutes, beforeMatch, hostname, route, eventsManager;
 
         let eventsManager = this->eventsManager;
 
@@ -1139,9 +1405,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
         }
 
-        let routes = this->routes;
-
-        let this->routes = array_merge(routes, groupRoutes);
+        for route in groupRoutes {
+            this->attach(route);
+        }
 
         return this;
     }

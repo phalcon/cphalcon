@@ -6,17 +6,44 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Exception;
 
 /**
  * Class Anchor
+ *
+ * @property bool $forceRaw
  */
 class Anchor extends AbstractHelper
 {
+    /**
+     * @var bool
+     */
+    protected forceRaw = false;
+
+    /**
+     * @param EscaperInterface $escaper
+     * @param Doctype          $doctype
+     * @param bool             $forceRaw
+     */
+    public function __construct(
+        <EscaperInterface> escaper,
+        <Doctype> doctype = null,
+        bool forceRaw = false
+    ) {
+        parent::__construct(escaper, doctype);
+
+        let this->forceRaw = forceRaw;
+    }
+
     /**
      * Produce a <a> tag
      *
@@ -34,30 +61,11 @@ class Anchor extends AbstractHelper
         array attributes = [],
         bool raw = false
     ) -> string {
-        var overrides;
-
-        let overrides = this->processAttributes(href, attributes);
-
-        return this->renderFullElement("a", text, overrides, raw);
-    }
-
-    /**
-     * @param string $href
-     * @param array  $attributes
-     *
-     * @return array
-     */
-    protected function processAttributes(string href, array attributes) -> array
-    {
-        var overrides;
-
-        let overrides = ["href" : href];
-
-        /**
-         * Avoid duplicate "href" and ignore it if it is passed in the attributes
-         */
-        unset attributes["href"];
-
-        return array_merge(overrides, attributes);
+        return this->renderFullElement(
+            "a",
+            text,
+            this->injectAttribute("href", href, attributes),
+            raw || this->forceRaw
+        );
     }
 }

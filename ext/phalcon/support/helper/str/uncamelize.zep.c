@@ -63,22 +63,25 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!delimiter) {
 		delimiter = zend_string_init(ZEND_STRL("_"), 0);
+		zephir_memory_observe(&delimiter_zv);
 		ZVAL_STR(&delimiter_zv, delimiter);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VS(&_0, &delimiter_zv, "\\0");
-	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 85, &text_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 99, &text_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/[A-Z]/");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 43, &_2, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 57, &_2, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 7, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 8, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

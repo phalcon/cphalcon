@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	if (ZEND_NUM_ARGS() > 1) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&translation_zv);
 	ZVAL_STR_COPY(&translation_zv, translation);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -77,7 +78,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 293, &placeholders, &translation_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 304, &placeholders, &translation_zv);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

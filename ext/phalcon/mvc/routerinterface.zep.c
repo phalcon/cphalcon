@@ -193,6 +193,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteByName);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, handle);
 /**
+ * Loads routes from an array or Phalcon\Config\Config instance.
+ *
+ * @param array|\Phalcon\Config\ConfigInterface config
+ *
+ * @return RouterInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, loadFromConfig);
+/**
  * Mounts a group of routes in the router
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, mount);

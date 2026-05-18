@@ -151,6 +151,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial)
 	if (ZEND_NUM_ARGS() > 1) {
 		params = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&partialPath_zv);
 	ZVAL_STR_COPY(&partialPath_zv, partialPath);
 	if (!params) {
 		params = &params_sub;
@@ -219,6 +220,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, fireManagerEvent)
 	if (ZEND_NUM_ARGS() > 2) {
 		cancellable_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	if (!data) {
 		data = &data_sub;

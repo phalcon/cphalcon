@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel)
 {
 
-	RETURN_MEMBER(getThis(), "intermediateModel");
+	RETURN_MEMBER_TYPED(getThis(), "intermediateModel", IS_STRING);
 }
 
 /**
@@ -258,6 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&option);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
@@ -273,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions)
 {
 
-	RETURN_MEMBER(getThis(), "options");
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -316,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
 }
 
 /**
@@ -336,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields)
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel)
 {
 
-	RETURN_MEMBER(getThis(), "referencedModel");
+	RETURN_MEMBER_TYPED(getThis(), "referencedModel", IS_STRING);
 }
 
 /**

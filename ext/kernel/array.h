@@ -34,6 +34,16 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);
 int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index);
 int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint32_t index_length);
 
+/**
+ * PHP isset() semantics: index exists AND the stored value is not IS_NULL.
+ * Used by the user-facing isset() codegen path. The key-only variants above
+ * stay available for internal callers that legitimately want existence-only
+ * semantics (e.g. array_key_exists).
+ */
+int ZEPHIR_FASTCALL zephir_array_isset_value(const zval *arr, zval *index);
+int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, unsigned long index);
+int ZEPHIR_FASTCALL zephir_array_isset_value_string(const zval *arr, const char *index, uint32_t index_length);
+
 /** Unset existing indexes */
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags);
 int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, unsigned long index, int flags);

@@ -15,7 +15,9 @@ use Iterator;
 use Phalcon\Di\Injectable;
 use Phalcon\Support\Settings;
 use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Forms\Schema;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
@@ -188,7 +190,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      */
     public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
     {
-        var filter, key, value, element, filters, container, filteredValue;
+        var filter, key, value, element, candidate, filters, container, filteredValue;
+        var elementName, dataKey;
         array assignData, filteredData;
         string method;
 
@@ -200,6 +203,24 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let whitelist = this->whitelist;
         }
 
+        /**
+         * Unchecked checkboxes are absent from POST data. For any Check
+         * element that opted in via setUncheckedValue(), inject the
+         * registered value so the existing bind loop applies it to the
+         * entity. See cphalcon issue #16982.
+         */
+        for elementName, element in this->elements {
+            if element instanceof Check && element->hasUncheckedValue() {
+                let dataKey = element->getAttribute("name");
+                if dataKey === null {
+                    let dataKey = elementName;
+                }
+                if !array_key_exists(dataKey, data) {
+                    let data[dataKey] = element->getUncheckedValue();
+                }
+            }
+        }
+
         let filter = null;
         let assignData = [];
         let filteredData = [];
@@ -209,7 +230,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
              * Get the element
              */
             if !fetch element, this->elements[key] {
-                continue;
+                let element = null;
+
+                for candidate in this->elements {
+                    if candidate->getAttribute("name") === key {
+                        let element = candidate;
+                        break;
+                    }
+                }
+
+                if element === null {
+                    continue;
+                }
             }
 
             /**
@@ -766,6 +798,53 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function key() -> int
     {
         return this->position;
+    }
+
+    /**
+     * Loads elements into the form from a Schema source.
+     *
+     * Each definition in the schema must have at least 'type' and 'name'.
+     * The locator resolves the type string to an element factory; custom
+     * types can be registered on the locator with setElement().
+     *
+     * @param Schema       $schema
+     * @param FormsLocator $locator
+     *
+     * @return Form
+     * @throws Exception
+     */
+    public function load(<Schema> schema, <FormsLocator> locator) -> <Form>
+    {
+        var attributes, definition, element, factory, name, options, type;
+
+        for definition in schema->load() {
+            let type       = strtolower((string) definition["type"]),
+                name       = (string) definition["name"],
+                attributes = isset definition["attributes"] ? (array) definition["attributes"] : [],
+                options    = isset definition["options"]    ? (array) definition["options"]    : [],
+                factory    = locator->getElement(type),
+                element    = {factory}(name, options, attributes);
+
+            if isset definition["label"] && !empty definition["label"] {
+                element->setLabel((string) definition["label"]);
+            }
+
+            if array_key_exists("default", definition) {
+                element->setDefault(definition["default"]);
+            }
+
+            if isset definition["filters"] && !empty definition["filters"] {
+                element->setFilters(definition["filters"]);
+            }
+
+            if isset definition["validators"] && !empty definition["validators"] {
+                element->addValidators(definition["validators"]);
+            }
+
+            this->add(element);
+        }
+
+        return this;
     }
 
     /**

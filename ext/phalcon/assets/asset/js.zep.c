@@ -79,6 +79,7 @@ PHP_METHOD(Phalcon_Assets_Asset_Js, __construct)
 	if (ZEND_NUM_ARGS() > 5) {
 		autoVersion_param = ZEND_CALL_ARG(execute_data, 6);
 	}
+	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
 	if (!local_param) {
 		local = 1;
@@ -97,7 +98,8 @@ PHP_METHOD(Phalcon_Assets_Asset_Js, __construct)
 	if (!version) {
 		ZEPHIR_INIT_VAR(&version_zv);
 	} else {
-		ZVAL_STR_COPY(&version_zv, version);
+		zephir_memory_observe(&version_zv);
+	ZVAL_STR_COPY(&version_zv, version);
 	}
 	if (!autoVersion_param) {
 		autoVersion = 0;

@@ -43,7 +43,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	/**
 	 * Is event cancelable?
@@ -76,6 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_events_event_ce, 1, phalcon_events_eventinterface_ce);
+	zend_class_implements(phalcon_events_event_ce, 1, phalcon_contracts_events_stoppable_ce);
 	return SUCCESS;
 }
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	if (ZEND_NUM_ARGS() > 3) {
 		cancelable_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	if (!source) {
 		source = &source_sub;
@@ -145,9 +147,9 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		zephir_gettype(&_2$$3, source);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "The source of ", &type_zv, " event must be an object, got ", &_2$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 35, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 79);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -177,7 +179,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource)
 PHP_METHOD(Phalcon_Events_Event, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**
@@ -193,6 +195,16 @@ PHP_METHOD(Phalcon_Events_Event, isCancelable)
 {
 
 	RETURN_MEMBER(getThis(), "cancelable");
+}
+
+/**
+ * Returns whether propagation must stop. PSR-14 alias backed by the same
+ * `stopped` flag as `isStopped()`; calling `stop()` flips both.
+ */
+PHP_METHOD(Phalcon_Events_Event, isPropagationStopped)
+{
+
+	RETURN_MEMBER(getThis(), "stopped");
 }
 
 /**
@@ -265,7 +277,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	ZVAL_UNDEF(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 150);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 166);
 		return;
 	}
 	if (1) {

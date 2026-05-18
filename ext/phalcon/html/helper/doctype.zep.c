@@ -23,6 +23,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Creates Doctype tags
@@ -149,9 +153,11 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 		}
 	if (!delimiter) {
 		delimiter = zend_string_init(ZEND_STRL("\n"), 0);
+		zephir_memory_observe(&delimiter_zv);
 		ZVAL_STR(&delimiter_zv, delimiter);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, type);
@@ -255,6 +261,6 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 PHP_METHOD(Phalcon_Html_Helper_Doctype, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_LONG);
 }
 

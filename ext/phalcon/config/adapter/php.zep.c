@@ -85,6 +85,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
 	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_0);
 	if (zephir_require_zval_ret(&_0, &filePath_zv) == FAILURE) {

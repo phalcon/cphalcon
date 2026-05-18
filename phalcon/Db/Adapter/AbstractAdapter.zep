@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
@@ -217,6 +218,21 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 column
+            )
+        );
+    }
+
+    /**
+     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
+     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->addCheck(
+                tableName,
+                schemaName,
+                check
             )
         );
     }
@@ -479,6 +495,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Drops a CHECK constraint from a table. SQLite throws.
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropCheck(
+                tableName,
+                schemaName,
+                checkName
+            )
+        );
+    }
+
+    /**
      * Drops a foreign key from a table
      */
     public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> bool
@@ -681,11 +711,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional
+     * `modifier` is passed straight to the dialect (use `Dialect::LOCK_NOWAIT`
+     * / `Dialect::LOCK_SKIP_LOCKED` / `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->forUpdate(sqlQuery);
+        return this->dialect->forUpdate(sqlQuery, modifier);
     }
 
     /**
@@ -707,7 +739,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets the active connection unique identifier
      */
-    public function getConnectionId() -> string
+    public function getConnectionId() -> int
     {
         return this->connectionId;
     }
@@ -1171,11 +1203,81 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a shared-lock clause. The optional
+     * `modifier` is passed straight to the dialect (use
+     * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->sharedLock(sqlQuery);
+        return this->dialect->sharedLock(sqlQuery, modifier);
+    }
+
+    /**
+     * Creates a materialized view (PostgreSQL only — MySQL and SQLite
+     * throw via the dialect).
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->createMaterializedView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
+    }
+
+    /**
+     * Drops a materialized view (PostgreSQL only).
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropMaterializedView(
+                viewName,
+                schemaName,
+                ifExists
+            )
+        );
+    }
+
+    /**
+     * Refreshes a materialized view (PostgreSQL only). Pass
+     * `concurrent = true` for non-blocking refresh.
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->refreshMaterializedView(
+                viewName,
+                schemaName,
+                concurrent
+            )
+        );
+    }
+
+    /**
+     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. Supported by
+     * PostgreSQL and SQLite 3.24+; MySQL throws.
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        return this->dialect->onConflictUpdate(
+            sqlQuery,
+            conflictColumns,
+            updateColumns
+        );
+    }
+
+    /**
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
+     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
+     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        return this->dialect->returning(sqlQuery, columns);
     }
 
     /**

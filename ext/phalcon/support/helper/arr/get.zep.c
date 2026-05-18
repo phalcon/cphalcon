@@ -84,16 +84,17 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 	if (!cast) {
 		ZEPHIR_INIT_VAR(&cast_zv);
 	} else {
-		ZVAL_STR_COPY(&cast_zv, cast);
+		zephir_memory_observe(&cast_zv);
+	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	ZEPHIR_CPY_WRT(&value, defaultValue);
-	if (1 == zephir_array_isset(&collection, index)) {
+	if (1 == zephir_array_isset_value(&collection, index)) {
 		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch(&value, &collection, index, PH_NOISY, "phalcon/Support/Helper/Arr/Get.zep", 38);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 8, &value, &cast_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 9, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

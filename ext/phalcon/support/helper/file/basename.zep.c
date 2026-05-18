@@ -84,7 +84,8 @@ PHP_METHOD(Phalcon_Support_Helper_File_Basename, __invoke)
 	if (!suffix) {
 		ZEPHIR_INIT_VAR(&suffix_zv);
 	} else {
-		ZVAL_STR_COPY(&suffix_zv, suffix);
+		zephir_memory_observe(&suffix_zv);
+	ZVAL_STR_COPY(&suffix_zv, suffix);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -95,7 +96,7 @@ PHP_METHOD(Phalcon_Support_Helper_File_Basename, __invoke)
 	ZVAL_STRING(&_2, "/");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "@");
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 380, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 398, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, "@[^", &_4, "]+$@");
@@ -111,13 +112,13 @@ PHP_METHOD(Phalcon_Support_Helper_File_Basename, __invoke)
 	if (1 != ZEPHIR_IS_EMPTY(&suffix_zv)) {
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "@");
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 380, &suffix_zv, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 398, &suffix_zv, &_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$3);
 		ZEPHIR_CONCAT_SVS(&_8$$3, "@", &_7$$3, "$@");
 		ZEPHIR_INIT_NVAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "");
-		ZEPHIR_CALL_FUNCTION(&_9$$3, "preg_replace", NULL, 43, &_8$$3, &_6$$3, &fileName);
+		ZEPHIR_CALL_FUNCTION(&_9$$3, "preg_replace", NULL, 57, &_8$$3, &_6$$3, &fileName);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&fileName, &_9$$3);
 	}

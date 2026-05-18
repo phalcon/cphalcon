@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_style_add, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_style_setstyle, 0, 1, Phalcon\\Html\\Helper\\Style, 0)

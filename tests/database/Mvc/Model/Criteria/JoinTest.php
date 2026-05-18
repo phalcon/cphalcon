@@ -66,7 +66,7 @@ final class JoinTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  14716
+     * @issue  https://github.com/phalcon/cphalcon/issues/14716
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-06
      *

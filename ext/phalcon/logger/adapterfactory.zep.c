@@ -106,7 +106,9 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 2) {
 		options_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&fileName_zv);
 	ZVAL_STR_COPY(&fileName_zv, fileName);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);

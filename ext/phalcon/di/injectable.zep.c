@@ -100,6 +100,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&propertyName_zv);
 	ZVAL_STR_COPY(&propertyName_zv, propertyName);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdi", NULL, 0);
 	zephir_check_call_status();
@@ -134,7 +135,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SV(&_5, "Access to undefined property ", &propertyName_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 9, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_5);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -157,6 +158,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __isset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdi", NULL, 0);
 	zephir_check_call_status();

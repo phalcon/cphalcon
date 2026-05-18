@@ -122,6 +122,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, column)
 	if (ZEND_NUM_ARGS() > 2) {
 		type_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&column_zv);
 	ZVAL_STR_COPY(&column_zv, column);
 	if (!value) {
 		value = &value_sub;
@@ -242,6 +243,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, into)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
 	ZVAL_STR_COPY(&table_zv, table);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "FROM");
@@ -276,7 +278,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, getLastInsertId)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("connection"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "lastinsertid", NULL, 0, &name_zv);
@@ -306,7 +309,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 113);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 210);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 222);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildreturning", NULL, 0);
 	zephir_check_call_status();
@@ -413,6 +416,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, set)
 	if (ZEND_NUM_ARGS() > 1) {
 		value = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&column_zv);
 	ZVAL_STR_COPY(&column_zv, column);
 	if (!value) {
 		value = &value_sub;
@@ -518,7 +522,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 	ZEPHIR_INIT_NVAR(&_12);
 	zephir_read_property(&_14, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_15, &_14, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 183);
-	ZEPHIR_CALL_FUNCTION(&_16, "array_values", NULL, 13, &_15);
+	ZEPHIR_CALL_FUNCTION(&_16, "array_values", NULL, 22, &_15);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	ZVAL_STRING(&_17, ",");

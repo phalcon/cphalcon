@@ -177,7 +177,7 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  cphalcon/#14190
+     * @issue  https://github.com/phalcon/cphalcon/issues/14190
      * @author ekmst <https://github.com/ekmst>
      * @since  2020-09-09
      */
@@ -218,7 +218,7 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  cphalcon/#14190
+     * @issue  https://github.com/phalcon/cphalcon/issues/14190
      * @author ekmst <https://github.com/ekmst>
      * @since  2020-09-09
      */

@@ -178,6 +178,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -189,7 +190,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 194, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 207, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 }

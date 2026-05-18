@@ -61,7 +61,7 @@ final class CropTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  16156
+     * @issue  https://github.com/phalcon/cphalcon/issues/16156
      */
     public function testImageAdapterGdCropJpgWithZeroOffset(): void
     {

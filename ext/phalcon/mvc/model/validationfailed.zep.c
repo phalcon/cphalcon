@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages)
 {
 
-	RETURN_MEMBER(getThis(), "messages");
+	RETURN_MEMBER_TYPED(getThis(), "messages", IS_ARRAY);
 }
 
 /**

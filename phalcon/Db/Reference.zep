@@ -169,7 +169,7 @@ class Reference implements ReferenceInterface
     /**
      * Referenced Schema
      */
-    public function getReferencedSchema() -> string
+    public function getReferencedSchema() -> string | null
     {
         return this->referencedSchema;
     }
@@ -185,7 +185,7 @@ class Reference implements ReferenceInterface
     /**
      * Schema name
      */
-    public function getSchemaName() -> string
+    public function getSchemaName() -> string | null
     {
         return this->schemaName;
     }
@@ -193,7 +193,7 @@ class Reference implements ReferenceInterface
     /**
      * ON DELETE
      */
-    public function getOnDelete() -> string
+    public function getOnDelete() -> string | null
     {
         return this->onDelete;
     }
@@ -201,7 +201,7 @@ class Reference implements ReferenceInterface
     /**
      * ON UPDATE
      */
-    public function getOnUpdate() -> string
+    public function getOnUpdate() -> string | null
     {
         return this->onUpdate;
     }

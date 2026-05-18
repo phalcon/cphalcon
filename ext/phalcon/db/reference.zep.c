@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
@@ -181,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 PHP_METHOD(Phalcon_Db_Reference, getColumns)
 {
 
-	RETURN_MEMBER(getThis(), "columns");
+	RETURN_MEMBER_TYPED(getThis(), "columns", IS_ARRAY);
 }
 
 /**
@@ -190,7 +191,7 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns)
 PHP_METHOD(Phalcon_Db_Reference, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -199,7 +200,7 @@ PHP_METHOD(Phalcon_Db_Reference, getName)
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns)
 {
 
-	RETURN_MEMBER(getThis(), "referencedColumns");
+	RETURN_MEMBER_TYPED(getThis(), "referencedColumns", IS_ARRAY);
 }
 
 /**
@@ -217,7 +218,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema)
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable)
 {
 
-	RETURN_MEMBER(getThis(), "referencedTable");
+	RETURN_MEMBER_TYPED(getThis(), "referencedTable", IS_STRING);
 }
 
 /**

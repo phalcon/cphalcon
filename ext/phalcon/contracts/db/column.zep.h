@@ -1,0 +1,72 @@
+
+extern zend_class_entry *phalcon_contracts_db_column_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Column);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_getafterposition, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_getbindtype, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_column_getdefault, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_getname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_getscale, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_column_getsize, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_column_gettype, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_gettypereference, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_column_gettypevalues, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_hasdefault, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isautoincrement, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isfirst, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isnotnull, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isnumeric, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isprimary, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_isunsigned, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_db_column_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getAfterPosition, arginfo_phalcon_contracts_db_column_getafterposition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getBindType, arginfo_phalcon_contracts_db_column_getbindtype)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getDefault, arginfo_phalcon_contracts_db_column_getdefault)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getName, arginfo_phalcon_contracts_db_column_getname)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getScale, arginfo_phalcon_contracts_db_column_getscale)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getSize, arginfo_phalcon_contracts_db_column_getsize)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getType, arginfo_phalcon_contracts_db_column_gettype)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getTypeReference, arginfo_phalcon_contracts_db_column_gettypereference)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, getTypeValues, arginfo_phalcon_contracts_db_column_gettypevalues)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, hasDefault, arginfo_phalcon_contracts_db_column_hasdefault)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isAutoIncrement, arginfo_phalcon_contracts_db_column_isautoincrement)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isFirst, arginfo_phalcon_contracts_db_column_isfirst)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isNotNull, arginfo_phalcon_contracts_db_column_isnotnull)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isNumeric, arginfo_phalcon_contracts_db_column_isnumeric)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isPrimary, arginfo_phalcon_contracts_db_column_isprimary)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Column, isUnsigned, arginfo_phalcon_contracts_db_column_isunsigned)
+	PHP_FE_END
+};

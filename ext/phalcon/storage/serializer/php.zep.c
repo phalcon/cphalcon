@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Php)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize)
 {
@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize)
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 14, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 16, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -72,10 +72,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 {
-	zend_bool _9;
+	zend_bool _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval data_sub, __$false, __$true, result, version, _0, _1, _2, _3, _4, _5$$5, _6$$5, _7$$6, _8$$6;
+	zval data_sub, __$false, __$true, result, _0, _1, _2, _3;
 	zval *data;
 	zval *this_ptr = getThis();
 
@@ -83,16 +83,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_6$$5);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_8$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
@@ -111,39 +105,22 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 49);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 138);
-	zephir_check_call_status();
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "8.0");
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, ">=");
-	ZEPHIR_CALL_FUNCTION(&_4, "version_compare", NULL, 139, &version, &_2, &_3);
+	ZEPHIR_INIT_NVAR(&_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_80__closure_ce, SL("__invoke"));
+	ZVAL_LONG(&_3, 8);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 153, &_2, &_3);
 	zephir_check_call_status();
-	if (zephir_is_true(&_4)) {
-		ZEPHIR_INIT_VAR(&_5$$5);
-		ZEPHIR_INIT_NVAR(&_5$$5);
-		zephir_create_closure_ex(&_5$$5, NULL, phalcon_11__closure_ce, SL("__invoke"));
-		ZVAL_LONG(&_6$$5, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_5$$5, &_6$$5);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_INIT_VAR(&_7$$6);
-		ZEPHIR_INIT_NVAR(&_7$$6);
-		zephir_create_closure_ex(&_7$$6, NULL, phalcon_12__closure_ce, SL("__invoke"));
-		ZVAL_LONG(&_8$$6, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_7$$6, &_8$$6);
-		zephir_check_call_status();
-	}
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 141);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 154);
 	zephir_check_call_status();
-	_9 = ZEPHIR_GLOBAL(warning).enable;
-	if (!(_9)) {
-		_9 = ZEPHIR_IS_FALSE_IDENTICAL(&result);
+	_4 = ZEPHIR_GLOBAL(warning).enable;
+	if (!(_4)) {
+		_4 = ZEPHIR_IS_FALSE_IDENTICAL(&result);
 	}
-	if (UNEXPECTED(_9)) {
+	if (UNEXPECTED(_4)) {
 		if (0) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
 		} else {
@@ -188,6 +165,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, phpUnserialize)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -195,7 +173,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, phpUnserialize)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 15, &data_zv, &options);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 21, &data_zv, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 }

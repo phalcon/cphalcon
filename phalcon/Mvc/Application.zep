@@ -270,7 +270,7 @@ class Application extends AbstractApplication
          */
         let dispatcher = <DispatcherInterface> container->getShared("dispatcher");
 
-        dispatcher->setModuleName(router->getModuleName());
+        dispatcher->setModuleName(moduleName);
         dispatcher->setNamespaceName(router->getNamespaceName());
         dispatcher->setControllerName(router->getControllerName());
         dispatcher->setActionName(router->getActionName());

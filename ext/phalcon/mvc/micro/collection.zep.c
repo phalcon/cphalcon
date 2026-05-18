@@ -105,11 +105,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DELETE");
@@ -149,11 +151,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "GET");
@@ -179,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 {
 
-	RETURN_MEMBER(getThis(), "handlers");
+	RETURN_MEMBER_TYPED(getThis(), "handlers", IS_ARRAY);
 }
 
 /**
@@ -188,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix)
 {
 
-	RETURN_MEMBER(getThis(), "prefix");
+	RETURN_MEMBER_TYPED(getThis(), "prefix", IS_STRING);
 }
 
 /**
@@ -222,11 +226,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "HEAD");
@@ -275,11 +281,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZVAL_NULL(&_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
@@ -330,11 +338,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
 	method = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, method, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
@@ -373,11 +383,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "OPTIONS");
@@ -417,11 +429,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PATCH");
@@ -461,11 +475,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "POST");
@@ -505,11 +521,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	handler = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PUT");
@@ -641,11 +659,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	method = ZEND_CALL_ARG(execute_data, 1);
 	handler = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&routePattern_zv);
 	ZVAL_STR_COPY(&routePattern_zv, routePattern);
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-		ZVAL_STR_COPY(&name_zv, name);
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 4, 0);

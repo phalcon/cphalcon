@@ -26,6 +26,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class AbstractList
@@ -85,14 +89,17 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 	}
 	if (!indent) {
 		indent = zend_string_init(ZEND_STRL("    "), 0);
+		zephir_memory_observe(&indent_zv);
 		ZVAL_STR(&indent_zv, indent);
 	} else {
-		ZVAL_STR_COPY(&indent_zv, indent);
+		zephir_memory_observe(&indent_zv);
+	ZVAL_STR_COPY(&indent_zv, indent);
 	}
 	if (!delimiter) {
 		ZEPHIR_INIT_VAR(&delimiter_zv);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);

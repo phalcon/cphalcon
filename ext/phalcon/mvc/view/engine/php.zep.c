@@ -71,6 +71,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 	if (ZEND_NUM_ARGS() > 2) {
 		mustClean_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
 	if (!mustClean_param) {
 		mustClean = 0;

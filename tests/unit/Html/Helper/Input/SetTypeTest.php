@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\AbstractInput;
-use Phalcon\Html\Helper\Input\Input;
+use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SetTypeTest extends AbstractUnitTestCase
@@ -27,7 +27,7 @@ final class SetTypeTest extends AbstractUnitTestCase
     {
         $escaper = new Escaper();
         $doctype = new Doctype();
-        $helper  = new Input($escaper, $doctype);
+        $helper  = new Generic($escaper, $doctype);
 
         $actual = $helper->setType('email');
         $this->assertInstanceOf(AbstractInput::class, $actual);

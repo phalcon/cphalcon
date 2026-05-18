@@ -26,6 +26,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Converts text to a URL-friendly slug.
@@ -116,12 +120,15 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	if (ZEND_NUM_ARGS() > 3) {
 		replace = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!separator) {
 		separator = zend_string_init(ZEND_STRL("-"), 0);
+		zephir_memory_observe(&separator_zv);
 		ZVAL_STR(&separator_zv, separator);
 	} else {
-		ZVAL_STR_COPY(&separator_zv, separator);
+		zephir_memory_observe(&separator_zv);
+	ZVAL_STR_COPY(&separator_zv, separator);
 	}
 	if (!lowercase_param) {
 		lowercase = 1;
@@ -156,9 +163,9 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			object_init_ex(&_3$$4, phalcon_html_exception_ce);
 			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 35, &_4$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 49, &_4$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 57);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 61);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

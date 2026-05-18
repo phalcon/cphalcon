@@ -341,14 +341,14 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getActiveRenderPath() -> string | array
     {
         var activeRenderPath;
-        int viewsDirsCount;
 
-        let viewsDirsCount = count(this->getViewsDirs()),
-            activeRenderPath = this->activeRenderPaths;
+        let activeRenderPath = this->activeRenderPaths;
 
-        if viewsDirsCount === 1 {
-            if typeof activeRenderPath === "array" && count(activeRenderPath) {
+        if typeof activeRenderPath === "array" {
+            if count(activeRenderPath) === 1 {
                 let activeRenderPath = activeRenderPath[0];
+            } elseif count(activeRenderPath) === 0 {
+                let activeRenderPath = "";
             }
         }
 

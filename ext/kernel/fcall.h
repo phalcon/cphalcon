@@ -69,7 +69,7 @@ typedef enum _zephir_call_type {
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
 #define ZEPHIR_BACKUP_SCOPE() \
-	zend_class_entry *old_scope = EG(fake_scope); \
+	const zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
 	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
 	if (!EG(current_execute_data)) { \
@@ -85,7 +85,7 @@ typedef enum _zephir_call_type {
 	}
 
 #define ZEPHIR_RESTORE_SCOPE() \
-	EG(fake_scope) = old_scope; \
+	EG(fake_scope) = (zend_class_entry *) old_scope; \
 	execute_data = old_call; \
 	EG(current_execute_data) = old_execute_data;
 
@@ -276,9 +276,15 @@ int zephir_call_class_method_aparams(
 	uint32_t param_count,
 	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
-ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(zval *return_value,
-	const char *func, uint32_t func_len, zephir_fcall_cache_entry **cache_entry, int cache_slot, uint32_t param_count, zval **params)
-{
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(
+	zval *return_value,
+	const char *func,
+	uint32_t func_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 

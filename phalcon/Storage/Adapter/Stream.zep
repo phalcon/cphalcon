@@ -380,7 +380,7 @@ class Stream extends AbstractAdapter
      */
     private function getPayload(string filepath) -> array
     {
-        var payload, pointer, version;
+        var payload, pointer;
 
         let payload = false,
             pointer = this->phpFopen(filepath, "r");
@@ -405,24 +405,13 @@ class Stream extends AbstractAdapter
             return [];
         }
 
-        let version = phpversion();
         globals_set("warning.enable", false);
-
-        if version_compare(version, "8.0", ">=") {
-            set_error_handler(
-                function (number, message, file, line) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        } else {
-            set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        }
+        set_error_handler(
+            function (number, message, file, line) {
+                globals_set("warning.enable", true);
+            },
+            E_NOTICE
+        );
 
         let payload = unserialize(payload);
 
@@ -467,9 +456,9 @@ class Stream extends AbstractAdapter
      */
     private function storePayload(array payload, string key) -> bool
     {
-        var directory, payload;
+        var directory, localPayload;
 
-        let payload   = serialize(payload),
+        let localPayload   = serialize(payload),
             directory = this->getDir(key);
 
         if !is_dir(directory) {
@@ -477,7 +466,7 @@ class Stream extends AbstractAdapter
         }
 
         return (
-            false !== this->phpFilePutContents(directory . key, payload, LOCK_EX)
+            false !== this->phpFilePutContents(directory . key, localPayload, LOCK_EX)
         );
     }
 

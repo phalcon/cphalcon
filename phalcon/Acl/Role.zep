@@ -18,7 +18,7 @@ class Role implements RoleInterface
     /**
      * Role description
      *
-     * @var string
+     * @var string | null
      */
     private description;
 
@@ -47,7 +47,7 @@ class Role implements RoleInterface
         return this->name;
     }
 
-    public function getDescription() -> string
+    public function getDescription() -> string | null
     {
         return this->description;
     }

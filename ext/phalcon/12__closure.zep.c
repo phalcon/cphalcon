@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -25,22 +27,29 @@ ZEPHIR_INIT_CLASS(phalcon_12__closure)
 
 PHP_METHOD(phalcon_12__closure, __invoke)
 {
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, __$true;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval options, attributes;
+	zval *name_param = NULL, *options_param = NULL, *attributes_param = NULL;
+	zval name;
 
-	ZVAL_UNDEF(&number_sub);
-	ZVAL_UNDEF(&message_sub);
-	ZVAL_UNDEF(&file_sub);
-	ZVAL_UNDEF(&line_sub);
-	ZVAL_UNDEF(&context_sub);
-	ZVAL_BOOL(&__$true, 1);
-	ZEND_PARSE_PARAMETERS_START(5, 5)
-		Z_PARAM_ZVAL(number)
-		Z_PARAM_ZVAL(message)
-		Z_PARAM_ZVAL(file)
-		Z_PARAM_ZVAL(line)
-		Z_PARAM_ZVAL(context)
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&attributes);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(name_param)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
+		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(5, 0, &number, &message, &file, &line, &context);
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 3, 0, &name_param, &options_param, &attributes_param);
+	zephir_get_strval(&name, name_param);
+	zephir_get_arrval(&options, options_param);
+	zephir_get_arrval(&attributes, attributes_param);
+	object_init_ex(return_value, phalcon_forms_element_file_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 

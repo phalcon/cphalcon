@@ -606,7 +606,15 @@ class Query implements QueryInterface, InjectionAwareInterface
                         // Assign the type to the query
                         let this->type = ast["type"];
 
-                        return irPhql;
+                        /**
+                         * Refresh schema/source for every model referenced
+                         * in the cached intermediate representation. The
+                         * cache is keyed by the PHQL string only, so models
+                         * that change their schema/source at runtime would
+                         * otherwise keep producing SQL with the stale value
+                         * baked in at first parse. See issue #17020.
+                         */
+                        return this->refreshSchemasInIntermediate(irPhql);
                     }
                 }
             }
@@ -1417,7 +1425,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
             number, field, records, exprValue, updateValue, wildcard, record,
-            exception;
+            exception, sqlExpr, namedParams, paramKey, paramKeys, paramValue;
 
         let models = intermediate["models"];
 
@@ -1506,9 +1514,55 @@ class Query implements QueryInterface, InjectionAwareInterface
                     throw new Exception("Not supported");
 
                 default:
-                    let updateValue = new RawValue(
-                        dialect->getSqlExpression(exprValue)
-                    );
+                    let sqlExpr = dialect->getSqlExpression(exprValue);
+
+                    /**
+                     * If the expression contains named placeholders (e.g.
+                     * "col + :param"), resolve them from bindParams so the
+                     * RawValue is free of named params. This prevents a PDO
+                     * "mixed named and positional parameters" error when the
+                     * WHERE clause uses positional "?" markers.
+                     */
+                    let namedParams = [];
+
+                    if preg_match_all("/:([a-zA-Z0-9_]+)/", sqlExpr, namedParams) {
+                        /**
+                         * Sort by length descending so a key like "id" does
+                         * not partially match a longer placeholder like
+                         * ":idx" when running str_replace.
+                         */
+                        let paramKeys = array_unique(namedParams[1]);
+
+                        usort(
+                            paramKeys,
+                            function (a, b) {
+                                return strlen(b) - strlen(a);
+                            }
+                        );
+
+                        for paramKey in paramKeys {
+                            if fetch paramValue, bindParams[paramKey] {
+                                if typeof paramValue == "integer" || typeof paramValue == "double" {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        (string) paramValue,
+                                        sqlExpr
+                                    );
+                                } else {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        connection->escapeString((string) paramValue),
+                                        sqlExpr
+                                    );
+                                }
+
+                                unset selectBindParams[paramKey];
+                                unset selectBindTypes[paramKey];
+                            }
+                        }
+                    }
+
+                    let updateValue = new RawValue(sqlExpr);
 
                     break;
             }
@@ -3530,6 +3584,73 @@ class Query implements QueryInterface, InjectionAwareInterface
             return connection;
         }
         return model->getWriteConnection();
+    }
+
+    /**
+     * Refreshes the schema/source of every model referenced in a cached
+     * intermediate representation. The PHQL cache is keyed by the PHQL
+     * string only, so a model that switches its schema or source at
+     * runtime (for instance via setSchema()/setSource() in initialize())
+     * would otherwise see the value frozen at first parse. See #17020.
+     */
+    final protected function refreshSchemasInIntermediate(array irPhql) -> array
+    {
+        var manager, models, tables, modelName, model, schema, source,
+            currentTable, alias, index;
+
+        let manager = this->manager;
+
+        if typeof manager != "object" {
+            return irPhql;
+        }
+
+        if !fetch models, irPhql["models"] {
+            return irPhql;
+        }
+
+        if !fetch tables, irPhql["tables"] {
+            return irPhql;
+        }
+
+        for index, modelName in models {
+            if !isset tables[index] {
+                continue;
+            }
+
+            let model = manager->load(modelName),
+                schema = model->getSchema(),
+                source = model->getSource(),
+                currentTable = tables[index],
+                alias = null;
+
+            /**
+             * Extract the alias from the cached entry (when present) so it
+             * survives the rebuild. The cached shape is either a plain
+             * source string, [source, schema], [source, null, alias] or
+             * [source, schema, alias].
+             */
+            if typeof currentTable == "array" && isset currentTable[2] {
+                let alias = currentTable[2];
+            }
+
+            if schema {
+                if alias !== null {
+                    let tables[index] = [source, schema, alias];
+                } else {
+                    let tables[index] = [source, schema];
+                }
+            } else {
+                if alias !== null {
+                    let tables[index] = [source, null, alias];
+                } else {
+                    let tables[index] = source;
+                }
+            }
+        }
+
+        let irPhql["tables"] = tables;
+
+        return irPhql;
     }
 
     /**

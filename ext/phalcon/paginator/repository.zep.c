@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getrealnameproperty", NULL, 0, &property_zv);
@@ -92,7 +93,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 9, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -103,7 +104,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 PHP_METHOD(Phalcon_Paginator_Repository, getAliases)
 {
 
-	RETURN_MEMBER(getThis(), "aliases");
+	RETURN_MEMBER_TYPED(getThis(), "aliases", IS_ARRAY);
 }
 
 /**
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems)
 PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize)
 {
 
-	RETURN_MEMBER(getThis(), "properties");
+	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
 }
 
 /**
@@ -369,6 +370,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 	if (ZEND_NUM_ARGS() > 1) {
 		defaultValue = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
@@ -401,10 +403,11 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
-	if (zephir_array_isset(&aliases, &property_zv)) {
+	if (zephir_array_isset_value(&aliases, &property_zv)) {
 		zephir_array_fetch(&_0$$3, &aliases, &property_zv, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 181);
 		RETURN_CTOR(&_0$$3);
 	}

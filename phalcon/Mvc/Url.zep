@@ -92,16 +92,33 @@ class Url extends AbstractInjectionAware implements UrlInterface
      *     null,
      *     false
      * );
+     *
+     * // Override existing query string keys instead of appending duplicates.
+     * // Without the fifth argument: "http://example.com?page=1&page=5".
+     * // With it set to true:        "http://example.com?page=5".
+     * echo $url->get(
+     *     "http://example.com?page=1",
+     *     ["page" => 5],
+     *     null,
+     *     null,
+     *     true
+     * );
      *```
      *
      * @param array|string uri = [
      *     'for' => '',
      * ]
      */
-    public function get(var uri = null, var args = null, bool local = null, var baseUri = null) -> string
-    {
+    public function get(
+        var uri = null,
+        var args = null,
+        bool local = null,
+        var baseUri = null,
+        bool replaceArgs = false
+    ) -> string {
         string strUri;
-        var router, container, routeName, route, queryString;
+        var container, existing, hostname, queryPos, queryString,
+            router, routeName, route;
 
         if local == null {
             if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
@@ -169,6 +186,24 @@ class Url extends AbstractInjectionAware implements UrlInterface
                 route->getReversedPaths(),
                 uri
             );
+
+            /**
+             * If the route has a hostname restriction, prepend it as a
+             * protocol-relative URL so the generated link works under
+             * both HTTP and HTTPS.  The baseUri is not prepended in this
+             * case because the hostname already provides the authority.
+             */
+            let hostname = route->getHostname();
+
+            if hostname !== null && hostname !== "" {
+                if substr(uri, 0, 1) !== "/" {
+                    let uri = "//" . hostname . "/" . uri;
+                } else {
+                    let uri = "//" . hostname . uri;
+                }
+
+                let local = false;
+            }
         }
 
         if local {
@@ -177,10 +212,26 @@ class Url extends AbstractInjectionAware implements UrlInterface
         }
 
         if args {
+            let queryPos = strpos(uri, "?");
+
+            if replaceArgs && queryPos !== false {
+                let existing = [];
+
+                parse_str(
+                    (string) substr(uri, queryPos + 1),
+                    existing
+                );
+
+                let args = array_merge(existing, (array) args),
+                    uri  = (string) substr(uri, 0, queryPos);
+
+                let queryPos = false;
+            }
+
             let queryString = http_build_query(args);
 
             if typeof queryString == "string" && strlen(queryString) {
-                if strpos(uri, "?") !== false {
+                if queryPos !== false {
                     let uri .= "&" . queryString;
                 } else {
                     let uri .= "?" . queryString;

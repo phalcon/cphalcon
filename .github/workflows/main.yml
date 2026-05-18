@@ -17,7 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.12.1
+  PHALCON_VERSION: 5.13.0
   ZEPHIR_PARSER_VERSION: 1.8.0
   # For tests
   LANG: en_US.UTF-8
@@ -27,6 +27,9 @@ env:
   # Windows specific
   TOOLS_DIR: 'C:\tools'
   CACHE_DIR: 'C:\Downloads'
+  PHP_VERSION_LIST: '8.1, 8.2, 8.3, 8.4, 8.5'
+  ARCH_LIST: 'x64, x86'
+  TS_LIST: 'nts, ts'
 
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, pcov, sqlite3, yaml, redis, :memcache, openssl
@@ -99,6 +102,74 @@ jobs:
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
           retention-days: 5
 
+  # Build Phalcon PECL package (kept available alongside PIE for a few
+  # releases to give downstream users time to migrate to PIE).
+  generate_pecl:
+    name: Build Phalcon PECL package
+    needs: [phpcs, stubs]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup APT Repositories
+        run: |
+          # Remove Microsoft repos — our builds often fail due to
+          # unstable/offline Microsoft servers.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
+
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
+      - name: Create Pecl Package
+        id: pecl_create
+        run: |
+          cp build/phalcon/config.w32 config.w32
+          cp build/phalcon/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/config.m4 config.m4
+          cp build/phalcon/php_phalcon.h php_phalcon.h
+          cp build/phalcon/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+
+      - name: Validate Pecl Package
+        run: pecl package-validate phalcon-pecl.tgz
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+
   # Generate fresh C source from Zephir, build the extension, and cache
   # the source tree and compiled .so for all downstream jobs.
   generate_source:
@@ -163,19 +234,12 @@ jobs:
           path: build/phalcon/
           retention-days: 1
 
-      - name: Build extension
+      - name: Build extension (smoke test)
         run: |
           cd build/phalcon
           phpize
           ./configure --enable-phalcon
           make -j"$(nproc)"
-
-      - name: Upload extension artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
-          path: build/phalcon/modules/phalcon.so
-          retention-days: 1
 
   # Validate PIE metadata and confirm the extension builds from the
   # generated source tree that PIE would use.
@@ -294,12 +358,19 @@ jobs:
           - 'ts'
         arch:
           - 'x64'
+          - 'arm64'
 
         name:
           - ubuntu-gcc
+          - macos-clang
+
+        exclude:
+          - { name: macos-clang, arch: x64 }
 
         include:
-          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: x64, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: arm64, os: ubuntu-22.04-arm, compiler: gcc }
+          - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
 
     steps:
       - uses: actions/checkout@v6
@@ -340,7 +411,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v7
         with:
-          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
+          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-${{ matrix.arch }}
           path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
           retention-days: 1
 
@@ -858,6 +929,56 @@ jobs:
 #          verbose: true
 #          name: codecov-umbrella
 
+  get_extension_matrix:
+    permissions:
+      contents: read
+    name: "Generate Windows Extension Matrix"
+    needs: [phpcs, stubs]
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.extension-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get the extension matrix
+        id: extension-matrix
+        uses: php/php-windows-builder/extension-matrix@v1
+        with:
+          extension-url: https://github.com/phalcon/cphalcon
+          extension-ref: ${{ env.PHALCON_VERSION }}
+          php-version-list: ${{ env.PHP_VERSION_LIST }}
+          arch-list: ${{ env.ARCH_LIST }}
+          ts-list: ${{ env.TS_LIST }}
+
+  build_extension_windows:
+    permissions:
+      contents: read
+    needs: get_extension_matrix
+    runs-on: ${{ matrix.os }}
+    name: "Build Windows / PHP-${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.arch }}"
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.get_extension_matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Generate build folder
+        run: |
+          cd build/
+          php gen-build.php
+          cd ../
+          cp -v build/phalcon/*.* .
+
+      - name: Build the extension
+        uses: php/php-windows-builder/extension@v1
+        with:
+          args: --enable-phalcon
+          php-version: ${{ matrix.php-version }}
+          arch: ${{ matrix.arch }}
+          ts: ${{ matrix.ts }}
+          extension-ref: ${{ env.PHALCON_VERSION }}
+
   release:
     permissions:
       contents: write
@@ -866,7 +987,9 @@ jobs:
 
     needs:
       - generate_source
+      - generate_pecl
       - build_extension
+      - build_extension_windows
       - unit_test
       - database_mysql_test
       - database_sqlite_test
@@ -886,7 +1009,8 @@ jobs:
       - name: Prepare Release assets
         run: |
           mkdir -p ./build-artifacts/release
-          find ./build-artifacts -type f -name phalcon*.zip -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
@@ -898,7 +1022,7 @@ jobs:
           tag: ${{ github.ref_name }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "./build-artifacts/release/*.zip"
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
           artifactContentType: application/octet-stream
 
   publish_stubs:

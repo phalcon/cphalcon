@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	if (ZEND_NUM_ARGS() > 1) {
 		context_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!context_param) {
 		ZEPHIR_INIT_VAR(&context);
@@ -85,15 +86,19 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	}
 	if (!leftToken) {
 		leftToken = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&leftToken_zv);
 		ZVAL_STR(&leftToken_zv, leftToken);
 	} else {
-		ZVAL_STR_COPY(&leftToken_zv, leftToken);
+		zephir_memory_observe(&leftToken_zv);
+	ZVAL_STR_COPY(&leftToken_zv, leftToken);
 	}
 	if (!rightToken) {
 		rightToken = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&rightToken_zv);
 		ZVAL_STR(&rightToken_zv, rightToken);
 	} else {
-		ZVAL_STR_COPY(&rightToken_zv, rightToken);
+		zephir_memory_observe(&rightToken_zv);
+	ZVAL_STR_COPY(&rightToken_zv, rightToken);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&context))) {
 		ZEPHIR_INIT_VAR(&replace);

@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -130,7 +131,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 437);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 456);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -188,9 +189,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		zephir_cast_to_string(&_6$$3, &_5$$3);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 76, &_7$$3, &_4$$3, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 90, &_7$$3, &_4$$3, &_6$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 436, &_8$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 455, &_8$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 106);
 		ZEPHIR_MM_RESTORE();
@@ -203,9 +204,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	}
 	ZEPHIR_CALL_METHOD(&_9, item, "getlevel", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 438, &_9);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 457, &_9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 439, &level, &message);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 458, &level, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -240,10 +241,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	option_param = ZEND_CALL_ARG(execute_data, 2);
 	facility_param = ZEND_CALL_ARG(execute_data, 3);
+	zephir_memory_observe(&ident_zv);
 	ZVAL_STR_COPY(&ident_zv, ident);
 	ZVAL_LONG(&_0, option);
 	ZVAL_LONG(&_1, facility);
-	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 440, &ident_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 459, &ident_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -42,7 +42,7 @@ final class OrderByTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  15411
+     * @issue  https://github.com/phalcon/cphalcon/issues/15411
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
      *

@@ -55,7 +55,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     protected directory;
 
     /**
-     * @var string
+     * @var string | false
      */
     protected locale;
 
@@ -125,7 +125,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * @return string
      */
-    public function getLocale() -> string
+    public function getLocale() -> string | false
     {
         return this->locale;
     }
@@ -271,10 +271,10 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      *
      * ```php
      * // Set locale to Dutch
-     * $gettext->setLocale(LC_ALL, "nl_NL");
+     * $gettext->setLocale(LC_ALL, ["nl_NL"]);
      *
      * // Try different possible locale names for German
-     * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
+     * $gettext->setLocale(LC_ALL, ["de_DE@euro", "de_DE", "de", "ge"]);
      * ```
      *
      * @param int   $category

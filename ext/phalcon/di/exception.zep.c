@@ -52,11 +52,12 @@ PHP_METHOD(Phalcon_Di_Exception, serviceCannotBeResolved)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Service '", &name_zv, "' cannot be resolved");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 49, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -76,11 +77,12 @@ PHP_METHOD(Phalcon_Di_Exception, serviceNotFound)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Service '", &name_zv, "' is not registered in the container");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 49, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -105,7 +107,7 @@ PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
 	ZVAL_LONG(&_0, position);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "Unknown service type in parameter on position ", &_0);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 49, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -125,11 +127,12 @@ PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&method_zv);
 	ZVAL_STR_COPY(&method_zv, method);
 	object_init_ex(return_value, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Call to undefined method or service '", &method_zv, "'");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 49, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

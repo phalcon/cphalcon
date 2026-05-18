@@ -550,6 +550,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        /**
+         * Null assigned to a relationship alias must clear the cached related
+         * records so that preSaveRelatedRecords() does not overwrite the FK
+         * back to its old value during save().
+         *
+         * Pre-assigning this->{property} = null before calling possibleSetter
+         * prevents infinite recursion: once the property exists as a real
+         * (dynamic) property, any subsequent `$this->property = null` inside
+         * the user-defined setter will not re-enter __set.
+         */
+        elseif value === null {
+            let lowerProperty = strtolower(property),
+                modelName     = get_class(this),
+                manager       = this->getModelsManager(),
+                relation      = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
+
+            if typeof relation === "object" {
+                unset this->related[lowerProperty];
+                unset this->dirtyRelated[lowerProperty];
+
+                let this->{property} = null;
+            }
+        }
+
         // Use possible setter.
         if this->possibleSetter(property, value) {
             return value;
@@ -1032,7 +1059,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if !disableSetters {
                     let setter = "set" . camelize(key);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
+                        try {
+                            instance->{setter}(value);
+                        } catch \TypeError {
+                            let instance->{key} = value;
+                        }
                         continue;
                     }
                 }
@@ -1074,7 +1105,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if !disableSetters {
                     let setter = "set" . camelize(attribute);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
-                        instance->{setter}(value);
+                        try {
+                            instance->{setter}(value);
+                        } catch \TypeError {
+                            let instance->{attribute} = value;
+                        }
                         continue;
                     }
                 }
@@ -1133,7 +1168,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if !disableSetters {
                 let setter = "set" . camelize(attributeName);
                 if method_exists(instance, setter) && !isset localMethods[setter] {
-                    instance->{setter}(castValue);
+                    try {
+                        instance->{setter}(castValue);
+                    } catch \TypeError {
+                        let instance->{attributeName} = castValue;
+                    }
                     continue;
                 }
             }
@@ -1751,9 +1790,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ],
      *     'hydration' => null
      * ]
-     * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
+     * @return \Phalcon\Mvc\Model\Resultset<int, T>
      */
-    public static function find(var parameters = null)
+    public static function find(var parameters = null) -> <ResultsetInterface>
     {
         var params, query, resultset, hydration;
 
@@ -1870,7 +1909,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'hydration' => null
      * ]
      *
-     * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+     * @return T|\Phalcon\Mvc\Model\Row|null
      */
     public static function findFirst(var parameters = null) -> var | null
     {
@@ -4083,6 +4122,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if value === null || value === "" {
                     if useExplicitIdentity {
                         let values[] = defaultValue, bindTypes[] = bindSkip;
+                    } elseif !count(values) {
+                        /**
+                         * Model has only the identity column; force an
+                         * explicit default so the underlying adapter does not
+                         * reject the insert because of an empty values array.
+                         */
+                        let fields[]    = identityField,
+                            values[]    = defaultValue,
+                            bindTypes[] = bindSkip;
                     }
                 } else {
                     /**
@@ -4108,6 +4156,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             } else {
                 if useExplicitIdentity {
                     let values[]    = defaultValue,
+                        bindTypes[] = bindSkip;
+                } elseif !count(values) {
+                    /**
+                     * Model has only the identity column; force an explicit
+                     * default so the underlying adapter does not reject the
+                     * insert because of an empty values array.
+                     */
+                    let fields[]    = identityField,
+                        values[]    = defaultValue,
                         bindTypes[] = bindSkip;
                 }
             }
@@ -4304,38 +4361,49 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         let snapshotValue = snapshotValue->getValue();
                                     }
 
-                                    let updateValue = value;
+                                    /**
+                                     * A RawValue holds a SQL expression (e.g.
+                                     * "col + 2"). It cannot be meaningfully
+                                     * compared to a stored scalar, so always
+                                     * treat the field as changed. This fixes
+                                     * the case where the current DB value is 0
+                                     * and the expression evaluates (via
+                                     * floatval) to 0.0, incorrectly suppressing
+                                     * the UPDATE.
+                                     */
                                     if is_object(value) && value instanceof RawValue {
-                                        let updateValue = value->getValue();
-                                    }
+                                        let changed = true;
+                                    } else {
+                                        let updateValue = value;
 
-                                    switch dataType {
+                                        switch dataType {
 
-                                        case Column::TYPE_BOOLEAN:
-                                            let changed = (bool) snapshotValue !== (bool) updateValue;
-                                            break;
+                                            case Column::TYPE_BOOLEAN:
+                                                let changed = (bool) snapshotValue !== (bool) updateValue;
+                                                break;
 
-                                        case Column::TYPE_DECIMAL:
-                                        case Column::TYPE_FLOAT:
-                                            let changed = floatval(snapshotValue) !== floatval(updateValue);
-                                            break;
+                                            case Column::TYPE_DECIMAL:
+                                            case Column::TYPE_FLOAT:
+                                                let changed = floatval(snapshotValue) !== floatval(updateValue);
+                                                break;
 
-                                        case Column::TYPE_INTEGER:
-                                        case Column::TYPE_DATE:
-                                        case Column::TYPE_VARCHAR:
-                                        case Column::TYPE_DATETIME:
-                                        case Column::TYPE_CHAR:
-                                        case Column::TYPE_TEXT:
-                                        case Column::TYPE_VARCHAR:
-                                        case Column::TYPE_BIGINTEGER:
-                                            let changed = (string) snapshotValue !== (string) updateValue;
-                                            break;
+                                            case Column::TYPE_INTEGER:
+                                            case Column::TYPE_DATE:
+                                            case Column::TYPE_VARCHAR:
+                                            case Column::TYPE_DATETIME:
+                                            case Column::TYPE_CHAR:
+                                            case Column::TYPE_TEXT:
+                                            case Column::TYPE_VARCHAR:
+                                            case Column::TYPE_BIGINTEGER:
+                                                let changed = (string) snapshotValue !== (string) updateValue;
+                                                break;
 
-                                        /**
-                                        * Any other type is not really supported...
-                                        */
-                                        default:
-                                            let changed = updateValue != snapshotValue;
+                                            /**
+                                            * Any other type is not really supported...
+                                            */
+                                            default:
+                                                let changed = updateValue != snapshotValue;
+                                        }
                                     }
                                 }
                             }
@@ -4887,7 +4955,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if unlikely !isset arguments[0] {
+        if unlikely !array_key_exists(0, arguments) {
             throw new Exception(
                 "The static method '" . method . "' in '" . get_called_class() . "' requires one argument"
             );
@@ -4992,8 +5060,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if !isset localMethods[possibleSetter] {
+        if isset localMethods[possibleSetter] {
+            return false;
+        }
+
+        try {
             this->{possibleSetter}(value);
+        } catch \TypeError {
+            let this->{property} = value;
         }
 
         return true;
@@ -5294,10 +5368,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     }
 
                     /**
-                     * If dynamic update is enabled, saving the record must not take any action
-                     * Only save if the model is dirty to prevent circular relations causing an infinite loop
+                     * If dynamic update is enabled, saving the record must not take any action.
+                     * Recursion through circular relations is prevented by the visited
+                     * collection inside doSave().
                      */
-                    if record->dirtyState !== Model::DIRTY_STATE_PERSISTENT && !record->doSave(visited) {
+                    if !record->doSave(visited) {
                         /**
                          * Get the validation messages generated by the
                          * referenced model

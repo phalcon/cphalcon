@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -24,16 +28,19 @@ class Meta extends AbstractSeries
      *
      * @return Meta
      */
-    public function add(array attributes = []) -> <Meta>
+    public function add(array attributes = [], int position = -1) -> <Meta>
     {
-        let this->store[] = [
-            "renderTag",
+        this->pushOrPlace(
             [
-                this->getTag(),
-                attributes
+                "renderTag",
+                [
+                    this->getTag(),
+                    attributes
+                ],
+                this->indent()
             ],
-            this->indent()
-        ];
+            position
+        );
 
         return this;
     }
@@ -41,25 +48,27 @@ class Meta extends AbstractSeries
     /**
      * @param string $httpEquiv
      * @param string $content
+     * @param int    $position
      *
      * @return Meta
      * @throws Exception
      */
-    public function addHttp(string httpEquiv, string content) -> <Meta>
+    public function addHttp(string httpEquiv, string content, int position = -1) -> <Meta>
     {
-        return this->addElement("http-equiv", httpEquiv, content);
+        return this->addElement("http-equiv", httpEquiv, content, position);
     }
 
     /**
      * @param string $name
      * @param string $content
+     * @param int    $position
      *
      * @return Meta
      * @throws Exception
      */
-    public function addName(string name, string content) -> <Meta>
+    public function addName(string name, string content, int position = -1) -> <Meta>
     {
-        this->addElement("name", name, content);
+        this->addElement("name", name, content, position);
 
         return this;
     }
@@ -67,13 +76,14 @@ class Meta extends AbstractSeries
     /**
      * @param string $name
      * @param string $content
+     * @param int    $position
      *
      * @return Meta
      * @throws Exception
      */
-    public function addProperty(string name, string content) -> <Meta>
+    public function addProperty(string name, string content, int position = -1) -> <Meta>
     {
-        this->addElement("property", name, content);
+        this->addElement("property", name, content, position);
 
         return this;
     }
@@ -90,6 +100,7 @@ class Meta extends AbstractSeries
      * @param string $element
      * @param string $value
      * @param string $content
+     * @param int    $position
      *
      * @return Meta
      * @throws Exception
@@ -97,7 +108,8 @@ class Meta extends AbstractSeries
     private function addElement(
         string element,
         string value,
-        string content
+        string content,
+        int position = -1
     ) -> <Meta> {
         array attributes;
 
@@ -106,6 +118,6 @@ class Meta extends AbstractSeries
             "content" : content
         ];
 
-        return this->add(attributes);
+        return this->add(attributes, position);
     }
 }

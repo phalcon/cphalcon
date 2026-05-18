@@ -61,13 +61,14 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 	if (ZEND_NUM_ARGS() > 1) {
 		flags_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	if (!flags_param) {
 		flags = 11;
 	} else {
 		}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 311, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 325, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

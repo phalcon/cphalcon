@@ -24,28 +24,9 @@ use Phalcon\Html\Helper\Close;
 use Phalcon\Html\Helper\Element;
 use Phalcon\Html\Helper\Form;
 use Phalcon\Html\Helper\Img;
-use Phalcon\Html\Helper\Input\Color;
-use Phalcon\Html\Helper\Input\Date;
-use Phalcon\Html\Helper\Input\DateTime;
-use Phalcon\Html\Helper\Input\DateTimeLocal;
-use Phalcon\Html\Helper\Input\Email;
-use Phalcon\Html\Helper\Input\File;
-use Phalcon\Html\Helper\Input\Hidden;
-use Phalcon\Html\Helper\Input\Image;
-use Phalcon\Html\Helper\Input\Input;
-use Phalcon\Html\Helper\Input\Month;
-use Phalcon\Html\Helper\Input\Numeric;
-use Phalcon\Html\Helper\Input\Password;
-use Phalcon\Html\Helper\Input\Range;
-use Phalcon\Html\Helper\Input\Search;
+use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Select;
-use Phalcon\Html\Helper\Input\Submit;
-use Phalcon\Html\Helper\Input\Tel;
-use Phalcon\Html\Helper\Input\Text;
 use Phalcon\Html\Helper\Input\Textarea;
-use Phalcon\Html\Helper\Input\Time;
-use Phalcon\Html\Helper\Input\Url;
-use Phalcon\Html\Helper\Input\Week;
 use Phalcon\Html\Helper\Label;
 use Phalcon\Html\Helper\Link;
 use Phalcon\Html\Helper\Meta;
@@ -81,28 +62,28 @@ final class NewInstanceTest extends AbstractUnitTestCase
             ["element", Element::class],
             ["form", Form::class],
             ["img", Img::class],
-            ["inputColor", Color::class],
-            ["inputDate", Date::class],
-            ["inputDateTime", DateTime::class],
-            ["inputDateTimeLocal", DateTimeLocal::class],
-            ["inputEmail", Email::class],
-            ["inputFile", File::class],
-            ["inputHidden", Hidden::class],
-            ["inputImage", Image::class],
-            ["inputInput", Input::class],
-            ["inputMonth", Month::class],
-            ["inputNumeric", Numeric::class],
-            ["inputPassword", Password::class],
-            ["inputRange", Range::class],
+            ["inputColor", Generic::class],
+            ["inputDate", Generic::class],
+            ["inputDateTime", Generic::class],
+            ["inputDateTimeLocal", Generic::class],
+            ["inputEmail", Generic::class],
+            ["inputFile", Generic::class],
+            ["inputHidden", Generic::class],
+            ["inputImage", Generic::class],
+            ["inputInput", Generic::class],
+            ["inputMonth", Generic::class],
+            ["inputNumeric", Generic::class],
+            ["inputPassword", Generic::class],
+            ["inputRange", Generic::class],
             ["inputSelect", Select::class],
-            ["inputSearch", Search::class],
-            ["inputSubmit", Submit::class],
-            ["inputTel", Tel::class],
-            ["inputText", Text::class],
+            ["inputSearch", Generic::class],
+            ["inputSubmit", Generic::class],
+            ["inputTel", Generic::class],
+            ["inputText", Generic::class],
             ["inputTextarea", Textarea::class],
-            ["inputTime", Time::class],
-            ["inputUrl", Url::class],
-            ["inputWeek", Week::class],
+            ["inputTime", Generic::class],
+            ["inputUrl", Generic::class],
+            ["inputWeek", Generic::class],
             ["label", Label::class],
             ["link", Link::class],
             ["meta", Meta::class],

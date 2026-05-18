@@ -25,7 +25,7 @@ final class GetExpressionTest extends AbstractUnitTestCase
     private int $PHQL_T_BETWEEN_NOT = 332;
 
     /**
-     * @issue  16812
+     * @issue  https://github.com/phalcon/cphalcon/issues/16812
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      */
@@ -49,7 +49,7 @@ final class GetExpressionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  15553
+     * @issue  https://github.com/phalcon/cphalcon/issues/15553
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-09-21
      */

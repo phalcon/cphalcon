@@ -17,9 +17,9 @@ class Php extends AbstractSerializer
     /**
      * Serializes data
      *
-     * @return string
+     * @return mixed
      */
-	public function serialize() -> string
+	public function serialize() -> mixed
 	{
         if (true !== this->isSerializable(this->data)) {
             return this->data;
@@ -35,7 +35,7 @@ class Php extends AbstractSerializer
      */
     public function unserialize(mixed data) -> void
     {
-        var result, version;
+        var result;
 
         if (true !== this->isSerializable(data)) {
             let this->data = data;
@@ -48,26 +48,14 @@ class Php extends AbstractSerializer
                 "Data for the unserializer must of type string"
             );
         }
-	
-        let version = phpversion();
 
         globals_set("warning.enable", false);
-
-        if version_compare(version, "8.0", ">=") {
-            set_error_handler(
-                function (number, message, file, line) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        } else {
-            set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        }
+        set_error_handler(
+            function (number, message, file, line) {
+                globals_set("warning.enable", true);
+            },
+            E_NOTICE
+        );
 
         let result = this->phpUnserialize(data);
 

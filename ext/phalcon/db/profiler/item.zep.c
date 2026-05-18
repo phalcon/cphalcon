@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime)
 {
 
-	RETURN_MEMBER(getThis(), "finalTime");
+	RETURN_MEMBER_TYPED(getThis(), "finalTime", IS_DOUBLE);
 }
 
 /**
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime)
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime)
 {
 
-	RETURN_MEMBER(getThis(), "initialTime");
+	RETURN_MEMBER_TYPED(getThis(), "initialTime", IS_DOUBLE);
 }
 
 /**
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime)
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes)
 {
 
-	RETURN_MEMBER(getThis(), "sqlBindTypes");
+	RETURN_MEMBER_TYPED(getThis(), "sqlBindTypes", IS_ARRAY);
 }
 
 /**
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes)
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement)
 {
 
-	RETURN_MEMBER(getThis(), "sqlStatement");
+	RETURN_MEMBER_TYPED(getThis(), "sqlStatement", IS_STRING);
 }
 
 /**
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement)
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables)
 {
 
-	RETURN_MEMBER(getThis(), "sqlVariables");
+	RETURN_MEMBER_TYPED(getThis(), "sqlVariables", IS_ARRAY);
 }
 
 /**

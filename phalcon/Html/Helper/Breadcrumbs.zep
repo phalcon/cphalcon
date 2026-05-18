@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -19,17 +23,17 @@ use Phalcon\Support\Helper\Str\Interpolate;
  * The resulting HTML when calling `render()` will have each breadcrumb enclosed
  * in `<li>` tags, while the whole string is enclosed in `<nav>` and `<ol>` tags.
  *
- * @phpstan-type TTemplate = array{
+ * @phpstan-type TTemplate array{
  *      main: string,
  *      line: string,
- *      last: string,
- * }
- * @phpstan-type TElement = array{
+ *      last: string
+ *  }
+ * @phpstan-type TElement array{
  *      attributes: array<string, string>,
  *      icon: string,
  *      link: string,
- *      text: string,
- * }
+ *      text: string
+ *  }
  */
 class Breadcrumbs extends AbstractHelper
 {

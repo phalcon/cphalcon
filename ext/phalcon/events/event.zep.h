@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Events_Event, getData);
 PHP_METHOD(Phalcon_Events_Event, getSource);
 PHP_METHOD(Phalcon_Events_Event, getType);
 PHP_METHOD(Phalcon_Events_Event, isCancelable);
+PHP_METHOD(Phalcon_Events_Event, isPropagationStopped);
 PHP_METHOD(Phalcon_Events_Event, isStopped);
 PHP_METHOD(Phalcon_Events_Event, setData);
 PHP_METHOD(Phalcon_Events_Event, setType);
@@ -32,6 +33,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_event_iscancelable, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_event_ispropagationstopped, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_event_isstopped, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -52,6 +56,7 @@ PHP_ME(Phalcon_Events_Event, getData, arginfo_phalcon_events_event_getdata, ZEND
 	PHP_ME(Phalcon_Events_Event, getSource, arginfo_phalcon_events_event_getsource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, getType, arginfo_phalcon_events_event_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, isCancelable, arginfo_phalcon_events_event_iscancelable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, isPropagationStopped, arginfo_phalcon_events_event_ispropagationstopped, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, isStopped, arginfo_phalcon_events_event_isstopped, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, setData, arginfo_phalcon_events_event_setdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, setType, arginfo_phalcon_events_event_settype, ZEND_ACC_PUBLIC)

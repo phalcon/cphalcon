@@ -18,7 +18,7 @@ class Component implements ComponentInterface
     /**
      * Component description
      *
-     * @var string
+     * @var string | null
      */
     private description;
 
@@ -47,7 +47,7 @@ class Component implements ComponentInterface
         return this->name;
     }
 
-    public function getDescription() -> string
+    public function getDescription() -> string | null
     {
         return this->description;
     }

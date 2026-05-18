@@ -160,6 +160,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -194,10 +195,11 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getExceptionClass)
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices)
 {
 
-	zephir_create_array(return_value, 3, 0);
+	zephir_create_array(return_value, 4, 0);
 	add_assoc_stringl_ex(return_value, SL("model"), SL("Phalcon\\Paginator\\Adapter\\Model"));
 	add_assoc_stringl_ex(return_value, SL("nativeArray"), SL("Phalcon\\Paginator\\Adapter\\NativeArray"));
 	add_assoc_stringl_ex(return_value, SL("queryBuilder"), SL("Phalcon\\Paginator\\Adapter\\QueryBuilder"));
+	add_assoc_stringl_ex(return_value, SL("queryBuilderCursor"), SL("Phalcon\\Paginator\\Adapter\\QueryBuilderCursor"));
 	return;
 }
 

@@ -28,6 +28,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Title
@@ -92,14 +96,17 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (!indent) {
 		indent = zend_string_init(ZEND_STRL("    "), 0);
+		zephir_memory_observe(&indent_zv);
 		ZVAL_STR(&indent_zv, indent);
 	} else {
-		ZVAL_STR_COPY(&indent_zv, indent);
+		zephir_memory_observe(&indent_zv);
+	ZVAL_STR_COPY(&indent_zv, indent);
 	}
 	if (!delimiter) {
 		ZEPHIR_INIT_VAR(&delimiter_zv);
 	} else {
-		ZVAL_STR_COPY(&delimiter_zv, delimiter);
+		zephir_memory_observe(&delimiter_zv);
+	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	if (Z_TYPE_P(&delimiter_zv) == IS_NULL) {
@@ -151,7 +158,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __toString)
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("title"), PH_NOISY_CC);
 	zephir_array_fast_append(&_1, &_2);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("append"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 359, &_0, &_1, &_3);
+	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 109, &_0, &_1, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	array_init(&_4);
@@ -233,7 +240,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, append)
 PHP_METHOD(Phalcon_Html_Helper_Title, get)
 {
 
-	RETURN_MEMBER(getThis(), "title");
+	RETURN_MEMBER_TYPED(getThis(), "title", IS_STRING);
 }
 
 /**
@@ -312,6 +319,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator)
 	if (ZEND_NUM_ARGS() > 1) {
 		raw_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	if (!raw_param) {
 		raw = 0;
@@ -376,7 +384,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("prepend"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&prepend, &_2);
 	ZEPHIR_MAKE_REF(&prepend);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 293, &prepend, &text);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 304, &prepend, &text);
 	ZEPHIR_UNREF(&prepend);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("prepend"), &prepend);

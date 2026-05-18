@@ -48,7 +48,7 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  16604
+     * @issue  https://github.com/phalcon/cphalcon/issues/16604
      * @author noone-silent <lominum@protonmail.com>
      * @since  2024-06-10
      *

@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 	if (ZEND_NUM_ARGS() > 1) {
 		record = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	if (!record) {
 		record = &record_sub;

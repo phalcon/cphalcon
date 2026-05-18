@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -43,14 +47,22 @@ abstract class AbstractSeries extends AbstractHelper
     }
 
     /**
-     * Generates and returns the HTML for the list.
+     * Generates and returns the HTML for the list. Entries are sorted by
+     * their integer key first, so an asset registered with a lower position
+     * renders before one registered with a higher position regardless of
+     * registration order.
      *
      * @return string
      */
     public function __toString()
     {
+        var sorted;
+
+        let sorted = this->store;
+        ksort(sorted);
+
         return this->renderArrayElements(
-            this->store,
+            sorted,
             this->delimiter
         );
     }
@@ -63,6 +75,35 @@ abstract class AbstractSeries extends AbstractHelper
         let this->store = [];
 
         return this;
+    }
+
+    /**
+     * Appends an entry to the store, optionally at a specific integer
+     * position. When `position` is negative the entry is pushed onto the next
+     * available auto-increment slot. When `position` is non-negative the entry
+     * is placed at that key, advancing past any already-occupied slots so
+     * existing entries are not overwritten. The store is ksort()ed in
+     * `__toString`, so positions act as a sort key, not a strict address.
+     *
+     * @param array $entry
+     * @param int   $position
+     */
+    protected function pushOrPlace(array entry, int position = -1) -> void
+    {
+        var key;
+
+        if position < 0 {
+            let this->store[] = entry;
+
+            return;
+        }
+
+        let key = position;
+        while isset this->store[key] {
+            let key += 1;
+        }
+
+        let this->store[key] = entry;
     }
 
     /**

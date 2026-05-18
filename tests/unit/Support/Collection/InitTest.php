@@ -13,22 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
-use PHPUnit\Framework\Attributes\DataProvider;
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\Exception;
+use Phalcon\Support\Collection\ReadOnlyCollection;
 
 final class InitTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    #[DataProvider('getClasses')]
-    public function testSupportCollectionInit(
-        string $class,
-    ): void {
+    public function testSupportCollectionInit(): void
+    {
         $data = $this->getData();
-        $collection = new $class();
+        $collection = new Collection();
 
         $expected = 0;
         $actual = $collection->count();
@@ -39,5 +37,16 @@ final class InitTest extends AbstractCollectionTestCase
         $expected = $data;
         $actual = $collection->toArray();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionReadOnlyInitThrows(): void
+    {
+        $this->expectException(Exception::class);
+
+        (new ReadOnlyCollection())->init(['a' => 1]);
     }
 }

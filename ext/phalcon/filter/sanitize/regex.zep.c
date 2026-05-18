@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &input, &pattern, &replace);
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 43, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 57, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -25,20 +25,13 @@ ZEPHIR_INIT_CLASS(phalcon_5__closure)
 
 PHP_METHOD(phalcon_5__closure, __invoke)
 {
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, __$true;
+	zval *file, file_sub;
 
-	ZVAL_UNDEF(&number_sub);
-	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&file_sub);
-	ZVAL_UNDEF(&line_sub);
-	ZVAL_BOOL(&__$true, 1);
-	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_ZVAL(number)
-		Z_PARAM_ZVAL(message)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(file)
-		Z_PARAM_ZVAL(line)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(4, 0, &number, &message, &file, &line);
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
+	zephir_fetch_params_without_memory_grow(1, 0, &file);
+	RETURN_BOOL(1);
 }
 

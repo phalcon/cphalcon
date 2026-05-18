@@ -4,11 +4,16 @@ extern zend_class_entry *phalcon_html_helper_input_select_arraydata_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_ArrayData);
 
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, __construct);
+PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, getAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, getOptions);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Select_ArrayData(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_arraydata___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_arraydata_getattributes, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_arraydata_getoptions, 0, 0, IS_ARRAY, 0)
@@ -19,6 +24,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_select_arraydata_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Input_Select_ArrayData, __construct, arginfo_phalcon_html_helper_input_select_arraydata___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Html_Helper_Input_Select_ArrayData, getAttributes, arginfo_phalcon_html_helper_input_select_arraydata_getattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select_ArrayData, getOptions, arginfo_phalcon_html_helper_input_select_arraydata_getoptions, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

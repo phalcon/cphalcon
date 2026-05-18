@@ -17,8 +17,8 @@ set -o pipefail
 # How to use:
 #   release-notes.sh CHANGELOG.md
 
-startline=$(cat < "$1" | grep -nE "^## " | head -n 1 | cut -d ":" -f 1)
-finishline=$(($(cat < "$1" | grep -nE "^# " | head -n 2 | tail -n 1 | cut -d ":" -f 1) - 1))
+startline=$(awk '/^## /{print NR; exit}' "$1")
+finishline=$(($(awk '/^# /{c++; if (c==2){print NR; exit}}' "$1") - 1))
 changelog=$(sed -n "${startline},${finishline}p" "$1");
 
 echo "${changelog}"

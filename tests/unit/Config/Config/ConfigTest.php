@@ -45,7 +45,7 @@ final class ConfigTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue 16171
+     * @issue https://github.com/phalcon/cphalcon/issues/16171
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-10-19
      */

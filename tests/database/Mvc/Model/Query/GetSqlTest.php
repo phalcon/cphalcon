@@ -54,7 +54,7 @@ final class GetSqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  14657
+     * @issue  https://github.com/phalcon/cphalcon/issues/14657
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
      *

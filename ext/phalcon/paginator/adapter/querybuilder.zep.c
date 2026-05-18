@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
-	if (UNEXPECTED(!(zephir_array_isset_string(&config, SL("limit"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/Paginator/Adapter/QueryBuilder.zep", 70);
 		return;
 	}
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 		object_init_ex(&_0$$5, phalcon_paginator_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$5);
 		ZEPHIR_CONCAT_SS(&_1$$5, "Parameter 'builder' must be an instance ", "of Phalcon\\Mvc\\Model\\Query\\Builder");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 35, &_1$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 49, &_1$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 80);
 		ZEPHIR_MM_RESTORE();
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage)
 {
 
-	RETURN_MEMBER(getThis(), "page");
+	RETURN_MEMBER_TYPED(getThis(), "page", IS_LONG);
 }
 
 /**
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			zephir_fast_trim(&_5$$10, &builderColumns, NULL , ZEPHIR_TRIM_BOTH);
 			ZEPHIR_INIT_VAR(&_6$$10);
 			ZVAL_STRING(&_6$$10, "DISTINCT ");
-			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 372, &_5$$10, &_6$$10);
+			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 389, &_5$$10, &_6$$10);
 			zephir_check_call_status();
 			_4$$10 = ZEPHIR_IS_LONG_IDENTICAL(&_7$$10, 0);
 		}
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			return;
 		}
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
-			ZEPHIR_CALL_FUNCTION(&_29$$25, "array_values", NULL, 13, &modelClass);
+			ZEPHIR_CALL_FUNCTION(&_29$$25, "array_values", NULL, 22, &modelClass);
 			zephir_check_call_status();
 			zephir_array_fetch_long(&_30$$25, &_29$$25, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 272);
 			ZEPHIR_CPY_WRT(&modelClass, &_30$$25);

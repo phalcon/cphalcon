@@ -187,6 +187,68 @@ extern zend_string* i_self;
   zephir_return_property(return_value, object, SL(member_name)); \
   RETURN_MM();
 
+/**
+ * Throws a TypeError that matches PHP's userland return-type message format:
+ *   "Class\Method(): Return value must be of type <expected>, <actual> returned"
+ *
+ * Used by RETURN_*_MEMBER_TYPED macros to enforce strict scalar return types
+ * on methods that return a runtime value (e.g. `return this->property`) where
+ * the static checker in src/Statements/ReturnStatement.php can't prove the
+ * type matches. Without this, internal C extensions bypass the engine's
+ * return-type verification (which only runs in ZEND_DEBUG builds).
+ *
+ * See https://github.com/zephir-lang/zephir/issues/1991
+ */
+static inline void zephir_throw_return_type_error(uint32_t expected_type, zval *retval)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	const char *expected = zend_get_type_by_const(expected_type);
+	const char *actual   = zend_zval_type_name(retval);
+
+	if (ex && ex->func && ex->func->common.function_name) {
+		zend_string *fname = ex->func->common.function_name;
+		zend_class_entry *scope = ex->func->common.scope;
+		if (scope) {
+			zend_type_error("%s::%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(scope->name), ZSTR_VAL(fname), expected, actual);
+		} else {
+			zend_type_error("%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(fname), expected, actual);
+		}
+	} else {
+		zend_type_error("Return value must be of type %s, %s returned",
+			expected, actual);
+	}
+}
+
+/**
+ * Same as RETURN_MEMBER but verifies that the property's runtime type matches
+ * the method's declared return type. Throws TypeError on mismatch.
+ * Used when the method body is `return this->prop` and the method declares
+ * a strict scalar return type like `-> string`.
+ */
+#define RETURN_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      return; \
+    } \
+    return; \
+  } while (0)
+
+/** Memory-grow-aware variant of RETURN_MEMBER_TYPED. */
+#define RETURN_MM_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      ZEPHIR_MM_RESTORE(); \
+      return; \
+    } \
+    RETURN_MM(); \
+  } while (0)
+
 #define RETURN_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \
@@ -322,21 +384,28 @@ void zephir_get_arg(zval* return_value, zend_long idx);
 void zephir_module_init();
 
 /**
- * PHP changed zend_parse_arg_array() to accept zval** instead of zval*.
- * The Z_PARAM_ARRAY(dest) macro passes &dest, so on the new API dest must
- * be a zval* (pointer) variable, whereas on the old API it must be a zval
- * (value) variable.  The change was first introduced in PHP 8.5 and then
- * backported to all maintained branches (8.1.34+, 8.2.28+, 8.3.21+,
- * 8.4.7+).  Because a simple PHP_VERSION_ID check cannot reliably detect
- * the backport, config.m4 runs a compile test and defines
- * ZEPHIR_ARRAY_PARAM_DOUBLE_PTR when the new signature is in use.
+ * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).
+ * The inline function has taken `zval **dest` since at least PHP 7.0, so the
+ * variable passed to the macro must be a `zval *` for `&dest` to have the
+ * correct type. Zephir always emits a `<name>_param` companion of type `zval *`
+ * for array parameters; we forward that here.
+ *
+ * Historical note: previous versions of this header conditionally selected
+ * between `dest` (a `zval` value) and `dest_ptr` (a `zval *`) based on a
+ * config.m4 autoconf probe (`ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`). The `dest`
+ * branch was always wrong — the underlying signature has been `zval **dest`
+ * since PHP 7.0 — but it only surfaced as a warning once GCC 14 promoted
+ * `-Wincompatible-pointer-types` to default-on. Downstream projects that
+ * ship a stale `config.m4` (e.g. cphalcon) didn't get the probe defined and
+ * fell into the broken branch, producing hundreds of warnings on PHP 8.5
+ * (see https://github.com/zephir-lang/zephir/issues/2462).
+ *
+ * The probe is no longer needed and has been removed from
+ * templates/engine/config.m4. The legacy `ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`
+ * macro is now a no-op — if a stale generated `config.m4` still emits it,
+ * the definition is harmless.
  */
-#ifdef ZEPHIR_ARRAY_PARAM_DOUBLE_PTR
-# define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
-# define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
-#else
-# define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest)
-# define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest)
-#endif
+#define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
+#define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

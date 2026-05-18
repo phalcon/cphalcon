@@ -140,7 +140,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct)
 	if (!signKey) {
 		ZEPHIR_INIT_VAR(&signKey_zv);
 	} else {
-		ZVAL_STR_COPY(&signKey_zv, signKey);
+		zephir_memory_observe(&signKey_zv);
+	ZVAL_STR_COPY(&signKey_zv, signKey);
 	}
 	if (useEncryption) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$true);
@@ -172,6 +173,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&cookie);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
@@ -209,13 +211,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&cookie);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&cookie, &_0, &name_zv, 0)) {
 		RETURN_CCTOR(&cookie);
 	}
-	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 388);
+	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 406);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 1, 0);
@@ -245,7 +248,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies)
 {
 
-	RETURN_MEMBER(getThis(), "cookies");
+	RETURN_MEMBER_TYPED(getThis(), "cookies", IS_ARRAY);
 }
 
 /**
@@ -268,9 +271,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has)
 	zephir_get_global(&_COOKIE, SL("_COOKIE"));
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
-	_1 = zephir_array_isset(&_0, &name_zv);
+	_1 = zephir_array_isset_value(&_0, &name_zv);
 	if (!(_1)) {
-		_1 = zephir_array_isset(&_COOKIE, &name_zv);
+		_1 = zephir_array_isset_value(&_COOKIE, &name_zv);
 	}
 	RETURN_BOOL(_1);
 }
@@ -334,7 +337,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 389);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 407);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {
@@ -463,6 +466,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	if (ZEND_NUM_ARGS() > 7) {
 		options_param = ZEND_CALL_ARG(execute_data, 8);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!value) {
 		value = &value_sub;
@@ -474,9 +478,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		}
 	if (!path) {
 		path = zend_string_init(ZEND_STRL("/"), 0);
+		zephir_memory_observe(&path_zv);
 		ZVAL_STR(&path_zv, path);
 	} else {
-		ZVAL_STR_COPY(&path_zv, path);
+		zephir_memory_observe(&path_zv);
+	ZVAL_STR_COPY(&path_zv, path);
 	}
 	if (!secure_param) {
 		secure = 0;
@@ -484,8 +490,10 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		}
 	if (!domain) {
 		domain = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&domain_zv);
 		ZVAL_STR(&domain_zv, domain);
 	} else {
+	zephir_memory_observe(&domain_zv);
 	ZVAL_STR_COPY(&domain_zv, domain);
 	}
 	if (!httpOnly_param) {
@@ -568,7 +576,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	}
 	zephir_read_property(&_10, this_ptr, ZEND_STRL("registered"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
-		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 388);
+		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 406);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$6);
 		ZVAL_STRING(&_11$$6, "response");
@@ -613,7 +621,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey)
 	if (!signKey) {
 		ZEPHIR_INIT_VAR(&signKey_zv);
 	} else {
-		ZVAL_STR_COPY(&signKey_zv, signKey);
+		zephir_memory_observe(&signKey_zv);
+	ZVAL_STR_COPY(&signKey_zv, signKey);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("signKey"), &signKey_zv);
 	RETURN_THIS();

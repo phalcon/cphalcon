@@ -321,6 +321,106 @@ int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index
 	return 0;
 }
 
+/*
+ * PHP isset() semantics for array offsets: key exists AND value is not IS_NULL.
+ * See https://github.com/zephir-lang/zephir/issues/2385.
+ *
+ * For ArrayAccess objects we keep the existing offsetExists() truthy check —
+ * the object's offsetGet() may have side-effects, so we don't read the value.
+ * Native arrays look up the entry and additionally check the stored zval's
+ * type. References are followed (matching the engine's own isset path).
+ */
+int ZEPHIR_FASTCALL zephir_array_isset_value(const zval *arr, zval *index)
+{
+	zval *entry;
+
+	if (UNEXPECTED(!arr)) {
+		return 0;
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		return zephir_array_isset(arr, index);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		return 0;
+	}
+
+	switch (Z_TYPE_P(index)) {
+		case IS_NULL:
+			entry = zend_hash_str_find(Z_ARRVAL_P(arr), "", 0);
+			break;
+		case IS_DOUBLE:
+			entry = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong)Z_DVAL_P(index));
+			break;
+		case IS_TRUE:
+			entry = zend_hash_index_find(Z_ARRVAL_P(arr), 1);
+			break;
+		case IS_FALSE:
+			entry = zend_hash_index_find(Z_ARRVAL_P(arr), 0);
+			break;
+		case IS_LONG:
+		case IS_RESOURCE:
+			entry = zend_hash_index_find(Z_ARRVAL_P(arr), Z_LVAL_P(index));
+			break;
+		case IS_STRING:
+			entry = zend_symtable_str_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index));
+			break;
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
+
+	if (entry == NULL) {
+		return 0;
+	}
+
+	ZVAL_DEREF(entry);
+	return Z_TYPE_P(entry) != IS_NULL;
+}
+
+int ZEPHIR_FASTCALL zephir_array_isset_value_string(const zval *arr, const char *index, uint32_t index_length)
+{
+	zval *entry;
+
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		return zephir_array_isset_string(arr, index, index_length);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		return 0;
+	}
+
+	entry = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length);
+	if (entry == NULL) {
+		return 0;
+	}
+
+	ZVAL_DEREF(entry);
+	return Z_TYPE_P(entry) != IS_NULL;
+}
+
+int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, unsigned long index)
+{
+	zval *entry;
+
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		return zephir_array_isset_long(arr, index);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		return 0;
+	}
+
+	entry = zend_hash_index_find(Z_ARRVAL_P(arr), index);
+	if (entry == NULL) {
+		return 0;
+	}
+
+	ZVAL_DEREF(entry);
+	return Z_TYPE_P(entry) != IS_NULL;
+}
+
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 {
 	HashTable *ht;

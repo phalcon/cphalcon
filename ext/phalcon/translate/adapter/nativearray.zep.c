@@ -136,6 +136,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index_zv);
 	zephir_check_call_status();
@@ -162,7 +163,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&index_zv, index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &index_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
 }
 
 /**
@@ -191,6 +192,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("triggerError"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
@@ -198,7 +200,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Cannot find translation key: ", &index_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 35, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 107);
 		ZEPHIR_MM_RESTORE();
@@ -239,6 +241,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 	if (ZEND_NUM_ARGS() > 1) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&translateKey_zv);
 	ZVAL_STR_COPY(&translateKey_zv, translateKey);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -266,7 +269,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
 {
 
-	RETURN_MEMBER(getThis(), "translate");
+	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
 }
 
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type)

@@ -93,6 +93,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
@@ -144,7 +145,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	ZVAL_LONG(&_1, number);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 164, &map, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 177, &map, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

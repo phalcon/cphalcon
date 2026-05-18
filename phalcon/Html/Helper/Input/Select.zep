@@ -6,12 +6,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper\Input;
 
 use Phalcon\Html\Helper\AbstractList;
-use Phalcon\Html\Helper\Input\Select\SelectDataInterface;
+use Phalcon\Contracts\Html\Helper\Input\SelectData;
 
 /**
  * Class Select
@@ -32,6 +36,11 @@ class Select extends AbstractList
      * @var string
      */
     protected selected = "";
+
+    /**
+     * @var bool
+     */
+    protected strict = false;
 
     /**
      * Add an element to the list
@@ -105,25 +114,31 @@ class Select extends AbstractList
      * Flat entries: key = option value, value = label string.
      * Optgroup entries: key = group label, value = [value => label] array.
      *
-     * @param SelectDataInterface data
+     * @param SelectData data
      *
      * @return Select
      */
-    public function fromData(<SelectDataInterface> data) -> <Select>
+    public function fromData(<SelectData> data) -> <Select>
     {
-        var key, subKey, subValue, value;
+        var attributes, key, optionAttrs, subAttrs, subKey, subValue, value;
+
+        let attributes = data->getAttributes();
 
         for key, value in data->getOptions() {
             if typeof value == "array" {
                 this->optGroup((string) key);
 
                 for subKey, subValue in value {
-                    this->add((string) subValue, (string) subKey);
+                    let subAttrs = isset(attributes[subKey]) ? attributes[subKey] : [];
+
+                    this->add((string) subValue, (string) subKey, subAttrs);
                 }
 
                 this->optGroup((string) key);
             } else {
-                this->add((string) value, (string) key);
+                let optionAttrs = isset(attributes[key]) ? attributes[key] : [];
+
+                this->add((string) value, (string) key, optionAttrs);
             }
         }
 
@@ -167,6 +182,35 @@ class Select extends AbstractList
     }
 
     /**
+     * Adds a non-selectable placeholder option as the first entry. Renders
+     * as `<option value="" disabled selected>$text</option>`, matching the
+     * common HTML idiom for "Choose…"-style prompts.
+     *
+     * @param string $text
+     *
+     * @return Select
+     */
+    public function placeholder(string text) -> <Select>
+    {
+        let this->store[] = [
+            "renderFullElement",
+            [
+                this->elementTag,
+                text,
+                [
+                    "value"    : "",
+                    "disabled" : "disabled",
+                    "selected" : "selected"
+                ],
+                false
+            ],
+            this->indent()
+        ];
+
+        return this;
+    }
+
+    /**
      * @param string $selected
      *
      * @return Select
@@ -174,6 +218,23 @@ class Select extends AbstractList
     public function selected(string selected) -> <Select>
     {
         let this->selected = selected;
+
+        return this;
+    }
+
+    /**
+     * Toggles strict (`===`) comparison between an option's `value` and
+     * the previously stored `selected` value. Defaults to loose (`==`),
+     * matching the round-tripping fix in `AbstractChecked` so mixed
+     * int/string form data marks the right option as selected.
+     *
+     * @param bool $flag
+     *
+     * @return Select
+     */
+    public function strict(bool flag = true) -> <Select>
+    {
+        let this->strict = flag;
 
         return this;
     }
@@ -222,10 +283,20 @@ class Select extends AbstractList
         array attributes,
         var value = null
     ) -> array {
+        var matched;
+
         if is_numeric(value) || !empty(value)  {
             let attributes["value"] = value;
-            if !empty this->selected && value === this->selected {
-                let attributes["selected"] = "selected";
+            if this->selected !== "" {
+                if this->strict {
+                    let matched = value === this->selected;
+                } else {
+                    let matched = value == this->selected;
+                }
+
+                if matched {
+                    let attributes["selected"] = "selected";
+                }
             }
         }
 

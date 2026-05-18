@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Igbinary)
 /**
  * Serializes data
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 {
@@ -90,10 +90,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 {
-	zend_bool _8$$4;
+	zend_bool _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval data_sub, __$false, __$true, result, version, _0, _1$$4, _2$$4, _3$$4, _4$$5, _5$$5, _6$$6, _7$$6;
+	zval data_sub, __$false, __$true, result, _0, _1$$4, _2$$4;
 	zval *data;
 	zval *this_ptr = getThis();
 
@@ -101,15 +101,9 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_6$$6);
-	ZVAL_UNDEF(&_7$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
@@ -121,39 +115,22 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 138);
-		zephir_check_call_status();
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
-		ZVAL_STRING(&_1$$4, "8.0");
-		ZEPHIR_INIT_VAR(&_2$$4);
-		ZVAL_STRING(&_2$$4, ">=");
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "version_compare", NULL, 139, &version, &_1$$4, &_2$$4);
+		ZEPHIR_INIT_NVAR(&_1$$4);
+		zephir_create_closure_ex(&_1$$4, NULL, phalcon_3__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_2$$4, 2);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 153, &_1$$4, &_2$$4);
 		zephir_check_call_status();
-		if (zephir_is_true(&_3$$4)) {
-			ZEPHIR_INIT_VAR(&_4$$5);
-			ZEPHIR_INIT_NVAR(&_4$$5);
-			zephir_create_closure_ex(&_4$$5, NULL, phalcon_3__closure_ce, SL("__invoke"));
-			ZVAL_LONG(&_5$$5, 2);
-			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_4$$5, &_5$$5);
-			zephir_check_call_status();
-		} else {
-			ZEPHIR_INIT_VAR(&_6$$6);
-			ZEPHIR_INIT_NVAR(&_6$$6);
-			zephir_create_closure_ex(&_6$$6, NULL, phalcon_4__closure_ce, SL("__invoke"));
-			ZVAL_LONG(&_7$$6, 2);
-			ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 140, &_6$$6, &_7$$6);
-			zephir_check_call_status();
-		}
 		ZEPHIR_CALL_METHOD(&result, this_ptr, "dounserialize", NULL, 0, data);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 141);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 154);
 		zephir_check_call_status();
-		_8$$4 = ZEPHIR_GLOBAL(warning).enable;
-		if (!(_8$$4)) {
-			_8$$4 = ZEPHIR_IS_FALSE_IDENTICAL(&result);
+		_3$$4 = ZEPHIR_GLOBAL(warning).enable;
+		if (!(_3$$4)) {
+			_3$$4 = ZEPHIR_IS_FALSE_IDENTICAL(&result);
 		}
-		if (UNEXPECTED(_8$$4)) {
+		if (UNEXPECTED(_3$$4)) {
 			if (0) {
 				zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
 			} else {
@@ -193,7 +170,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, phpIgbinarySerialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 146, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 159, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -244,7 +221,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doUnserialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 147, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 160, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
