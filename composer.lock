@@ -2334,16 +2334,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.12.0",
+            "version": "v5.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "17317527f9ad1ca1305b62f8b606e2d30c0b7a45"
+                "reference": "4c01230467e4b49b5193dc5439b18a63066cf94f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/17317527f9ad1ca1305b62f8b606e2d30c0b7a45",
-                "reference": "17317527f9ad1ca1305b62f8b606e2d30c0b7a45",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/4c01230467e4b49b5193dc5439b18a63066cf94f",
+                "reference": "4c01230467e4b49b5193dc5439b18a63066cf94f",
                 "shasum": ""
             },
             "require": {
@@ -2397,7 +2397,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-04-29T21:57:19+00:00"
+            "time": "2026-05-18T16:24:26+00:00"
         },
         {
             "name": "phalcon/zephir",
@@ -2405,12 +2405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "6c2a72925698486f8b0c99badcace7de8eb9c0df"
+                "reference": "b92c62f4885538b7d4a9e5617f3d12cee50c8ad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/6c2a72925698486f8b0c99badcace7de8eb9c0df",
-                "reference": "6c2a72925698486f8b0c99badcace7de8eb9c0df",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/b92c62f4885538b7d4a9e5617f3d12cee50c8ad4",
+                "reference": "b92c62f4885538b7d4a9e5617f3d12cee50c8ad4",
                 "shasum": ""
             },
             "require": {
@@ -2483,7 +2483,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-16T22:24:32+00:00"
+            "time": "2026-05-18T19:52:18+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2903,11 +2903,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.54",
+            "version": "2.1.55",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
-                "reference": "8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9eaac3826ed5e9b8427350a43cac825eeca3f566",
+                "reference": "9eaac3826ed5e9b8427350a43cac825eeca3f566",
                 "shasum": ""
             },
             "require": {
@@ -2952,7 +2952,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-29T13:31:09+00:00"
+            "time": "2026-05-18T11:57:34+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
