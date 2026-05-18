@@ -36,6 +36,9 @@ pie install phalcon/cphalcon
 
 ### Using PECL
 
+> [!IMPORTANT]
+> PECL has been deprecated. As such users will need to start installing Phalcon using PIE. We will continue releasing using PECL util the end of PECL or the end of v5.x
+
 ```bash
 pecl install phalcon
 ```
