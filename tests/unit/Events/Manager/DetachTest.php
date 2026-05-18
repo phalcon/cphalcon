@@ -67,8 +67,9 @@ final class DetachTest extends AbstractUnitTestCase
         $manager->detach($eventType, $handlerOne);
         $events = $this->getProtectedProperty($manager, 'events');
 
-        $this->assertCount(1, $events);
-        $this->assertArrayHasKey($eventType, $events);
-        $this->assertCount(0, $events[$eventType]);
+        // Detaching the last listener drops the eventType key entirely
+        // so hasListeners() / fire()'s short-circuit tell the truth.
+        $this->assertCount(0, $events);
+        $this->assertArrayNotHasKey($eventType, $events);
     }
 }
