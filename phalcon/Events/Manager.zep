@@ -42,6 +42,27 @@ class Manager implements ManagerInterface
     protected fireDepth = 0;
 
     /**
+     * Manager-level kill switch. When true, every fire()/fireAll()/
+     * fireQueue() call returns immediately (null or empty array) without
+     * dispatching. Cleared by resume(). Survives across fire() calls,
+     * unlike Event::stop() which only stops the current dispatch chain.
+     *
+     * @var bool
+     */
+    protected halted = false;
+
+    /**
+     * When true, a listener returning literal `false` (with the event's
+     * `cancelable` flag on) short-circuits the dispatch loop and pins
+     * the fire() return as `false`. Default off — preserves the pre-5.13
+     * "last-wins" contract for codebases that rely on later listeners
+     * overriding an earlier false return [#17019].
+     *
+     * @var bool
+     */
+    protected stopOnFalse = false;
+
+    /**
      * When true, fire()/fireAll() throw on dispatch of an event that
      * has zero matching listeners. Catches typos in dev. Default off.
      *
@@ -330,6 +351,12 @@ class Manager implements ManagerInterface
             status, type, wasDepth;
         bool collect, hasFullQueue, hasTypeQueue;
 
+        // Manager-level kill switch — halt() trips this and every fire
+        // returns null without dispatching until resume() clears it.
+        if this->halted {
+            return null;
+        }
+
         // Fast exit on a manager with no listeners attached at all.
         // Done BEFORE parsing the eventType so a misformed name (no
         // colon) doesn't raise "Invalid event type" on a manager that
@@ -415,7 +442,13 @@ class Manager implements ManagerInterface
                 );
             }
 
-            if hasFullQueue && (!cancelable || !event->isStopped()) {
+            // stopOnFalse propagation: dispatch already short-circuited
+            // its queue; skip the fully-qualified queue too and pin
+            // the fire() return as false.
+            if !(this->stopOnFalse && cancelable && status === false)
+                && hasFullQueue
+                && (!cancelable || !event->isStopped())
+            {
                 let fireEvents = this->events[eventType];
                 let status     = this->dispatch(
                     fireEvents,
@@ -462,9 +495,14 @@ class Manager implements ManagerInterface
         bool cancelable = true
     ) -> array
     {
-        var cached, colonPos, event, eventName, ex, fireEvents, responses,
-            stashed, type, wasDepth;
+        var cached, colonPos, dispatchStatus, event, eventName, ex,
+            fireEvents, responses, stashed, type, wasDepth;
         bool hasFullQueue, hasTypeQueue;
+
+        // Manager-level kill switch — see fire().
+        if this->halted {
+            return [];
+        }
 
         // Fast exit on a manager with no listeners. Mirrors fire().
         if empty this->events {
@@ -515,10 +553,11 @@ class Manager implements ManagerInterface
         // must not leak fireDepth or strand the stashed responses.
         try {
             let event = new Event(eventName, source, data, cancelable);
+            let dispatchStatus = null;
 
             if hasTypeQueue {
                 let fireEvents = this->events[type];
-                this->dispatch(
+                let dispatchStatus = this->dispatch(
                     fireEvents,
                     event,
                     eventName,
@@ -529,7 +568,11 @@ class Manager implements ManagerInterface
                 );
             }
 
-            if hasFullQueue && (!cancelable || !event->isStopped()) {
+            // stopOnFalse propagation across the two dispatch legs.
+            if !(this->stopOnFalse && cancelable && dispatchStatus === false)
+                && hasFullQueue
+                && (!cancelable || !event->isStopped())
+            {
                 let fireEvents = this->events[eventType];
                 this->dispatch(
                     fireEvents,
@@ -566,6 +609,10 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(array queue, <EventInterface> event)
     {
+        if this->halted {
+            return null;
+        }
+
         return this->dispatch(
             queue,
             event,
@@ -575,6 +622,18 @@ class Manager implements ManagerInterface
             event->isCancelable(),
             this->collect
         );
+    }
+
+    /**
+     * Manager-level kill switch. After halt(), every fire()/fireAll()/
+     * fireQueue() call returns immediately without dispatching, until
+     * resume() is called. Use this when a listener needs to abort all
+     * subsequent event activity for the lifetime of the manager (e.g.
+     * a security check that cancels everything downstream).
+     */
+    public function halt() -> void
+    {
+        let this->halted = true;
     }
 
     /**
@@ -632,6 +691,23 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Returns whether the manager-level kill switch is engaged. See halt().
+     */
+    public function isHalted() -> bool
+    {
+        return this->halted;
+    }
+
+    /**
+     * Returns whether the stop-on-false short-circuit is enabled.
+     * See setStopOnFalse().
+     */
+    public function isStopOnFalse() -> bool
+    {
+        return this->stopOnFalse;
+    }
+
+    /**
      * Returns whether strict mode is enabled. When true, fire()/fireAll()
      * throw when an event has no matching listeners — useful in dev to
      * catch typos. Default off.
@@ -682,6 +758,29 @@ class Manager implements ManagerInterface
                 true
             );
         }
+    }
+
+    /**
+     * Clears the manager-level kill switch set by halt(). Subsequent
+     * fire()/fireAll()/fireQueue() calls resume normal dispatch.
+     */
+    public function resume() -> void
+    {
+        let this->halted = false;
+    }
+
+    /**
+     * Enables/disables the stop-on-false short-circuit. When true, a
+     * listener returning literal `false` (with cancelable=true) stops
+     * the current event's queue and pins the fire() return as `false`.
+     * Later listeners cannot overwrite the cancel. Default off.
+     *
+     * Independent of halt() / event->stop() — only governs how the
+     * dispatch loop reacts to a `false` listener return.
+     */
+    public function setStopOnFalse(bool flag) -> void
+    {
+        let this->stopOnFalse = flag;
     }
 
     /**
@@ -766,6 +865,11 @@ class Manager implements ManagerInterface
                 let this->responses[] = ret;
             }
 
+            // Opt-in hard `false`-cancel — single-handler variant.
+            if this->stopOnFalse && cancelable && ret === false {
+                return false;
+            }
+
             return ret;
         }
 
@@ -813,6 +917,14 @@ class Manager implements ManagerInterface
 
             if collect {
                 let this->responses[] = ret;
+            }
+
+            // Opt-in hard `false`-cancel: when setStopOnFalse(true) has
+            // been called, a listener returning false short-circuits
+            // the queue and pins the dispatch return as false. fire()
+            // checks the return and propagates accordingly.
+            if this->stopOnFalse && cancelable && ret === false {
+                return false;
             }
 
             // stop() determinism: if the listener stopped the event,
