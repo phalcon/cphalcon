@@ -21,40 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Events\Event class
+ * Phalcon\Events\EventInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Events\Event} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_EventInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventInterface, phalcon, events_eventinterface, phalcon_events_eventinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventInterface, phalcon, events_eventinterface, NULL);
 
+	zend_class_implements(phalcon_events_eventinterface_ce, 1, phalcon_contracts_events_event_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets event data
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, getData);
-/**
- * Gets event type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, getType);
-/**
- * Check whether the event is cancelable
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isCancelable);
-/**
- * Check whether the event is currently stopped
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isStopped);
-/**
- * Sets event data
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setData);
-/**
- * Sets event type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setType);
-/**
- * Stops the event preventing propagation
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, stop);

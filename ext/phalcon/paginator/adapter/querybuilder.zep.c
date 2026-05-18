@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			zephir_fast_trim(&_5$$10, &builderColumns, NULL , ZEPHIR_TRIM_BOTH);
 			ZEPHIR_INIT_VAR(&_6$$10);
 			ZVAL_STRING(&_6$$10, "DISTINCT ");
-			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 383, &_5$$10, &_6$$10);
+			ZEPHIR_CALL_FUNCTION(&_7$$10, "stripos", NULL, 389, &_5$$10, &_6$$10);
 			zephir_check_call_status();
 			_4$$10 = ZEPHIR_IS_LONG_IDENTICAL(&_7$$10, 0);
 		}

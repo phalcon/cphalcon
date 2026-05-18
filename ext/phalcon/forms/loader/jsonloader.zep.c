@@ -100,11 +100,11 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 
 	zephir_memory_observe(&json);
 	zephir_read_property(&json, this_ptr, ZEND_STRL("source"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 351, &json);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 357, &json);
 	zephir_check_call_status();
 	_1 = zephir_is_true(&_0);
 	if (_1) {
-		ZEPHIR_CALL_FUNCTION(&_2, "is_readable", NULL, 352, &json);
+		ZEPHIR_CALL_FUNCTION(&_2, "is_readable", NULL, 358, &json);
 		zephir_check_call_status();
 		_1 = zephir_is_true(&_2);
 	}
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		ZVAL_BOOL(&_6$$4, 1);
 		ZVAL_LONG(&_7$$4, 512);
 		ZVAL_LONG(&_8$$4, 4194304);
-		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 211, &json, &_6$$4, &_7$$4, &_8$$4);
+		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 214, &json, &_6$$4, &_7$$4, &_8$$4);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	}
 	_13 = Z_TYPE_P(&definitions) != IS_ARRAY;
 	if (!(_13)) {
-		ZEPHIR_CALL_FUNCTION(&_14, "array_is_list", NULL, 353, &definitions);
+		ZEPHIR_CALL_FUNCTION(&_14, "array_is_list", NULL, 359, &definitions);
 		zephir_check_call_status();
 		_13 = !zephir_is_true(&_14);
 	}
@@ -164,9 +164,9 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	}
 	ZEPHIR_INIT_VAR(&loader);
 	object_init_ex(&loader, phalcon_forms_loader_arrayloader_ce);
-	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 354, &definitions);
+	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 360, &definitions);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 355);
+	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 361);
 	zephir_check_call_status();
 	RETURN_MM();
 }

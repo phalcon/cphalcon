@@ -726,19 +726,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 469, container);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 474, container);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&conditions)) {
 		ZEPHIR_INIT_VAR(&_16$$16);
 		ZEPHIR_INIT_VAR(&_17$$16);
 		ZEPHIR_CONCAT_SVS(&_17$$16, " ", &operator_zv, " ");
 		zephir_fast_join(&_16$$16, &_17$$16, &conditions);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 479, &_16$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 483, &_16$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 480, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 484, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 470, &modelName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 475, &modelName_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 }
@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "INNER");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 485, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1227,7 +1227,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join)
 		type = &type_sub;
 		type = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, type);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 485, &model_zv, conditions, alias, type);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1285,7 +1285,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "LEFT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 485, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1327,11 +1327,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 	} else {
 		}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 316, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 322, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 316, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 322, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {
@@ -1655,7 +1655,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "RIGHT");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 481, &model_zv, conditions, alias, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addjoinclause", NULL, 485, &model_zv, conditions, alias, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

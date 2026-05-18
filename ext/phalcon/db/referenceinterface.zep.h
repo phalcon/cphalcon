@@ -3,38 +3,3 @@ extern zend_class_entry *phalcon_db_referenceinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getcolumns, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getname, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getondelete, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getonupdate, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getreferencedcolumns, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getreferencedschema, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getreferencedtable, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_referenceinterface_getschemaname, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_db_referenceinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getColumns, arginfo_phalcon_db_referenceinterface_getcolumns)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getName, arginfo_phalcon_db_referenceinterface_getname)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getOnDelete, arginfo_phalcon_db_referenceinterface_getondelete)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getOnUpdate, arginfo_phalcon_db_referenceinterface_getonupdate)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedColumns, arginfo_phalcon_db_referenceinterface_getreferencedcolumns)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedSchema, arginfo_phalcon_db_referenceinterface_getreferencedschema)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedTable, arginfo_phalcon_db_referenceinterface_getreferencedtable)
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getSchemaName, arginfo_phalcon_db_referenceinterface_getschemaname)
-	PHP_FE_END
-};

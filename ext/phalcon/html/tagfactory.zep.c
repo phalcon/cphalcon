@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("url"), url);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_html_helper_doctype_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 372);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 378);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("doctype"), &_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getdefaultservices", NULL, 0);

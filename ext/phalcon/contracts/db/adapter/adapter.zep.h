@@ -1,0 +1,386 @@
+
+extern zend_class_entry *phalcon_contracts_db_adapter_adapter_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Adapter_Adapter);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_addcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_addindex, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, index, Phalcon\\Db\\IndexInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_addforeignkey, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, reference, Phalcon\\Db\\ReferenceInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_addprimarykey, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, index, Phalcon\\Db\\IndexInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_affectedrows, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_begin, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_close, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_commit, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_connect, 0, 0, IS_VOID, 0)
+
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_createsavepoint, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_createtable, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_createview, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_delete, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whereCondition, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, dataTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_describecolumns, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_describeindexes, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_describereferences, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_dropcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, columnName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_dropforeignkey, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, referenceName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_dropindex, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, indexName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_dropprimarykey, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_droptable, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_dropview, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_escapeidentifier, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, identifier)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_escapestring, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_execute, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlStatement, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_fetchall, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fetchMode, IS_LONG, 0, "2")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_fetchcolumn, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, column)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_fetchone, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fetchMode, IS_LONG, 0, "2")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_forupdate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getcolumndefinition, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getcolumnlist, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, columnList)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getconnectionid, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdescriptor, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdialect, 0, 0, Phalcon\\Db\\DialectInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdialecttype, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue, 0, 0, Phalcon\\Db\\RawValue, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue, 0, 0, Phalcon\\Db\\RawValue, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getinternalhandler, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getnestedtransactionsavepointname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getrealsqlstatement, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getsqlstatement, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getsqlbindtypes, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getsqlvariables, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_gettype, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_insert, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_insertasdict, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_isnestedtransactionswithsavepoints, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_isundertransaction, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_lastinsertid, 0, 0, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_limit, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, number, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_listtables, 0, 0, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_listviews, 0, 0, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_modifycolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, currentColumn, Phalcon\\Db\\ColumnInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_query, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, sqlStatement, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_releasesavepoint, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_rollback, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_rollbacksavepoint, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_sharedlock, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_setnestedtransactionswithsavepoints, 0, 1, Phalcon\\Contracts\\Db\\Adapter\\Adapter, 0)
+	ZEND_ARG_TYPE_INFO(0, nestedTransactionsWithSavepoints, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_supportsequences, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_tableexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_tableoptions, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_update, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, values)
+	ZEND_ARG_INFO(0, whereCondition)
+	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_updateasdict, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, whereCondition)
+	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_useexplicitidvalue, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_viewexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_db_adapter_adapter_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, addColumn, arginfo_phalcon_contracts_db_adapter_adapter_addcolumn)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, addIndex, arginfo_phalcon_contracts_db_adapter_adapter_addindex)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, addForeignKey, arginfo_phalcon_contracts_db_adapter_adapter_addforeignkey)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, addPrimaryKey, arginfo_phalcon_contracts_db_adapter_adapter_addprimarykey)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, affectedRows, arginfo_phalcon_contracts_db_adapter_adapter_affectedrows)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, begin, arginfo_phalcon_contracts_db_adapter_adapter_begin)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, close, arginfo_phalcon_contracts_db_adapter_adapter_close)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, commit, arginfo_phalcon_contracts_db_adapter_adapter_commit)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, connect, arginfo_phalcon_contracts_db_adapter_adapter_connect)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, createSavepoint, arginfo_phalcon_contracts_db_adapter_adapter_createsavepoint)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, createTable, arginfo_phalcon_contracts_db_adapter_adapter_createtable)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, createView, arginfo_phalcon_contracts_db_adapter_adapter_createview)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, delete, arginfo_phalcon_contracts_db_adapter_adapter_delete)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, describeColumns, arginfo_phalcon_contracts_db_adapter_adapter_describecolumns)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, describeIndexes, arginfo_phalcon_contracts_db_adapter_adapter_describeindexes)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, describeReferences, arginfo_phalcon_contracts_db_adapter_adapter_describereferences)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropColumn, arginfo_phalcon_contracts_db_adapter_adapter_dropcolumn)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropForeignKey, arginfo_phalcon_contracts_db_adapter_adapter_dropforeignkey)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropIndex, arginfo_phalcon_contracts_db_adapter_adapter_dropindex)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropPrimaryKey, arginfo_phalcon_contracts_db_adapter_adapter_dropprimarykey)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropTable, arginfo_phalcon_contracts_db_adapter_adapter_droptable)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, dropView, arginfo_phalcon_contracts_db_adapter_adapter_dropview)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, escapeIdentifier, arginfo_phalcon_contracts_db_adapter_adapter_escapeidentifier)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, escapeString, arginfo_phalcon_contracts_db_adapter_adapter_escapestring)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, execute, arginfo_phalcon_contracts_db_adapter_adapter_execute)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, fetchAll, arginfo_phalcon_contracts_db_adapter_adapter_fetchall)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, fetchColumn, arginfo_phalcon_contracts_db_adapter_adapter_fetchcolumn)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, fetchOne, arginfo_phalcon_contracts_db_adapter_adapter_fetchone)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, forUpdate, arginfo_phalcon_contracts_db_adapter_adapter_forupdate)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getColumnDefinition, arginfo_phalcon_contracts_db_adapter_adapter_getcolumndefinition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getColumnList, arginfo_phalcon_contracts_db_adapter_adapter_getcolumnlist)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getConnectionId, arginfo_phalcon_contracts_db_adapter_adapter_getconnectionid)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDescriptor, arginfo_phalcon_contracts_db_adapter_adapter_getdescriptor)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDialect, arginfo_phalcon_contracts_db_adapter_adapter_getdialect)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDialectType, arginfo_phalcon_contracts_db_adapter_adapter_getdialecttype)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getInternalHandler, arginfo_phalcon_contracts_db_adapter_adapter_getinternalhandler)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getNestedTransactionSavepointName, arginfo_phalcon_contracts_db_adapter_adapter_getnestedtransactionsavepointname)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getRealSQLStatement, arginfo_phalcon_contracts_db_adapter_adapter_getrealsqlstatement)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getSQLStatement, arginfo_phalcon_contracts_db_adapter_adapter_getsqlstatement)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getSQLBindTypes, arginfo_phalcon_contracts_db_adapter_adapter_getsqlbindtypes)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getSQLVariables, arginfo_phalcon_contracts_db_adapter_adapter_getsqlvariables)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getType, arginfo_phalcon_contracts_db_adapter_adapter_gettype)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, insert, arginfo_phalcon_contracts_db_adapter_adapter_insert)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, insertAsDict, arginfo_phalcon_contracts_db_adapter_adapter_insertasdict)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, isNestedTransactionsWithSavepoints, arginfo_phalcon_contracts_db_adapter_adapter_isnestedtransactionswithsavepoints)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, isUnderTransaction, arginfo_phalcon_contracts_db_adapter_adapter_isundertransaction)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, lastInsertId, arginfo_phalcon_contracts_db_adapter_adapter_lastinsertid)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, limit, arginfo_phalcon_contracts_db_adapter_adapter_limit)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, listTables, arginfo_phalcon_contracts_db_adapter_adapter_listtables)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, listViews, arginfo_phalcon_contracts_db_adapter_adapter_listviews)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, modifyColumn, arginfo_phalcon_contracts_db_adapter_adapter_modifycolumn)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, query, arginfo_phalcon_contracts_db_adapter_adapter_query)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, releaseSavepoint, arginfo_phalcon_contracts_db_adapter_adapter_releasesavepoint)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, rollback, arginfo_phalcon_contracts_db_adapter_adapter_rollback)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, rollbackSavepoint, arginfo_phalcon_contracts_db_adapter_adapter_rollbacksavepoint)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, sharedLock, arginfo_phalcon_contracts_db_adapter_adapter_sharedlock)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, setNestedTransactionsWithSavepoints, arginfo_phalcon_contracts_db_adapter_adapter_setnestedtransactionswithsavepoints)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, supportSequences, arginfo_phalcon_contracts_db_adapter_adapter_supportsequences)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, tableExists, arginfo_phalcon_contracts_db_adapter_adapter_tableexists)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, tableOptions, arginfo_phalcon_contracts_db_adapter_adapter_tableoptions)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, update, arginfo_phalcon_contracts_db_adapter_adapter_update)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, updateAsDict, arginfo_phalcon_contracts_db_adapter_adapter_updateasdict)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, useExplicitIdValue, arginfo_phalcon_contracts_db_adapter_adapter_useexplicitidvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, supportsDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, viewExists, arginfo_phalcon_contracts_db_adapter_adapter_viewexists)
+	PHP_FE_END
+};

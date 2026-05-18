@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			zephir_substr(&_29$$20, uri, zephir_get_intval(&_28$$20), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 			zephir_cast_to_string(&_30$$20, &_29$$20);
 			ZEPHIR_MAKE_REF(&existing);
-			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 391, &_30$$20, &existing);
+			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 397, &_30$$20, &existing);
 			ZEPHIR_UNREF(&existing);
 			zephir_check_call_status();
 			zephir_get_arrval(&_31$$20, args);
