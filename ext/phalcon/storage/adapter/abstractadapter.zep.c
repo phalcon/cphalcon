@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getarrval", NULL, 0, &options, &_1, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("serializer"), &_6);
-	if (zephir_array_isset_string(&options, SL("prefix"))) {
+	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
 		zephir_array_fetch_string(&_7$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 114);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_7$$3);
 	}

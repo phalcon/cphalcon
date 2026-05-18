@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&eventName_zv, eventName);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &eventName_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
 }
 
 /**

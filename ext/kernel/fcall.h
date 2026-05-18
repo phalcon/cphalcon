@@ -276,9 +276,15 @@ int zephir_call_class_method_aparams(
 	uint32_t param_count,
 	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
-ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(zval *return_value,
-	const char *func, uint32_t func_len, zephir_fcall_cache_entry **cache_entry, int cache_slot, uint32_t param_count, zval **params)
-{
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(
+	zval *return_value,
+	const char *func,
+	uint32_t func_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 

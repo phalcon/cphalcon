@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Flash_Session, has)
 	if (!(!(ZEPHIR_IS_EMPTY(&type_zv)))) {
 		RETURN_MM_BOOL((1 != ZEPHIR_IS_EMPTY(&messages)));
 	}
-	RETURN_MM_BOOL(zephir_array_isset(&messages, &type_zv));
+	RETURN_MM_BOOL(zephir_array_isset_value(&messages, &type_zv));
 }
 
 /**
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Flash_Session, message)
 	ZVAL_BOOL(&_0, 0);
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (1 != zephir_array_isset(&messages, &type_zv)) {
+	if (1 != zephir_array_isset_value(&messages, &type_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		array_init(&_1$$3);
 		zephir_array_update_zval(&messages, &type_zv, &_1$$3, PH_COPY | PH_SEPARATE);

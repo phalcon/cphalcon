@@ -138,13 +138,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	ZEPHIR_INIT_VAR(&timeHi);
 	ZVAL_LONG(&timeHi, (((((timestamp >> 48)) & 0x0fff)) | 0x1000));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 280, &_5);
+	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 283, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 0);
 	ZVAL_LONG(&_6, 1);
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_substr(&_7, &clockSeqBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_8, "ord", NULL, 257, &_7);
+	ZEPHIR_CALL_FUNCTION(&_8, "ord", NULL, 260, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&clockSeqHiRes);
 	ZVAL_LONG(&clockSeqHiRes, (((int) (zephir_get_numberval(&_8)) & 0x3f) | 0x80));
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	ZVAL_LONG(&_10, 1);
 	ZEPHIR_INIT_VAR(&_11);
 	zephir_substr(&_11, &clockSeqBytes, 1 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 257, &_11);
+	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 260, &_11);
 	zephir_check_call_status();
 	if (Z_TYPE_P(node) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&nodeStr, node);
@@ -197,13 +197,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getDateTime)
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("-"), &_0, LONG_MAX);
 	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 81);
-	ZEPHIR_CALL_FUNCTION(&hexTimeLow, "hexdec", NULL, 298, &_1);
+	ZEPHIR_CALL_FUNCTION(&hexTimeLow, "hexdec", NULL, 301, &_1);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 82);
-	ZEPHIR_CALL_FUNCTION(&hexTimeMid, "hexdec", NULL, 298, &_2);
+	ZEPHIR_CALL_FUNCTION(&hexTimeMid, "hexdec", NULL, 301, &_2);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_3, &parts, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 83);
-	ZEPHIR_CALL_FUNCTION(&_4, "hexdec", NULL, 298, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "hexdec", NULL, 301, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&hexTimeHi);
 	ZVAL_LONG(&hexTimeHi, ((int) (zephir_get_numberval(&_4)) & 0x0fff));

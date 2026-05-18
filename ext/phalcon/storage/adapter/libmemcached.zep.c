@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	if (!(zephir_array_isset_string(&options, SL("servers")))) {
+	if (!(zephir_array_isset_value_string(&options, SL("servers")))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_create_array(&_0$$3, 1, 0);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -216,17 +216,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 			add_index_long(&failover, 21, 2);
 			zephir_array_update_long(&failover, 35, &__$true, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 			add_index_long(&failover, 15, 1);
-			ZEPHIR_CALL_FUNCTION(&_9$$4, "array_replace", NULL, 131, &failover, &client);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "array_replace", NULL, 134, &failover, &client);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&client, &_9$$4);
-			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setoptions", NULL, 132, &connection, &client);
+			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setoptions", NULL, 135, &connection, &client);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setservers", NULL, 133, &connection, &servers);
+			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setservers", NULL, 136, &connection, &servers);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setsasl", NULL, 134, &connection, &saslUser, &saslPass);
+			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setsasl", NULL, 137, &connection, &saslUser, &saslPass);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 135, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 138, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &connection);
 	}
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&serializer);
 	zephir_fast_strtolower(&serializer, &_0);
-	if (zephir_array_isset(&map, &serializer)) {
+	if (zephir_array_isset_value(&map, &serializer)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "");

@@ -456,9 +456,9 @@ class Stream extends AbstractAdapter
      */
     private function storePayload(array payload, string key) -> bool
     {
-        var directory, payload;
+        var directory, localPayload;
 
-        let payload   = serialize(payload),
+        let localPayload   = serialize(payload),
             directory = this->getDir(key);
 
         if !is_dir(directory) {
@@ -466,7 +466,7 @@ class Stream extends AbstractAdapter
         }
 
         return (
-            false !== this->phpFilePutContents(directory . key, payload, LOCK_EX)
+            false !== this->phpFilePutContents(directory . key, localPayload, LOCK_EX)
         );
     }
 

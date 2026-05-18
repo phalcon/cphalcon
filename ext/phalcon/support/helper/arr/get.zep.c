@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	ZEPHIR_CPY_WRT(&value, defaultValue);
-	if (1 == zephir_array_isset(&collection, index)) {
+	if (1 == zephir_array_isset_value(&collection, index)) {
 		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch(&value, &collection, index, PH_NOISY, "phalcon/Support/Helper/Arr/Get.zep", 38);
 	}

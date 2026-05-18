@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_3 = !(zephir_array_isset_string(definition, SL("type")));
+	_3 = !(zephir_array_isset_value_string(definition, SL("type")));
 	if (!(_3)) {
 		zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 63);
 		_3 = ZEPHIR_IS_EMPTY(&_4);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_8 = !(zephir_array_isset_string(definition, SL("name")));
+	_8 = !(zephir_array_isset_value_string(definition, SL("name")));
 	if (!(_8)) {
 		zephir_array_fetch_string(&_9, definition, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 69);
 		_8 = ZEPHIR_IS_EMPTY(&_9);

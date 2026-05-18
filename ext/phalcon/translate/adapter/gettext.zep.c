@@ -516,10 +516,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain)
  *
  * ```php
  * // Set locale to Dutch
- * $gettext->setLocale(LC_ALL, "nl_NL");
+ * $gettext->setLocale(LC_ALL, ["nl_NL"]);
  *
  * // Try different possible locale names for German
- * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
+ * $gettext->setLocale(LC_ALL, ["de_DE@euro", "de_DE", "de", "ge"]);
  * ```
  *
  * @param int   $category
@@ -641,11 +641,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
-	if (UNEXPECTED(!(zephir_array_isset_string(&options, SL("locale"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("locale"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Parameter 'locale' is required", "phalcon/Translate/Adapter/Gettext.zep", 323);
 		return;
 	}
-	if (UNEXPECTED(!(zephir_array_isset_string(&options, SL("directory"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("directory"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Parameter 'directory' is required", "phalcon/Translate/Adapter/Gettext.zep", 327);
 		return;
 	}

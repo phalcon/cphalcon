@@ -747,11 +747,12 @@ class Crypt implements CryptInterface
         int blockSize,
         string decrypted
     ) -> string {
-        var decrypted, padding;
+        var localDecrypted, padding;
 
+        let localDecrypted = decrypted;
         if true === this->checkIsMode(["cbc", "ecb"], mode) {
             let padding   = this->padding,
-                decrypted = this->cryptUnpadText(
+                localDecrypted = this->cryptUnpadText(
                     decrypted,
                     mode,
                     blockSize,
@@ -759,7 +760,7 @@ class Crypt implements CryptInterface
                 );
         }
 
-        return decrypted;
+        return localDecrypted;
     }
 
     /**

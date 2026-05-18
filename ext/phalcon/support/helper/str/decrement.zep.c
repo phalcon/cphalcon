@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decrement, __invoke)
 		ZEPHIR_CPY_WRT(&_0, &parts);
 	}
 	ZEPHIR_CPY_WRT(&parts, &_0);
-	if (1 == zephir_array_isset_long(&parts, 1)) {
+	if (1 == zephir_array_isset_value_long(&parts, 1)) {
 		zephir_memory_observe(&_1$$3);
 		zephir_array_fetch_long(&_1$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Decrement.zep", 36);
 		number = zephir_get_intval(&_1$$3);

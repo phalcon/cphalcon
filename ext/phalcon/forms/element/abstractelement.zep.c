@@ -611,7 +611,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label)
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&name, &_0$$3);
 	}
-	if (!(zephir_array_isset_string(&attributes, SL("for")))) {
+	if (!(zephir_array_isset_value_string(&attributes, SL("for")))) {
 		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
 	}
 	zephir_memory_observe(&labelName);
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, render)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&helper, &tagFactory, "newinstance", NULL, 0, &method);
 	zephir_check_call_status();
-	if (zephir_array_isset_string(&attributes, SL("value"))) {
+	if (zephir_array_isset_value_string(&attributes, SL("value"))) {
 		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch_string(&value, &attributes, SL("value"), PH_NOISY, "phalcon/Forms/Element/AbstractElement.zep", 390);
 		zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);

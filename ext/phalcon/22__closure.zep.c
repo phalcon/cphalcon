@@ -46,9 +46,9 @@ PHP_METHOD(phalcon_22__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &e);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 358, e);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 364, e);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "load", NULL, 359, &schema, &locator);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "load", NULL, 365, &schema, &locator);
 	zephir_check_call_status();
 	RETURN_MM();
 }

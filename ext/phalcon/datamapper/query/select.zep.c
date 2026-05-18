@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 	zephir_array_update_string(&proxied, SL("fetchOne"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&proxied, SL("fetchPairs"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&proxied, SL("fetchValue"), &__$true, PH_COPY | PH_SEPARATE);
-	if (EXPECTED(zephir_array_isset(&proxied, &method_zv))) {
+	if (EXPECTED(zephir_array_isset_value(&proxied, &method_zv))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_create_array(&_0$$3, 2, 0);
 		zephir_memory_observe(&_1$$3);
@@ -937,7 +937,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 	object_init_ex(return_value, phalcon_datamapper_query_select_ce);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("connection"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("bind"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 223, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 226, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1045,6 +1045,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	ZVAL_STR_COPY(&suffix_zv, suffix);
 	}
 	ZEPHIR_INIT_VAR(&forUpdate);
+	ZVAL_STRING(&forUpdate, "");
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("forUpdate"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_NVAR(&forUpdate);
@@ -1054,9 +1055,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildlimitearly", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 224);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 227);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 225);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 228);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "WHERE");

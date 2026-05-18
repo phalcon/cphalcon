@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get)
 		ZEPHIR_CPY_WRT(&realClassName, className);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_0, &realClassName)) {
+	if (zephir_array_isset_value(&_0, &realClassName)) {
 		zephir_read_property(&_1$$5, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 51);
 		RETURN_CTOR(&_2$$5);

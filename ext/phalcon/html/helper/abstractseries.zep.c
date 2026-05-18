@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 	key = position;
 	while (1) {
 		zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-		if (!(zephir_array_isset_long(&_0, key))) {
+		if (!(zephir_array_isset_value_long(&_0, key))) {
 			break;
 		}
 		key += 1;

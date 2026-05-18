@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
-	if (zephir_array_isset_string(&descriptor, SL("charset"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "Postgres does not allow the charset to be changed in the DSN.");
 		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_0$$3);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 		ZEPHIR_INIT_NVAR(&schema);
 		ZVAL_NULL(&schema);
 	}
-	if (zephir_array_isset_string(&descriptor, SL("password"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("password"))) {
 		zephir_memory_observe(&_1$$6);
 		zephir_array_fetch_string(&_1$$6, &descriptor, SL("password"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 85);
 		_2$$6 = Z_TYPE_P(&_1$$6) == IS_STRING;
@@ -300,11 +300,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 {
-	zend_bool _5$$3, _63$$41;
+	zend_bool isGenerated = 0, _5$$3, _56$$3, _60$$49, _77$$57, _128$$57, _132$$103;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_54 = NULL, *_57 = NULL, *_61 = NULL;
+	zephir_fcall_cache_entry *_68 = NULL, *_71 = NULL, *_75 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval table_zv, schema_zv, __$true, __$false, __$null, columns, columnType, fields, field, definition, oldColumn, columnName, charSize, numericSize, numericScale, _0, _1, _2, *_3, _4, _46$$3, _47$$3, _48$$3, _49$$3, _58$$3, _60$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$7, _13$$7, _14$$8, _15$$8, _16$$9, _17$$9, _18$$10, _19$$11, _20$$12, _21$$12, _22$$13, _23$$13, _24$$14, _25$$14, _26$$15, _27$$15, _28$$16, _29$$16, _30$$17, _31$$18, _32$$19, _33$$20, _34$$21, _35$$22, _36$$23, _37$$24, _38$$25, _39$$26, _40$$27, _41$$28, _42$$29, _43$$30, _44$$31, _45$$32, _50$$38, _51$$38, _52$$38, _53$$38, _55$$38, _56$$38, _59$$40, _62$$41, _104$$41, _105$$41, _106$$41, _107$$41, _114$$41, _116$$41, _64$$42, _65$$42, _66$$43, _67$$43, _68$$44, _69$$44, _70$$45, _71$$45, _72$$46, _73$$46, _74$$47, _75$$47, _76$$48, _77$$49, _78$$50, _79$$50, _80$$51, _81$$51, _82$$52, _83$$52, _84$$53, _85$$53, _86$$54, _87$$54, _88$$55, _89$$56, _90$$57, _91$$58, _92$$59, _93$$60, _94$$61, _95$$62, _96$$63, _97$$64, _98$$65, _99$$66, _100$$67, _101$$68, _102$$69, _103$$70, _108$$76, _109$$76, _110$$76, _111$$76, _112$$76, _113$$76, _115$$78;
+	zval table_zv, schema_zv, __$true, __$false, __$null, columns, columnType, fields, field, definition, oldColumn, columnName, charSize, numericSize, numericScale, generationExpression, _0, _1, _2, *_3, _4, _57$$3, _58$$3, _72$$3, _74$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$7, _13$$7, _14$$8, _15$$8, _16$$9, _17$$9, _18$$10, _19$$11, _20$$12, _21$$12, _22$$13, _23$$13, _24$$14, _25$$14, _26$$15, _27$$15, _28$$16, _29$$16, _30$$17, _31$$18, _32$$19, _33$$20, _34$$21, _35$$22, _36$$23, _37$$24, _38$$25, _39$$26, _40$$27, _41$$28, _42$$29, _43$$30, _44$$31, _45$$32, _46$$33, _47$$34, _48$$35, _49$$36, _50$$37, _51$$38, _52$$39, _53$$40, _54$$41, _55$$42, _59$$48, _61$$49, _62$$52, _63$$52, _64$$54, _65$$54, _66$$54, _67$$54, _69$$54, _70$$54, _73$$56, _76$$57, _129$$57, _130$$57, _142$$57, _144$$57, _78$$58, _79$$58, _80$$59, _81$$59, _82$$60, _83$$60, _84$$61, _85$$61, _86$$62, _87$$62, _88$$63, _89$$63, _90$$64, _91$$65, _92$$66, _93$$66, _94$$67, _95$$67, _96$$68, _97$$68, _98$$69, _99$$69, _100$$70, _101$$70, _102$$71, _103$$72, _104$$73, _105$$74, _106$$75, _107$$76, _108$$77, _109$$78, _110$$79, _111$$80, _112$$81, _113$$82, _114$$83, _115$$84, _116$$85, _117$$86, _118$$87, _119$$88, _120$$89, _121$$90, _122$$91, _123$$92, _124$$93, _125$$94, _126$$95, _127$$96, _131$$102, _133$$103, _134$$106, _135$$106, _136$$108, _137$$108, _138$$108, _139$$108, _140$$108, _141$$108, _143$$110;
 	zend_string *table = NULL, *schema = NULL;
 	zval *this_ptr = getThis();
 
@@ -323,16 +323,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 	ZVAL_UNDEF(&charSize);
 	ZVAL_UNDEF(&numericSize);
 	ZVAL_UNDEF(&numericScale);
+	ZVAL_UNDEF(&generationExpression);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_46$$3);
-	ZVAL_UNDEF(&_47$$3);
-	ZVAL_UNDEF(&_48$$3);
-	ZVAL_UNDEF(&_49$$3);
+	ZVAL_UNDEF(&_57$$3);
 	ZVAL_UNDEF(&_58$$3);
-	ZVAL_UNDEF(&_60$$3);
+	ZVAL_UNDEF(&_72$$3);
+	ZVAL_UNDEF(&_74$$3);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$5);
@@ -373,67 +372,93 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 	ZVAL_UNDEF(&_43$$30);
 	ZVAL_UNDEF(&_44$$31);
 	ZVAL_UNDEF(&_45$$32);
-	ZVAL_UNDEF(&_50$$38);
+	ZVAL_UNDEF(&_46$$33);
+	ZVAL_UNDEF(&_47$$34);
+	ZVAL_UNDEF(&_48$$35);
+	ZVAL_UNDEF(&_49$$36);
+	ZVAL_UNDEF(&_50$$37);
 	ZVAL_UNDEF(&_51$$38);
-	ZVAL_UNDEF(&_52$$38);
-	ZVAL_UNDEF(&_53$$38);
-	ZVAL_UNDEF(&_55$$38);
-	ZVAL_UNDEF(&_56$$38);
-	ZVAL_UNDEF(&_59$$40);
-	ZVAL_UNDEF(&_62$$41);
-	ZVAL_UNDEF(&_104$$41);
-	ZVAL_UNDEF(&_105$$41);
-	ZVAL_UNDEF(&_106$$41);
-	ZVAL_UNDEF(&_107$$41);
-	ZVAL_UNDEF(&_114$$41);
-	ZVAL_UNDEF(&_116$$41);
-	ZVAL_UNDEF(&_64$$42);
-	ZVAL_UNDEF(&_65$$42);
-	ZVAL_UNDEF(&_66$$43);
-	ZVAL_UNDEF(&_67$$43);
-	ZVAL_UNDEF(&_68$$44);
-	ZVAL_UNDEF(&_69$$44);
-	ZVAL_UNDEF(&_70$$45);
-	ZVAL_UNDEF(&_71$$45);
-	ZVAL_UNDEF(&_72$$46);
-	ZVAL_UNDEF(&_73$$46);
-	ZVAL_UNDEF(&_74$$47);
-	ZVAL_UNDEF(&_75$$47);
-	ZVAL_UNDEF(&_76$$48);
-	ZVAL_UNDEF(&_77$$49);
-	ZVAL_UNDEF(&_78$$50);
-	ZVAL_UNDEF(&_79$$50);
-	ZVAL_UNDEF(&_80$$51);
-	ZVAL_UNDEF(&_81$$51);
-	ZVAL_UNDEF(&_82$$52);
-	ZVAL_UNDEF(&_83$$52);
-	ZVAL_UNDEF(&_84$$53);
-	ZVAL_UNDEF(&_85$$53);
-	ZVAL_UNDEF(&_86$$54);
-	ZVAL_UNDEF(&_87$$54);
-	ZVAL_UNDEF(&_88$$55);
-	ZVAL_UNDEF(&_89$$56);
-	ZVAL_UNDEF(&_90$$57);
-	ZVAL_UNDEF(&_91$$58);
-	ZVAL_UNDEF(&_92$$59);
-	ZVAL_UNDEF(&_93$$60);
-	ZVAL_UNDEF(&_94$$61);
-	ZVAL_UNDEF(&_95$$62);
-	ZVAL_UNDEF(&_96$$63);
-	ZVAL_UNDEF(&_97$$64);
-	ZVAL_UNDEF(&_98$$65);
-	ZVAL_UNDEF(&_99$$66);
-	ZVAL_UNDEF(&_100$$67);
-	ZVAL_UNDEF(&_101$$68);
-	ZVAL_UNDEF(&_102$$69);
-	ZVAL_UNDEF(&_103$$70);
-	ZVAL_UNDEF(&_108$$76);
-	ZVAL_UNDEF(&_109$$76);
-	ZVAL_UNDEF(&_110$$76);
-	ZVAL_UNDEF(&_111$$76);
-	ZVAL_UNDEF(&_112$$76);
-	ZVAL_UNDEF(&_113$$76);
-	ZVAL_UNDEF(&_115$$78);
+	ZVAL_UNDEF(&_52$$39);
+	ZVAL_UNDEF(&_53$$40);
+	ZVAL_UNDEF(&_54$$41);
+	ZVAL_UNDEF(&_55$$42);
+	ZVAL_UNDEF(&_59$$48);
+	ZVAL_UNDEF(&_61$$49);
+	ZVAL_UNDEF(&_62$$52);
+	ZVAL_UNDEF(&_63$$52);
+	ZVAL_UNDEF(&_64$$54);
+	ZVAL_UNDEF(&_65$$54);
+	ZVAL_UNDEF(&_66$$54);
+	ZVAL_UNDEF(&_67$$54);
+	ZVAL_UNDEF(&_69$$54);
+	ZVAL_UNDEF(&_70$$54);
+	ZVAL_UNDEF(&_73$$56);
+	ZVAL_UNDEF(&_76$$57);
+	ZVAL_UNDEF(&_129$$57);
+	ZVAL_UNDEF(&_130$$57);
+	ZVAL_UNDEF(&_142$$57);
+	ZVAL_UNDEF(&_144$$57);
+	ZVAL_UNDEF(&_78$$58);
+	ZVAL_UNDEF(&_79$$58);
+	ZVAL_UNDEF(&_80$$59);
+	ZVAL_UNDEF(&_81$$59);
+	ZVAL_UNDEF(&_82$$60);
+	ZVAL_UNDEF(&_83$$60);
+	ZVAL_UNDEF(&_84$$61);
+	ZVAL_UNDEF(&_85$$61);
+	ZVAL_UNDEF(&_86$$62);
+	ZVAL_UNDEF(&_87$$62);
+	ZVAL_UNDEF(&_88$$63);
+	ZVAL_UNDEF(&_89$$63);
+	ZVAL_UNDEF(&_90$$64);
+	ZVAL_UNDEF(&_91$$65);
+	ZVAL_UNDEF(&_92$$66);
+	ZVAL_UNDEF(&_93$$66);
+	ZVAL_UNDEF(&_94$$67);
+	ZVAL_UNDEF(&_95$$67);
+	ZVAL_UNDEF(&_96$$68);
+	ZVAL_UNDEF(&_97$$68);
+	ZVAL_UNDEF(&_98$$69);
+	ZVAL_UNDEF(&_99$$69);
+	ZVAL_UNDEF(&_100$$70);
+	ZVAL_UNDEF(&_101$$70);
+	ZVAL_UNDEF(&_102$$71);
+	ZVAL_UNDEF(&_103$$72);
+	ZVAL_UNDEF(&_104$$73);
+	ZVAL_UNDEF(&_105$$74);
+	ZVAL_UNDEF(&_106$$75);
+	ZVAL_UNDEF(&_107$$76);
+	ZVAL_UNDEF(&_108$$77);
+	ZVAL_UNDEF(&_109$$78);
+	ZVAL_UNDEF(&_110$$79);
+	ZVAL_UNDEF(&_111$$80);
+	ZVAL_UNDEF(&_112$$81);
+	ZVAL_UNDEF(&_113$$82);
+	ZVAL_UNDEF(&_114$$83);
+	ZVAL_UNDEF(&_115$$84);
+	ZVAL_UNDEF(&_116$$85);
+	ZVAL_UNDEF(&_117$$86);
+	ZVAL_UNDEF(&_118$$87);
+	ZVAL_UNDEF(&_119$$88);
+	ZVAL_UNDEF(&_120$$89);
+	ZVAL_UNDEF(&_121$$90);
+	ZVAL_UNDEF(&_122$$91);
+	ZVAL_UNDEF(&_123$$92);
+	ZVAL_UNDEF(&_124$$93);
+	ZVAL_UNDEF(&_125$$94);
+	ZVAL_UNDEF(&_126$$95);
+	ZVAL_UNDEF(&_127$$96);
+	ZVAL_UNDEF(&_131$$102);
+	ZVAL_UNDEF(&_133$$103);
+	ZVAL_UNDEF(&_134$$106);
+	ZVAL_UNDEF(&_135$$106);
+	ZVAL_UNDEF(&_136$$108);
+	ZVAL_UNDEF(&_137$$108);
+	ZVAL_UNDEF(&_138$$108);
+	ZVAL_UNDEF(&_139$$108);
+	ZVAL_UNDEF(&_140$$108);
+	ZVAL_UNDEF(&_141$$108);
+	ZVAL_UNDEF(&_143$$110);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -460,7 +485,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 	ZVAL_LONG(&_2, 3);
 	ZEPHIR_CALL_METHOD(&fields, this_ptr, "fetchall", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
-	zephir_is_iterable(&fields, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 528);
+	zephir_is_iterable(&fields, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 628);
 	if (Z_TYPE_P(&fields) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fields), _3)
 		{
@@ -470,16 +495,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 			zephir_create_array(&definition, 1, 0);
 			add_assoc_long_ex(&definition, SL("bindType"), 2);
 			ZEPHIR_OBS_NVAR(&columnType);
-			zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 182);
+			zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 184);
 			ZEPHIR_OBS_NVAR(&charSize);
-			zephir_array_fetch_long(&charSize, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 183);
+			zephir_array_fetch_long(&charSize, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 185);
 			ZEPHIR_OBS_NVAR(&numericSize);
-			zephir_array_fetch_long(&numericSize, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 184);
+			zephir_array_fetch_long(&numericSize, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 186);
 			ZEPHIR_OBS_NVAR(&numericScale);
-			zephir_array_fetch_long(&numericScale, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 185);
+			zephir_array_fetch_long(&numericScale, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 187);
 			do {
 				_5$$3 = 1;
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("boolean"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 203)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("boolean"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 205)) {
 					ZEPHIR_INIT_NVAR(&_6$$4);
 					ZVAL_LONG(&_6$$4, 8);
 					zephir_array_update_string(&definition, SL("type"), &_6$$4, PH_COPY | PH_SEPARATE);
@@ -488,7 +513,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_7$$4, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("bigint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 215)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("bigint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 217)) {
 					ZEPHIR_INIT_NVAR(&_8$$5);
 					ZVAL_LONG(&_8$$5, 14);
 					zephir_array_update_string(&definition, SL("type"), &_8$$5, PH_COPY | PH_SEPARATE);
@@ -498,7 +523,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_9$$5, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 225)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 227)) {
 					ZEPHIR_INIT_NVAR(&_10$$6);
 					ZVAL_LONG(&_10$$6, 21);
 					zephir_array_update_string(&definition, SL("type"), &_10$$6, PH_COPY | PH_SEPARATE);
@@ -508,7 +533,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_11$$6, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("smallint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 235)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("smallint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 237)) {
 					ZEPHIR_INIT_NVAR(&_12$$7);
 					ZVAL_LONG(&_12$$7, 22);
 					zephir_array_update_string(&definition, SL("type"), &_12$$7, PH_COPY | PH_SEPARATE);
@@ -518,7 +543,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_13$$7, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinyint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 245)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinyint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 247)) {
 					ZEPHIR_INIT_NVAR(&_14$$8);
 					ZVAL_LONG(&_14$$8, 26);
 					zephir_array_update_string(&definition, SL("type"), &_14$$8, PH_COPY | PH_SEPARATE);
@@ -528,7 +553,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_15$$8, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 258)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 260)) {
 					ZEPHIR_INIT_NVAR(&_16$$9);
 					ZVAL_LONG(&_16$$9, 0);
 					zephir_array_update_string(&definition, SL("type"), &_16$$9, PH_COPY | PH_SEPARATE);
@@ -538,20 +563,20 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_17$$9, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("bit"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 268)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("bit"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 270)) {
 					ZEPHIR_INIT_NVAR(&_18$$10);
 					ZVAL_LONG(&_18$$10, 19);
 					zephir_array_update_string(&definition, SL("type"), &_18$$10, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&definition, SL("size"), &numericSize, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 277)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 279)) {
 					ZEPHIR_INIT_NVAR(&_19$$11);
 					ZVAL_LONG(&_19$$11, 18);
 					zephir_array_update_string(&definition, SL("type"), &_19$$11, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 285)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 287)) {
 					ZEPHIR_INIT_NVAR(&_20$$12);
 					ZVAL_LONG(&_20$$12, 4);
 					zephir_array_update_string(&definition, SL("type"), &_20$$12, PH_COPY | PH_SEPARATE);
@@ -560,7 +585,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("size"), &_21$$12, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 294)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 296)) {
 					ZEPHIR_INIT_NVAR(&_22$$13);
 					ZVAL_LONG(&_22$$13, 1);
 					zephir_array_update_string(&definition, SL("type"), &_22$$13, PH_COPY | PH_SEPARATE);
@@ -569,7 +594,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("size"), &_23$$13, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 304) || _5$$3 == zephir_memnstr_str(&columnType, SL("numeric"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 305)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 306) || _5$$3 == zephir_memnstr_str(&columnType, SL("numeric"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 307)) {
 					ZEPHIR_INIT_NVAR(&_24$$14);
 					ZVAL_LONG(&_24$$14, 3);
 					zephir_array_update_string(&definition, SL("type"), &_24$$14, PH_COPY | PH_SEPARATE);
@@ -580,7 +605,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_25$$14, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("double precision"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 316)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("double precision"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 318)) {
 					ZEPHIR_INIT_NVAR(&_26$$15);
 					ZVAL_LONG(&_26$$15, 9);
 					zephir_array_update_string(&definition, SL("type"), &_26$$15, PH_COPY | PH_SEPARATE);
@@ -591,7 +616,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_27$$15, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 327) || _5$$3 == zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 328)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 329) || _5$$3 == zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 330)) {
 					ZEPHIR_INIT_NVAR(&_28$$16);
 					ZVAL_LONG(&_28$$16, 7);
 					zephir_array_update_string(&definition, SL("type"), &_28$$16, PH_COPY | PH_SEPARATE);
@@ -602,151 +627,240 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_update_string(&definition, SL("bindType"), &_29$$16, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 339)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 341)) {
 					ZEPHIR_INIT_NVAR(&_30$$17);
 					ZVAL_LONG(&_30$$17, 6);
 					zephir_array_update_string(&definition, SL("type"), &_30$$17, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 347)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 349)) {
 					ZEPHIR_INIT_NVAR(&_31$$18);
 					ZVAL_LONG(&_31$$18, 13);
 					zephir_array_update_string(&definition, SL("type"), &_31$$18, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 355)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 357)) {
 					ZEPHIR_INIT_NVAR(&_32$$19);
 					ZVAL_LONG(&_32$$19, 10);
 					zephir_array_update_string(&definition, SL("type"), &_32$$19, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 363)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 365)) {
 					ZEPHIR_INIT_NVAR(&_33$$20);
 					ZVAL_LONG(&_33$$20, 11);
 					zephir_array_update_string(&definition, SL("type"), &_33$$20, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 371)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 373)) {
 					ZEPHIR_INIT_NVAR(&_34$$21);
 					ZVAL_LONG(&_34$$21, 17);
 					zephir_array_update_string(&definition, SL("type"), &_34$$21, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("time"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 379)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("time"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 381)) {
 					ZEPHIR_INIT_NVAR(&_35$$22);
 					ZVAL_LONG(&_35$$22, 20);
 					zephir_array_update_string(&definition, SL("type"), &_35$$22, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("jsonb"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 387)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("jsonb"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 389)) {
 					ZEPHIR_INIT_NVAR(&_36$$23);
 					ZVAL_LONG(&_36$$23, 16);
 					zephir_array_update_string(&definition, SL("type"), &_36$$23, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("json"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 395)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("json"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 397)) {
 					ZEPHIR_INIT_NVAR(&_37$$24);
 					ZVAL_LONG(&_37$$24, 15);
 					zephir_array_update_string(&definition, SL("type"), &_37$$24, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("longtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 403)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("longtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 405)) {
 					ZEPHIR_INIT_NVAR(&_38$$25);
 					ZVAL_LONG(&_38$$25, 24);
 					zephir_array_update_string(&definition, SL("type"), &_38$$25, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 411)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("mediumtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 413)) {
 					ZEPHIR_INIT_NVAR(&_39$$26);
 					ZVAL_LONG(&_39$$26, 23);
 					zephir_array_update_string(&definition, SL("type"), &_39$$26, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinytext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 419)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tinytext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 421)) {
 					ZEPHIR_INIT_NVAR(&_40$$27);
 					ZVAL_LONG(&_40$$27, 25);
 					zephir_array_update_string(&definition, SL("type"), &_40$$27, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 427)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 429)) {
 					ZEPHIR_INIT_NVAR(&_41$$28);
 					ZVAL_LONG(&_41$$28, 6);
 					zephir_array_update_string(&definition, SL("type"), &_41$$28, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("varying"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 435) || _5$$3 == zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 436)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("varying"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 437) || _5$$3 == zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 438)) {
 					ZEPHIR_INIT_NVAR(&_42$$29);
 					ZVAL_LONG(&_42$$29, 2);
 					zephir_array_update_string(&definition, SL("type"), &_42$$29, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&definition, SL("size"), &charSize, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 445)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 447)) {
 					ZEPHIR_INIT_NVAR(&_43$$30);
 					ZVAL_LONG(&_43$$30, 5);
 					zephir_array_update_string(&definition, SL("type"), &_43$$30, PH_COPY | PH_SEPARATE);
 					zephir_array_update_string(&definition, SL("size"), &charSize, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				if (_5$$3 == zephir_memnstr_str(&columnType, SL("uuid"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 454)) {
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("uuid"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 456)) {
 					ZEPHIR_INIT_NVAR(&_44$$31);
 					ZVAL_LONG(&_44$$31, 29);
 					zephir_array_update_string(&definition, SL("type"), &_44$$31, PH_COPY | PH_SEPARATE);
 					break;
 				}
-				ZEPHIR_INIT_NVAR(&_45$$32);
-				ZVAL_LONG(&_45$$32, 2);
-				zephir_array_update_string(&definition, SL("type"), &_45$$32, PH_COPY | PH_SEPARATE);
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("bytea"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 464)) {
+					ZEPHIR_INIT_NVAR(&_45$$32);
+					ZVAL_LONG(&_45$$32, 30);
+					zephir_array_update_string(&definition, SL("type"), &_45$$32, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("inet"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 472)) {
+					ZEPHIR_INIT_NVAR(&_46$$33);
+					ZVAL_LONG(&_46$$33, 31);
+					zephir_array_update_string(&definition, SL("type"), &_46$$33, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("cidr"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 480)) {
+					ZEPHIR_INIT_NVAR(&_47$$34);
+					ZVAL_LONG(&_47$$34, 32);
+					zephir_array_update_string(&definition, SL("type"), &_47$$34, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("macaddr"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 488)) {
+					ZEPHIR_INIT_NVAR(&_48$$35);
+					ZVAL_LONG(&_48$$35, 33);
+					zephir_array_update_string(&definition, SL("type"), &_48$$35, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("int4range"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 497)) {
+					ZEPHIR_INIT_NVAR(&_49$$36);
+					ZVAL_LONG(&_49$$36, 34);
+					zephir_array_update_string(&definition, SL("type"), &_49$$36, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("int8range"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 502)) {
+					ZEPHIR_INIT_NVAR(&_50$$37);
+					ZVAL_LONG(&_50$$37, 35);
+					zephir_array_update_string(&definition, SL("type"), &_50$$37, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("numrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507)) {
+					ZEPHIR_INIT_NVAR(&_51$$38);
+					ZVAL_LONG(&_51$$38, 36);
+					zephir_array_update_string(&definition, SL("type"), &_51$$38, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tstzrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 512)) {
+					ZEPHIR_INIT_NVAR(&_52$$39);
+					ZVAL_LONG(&_52$$39, 38);
+					zephir_array_update_string(&definition, SL("type"), &_52$$39, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("tsrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 517)) {
+					ZEPHIR_INIT_NVAR(&_53$$40);
+					ZVAL_LONG(&_53$$40, 37);
+					zephir_array_update_string(&definition, SL("type"), &_53$$40, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				if (_5$$3 == zephir_memnstr_str(&columnType, SL("daterange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 522)) {
+					ZEPHIR_INIT_NVAR(&_54$$41);
+					ZVAL_LONG(&_54$$41, 39);
+					zephir_array_update_string(&definition, SL("type"), &_54$$41, PH_COPY | PH_SEPARATE);
+					break;
+				}
+				ZEPHIR_INIT_NVAR(&_55$$42);
+				ZVAL_LONG(&_55$$42, 2);
+				zephir_array_update_string(&definition, SL("type"), &_55$$42, PH_COPY | PH_SEPARATE);
 				break;
 			} while(0);
 
+			_56$$3 = zephir_memnstr_str(&columnType, SL("ARRAY"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 543);
+			if (!(_56$$3)) {
+				_56$$3 = zephir_memnstr_str(&columnType, SL("[]"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 543);
+			}
+			if (_56$$3) {
+				zephir_array_update_string(&definition, SL("array"), &__$true, PH_COPY | PH_SEPARATE);
+			}
 			if (Z_TYPE_P(&oldColumn) == IS_NULL) {
 				zephir_array_update_string(&definition, SL("first"), &__$true, PH_COPY | PH_SEPARATE);
 			} else {
 				zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_fetch_long(&_46$$3, &field, 6, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 480);
-			if (ZEPHIR_IS_STRING(&_46$$3, "PRI")) {
+			zephir_array_fetch_long(&_57$$3, &field, 6, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
+			if (ZEPHIR_IS_STRING(&_57$$3, "PRI")) {
 				zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_fetch_long(&_47$$3, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 487);
-			if (ZEPHIR_IS_STRING(&_47$$3, "YES")) {
+			zephir_array_fetch_long(&_58$$3, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 566);
+			if (ZEPHIR_IS_STRING(&_58$$3, "YES")) {
 				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_fetch_long(&_48$$3, &field, 7, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 494);
-			if (ZEPHIR_IS_STRING(&_48$$3, "auto_increment")) {
-				zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+			isGenerated = 0;
+			if (zephir_array_isset_value_long(&field, 11)) {
+				zephir_array_fetch_long(&_59$$48, &field, 11, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 577);
+				isGenerated = (ZEPHIR_IS_STRING_IDENTICAL(&_59$$48, "ALWAYS"));
 			}
-			zephir_array_fetch_long(&_49$$3, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 501);
-			if (Z_TYPE_P(&_49$$3) != IS_NULL) {
-				zephir_array_fetch_long(&_50$$38, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 506);
-				ZEPHIR_INIT_NVAR(&_51$$38);
-				ZVAL_STRING(&_51$$38, "/^'|'?::[[:alnum:][:space:]]+$/");
-				ZEPHIR_INIT_NVAR(&_52$$38);
-				ZVAL_STRING(&_52$$38, "");
-				ZEPHIR_CALL_FUNCTION(&_53$$38, "preg_replace", &_54, 57, &_51$$38, &_52$$38, &_50$$38);
-				zephir_check_call_status();
-				zephir_array_update_string(&definition, SL("default"), &_53$$38, PH_COPY | PH_SEPARATE);
-				zephir_array_fetch_string(&_55$$38, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 508);
-				ZEPHIR_INIT_NVAR(&_51$$38);
-				ZVAL_STRING(&_51$$38, "null");
-				ZEPHIR_CALL_FUNCTION(&_56$$38, "strcasecmp", &_57, 56, &_55$$38, &_51$$38);
-				zephir_check_call_status();
-				if (ZEPHIR_IS_LONG(&_56$$38, 0)) {
-					zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
+			if (isGenerated) {
+				_60$$49 = zephir_array_isset_value_long(&field, 12);
+				if (_60$$49) {
+					zephir_array_fetch_long(&_61$$49, &field, 12, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 581);
+					_60$$49 = Z_TYPE_P(&_61$$49) != IS_NULL;
+				}
+				if (_60$$49) {
+					ZEPHIR_OBS_NVAR(&generationExpression);
+					zephir_array_fetch_long(&generationExpression, &field, 12, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 582);
+				} else {
+					ZEPHIR_INIT_NVAR(&generationExpression);
+					ZVAL_STRING(&generationExpression, "");
+				}
+				zephir_array_update_string(&definition, SL("generated"), &generationExpression, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("generationStored"), &__$true, PH_COPY | PH_SEPARATE);
+			} else {
+				zephir_array_fetch_long(&_62$$52, &field, 7, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 593);
+				if (ZEPHIR_IS_STRING(&_62$$52, "auto_increment")) {
+					zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+				}
+				zephir_array_fetch_long(&_63$$52, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 600);
+				if (Z_TYPE_P(&_63$$52) != IS_NULL) {
+					zephir_array_fetch_long(&_64$$54, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 605);
+					ZEPHIR_INIT_NVAR(&_65$$54);
+					ZVAL_STRING(&_65$$54, "/^'|'?::[[:alnum:][:space:]]+$/");
+					ZEPHIR_INIT_NVAR(&_66$$54);
+					ZVAL_STRING(&_66$$54, "");
+					ZEPHIR_CALL_FUNCTION(&_67$$54, "preg_replace", &_68, 57, &_65$$54, &_66$$54, &_64$$54);
+					zephir_check_call_status();
+					zephir_array_update_string(&definition, SL("default"), &_67$$54, PH_COPY | PH_SEPARATE);
+					zephir_array_fetch_string(&_69$$54, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 607);
+					ZEPHIR_INIT_NVAR(&_65$$54);
+					ZVAL_STRING(&_65$$54, "null");
+					ZEPHIR_CALL_FUNCTION(&_70$$54, "strcasecmp", &_71, 56, &_69$$54, &_65$$54);
+					zephir_check_call_status();
+					if (ZEPHIR_IS_LONG(&_70$$54, 0)) {
+						zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
+					}
 				}
 			}
-			zephir_array_fetch_long(&_58$$3, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 516);
-			if (Z_TYPE_P(&_58$$3) != IS_NULL) {
-				zephir_array_fetch_long(&_59$$40, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 517);
-				zephir_array_update_string(&definition, SL("comment"), &_59$$40, PH_COPY | PH_SEPARATE);
+			zephir_array_fetch_long(&_72$$3, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 616);
+			if (Z_TYPE_P(&_72$$3) != IS_NULL) {
+				zephir_array_fetch_long(&_73$$56, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 617);
+				zephir_array_update_string(&definition, SL("comment"), &_73$$56, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 523);
-			ZEPHIR_INIT_NVAR(&_60$$3);
-			object_init_ex(&_60$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_60$$3, "__construct", &_61, 227, &columnName, &definition);
+			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 623);
+			ZEPHIR_INIT_NVAR(&_74$$3);
+			object_init_ex(&_74$$3, phalcon_db_column_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_74$$3, "__construct", &_75, 230, &columnName, &definition);
 			zephir_check_call_status();
-			zephir_array_append(&columns, &_60$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 524);
+			zephir_array_append(&columns, &_74$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 624);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -760,289 +874,378 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 			}
 			ZEPHIR_CALL_METHOD(&field, &fields, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_62$$41);
-				zephir_create_array(&_62$$41, 1, 0);
-				add_assoc_long_ex(&_62$$41, SL("bindType"), 2);
-				ZEPHIR_CPY_WRT(&definition, &_62$$41);
+				ZEPHIR_INIT_NVAR(&_76$$57);
+				zephir_create_array(&_76$$57, 1, 0);
+				add_assoc_long_ex(&_76$$57, SL("bindType"), 2);
+				ZEPHIR_CPY_WRT(&definition, &_76$$57);
 				ZEPHIR_OBS_NVAR(&columnType);
-				zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 182);
+				zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 184);
 				ZEPHIR_OBS_NVAR(&charSize);
-				zephir_array_fetch_long(&charSize, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 183);
+				zephir_array_fetch_long(&charSize, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 185);
 				ZEPHIR_OBS_NVAR(&numericSize);
-				zephir_array_fetch_long(&numericSize, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 184);
+				zephir_array_fetch_long(&numericSize, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 186);
 				ZEPHIR_OBS_NVAR(&numericScale);
-				zephir_array_fetch_long(&numericScale, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 185);
+				zephir_array_fetch_long(&numericScale, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 187);
 				do {
-					_63$$41 = 1;
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("boolean"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 203)) {
-						ZEPHIR_INIT_NVAR(&_64$$42);
-						ZVAL_LONG(&_64$$42, 8);
-						zephir_array_update_string(&definition, SL("type"), &_64$$42, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_65$$42);
-						ZVAL_LONG(&_65$$42, 5);
-						zephir_array_update_string(&definition, SL("bindType"), &_65$$42, PH_COPY | PH_SEPARATE);
+					_77$$57 = 1;
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("boolean"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 205)) {
+						ZEPHIR_INIT_NVAR(&_78$$58);
+						ZVAL_LONG(&_78$$58, 8);
+						zephir_array_update_string(&definition, SL("type"), &_78$$58, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_79$$58);
+						ZVAL_LONG(&_79$$58, 5);
+						zephir_array_update_string(&definition, SL("bindType"), &_79$$58, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("bigint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 215)) {
-						ZEPHIR_INIT_NVAR(&_66$$43);
-						ZVAL_LONG(&_66$$43, 14);
-						zephir_array_update_string(&definition, SL("type"), &_66$$43, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("bigint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 217)) {
+						ZEPHIR_INIT_NVAR(&_80$$59);
+						ZVAL_LONG(&_80$$59, 14);
+						zephir_array_update_string(&definition, SL("type"), &_80$$59, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_67$$43);
-						ZVAL_LONG(&_67$$43, 2);
-						zephir_array_update_string(&definition, SL("bindType"), &_67$$43, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_81$$59);
+						ZVAL_LONG(&_81$$59, 2);
+						zephir_array_update_string(&definition, SL("bindType"), &_81$$59, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("mediumint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 225)) {
-						ZEPHIR_INIT_NVAR(&_68$$44);
-						ZVAL_LONG(&_68$$44, 21);
-						zephir_array_update_string(&definition, SL("type"), &_68$$44, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("mediumint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 227)) {
+						ZEPHIR_INIT_NVAR(&_82$$60);
+						ZVAL_LONG(&_82$$60, 21);
+						zephir_array_update_string(&definition, SL("type"), &_82$$60, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_69$$44);
-						ZVAL_LONG(&_69$$44, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_69$$44, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_83$$60);
+						ZVAL_LONG(&_83$$60, 1);
+						zephir_array_update_string(&definition, SL("bindType"), &_83$$60, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("smallint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 235)) {
-						ZEPHIR_INIT_NVAR(&_70$$45);
-						ZVAL_LONG(&_70$$45, 22);
-						zephir_array_update_string(&definition, SL("type"), &_70$$45, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("smallint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 237)) {
+						ZEPHIR_INIT_NVAR(&_84$$61);
+						ZVAL_LONG(&_84$$61, 22);
+						zephir_array_update_string(&definition, SL("type"), &_84$$61, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_71$$45);
-						ZVAL_LONG(&_71$$45, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_71$$45, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_85$$61);
+						ZVAL_LONG(&_85$$61, 1);
+						zephir_array_update_string(&definition, SL("bindType"), &_85$$61, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("tinyint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 245)) {
-						ZEPHIR_INIT_NVAR(&_72$$46);
-						ZVAL_LONG(&_72$$46, 26);
-						zephir_array_update_string(&definition, SL("type"), &_72$$46, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("tinyint"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 247)) {
+						ZEPHIR_INIT_NVAR(&_86$$62);
+						ZVAL_LONG(&_86$$62, 26);
+						zephir_array_update_string(&definition, SL("type"), &_86$$62, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_73$$46);
-						ZVAL_LONG(&_73$$46, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_73$$46, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_87$$62);
+						ZVAL_LONG(&_87$$62, 1);
+						zephir_array_update_string(&definition, SL("bindType"), &_87$$62, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 258)) {
-						ZEPHIR_INIT_NVAR(&_74$$47);
-						ZVAL_LONG(&_74$$47, 0);
-						zephir_array_update_string(&definition, SL("type"), &_74$$47, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 260)) {
+						ZEPHIR_INIT_NVAR(&_88$$63);
+						ZVAL_LONG(&_88$$63, 0);
+						zephir_array_update_string(&definition, SL("type"), &_88$$63, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_75$$47);
-						ZVAL_LONG(&_75$$47, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_75$$47, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_89$$63);
+						ZVAL_LONG(&_89$$63, 1);
+						zephir_array_update_string(&definition, SL("bindType"), &_89$$63, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("bit"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 268)) {
-						ZEPHIR_INIT_NVAR(&_76$$48);
-						ZVAL_LONG(&_76$$48, 19);
-						zephir_array_update_string(&definition, SL("type"), &_76$$48, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("bit"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 270)) {
+						ZEPHIR_INIT_NVAR(&_90$$64);
+						ZVAL_LONG(&_90$$64, 19);
+						zephir_array_update_string(&definition, SL("type"), &_90$$64, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &numericSize, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 277)) {
-						ZEPHIR_INIT_NVAR(&_77$$49);
-						ZVAL_LONG(&_77$$49, 18);
-						zephir_array_update_string(&definition, SL("type"), &_77$$49, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 279)) {
+						ZEPHIR_INIT_NVAR(&_91$$65);
+						ZVAL_LONG(&_91$$65, 18);
+						zephir_array_update_string(&definition, SL("type"), &_91$$65, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 285)) {
-						ZEPHIR_INIT_NVAR(&_78$$50);
-						ZVAL_LONG(&_78$$50, 4);
-						zephir_array_update_string(&definition, SL("type"), &_78$$50, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_79$$50);
-						ZVAL_LONG(&_79$$50, 0);
-						zephir_array_update_string(&definition, SL("size"), &_79$$50, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 287)) {
+						ZEPHIR_INIT_NVAR(&_92$$66);
+						ZVAL_LONG(&_92$$66, 4);
+						zephir_array_update_string(&definition, SL("type"), &_92$$66, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_93$$66);
+						ZVAL_LONG(&_93$$66, 0);
+						zephir_array_update_string(&definition, SL("size"), &_93$$66, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 294)) {
-						ZEPHIR_INIT_NVAR(&_80$$51);
-						ZVAL_LONG(&_80$$51, 1);
-						zephir_array_update_string(&definition, SL("type"), &_80$$51, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_81$$51);
-						ZVAL_LONG(&_81$$51, 0);
-						zephir_array_update_string(&definition, SL("size"), &_81$$51, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 296)) {
+						ZEPHIR_INIT_NVAR(&_94$$67);
+						ZVAL_LONG(&_94$$67, 1);
+						zephir_array_update_string(&definition, SL("type"), &_94$$67, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_95$$67);
+						ZVAL_LONG(&_95$$67, 0);
+						zephir_array_update_string(&definition, SL("size"), &_95$$67, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 304) || _63$$41 == zephir_memnstr_str(&columnType, SL("numeric"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 305)) {
-						ZEPHIR_INIT_NVAR(&_82$$52);
-						ZVAL_LONG(&_82$$52, 3);
-						zephir_array_update_string(&definition, SL("type"), &_82$$52, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 306) || _77$$57 == zephir_memnstr_str(&columnType, SL("numeric"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 307)) {
+						ZEPHIR_INIT_NVAR(&_96$$68);
+						ZVAL_LONG(&_96$$68, 3);
+						zephir_array_update_string(&definition, SL("type"), &_96$$68, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &numericSize, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_83$$52);
-						ZVAL_LONG(&_83$$52, 32);
-						zephir_array_update_string(&definition, SL("bindType"), &_83$$52, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_97$$68);
+						ZVAL_LONG(&_97$$68, 32);
+						zephir_array_update_string(&definition, SL("bindType"), &_97$$68, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("double precision"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 316)) {
-						ZEPHIR_INIT_NVAR(&_84$$53);
-						ZVAL_LONG(&_84$$53, 9);
-						zephir_array_update_string(&definition, SL("type"), &_84$$53, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("double precision"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 318)) {
+						ZEPHIR_INIT_NVAR(&_98$$69);
+						ZVAL_LONG(&_98$$69, 9);
+						zephir_array_update_string(&definition, SL("type"), &_98$$69, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &numericSize, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_85$$53);
-						ZVAL_LONG(&_85$$53, 32);
-						zephir_array_update_string(&definition, SL("bindType"), &_85$$53, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_99$$69);
+						ZVAL_LONG(&_99$$69, 32);
+						zephir_array_update_string(&definition, SL("bindType"), &_99$$69, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 327) || _63$$41 == zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 328)) {
-						ZEPHIR_INIT_NVAR(&_86$$54);
-						ZVAL_LONG(&_86$$54, 7);
-						zephir_array_update_string(&definition, SL("type"), &_86$$54, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 329) || _77$$57 == zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 330)) {
+						ZEPHIR_INIT_NVAR(&_100$$70);
+						ZVAL_LONG(&_100$$70, 7);
+						zephir_array_update_string(&definition, SL("type"), &_100$$70, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &numericSize, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_87$$54);
-						ZVAL_LONG(&_87$$54, 32);
-						zephir_array_update_string(&definition, SL("bindType"), &_87$$54, PH_COPY | PH_SEPARATE);
+						ZEPHIR_INIT_NVAR(&_101$$70);
+						ZVAL_LONG(&_101$$70, 32);
+						zephir_array_update_string(&definition, SL("bindType"), &_101$$70, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 339)) {
-						ZEPHIR_INIT_NVAR(&_88$$55);
-						ZVAL_LONG(&_88$$55, 6);
-						zephir_array_update_string(&definition, SL("type"), &_88$$55, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 341)) {
+						ZEPHIR_INIT_NVAR(&_102$$71);
+						ZVAL_LONG(&_102$$71, 6);
+						zephir_array_update_string(&definition, SL("type"), &_102$$71, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 347)) {
-						ZEPHIR_INIT_NVAR(&_89$$56);
-						ZVAL_LONG(&_89$$56, 13);
-						zephir_array_update_string(&definition, SL("type"), &_89$$56, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 349)) {
+						ZEPHIR_INIT_NVAR(&_103$$72);
+						ZVAL_LONG(&_103$$72, 13);
+						zephir_array_update_string(&definition, SL("type"), &_103$$72, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 355)) {
-						ZEPHIR_INIT_NVAR(&_90$$57);
-						ZVAL_LONG(&_90$$57, 10);
-						zephir_array_update_string(&definition, SL("type"), &_90$$57, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 357)) {
+						ZEPHIR_INIT_NVAR(&_104$$73);
+						ZVAL_LONG(&_104$$73, 10);
+						zephir_array_update_string(&definition, SL("type"), &_104$$73, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 363)) {
-						ZEPHIR_INIT_NVAR(&_91$$58);
-						ZVAL_LONG(&_91$$58, 11);
-						zephir_array_update_string(&definition, SL("type"), &_91$$58, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 365)) {
+						ZEPHIR_INIT_NVAR(&_105$$74);
+						ZVAL_LONG(&_105$$74, 11);
+						zephir_array_update_string(&definition, SL("type"), &_105$$74, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 371)) {
-						ZEPHIR_INIT_NVAR(&_92$$59);
-						ZVAL_LONG(&_92$$59, 17);
-						zephir_array_update_string(&definition, SL("type"), &_92$$59, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 373)) {
+						ZEPHIR_INIT_NVAR(&_106$$75);
+						ZVAL_LONG(&_106$$75, 17);
+						zephir_array_update_string(&definition, SL("type"), &_106$$75, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("time"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 379)) {
-						ZEPHIR_INIT_NVAR(&_93$$60);
-						ZVAL_LONG(&_93$$60, 20);
-						zephir_array_update_string(&definition, SL("type"), &_93$$60, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("time"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 381)) {
+						ZEPHIR_INIT_NVAR(&_107$$76);
+						ZVAL_LONG(&_107$$76, 20);
+						zephir_array_update_string(&definition, SL("type"), &_107$$76, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("jsonb"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 387)) {
-						ZEPHIR_INIT_NVAR(&_94$$61);
-						ZVAL_LONG(&_94$$61, 16);
-						zephir_array_update_string(&definition, SL("type"), &_94$$61, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("jsonb"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 389)) {
+						ZEPHIR_INIT_NVAR(&_108$$77);
+						ZVAL_LONG(&_108$$77, 16);
+						zephir_array_update_string(&definition, SL("type"), &_108$$77, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("json"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 395)) {
-						ZEPHIR_INIT_NVAR(&_95$$62);
-						ZVAL_LONG(&_95$$62, 15);
-						zephir_array_update_string(&definition, SL("type"), &_95$$62, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("json"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 397)) {
+						ZEPHIR_INIT_NVAR(&_109$$78);
+						ZVAL_LONG(&_109$$78, 15);
+						zephir_array_update_string(&definition, SL("type"), &_109$$78, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("longtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 403)) {
-						ZEPHIR_INIT_NVAR(&_96$$63);
-						ZVAL_LONG(&_96$$63, 24);
-						zephir_array_update_string(&definition, SL("type"), &_96$$63, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("longtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 405)) {
+						ZEPHIR_INIT_NVAR(&_110$$79);
+						ZVAL_LONG(&_110$$79, 24);
+						zephir_array_update_string(&definition, SL("type"), &_110$$79, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("mediumtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 411)) {
-						ZEPHIR_INIT_NVAR(&_97$$64);
-						ZVAL_LONG(&_97$$64, 23);
-						zephir_array_update_string(&definition, SL("type"), &_97$$64, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("mediumtext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 413)) {
+						ZEPHIR_INIT_NVAR(&_111$$80);
+						ZVAL_LONG(&_111$$80, 23);
+						zephir_array_update_string(&definition, SL("type"), &_111$$80, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("tinytext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 419)) {
-						ZEPHIR_INIT_NVAR(&_98$$65);
-						ZVAL_LONG(&_98$$65, 25);
-						zephir_array_update_string(&definition, SL("type"), &_98$$65, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("tinytext"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 421)) {
+						ZEPHIR_INIT_NVAR(&_112$$81);
+						ZVAL_LONG(&_112$$81, 25);
+						zephir_array_update_string(&definition, SL("type"), &_112$$81, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 427)) {
-						ZEPHIR_INIT_NVAR(&_99$$66);
-						ZVAL_LONG(&_99$$66, 6);
-						zephir_array_update_string(&definition, SL("type"), &_99$$66, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 429)) {
+						ZEPHIR_INIT_NVAR(&_113$$82);
+						ZVAL_LONG(&_113$$82, 6);
+						zephir_array_update_string(&definition, SL("type"), &_113$$82, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("varying"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 435) || _63$$41 == zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 436)) {
-						ZEPHIR_INIT_NVAR(&_100$$67);
-						ZVAL_LONG(&_100$$67, 2);
-						zephir_array_update_string(&definition, SL("type"), &_100$$67, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("varying"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 437) || _77$$57 == zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 438)) {
+						ZEPHIR_INIT_NVAR(&_114$$83);
+						ZVAL_LONG(&_114$$83, 2);
+						zephir_array_update_string(&definition, SL("type"), &_114$$83, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &charSize, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 445)) {
-						ZEPHIR_INIT_NVAR(&_101$$68);
-						ZVAL_LONG(&_101$$68, 5);
-						zephir_array_update_string(&definition, SL("type"), &_101$$68, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 447)) {
+						ZEPHIR_INIT_NVAR(&_115$$84);
+						ZVAL_LONG(&_115$$84, 5);
+						zephir_array_update_string(&definition, SL("type"), &_115$$84, PH_COPY | PH_SEPARATE);
 						zephir_array_update_string(&definition, SL("size"), &charSize, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					if (_63$$41 == zephir_memnstr_str(&columnType, SL("uuid"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 454)) {
-						ZEPHIR_INIT_NVAR(&_102$$69);
-						ZVAL_LONG(&_102$$69, 29);
-						zephir_array_update_string(&definition, SL("type"), &_102$$69, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("uuid"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 456)) {
+						ZEPHIR_INIT_NVAR(&_116$$85);
+						ZVAL_LONG(&_116$$85, 29);
+						zephir_array_update_string(&definition, SL("type"), &_116$$85, PH_COPY | PH_SEPARATE);
 						break;
 					}
-					ZEPHIR_INIT_NVAR(&_103$$70);
-					ZVAL_LONG(&_103$$70, 2);
-					zephir_array_update_string(&definition, SL("type"), &_103$$70, PH_COPY | PH_SEPARATE);
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("bytea"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 464)) {
+						ZEPHIR_INIT_NVAR(&_117$$86);
+						ZVAL_LONG(&_117$$86, 30);
+						zephir_array_update_string(&definition, SL("type"), &_117$$86, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("inet"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 472)) {
+						ZEPHIR_INIT_NVAR(&_118$$87);
+						ZVAL_LONG(&_118$$87, 31);
+						zephir_array_update_string(&definition, SL("type"), &_118$$87, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("cidr"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 480)) {
+						ZEPHIR_INIT_NVAR(&_119$$88);
+						ZVAL_LONG(&_119$$88, 32);
+						zephir_array_update_string(&definition, SL("type"), &_119$$88, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("macaddr"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 488)) {
+						ZEPHIR_INIT_NVAR(&_120$$89);
+						ZVAL_LONG(&_120$$89, 33);
+						zephir_array_update_string(&definition, SL("type"), &_120$$89, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("int4range"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 497)) {
+						ZEPHIR_INIT_NVAR(&_121$$90);
+						ZVAL_LONG(&_121$$90, 34);
+						zephir_array_update_string(&definition, SL("type"), &_121$$90, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("int8range"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 502)) {
+						ZEPHIR_INIT_NVAR(&_122$$91);
+						ZVAL_LONG(&_122$$91, 35);
+						zephir_array_update_string(&definition, SL("type"), &_122$$91, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("numrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507)) {
+						ZEPHIR_INIT_NVAR(&_123$$92);
+						ZVAL_LONG(&_123$$92, 36);
+						zephir_array_update_string(&definition, SL("type"), &_123$$92, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("tstzrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 512)) {
+						ZEPHIR_INIT_NVAR(&_124$$93);
+						ZVAL_LONG(&_124$$93, 38);
+						zephir_array_update_string(&definition, SL("type"), &_124$$93, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("tsrange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 517)) {
+						ZEPHIR_INIT_NVAR(&_125$$94);
+						ZVAL_LONG(&_125$$94, 37);
+						zephir_array_update_string(&definition, SL("type"), &_125$$94, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					if (_77$$57 == zephir_memnstr_str(&columnType, SL("daterange"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 522)) {
+						ZEPHIR_INIT_NVAR(&_126$$95);
+						ZVAL_LONG(&_126$$95, 39);
+						zephir_array_update_string(&definition, SL("type"), &_126$$95, PH_COPY | PH_SEPARATE);
+						break;
+					}
+					ZEPHIR_INIT_NVAR(&_127$$96);
+					ZVAL_LONG(&_127$$96, 2);
+					zephir_array_update_string(&definition, SL("type"), &_127$$96, PH_COPY | PH_SEPARATE);
 					break;
 				} while(0);
 
+				_128$$57 = zephir_memnstr_str(&columnType, SL("ARRAY"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 543);
+				if (!(_128$$57)) {
+					_128$$57 = zephir_memnstr_str(&columnType, SL("[]"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 543);
+				}
+				if (_128$$57) {
+					zephir_array_update_string(&definition, SL("array"), &__$true, PH_COPY | PH_SEPARATE);
+				}
 				if (Z_TYPE_P(&oldColumn) == IS_NULL) {
 					zephir_array_update_string(&definition, SL("first"), &__$true, PH_COPY | PH_SEPARATE);
 				} else {
 					zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_fetch_long(&_104$$41, &field, 6, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 480);
-				if (ZEPHIR_IS_STRING(&_104$$41, "PRI")) {
+				zephir_array_fetch_long(&_129$$57, &field, 6, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
+				if (ZEPHIR_IS_STRING(&_129$$57, "PRI")) {
 					zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_fetch_long(&_105$$41, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 487);
-				if (ZEPHIR_IS_STRING(&_105$$41, "YES")) {
+				zephir_array_fetch_long(&_130$$57, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 566);
+				if (ZEPHIR_IS_STRING(&_130$$57, "YES")) {
 					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_fetch_long(&_106$$41, &field, 7, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 494);
-				if (ZEPHIR_IS_STRING(&_106$$41, "auto_increment")) {
-					zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+				isGenerated = 0;
+				if (zephir_array_isset_value_long(&field, 11)) {
+					zephir_array_fetch_long(&_131$$102, &field, 11, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 577);
+					isGenerated = (ZEPHIR_IS_STRING_IDENTICAL(&_131$$102, "ALWAYS"));
 				}
-				zephir_array_fetch_long(&_107$$41, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 501);
-				if (Z_TYPE_P(&_107$$41) != IS_NULL) {
-					zephir_array_fetch_long(&_108$$76, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 506);
-					ZEPHIR_INIT_NVAR(&_109$$76);
-					ZVAL_STRING(&_109$$76, "/^'|'?::[[:alnum:][:space:]]+$/");
-					ZEPHIR_INIT_NVAR(&_110$$76);
-					ZVAL_STRING(&_110$$76, "");
-					ZEPHIR_CALL_FUNCTION(&_111$$76, "preg_replace", &_54, 57, &_109$$76, &_110$$76, &_108$$76);
-					zephir_check_call_status();
-					zephir_array_update_string(&definition, SL("default"), &_111$$76, PH_COPY | PH_SEPARATE);
-					zephir_array_fetch_string(&_112$$76, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 508);
-					ZEPHIR_INIT_NVAR(&_109$$76);
-					ZVAL_STRING(&_109$$76, "null");
-					ZEPHIR_CALL_FUNCTION(&_113$$76, "strcasecmp", &_57, 56, &_112$$76, &_109$$76);
-					zephir_check_call_status();
-					if (ZEPHIR_IS_LONG(&_113$$76, 0)) {
-						zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
+				if (isGenerated) {
+					_132$$103 = zephir_array_isset_value_long(&field, 12);
+					if (_132$$103) {
+						zephir_array_fetch_long(&_133$$103, &field, 12, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 581);
+						_132$$103 = Z_TYPE_P(&_133$$103) != IS_NULL;
+					}
+					if (_132$$103) {
+						ZEPHIR_OBS_NVAR(&generationExpression);
+						zephir_array_fetch_long(&generationExpression, &field, 12, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 582);
+					} else {
+						ZEPHIR_INIT_NVAR(&generationExpression);
+						ZVAL_STRING(&generationExpression, "");
+					}
+					zephir_array_update_string(&definition, SL("generated"), &generationExpression, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("generationStored"), &__$true, PH_COPY | PH_SEPARATE);
+				} else {
+					zephir_array_fetch_long(&_134$$106, &field, 7, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 593);
+					if (ZEPHIR_IS_STRING(&_134$$106, "auto_increment")) {
+						zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+					}
+					zephir_array_fetch_long(&_135$$106, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 600);
+					if (Z_TYPE_P(&_135$$106) != IS_NULL) {
+						zephir_array_fetch_long(&_136$$108, &field, 9, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 605);
+						ZEPHIR_INIT_NVAR(&_137$$108);
+						ZVAL_STRING(&_137$$108, "/^'|'?::[[:alnum:][:space:]]+$/");
+						ZEPHIR_INIT_NVAR(&_138$$108);
+						ZVAL_STRING(&_138$$108, "");
+						ZEPHIR_CALL_FUNCTION(&_139$$108, "preg_replace", &_68, 57, &_137$$108, &_138$$108, &_136$$108);
+						zephir_check_call_status();
+						zephir_array_update_string(&definition, SL("default"), &_139$$108, PH_COPY | PH_SEPARATE);
+						zephir_array_fetch_string(&_140$$108, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 607);
+						ZEPHIR_INIT_NVAR(&_137$$108);
+						ZVAL_STRING(&_137$$108, "null");
+						ZEPHIR_CALL_FUNCTION(&_141$$108, "strcasecmp", &_71, 56, &_140$$108, &_137$$108);
+						zephir_check_call_status();
+						if (ZEPHIR_IS_LONG(&_141$$108, 0)) {
+							zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
+						}
 					}
 				}
-				zephir_array_fetch_long(&_114$$41, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 516);
-				if (Z_TYPE_P(&_114$$41) != IS_NULL) {
-					zephir_array_fetch_long(&_115$$78, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 517);
-					zephir_array_update_string(&definition, SL("comment"), &_115$$78, PH_COPY | PH_SEPARATE);
+				zephir_array_fetch_long(&_142$$57, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 616);
+				if (Z_TYPE_P(&_142$$57) != IS_NULL) {
+					zephir_array_fetch_long(&_143$$110, &field, 10, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 617);
+					zephir_array_update_string(&definition, SL("comment"), &_143$$110, PH_COPY | PH_SEPARATE);
 				}
 				ZEPHIR_OBS_NVAR(&columnName);
-				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 523);
-				ZEPHIR_INIT_NVAR(&_116$$41);
-				object_init_ex(&_116$$41, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_116$$41, "__construct", &_61, 227, &columnName, &definition);
+				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 623);
+				ZEPHIR_INIT_NVAR(&_144$$57);
+				object_init_ex(&_144$$57, phalcon_db_column_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_144$$57, "__construct", &_75, 230, &columnName, &definition);
 				zephir_check_call_status();
-				zephir_array_append(&columns, &_116$$41, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 524);
+				zephir_array_append(&columns, &_144$$57, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 624);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
 			ZEPHIR_CALL_METHOD(NULL, &fields, "next", NULL, 0);
 			zephir_check_call_status();
@@ -1140,50 +1343,50 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 	ZVAL_LONG(&_3, 3);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchall", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 580);
+	zephir_is_iterable(&_0, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 680);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _4)
 		{
 			ZEPHIR_INIT_NVAR(&reference);
 			ZVAL_COPY(&reference, _4);
-			zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 549);
-			if (!(zephir_array_isset(&references, &constraintName))) {
+			zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 649);
+			if (!(zephir_array_isset_value(&references, &constraintName))) {
 				ZEPHIR_OBS_NVAR(&referencedSchema);
-				zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 552);
+				zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 652);
 				ZEPHIR_OBS_NVAR(&referencedTable);
-				zephir_array_fetch_long(&referencedTable, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 553);
+				zephir_array_fetch_long(&referencedTable, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 653);
 				ZEPHIR_OBS_NVAR(&referenceUpdate);
-				zephir_array_fetch_long(&referenceUpdate, &reference, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 554);
+				zephir_array_fetch_long(&referenceUpdate, &reference, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 654);
 				ZEPHIR_OBS_NVAR(&referenceDelete);
-				zephir_array_fetch_long(&referenceDelete, &reference, 7, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 555);
+				zephir_array_fetch_long(&referenceDelete, &reference, 7, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 655);
 				ZEPHIR_INIT_NVAR(&columns);
 				array_init(&columns);
 				ZEPHIR_INIT_NVAR(&referencedColumns);
 				array_init(&referencedColumns);
 			} else {
-				zephir_array_fetch(&_6$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
+				zephir_array_fetch(&_6$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 659);
 				ZEPHIR_OBS_NVAR(&referencedSchema);
-				zephir_array_fetch_string(&referencedSchema, &_6$$5, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
-				zephir_array_fetch(&_7$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 560);
+				zephir_array_fetch_string(&referencedSchema, &_6$$5, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 659);
+				zephir_array_fetch(&_7$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 660);
 				ZEPHIR_OBS_NVAR(&referencedTable);
-				zephir_array_fetch_string(&referencedTable, &_7$$5, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 560);
-				zephir_array_fetch(&_8$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 561);
+				zephir_array_fetch_string(&referencedTable, &_7$$5, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 660);
+				zephir_array_fetch(&_8$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 661);
 				ZEPHIR_OBS_NVAR(&columns);
-				zephir_array_fetch_string(&columns, &_8$$5, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 561);
-				zephir_array_fetch(&_9$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 562);
+				zephir_array_fetch_string(&columns, &_8$$5, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 661);
+				zephir_array_fetch(&_9$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 662);
 				ZEPHIR_OBS_NVAR(&referencedColumns);
-				zephir_array_fetch_string(&referencedColumns, &_9$$5, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 562);
-				zephir_array_fetch(&_10$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 563);
+				zephir_array_fetch_string(&referencedColumns, &_9$$5, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 662);
+				zephir_array_fetch(&_10$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 663);
 				ZEPHIR_OBS_NVAR(&referenceUpdate);
-				zephir_array_fetch_string(&referenceUpdate, &_10$$5, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 563);
-				zephir_array_fetch(&_11$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 564);
+				zephir_array_fetch_string(&referenceUpdate, &_10$$5, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 663);
+				zephir_array_fetch(&_11$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 664);
 				ZEPHIR_OBS_NVAR(&referenceDelete);
-				zephir_array_fetch_string(&referenceDelete, &_11$$5, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 564);
+				zephir_array_fetch_string(&referenceDelete, &_11$$5, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 664);
 			}
-			zephir_array_fetch_long(&_12$$3, &reference, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 567);
-			zephir_array_append(&columns, &_12$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 567);
-			zephir_array_fetch_long(&_13$$3, &reference, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 568);
-			zephir_array_append(&referencedColumns, &_13$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 568);
+			zephir_array_fetch_long(&_12$$3, &reference, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 667);
+			zephir_array_append(&columns, &_12$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 667);
+			zephir_array_fetch_long(&_13$$3, &reference, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 668);
+			zephir_array_append(&referencedColumns, &_13$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 668);
 			ZEPHIR_INIT_NVAR(&_14$$3);
 			zephir_create_array(&_14$$3, 6, 0);
 			zephir_array_update_string(&_14$$3, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
@@ -1206,44 +1409,44 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 			ZEPHIR_CALL_METHOD(&reference, &_0, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&constraintName);
-				zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 549);
-				if (!(zephir_array_isset(&references, &constraintName))) {
+				zephir_array_fetch_long(&constraintName, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 649);
+				if (!(zephir_array_isset_value(&references, &constraintName))) {
 					ZEPHIR_OBS_NVAR(&referencedSchema);
-					zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 552);
+					zephir_array_fetch_long(&referencedSchema, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 652);
 					ZEPHIR_OBS_NVAR(&referencedTable);
-					zephir_array_fetch_long(&referencedTable, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 553);
+					zephir_array_fetch_long(&referencedTable, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 653);
 					ZEPHIR_OBS_NVAR(&referenceUpdate);
-					zephir_array_fetch_long(&referenceUpdate, &reference, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 554);
+					zephir_array_fetch_long(&referenceUpdate, &reference, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 654);
 					ZEPHIR_OBS_NVAR(&referenceDelete);
-					zephir_array_fetch_long(&referenceDelete, &reference, 7, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 555);
+					zephir_array_fetch_long(&referenceDelete, &reference, 7, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 655);
 					ZEPHIR_INIT_NVAR(&columns);
 					array_init(&columns);
 					ZEPHIR_INIT_NVAR(&referencedColumns);
 					array_init(&referencedColumns);
 				} else {
-					zephir_array_fetch(&_15$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
+					zephir_array_fetch(&_15$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 659);
 					ZEPHIR_OBS_NVAR(&referencedSchema);
-					zephir_array_fetch_string(&referencedSchema, &_15$$8, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 559);
-					zephir_array_fetch(&_16$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 560);
+					zephir_array_fetch_string(&referencedSchema, &_15$$8, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 659);
+					zephir_array_fetch(&_16$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 660);
 					ZEPHIR_OBS_NVAR(&referencedTable);
-					zephir_array_fetch_string(&referencedTable, &_16$$8, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 560);
-					zephir_array_fetch(&_17$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 561);
+					zephir_array_fetch_string(&referencedTable, &_16$$8, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 660);
+					zephir_array_fetch(&_17$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 661);
 					ZEPHIR_OBS_NVAR(&columns);
-					zephir_array_fetch_string(&columns, &_17$$8, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 561);
-					zephir_array_fetch(&_18$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 562);
+					zephir_array_fetch_string(&columns, &_17$$8, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 661);
+					zephir_array_fetch(&_18$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 662);
 					ZEPHIR_OBS_NVAR(&referencedColumns);
-					zephir_array_fetch_string(&referencedColumns, &_18$$8, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 562);
-					zephir_array_fetch(&_19$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 563);
+					zephir_array_fetch_string(&referencedColumns, &_18$$8, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 662);
+					zephir_array_fetch(&_19$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 663);
 					ZEPHIR_OBS_NVAR(&referenceUpdate);
-					zephir_array_fetch_string(&referenceUpdate, &_19$$8, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 563);
-					zephir_array_fetch(&_20$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 564);
+					zephir_array_fetch_string(&referenceUpdate, &_19$$8, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 663);
+					zephir_array_fetch(&_20$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 664);
 					ZEPHIR_OBS_NVAR(&referenceDelete);
-					zephir_array_fetch_string(&referenceDelete, &_20$$8, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 564);
+					zephir_array_fetch_string(&referenceDelete, &_20$$8, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 664);
 				}
-				zephir_array_fetch_long(&_21$$6, &reference, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 567);
-				zephir_array_append(&columns, &_21$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 567);
-				zephir_array_fetch_long(&_22$$6, &reference, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 568);
-				zephir_array_append(&referencedColumns, &_22$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 568);
+				zephir_array_fetch_long(&_21$$6, &reference, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 667);
+				zephir_array_append(&columns, &_21$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 667);
+				zephir_array_fetch_long(&_22$$6, &reference, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 668);
+				zephir_array_append(&referencedColumns, &_22$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 668);
 				ZEPHIR_INIT_NVAR(&_23$$6);
 				zephir_create_array(&_23$$6, 6, 0);
 				zephir_array_update_string(&_23$$6, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
@@ -1260,7 +1463,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 	ZEPHIR_INIT_NVAR(&reference);
 	ZEPHIR_INIT_VAR(&referenceObjects);
 	array_init(&referenceObjects);
-	zephir_is_iterable(&references, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 596);
+	zephir_is_iterable(&references, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 696);
 	if (Z_TYPE_P(&references) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&references), _26, _27, _24)
 		{
@@ -1277,22 +1480,22 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 			ZEPHIR_INIT_NVAR(&_29$$9);
 			zephir_create_array(&_29$$9, 6, 0);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 586);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 686);
 			zephir_array_update_string(&_29$$9, SL("referencedSchema"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 587);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 687);
 			zephir_array_update_string(&_29$$9, SL("referencedTable"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 588);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 688);
 			zephir_array_update_string(&_29$$9, SL("columns"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 589);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 689);
 			zephir_array_update_string(&_29$$9, SL("referencedColumns"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 590);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 690);
 			zephir_array_update_string(&_29$$9, SL("onUpdate"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_30$$9);
-			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 592);
+			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 692);
 			zephir_array_update_string(&_29$$9, SL("onDelete"), &_30$$9, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &_28$$9, "__construct", &_31, 51, &name, &_29$$9);
 			zephir_check_call_status();
@@ -1316,22 +1519,22 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 				ZEPHIR_INIT_NVAR(&_33$$10);
 				zephir_create_array(&_33$$10, 6, 0);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 586);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 686);
 				zephir_array_update_string(&_33$$10, SL("referencedSchema"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 587);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 687);
 				zephir_array_update_string(&_33$$10, SL("referencedTable"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 588);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 688);
 				zephir_array_update_string(&_33$$10, SL("columns"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 589);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 689);
 				zephir_array_update_string(&_33$$10, SL("referencedColumns"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 590);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("onUpdate"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 690);
 				zephir_array_update_string(&_33$$10, SL("onUpdate"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_34$$10);
-				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 592);
+				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 692);
 				zephir_array_update_string(&_33$$10, SL("onDelete"), &_34$$10, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CALL_METHOD(NULL, &_32$$10, "__construct", &_31, 51, &name, &_33$$10);
 				zephir_check_call_status();
@@ -1445,7 +1648,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn)
 
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "begin", NULL, 0);
 			zephir_check_call_status_or_jump(try_end_1);
-			zephir_is_iterable(&queries, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 652);
+			zephir_is_iterable(&queries, 0, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 752);
 			if (Z_TYPE_P(&queries) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queries), _1$$4)
 				{
@@ -1497,7 +1700,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn)
 				ZEPHIR_CPY_WRT(&exception, &_6$$3);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&exception, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 656);
+				zephir_throw_exception_debug(&exception, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 756);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -1505,7 +1708,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn)
 	} else {
 		ZEPHIR_INIT_VAR(&_7$$10);
 		if (!(ZEPHIR_IS_EMPTY(&sql))) {
-			zephir_array_fetch_long(&_8$$10, &queries, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 659);
+			zephir_array_fetch_long(&_8$$10, &queries, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 759);
 			ZEPHIR_INIT_VAR(&_9$$10);
 			ZEPHIR_CONCAT_VS(&_9$$10, &_8$$10, ";");
 			ZEPHIR_CALL_METHOD(&_7$$10, this_ptr, "execute", NULL, 0, &_9$$10);

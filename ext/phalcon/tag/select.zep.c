@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField)
 		zephir_array_update_long(&params, 0, &_0$$5, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	}
 	if (!(zephir_memnstr_str(&id, SL("["), "phalcon/Tag/Select.zep", 56))) {
-		if (!(zephir_array_isset_string(&params, SL("id")))) {
+		if (!(zephir_array_isset_value_string(&params, SL("id")))) {
 			zephir_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
 		}
 	}

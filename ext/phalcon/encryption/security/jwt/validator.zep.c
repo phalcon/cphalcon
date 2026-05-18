@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&claim_zv, claim);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_0, &claim_zv)) {
+	if (zephir_array_isset_value(&_0, &claim_zv)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_2$$3, &_1$$3, &claim_zv, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Validator.zep", 87);
 		RETURN_CTORW(&_2$$3);
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 	_7 = zephir_is_true(&_6);
 	if (_7) {
 		ZVAL_LONG(&_9, timestamp);
-		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 279, &_9);
+		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 282, &_9);
 		zephir_check_call_status();
 		_7 = ZEPHIR_GT_LONG(&_8, tokenExpirationTime);
 	}
@@ -486,7 +486,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 	zephir_check_call_status();
 	tokenIssuedAt = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 279, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 282, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenIssuedAt)) {
 		ZVAL_UNDEF(&_6$$3);
@@ -584,7 +584,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
 	zephir_check_call_status();
 	tokenNotBefore = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 279, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 282, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenNotBefore)) {
 		ZVAL_UNDEF(&_6$$3);

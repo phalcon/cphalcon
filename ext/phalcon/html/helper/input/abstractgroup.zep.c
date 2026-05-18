@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
 	if (Z_TYPE_P(definition) == IS_ARRAY) {
-		_0$$3 = zephir_array_isset_string(definition, SL("label"));
+		_0$$3 = zephir_array_isset_value_string(definition, SL("label"));
 		if (_0$$3) {
 			zephir_memory_observe(&_1$$3);
 			zephir_array_fetch_string(&_1$$3, definition, SL("label"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 125);
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	ZEPHIR_INIT_VAR(&_10);
 	zephir_create_array(&_10, 3, 0);
 	ZEPHIR_INIT_VAR(&_11);
-	if (zephir_array_isset_string(&itemExtras, SL("id"))) {
+	if (zephir_array_isset_value_string(&itemExtras, SL("id"))) {
 		ZEPHIR_OBS_NVAR(&_11);
 		zephir_array_fetch_string(&_11, &itemExtras, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 144);
 	} else {

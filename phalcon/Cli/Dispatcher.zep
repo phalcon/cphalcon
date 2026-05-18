@@ -64,16 +64,16 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      */
     public function callActionMethod(handler, string actionMethod, array! params = []) -> var
     {
-        var params;
+        var localParams;
 
         // This is to make sure that the parameters are zero-indexed and
         // their order isn't overriden by any options when we merge the array.
-        let params = array_values(params);
-        let params = array_merge(params, this->options);
+        let localParams = array_values(params);
+        let localParams = array_merge(localParams, this->options);
 
         return call_user_func_array(
             [handler, actionMethod],
-            params
+            localParams
         );
     }
 

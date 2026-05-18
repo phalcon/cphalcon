@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "yaml");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 213, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 216, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "YamlLoader requires the \"yaml\" PHP extension (pecl/yaml)", "phalcon/Forms/Loader/YamlLoader.zep", 50);
@@ -97,19 +97,19 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("source"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&source, &_2);
-	ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 351, &source);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 357, &source);
 	zephir_check_call_status();
 	_4 = zephir_is_true(&_3);
 	if (_4) {
-		ZEPHIR_CALL_FUNCTION(&_5, "is_readable", NULL, 352, &source);
+		ZEPHIR_CALL_FUNCTION(&_5, "is_readable", NULL, 358, &source);
 		zephir_check_call_status();
 		_4 = zephir_is_true(&_5);
 	}
 	if (_4) {
-		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse_file", NULL, 212, &source);
+		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse_file", NULL, 215, &source);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse", NULL, 356, &source);
+		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse", NULL, 362, &source);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&definitions) != IS_ARRAY) {
@@ -118,9 +118,9 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	}
 	ZEPHIR_INIT_VAR(&loader);
 	object_init_ex(&loader, phalcon_forms_loader_arrayloader_ce);
-	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 354, &definitions);
+	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 360, &definitions);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 355);
+	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 361);
 	zephir_check_call_status();
 	RETURN_MM();
 }

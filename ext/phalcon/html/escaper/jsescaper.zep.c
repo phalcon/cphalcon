@@ -96,9 +96,9 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&input_zv))) {
 		RETURN_MM_STRING("");
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 361, &input_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 367, &input_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 363, &_0);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 369, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_STRING) {
 		RETURN_MM_STRING("");

@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	zephir_array_update_string(&available, SL("sqlite"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&available, SL("mssql"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_fetch_long(&_0, &parts, 0, PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 65);
-	if (!(zephir_array_isset(&available, &_0))) {
+	if (!(zephir_array_isset_value(&available, &_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, spl_ce_InvalidArgumentException);
 		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 67);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!(zephir_array_isset_long(&options, 3))) {
+	if (!(zephir_array_isset_value_long(&options, 3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZVAL_LONG(&_4$$4, 2);
 		zephir_array_update_long(&options, 3, &_4$$4, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 215);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 218);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);

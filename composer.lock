@@ -319,16 +319,16 @@
         },
         {
             "name": "amphp/parallel",
-            "version": "v2.3.4",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/parallel.git",
-                "reference": "3ad45d1cff1bfbfe832c79671e6a4a1017dd9921"
+                "reference": "37f5b2754fadc229c00f9416bd68fb8d04529a81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/parallel/zipball/3ad45d1cff1bfbfe832c79671e6a4a1017dd9921",
-                "reference": "3ad45d1cff1bfbfe832c79671e6a4a1017dd9921",
+                "url": "https://api.github.com/repos/amphp/parallel/zipball/37f5b2754fadc229c00f9416bd68fb8d04529a81",
+                "reference": "37f5b2754fadc229c00f9416bd68fb8d04529a81",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +391,7 @@
             ],
             "support": {
                 "issues": "https://github.com/amphp/parallel/issues",
-                "source": "https://github.com/amphp/parallel/tree/v2.3.4"
+                "source": "https://github.com/amphp/parallel/tree/v2.4.0"
             },
             "funding": [
                 {
@@ -399,7 +399,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-06T19:26:51+00:00"
+            "time": "2026-05-16T16:54:01+00:00"
         },
         {
             "name": "amphp/parser",
@@ -2405,12 +2405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "31493e5ce9ecb9fe02693249d6f0f6a9562a62aa"
+                "reference": "6c2a72925698486f8b0c99badcace7de8eb9c0df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/31493e5ce9ecb9fe02693249d6f0f6a9562a62aa",
-                "reference": "31493e5ce9ecb9fe02693249d6f0f6a9562a62aa",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/6c2a72925698486f8b0c99badcace7de8eb9c0df",
+                "reference": "6c2a72925698486f8b0c99badcace7de8eb9c0df",
                 "shasum": ""
             },
             "require": {
@@ -2483,7 +2483,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-15T13:51:45+00:00"
+            "time": "2026-05-16T22:24:32+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4235,16 +4235,16 @@
         },
         {
             "name": "revolt/event-loop",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/revoltphp/event-loop.git",
-                "reference": "b6fc06dce8e9b523c9946138fa5e62181934f91c"
+                "reference": "44061cf513e53c6200372fc935ac42271566295d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/revoltphp/event-loop/zipball/b6fc06dce8e9b523c9946138fa5e62181934f91c",
-                "reference": "b6fc06dce8e9b523c9946138fa5e62181934f91c",
+                "url": "https://api.github.com/repos/revoltphp/event-loop/zipball/44061cf513e53c6200372fc935ac42271566295d",
+                "reference": "44061cf513e53c6200372fc935ac42271566295d",
                 "shasum": ""
             },
             "require": {
@@ -4254,7 +4254,7 @@
                 "ext-json": "*",
                 "jetbrains/phpstorm-stubs": "^2019.3",
                 "phpunit/phpunit": "^9",
-                "psalm/phar": "^5.15"
+                "psalm/phar": "6.16.*"
             },
             "type": "library",
             "extra": {
@@ -4301,9 +4301,9 @@
             ],
             "support": {
                 "issues": "https://github.com/revoltphp/event-loop/issues",
-                "source": "https://github.com/revoltphp/event-loop/tree/v1.0.8"
+                "source": "https://github.com/revoltphp/event-loop/tree/v1.0.9"
             },
-            "time": "2025-08-27T21:33:23+00:00"
+            "time": "2026-05-16T17:55:38+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -6885,16 +6885,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.24.0",
+            "version": "v3.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a6769aefb305efef849dc25c9fd1653358c148f0"
+                "reference": "0dade995be754556af4dcbf8721d45cb3271f9b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a6769aefb305efef849dc25c9fd1653358c148f0",
-                "reference": "a6769aefb305efef849dc25c9fd1653358c148f0",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/0dade995be754556af4dcbf8721d45cb3271f9b4",
+                "reference": "0dade995be754556af4dcbf8721d45cb3271f9b4",
                 "shasum": ""
             },
             "require": {
@@ -6949,7 +6949,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.24.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.25.0"
             },
             "funding": [
                 {
@@ -6961,7 +6961,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-17T21:31:11+00:00"
+            "time": "2026-05-17T07:41:26+00:00"
         },
         {
             "name": "vimeo/psalm",

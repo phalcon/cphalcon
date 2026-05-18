@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 			ZVAL_COPY(&value, _0);
 			_4$$3 = Z_TYPE_P(&value) == IS_ARRAY;
 			if (_4$$3) {
-				_4$$3 = 1 == zephir_array_isset(&source, &key);
+				_4$$3 = 1 == zephir_array_isset_value(&source, &key);
 			}
 			_5$$3 = _4$$3;
 			if (_5$$3) {
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 			zephir_check_call_status();
 				_10$$5 = Z_TYPE_P(&value) == IS_ARRAY;
 				if (_10$$5) {
-					_10$$5 = 1 == zephir_array_isset(&source, &key);
+					_10$$5 = 1 == zephir_array_isset_value(&source, &key);
 				}
 				_11$$5 = _10$$5;
 				if (_11$$5) {

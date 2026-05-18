@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Session_Manager, has)
 	}
 	ZEPHIR_CALL_METHOD(&uniqueKey, this_ptr, "getuniquekey", NULL, 0, &key_zv);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(zephir_array_isset(&_SESSION, &uniqueKey));
+	RETURN_MM_BOOL(zephir_array_isset_value(&_SESSION, &uniqueKey));
 }
 
 /**
@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 401);
+	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 407);
 	zephir_check_call_status();
 	RETURN_MM();
 }

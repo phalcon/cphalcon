@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 	zephir_get_arrval(&config, config_param);
 	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
-	if (UNEXPECTED(!(zephir_array_isset(&config, &element_zv)))) {
+	if (UNEXPECTED(!(zephir_array_isset_value(&config, &element_zv)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, "You must provide the '", &element_zv, "' option in the factory config parameter.");
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_1$$3);

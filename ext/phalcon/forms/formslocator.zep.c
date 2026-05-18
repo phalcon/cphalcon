@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset(&_0, &type_zv))) {
+	if (!(zephir_array_isset_value(&_0, &type_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &name_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
 }
 
 /**
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &type_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &type_zv));
 }
 
 /**

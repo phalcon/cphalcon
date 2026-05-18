@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, getAdapter)
 		ZVAL_LONG(&_13$$3, 2);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "setoption", NULL, 0, &_13$$3, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 136, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 139, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &connection);
 	}
@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, setSerializer)
 	zephir_read_property(&_10, this_ptr, ZEND_STRL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&serializer);
 	zephir_fast_strtolower(&serializer, &_10);
-	if (1 == zephir_array_isset(&map, &serializer)) {
+	if (1 == zephir_array_isset_value(&map, &serializer)) {
 		ZEPHIR_INIT_VAR(&_11$$6);
 		ZEPHIR_INIT_NVAR(&_11$$6);
 		ZVAL_STRING(&_11$$6, "");

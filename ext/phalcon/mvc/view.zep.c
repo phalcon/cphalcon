@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Mvc_View, __isset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &key_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
 /**
@@ -643,11 +643,11 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial)
 		params = &params_sub;
 		params = &__$null;
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 293);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 296);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, &partialPath_zv, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 295);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 298);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1694,7 +1694,7 @@ PHP_METHOD(Phalcon_Mvc_View, start)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 293);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 296);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &__$null);
 	RETURN_THIS();
@@ -2212,7 +2212,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 							ZEPHIR_CALL_CE_STATIC(&_7$$9, _8$$9, "bind", &_9, 0, &engineService, &di);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&engineService, &_7$$9);
-							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 203, &engineService, this_ptr);
+							ZEPHIR_CALL_FUNCTION(&_7$$9, "call_user_func", &_10, 206, &engineService, this_ptr);
 							zephir_check_call_status();
 							zephir_array_update_zval(&engines, &extension, &_7$$9, PH_COPY | PH_SEPARATE);
 						} else {
@@ -2257,7 +2257,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines)
 								ZEPHIR_CALL_CE_STATIC(&_16$$15, _17$$15, "bind", &_9, 0, &engineService, &di);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&engineService, &_16$$15);
-								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 203, &engineService, this_ptr);
+								ZEPHIR_CALL_FUNCTION(&_16$$15, "call_user_func", &_10, 206, &engineService, this_ptr);
 								zephir_check_call_status();
 								zephir_array_update_zval(&engines, &extension, &_16$$15, PH_COPY | PH_SEPARATE);
 							} else {
@@ -2455,7 +2455,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 	renderLevel = zephir_get_intval(&_9);
 	if (renderLevel) {
 		if (renderLevel >= 1) {
-			if (!(zephir_array_isset_long(&disabledLevels, 1))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 1))) {
 				ZVAL_UNDEF(&_10$$15);
 				ZVAL_LONG(&_10$$15, 1);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_10$$15);
@@ -2469,7 +2469,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 2) {
-			if (!(zephir_array_isset_long(&disabledLevels, 2))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 2))) {
 				ZVAL_UNDEF(&_11$$17);
 				ZVAL_LONG(&_11$$17, 2);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_11$$17);
@@ -2521,7 +2521,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 3) {
-			if (!(zephir_array_isset_long(&disabledLevels, 3))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 3))) {
 				ZVAL_UNDEF(&_18$$21);
 				ZVAL_LONG(&_18$$21, 3);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_18$$21);
@@ -2537,7 +2537,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 4) {
-			if (!(zephir_array_isset_long(&disabledLevels, 4))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 4))) {
 				ZVAL_UNDEF(&_20$$23);
 				ZVAL_LONG(&_20$$23, 4);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_20$$23);
@@ -2589,7 +2589,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			}
 		}
 		if (renderLevel >= 5) {
-			if (!(zephir_array_isset_long(&disabledLevels, 5))) {
+			if (!(zephir_array_isset_value_long(&disabledLevels, 5))) {
 				ZVAL_UNDEF(&_27$$27);
 				ZVAL_LONG(&_27$$27, 5);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("currentRenderLevel"), &_27$$27);

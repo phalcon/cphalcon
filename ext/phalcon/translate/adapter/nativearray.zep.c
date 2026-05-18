@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&index_zv, index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &index_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
 }
 
 /**

@@ -387,10 +387,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect)
 	if (zephir_array_isset_string_fetch(&password, &descriptor, SL("password"), 0)) {
 		zephir_array_unset_string(&descriptor, SL("password"), PH_SEPARATE);
 	}
-	if (zephir_array_isset_string(&descriptor, SL("dialectClass"))) {
+	if (zephir_array_isset_value_string(&descriptor, SL("dialectClass"))) {
 		zephir_array_unset_string(&descriptor, SL("dialectClass"), PH_SEPARATE);
 	}
-	_1 = zephir_array_isset_string(&descriptor, SL("options"));
+	_1 = zephir_array_isset_value_string(&descriptor, SL("options"));
 	if (_1) {
 		zephir_array_fetch_string(&_2, &descriptor, SL("options"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 266);
 		_1 = Z_TYPE_P(&_2) == IS_ARRAY;
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams)
 				ZEPHIR_OBS_NVAR(&value);
 				zephir_array_fetch_long(&_5$$4, &placeMatch, 1, PH_READONLY, "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 340);
 				if (!(zephir_array_isset_fetch(&value, &params, &_5$$4, 0))) {
-					if (UNEXPECTED(!(zephir_array_isset_long(&placeMatch, 2)))) {
+					if (UNEXPECTED(!(zephir_array_isset_value_long(&placeMatch, 2)))) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter was not found in parameters list", "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 344);
 						return;
 					}
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams)
 					ZEPHIR_OBS_NVAR(&value);
 					zephir_array_fetch_long(&_7$$8, &placeMatch, 1, PH_READONLY, "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 340);
 					if (!(zephir_array_isset_fetch(&value, &params, &_7$$8, 0))) {
-						if (UNEXPECTED(!(zephir_array_isset_long(&placeMatch, 2)))) {
+						if (UNEXPECTED(!(zephir_array_isset_value_long(&placeMatch, 2)))) {
 							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter was not found in parameters list", "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 344);
 							return;
 						}

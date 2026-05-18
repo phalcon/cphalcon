@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetExists)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, index));
+	RETURN_BOOL(zephir_array_isset_value(&_0, index));
 }
 
 /**
@@ -496,11 +496,11 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_0, index)) {
+	if (zephir_array_isset_value(&_0, index)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 455, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 312, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}
@@ -533,6 +533,6 @@ PHP_METHOD(Phalcon_Messages_Messages, valid)
 	ZVAL_UNDEF(&_1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("position"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &_1));
+	RETURN_BOOL(zephir_array_isset_value(&_0, &_1));
 }
 

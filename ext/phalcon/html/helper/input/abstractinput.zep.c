@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	zephir_array_update_string(&_0, SL("type"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("name"), &name_zv, PH_COPY | PH_SEPARATE);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_0);
-	_2 = !(zephir_array_isset_string(&attributes, SL("id")));
+	_2 = !(zephir_array_isset_value_string(&attributes, SL("id")));
 	if (_2) {
 		_2 = !(zephir_memnstr_str(&name_zv, SL("["), "phalcon/Html/Helper/Input/AbstractInput.zep", 56));
 	}

@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
-	if (UNEXPECTED(!(zephir_array_isset_string(&config, SL("limit"))))) {
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/Paginator/Adapter/QueryBuilderCursor.zep", 98);
 		return;
 	}
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, paginate)
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&items) > limit) {
 		ZEPHIR_MAKE_REF(&items);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 393, &items);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 399, &items);
 		ZEPHIR_UNREF(&items);
 		zephir_check_call_status();
 		zephir_memory_observe(&lastItem);
