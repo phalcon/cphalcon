@@ -32,6 +32,24 @@ class Manager implements ManagerInterface
     protected enablePriorities = false;
 
     /**
+     * Re-entrancy depth of fire()/fireAll(). 0 means no fire is in
+     * progress. Incremented on every fire entry, decremented on exit.
+     * Used to keep nested fire() calls from clobbering the outer
+     * caller's `$this->responses` accumulator.
+     *
+     * @var int
+     */
+    protected fireDepth = 0;
+
+    /**
+     * When true, fire()/fireAll() throw on dispatch of an event that
+     * has zero matching listeners. Catches typos in dev. Default off.
+     *
+     * @var bool
+     */
+    protected strict = false;
+
+    /**
      * Parsed-eventType cache. Memoizes the strpos + substr work done in
      * fire() so the same event name fired repeatedly (the common case
      * for db:beforeQuery, model:afterSave, etc.) collapses to a single
@@ -49,7 +67,7 @@ class Manager implements ManagerInterface
 
     /**
      * Memoized method_exists() results for the OBJECT_METHOD dispatch
-     * path in fireQueue(). Keyed by `handlerClass => [methodName => bool]`.
+     * path in dispatch(). Keyed by `handlerClass => [methodName => bool]`.
      * A class doesn't gain methods at runtime so the lookup is permanent.
      *
      * @var array
@@ -57,23 +75,40 @@ class Manager implements ManagerInterface
     protected methodExistsCache = [];
 
     /**
+     * Memoized getSubscribedEvents() maps keyed by Subscriber class name.
+     * The static method's return is stable for the lifetime of a class
+     * definition, so the cache never needs invalidation.
+     *
+     * @var array
+     */
+    protected subscriberEventsCache = [];
+
+    /**
      * Listener storage. Shape:
      *
      *   events[$eventType] = [
-     *       [handler, kind, priority],
+     *       [handler, type, priority]            // types 0, 1, 3
+     *       [handler, type, priority, className] // type 2 carries
+     *                                            // resolved class name
      *       ...
      *   ]
      *
-     * kept sorted by priority descending (FIFO within the same priority).
+     * Kept sorted by priority descending when priorities are enabled
+     * (FIFO within the same priority); otherwise listeners are simply
+     * appended in attach order.
      *
-     * `kind` is classified once at attach() time so fireQueue() can
-     * dispatch via a simple branch:
+     * `type` is classified once at attach() time so dispatch() can
+     * route via a simple branch:
      *
-     *   0 — Closure: direct invocation, no array alloc per call
-     *   1 — generic callable (array, string, invokable object):
-     *       call_user_func_array
+     *   0 — Closure: direct invocation via `{handler}(args)`, no
+     *       arg-array alloc per call
+     *   1 — [obj, method] array callable: direct dynamic dispatch
+     *       `handler[0]->{handler[1]}(args)`
      *   2 — plain object: dynamic dispatch via method named after the
-     *       event (the classic Phalcon listener pattern)
+     *       event (the classic Phalcon listener pattern); class name is
+     *       captured at attach time to skip get_class() per fire
+     *   3 — generic callable (string fn name, invokable object,
+     *       [class, staticMethod]): call_user_func_array
      *
      * @var array
      */
@@ -101,7 +136,11 @@ class Manager implements ManagerInterface
         let this->subscribers[spl_object_id(subscriber)] = subscriber;
 
         let className = get_class(subscriber);
-        let events    = {className}::getSubscribedEvents();
+
+        if !fetch events, this->subscriberEventsCache[className] {
+            let events = {className}::getSubscribedEvents();
+            let this->subscriberEventsCache[className] = events;
+        }
 
         for eventName, params in events {
             this->processSubscriberEntry(
@@ -118,73 +157,56 @@ class Manager implements ManagerInterface
      *
      * @param object|callable handler
      */
-    public function attach(
+    final public function attach(
         string eventType,
         var handler,
         int priority = self::DEFAULT_PRIORITY
     ) -> void {
-        var existing, index, queue;
-        int insertAt, kind;
-        array newQueue, tuple;
+        int type;
 
-        // Classify the handler kind ONCE so fireQueue() doesn't have to
+        // Classify the handler type ONCE so fireQueue() doesn't have to
         // run instanceof / is_callable per fire per listener.
+        //
+        //   0 — Closure: direct invocation via Zephir {handler}(args)
+        //   1 — [obj, method] array callable: direct dynamic dispatch
+        //   2 — plain object, method named after the event (classic Phalcon)
+        //   3 — generic callable: string function, invokable object,
+        //       [class, staticMethod] etc.
         if handler instanceof Closure {
-            let kind = 0;
-        } elseif is_callable(handler) {
-            // Generic callable: [obj, method], [class, method], 'function',
-            // or an invokable object (one with __invoke).
-            let kind = 1;
+            let type = 0;
+        } elseif typeof handler == "array"
+            && isset handler[0]
+            && isset handler[1]
+            && typeof handler[0] == "object"
+            && typeof handler[1] == "string"
+        {
+            let type = 1;
         } elseif typeof handler == "object" {
-            // Plain object — method-named-after-event dispatch.
-            let kind = 2;
+            if is_callable(handler) {
+                // Invokable object — generic callable.
+                let type = 3;
+            } else {
+                // Plain object — method named after the event. Capture
+                // the class name once at attach time so fireQueue() can
+                // skip get_class() per fire (type=2 tuples carry it).
+                this->insertHandlerEntry(
+                    eventType,
+                    handler,
+                    2,
+                    priority,
+                    get_class(handler)
+                );
+                return;
+            }
+        } elseif is_callable(handler) {
+            let type = 3;
         } else {
             throw new Exception(
                 "Event handler must be an Object or Callable"
             );
         }
 
-        if !this->enablePriorities {
-            let priority = self::DEFAULT_PRIORITY;
-        }
-
-        let tuple = [handler, kind, priority];
-
-        if !fetch queue, this->events[eventType] {
-            let this->events[eventType] = [tuple];
-
-            return;
-        }
-
-        // Sorted-insert: descending priority, FIFO within same priority.
-        let insertAt = -1;
-
-        for index, existing in queue {
-            if existing[2] < priority {
-                let insertAt = index;
-
-                break;
-            }
-        }
-
-        if insertAt == -1 {
-            let queue[] = tuple;
-            let this->events[eventType] = queue;
-
-            return;
-        }
-
-        let newQueue = [];
-
-        for index, existing in queue {
-            if index == insertAt {
-                let newQueue[] = tuple;
-            }
-
-            let newQueue[] = existing;
-        }
-
-        let this->events[eventType] = newQueue;
+        this->insertHandlerEntry(eventType, handler, type, priority);
     }
 
     /**
@@ -298,19 +320,27 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(
+    final public function fire(
         string eventType,
         object source,
         var data = null,
         bool cancelable = true
     ) {
-        var cached, colonPos, event, eventName, events, fireEvents,
-            status, type;
-        bool hasFullQueue, hasTypeQueue;
+        var cached, colonPos, event, eventName, ex, fireEvents, stashed,
+            status, type, wasDepth;
+        bool collect, hasFullQueue, hasTypeQueue;
 
-        let events = this->events;
+        // Fast exit on a manager with no listeners attached at all.
+        // Done BEFORE parsing the eventType so a misformed name (no
+        // colon) doesn't raise "Invalid event type" on a manager that
+        // would have had nothing to dispatch to anyway.
+        if empty this->events {
+            if unlikely this->strict {
+                throw new Exception(
+                    "No listeners attached for event " . eventType
+                );
+            }
 
-        if empty events {
             return null;
         }
 
@@ -333,105 +363,218 @@ class Manager implements ManagerInterface
             let this->eventNameCache[eventType] = [type, eventName];
         }
 
-        let hasTypeQueue = isset events[type];
-        let hasFullQueue = isset events[eventType];
+        let hasTypeQueue = isset this->events[type];
+        let hasFullQueue = isset this->events[eventType];
 
         // Short-circuit BEFORE allocating Event: in production most fires
         // have zero matching listeners (a model lifecycle event with no
         // user-attached behavior, a DB event without a tracer, etc.).
         if !hasTypeQueue && !hasFullQueue {
+            if unlikely this->strict {
+                throw new Exception(
+                    "No listeners attached for event " . eventType
+                );
+            }
+
             return null;
         }
 
-        if this->collect {
+        // Increment reentrancy depth. Nested fire() calls stash and
+        // restore $this->responses so the outer caller's collected
+        // state is never clobbered.
+        let wasDepth        = this->fireDepth;
+        let this->fireDepth = wasDepth + 1;
+        let collect         = this->collect;
+
+        if collect {
+            if wasDepth > 0 {
+                let stashed = this->responses;
+            }
+
             let this->responses = [];
         }
 
-        let event  = new Event(eventName, source, data, cancelable);
-        let status = null;
+        // Wrap dispatch in try/catch so a throwing listener cannot
+        // leak the incremented fireDepth or the stashed responses —
+        // important for long-lived managers (workers, daemons) where
+        // a single dirty teardown would poison every subsequent fire.
+        try {
+            let event  = new Event(eventName, source, data, cancelable);
+            let status = null;
 
-        if hasTypeQueue {
-            let fireEvents = events[type];
-            let status     = this->fireQueue(fireEvents, event);
+            if hasTypeQueue {
+                let fireEvents = this->events[type];
+                let status     = this->dispatch(
+                    fireEvents,
+                    event,
+                    eventName,
+                    source,
+                    data,
+                    cancelable,
+                    collect
+                );
+            }
+
+            if hasFullQueue && (!cancelable || !event->isStopped()) {
+                let fireEvents = this->events[eventType];
+                let status     = this->dispatch(
+                    fireEvents,
+                    event,
+                    eventName,
+                    source,
+                    data,
+                    cancelable,
+                    collect
+                );
+            }
+        } catch \Throwable, ex {
+            if collect && wasDepth > 0 {
+                let this->responses = stashed;
+            }
+
+            let this->fireDepth = wasDepth;
+            throw ex;
         }
 
-        if hasFullQueue && (!cancelable || !event->isStopped()) {
-            let fireEvents = events[eventType];
-            let status     = this->fireQueue(fireEvents, event);
+        if collect && wasDepth > 0 {
+            let this->responses = stashed;
         }
+
+        let this->fireDepth = wasDepth;
 
         return status;
     }
 
     /**
-     * Internal handler to call a queue of events
+     * Fires an event and returns every listener's return value as an
+     * indexed array. Independent of collectResponses(); the caller's
+     * collected state on `$this->responses` is preserved (stashed and
+     * restored across the call).
+     *
+     *```php
+     * $results = $eventsManager->fireAll("db:beforeQuery", $connection);
+     *```
+     */
+    public function fireAll(
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) -> array
+    {
+        var cached, colonPos, event, eventName, ex, fireEvents, responses,
+            stashed, type, wasDepth;
+        bool hasFullQueue, hasTypeQueue;
+
+        // Fast exit on a manager with no listeners. Mirrors fire().
+        if empty this->events {
+            if unlikely this->strict {
+                throw new Exception(
+                    "No listeners attached for event " . eventType
+                );
+            }
+
+            return [];
+        }
+
+        if fetch cached, this->eventNameCache[eventType] {
+            let type      = cached[0];
+            let eventName = cached[1];
+        } else {
+            let colonPos = strpos(eventType, ":");
+
+            if unlikely colonPos === false {
+                throw new Exception("Invalid event type " . eventType);
+            }
+
+            let type      = substr(eventType, 0, colonPos);
+            let eventName = substr(eventType, colonPos + 1);
+
+            let this->eventNameCache[eventType] = [type, eventName];
+        }
+
+        let hasTypeQueue = isset this->events[type];
+        let hasFullQueue = isset this->events[eventType];
+
+        if !hasTypeQueue && !hasFullQueue {
+            if unlikely this->strict {
+                throw new Exception(
+                    "No listeners attached for event " . eventType
+                );
+            }
+
+            return [];
+        }
+
+        let wasDepth        = this->fireDepth;
+        let this->fireDepth = wasDepth + 1;
+        let stashed         = this->responses;
+        let this->responses = [];
+
+        // Same exception-safety wrap as fire() — a throwing listener
+        // must not leak fireDepth or strand the stashed responses.
+        try {
+            let event = new Event(eventName, source, data, cancelable);
+
+            if hasTypeQueue {
+                let fireEvents = this->events[type];
+                this->dispatch(
+                    fireEvents,
+                    event,
+                    eventName,
+                    source,
+                    data,
+                    cancelable,
+                    true
+                );
+            }
+
+            if hasFullQueue && (!cancelable || !event->isStopped()) {
+                let fireEvents = this->events[eventType];
+                this->dispatch(
+                    fireEvents,
+                    event,
+                    eventName,
+                    source,
+                    data,
+                    cancelable,
+                    true
+                );
+            }
+        } catch \Throwable, ex {
+            let this->responses = stashed;
+            let this->fireDepth = wasDepth;
+            throw ex;
+        }
+
+        let responses       = this->responses;
+        let this->responses = stashed;
+        let this->fireDepth = wasDepth;
+
+        return responses;
+    }
+
+    /**
+     * Internal handler to call a queue of events.
+     *
+     * Kept at its original 2-arg signature for BC; thin wrapper around
+     * the private `dispatch()` helper. Direct callers pay the cost of
+     * re-extracting metadata from the Event; the framework's own fire()
+     * path bypasses this wrapper and calls dispatch() with hoisted args.
      *
      * @return mixed
      */
     final public function fireQueue(array queue, <EventInterface> event)
     {
-        var classCache, data, eventName, handler, handlerClass, hasMethod,
-            source, status, tuple;
-        bool cancelable, collect;
-        int kind;
-
-        let status     = null;
-        let eventName  = event->getType();
-        let source     = event->getSource();
-        let data       = event->getData();
-        let cancelable = (bool) event->isCancelable();
-        let collect    = (bool) this->collect;
-
-        for tuple in queue {
-            let handler = tuple[0];
-            let kind    = tuple[1];
-
-            // Closure: most common path, direct invocation via Zephir's
-            // `{var}(...)` callable-invocation syntax. This goes through
-            // PHP's normal closure call path so arity mismatch (closure
-            // declares fewer params than we pass) is tolerated, unlike
-            // `handler->__invoke(...)` which uses a strict C call.
-            if kind == 0 {
-                let status = {handler}(event, source, data);
-            } elseif kind == 2 {
-                // Plain object — method named after the event.
-                // Cache method_exists per (class, eventName) — classes
-                // don't gain methods at runtime.
-                let handlerClass = get_class(handler);
-
-                if !fetch classCache, this->methodExistsCache[handlerClass] {
-                    let classCache = [];
-                }
-
-                if !fetch hasMethod, classCache[eventName] {
-                    let hasMethod          = method_exists(handler, eventName);
-                    let classCache[eventName] = hasMethod;
-                    let this->methodExistsCache[handlerClass] = classCache;
-                }
-
-                if !hasMethod {
-                    continue;
-                }
-
-                let status = handler->{eventName}(event, source, data);
-            } else {
-                // Generic callable.
-                let status = call_user_func_array(
-                    handler,
-                    [event, source, data]
-                );
-            }
-
-            if collect {
-                let this->responses[] = status;
-            }
-
-            if cancelable && event->isStopped() {
-                break;
-            }
-        }
-
-        return status;
+        return this->dispatch(
+            queue,
+            event,
+            event->getType(),
+            event->getSource(),
+            event->getData(),
+            event->isCancelable(),
+            this->collect
+        );
     }
 
     /**
@@ -488,6 +631,16 @@ class Manager implements ManagerInterface
         return this->collect;
     }
 
+    /**
+     * Returns whether strict mode is enabled. When true, fire()/fireAll()
+     * throw when an event has no matching listeners — useful in dev to
+     * catch typos. Default off.
+     */
+    public function isStrict() -> bool
+    {
+        return this->strict;
+    }
+
     public function isValidHandler(handler) -> bool
     {
         if unlikely typeof handler != "object" && !is_callable(handler) {
@@ -515,7 +668,11 @@ class Manager implements ManagerInterface
         unset this->subscribers[key];
 
         let className = get_class(subscriber);
-        let events    = {className}::getSubscribedEvents();
+
+        if !fetch events, this->subscriberEventsCache[className] {
+            let events = {className}::getSubscribedEvents();
+            let this->subscriberEventsCache[className] = events;
+        }
 
         for eventName, params in events {
             this->processSubscriberEntry(
@@ -528,6 +685,218 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Enables/disables strict mode. When true, fire()/fireAll() throw
+     * when dispatching an event with zero matching listeners.
+     */
+    public function setStrict(bool strict) -> void
+    {
+        let this->strict = strict;
+    }
+
+    /**
+     * Hot dispatch loop. Called by fire()/fireAll() with hoisted args,
+     * and by fireQueue() as a BC wrapper. Owns the documented
+     * aggregation contract:
+     *
+     * 1. **Last non-null wins** — `status` only updates when a listener
+     *    returns a non-null value. A chain of nulls leaves the last
+     *    real return intact.
+     * 2. **stop() determinism** — when a listener calls
+     *    `$event->stop()` (and cancelable=true), that listener's
+     *    return value becomes the dispatch return — even if null.
+     *
+     * Note: returning `false` from a listener does **not** short-circuit
+     * the queue. Callers that want to stop downstream listeners must call
+     * `$event->stop()`. (Some consumers, like the dispatcher, check the
+     * return value of `fire()` for `false` and act on it themselves; that
+     * remains in their own dispatch logic.)
+     *
+     * Appends every listener's return to $this->responses when
+     * `collect` is true (the caller manages stashing/restoring around
+     * nested fires).
+     *
+     * @return mixed
+     */
+    private function dispatch(
+        array queue,
+        <EventInterface> event,
+        string eventName,
+        var source,
+        var data,
+        bool cancelable,
+        bool collect
+    ) {
+        var handler, handlerCallable, handlerClass, handlerObject, type,
+            ret, status, tuple;
+        int queueSize;
+
+        let status    = null;
+        let queueSize = count(queue);
+
+        // Single-handler fast path: very common (one listener attached
+        // for an event). Skip the foreach + per-iter cancelable check.
+        if queueSize == 1 {
+            let tuple   = queue[0];
+            let handler = tuple[0];
+            let type    = tuple[1];
+
+            if type == 0 {
+                let ret = {handler}(event, source, data);
+            } elseif type == 1 {
+                let handlerObject   = handler[0];
+                let handlerCallable = handler[1];
+                let ret = handlerObject->{handlerCallable}(event, source, data);
+            } elseif type == 2 {
+                let handlerClass = tuple[3];
+
+                if !isset this->methodExistsCache[handlerClass][eventName] {
+                    let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
+                }
+
+                if !this->methodExistsCache[handlerClass][eventName] {
+                    return status;
+                }
+
+                let ret = handler->{eventName}(event, source, data);
+            } else {
+                let ret = call_user_func_array(handler, [event, source, data]);
+            }
+
+            if collect {
+                let this->responses[] = ret;
+            }
+
+            return ret;
+        }
+
+        for tuple in queue {
+            let handler = tuple[0];
+            let type    = tuple[1];
+
+            // Closure: direct invocation via Zephir's `{var}(...)`
+            // callable-invocation syntax. Routes through PHP's normal
+            // closure call path so arity mismatch is tolerated, unlike
+            // `handler->__invoke(...)` which uses a strict C call path
+            // that segfaults on mismatch.
+            if type == 0 {
+                let ret = {handler}(event, source, data);
+            } elseif type == 1 {
+                // [obj, method] direct dispatch — no arg-array alloc,
+                // no call_user_func_array overhead.
+                let handlerObject   = handler[0];
+                let handlerCallable = handler[1];
+                let ret = handlerObject->{handlerCallable}(event, source, data);
+            } elseif type == 2 {
+                // Plain object — method named after the event. Class
+                // name was captured at attach time (tuple[3]); cache
+                // method_exists per (class, eventName) since classes
+                // don't gain methods at runtime.
+                let handlerClass = tuple[3];
+
+                if !isset this->methodExistsCache[handlerClass][eventName] {
+                    let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
+                }
+
+                if !this->methodExistsCache[handlerClass][eventName] {
+                    continue;
+                }
+
+                let ret = handler->{eventName}(event, source, data);
+            } else {
+                // type == 3: generic callable (string fn name,
+                // invokable object, [class, staticMethod]).
+                let ret = call_user_func_array(
+                    handler,
+                    [event, source, data]
+                );
+            }
+
+            if collect {
+                let this->responses[] = ret;
+            }
+
+            // stop() determinism: if the listener stopped the event,
+            // its return is the dispatch result (even if null) and the
+            // queue is abandoned.
+            if cancelable && event->isStopped() {
+                return ret;
+            }
+
+            // Last non-null wins.
+            if ret !== null {
+                let status = ret;
+            }
+        }
+
+        return status;
+    }
+
+    /**
+     * Stores a pre-classified listener tuple in the queue for an event
+     * type. Bypasses attach()'s type classification — callers that
+     * already know the type (the subscriber path) skip the instanceof /
+     * is_callable cascade.
+     *
+     * type=2 tuples carry a 4th element `className` so dispatch() can
+     * skip the per-fire get_class() lookup against methodExistsCache.
+     */
+    private function insertHandlerEntry(
+        string eventType,
+        var handler,
+        int type,
+        int priority,
+        var className = null
+    ) -> void {
+        var existing, index, queue, tuple, prioritiesOn;
+        int insertAt;
+
+        let prioritiesOn = this->enablePriorities;
+
+        if !prioritiesOn {
+            let priority = self::DEFAULT_PRIORITY;
+        }
+
+        if type == 2 {
+            let tuple = [handler, type, priority, className];
+        } else {
+            let tuple = [handler, type, priority];
+        }
+
+        if !fetch queue, this->events[eventType] {
+            let this->events[eventType] = [tuple];
+            return;
+        }
+
+        // Priorities disabled (the default): every existing element has
+        // identical priority, so the sorted-insert is wasted work.
+        // Append and return.
+        if !prioritiesOn {
+            let queue[] = tuple;
+            let this->events[eventType] = queue;
+            return;
+        }
+
+        // Sorted-insert: descending priority, FIFO within same priority.
+        let insertAt = -1;
+
+        for index, existing in queue {
+            if existing[2] < priority {
+                let insertAt = index;
+                break;
+            }
+        }
+
+        if insertAt == -1 {
+            let queue[] = tuple;
+            let this->events[eventType] = queue;
+            return;
+        }
+
+        array_splice(queue, insertAt, 0, [tuple]);
+        let this->events[eventType] = queue;
+    }
+
+    /**
      * Parses one entry of a subscriber's getSubscribedEvents() map and either
      * attaches or detaches the resulting listeners depending on `detaching`.
      */
@@ -537,14 +906,18 @@ class Manager implements ManagerInterface
         var params,
         bool detaching
     ) -> void {
-        var firstParam, listener, methodName;
-        int priority;
+        var firstParam, listener, methodName, priority;
 
         if typeof params == "string" {
             if detaching {
                 this->detach(eventName, [subscriber, params]);
             } else {
-                this->attach(eventName, [subscriber, params]);
+                this->insertHandlerEntry(
+                    eventName,
+                    [subscriber, params],
+                    1,
+                    self::DEFAULT_PRIORITY
+                );
             }
 
             return;
@@ -567,15 +940,16 @@ class Manager implements ManagerInterface
             let priority   = self::DEFAULT_PRIORITY;
 
             if isset params[1] {
-                let priority = (int) params[1];
+                let priority = params[1];
             }
 
             if detaching {
                 this->detach(eventName, [subscriber, methodName]);
             } else {
-                this->attach(
+                this->insertHandlerEntry(
                     eventName,
                     [subscriber, methodName],
+                    1,
                     priority
                 );
             }
@@ -589,15 +963,16 @@ class Manager implements ManagerInterface
                 let priority   = self::DEFAULT_PRIORITY;
 
                 if isset listener[1] {
-                    let priority = (int) listener[1];
+                    let priority = listener[1];
                 }
 
                 if detaching {
                     this->detach(eventName, [subscriber, methodName]);
                 } else {
-                    this->attach(
+                    this->insertHandlerEntry(
                         eventName,
                         [subscriber, methodName],
+                        1,
                         priority
                     );
                 }
