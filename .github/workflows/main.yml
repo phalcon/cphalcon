@@ -972,6 +972,10 @@ jobs:
 
       - name: Build the extension
         uses: php/php-windows-builder/extension@v1
+        env:
+          # Drop the PDB debug-symbols file (~21 MB) from the artifact;
+          # it is not needed for runtime use of the extension.
+          no-debug-symbols-phalcon: 'true'
         with:
           args: --enable-phalcon
           php-version: ${{ matrix.php-version }}
@@ -1009,7 +1013,11 @@ jobs:
       - name: Prepare Release assets
         run: |
           mkdir -p ./build-artifacts/release
-          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -exec cp {} ./build-artifacts/release/ ";"
+          # The Windows builder action stages two zips with the same basename:
+          # artifacts/<name>.zip (the DLL bundle) and artifacts/logs/<name>.zip
+          # (build log). Skipping any path containing /logs/ prevents the log
+          # zip from overwriting the DLL zip during this flatten step.
+          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -not -path '*/logs/*' -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
           ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
