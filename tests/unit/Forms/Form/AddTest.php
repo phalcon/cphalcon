@@ -28,7 +28,14 @@ final class AddTest extends AbstractUnitTestCase
      */
     public function testFormsFormAdd(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+
+        $first = new Text('first');
+        $form->add($first);
+
+        $this->assertCount(1, $form);
+        $this->assertTrue($form->has('first'));
+        $this->assertSame($first, $form->get('first'));
     }
 
     /**

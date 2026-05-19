@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use Exception;
+use Phalcon\Support\Debug;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class OnUncaughtExceptionTest extends AbstractUnitTestCase
@@ -23,6 +25,18 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
      */
     public function testSupportDebugOnUncaughtException(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $debug = new Debug();
+        $debug->setShowBackTrace(false);
+        $debug->setShowFiles(false);
+
+        $exception = new Exception('test exception message');
+
+        // onUncaughtException internally calls ob_end_clean() if any
+        // output buffer is active, so we cannot capture its output here
+        // without triggering PHPUnit's "closed unrelated buffer" check.
+        // Verify the return contract only.
+        $this->expectOutputRegex('/test exception message/');
+
+        $this->assertTrue($debug->onUncaughtException($exception));
     }
 }

@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class LabelTest extends AbstractUnitTestCase
- */
 final class LabelTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +27,14 @@ final class LabelTest extends AbstractUnitTestCase
      */
     public function testFormsFormLabel(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+        $form->setTagFactory(new TagFactory(new Escaper()));
+
+        $element = new Text('email');
+        $element->setLabel('Email address');
+
+        $form->add($element);
+
+        $this->assertStringContainsString('Email address', $form->label('email'));
     }
 }

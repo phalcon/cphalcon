@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use Phalcon\Support\Debug;
 use Phalcon\Tests\AbstractUnitTestCase;
+use ReflectionProperty;
 
 final class SetShowFilesTest extends AbstractUnitTestCase
 {
@@ -23,6 +25,19 @@ final class SetShowFilesTest extends AbstractUnitTestCase
      */
     public function testSupportDebugSetShowFiles(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $debug = new Debug();
+
+        $this->assertInstanceOf(Debug::class, $debug->setShowFiles(false));
+        $this->assertFalse($this->readShowFiles($debug));
+
+        $this->assertInstanceOf(Debug::class, $debug->setShowFiles(true));
+        $this->assertTrue($this->readShowFiles($debug));
+    }
+
+    private function readShowFiles(Debug $debug): bool
+    {
+        $property = new ReflectionProperty(Debug::class, 'showFiles');
+        $property->setAccessible(true);
+        return (bool) $property->getValue($debug);
     }
 }

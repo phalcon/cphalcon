@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use Phalcon\Support\Debug;
 use Phalcon\Tests\AbstractUnitTestCase;
+use ReflectionProperty;
 
 final class SetShowBackTraceTest extends AbstractUnitTestCase
 {
@@ -23,6 +25,19 @@ final class SetShowBackTraceTest extends AbstractUnitTestCase
      */
     public function testSupportDebugSetShowBackTrace(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $debug = new Debug();
+
+        $this->assertInstanceOf(Debug::class, $debug->setShowBackTrace(false));
+        $this->assertFalse($this->readShowBackTrace($debug));
+
+        $this->assertInstanceOf(Debug::class, $debug->setShowBackTrace(true));
+        $this->assertTrue($this->readShowBackTrace($debug));
+    }
+
+    private function readShowBackTrace(Debug $debug): bool
+    {
+        $property = new ReflectionProperty(Debug::class, 'showBackTrace');
+        $property->setAccessible(true);
+        return (bool) $property->getValue($debug);
     }
 }

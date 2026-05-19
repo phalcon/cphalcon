@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use stdClass;
 
 final class FireQueueTest extends AbstractUnitTestCase
 {
@@ -23,6 +26,32 @@ final class FireQueueTest extends AbstractUnitTestCase
      */
     public function testEventsManagerFireQueue(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager();
+        $manager->collectResponses(true);
+
+        $closureOne = function (Event $event, $source) {
+            return 'first';
+        };
+        $closureTwo = function (Event $event, $source) {
+            return 'second';
+        };
+
+        // Internal queue tuple format: [handler, type, priority, class].
+        // type=0 marks a Closure handler.
+        $queue = [
+            [$closureOne, 0, 100, ''],
+            [$closureTwo, 0, 100, ''],
+        ];
+
+        $source = new stdClass();
+        $event  = new Event('demo:first', $source, null, true);
+
+        $manager->fireQueue($queue, $event);
+
+        $this->assertSame(['first', 'second'], $manager->getResponses());
+
+        // After halt() fireQueue short-circuits and returns null
+        $manager->halt();
+        $this->assertNull($manager->fireQueue($queue, $event));
     }
 }

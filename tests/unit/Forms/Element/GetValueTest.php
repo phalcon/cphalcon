@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element;
 
+use Phalcon\Forms\Element\TextArea;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetValueTest extends AbstractUnitTestCase
- */
 final class GetValueTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +24,11 @@ final class GetValueTest extends AbstractUnitTestCase
      */
     public function testFormsElementTextareaGetValue(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $element = new TextArea('bio');
+
+        $this->assertNull($element->getValue());
+
+        $element->setDefault('Hello world');
+        $this->assertSame('Hello world', $element->getValue());
     }
 }

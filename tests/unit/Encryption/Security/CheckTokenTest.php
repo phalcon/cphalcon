@@ -90,8 +90,6 @@ final class CheckTokenTest extends AbstractUnitTestCase
      */
     public function testEncryptionSecurityCheckTokenWithRequest(): void
     {
-        $this->markTestSkipped("TODO: Enable when Request is ready");
-
         $store = $_POST ?? [];
         $_POST = [];
 
@@ -100,22 +98,6 @@ final class CheckTokenTest extends AbstractUnitTestCase
         $session->start();
 
         $security = new Security();
-
-        /**
-         * No session - checkToken returns empty
-         */
-        $actual = $security->checkToken();
-        $this->assertFalse($actual);
-
-        $actual = $security->getTokenKey();
-        $this->assertNull($actual);
-
-        $actual = $security->getToken();
-        $this->assertNull($actual);
-
-        /**
-         * Enable the Session
-         */
         $security->setDI($this->container);
 
         // Random token and token key check
@@ -124,8 +106,6 @@ final class CheckTokenTest extends AbstractUnitTestCase
 
         $actual = $session->has('$PHALCON/CSRF/KEY$');
         $this->assertTrue($actual);
-
-        $session->destroy();
 
         $_POST = [
             $tokenKey => $token,

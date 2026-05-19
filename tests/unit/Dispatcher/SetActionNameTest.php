@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SetActionNameTest extends AbstractUnitTestCase
@@ -23,6 +24,10 @@ final class SetActionNameTest extends AbstractUnitTestCase
      */
     public function testDispatcherSetActionName(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setActionName('test');
+
+        $this->assertSame('test', $dispatcher->getActionName());
     }
 }
