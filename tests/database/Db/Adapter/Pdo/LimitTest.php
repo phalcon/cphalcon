@@ -11,23 +11,38 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class LimitTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: limit()
+     * Tests Phalcon\Db\Adapter\Pdo :: limit()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-05-19
+     *
      * @group mysql
      * @group pgsql
      * @group sqlite
      */
-    public function testDbAdapterPdoMysqlLimit(): void
+    public function testDbAdapterPdoLimit(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $db = $this->container->get('db');
+
+        $this->assertSame(
+            'SELECT 1 LIMIT 10',
+            $db->limit('SELECT 1', 10)
+        );
     }
 }
