@@ -110,4 +110,27 @@ final class ConnectTest extends AbstractDatabaseTestCase
 
         $connection->close();
     }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-18
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testDbAdapterPdoConnect(): void
+    {
+        $this->setDatabase();
+
+        $db = $this->container->get('db');
+
+        $db->close();
+        $db->connect();
+
+        $row = $db->fetchOne('SELECT 1 AS one');
+        $this->assertSame(1, (int) $row['one']);
+    }
 }

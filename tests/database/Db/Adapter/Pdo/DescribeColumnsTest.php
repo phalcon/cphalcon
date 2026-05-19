@@ -18,7 +18,10 @@ use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\ComplexDefaultMigration;
 use Phalcon\Tests\Support\Migrations\DialectMigration;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+
+use function env;
 
 final class DescribeColumnsTest extends AbstractDatabaseTestCase
 {
@@ -110,6 +113,87 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
             $actual   = $this->getActual($column);
 
             $this->assertSame($expected, $actual);
+        }
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() cross-adapter sanity
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-18
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testDbAdapterPdoDescribeColumns(): void
+    {
+        $connection = self::getConnection();
+        $db         = $this->container->get('db');
+
+        new InvoicesMigration($connection);
+
+        $columns = $db->describeColumns('co_invoices');
+
+        $names = [];
+        foreach ($columns as $col) {
+            $names[] = $col->getName();
+        }
+        sort($names);
+
+        $this->assertSame(
+            [
+                'inv_created_at',
+                'inv_cst_id',
+                'inv_id',
+                'inv_status_flag',
+                'inv_title',
+                'inv_total',
+            ],
+            $names
+        );
+
+        $byName = [];
+        foreach ($columns as $col) {
+            $byName[$col->getName()] = $col;
+        }
+
+        $this->assertTrue($byName['inv_id']->isPrimary());
+        $this->assertTrue($byName['inv_id']->isAutoIncrement());
+
+        $expectedTypes = [
+            'mysql' => [
+                'inv_id'          => Column::TYPE_INTEGER,
+                'inv_cst_id'      => Column::TYPE_INTEGER,
+                'inv_status_flag' => Column::TYPE_TINYINTEGER,
+                'inv_title'       => Column::TYPE_VARCHAR,
+                'inv_total'       => Column::TYPE_FLOAT,
+                'inv_created_at'  => Column::TYPE_DATETIME,
+            ],
+            'pgsql' => [
+                'inv_id'          => Column::TYPE_INTEGER,
+                'inv_cst_id'      => Column::TYPE_INTEGER,
+                'inv_status_flag' => Column::TYPE_SMALLINTEGER,
+                'inv_title'       => Column::TYPE_VARCHAR,
+                'inv_total'       => Column::TYPE_DECIMAL,
+                'inv_created_at'  => Column::TYPE_TIMESTAMP,
+            ],
+            'sqlite' => [
+                'inv_id'          => Column::TYPE_INTEGER,
+                'inv_cst_id'      => Column::TYPE_INTEGER,
+                'inv_status_flag' => Column::TYPE_INTEGER,
+                'inv_title'       => Column::TYPE_TEXT,
+                'inv_total'       => Column::TYPE_FLOAT,
+                'inv_created_at'  => Column::TYPE_TEXT,
+            ],
+        ][env('driver')];
+
+        foreach ($expectedTypes as $col => $type) {
+            $this->assertSame(
+                $type,
+                $byName[$col]->getType(),
+                "Column '{$col}' type mismatch"
+            );
         }
     }
 
