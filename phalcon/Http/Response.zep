@@ -20,6 +20,9 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Response\Exceptions\NonStandardStatusCodeRequiresMessage;
+use Phalcon\Http\Response\Exceptions\ResponseAlreadySent;
+use Phalcon\Http\Response\Exceptions\UrlServiceUnavailable;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
@@ -148,9 +151,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             let container = Di::getDefault();
 
             if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'url' service"
-                );
+                throw new UrlServiceUnavailable();
             }
 
             let this->container = container;
@@ -340,7 +341,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         var content, file;
 
         if unlikely this->sent {
-            throw new Exception("Response was already sent");
+            throw new ResponseAlreadySent();
         }
 
         this->sendHeaders();
@@ -819,9 +820,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             ];
 
             if unlikely !isset statusCodes[code] {
-                throw new Exception(
-                    "Non-standard status-code given without a message"
-                );
+                throw new NonStandardStatusCodeRequiresMessage();
             }
 
             let defaultMessage = statusCodes[code],

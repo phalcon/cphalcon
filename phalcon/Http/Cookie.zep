@@ -10,13 +10,17 @@
 
 namespace Phalcon\Http;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Crypt\CryptInterface;
 use Phalcon\Filter\FilterInterface;
-use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
+use Phalcon\Http\Cookie\Exceptions\CookieKeyTooShort;
+use Phalcon\Http\Cookie\Exceptions\CryptInterfaceRequired;
+use Phalcon\Http\Cookie\Exceptions\CryptServiceUnavailable;
+use Phalcon\Http\Cookie\Exceptions\FilterServiceUnavailable;
+use Phalcon\Http\Response\Exception;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
@@ -259,17 +263,13 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                 let container = <DiInterface> this->container;
 
                 if container === null {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'filter' and 'crypt' services"
-                    );
+                    throw new CryptServiceUnavailable();
                 }
 
                 let crypt = <CryptInterface> container->getShared("crypt");
 
                 if unlikely typeof crypt != "object" {
-                    throw new Exception(
-                        "A dependency which implements CryptInterface is required to use encryption"
-                    );
+                    throw new CryptInterfaceRequired();
                 }
 
                 /**
@@ -308,9 +308,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                         let container = <DiInterface> this->container;
 
                         if container === null {
-                            throw new Exception(
-                                "A dependency injection container is required to access the 'filter' service"
-                            );
+                            throw new FilterServiceUnavailable();
                         }
                     }
 
@@ -456,17 +454,13 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         if this->useEncryption && !empty value {
             if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'filter' service"
-                );
+                throw new FilterServiceUnavailable();
             }
 
             let crypt = <CryptInterface> container->getShared("crypt");
 
             if unlikely typeof crypt !== "object" {
-                throw new Exception(
-                    "A dependency which implements CryptInterface is required to use encryption"
-                );
+                throw new CryptInterfaceRequired();
             }
 
             /**
@@ -640,12 +634,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         let length = mb_strlen(signKey);
 
         if unlikely length < 32 {
-            throw new CookieException(
-                sprintf(
-                    "The cookie's key should be at least 32 characters long. Current length is %d.",
-                    length
-                )
-            );
+            throw new CookieKeyTooShort(length);
         }
     }
 

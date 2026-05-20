@@ -11,6 +11,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\InvalidLimit;
 use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
 
@@ -99,7 +100,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function setLimit(int limit) -> <AdapterInterface>
     {
         if limit <= 0 {
-            throw new Exception("Limit must be greater than zero");
+            throw new InvalidLimit();
         }
         let this->limitRows = limit;
 

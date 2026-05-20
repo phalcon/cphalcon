@@ -10,14 +10,19 @@
 
 namespace Phalcon\Http;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Message\RequestMethodInterface;
+use Phalcon\Http\Request\Exception;
+use Phalcon\Http\Request\Exceptions\FilterServiceUnavailable;
+use Phalcon\Http\Request\Exceptions\InvalidHost;
+use Phalcon\Http\Request\Exceptions\InvalidHttpMethod;
+use Phalcon\Http\Request\Exceptions\MissingFilters;
+use Phalcon\Http\Request\Exceptions\SanitizerNotFound;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
-use Phalcon\Http\Request\Exception;
 use Phalcon\Support\Helper\Json\Decode;
 use UnexpectedValueException;
 use stdClass;
@@ -583,7 +588,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
              * the hyphen ('-') as per RFC 952/2181
              */
             if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", cleanHost)) {
-                throw new UnexpectedValueException("Invalid host " . host);
+                throw new InvalidHost(host);
             }
         } else {
             let cleanHost = host;
@@ -1176,7 +1181,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         if typeof methods == "string" {
             if unlikely (strict && !this->isValidHttpMethod(methods)) {
-                throw new Exception("Invalid HTTP method: " . methods);
+                throw new InvalidHttpMethod(methods);
             }
 
             return methods == httpMethod;
@@ -1193,7 +1198,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         if unlikely strict {
-            throw new Exception("Invalid HTTP method: non-string");
+            throw new InvalidHttpMethod("non-string");
         }
 
         return false;
@@ -1372,18 +1377,14 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         var filterService, sanitizer, localScope, scopeMethod;
 
         if unlikely count(filters) < 1 {
-            throw new Exception(
-                "Filters have not been defined for '" . name . "'"
-            );
+            throw new MissingFilters(name);
         }
 
         let filterService = this->getFilterService();
 
         for sanitizer in filters {
             if unlikely true !== filterService->has(sanitizer) {
-                throw new Exception(
-                    "Sanitizer '" . sanitizer . "' does not exist in the filter locator"
-                );
+                throw new SanitizerNotFound(sanitizer);
             }
         }
 
@@ -1809,9 +1810,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             let container = <DiInterface> this->container;
 
             if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'filter' service"
-                );
+                throw new FilterServiceUnavailable();
             }
 
             let filterService       = <FilterInterface> container->getShared("filter"),

@@ -10,10 +10,11 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Http\Cookie\Exception;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\Cookie\CookieInterface;
+use Phalcon\Http\Cookie\Exception;
+use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
 
 /**
  * Phalcon\Http\Response\Cookies
@@ -350,9 +351,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         let container = this->container;
 
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access the 'response' service"
-            );
+            throw new ResponseServiceUnavailable();
         }
 
         return container;
