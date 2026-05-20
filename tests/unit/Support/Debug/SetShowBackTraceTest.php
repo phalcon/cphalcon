@@ -37,7 +37,7 @@ final class SetShowBackTraceTest extends AbstractUnitTestCase
     private function readShowBackTrace(Debug $debug): bool
     {
         $property = new ReflectionProperty(Debug::class, 'showBackTrace');
-        $property->setAccessible(true);
+
         return (bool) $property->getValue($debug);
     }
 }
