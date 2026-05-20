@@ -16,7 +16,6 @@
 namespace Phalcon\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
-use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
 use Phalcon\DataMapper\Pdo\Exception\UnknownDriverMethod;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
