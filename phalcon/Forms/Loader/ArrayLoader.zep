@@ -32,7 +32,7 @@ class ArrayLoader implements Schema
     }
 
     /**
-     * @return array
+     * @phpstan-return array<int, array<string, mixed>>
      * @throws Exception
      */
     public function load() -> array
