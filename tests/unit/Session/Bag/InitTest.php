@@ -30,38 +30,35 @@ final class InitTest extends AbstractUnitTestCase
      */
     public function testSessionBagInit(): void
     {
-        $this->markTestSkipped('TODO: Check this test');
-
-        $store = $_SESSION ?? [];
-
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
 
-        $name            = uniqid();
-        $_SESSION[$name] = [
+        $session = $this->container->get('session');
+        $this->assertInstanceOf(Manager::class, $session);
+        $session->start();
+
+        $name = uniqid('bag-');
+        $session->set($name, [
             'one'   => 'two',
             'three' => 'four',
-        ];
+        ]);
 
+        // Constructor pulls existing data out of the session under $name.
+        $collection = new Bag($session, $name);
+        $this->assertSame(2, $collection->count());
+
+        // init() replaces the bag contents and writes back through the
+        // session.
         $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-
-        $session = $this->container->get("session");
-        $this->assertInstanceOf(Manager::class, $session);
-
-        $collection = new Bag($session, $name);
-
-        $expected = 2;
-        $actual   = $collection->count();
-        $this->assertEquals($expected, $actual);
-
         $collection->init($data);
-        $actual = $collection->toArray();
-        $this->assertEquals($data, $actual);
 
-        $_SESSION = $store;
+        $this->assertSame($data, $collection->toArray());
+        $this->assertSame($data, $session->get($name));
+
+        $session->destroy();
     }
 }

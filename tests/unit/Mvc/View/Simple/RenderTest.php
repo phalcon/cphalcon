@@ -26,6 +26,7 @@ use function ob_end_clean;
 use function ob_get_level;
 use function ob_start;
 use function sprintf;
+use function supportDir;
 
 class RenderTest extends AbstractUnitTestCase
 {
@@ -94,18 +95,22 @@ class RenderTest extends AbstractUnitTestCase
      */
     public function testRenderFilenameWithoutEngine(): void
     {
-        $this->markTestSkipped('TODO: Check open buffers');
+        $startLevel = ob_get_level();
+
         try {
             $view = $this->container->get('viewSimple');
             $view->setParamToView('name', 'FooBar');
             $view->render('unknown/view');
         } catch (Exception $ex) {
-            $view->finish();
-            ob_end_clean();
+            // Drain any buffers opened by render() before it threw.
+            while (ob_get_level() > $startLevel) {
+                ob_end_clean();
+            }
+
             $actual   = $ex->getMessage();
             $expected = sprintf(
-                "View '%sfixtures/views/unknown/view' was not found in the views directory",
-                dataDir()
+                "View '%sunknown/view' was not found in the views directory",
+                supportDir('assets/views/')
             );
             $this->assertSame($expected, $actual);
         }
@@ -117,17 +122,24 @@ class RenderTest extends AbstractUnitTestCase
      */
     public function testRenderMissingView(): void
     {
-        $this->markTestSkipped('TODO: Check open buffers');
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            sprintf(
-                "View '%sfixtures/views/unknown/view' was not found in the views directory",
-                dataDir()
-            )
-        );
+        $startLevel = ob_get_level();
+        $view       = $this->container->get('viewSimple');
 
-        $view = $this->container->get('viewSimple');
-        $view->render('unknown/view');
+        try {
+            $view->render('unknown/view');
+            $this->fail('Expected View Exception was not thrown.');
+        } catch (Exception $ex) {
+            // Drain any buffers opened by render() before it threw.
+            while (ob_get_level() > $startLevel) {
+                ob_end_clean();
+            }
+
+            $expected = sprintf(
+                "View '%sunknown/view' was not found in the views directory",
+                supportDir('assets/views/')
+            );
+            $this->assertSame($expected, $ex->getMessage());
+        }
     }
 
     /**

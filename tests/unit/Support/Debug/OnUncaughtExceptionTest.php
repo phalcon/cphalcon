@@ -31,10 +31,14 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
 
         $exception = new Exception('test exception message');
 
-        // onUncaughtException internally calls ob_end_clean() if any
-        // output buffer is active, so we cannot capture its output here
-        // without triggering PHPUnit's "closed unrelated buffer" check.
-        // Verify the return contract only.
+        // onUncaughtException unconditionally closes whatever output
+        // buffer is active before echoing its render — including
+        // PHPUnit's per-test capture. PHPUnit flags this as a "risky"
+        // test because the production code closed a buffer it didn't
+        // own, but the assertion below still runs and passes. There
+        // is no portable way to exercise this method from a phpunit
+        // context without that warning; the render output itself is
+        // covered by RenderHtmlTest.
         $this->expectOutputRegex('/test exception message/');
 
         $this->assertTrue($debug->onUncaughtException($exception));

@@ -542,6 +542,25 @@ create table stuff
     `stf_name` varchar(100) not null,
     `stf_type` tinyint(3) unsigned not null
 );
-            
+
+
+DROP TABLE IF EXISTS `foreign_key_child`;
+DROP TABLE IF EXISTS `foreign_key_parent`;
+
+CREATE TABLE `foreign_key_parent` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `refer_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_parent_refer_int` (`refer_int`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `foreign_key_child` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `child_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_child_child_int` (`child_int`)
+) ENGINE=InnoDB;
 
 SET FOREIGN_KEY_CHECKS=1;

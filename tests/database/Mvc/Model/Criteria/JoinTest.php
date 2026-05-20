@@ -72,18 +72,14 @@ final class JoinTest extends AbstractDatabaseTestCase
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
     public function testMvcModelCriteriaJoinManyToManyMultipleSchema(): void
     {
-        $this->markTestSkipped('TODO: Check the schemas');
+        // sqlite is excluded above — it doesn't model multiple schemas
+        // the way mysql/pgsql do, so the `private.co_orders_x_products`
+        // join the test asserts on can't be produced there.
         $this->setDatabase();
 
-        /**
-         * The following test needs to skip sqlite because I think
-         * we can't create multiple schemas with sqlite
-         */
         $criteria = new Criteria();
         $criteria->setDI($this->container);
 

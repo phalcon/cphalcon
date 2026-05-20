@@ -21,6 +21,9 @@ use function env;
 
 final class MysqlTest extends AbstractDatabaseTestCase
 {
+    private const CHILD  = 'foreign_key_child';
+    private const PARENT = 'foreign_key_parent';
+
     /**
      * @var Mysql|null
      */
@@ -49,6 +52,15 @@ final class MysqlTest extends AbstractDatabaseTestCase
                 'Unable to connect to the database: ' . $e->getMessage()
             );
         }
+
+        $this->dropAllForeignKeys();
+    }
+
+    public function tearDown(): void
+    {
+        if ($this->connection !== null) {
+            $this->dropAllForeignKeys();
+        }
     }
 
     /**
@@ -59,16 +71,12 @@ final class MysqlTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @group  mysql
      */
     public function testDbAdapterPdoMysqlShouldAddForeignKey(
         string $sql,
         bool $expected
     ): void {
-        $this->markTestSkipped('Need implementation - foreign_key_child table not in current schema');
-
         $this->assertEquals(
             $expected,
             $this->connection->execute($sql)
@@ -76,55 +84,47 @@ final class MysqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Mysql::getForeignKey
+     * Tests Mysql::getForeignKey via information_schema lookup
      *
      * @dataProvider getShouldCheckAddedForeignKeyProvider
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @group  mysql
      */
     public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
-        string $sql,
-        bool $expected
+        string $addSql,
+        string $checkSql
     ): void {
-        $this->markTestSkipped('Need implementation - foreign_key_child table not in current schema');
+        // Each row is self-contained: add the FK, then verify it shows up
+        // in information_schema.REFERENTIAL_CONSTRAINTS with the expected
+        // UPDATE/DELETE rules and name.
+        $this->connection->execute($addSql);
 
-        $actual = $this->connection->execute(
-            $sql,
-            [
-                'MYSQL_ATTR_USE_BUFFERED_QUERY',
-            ]
-        );
-
-        $this->assertEquals($expected, $actual);
+        $row = $this->connection->fetchOne($checkSql, \Phalcon\Db\Enum::FETCH_NUM);
+        $this->assertSame(1, (int) $row[0]);
     }
 
     /**
-     * Tests Mysql::dropAddForeignKey
+     * Tests Mysql::dropForeignKey
      *
      * @dataProvider getShouldDropForeignKeyProvider
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @group  mysql
      */
     public function testDbAdapterPdoMysqlShouldDropForeignKey(
-        string $sql,
-        bool $expected
+        string $addSql,
+        string $dropSql
     ): void {
-        $this->markTestSkipped('Need implementation - foreign_key_child table not in current schema');
+        // Self-contained: add the FK first so the drop has something to
+        // remove regardless of test ordering.
+        $this->connection->execute($addSql);
 
-        $this->assertEquals(
-            $expected,
-            $this->connection->execute($sql)
-        );
+        $this->assertTrue($this->connection->execute($dropSql));
     }
 
     /**
@@ -145,35 +145,35 @@ final class MysqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @return array<array{0: string, 1: bool}>
+     * @return array<array{0: string, 1: string}>
      */
     public static function getShouldCheckAddedForeignKeyProvider(): array
     {
         return [
             [
+                self::addForeignKeySql('test_name_key', 'CASCADE', 'RESTRICT'),
                 self::getForeignKeySql('test_name_key'),
-                true,
             ],
             [
+                self::addForeignKeySql('', 'CASCADE', 'RESTRICT'),
                 self::getForeignKeySql('foreign_key_child_ibfk_1'),
-                true,
             ],
         ];
     }
 
     /**
-     * @return array<array{0: string, 1: bool}>
+     * @return array<array{0: string, 1: string}>
      */
     public static function getShouldDropForeignKeyProvider(): array
     {
         return [
             [
+                self::addForeignKeySql('test_name_key', 'CASCADE', 'RESTRICT'),
                 'ALTER TABLE `foreign_key_child` DROP FOREIGN KEY test_name_key',
-                true,
             ],
             [
+                self::addForeignKeySql('', 'CASCADE', 'RESTRICT'),
                 'ALTER TABLE `foreign_key_child` DROP FOREIGN KEY foreign_key_child_ibfk_1',
-                true,
             ],
         ];
     }
@@ -223,5 +223,27 @@ final class MysqlTest extends AbstractDatabaseTestCase
                 `UPDATE_RULE` = 'CASCADE' AND
                 `DELETE_RULE` = 'RESTRICT' AND
                 `CONSTRAINT_NAME` = '{$foreignKeyName}'";
+    }
+
+    /**
+     * Drop every FK currently defined on foreign_key_child so each test
+     * can rely on a clean slate regardless of what previous tests (or
+     * previous runs) left behind.
+     */
+    private function dropAllForeignKeys(): void
+    {
+        $rows = $this->connection->fetchAll(
+            "SELECT CONSTRAINT_NAME FROM information_schema.KEY_COLUMN_USAGE
+             WHERE TABLE_SCHEMA = DATABASE()
+               AND TABLE_NAME = '" . self::CHILD . "'
+               AND REFERENCED_TABLE_NAME IS NOT NULL"
+        );
+
+        foreach ($rows as $row) {
+            $name = $row['CONSTRAINT_NAME'];
+            $this->connection->execute(
+                'ALTER TABLE `' . self::CHILD . '` DROP FOREIGN KEY `' . $name . '`'
+            );
+        }
     }
 }
