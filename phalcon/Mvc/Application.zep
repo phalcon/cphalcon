@@ -13,11 +13,14 @@ namespace Phalcon\Mvc;
 use Closure;
 use Phalcon\Application\AbstractApplication;
 use Phalcon\Di\DiInterface;
-use Phalcon\Http\ResponseInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application\Exception;
-use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Application\Exceptions\ContainerRequired;
+use Phalcon\Mvc\Application\Exceptions\InvalidModuleDefinition;
+use Phalcon\Mvc\Application\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Mvc\Router\RouteInterface;
 
 /**
  * Phalcon\Mvc\Application
@@ -95,9 +98,7 @@ class Application extends AbstractApplication
         let container = this->container;
 
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access internal services"
-            );
+            throw new ContainerRequired();
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;
@@ -193,7 +194,7 @@ class Application extends AbstractApplication
              * A module definition must ne an array or an object
              */
             if unlikely (typeof module !== "array" && typeof module !== "object") {
-                throw new Exception("Invalid module definition");
+                throw new InvalidModuleDefinition();
             }
 
             /**
@@ -213,9 +214,7 @@ class Application extends AbstractApplication
                  */
                 if fetch path, module["path"] {
                     if unlikely !file_exists(path) {
-                        throw new Exception(
-                            "Module definition path '" . path . "' does not exist"
-                        );
+                        throw new ModuleDefinitionPathNotFound(path);
                     }
 
                     if !class_exists(className, false) {
@@ -236,7 +235,7 @@ class Application extends AbstractApplication
                  * A module definition object, can be a Closure instance
                  */
                 if unlikely !(module instanceof Closure) {
-                    throw new Exception("Invalid module definition");
+                    throw new InvalidModuleDefinition();
                 }
 
                 let moduleObject = call_user_func_array(
