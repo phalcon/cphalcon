@@ -10,6 +10,7 @@
 
 namespace Phalcon\Application;
 
+use Phalcon\Application\Exceptions\ModuleNotRegistered;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
@@ -78,9 +79,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
         var module;
 
         if unlikely !fetch module, this->modules[name] {
-            throw new Exception(
-                "Module '" . name . "' is not registered in the application container"
-            );
+            throw new ModuleNotRegistered(name);
         }
 
         return module;

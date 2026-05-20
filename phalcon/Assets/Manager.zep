@@ -12,6 +12,13 @@ namespace Phalcon\Assets;
 
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Asset\Js as AssetJs;
+use Phalcon\Assets\Exceptions\AssetSourceTargetCollision;
+use Phalcon\Assets\Exceptions\CollectionNotFound;
+use Phalcon\Assets\Exceptions\InvalidAssetSourcePath;
+use Phalcon\Assets\Exceptions\InvalidAssetTargetPath;
+use Phalcon\Assets\Exceptions\InvalidFilter;
+use Phalcon\Assets\Exceptions\InvalidTargetPath;
+use Phalcon\Assets\Exceptions\TargetPathIsDirectory;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Di\AbstractInjectionAware;
@@ -286,7 +293,7 @@ class Manager extends AbstractInjectionAware
     public function get(string! name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
-            throw new Exception("The collection does not exist in the manager");
+            throw new CollectionNotFound();
         }
 
         return this->collections[name];
@@ -452,15 +459,11 @@ class Manager extends AbstractInjectionAware
                  * We need a valid final target path
                  */
                 if (true === empty(completeTargetPath)) {
-                    throw new Exception(
-                        "Path '" . completeTargetPath . "' is not a valid target path (1)"
-                    );
+                    throw new InvalidTargetPath(completeTargetPath);
                 }
 
                 if (true === is_dir(completeTargetPath)) {
-                    throw new Exception(
-                        "Path '" . completeTargetPath . "' is not a valid target path (2), it is a directory."
-                    );
+                    throw new TargetPathIsDirectory(completeTargetPath);
                 }
             }
         }
@@ -488,9 +491,7 @@ class Manager extends AbstractInjectionAware
                     if (true === empty(sourcePath)) {
                         let sourcePath = asset->getPath();
 
-                        throw new Exception(
-                            "Asset '" . sourcePath . "' does not have a valid source path"
-                        );
+                        throw new InvalidAssetSourcePath(sourcePath);
                     }
                 }
 
@@ -504,9 +505,7 @@ class Manager extends AbstractInjectionAware
                  * We need a valid final target path
                  */
                 if (true === empty(targetPath)) {
-                    throw new Exception(
-                        "Asset '" . sourcePath . "' does not have a valid target path"
-                    );
+                    throw new InvalidAssetTargetPath(sourcePath);
                 }
 
                 if (true === asset->isLocal()) {
@@ -514,9 +513,7 @@ class Manager extends AbstractInjectionAware
                      * Make sure the target path is not the same source path
                      */
                     if (targetPath === sourcePath) {
-                        throw new Exception(
-                            "Asset '" . targetPath . "' have the same source and target paths"
-                        );
+                        throw new AssetSourceTargetCollision(targetPath);
                     }
 
                     if (true === file_exists(targetPath)) {
@@ -578,7 +575,7 @@ class Manager extends AbstractInjectionAware
                          * Filters must be valid objects
                          */
                         if (typeof filter !== "object") {
-                            throw new Exception("The filter is not valid");
+                            throw new InvalidFilter();
                         }
 
                         /**
@@ -739,7 +736,7 @@ class Manager extends AbstractInjectionAware
                      * Filters must be valid objects
                      */
                     if (typeof filter !== "object") {
-                        throw new Exception("The filter is not valid");
+                        throw new InvalidFilter();
                     }
 
                     /**
