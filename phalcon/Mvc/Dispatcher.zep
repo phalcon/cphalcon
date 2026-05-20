@@ -10,10 +10,11 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Dispatcher\Exception;
+use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
+use Phalcon\Mvc\Dispatcher\Exception;
+use Phalcon\Mvc\Dispatcher\Exceptions\ResponseServiceUnavailable;
 
 /**
  * Dispatching is the process of taking the request object, extracting the
@@ -222,10 +223,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         let container = this->container;
 
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access the 'response' service",
-                Exception::EXCEPTION_NO_DI
-            );
+            throw new ResponseServiceUnavailable();
         }
 
         let response = <ResponseInterface> container->getShared("response");
