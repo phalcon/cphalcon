@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\Query\Exceptions;
 
 use Phalcon\Mvc\Model\Exception;
 
-class NonResultsetCacheable extends Exception
+class ResultsetNonCacheable extends Exception
 {
     public function __construct()
     {

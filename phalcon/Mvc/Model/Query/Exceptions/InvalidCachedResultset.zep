@@ -15,6 +15,6 @@ class InvalidCachedResultset extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Cache didn't return a valid resultset");
+        parent::__construct("Cache did not return a valid resultset");
     }
 }

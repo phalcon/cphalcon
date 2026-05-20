@@ -18,7 +18,7 @@ class ColumnNotInSelectedModels extends Exception
     {
         parent::__construct(
             "Column '"
-            . columnName
+            . name
             . "' does not belong to any of the selected models ("
             . tag
             . "), when preparing: "

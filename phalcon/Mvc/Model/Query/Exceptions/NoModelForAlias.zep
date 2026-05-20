@@ -17,7 +17,7 @@ class NoModelForAlias extends Exception
     {
         parent::__construct(
             "There is no model related to model or alias '"
-            . columnDomain
+            . model
             . "', when executing: "
             . phql
         );
