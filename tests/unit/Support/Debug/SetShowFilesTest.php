@@ -37,7 +37,7 @@ final class SetShowFilesTest extends AbstractUnitTestCase
     private function readShowFiles(Debug $debug): bool
     {
         $property = new ReflectionProperty(Debug::class, 'showFiles');
-        $property->setAccessible(true);
+
         return (bool) $property->getValue($debug);
     }
 }
