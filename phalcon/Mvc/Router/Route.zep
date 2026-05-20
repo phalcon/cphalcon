@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Mvc\Router\Exceptions\InvalidRoutePaths;
+
 /**
  * Phalcon\Mvc\Router\Route
  *
@@ -516,7 +518,7 @@ class Route implements RouteInterface
         }
 
         if unlikely typeof routePaths !== "array" {
-            throw new Exception("The route contains invalid paths");
+            throw new InvalidRoutePaths();
         }
 
         return routePaths;

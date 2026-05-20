@@ -11,12 +11,24 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Config\ConfigInterface;
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Mvc\Router\Exception;
+use Phalcon\Mvc\Router\Exceptions\BeforeMatchNotCallable;
+use Phalcon\Mvc\Router\Exceptions\ConfigKeyMustBeArray;
+use Phalcon\Mvc\Router\Exceptions\EmptyGroupOfRoutes;
+use Phalcon\Mvc\Router\Exceptions\GroupRoutesMustBeArray;
+use Phalcon\Mvc\Router\Exceptions\InvalidConfigSource;
+use Phalcon\Mvc\Router\Exceptions\InvalidNotFoundPaths;
+use Phalcon\Mvc\Router\Exceptions\InvalidRoutePosition;
+use Phalcon\Mvc\Router\Exceptions\MissingGroupRouteKey;
+use Phalcon\Mvc\Router\Exceptions\MissingRouteConfigKey;
+use Phalcon\Mvc\Router\Exceptions\RequestServiceUnavailable;
+use Phalcon\Mvc\Router\Exceptions\UnknownHttpMethod;
+use Phalcon\Mvc\Router\Exceptions\WrongPathsKey;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\Route;
@@ -523,7 +535,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let this->routes = array_merge([route], this->routes);
                 break;
             default:
-                throw new Exception("Invalid route position");
+                throw new InvalidRoutePosition();
         }
 
         let this->methodRoutesDirty = true;
@@ -842,9 +854,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         let container = <DiInterface> this->container;
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access the 'request' service"
-            );
+            throw new RequestServiceUnavailable();
         }
 
         let request = <RequestInterface> container->get("request");
@@ -952,9 +962,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                      * Check first if the callback is callable
                      */
                     if unlikely !is_callable(beforeMatch) {
-                        throw new Exception(
-                            "Before-Match callback is not callable in matched route"
-                        );
+                        throw new BeforeMatchNotCallable();
                     }
 
                     /**
@@ -994,7 +1002,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                     for part, position in paths {
                         if unlikely typeof part !== "string" {
-                            throw new Exception("Wrong key in paths: " . part);
+                            throw new WrongPathsKey(part);
                         }
 
                         if typeof position !== "string" && typeof position !== "integer" {
@@ -1180,17 +1188,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if typeof config === "object" {
             if !(config instanceof ConfigInterface) {
-                throw new Exception(
-                    "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
-                );
+                throw new InvalidConfigSource();
             }
             let config = config->toArray();
         }
 
         if typeof config !== "array" {
-            throw new Exception(
-                "loadFromConfig requires an array or Phalcon\\Config\\ConfigInterface instance"
-            );
+            throw new InvalidConfigSource();
         }
 
         if isset config["removeExtraSlashes"] {
@@ -1201,14 +1205,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         if isset config["defaults"] {
             let defaults = config["defaults"];
             if typeof defaults !== "array" {
-                throw new Exception("'defaults' must be an array");
+                throw new ConfigKeyMustBeArray("defaults");
             }
             this->setDefaults(defaults);
         }
 
         if fetch routes, config["routes"] {
             if typeof routes !== "array" {
-                throw new Exception("'routes' must be an array");
+                throw new ConfigKeyMustBeArray("routes");
             }
             for routeData in routes {
                 this->addRouteFromConfig(routeData);
@@ -1217,7 +1221,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if fetch groups, config["groups"] {
             if typeof groups !== "array" {
-                throw new Exception("'groups' must be an array");
+                throw new ConfigKeyMustBeArray("groups");
             }
             for groupData in groups {
                 this->mountGroupFromConfig(groupData);
@@ -1243,11 +1247,11 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         var method, methodClass, pattern, paths, route;
 
         if !fetch pattern, routeData["pattern"] {
-            throw new Exception("Route config entry is missing 'pattern'");
+            throw new MissingRouteConfigKey("pattern");
         }
 
         if !fetch paths, routeData["paths"] {
-            throw new Exception("Route config entry is missing 'paths'");
+            throw new MissingRouteConfigKey("paths");
         }
 
         let method = "";
@@ -1271,9 +1275,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let route = this->{methodClass}(pattern, paths);
                 break;
             default:
-                throw new Exception(
-                    "Unknown HTTP method '" . method . "' in route config"
-                );
+                throw new UnknownHttpMethod(method);
         }
 
         if isset routeData["name"] {
@@ -1315,15 +1317,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         if typeof routes !== "array" {
-            throw new Exception("Group 'routes' must be an array");
+            throw new GroupRoutesMustBeArray();
         }
 
         for routeData in routes {
             if !fetch pattern, routeData["pattern"] {
-                throw new Exception("Group route entry is missing 'pattern'");
+                throw new MissingGroupRouteKey("pattern");
             }
             if !fetch routePaths, routeData["paths"] {
-                throw new Exception("Group route entry is missing 'paths'");
+                throw new MissingGroupRouteKey("paths");
             }
 
             let method = "";
@@ -1347,9 +1349,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     let route = group->{methodClass}(pattern, routePaths);
                     break;
                 default:
-                    throw new Exception(
-                        "Unknown HTTP method '" . method . "' in group route config"
-                    );
+                    throw new UnknownHttpMethod(method);
             }
 
             if isset routeData["name"] {
@@ -1380,9 +1380,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         let groupRoutes = group->getRoutes();
 
         if unlikely !count(groupRoutes) {
-            throw new Exception(
-                "The group of routes does not contain any routes"
-            );
+            throw new EmptyGroupOfRoutes();
         }
 
         /**
@@ -1423,9 +1421,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     public function notFound(var paths) -> <RouterInterface>
     {
         if unlikely (typeof paths !== "array" && typeof paths !== "string") {
-            throw new Exception(
-                "The not-found paths must be an array or string"
-            );
+            throw new InvalidNotFoundPaths();
         }
 
         let this->notFoundPaths = paths;
