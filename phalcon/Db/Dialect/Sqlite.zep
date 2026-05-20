@@ -12,11 +12,21 @@ namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\ReturningRequiresColumn;
+use Phalcon\Db\Exceptions\SqliteAlterCheckNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterColumnNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterForeignKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterPrimaryKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropCheckNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropForeignKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropPrimaryKeyNotSupported;
+use Phalcon\Db\Exceptions\UnrecognizedDataType;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 
@@ -75,9 +85,7 @@ class Sqlite extends Dialect
      */
     public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
     {
-        throw new Exception(
-            "Adding a CHECK constraint to an existing table is not supported by SQLite"
-        );
+        throw new SqliteAlterCheckNotSupported();
     }
 
     /**
@@ -85,9 +93,7 @@ class Sqlite extends Dialect
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
     {
-        throw new Exception(
-            "Adding a foreign key constraint to an existing table is not supported by SQLite"
-        );
+        throw new SqliteAlterForeignKeyNotSupported();
     }
 
     /**
@@ -127,9 +133,7 @@ class Sqlite extends Dialect
      */
     public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
     {
-        throw new Exception(
-            "Adding a primary key after table has been created is not supported by SQLite"
-        );
+        throw new SqliteAlterPrimaryKeyNotSupported();
     }
 
     /**
@@ -151,9 +155,7 @@ class Sqlite extends Dialect
         }
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         /**
@@ -284,9 +286,7 @@ class Sqlite extends Dialect
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -358,9 +358,7 @@ class Sqlite extends Dialect
      */
     public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
     {
-        throw new Exception(
-            "Dropping a CHECK constraint is not supported by SQLite"
-        );
+        throw new SqliteDropCheckNotSupported();
     }
 
     /**
@@ -368,9 +366,7 @@ class Sqlite extends Dialect
      */
     public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
     {
-        throw new Exception(
-            "Dropping a foreign key constraint is not supported by SQLite"
-        );
+        throw new SqliteDropForeignKeyNotSupported();
     }
 
     /**
@@ -390,9 +386,7 @@ class Sqlite extends Dialect
      */
     public function dropPrimaryKey(string! tableName, string! schemaName) -> string
     {
-        throw new Exception(
-            "Removing a primary key after table has been created is not supported by SQLite"
-        );
+        throw new SqliteDropPrimaryKeyNotSupported();
     }
 
     /**
@@ -581,9 +575,7 @@ class Sqlite extends Dialect
 
             default:
                 if empty columnSql {
-                    throw new Exception(
-                        "Unrecognized SQLite data type at column " . column->getName()
-                    );
+                    throw new UnrecognizedDataType("SQLite", column->getName());
                 }
 
                 let typeValues = column->getTypeValues();
@@ -656,7 +648,7 @@ class Sqlite extends Dialect
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        throw new Exception("Altering a DB column is not supported by SQLite");
+        throw new SqliteAlterColumnNotSupported();
     }
 
     /**
@@ -669,9 +661,7 @@ class Sqlite extends Dialect
         var first;
 
         if unlikely empty columns {
-            throw new Exception(
-                "RETURNING requires at least one column or '*'"
-            );
+            throw new ReturningRequiresColumn();
         }
 
         if count(columns) == 1 {

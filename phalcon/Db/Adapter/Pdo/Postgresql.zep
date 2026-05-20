@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\TableMustHaveColumn;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
@@ -104,11 +105,11 @@ class Postgresql extends PdoAdapter
         var sql, queries, query, exception, columns;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         if unlikely !count(columns) {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         let sql = this->dialect->createTable(tableName, schemaName, definition);

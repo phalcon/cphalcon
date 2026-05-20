@@ -10,15 +10,18 @@
 
 namespace Phalcon\Db\Dialect;
 
-use Phalcon\Db\Dialect;
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Dialect;
+use Phalcon\Db\DialectInterface;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\MysqlOnConflictNotSupported;
+use Phalcon\Db\Exceptions\UnrecognizedDataType;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\DialectInterface;
 
 /**
  * Generates database specific SQL for the MySQL RDBMS
@@ -177,9 +180,7 @@ class Mysql extends Dialect
         string indexSql, referenceSql, sql;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         let table = this->prepareTable(tableName, schemaName);
@@ -343,9 +344,7 @@ class Mysql extends Dialect
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -781,9 +780,7 @@ class Mysql extends Dialect
 
             default:
                 if unlikely empty columnSql {
-                    throw new Exception(
-                        "Unrecognized MySQL data type at column " . column->getName()
-                    );
+                    throw new UnrecognizedDataType("MySQL", column->getName());
                 }
 
                 let typeValues = column->getTypeValues();
@@ -931,10 +928,7 @@ class Mysql extends Dialect
      */
     public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
     {
-        throw new Exception(
-            "ON CONFLICT upserts are not supported by MySQL; use "
-            . "INSERT ... ON DUPLICATE KEY UPDATE via raw SQL instead"
-        );
+        throw new MysqlOnConflictNotSupported();
     }
 
     /**

@@ -10,6 +10,9 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exceptions\CheckExpressionRequired;
+use Phalcon\Db\Exceptions\InvalidCheckExpression;
+
 /**
  * Allows to define `CHECK` constraints on tables. CHECK constraints enforce
  * a boolean SQL predicate on each row of the table; rows that fail the
@@ -66,13 +69,11 @@ class Check implements CheckInterface
         var expression;
 
         if unlikely !fetch expression, definition["expression"] {
-            throw new Exception("CHECK expression is required");
+            throw new CheckExpressionRequired();
         }
 
         if unlikely typeof expression != "string" || expression === "" {
-            throw new Exception(
-                "CHECK expression must be a non-empty string"
-            );
+            throw new InvalidCheckExpression();
         }
 
         let this->name       = name;

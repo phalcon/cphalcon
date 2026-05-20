@@ -10,6 +10,10 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exceptions\InvalidIndexColumns;
+use Phalcon\Db\Exceptions\InvalidIndexDirections;
+use Phalcon\Db\Exceptions\InvalidIndexWhere;
+
 /**
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
@@ -133,9 +137,7 @@ class Index implements IndexInterface
 
         if isset columnsOrDefinition["columns"] {
             if unlikely typeof columnsOrDefinition["columns"] != "array" {
-                throw new Exception(
-                    "Index definition 'columns' key must be an array"
-                );
+                throw new InvalidIndexColumns();
             }
 
             let this->columns = columnsOrDefinition["columns"];
@@ -150,9 +152,7 @@ class Index implements IndexInterface
 
             if fetch directions, columnsOrDefinition["directions"] {
                 if unlikely typeof directions != "array" {
-                    throw new Exception(
-                        "Index definition 'directions' key must be an array"
-                    );
+                    throw new InvalidIndexDirections();
                 }
 
                 let this->directions = directions;
@@ -160,9 +160,7 @@ class Index implements IndexInterface
 
             if fetch where, columnsOrDefinition["where"] {
                 if unlikely typeof where != "string" {
-                    throw new Exception(
-                        "Index definition 'where' key must be a string"
-                    );
+                    throw new InvalidIndexWhere();
                 }
 
                 let this->where = where;
