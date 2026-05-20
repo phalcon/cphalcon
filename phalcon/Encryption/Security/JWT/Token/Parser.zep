@@ -11,6 +11,10 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 use InvalidArgumentException;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidClaims;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidHeader;
+use Phalcon\Encryption\Security\JWT\Exceptions\MalformedJwtString;
+use Phalcon\Encryption\Security\JWT\Exceptions\MissingJwtTypHeader;
 use Phalcon\Support\Helper\Json\Decode;
 
 /**
@@ -76,9 +80,7 @@ class Parser
         let decoded = this->decode->__invoke(this->decodeUrl(claims), true);
 
         if typeof decoded !== "array" {
-            throw new InvalidArgumentException(
-                "Invalid Claims (not an array)"
-            );
+            throw new InvalidClaims();
         }
 
         /**
@@ -105,15 +107,11 @@ class Parser
         let decoded = this->decode->__invoke(this->decodeUrl(headers), true);
 
         if typeof decoded !== "array" {
-            throw new InvalidArgumentException(
-                "Invalid Header (not an array)"
-            );
+            throw new InvalidHeader();
         }
 
         if !isset decoded[Enum::TYPE] {
-            throw new InvalidArgumentException(
-                "Invalid Header (missing 'typ' element)"
-            );
+            throw new MissingJwtTypHeader();
         }
 
         return new Item(decoded, headers);
@@ -157,9 +155,7 @@ class Parser
         let parts = explode(".", token);
 
         if count(parts) !== 3 {
-            throw new InvalidArgumentException(
-                "Invalid JWT string (dots misalignment)"
-            );
+            throw new MalformedJwtString();
         }
 
         return parts;

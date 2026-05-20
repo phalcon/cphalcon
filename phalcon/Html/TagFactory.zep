@@ -16,6 +16,7 @@ namespace Phalcon\Html;
 
 use Closure;
 use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\Exceptions\ServiceNotRegistered;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\Helper\Base;
 use Phalcon\Html\Helper\Body;
@@ -208,7 +209,7 @@ class TagFactory
         var factory;
 
         if !isset this->factories[name] {
-            throw new Exception("Service " . name . " is not registered");
+            throw new ServiceNotRegistered(name);
         }
 
         if !isset this->instances[name] {

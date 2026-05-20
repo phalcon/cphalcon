@@ -10,7 +10,12 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use Phalcon\Encryption\Security\JWT\Exceptions\EmptyPassphrase;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudience;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidExpirationTime;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidNotBefore;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Encryption\Security\JWT\Exceptions\WeakPassphrase;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Item;
@@ -215,9 +220,7 @@ class Builder
             headers, signature, signatureHash;
 
         if empty this->passphrase {
-            throw new ValidatorException(
-                "Invalid passphrase (empty)"
-            );
+            throw new EmptyPassphrase();
         }
 
         let encodedClaims    = this->encodeUrl(this->encode->__invoke(this->getClaims())),
@@ -265,9 +268,7 @@ class Builder
         var aud;
 
         if typeof audience !== "string" && typeof audience !== "array" {
-            throw new ValidatorException(
-                "Invalid Audience"
-            );
+            throw new InvalidAudience();
         }
 
         if typeof audience === "string" {
@@ -310,9 +311,7 @@ class Builder
     public function setExpirationTime(int timestamp) -> <Builder>
     {
         if timestamp < time() {
-            throw new ValidatorException(
-                "Invalid Expiration Time"
-            );
+            throw new InvalidExpirationTime();
         }
 
         return this->setClaim(Enum::EXPIRATION_TIME, timestamp);
@@ -384,9 +383,7 @@ class Builder
     public function setNotBefore(int! timestamp) -> <Builder>
     {
         if timestamp > time() {
-            throw new ValidatorException(
-                "Invalid Not Before"
-            );
+            throw new InvalidNotBefore();
         }
 
         return this->setClaim(Enum::NOT_BEFORE, timestamp);
@@ -422,9 +419,7 @@ class Builder
             "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",
             passphrase
         ) {
-            throw new ValidatorException(
-                "Invalid passphrase (too weak)"
-            );
+            throw new WeakPassphrase();
         }
 
         let this->passphrase = passphrase;
