@@ -11,6 +11,8 @@
 namespace Phalcon\Events;
 
 use Phalcon\Contracts\Events\Stoppable;
+use Phalcon\Events\Exceptions\EventNotCancelable;
+use Phalcon\Events\Exceptions\InvalidEventSource;
 
 /**
  * This class offers contextual information of a fired event in the
@@ -74,9 +76,7 @@ final class Event implements EventInterface, Stoppable
         bool cancelable = true
     ) {
         if unlikely null !== source && typeof source !== "object" {
-            throw new Exception(
-                "The source of " . type . " event must be an object, got " . (typeof source)
-            );
+            throw new InvalidEventSource(type, (typeof source));
         }
 
         let this->type       = type,
@@ -163,7 +163,7 @@ final class Event implements EventInterface, Stoppable
     public function stop() -> <EventInterface>
     {
         if unlikely !this->cancelable {
-            throw new Exception("Trying to cancel a non-cancelable event");
+            throw new EventNotCancelable();
         }
 
         let this->stopped = true;

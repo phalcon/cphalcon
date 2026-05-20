@@ -12,6 +12,10 @@ namespace Phalcon\Events;
 
 use Closure;
 use Phalcon\Contracts\Events\Subscriber;
+use Phalcon\Events\Exceptions\InvalidEventHandler;
+use Phalcon\Events\Exceptions\InvalidEventType;
+use Phalcon\Events\Exceptions\InvalidSubscriberConfiguration;
+use Phalcon\Events\Exceptions\NoListenersForEvent;
 
 /**
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if
@@ -222,9 +226,7 @@ class Manager implements ManagerInterface
         } elseif is_callable(handler) {
             let type = 3;
         } else {
-            throw new Exception(
-                "Event handler must be an Object or Callable"
-            );
+            throw new InvalidEventHandler();
         }
 
         this->insertHandlerEntry(eventType, handler, type, priority);
@@ -275,9 +277,7 @@ class Manager implements ManagerInterface
         var existing, newQueue, queue;
 
         if unlikely false === this->isValidHandler(handler) {
-            throw new Exception(
-                "Event handler must be an Object or Callable"
-            );
+            throw new InvalidEventHandler();
         }
 
         if fetch queue, this->events[eventType] {
@@ -363,9 +363,7 @@ class Manager implements ManagerInterface
         // would have had nothing to dispatch to anyway.
         if empty this->events {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return null;
@@ -381,7 +379,7 @@ class Manager implements ManagerInterface
             let colonPos = strpos(eventType, ":");
 
             if unlikely colonPos === false {
-                throw new Exception("Invalid event type " . eventType);
+                throw new InvalidEventType(eventType);
             }
 
             let type      = substr(eventType, 0, colonPos);
@@ -398,9 +396,7 @@ class Manager implements ManagerInterface
         // user-attached behavior, a DB event without a tracer, etc.).
         if !hasTypeQueue && !hasFullQueue {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return null;
@@ -507,9 +503,7 @@ class Manager implements ManagerInterface
         // Fast exit on a manager with no listeners. Mirrors fire().
         if empty this->events {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return [];
@@ -522,7 +516,7 @@ class Manager implements ManagerInterface
             let colonPos = strpos(eventType, ":");
 
             if unlikely colonPos === false {
-                throw new Exception("Invalid event type " . eventType);
+                throw new InvalidEventType(eventType);
             }
 
             let type      = substr(eventType, 0, colonPos);
@@ -536,9 +530,7 @@ class Manager implements ManagerInterface
 
         if !hasTypeQueue && !hasFullQueue {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return [];
@@ -1036,15 +1028,11 @@ class Manager implements ManagerInterface
         }
 
         if unlikely typeof params != "array" {
-            throw new Exception(
-                "Invalid event subscriber configuration for " . eventName
-            );
+            throw new InvalidSubscriberConfiguration(eventName);
         }
 
         if !fetch firstParam, params[0] {
-            throw new Exception(
-                "Invalid event subscriber configuration for " . eventName
-            );
+            throw new InvalidSubscriberConfiguration(eventName);
         }
 
         if typeof firstParam == "string" {
@@ -1093,8 +1081,6 @@ class Manager implements ManagerInterface
             return;
         }
 
-        throw new Exception(
-            "Invalid event subscriber configuration for " . eventName
-        );
+        throw new InvalidSubscriberConfiguration(eventName);
     }
 }
