@@ -13,6 +13,8 @@ namespace Phalcon\Flash;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Flash\Exceptions\EscaperServiceUnavailable;
+use Phalcon\Flash\Exceptions\FlashMessageNotStringOrArray;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 use Phalcon\Support\Helper\Str\Interpolate;
@@ -189,9 +191,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
             return this->escaperService;
         }
 
-        throw new Exception(
-            "A dependency injection container is required to access the 'escaper' service"
-        );
+        throw new EscaperServiceUnavailable();
     }
 
     /**
@@ -331,7 +331,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         let content = "";
 
         if typeof message !== "array" && typeof message !== "string" {
-            throw new Exception("The message must be an array or a string");
+            throw new FlashMessageNotStringOrArray();
         }
 
         /**

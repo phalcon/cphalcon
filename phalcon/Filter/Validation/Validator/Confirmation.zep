@@ -10,10 +10,11 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\MissingMbstring;
+use Phalcon\Messages\Message;
 
 /**
  * Checks that two values have the same value
@@ -125,7 +126,7 @@ class Confirmation extends AbstractValidator
              * mbstring is required here
              */
             if unlikely !function_exists("mb_strtolower") {
-                throw new Exception("Extension 'mbstring' is required");
+                throw new MissingMbstring();
             }
 
             let a = mb_strtolower(a, "utf-8");

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Filter;
 
+use Phalcon\Filter\Exceptions\FilterNotRegistered;
+
 /**
  * Lazy loads, stores and exposes sanitizer objects
  *
@@ -187,9 +189,7 @@ class Filter implements FilterInterface
         var definition;
 
         if (true !== isset(this->mapper[name])) {
-            throw new Exception(
-                "Filter " . name . " is not registered"
-            );
+            throw new FilterNotRegistered(name);
         }
 
         if (true !== isset(this->services[name])) {

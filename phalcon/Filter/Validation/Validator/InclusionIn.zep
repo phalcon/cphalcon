@@ -10,10 +10,12 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\InvalidDomainOption;
+use Phalcon\Filter\Validation\Exceptions\InvalidStrictOption;
+use Phalcon\Messages\Message;
 
 /**
  * Check if a value is included into a list of values
@@ -98,7 +100,7 @@ class InclusionIn extends AbstractValidator
         }
 
         if unlikely typeof domain != "array" {
-            throw new Exception("Option 'domain' must be an array");
+            throw new InvalidDomainOption();
         }
 
         let strict = false;
@@ -111,7 +113,7 @@ class InclusionIn extends AbstractValidator
             }
 
             if unlikely typeof strict != "boolean" {
-                throw new Exception("Option 'strict' must be a bool");
+                throw new InvalidStrictOption();
             }
         }
 

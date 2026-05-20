@@ -12,6 +12,8 @@ namespace Phalcon\Forms\Loader;
 
 use Phalcon\Contracts\Forms\Schema;
 use Phalcon\Forms\Exception;
+use Phalcon\Forms\Exceptions\YamlExtensionRequired;
+use Phalcon\Forms\Exceptions\YamlSchemaNotArray;
 
 /**
  * Supplies form element definitions from a YAML string or file.
@@ -45,9 +47,7 @@ class YamlLoader implements Schema
         var definitions, loader, source;
 
         if !extension_loaded("yaml") {
-            throw new Exception(
-                "YamlLoader requires the \"yaml\" PHP extension (pecl/yaml)"
-            );
+            throw new YamlExtensionRequired();
         }
 
         let source = this->source;
@@ -59,7 +59,7 @@ class YamlLoader implements Schema
         }
 
         if typeof definitions !== "array" {
-            throw new Exception("YAML form schema must parse to an array");
+            throw new YamlSchemaNotArray();
         }
 
         let loader = new ArrayLoader(definitions);

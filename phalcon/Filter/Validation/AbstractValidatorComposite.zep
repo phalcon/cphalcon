@@ -11,6 +11,7 @@
 namespace Phalcon\Filter\Validation;
 
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exceptions\NoValidatorsInComposite;
 
 /**
  * This is a base class for combined fields validators
@@ -38,7 +39,7 @@ abstract class AbstractValidatorComposite extends AbstractValidator implements V
         var validator;
 
         if unlikely count(this->getValidators()) === 0 {
-            throw new Exception(get_class(this) . " does not have any validator added");
+            throw new NoValidatorsInComposite(get_class(this));
         }
 
         for validator in this->getValidators() {

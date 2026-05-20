@@ -12,6 +12,8 @@ namespace Phalcon\Forms;
 
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\CheckGroup;
+use Phalcon\Forms\Exceptions\FormNotInLocator;
+use Phalcon\Forms\Exceptions\UnknownFormElementType;
 use Phalcon\Forms\Element\Date;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\File;
@@ -92,9 +94,7 @@ class FormsLocator
         var factory, instance;
 
         if !this->has(name) {
-            throw new Exception(
-                "Form '" . name . "' is not registered in the FormsLocator"
-            );
+            throw new FormNotInLocator(name);
         }
 
         let factory = this->factories[name];
@@ -122,9 +122,7 @@ class FormsLocator
     public function getElement(string type)
     {
         if !isset this->elements[type] {
-            throw new Exception(
-                "Unknown form element type \"" . type . "\""
-            );
+            throw new UnknownFormElementType(type);
         }
 
         return this->elements[type];

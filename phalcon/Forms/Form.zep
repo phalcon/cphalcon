@@ -12,17 +12,20 @@ namespace Phalcon\Forms;
 
 use Countable;
 use Iterator;
-use Phalcon\Di\Injectable;
-use Phalcon\Support\Settings;
-use Phalcon\Di\DiInterface;
 use Phalcon\Contracts\Forms\Schema;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
+use Phalcon\Forms\Exceptions\ElementNotInForm;
+use Phalcon\Forms\Exceptions\InvalidEntity;
+use Phalcon\Forms\Exceptions\NoFormElements;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
+use Phalcon\Support\Settings;
 use Phalcon\Tag;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\ValidationInterface;
@@ -98,7 +101,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function __construct(var entity = null, array userOptions = [])
     {
         if unlikely (entity !== null && typeof entity != "object") {
-            throw new Exception("The base entity is not valid");
+            throw new InvalidEntity();
         }
 
         let this->entity = entity;
@@ -196,7 +199,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         string method;
 
         if unlikely empty this->elements {
-            throw new Exception("There are no elements in the form");
+            throw new NoFormElements();
         }
 
         if empty whitelist {
@@ -379,9 +382,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element;
@@ -454,9 +455,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element, label;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         let label = element->getLabel();
@@ -855,9 +854,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element->label(attributes);
@@ -879,9 +876,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element->render(attributes);
