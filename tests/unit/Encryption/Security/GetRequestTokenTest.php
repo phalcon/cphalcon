@@ -46,8 +46,6 @@ final class GetRequestTokenTest extends AbstractUnitTestCase
      */
     public function testEncryptionSecurityGetRequestTokenAndGetSessionToken(): void
     {
-        $this->markTestSkipped('TODO: Enable when Request is done');
-
         $store = $_POST ?? [];
 
         /** @var Manager $session */

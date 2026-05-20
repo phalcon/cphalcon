@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class WasForwardedTest extends AbstractUnitTestCase
@@ -23,6 +24,12 @@ final class WasForwardedTest extends AbstractUnitTestCase
      */
     public function testDispatcherWasForwarded(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $this->assertFalse($dispatcher->wasForwarded());
+
+        $dispatcher->forward(['action' => 'index']);
+
+        $this->assertTrue($dispatcher->wasForwarded());
     }
 }

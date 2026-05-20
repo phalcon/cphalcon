@@ -248,18 +248,18 @@ class Security extends AbstractInjectionAware implements SecurityContract
     public function computeHmac(
         string data,
         string key,
-        string algo,
+        string algorithm,
         bool raw = false
     ) -> string {
         var hmac;
 
         try {
-            let hmac = hash_hmac(algo, data, key, raw);
+            let hmac = hash_hmac(algorithm, data, key, raw);
         } catch \ValueError {
             throw new Exception(
                 sprintf(
                     "Unknown hashing algorithm: %s",
-                    algo
+                    algorithm
                 )
             );
         }
@@ -268,7 +268,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
             throw new Exception(
                 sprintf(
                     "Unknown hashing algorithm: %s",
-                    algo
+                    algorithm
                 )
             );
         }

@@ -73,11 +73,6 @@ final class CookieTest extends AbstractHttpBase
      */
     public function testHttpCookieThrowExceptionIfMessageAuthenticationCodeIsMismatch(): void
     {
-        /**
-         * TODO: Check the exception
-         */
-        $this->markTestSkipped('TODO: Check the exception');
-
         $this->checkExtensionIsLoaded('xdebug');
 
         $this->expectException(Exception::class);

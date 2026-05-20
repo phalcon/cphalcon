@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\PdoFactory;
 
+use Phalcon\Config\Config;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
@@ -65,7 +68,10 @@ final class LoadTest extends AbstractDatabaseTestCase
      */
     public function testDbAdapterPdoFactoryLoadPgsql(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $data    = $this->getPostgresqlData();
+        $options = new Config($data);
+
+        $this->runTests(Postgresql::class, $options, $data);
     }
 
     /**
@@ -76,7 +82,9 @@ final class LoadTest extends AbstractDatabaseTestCase
      */
     public function testDbAdapterPdoFactoryLoadPgsqlArray(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $data = $this->getPostgresqlData();
+
+        $this->runTests(Postgresql::class, $data, $data);
     }
 
     /**
@@ -87,18 +95,47 @@ final class LoadTest extends AbstractDatabaseTestCase
      */
     public function testDbAdapterPdoFactoryLoadSqlite(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $data    = $this->getSqliteData();
+        $options = new Config($data);
+
+        $this->runTests(Sqlite::class, $options, $data);
     }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
      *
-     * @group mysql
+     * @group sqlite
      */
     public function testDbAdapterPdoFactoryLoadSqliteArray(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $data = $this->getSqliteData();
+
+        $this->runTests(Sqlite::class, $data, $data);
+    }
+
+    private function getPostgresqlData(): array
+    {
+        return [
+            'adapter' => 'postgresql',
+            'options' => [
+                'host'     => env('DATA_POSTGRES_HOST'),
+                'username' => env('DATA_POSTGRES_USER'),
+                'password' => env('DATA_POSTGRES_PASS'),
+                'dbname'   => env('DATA_POSTGRES_NAME'),
+                'port'     => (int) env('DATA_POSTGRES_PORT'),
+            ],
+        ];
+    }
+
+    private function getSqliteData(): array
+    {
+        return [
+            'adapter' => 'sqlite',
+            'options' => [
+                'dbname' => env('DATA_SQLITE_NAME'),
+            ],
+        ];
     }
 
     /**

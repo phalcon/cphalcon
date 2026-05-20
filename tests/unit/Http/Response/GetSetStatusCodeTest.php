@@ -105,7 +105,8 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
      */
     public function testHttpResponseSetStatusCodeSendMicro(): void
     {
-        $this->markTestSkipped('TODO: Enable with MVC');
+        $this->checkExtensionIsLoaded('xdebug');
+
         $application = new Micro($this->container);
 
         $application->before(new FakeHttpResponseContentMiddleware());

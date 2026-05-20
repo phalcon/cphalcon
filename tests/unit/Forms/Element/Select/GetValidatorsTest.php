@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetValidatorsTest extends AbstractUnitTestCase
- */
 final class GetValidatorsTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +25,12 @@ final class GetValidatorsTest extends AbstractUnitTestCase
      */
     public function testFormsElementSelectGetValidators(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $element = new Select('country');
+        $this->assertSame([], $element->getValidators());
+
+        $validator = new PresenceOf();
+        $element->addValidator($validator);
+
+        $this->assertSame([$validator], $element->getValidators());
     }
 }

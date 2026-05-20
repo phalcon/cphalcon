@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use stdClass;
 
 /**
@@ -23,6 +24,13 @@ use stdClass;
  */
 final class GetFilteredValueTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     public function testGetFilteredValueWithEntity(): void
     {
         $entity = new stdClass();

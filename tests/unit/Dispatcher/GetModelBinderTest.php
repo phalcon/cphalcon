@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Model\Binder;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetModelBinderTest extends AbstractUnitTestCase
@@ -23,6 +25,13 @@ final class GetModelBinderTest extends AbstractUnitTestCase
      */
     public function testDispatcherGetModelBinder(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $this->assertNull($dispatcher->getModelBinder());
+
+        $binder = new Binder();
+        $dispatcher->setModelBinder($binder);
+
+        $this->assertSame($binder, $dispatcher->getModelBinder());
     }
 }

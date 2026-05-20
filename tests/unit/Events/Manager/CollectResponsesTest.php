@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use stdClass;
 
 final class CollectResponsesTest extends AbstractUnitTestCase
 {
@@ -23,6 +26,28 @@ final class CollectResponsesTest extends AbstractUnitTestCase
      */
     public function testEventsManagerCollectResponses(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager();
+
+        $this->assertFalse($manager->isCollecting());
+
+        $manager->collectResponses(true);
+        $this->assertTrue($manager->isCollecting());
+
+        $manager->attach('demo:before', function (Event $event, $source) {
+            return 'response-one';
+        });
+        $manager->attach('demo:before', function (Event $event, $source) {
+            return 'response-two';
+        });
+
+        $manager->fire('demo:before', new stdClass());
+
+        $this->assertSame(
+            ['response-one', 'response-two'],
+            $manager->getResponses()
+        );
+
+        $manager->collectResponses(false);
+        $this->assertFalse($manager->isCollecting());
     }
 }

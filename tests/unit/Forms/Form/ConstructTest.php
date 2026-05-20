@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
+use stdClass;
 
-/**
- * Class ConstructTest extends AbstractUnitTestCase
- */
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +25,15 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testFormsFormConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+
+        $this->assertCount(0, $form);
+        $this->assertNull($form->getEntity());
+
+        $entity       = new stdClass();
+        $entity->name = 'phalcon';
+
+        $form = new Form($entity);
+        $this->assertSame($entity, $form->getEntity());
     }
 }

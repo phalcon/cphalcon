@@ -12,7 +12,6 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
-use Phalcon\Support\Traits\PhpFileTrait;
 
 /**
  * Reads ini files and converts them to Phalcon\Config\Config objects.

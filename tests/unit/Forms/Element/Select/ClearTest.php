@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Forms\Element\ElementInterface;
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class ClearTest extends AbstractUnitTestCase
- */
 final class ClearTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +25,8 @@ final class ClearTest extends AbstractUnitTestCase
      */
     public function testFormsElementSelectClear(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $element = new Select('country', ['A' => 'Argentina']);
+
+        $this->assertInstanceOf(ElementInterface::class, $element->clear());
     }
 }
