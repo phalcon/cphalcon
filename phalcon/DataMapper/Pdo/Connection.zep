@@ -14,8 +14,8 @@
 
 namespace Phalcon\DataMapper\Pdo;
 
-use InvalidArgumentException;
 use Phalcon\DataMapper\Pdo\Connection\AbstractConnection;
+use Phalcon\DataMapper\Pdo\Exception\DriverNotSupported;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
@@ -63,9 +63,7 @@ class Connection extends AbstractConnection
             ];
 
         if !isset available[parts[0]] {
-            throw new InvalidArgumentException(
-                "Driver not supported [" . parts[0] . "]"
-            );
+            throw new DriverNotSupported(parts[0]);
         }
 
 

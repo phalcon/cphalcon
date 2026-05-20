@@ -10,11 +10,13 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
+use Phalcon\Cli\Router\Exceptions\BeforeMatchNotCallable;
+use Phalcon\Cli\Router\Exceptions\RouterArgumentsInvalidType;
+use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\RouteInterface;
+use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
@@ -270,7 +272,7 @@ class Router extends AbstractInjectionAware
 
         if typeof arguments !== "array" {
             if unlikely (typeof arguments != "string" && arguments !== null) {
-                throw new Exception("Arguments must be an array or string");
+                throw new RouterArgumentsInvalidType();
             }
 
             for route in reverse this->routes {
@@ -296,9 +298,7 @@ class Router extends AbstractInjectionAware
                          * Check first if the callback is callable
                          */
                         if unlikely !is_callable(beforeMatch) {
-                            throw new Exception(
-                                "Before-Match callback is not callable in matched route"
-                            );
+                            throw new BeforeMatchNotCallable();
                         }
 
                         /**

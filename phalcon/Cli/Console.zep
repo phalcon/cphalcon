@@ -11,8 +11,12 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Application\AbstractApplication;
-use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Console\Exception;
+use Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered;
+use Phalcon\Cli\Console\Exceptions\ContainerRequired;
+use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinitionPath;
+use Phalcon\Cli\Console\Exceptions\ModuleDefinitionPathNotFound;
+use Phalcon\Cli\Router\Route;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
 
@@ -40,9 +44,7 @@ class Console extends AbstractApplication
             moduleObject, modules, path, router, task;
 
         if this->container === null {
-            throw new Exception(
-                "A dependency injection container is required to access internal services"
-            );
+            throw new ContainerRequired();
         }
 
         /**
@@ -82,15 +84,13 @@ class Console extends AbstractApplication
             let modules = this->modules;
 
             if unlikely !isset modules[moduleName] {
-                throw new Exception(
-                    "Module '" . moduleName . "' isn't registered in the console container"
-                );
+                throw new ConsoleModuleNotRegistered(moduleName);
             }
 
             let module = modules[moduleName];
 
             if unlikely typeof module !== "array" {
-                throw new Exception("Invalid module definition path");
+                throw new InvalidModuleDefinitionPath();
             }
 
             if !fetch className, module["className"] {
@@ -99,9 +99,7 @@ class Console extends AbstractApplication
 
             if fetch path, module["path"] {
                 if unlikely !file_exists(path) {
-                    throw new Exception(
-                        "Module definition path '" . path . "' does not exist"
-                    );
+                    throw new ModuleDefinitionPathNotFound(path);
                 }
 
                 if !class_exists(className, false) {
