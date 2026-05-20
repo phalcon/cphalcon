@@ -17,7 +17,7 @@ interface CryptoUtils
     public function computeHmac(
         string data,
         string key,
-        string algo,
+        string algorithm,
         bool raw = false
     ) -> string;
 
