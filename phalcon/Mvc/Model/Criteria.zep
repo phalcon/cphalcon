@@ -10,10 +10,11 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di\Di;
 use Phalcon\Db\Column;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidModelName;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
@@ -276,7 +277,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let model = this->getModelName();
 
         if unlikely typeof model != "string" {
-            throw new Exception("Model name must be string");
+            throw new InvalidModelName();
         }
 
         return {model}::find(

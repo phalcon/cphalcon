@@ -10,11 +10,14 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Db\ResultInterface;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\CorruptColumnType;
+use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Row;
@@ -140,7 +143,7 @@ class Complex extends Resultset
          */
         for alias, column in this->columnTypes {
             if unlikely typeof column != "array" {
-                throw new Exception("Column type is corrupt");
+                throw new CorruptColumnType();
             }
 
             let type = column["type"];
@@ -322,9 +325,7 @@ class Complex extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         let data = [
@@ -358,9 +359,7 @@ class Complex extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         if container->has("serializer") {
@@ -373,7 +372,7 @@ class Complex extends Resultset
         }
 
         if unlikely typeof resultset != "array" {
-            throw new Exception("Invalid serialization data");
+            throw new InvalidSerializationData();
         }
 
         let this->rows        = resultset["rows"],

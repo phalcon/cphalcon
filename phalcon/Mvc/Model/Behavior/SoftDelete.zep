@@ -10,9 +10,10 @@
 
 namespace Phalcon\Mvc\Model\Behavior;
 
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\Behavior\Exceptions\MissingRequiredOption;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
 
 /**
@@ -40,14 +41,14 @@ class SoftDelete extends Behavior
          * 'value' is the value to be updated instead of delete the record
          */
         if unlikely !fetch value, options["value"] {
-            throw new Exception("The option 'value' is required");
+            throw new MissingRequiredOption("value");
         }
 
         /**
          * 'field' is the attribute to be updated instead of delete the record
          */
         if unlikely !fetch field, options["field"] {
-            throw new Exception("The option 'field' is required");
+            throw new MissingRequiredOption("field");
         }
 
         /**

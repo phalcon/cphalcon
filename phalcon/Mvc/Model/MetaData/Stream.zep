@@ -10,8 +10,9 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataDirectoryNotWritable;
 use Phalcon\Support\Settings;
 
 /**
@@ -89,9 +90,7 @@ class Stream extends MetaData
     private function throwWriteException(var option) -> void
     {
         if option {
-            throw new Exception(
-                "Meta-Data directory cannot be written"
-            );
+            throw new MetaDataDirectoryNotWritable();
         } else {
             trigger_error(
                 "Meta-Data directory cannot be written"

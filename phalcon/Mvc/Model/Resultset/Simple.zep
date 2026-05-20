@@ -14,6 +14,9 @@ use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
+use Phalcon\Mvc\Model\Exceptions\ResultsetColumnNotInMap;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -222,16 +225,12 @@ class Simple extends Resultset
                              * Check if the key is part of the column map
                              */
                             if unlikely !fetch renamedKey, columnMap[key] {
-                                throw new Exception(
-                                    "Column '" . key . "' is not part of the column map"
-                                );
+                                throw new ResultsetColumnNotInMap(key);
                             }
 
                             if typeof renamedKey == "array" {
                                 if unlikely !fetch renamedKey, renamedKey[0] {
-                                    throw new Exception(
-                                        "Column '" . key . "' is not part of the column map"
-                                    );
+                                    throw new ResultsetColumnNotInMap(key);
                                 }
                             }
 
@@ -262,9 +261,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         let data = [
@@ -299,9 +296,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         if container->has("serializer") {
@@ -314,7 +309,7 @@ class Simple extends Resultset
         }
 
         if unlikely typeof resultset !== "array" {
-            throw new Exception("Invalid serialization data");
+            throw new InvalidSerializationData();
         }
 
         let this->model       = resultset["model"],
