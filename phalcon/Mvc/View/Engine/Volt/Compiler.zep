@@ -12,8 +12,29 @@ namespace Phalcon\Mvc\View\Engine\Volt;
 
 use Closure;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\CannotOpenCompiledFile;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\CorruptedStatement;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\CorruptedStatementWithData;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidCompilationPrefix;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidExtension;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidIntermediateRepresentation;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidOptionType;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidPathClosureReturn;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidPathType;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidStatement;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidUserFilterDefinition;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidUserFunctionDefinition;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\MacroAlreadyDefined;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\TemplateFileNotFound;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\TemplateFileNotOpenable;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\TemplatePathCollision;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltExpression;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltFilter;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltFilterType;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltStatement;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\VoltDirectoryNotWritable;
+use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * This class reads and compiles Volt templates into PHP plain code
@@ -157,7 +178,7 @@ class Compiler implements InjectionAwareInterface
     public function addExtension(extension) -> <Compiler>
     {
         if unlikely typeof extension != "object" {
-            throw new Exception("The extension is not valid");
+            throw new InvalidExtension();
         }
 
         /**
@@ -316,7 +337,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         if unlikely typeof compileAlways != "boolean" {
-            throw new Exception("'always' must be a bool value");
+            throw new InvalidOptionType("always", "bool value");
         }
 
         /**
@@ -327,7 +348,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         if unlikely typeof prefix != "string" {
-            throw new Exception("'prefix' must be a string");
+            throw new InvalidOptionType("prefix", "string");
         }
 
         /**
@@ -360,7 +381,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         if unlikely typeof compiledSeparator != "string" {
-            throw new Exception("'separator' must be a string");
+            throw new InvalidOptionType("separator", "string");
         }
 
         /**
@@ -378,7 +399,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         if unlikely typeof compiledExtension != "string" {
-            throw new Exception("'extension' must be a string");
+            throw new InvalidOptionType("extension", "string");
         }
 
         /**
@@ -429,14 +450,10 @@ class Compiler implements InjectionAwareInterface
              * The closure must return a valid path
              */
             if unlikely typeof compiledTemplatePath != "string" {
-                throw new Exception(
-                    "'path' closure didn't return a valid string"
-                );
+                throw new InvalidPathClosureReturn();
             }
         } else {
-            throw new Exception(
-                "'path' must be a string or a closure"
-            );
+            throw new InvalidPathType();
         }
 
         /**
@@ -473,9 +490,7 @@ class Compiler implements InjectionAwareInterface
                         let blocksCode = file_get_contents(compiledTemplatePath);
 
                         if unlikely blocksCode === false {
-                            throw new Exception(
-                                "Extends compilation file " . compiledTemplatePath . " could not be opened"
-                            );
+                            throw new CannotOpenCompiledFile(compiledTemplatePath);
                         }
 
                         /**
@@ -512,7 +527,7 @@ class Compiler implements InjectionAwareInterface
          * A valid option is required
          */
         if unlikely !fetch autoescape, statement["enable"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         /**
@@ -565,7 +580,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
+            throw new CorruptedStatementWithData(statement);
         }
 
         /**
@@ -589,7 +604,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         /**
@@ -613,7 +628,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
+            throw new CorruptedStatementWithData(statement);
         }
 
         /**
@@ -663,7 +678,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
+            throw new CorruptedStatementWithData(statement);
         }
 
         /**
@@ -694,16 +709,14 @@ class Compiler implements InjectionAwareInterface
         var viewCode, compilation, finalCompilation;
 
         if unlikely path == compiledPath {
-            throw new Exception(
-                "Template path and compilation template path cannot be the same"
-            );
+            throw new TemplatePathCollision();
         }
 
         /**
          * Check if the template does exist
          */
         if unlikely !file_exists(path) {
-            throw new Exception("Template file " . path . " does not exist");
+            throw new TemplateFileNotFound(path);
         }
 
         /**
@@ -713,9 +726,7 @@ class Compiler implements InjectionAwareInterface
         let viewCode = file_get_contents(path);
 
         if unlikely viewCode === false {
-            throw new Exception(
-                "Template file " . path . " could not be opened"
-            );
+            throw new TemplateFileNotOpenable(path);
         }
 
         let this->currentPath = path;
@@ -736,7 +747,7 @@ class Compiler implements InjectionAwareInterface
          * directly, this respect the open_basedir directive
          */
         if unlikely file_put_contents(compiledPath, finalCompilation) === false {
-            throw new Exception("Volt directory can't be written");
+            throw new VoltDirectoryNotWritable();
         }
 
         return compilation;
@@ -761,7 +772,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !isset statement["expr"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         let compilation = "",
@@ -938,7 +949,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
+            throw new CorruptedStatementWithData(statement);
         }
 
         /**
@@ -978,7 +989,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch pathExpr, statement["path"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         /**
@@ -1053,14 +1064,14 @@ class Compiler implements InjectionAwareInterface
          * A valid name is required
          */
         if unlikely !fetch name, statement["name"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         /**
          * Check if the macro is already defined
          */
         if unlikely isset this->macros[name] {
-            throw new Exception("Macro '" . name . "' is already defined");
+            throw new MacroAlreadyDefined(name);
         }
 
         /**
@@ -1134,7 +1145,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         /**
@@ -1211,7 +1222,7 @@ class Compiler implements InjectionAwareInterface
          * A valid assignment list is required
          */
         if unlikely !fetch assignments, statement["assignments"] {
-            throw new Exception("Corrupted statement");
+            throw new CorruptedStatement();
         }
 
         let compilation = "<?php";
@@ -1301,7 +1312,7 @@ class Compiler implements InjectionAwareInterface
          * A valid expression is required
          */
         if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
+            throw new CorruptedStatementWithData(statement);
         }
 
         /**
@@ -1692,9 +1703,7 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 default:
-                    throw new Exception(
-                        "Unknown expression " . type . " in " . expr["file"] . " on line " . expr["line"]
-                    );
+                    throw new UnknownVoltExpression((int) type, (string) expr["file"], (int) expr["line"]);
             }
 
             break;
@@ -1828,9 +1837,7 @@ class Compiler implements InjectionAwareInterface
                         }
                     }
 
-                    throw new Exception(
-                        "Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]
-                    );
+                    throw new InvalidUserFunctionDefinition((string) name, (string) expr["file"], (int) expr["line"]);
                 }
             }
 
@@ -2124,7 +2131,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         if unlikely typeof this->prefix != "string" {
-            throw new Exception("The unique compilation prefix is invalid");
+            throw new InvalidCompilationPrefix();
         }
 
         return this->prefix;
@@ -2267,7 +2274,7 @@ class Compiler implements InjectionAwareInterface
              */
             if fetch autoescape, options["autoescape"] {
                 if unlikely typeof autoescape != "boolean" {
-                    throw new Exception("'autoescape' must be bool");
+                    throw new InvalidOptionType("autoescape", "bool");
                 }
 
                 let this->autoescape = autoescape;
@@ -2280,7 +2287,7 @@ class Compiler implements InjectionAwareInterface
          * The parsing must return a valid array
          */
         if unlikely typeof intermediate != "array" {
-            throw new Exception("Invalid intermediate representation");
+            throw new InvalidIntermediateRepresentation();
         }
 
         let compilation = this->statementList(intermediate, extendsMode);
@@ -2416,9 +2423,7 @@ class Compiler implements InjectionAwareInterface
                 /**
                  * Unknown filter throw an exception
                  */
-                throw new Exception(
-                    "Unknown filter type in " . filter["file"] . " on line " . filter["line"]
-                );
+                throw new UnknownVoltFilterType((string) filter["file"], (int) filter["line"]);
             }
 
             let functionName = filter["name"],
@@ -2510,9 +2515,7 @@ class Compiler implements InjectionAwareInterface
             /**
              * Invalid filter definition throw an exception
              */
-            throw new Exception(
-                "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
-            );
+            throw new InvalidUserFilterDefinition((string) name, (string) filter["file"], (int) filter["line"]);
         }
 
         switch (name) {
@@ -2584,10 +2587,7 @@ class Compiler implements InjectionAwareInterface
                 return "urlencode(" . arguments . ")";
         }
 
-        throw new Exception(
-            "Unknown filter \"" . name . "\" in "
-                . filter["file"] . " on line " . filter["line"]
-        );
+        throw new UnknownVoltFilter((string) name, (string) filter["file"], (int) filter["line"]);
     }
 
     /**
@@ -2627,17 +2627,14 @@ class Compiler implements InjectionAwareInterface
              * All statements must be arrays
              */
             if unlikely typeof statement != "array" {
-                throw new Exception("Corrupted statement");
+                throw new CorruptedStatement();
             }
 
             /**
              * Check if the statement is valid
              */
             if unlikely !isset statement["type"] {
-                throw new Exception(
-                    "Invalid statement in " . statement["file"] . " on line " . statement["line"],
-                    statement
-                );
+                throw new InvalidStatement((string) statement["file"], (int) statement["line"], statement);
             }
 
             /**
@@ -2863,9 +2860,7 @@ class Compiler implements InjectionAwareInterface
                     break;
 
                 default:
-                    throw new Exception(
-                        "Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]
-                    );
+                    throw new UnknownVoltStatement((int) type, (string) statement["file"], (int) statement["line"]);
 
             }
         }
