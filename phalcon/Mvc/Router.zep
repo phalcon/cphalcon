@@ -161,6 +161,28 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected eventsManager;
 
     /**
+     * Per-method buckets of routes with hostname constraints, grouped by
+     * raw hostname string. Routes are referenced by their index into
+     * candidatesByMethod[method]. Built in rebuildMethodIndex().
+     *
+     * Shape: hostnameByMethod[method][hostname] = list of route indices.
+     *
+     * @var array
+     */
+    protected hostnameByMethod = [];
+
+    /**
+     * Per-method indices of routes without a hostname constraint, in
+     * attach order.
+     *
+     * Shape: hostnameLessByMethod[method] = list of route indices into
+     * candidatesByMethod[method].
+     *
+     * @var array
+     */
+    protected hostnameLessByMethod = [];
+
+    /**
      * @var array
      */
     protected keyRouteNames = [];
@@ -611,6 +633,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->candidatesMetaByMethod = [],
             this->staticByMethod         = [],
             this->staticShadowedByMethod = [],
+            this->hostnameByMethod       = [],
+            this->hostnameLessByMethod   = [],
             this->methodRoutesDirty      = true;
     }
 
@@ -850,6 +874,31 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
         }
 
+        /**
+         * Hostname bucketing: split each method bucket into hostname-keyed
+         * sub-buckets and a hostname-less list. Routes are referenced by
+         * their integer index into candidatesByMethod[method].
+         */
+        var bucketIdx, bucketHostname;
+
+        let this->hostnameByMethod     = [],
+            this->hostnameLessByMethod = [];
+
+        for method, candidates in this->candidatesByMethod {
+            let this->hostnameByMethod[method]     = [],
+                this->hostnameLessByMethod[method] = [];
+
+            for bucketIdx, bucketRoute in candidates {
+                let bucketHostname = bucketRoute->getHostName();
+
+                if bucketHostname === null {
+                    let this->hostnameLessByMethod[method][] = bucketIdx;
+                } else {
+                    let this->hostnameByMethod[method][bucketHostname][] = bucketIdx;
+                }
+            }
+        }
+
         let this->methodRoutesDirty = false;
     }
 
@@ -1015,6 +1064,20 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if typeof candidatesMeta !== "array" {
             let candidatesMeta = [];
+        }
+
+        /**
+         * Resolve the current hostname once if any hostname-constrained
+         * route exists in the candidate bucket. Subsequent per-route
+         * checks below see a non-null currentHostName and skip their own
+         * lazy fetch.
+         */
+        if isset this->hostnameByMethod[requestMethod]
+            && count(this->hostnameByMethod[requestMethod]) > 0 {
+            let currentHostName = request->getHttpHost();
+        } elseif isset this->hostnameByMethod["*"]
+            && count(this->hostnameByMethod["*"]) > 0 {
+            let currentHostName = request->getHttpHost();
         }
 
         /**
