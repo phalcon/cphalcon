@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 292, &macro, &arguments);
+	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 297, &macro, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length)
 		RETURN_MM_LONG(zephir_fast_count_int(item));
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 415, item);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 420, item);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -434,12 +434,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, preload)
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render)
 {
-	zend_ulong _7$$8;
+	zend_ulong _6$$8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool mustClean;
-	zval path_zv, *params, params_sub, *mustClean_param = NULL, compiler, compiledTemplatePath, eventsManager, key, value, _0, _1$$4, _2$$4, _3$$6, _4$$6, *_5$$8, _6$$8, _9$$9, _10$$10, _11$$11, _12$$11;
-	zend_string *path = NULL, *_8$$8;
+	zval path_zv, *params, params_sub, *mustClean_param = NULL, compiler, compiledTemplatePath, eventsManager, key, value, _0, _1$$4, _2$$4, _3$$6, _4$$6, *_5$$8, _9$$8, _8$$9, _10$$10, _11$$11, _12$$11;
+	zend_string *path = NULL, *_7$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path_zv);
@@ -454,8 +454,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$6);
 	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_6$$8);
-	ZVAL_UNDEF(&_9$$9);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_8$$9);
 	ZVAL_UNDEF(&_10$$10);
 	ZVAL_UNDEF(&_11$$11);
 	ZVAL_UNDEF(&_12$$11);
@@ -510,18 +510,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render)
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Volt.zep", 289);
 		if (Z_TYPE_P(params) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _7$$8, _8$$8, _5$$8)
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _6$$8, _7$$8, _5$$8)
 			{
 				ZEPHIR_INIT_NVAR(&key);
-				if (_8$$8 != NULL) { 
-					ZVAL_STR_COPY(&key, _8$$8);
+				if (_7$$8 != NULL) { 
+					ZVAL_STR_COPY(&key, _7$$8);
 				} else {
-					ZVAL_LONG(&key, _7$$8);
+					ZVAL_LONG(&key, _6$$8);
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _5$$8);
-				ZEPHIR_CPY_WRT(&_9$$9, &value);
-				if (zephir_set_symbol(&key, &_9$$9) == FAILURE) {
+				ZEPHIR_CPY_WRT(&_8$$9, &value);
+				if (zephir_set_symbol(&key, &_8$$9) == FAILURE) {
 					return;
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -529,9 +529,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render)
 			ZEPHIR_CALL_METHOD(NULL, params, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_6$$8, params, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_9$$8, params, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_6$$8)) {
+				if (!zend_is_true(&_9$$8)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&key, params, "key", NULL, 0);
@@ -691,19 +691,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 	}
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(&_5$$9, start);
-		ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 0, value, &_5$$9, &length);
+		ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 189, value, &_5$$9, &length);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_substr")) == SUCCESS)) {
 		if (Z_TYPE_P(&length) != IS_NULL) {
 			ZVAL_LONG(&_6$$11, start);
-			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 388, value, &_6$$11, &length);
+			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 393, value, &_6$$11, &length);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZVAL_LONG(&_7$$10, start);
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 388, value, &_7$$10);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 393, value, &_7$$10);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

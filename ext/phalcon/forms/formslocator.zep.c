@@ -73,12 +73,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_FormsLocator)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 {
-	zend_string *_4;
-	zend_ulong _3;
+	zend_string *_3;
+	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *definitions_param = NULL, name, definition, _0, *_1, _2;
+	zval *definitions_param = NULL, name, definition, _0, *_1, _5;
 	zval definitions;
 	zval *this_ptr = getThis();
 
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(definitions, definitions_param)
@@ -105,33 +105,33 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("elements"), &_0);
 	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 78);
 	if (Z_TYPE_P(&definitions) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _3, _4, _1)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _2, _3, _1)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&name, _4);
+			if (_3 != NULL) { 
+				ZVAL_STR_COPY(&name, _3);
 			} else {
-				ZVAL_LONG(&name, _3);
+				ZVAL_LONG(&name, _2);
 			}
 			ZEPHIR_INIT_NVAR(&definition);
 			ZVAL_COPY(&definition, _1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_4, 0, &name, &definition);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &definitions, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &definitions, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &definitions, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&name, &definitions, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&definition, &definitions, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_4, 0, &name, &definition);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &definitions, "next", NULL, 0);
 			zephir_check_call_status();

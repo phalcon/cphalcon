@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	zval results;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval prefix_zv, keys, key, _0, _1, *_2$$3, _3$$3;
+	zval prefix_zv, keys, key, _0, _1, *_2$$3;
 	zend_string *prefix = NULL;
 	zval *this_ptr = getThis();
 
@@ -146,7 +146,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&results);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -171,33 +170,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 		ZEPHIR_INIT_VAR(&results);
 		array_init(&results);
 		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 85);
-		if (Z_TYPE_P(&keys) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _2$$3)
-			{
-				ZEPHIR_INIT_NVAR(&key);
-				ZVAL_COPY(&key, _2$$3);
-				if (zephir_start_with(&key, &prefix_zv, NULL)) {
-					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 82);
-				}
-			} ZEND_HASH_FOREACH_END();
-		} else {
-			ZEPHIR_CALL_METHOD(NULL, &keys, "rewind", NULL, 0);
-			zephir_check_call_status();
-			while (1) {
-				ZEPHIR_CALL_METHOD(&_3$$3, &keys, "valid", NULL, 0);
-				zephir_check_call_status();
-				if (!zend_is_true(&_3$$3)) {
-					break;
-				}
-				ZEPHIR_CALL_METHOD(&key, &keys, "current", NULL, 0);
-				zephir_check_call_status();
-					if (zephir_start_with(&key, &prefix_zv, NULL)) {
-						zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 82);
-					}
-				ZEPHIR_CALL_METHOD(NULL, &keys, "next", NULL, 0);
-				zephir_check_call_status();
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _2$$3)
+		{
+			ZEPHIR_INIT_NVAR(&key);
+			ZVAL_COPY(&key, _2$$3);
+			if (zephir_start_with(&key, &prefix_zv, NULL)) {
+				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 82);
 			}
-		}
+		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&key);
 		RETURN_CTOR(&results);
 	}

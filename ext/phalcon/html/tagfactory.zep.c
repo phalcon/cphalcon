@@ -137,13 +137,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 {
-	zend_string *_5;
-	zend_ulong _4;
+	zend_string *_4;
+	zend_ulong _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval services;
-	zval *escaper, escaper_sub, *services_param = NULL, *response = NULL, response_sub, *url = NULL, url_sub, __$null, name, definition, _0, _1, *_2, _3;
+	zval *escaper, escaper_sub, *services_param = NULL, *response = NULL, response_sub, *url = NULL, url_sub, __$null, name, definition, _0, _1, *_2, _6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper_sub);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&services);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
@@ -194,33 +194,33 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("factories"), &_1);
 	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 169);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _4, _5, _2)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _3, _4, _2)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_5 != NULL) { 
-				ZVAL_STR_COPY(&name, _5);
+			if (_4 != NULL) { 
+				ZVAL_STR_COPY(&name, _4);
 			} else {
-				ZVAL_LONG(&name, _4);
+				ZVAL_LONG(&name, _3);
 			}
 			ZEPHIR_INIT_NVAR(&definition);
 			ZVAL_COPY(&definition, _2);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_6, 0, &name, &definition);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &services, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &services, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &services, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&name, &services, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&definition, &services, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_6, 0, &name, &definition);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &services, "next", NULL, 0);
 			zephir_check_call_status();

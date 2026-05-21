@@ -60,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractList)
  * @param string $delimiter
  * @param array  $attributes
  *
- * @return AbstractList
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 {

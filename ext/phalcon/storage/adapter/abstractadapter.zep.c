@@ -335,16 +335,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, doDeleteMultiple)
 {
 	zend_bool allOk;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keys_param = NULL, key, *_0, _1, _2$$3, _4$$5;
+	zval *keys_param = NULL, key, *_0, _3, _1$$3, _4$$5;
 	zval keys;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keys);
 	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(keys, keys_param)
@@ -360,9 +360,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, doDeleteMultiple)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _0);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "dodelete", &_3, 0, &key);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "dodelete", &_2, 0, &key);
 			zephir_check_call_status();
-			if (!zephir_is_true(&_2$$3)) {
+			if (!zephir_is_true(&_1$$3)) {
 				allOk = 0;
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -370,14 +370,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, doDeleteMultiple)
 		ZEPHIR_CALL_METHOD(NULL, &keys, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &keys, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, &keys, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_3)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &keys, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "dodelete", &_3, 0, &key);
+				ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "dodelete", &_2, 0, &key);
 				zephir_check_call_status();
 				if (!zephir_is_true(&_4$$5)) {
 					allOk = 0;

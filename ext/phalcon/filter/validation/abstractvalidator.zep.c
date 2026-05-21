@@ -407,12 +407,12 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplate)
  */
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates)
 {
-	zval _5$$3, _6$$3, _7$$4, _8$$4;
-	zend_string *_4;
-	zend_ulong _3;
+	zval _4$$3, _5$$3, _7$$4, _8$$4;
+	zend_string *_3;
+	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *templates_param = NULL, field, template, _0, *_1, _2;
+	zval *templates_param = NULL, field, template, _0, *_1, _6;
 	zval templates;
 	zval *this_ptr = getThis();
 
@@ -420,9 +420,9 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates)
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&template);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -437,29 +437,29 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("templates"), &_0);
 	zephir_is_iterable(&templates, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 227);
 	if (Z_TYPE_P(&templates) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _3, _4, _1)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _2, _3, _1)
 		{
 			ZEPHIR_INIT_NVAR(&field);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&field, _4);
+			if (_3 != NULL) { 
+				ZVAL_STR_COPY(&field, _3);
 			} else {
-				ZVAL_LONG(&field, _3);
+				ZVAL_LONG(&field, _2);
 			}
 			ZEPHIR_INIT_NVAR(&template);
 			ZVAL_COPY(&template, _1);
-			zephir_cast_to_string(&_5$$3, &field);
-			ZEPHIR_CPY_WRT(&field, &_5$$3);
-			zephir_cast_to_string(&_6$$3, &template);
-			ZEPHIR_CPY_WRT(&template, &_6$$3);
+			zephir_cast_to_string(&_4$$3, &field);
+			ZEPHIR_CPY_WRT(&field, &_4$$3);
+			zephir_cast_to_string(&_5$$3, &template);
+			ZEPHIR_CPY_WRT(&template, &_5$$3);
 			zephir_update_property_array(this_ptr, SL("templates"), &field, &template);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &templates, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &templates, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &templates, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&field, &templates, "key", NULL, 0);

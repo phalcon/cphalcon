@@ -71,19 +71,19 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, __construct)
  */
 PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 {
-	zend_string *_4;
-	zend_ulong _3;
-	zval definition, index, _0, *_1, _2, _5$$3, _7$$4;
+	zend_string *_3;
+	zend_ulong _2;
+	zval definition, index, _0, *_1, _6, _4$$3, _7$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&index);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -91,27 +91,27 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definitions"), PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Forms/Loader/ArrayLoader.zep", 48);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
 			ZEPHIR_INIT_NVAR(&index);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&index, _4);
+			if (_3 != NULL) { 
+				ZVAL_STR_COPY(&index, _3);
 			} else {
-				ZVAL_LONG(&index, _3);
+				ZVAL_LONG(&index, _2);
 			}
 			ZEPHIR_INIT_NVAR(&definition);
 			ZVAL_COPY(&definition, _1);
-			ZVAL_LONG(&_5$$3, zephir_get_intval(&index));
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_6, 0, &definition, &_5$$3);
+			ZVAL_LONG(&_4$$3, zephir_get_intval(&index));
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_5, 0, &definition, &_4$$3);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&index, &_0, "key", NULL, 0);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 			ZEPHIR_CALL_METHOD(&definition, &_0, "current", NULL, 0);
 			zephir_check_call_status();
 				ZVAL_LONG(&_7$$4, zephir_get_intval(&index));
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_6, 0, &definition, &_7$$4);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_5, 0, &definition, &_7$$4);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 			zephir_check_call_status();

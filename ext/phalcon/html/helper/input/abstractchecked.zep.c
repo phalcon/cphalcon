@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
  *
  * @param array $attributes
  *
- * @return AbstractChecked
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 {
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
  *
  * @param bool $flag
  *
- * @return AbstractChecked
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 {

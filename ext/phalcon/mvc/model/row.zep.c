@@ -17,8 +17,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -69,55 +69,68 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub, _0, _2, _1$$3;
+	zval index_sub, value, key, _1$$3;
 	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "offsetexists", NULL, 0, index);
-	zephir_check_call_status();
-	if (!(zephir_is_true(&_0))) {
+	zephir_cast_to_string(&_0, index);
+	ZEPHIR_CPY_WRT(&key, &_0);
+	zephir_memory_observe(&value);
+	if (!(zephir_fetch_property_zval(&value, this_ptr, &key, PH_SILENT_CC))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotinrow_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 44);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 48);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_memory_observe(&_2);
-	zephir_read_property_zval(&_2, this_ptr, index, PH_NOISY_CC);
-	RETURN_CCTOR(&_2);
+	RETURN_CCTOR(&value);
 }
 
 /**
- * Checks whether offset exists in the row
+ * Checks whether offset exists in the row. Returns true when the property
+ * is present on the row, regardless of whether its value is null - column
+ * presence is the contract, not value truthiness.
  *
  * @param string|int $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 {
-	zval index_sub;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval index_sub, value, key;
 	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &index);
-	RETURN_BOOL(zephir_isset_property_value_zval(this_ptr, index));
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &index);
+	zephir_cast_to_string(&_0, index);
+	ZEPHIR_CPY_WRT(&key, &_0);
+	zephir_memory_observe(&value);
+	RETURN_MM_BOOL(zephir_fetch_property_zval(&value, this_ptr, &key, PH_SILENT_CC));
 }
 
 /**
@@ -147,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 68);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 78);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -176,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 78);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 88);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

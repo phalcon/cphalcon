@@ -451,21 +451,21 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, warning)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 {
-	zend_ulong _2;
+	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context, replace;
-	zend_string *message = NULL, *_3;
-	zval *level, level_sub, message_zv, *context_param = NULL, key, value, *_0, _1, _6, _4$$3, _5$$4;
+	zend_string *message = NULL, *_2;
+	zval *level, level_sub, message_zv, *context_param = NULL, key, value, *_0, _4, _6, _3$$3, _5$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level_sub);
 	ZVAL_UNDEF(&message_zv);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&replace);
@@ -493,27 +493,27 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 	array_init(&replace);
 	zephir_is_iterable(&context, 0, "phalcon/DataMapper/Pdo/Profiler/MemoryLogger.zep", 170);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _2, _3, _0)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&key, _3);
+			if (_2 != NULL) { 
+				ZVAL_STR_COPY(&key, _2);
 			} else {
-				ZVAL_LONG(&key, _2);
+				ZVAL_LONG(&key, _1);
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
-			ZEPHIR_INIT_NVAR(&_4$$3);
-			ZEPHIR_CONCAT_SVS(&_4$$3, "{", &key, "}");
-			zephir_array_update_zval(&replace, &_4$$3, &value, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(&_3$$3);
+			ZEPHIR_CONCAT_SVS(&_3$$3, "{", &key, "}");
+			zephir_array_update_zval(&replace, &_3$$3, &value, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &context, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4, &context, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &context, "key", NULL, 0);

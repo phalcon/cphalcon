@@ -1430,12 +1430,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize)
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 {
-	zend_string *_10$$10;
-	zend_ulong _9$$10;
+	zend_string *_9$$10;
+	zend_ulong _8$$10;
 	zval prefixKey;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *model, model_sub, *key, key_sub, strategy, metaData, data, modelMetadata, container, _0$$3, _1$$4, _4$$4, _2$$8, _3$$8, pendingIndex$$10, pendingData$$10, _5$$10, _6$$10, *_7$$10, _8$$10, _11$$10;
+	zval *model, model_sub, *key, key_sub, strategy, metaData, data, modelMetadata, container, _0$$3, _1$$4, _4$$4, _2$$8, _3$$8, pendingIndex$$10, pendingData$$10, _5$$10, _6$$10, *_7$$10, _10$$10, _11$$10;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
@@ -1454,7 +1454,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 	ZVAL_UNDEF(&pendingData$$10);
 	ZVAL_UNDEF(&_5$$10);
 	ZVAL_UNDEF(&_6$$10);
-	ZVAL_UNDEF(&_8$$10);
+	ZVAL_UNDEF(&_10$$10);
 	ZVAL_UNDEF(&_11$$10);
 	ZVAL_UNDEF(&prefixKey);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -1510,13 +1510,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 				zephir_array_fetch(&_6$$10, &_5$$10, key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 884);
 				zephir_is_iterable(&_6$$10, 0, "phalcon/Mvc/Model/MetaData.zep", 887);
 				if (Z_TYPE_P(&_6$$10) == IS_ARRAY) {
-					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_6$$10), _9$$10, _10$$10, _7$$10)
+					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_6$$10), _8$$10, _9$$10, _7$$10)
 					{
 						ZEPHIR_INIT_NVAR(&pendingIndex$$10);
-						if (_10$$10 != NULL) { 
-							ZVAL_STR_COPY(&pendingIndex$$10, _10$$10);
+						if (_9$$10 != NULL) { 
+							ZVAL_STR_COPY(&pendingIndex$$10, _9$$10);
 						} else {
-							ZVAL_LONG(&pendingIndex$$10, _9$$10);
+							ZVAL_LONG(&pendingIndex$$10, _8$$10);
 						}
 						ZEPHIR_INIT_NVAR(&pendingData$$10);
 						ZVAL_COPY(&pendingData$$10, _7$$10);
@@ -1526,9 +1526,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 					ZEPHIR_CALL_METHOD(NULL, &_6$$10, "rewind", NULL, 0);
 					zephir_check_call_status();
 					while (1) {
-						ZEPHIR_CALL_METHOD(&_8$$10, &_6$$10, "valid", NULL, 0);
+						ZEPHIR_CALL_METHOD(&_10$$10, &_6$$10, "valid", NULL, 0);
 						zephir_check_call_status();
-						if (!zend_is_true(&_8$$10)) {
+						if (!zend_is_true(&_10$$10)) {
 							break;
 						}
 						ZEPHIR_CALL_METHOD(&pendingIndex$$10, &_6$$10, "key", NULL, 0);

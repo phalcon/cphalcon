@@ -204,14 +204,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *replace_param = NULL, item, *_0, _1, _2$$3, _3$$4;
+	zval *replace_param = NULL, item, *_0, _2, _1$$3, _3$$4;
 	zval replace, matrix;
 
 	ZVAL_UNDEF(&replace);
 	ZVAL_UNDEF(&matrix);
 	ZVAL_UNDEF(&item);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(replace, replace_param)
@@ -306,17 +306,17 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, " ");
-			zephir_array_update_zval(&matrix, &item, &_2$$3, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(&_1$$3);
+			ZVAL_STRING(&_1$$3, " ");
+			zephir_array_update_zval(&matrix, &item, &_1$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &replace, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &replace, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_2, &replace, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_2)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&item, &replace, "current", NULL, 0);

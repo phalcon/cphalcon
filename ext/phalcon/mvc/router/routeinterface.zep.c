@@ -85,6 +85,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setHttpMethods);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setName);
 /**
+ * Sets the route's id (intended for restoring cached routes)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setRouteId);
+/**
  * Reconfigure the route adding a new pattern and a set of paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
