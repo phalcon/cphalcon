@@ -83,6 +83,11 @@ interface RouteInterface
     public function setName(string name) -> <RouteInterface>;
 
     /**
+     * Sets the route's id (intended for restoring cached routes)
+     */
+    public function setRouteId(string! routeId) -> <RouteInterface>;
+
+    /**
      * Reconfigure the route adding a new pattern and a set of paths
      */
     public function reConfigure(string! pattern, var paths = null) -> void;
