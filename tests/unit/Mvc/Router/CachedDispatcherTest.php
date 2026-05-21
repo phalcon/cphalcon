@@ -172,6 +172,7 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
         $restored = $this->getRouter(false);
         $restored->loadDispatcherFromArray($dump);
 
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $restored->handle('/users/42');
         $this->assertSame('users', $restored->getControllerName());
         $this->assertSame('show', $restored->getActionName());
@@ -299,6 +300,7 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
             $restored = $this->getRouter(false);
             $restored->loadDispatcher($path);
 
+            $_SERVER['REQUEST_METHOD'] = 'GET';
             $restored->handle('/users/42');
             $this->assertSame('users', $restored->getControllerName());
         } finally {
