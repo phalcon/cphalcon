@@ -91,7 +91,7 @@ class Loader extends AbstractEventsAware
      * @param string $name
      * @param string $file
      *
-     * @return Loader
+     * @return static
      */
     public function addClass(string name, string file) -> <static>
     {
@@ -105,7 +105,7 @@ class Loader extends AbstractEventsAware
      *
      * @param string $directory
      *
-     * @return Loader
+     * @return static
      */
     public function addDirectory(string directory) -> <static>
     {
@@ -119,7 +119,7 @@ class Loader extends AbstractEventsAware
      *
      * @param string $extension
      *
-     * @return Loader
+     * @return static
      */
     public function addExtension(string extension) -> <static>
     {
@@ -133,7 +133,7 @@ class Loader extends AbstractEventsAware
      *
      * @param string $file
      *
-     * @return Loader
+     * @return static
      */
     public function addFile(string file) -> <static>
     {
@@ -147,7 +147,7 @@ class Loader extends AbstractEventsAware
      * @param mixed  $directories
      * @param bool   $prepend
      *
-     * @return Loader
+     * @return static
      * @throws Exception
      */
     public function addNamespace(
@@ -349,7 +349,7 @@ class Loader extends AbstractEventsAware
      * @param array $classes
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
     public function setClasses(array classes, bool merge = false) -> <static>
     {
@@ -372,7 +372,7 @@ class Loader extends AbstractEventsAware
      * @param array $directories
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
     public function setDirectories(array directories, bool merge = false) -> <static>
     {
@@ -391,7 +391,7 @@ class Loader extends AbstractEventsAware
      * @param array $extensions
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
     public function setExtensions(array extensions, bool merge = false) -> <static>
     {
@@ -426,7 +426,7 @@ class Loader extends AbstractEventsAware
      *
      * @param string|callable|null $method
      *
-     * @return Loader
+     * @return static
      * @throws Exception
      */
     public function setFileCheckingCallback(method = null) -> <static>
@@ -451,7 +451,7 @@ class Loader extends AbstractEventsAware
      * @param array $files
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
     public function setFiles(array files, bool merge = false) -> <static>
     {
@@ -469,7 +469,7 @@ class Loader extends AbstractEventsAware
      * @param array $namespaces
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
     public function setNamespaces(array namespaces, bool merge = false) -> <static>
     {
@@ -492,7 +492,7 @@ class Loader extends AbstractEventsAware
     /**
      * Unregister the autoload method
      *
-     * @return Loader
+     * @return static
      */
     public function unregister() -> <static>
     {
@@ -573,7 +573,7 @@ class Loader extends AbstractEventsAware
      * @param string $method
      * @param bool   $merge
      *
-     * @return Loader
+     * @return static
      */
     private function addToCollection(
         array collection,

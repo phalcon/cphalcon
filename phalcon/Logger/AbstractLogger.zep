@@ -140,7 +140,7 @@ abstract class AbstractLogger
      * @param string           $name    The name of the adapter
      * @param AdapterInterface $adapter The adapter to add to the stack
      *
-     * @return AbstractLogger
+     * @return static
      */
     public function addAdapter(string name, <AdapterInterface> adapter) -> <static>
     {
@@ -154,7 +154,7 @@ abstract class AbstractLogger
      *
      * @param array $adapters
      *
-     * @return AbstractLogger
+     * @return static
      */
     public function excludeAdapters(array adapters = []) -> <static>
     {
@@ -229,7 +229,7 @@ abstract class AbstractLogger
      *
      * @param string $name The name of the adapter
      *
-     * @return AbstractLogger
+     * @return static
      * @throws AdapterNotFound
      */
     public function removeAdapter(string name) -> <static>
@@ -248,7 +248,7 @@ abstract class AbstractLogger
      *
      * @param array $adapters An array of adapters
      *
-     * @return AbstractLogger
+     * @return static
      */
     public function setAdapters(array adapters) -> <static>
     {
@@ -262,7 +262,7 @@ abstract class AbstractLogger
      *
      * @param int $level
      *
-     * @return AbstractLogger
+     * @return static
      */
     public function setLogLevel(int level) -> <static>
     {

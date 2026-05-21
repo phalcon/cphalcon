@@ -266,7 +266,7 @@ class Escaper implements EscaperInterface
     /**
      * @param AttributeEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
     public function setAttributeEscaper(<AttributeEscaper> escaper) -> <static>
     {
@@ -278,7 +278,7 @@ class Escaper implements EscaperInterface
     /**
      * @param CssEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
     public function setCssEscaper(<CssEscaper> escaper) -> <static>
     {
@@ -338,7 +338,7 @@ class Escaper implements EscaperInterface
     /**
      * @param HtmlEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
     public function setHtmlEscaper(<HtmlEscaper> escaper) -> <static>
     {
@@ -360,7 +360,7 @@ class Escaper implements EscaperInterface
     /**
      * @param JsEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
     public function setJsEscaper(<JsEscaper> escaper) -> <static>
     {
@@ -372,7 +372,7 @@ class Escaper implements EscaperInterface
     /**
      * @param UrlEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
     public function setUrlEscaper(<UrlEscaper> escaper) -> <static>
     {

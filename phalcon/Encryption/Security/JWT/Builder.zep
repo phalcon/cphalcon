@@ -84,7 +84,7 @@ class Builder
     }
 
     /**
-     * @return Builder
+     * @return static
      */
     public function init() -> <static>
     {
@@ -106,7 +106,7 @@ class Builder
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
     public function addClaim(string! name, var value) -> <static>
     {
@@ -121,7 +121,7 @@ class Builder
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
     public function addHeader(string! name, var value) -> <static>
     {
@@ -260,7 +260,7 @@ class Builder
      *
      * @param mixed $audience
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
     public function setAudience(var audience) -> <static>
@@ -285,7 +285,7 @@ class Builder
      *
      * @param string $contentType
      *
-     * @return Builder
+     * @return static
      */
     public function setContentType(string contentType) -> <static>
     {
@@ -305,7 +305,7 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
     public function setExpirationTime(int timestamp) -> <static>
@@ -329,7 +329,7 @@ class Builder
      *
      * @param string $id
      *
-     * @return Builder
+     * @return static
      */
     public function setId(string! id) -> <static>
     {
@@ -344,7 +344,7 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      */
     public function setIssuedAt(int! timestamp) -> <static>
     {
@@ -359,7 +359,7 @@ class Builder
      *
      * @param string $issuer
      *
-     * @return Builder
+     * @return static
      */
     public function setIssuer(string! issuer) -> <static>
     {
@@ -377,7 +377,7 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
     public function setNotBefore(int! timestamp) -> <static>
@@ -400,7 +400,7 @@ class Builder
      *
      * @param string $subject
      *
-     * @return Builder
+     * @return static
      */
     public function setSubject(string! subject) -> <static>
     {
@@ -410,7 +410,7 @@ class Builder
     /**
      * @param string $passphrase
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
     public function setPassphrase(string! passphrase) -> <static>

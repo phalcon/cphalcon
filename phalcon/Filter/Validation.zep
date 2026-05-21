@@ -117,7 +117,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
     public function add(var field, <ValidatorInterface> validator) -> <static>
     {
@@ -461,7 +461,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
     public function rule(var field, <ValidatorInterface> validator) -> <static>
     {

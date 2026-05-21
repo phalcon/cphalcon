@@ -341,7 +341,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setContent("<h1>hello</h1>");
      *```
      *
-     * @return Simple
+     * @return static
      */
     public function setContent(string! content) -> <static>
     {
@@ -367,7 +367,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setParamToView("products", $products);
      *```
      *
-     * @return Simple
+     * @return static
      */
     public function setParamToView(string! key, var value) -> <static>
     {
@@ -381,7 +381,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setVar("products", $products);
      *```
      *
-     * @return Simple
+     * @return static
      */
     public function setVar(string! key, var value) -> <static>
     {
@@ -401,7 +401,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * );
      *```
      *
-     * @return Simple
+     * @return static
      */
     public function setVars(array! params, bool merge = true) -> <static>
     {

@@ -54,7 +54,7 @@ class Title extends AbstractHelper
      * @param string      $indent
      * @param string|null $delimiter
      *
-     * @return Title
+     * @return static
      */
     public function __invoke(
         string indent = "    ",
@@ -102,7 +102,7 @@ class Title extends AbstractHelper
      * @param string $text
      * @param bool   $raw
      *
-     * @return Title
+     * @return static
      */
     public function append(string text, bool raw = false) -> <static>
     {
@@ -129,7 +129,7 @@ class Title extends AbstractHelper
      * @param string $text
      * @param bool   $raw
      *
-     * @return Title
+     * @return static
      */
     public function set(string text, bool raw = false) -> <static>
     {
@@ -146,7 +146,7 @@ class Title extends AbstractHelper
      * @param string $separator
      * @param bool   $raw
      *
-     * @return Title
+     * @return static
      */
     public function setSeparator(string separator, bool raw = false) -> <static>
     {
@@ -161,7 +161,7 @@ class Title extends AbstractHelper
      * @param string $text
      * @param bool   $raw
      *
-     * @return Title
+     * @return static
      */
     public function prepend(string text, bool raw = false) -> <static>
     {

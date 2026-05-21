@@ -165,7 +165,7 @@ class Breadcrumbs
     /**
      * @param string $separator
      *
-     * @return Breadcrumbs
+     * @return static
      */
     public function setSeparator(string separator) -> <static>
     {

@@ -97,7 +97,7 @@ class Validator
      * @param string $claim
      * @param mixed  $value
      *
-     * @return Validator
+     * @return static
      */
     public function set(string claim, var value) -> <static>
     {
@@ -111,7 +111,7 @@ class Validator
      *
      * @param Token $token
      *
-     * @return Validator
+     * @return static
      */
     public function setToken(<Token> token) -> <static>
     {
@@ -126,7 +126,7 @@ class Validator
      * @param string          $name
      * @param bool|int|string $value
      *
-     * @return Validator
+     * @return static
      */
     public function validateClaim(string name, var value) -> <static>
     {
@@ -146,7 +146,7 @@ class Validator
      *
      * @param string|array $audience
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateAudience(var audience) -> <static>
@@ -177,7 +177,7 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateExpiration(int timestamp) -> <static>
@@ -201,7 +201,7 @@ class Validator
      *
      * @param string $id
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateId(string id) -> <static>
@@ -222,7 +222,7 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateIssuedAt(int timestamp) -> <static>
@@ -243,7 +243,7 @@ class Validator
      *
      * @param string $issuer
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateIssuer(string! issuer) -> <static>
@@ -264,7 +264,7 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateNotBefore(int timestamp) -> <static>
@@ -286,7 +286,7 @@ class Validator
      * @param SignerInterface $signer
      * @param string          $passphrase
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateSignature(

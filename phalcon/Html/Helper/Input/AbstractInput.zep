@@ -41,7 +41,7 @@ abstract class AbstractInput extends AbstractHelper
      * @param string|null $value
      * @param array       $attributes
      *
-     * @return AbstractInput
+     * @return static
      */
     public function __invoke(
         string name,
@@ -94,7 +94,7 @@ abstract class AbstractInput extends AbstractHelper
      *
      * @param string|null $value
      *
-     * @return AbstractInput
+     * @return static
      */
     public function setValue(string value = null) -> <static>
     {

@@ -121,7 +121,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
      *
      * @param ConnectionInterface $callable
      *
-     * @return ConnectionLocatorInterface
+     * @return static
      */
     public function setMaster(<ConnectionInterface> callableObject) -> <static>
     {
@@ -136,7 +136,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
      * @param string   $name
      * @param callable $callable
      *
-     * @return ConnectionLocatorInterface
+     * @return static
      */
     public function setRead(
         string name,
@@ -153,7 +153,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
      * @param string   $name
      * @param callable $callable
      *
-     * @return ConnectionLocatorInterface
+     * @return static
      */
     public function setWrite(
         string name,
