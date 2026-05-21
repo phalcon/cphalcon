@@ -221,6 +221,25 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected routes = [];
 
     /**
+     * Static-route hash, populated by rebuildMethodIndex(). For each method
+     * bucket (including "*"), maps URI => list of routes whose compiled
+     * pattern is a literal string equal to that URI.
+     *
+     * @var array
+     */
+    protected staticByMethod = [];
+
+    /**
+     * Shadow-detection map. If staticShadowedByMethod[method][uri] is set,
+     * the static URI in that bucket is shadowed by a later-attached regex
+     * route — the fast path MUST NOT be used; fall through to the dynamic
+     * loop so the regex wins (reverse-iteration semantics).
+     *
+     * @var array
+     */
+    protected staticShadowedByMethod = [];
+
+    /**
     * @var int
      */
     protected uriSource = self::URI_SOURCE_GET_URL;
@@ -590,6 +609,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->methodRoutes           = [],
             this->candidatesByMethod     = [],
             this->candidatesMetaByMethod = [],
+            this->staticByMethod         = [],
+            this->staticShadowedByMethod = [],
             this->methodRoutesDirty      = true;
     }
 
@@ -746,11 +767,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected function rebuildMethodIndex() -> void
     {
         var route, methods, method, methodSpecific, starRoutes,
-            candidates, idx, candidateRoute, candidatePattern, isRegex;
+            candidates, idx, candidateRoute, candidatePattern, isRegex,
+            bucketRoute, bucketPattern, staticUri, staticBucket,
+            staticRoutesList;
 
         let this->methodRoutes           = [],
             this->candidatesByMethod     = [],
-            this->candidatesMetaByMethod = [];
+            this->candidatesMetaByMethod = [],
+            this->staticByMethod         = [],
+            this->staticShadowedByMethod = [];
 
         for route in this->routes {
             let methods = route->getHttpMethods();
@@ -797,6 +822,31 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     "hostRegex":   candidateRoute->getCompiledHostName(),
                     "beforeMatch": candidateRoute->getBeforeMatch()
                 ];
+            }
+        }
+
+        /**
+         * Build the static-route hash + shadow flags. For each method bucket
+         * (already merged with "*" routes), walk in attach order; when a
+         * regex route is encountered, mark any earlier-registered static URI
+         * it would match as shadowed. The fast path consults staticByMethod
+         * only when staticShadowedByMethod has no entry for that URI.
+         */
+        for method, candidates in this->candidatesByMethod {
+            for bucketRoute in candidates {
+                let bucketPattern = bucketRoute->getCompiledPattern();
+
+                if !memstr(bucketPattern, "^") {
+                    let this->staticByMethod[method][bucketPattern][] = bucketRoute;
+                } else {
+                    if fetch staticBucket, this->staticByMethod[method] {
+                        for staticUri, staticRoutesList in staticBucket {
+                            if preg_match(bucketPattern, staticUri) {
+                                let this->staticShadowedByMethod[method][staticUri] = true;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -889,7 +939,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
             pattern, position, realUri, regexHostName, request, requestMethod,
-            route, routeFound, routeIdx, routeMeta, strParams, vnamespace;
+            route, routeFound, routeIdx, routeMeta, staticBeforeMatch,
+            staticBucket, staticBucketMethod, staticHostname, staticHostRegex,
+            staticMatched, staticRoute, strParams, vnamespace;
 
         if !uri {
             /**
@@ -966,9 +1018,80 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         /**
-         * Routes are traversed in reversed order
+         * Static-route fast path: O(1) lookup for literal URIs that are not
+         * shadowed by a later-attached regex in the same bucket. Disabled
+         * when an events manager is attached, so per-route events fire from
+         * the regular loop and preserve their existing semantics.
          */
-        for routeIdx, route in array_reverse(candidateRoutes, true) {
+        if eventsManager === null {
+            let staticBucketMethod = null;
+
+            if isset this->staticByMethod[requestMethod][handledUri]
+                && !isset this->staticShadowedByMethod[requestMethod][handledUri] {
+                let staticBucketMethod = requestMethod;
+            } elseif isset this->staticByMethod["*"][handledUri]
+                && !isset this->staticShadowedByMethod["*"][handledUri] {
+                let staticBucketMethod = "*";
+            }
+
+            if staticBucketMethod !== null {
+                let staticBucket = this->staticByMethod[staticBucketMethod][handledUri];
+
+                for staticRoute in reverse staticBucket {
+                    let staticHostname = staticRoute->getHostName();
+
+                    if staticHostname !== null {
+                        if currentHostName === null {
+                            let currentHostName = request->getHttpHost();
+                        }
+
+                        if !currentHostName {
+                            continue;
+                        }
+
+                        let staticHostRegex = staticRoute->getCompiledHostName();
+
+                        if staticHostRegex !== null {
+                            let staticMatched = preg_match(staticHostRegex, currentHostName);
+                        } else {
+                            let staticMatched = currentHostName == staticHostname;
+                        }
+
+                        if !staticMatched {
+                            continue;
+                        }
+                    }
+
+                    let staticBeforeMatch = staticRoute->getBeforeMatch();
+
+                    if staticBeforeMatch !== null {
+                        if unlikely !is_callable(staticBeforeMatch) {
+                            throw new BeforeMatchNotCallable();
+                        }
+
+                        let routeFound = {staticBeforeMatch}(handledUri, staticRoute, this);
+
+                        if !routeFound {
+                            continue;
+                        }
+                    }
+
+                    let routeFound         = true,
+                        matches            = null,
+                        parts              = staticRoute->getPaths(),
+                        this->matchedRoute = staticRoute;
+
+                    break;
+                }
+            }
+        }
+
+        /**
+         * Routes are traversed in reversed order. Skipped when the static
+         * fast path already produced a match.
+         */
+        if !routeFound {
+            for routeIdx, route in array_reverse(candidateRoutes, true) {
             let routeMeta = candidatesMeta[routeIdx],
                 params    = [],
                 matches   = null;
@@ -1119,6 +1242,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let this->matchedRoute = route;
 
                 break;
+            }
             }
         }
 
