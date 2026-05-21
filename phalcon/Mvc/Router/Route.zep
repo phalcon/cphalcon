@@ -25,6 +25,15 @@ class Route implements RouteInterface
     protected beforeMatch = null;
 
     /**
+     * Cached compiled hostname regex. `false` means "not yet computed";
+     * `null` means "hostname is literal — use string equality"; any string
+     * means "use this as the PCRE pattern."
+     *
+     * @var string|null|false
+     */
+    protected compiledHostName = false;
+
+    /**
      * @var string|null
      */
     protected compiledPattern = null;
@@ -345,6 +354,50 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the compiled hostname regex, or null when the hostname is
+     * literal and a string-equality comparison should be used.
+     *
+     * The result is cached after first computation; setHostname() clears
+     * the cache.
+     */
+    public function getCompiledHostName() -> string | null
+    {
+        var hostname, regexHostName;
+
+        if this->compiledHostName !== false {
+            return this->compiledHostName;
+        }
+
+        let hostname = this->hostname;
+
+        if hostname === null {
+            let this->compiledHostName = null;
+            return null;
+        }
+
+        if !memstr(hostname, "(") {
+            let this->compiledHostName = null;
+            return null;
+        }
+
+        if !memstr(hostname, "#") {
+            let regexHostName = "#^" . hostname;
+
+            if !memstr(hostname, ":") {
+                let regexHostName .= "(:[[:digit:]]+)?";
+            }
+
+            let regexHostName .= "$#i";
+        } else {
+            let regexHostName = hostname;
+        }
+
+        let this->compiledHostName = regexHostName;
+
+        return regexHostName;
+    }
+
+    /**
      * Returns the route's compiled pattern
      */
     public function getCompiledPattern() -> string
@@ -639,7 +692,8 @@ class Route implements RouteInterface
      */
     public function setHostname(string! hostname) -> <RouteInterface>
     {
-        let this->hostname = hostname;
+        let this->hostname        = hostname,
+            this->compiledHostName = false;
 
         return this;
     }
@@ -659,6 +713,18 @@ class Route implements RouteInterface
     public function setName(string name) -> <RouteInterface>
     {
         let this->name = name;
+
+        return this;
+    }
+
+    /**
+     * Sets the route's id. Intended for restoring cached routes — most
+     * applications should rely on the auto-incrementing id assigned by
+     * the constructor.
+     */
+    public function setRouteId(string! routeId) -> <RouteInterface>
+    {
+        let this->id = routeId;
 
         return this;
     }
