@@ -968,14 +968,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     /**
                      * Check first if the callback is callable
                      */
-                    let routeFound = call_user_func_array(
-                        beforeMatch,
-                        [
-                            handledUri,
-                            route,
-                            this
-                        ]
-                    );
+                    let routeFound = {beforeMatch}(handledUri, route, this);
                 }
 
             } else {
@@ -1015,10 +1008,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                              */
                             if typeof converters === "array" {
                                 if fetch converter, converters[part] {
-                                    let parts[part] = call_user_func_array(
-                                        converter,
-                                        [matchPosition]
-                                    );
+                                    let parts[part] = {converter}(matchPosition);
 
                                     continue;
                                 }
@@ -1033,10 +1023,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                              * Apply the converters anyway
                              */
                             if typeof converters === "array" && fetch converter, converters[part] {
-                                let parts[part] = call_user_func_array(
-                                    converter,
-                                    [position]
-                                );
+                                let parts[part] = {converter}(position);
                             } elseif typeof position === "integer" {
                                 /**
                                  * Remove the path if the parameter was not
