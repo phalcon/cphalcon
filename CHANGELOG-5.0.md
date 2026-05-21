@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Changed return types to `-> <static>` or `-> <self>` in various components. The change is a covariant narrowing on implementation methods and does not touch any interface contracts, so userland classes that implement Phalcon interfaces and return the interface type continue to work unchanged. [#17035](https://github.com/phalcon/cphalcon/issues/17035)
+
 ### Added
 
 - Added granular exception classes across the framework. Every namespace that previously surfaced failures through a single umbrella `Phalcon\<Namespace>\Exception` (or its sub-namespace counterpart) now ships per-cause classes under a sibling `Exceptions/` folder. Each new class extends the existing per-namespace parent so `catch (Phalcon\<Namespace>\Exception $e)` continues to work unchanged. New classes:
