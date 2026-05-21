@@ -6,6 +6,14 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Additional enhancements inspired by FastRoute and Symfony
+ *
+ * @link    https://github.com/nikic/FastRoute
+ * @license https://github.com/nikic/FastRoute/blob/master/LICENSE
+ * @link    https://github.com/symfony/routing
+ * @license https://github.com/symfony/routing/blob/8.1/LICENSE
+ * @link    https://github.com/Jurigag/fast-micro-router-phalcon
  */
 
 namespace Phalcon\Mvc;
@@ -99,6 +107,23 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @var array
      */
     protected candidatesByMethod = [];
+
+    /**
+     * Parallel to candidatesByMethod. Each entry mirrors the corresponding
+     * route as an array of cached scalars:
+     *   [
+     *     "pattern":     string,        // compiled pattern
+     *     "isRegex":     bool,          // pattern contains "^"
+     *     "hostname":    string|null,   // raw hostname or null
+     *     "hostRegex":   string|null,   // compiled hostname regex (null = literal)
+     *     "beforeMatch": callable|null
+     *   ]
+     *
+     * Built in rebuildMethodIndex().
+     *
+     * @var array
+     */
+    protected candidatesMetaByMethod = [];
 
     /**
      * @var string
@@ -561,10 +586,11 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function clear() -> void
     {
-        let this->routes             = [],
-            this->methodRoutes       = [],
-            this->candidatesByMethod = [],
-            this->methodRoutesDirty  = true;
+        let this->routes                 = [],
+            this->methodRoutes           = [],
+            this->candidatesByMethod     = [],
+            this->candidatesMetaByMethod = [],
+            this->methodRoutesDirty      = true;
     }
 
     /**
@@ -719,10 +745,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     protected function rebuildMethodIndex() -> void
     {
-        var route, methods, method, methodSpecific, starRoutes;
+        var route, methods, method, methodSpecific, starRoutes,
+            candidates, idx, candidateRoute, candidatePattern, isRegex;
 
-        let this->methodRoutes       = [],
-            this->candidatesByMethod = [];
+        let this->methodRoutes           = [],
+            this->candidatesByMethod     = [],
+            this->candidatesMetaByMethod = [];
 
         for route in this->routes {
             let methods = route->getHttpMethods();
@@ -749,6 +777,27 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
 
             let this->candidatesByMethod[method] = array_merge(methodSpecific, starRoutes);
+        }
+
+        for method, candidates in this->candidatesByMethod {
+            let this->candidatesMetaByMethod[method] = [];
+
+            for idx, candidateRoute in candidates {
+                let candidatePattern = candidateRoute->getCompiledPattern();
+                let isRegex          = false;
+
+                if memstr(candidatePattern, "^") {
+                    let isRegex = true;
+                }
+
+                let this->candidatesMetaByMethod[method][idx] = [
+                    "pattern":     candidatePattern,
+                    "isRegex":     isRegex,
+                    "hostname":    candidateRoute->getHostName(),
+                    "hostRegex":   candidateRoute->getCompiledHostName(),
+                    "beforeMatch": candidateRoute->getBeforeMatch()
+                ];
+            }
         }
 
         let this->methodRoutesDirty = false;
@@ -835,12 +884,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string! uri) -> void
     {
-        var action, beforeMatch, candidateRoutes, container, controller,
-            converter, converters, currentHostName, eventsManager, handledUri,
-            hostname, matched, matches, matchPosition,
+        var action, beforeMatch, candidateRoutes, candidatesMeta, container,
+            controller, converter, converters, currentHostName, eventsManager,
+            handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
             pattern, position, realUri, regexHostName, request, requestMethod,
-            route, routeFound, strParams, vnamespace;
+            route, routeFound, routeIdx, routeMeta, strParams, vnamespace;
 
         if !uri {
             /**
@@ -897,7 +946,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         let requestMethod   = request->getMethod(),
-            candidateRoutes = [];
+            candidateRoutes = [],
+            candidatesMeta  = [];
 
         if !fetch candidateRoutes, this->candidatesByMethod[requestMethod] {
             fetch candidateRoutes, this->candidatesByMethod["*"];
@@ -907,17 +957,26 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let candidateRoutes = [];
         }
 
+        if !fetch candidatesMeta, this->candidatesMetaByMethod[requestMethod] {
+            fetch candidatesMeta, this->candidatesMetaByMethod["*"];
+        }
+
+        if typeof candidatesMeta !== "array" {
+            let candidatesMeta = [];
+        }
+
         /**
          * Routes are traversed in reversed order
          */
-        for route in reverse candidateRoutes {
-            let params  = [],
-                matches = null;
+        for routeIdx, route in array_reverse(candidateRoutes, true) {
+            let routeMeta = candidatesMeta[routeIdx],
+                params    = [],
+                matches   = null;
 
             /**
              * Look for hostname constraints
              */
-            let hostname = route->getHostName();
+            let hostname = routeMeta["hostname"];
             if hostname !== null {
                 /**
                  * Check if the current hostname is the same as the route
@@ -937,7 +996,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                  * Check if the hostname restriction is the same as the current
                  * in the route
                  */
-                let regexHostName = route->getCompiledHostName();
+                let regexHostName = routeMeta["hostRegex"];
 
                 if regexHostName !== null {
                     let matched = preg_match(regexHostName, currentHostName);
@@ -957,9 +1016,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             /**
              * If the route has parentheses use preg_match
              */
-            let pattern = route->getCompiledPattern();
+            let pattern = routeMeta["pattern"];
 
-            if memstr(pattern, "^") {
+            if routeMeta["isRegex"] {
                 let routeFound = preg_match(pattern, handledUri, matches);
             } else {
                 let routeFound = pattern == handledUri;
@@ -973,7 +1032,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     eventsManager->fire("router:matchedRoute", this, route);
                 }
 
-                let beforeMatch = route->getBeforeMatch();
+                let beforeMatch = routeMeta["beforeMatch"];
                 if beforeMatch !== null {
                     /**
                      * Check first if the callback is callable
