@@ -275,7 +275,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * rebuild on cache miss, then clears the property to skip subsequent
      * writes.
      *
-     * @var <CacheAdapterInterface>|null
+     * @var CacheAdapterInterface|null
      */
     protected pendingCache = null;
 
