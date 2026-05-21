@@ -18,6 +18,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
@@ -267,6 +268,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @var array
      */
     protected params = [];
+
+    /**
+     * Lazy-write cache target set by useCache(). When non-null, handle()
+     * writes buildDispatcherDump() to this cache after a successful
+     * rebuild on cache miss, then clears the property to skip subsequent
+     * writes.
+     *
+     * @var <CacheAdapterInterface>|null
+     */
+    protected pendingCache = null;
+
+    /**
+     * @var string
+     */
+    protected pendingCacheKey = "";
 
     /**
      * @var bool
@@ -675,6 +691,302 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->combinedRegexDisabled  = [],
             this->combinedRegexMarkMap   = [],
             this->methodRoutesDirty      = true;
+    }
+
+    /**
+     * Produces a pure-data array describing every piece of state needed
+     * to reconstruct this router. The returned array is var_export-able
+     * (no objects, no closures). Used by dumpDispatcher() and by
+     * Phalcon\Cache integration via useCache().
+     *
+     * Throws when a route has a Closure beforeMatch or converter — those
+     * cannot be cached.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function buildDispatcherDump() -> array
+    {
+        var route, cb, converters, convName, converter, dumpedRoutes,
+            routeToIdx, scalarIdx, scalarSubKey, scalarVal,
+            methodRoutesScalar, candidatesScalar, staticScalar,
+            innerKey, innerVal, mostInnerVal, mostInnerArr;
+
+        if this->methodRoutesDirty {
+            this->rebuildMethodIndex();
+        }
+
+        let dumpedRoutes = [];
+        let routeToIdx   = [];
+
+        for scalarIdx, route in this->routes {
+            let routeToIdx[spl_object_id(route)] = scalarIdx;
+
+            let cb = route->getBeforeMatch();
+            if cb !== null && cb instanceof \Closure {
+                throw new Exception(
+                    "Cannot cache router: route id '" . route->getRouteId() .
+                    "' has a Closure beforeMatch - only string/array callables are cacheable"
+                );
+            }
+
+            let converters = route->getConverters();
+            if typeof converters === "array" {
+                for convName, converter in converters {
+                    if converter instanceof \Closure {
+                        throw new Exception(
+                            "Cannot cache router: route id '" . route->getRouteId() .
+                            "' has a Closure converter for '" . convName .
+                            "' - only string/array callables are cacheable"
+                        );
+                    }
+                }
+            }
+
+            let dumpedRoutes[] = [
+                "class":       get_class(route),
+                "pattern":     route->getPattern(),
+                "paths":       route->getPaths(),
+                "methods":     route->getHttpMethods(),
+                "hostname":    route->getHostname(),
+                "name":        route->getName(),
+                "id":          route->getRouteId(),
+                "beforeMatch": cb,
+                "converters":  converters
+            ];
+        }
+
+        let methodRoutesScalar = [];
+        for innerKey, innerVal in this->methodRoutes {
+            let mostInnerArr = [];
+            for scalarVal in innerVal {
+                let mostInnerArr[] = routeToIdx[spl_object_id(scalarVal)];
+            }
+            let methodRoutesScalar[innerKey] = mostInnerArr;
+        }
+
+        let candidatesScalar = [];
+        for innerKey, innerVal in this->candidatesByMethod {
+            let mostInnerArr = [];
+            for scalarVal in innerVal {
+                let mostInnerArr[] = routeToIdx[spl_object_id(scalarVal)];
+            }
+            let candidatesScalar[innerKey] = mostInnerArr;
+        }
+
+        let staticScalar = [];
+        for innerKey, innerVal in this->staticByMethod {
+            let staticScalar[innerKey] = [];
+            for scalarSubKey, mostInnerVal in innerVal {
+                let mostInnerArr = [];
+                for scalarVal in mostInnerVal {
+                    let mostInnerArr[] = routeToIdx[spl_object_id(scalarVal)];
+                }
+                let staticScalar[innerKey][scalarSubKey] = mostInnerArr;
+            }
+        }
+
+        return [
+            "version":                1,
+            "routes":                 dumpedRoutes,
+            "methodRoutes":           methodRoutesScalar,
+            "candidatesByMethod":     candidatesScalar,
+            "staticByMethod":         staticScalar,
+            "staticShadowedByMethod": this->staticShadowedByMethod,
+            "hostnameByMethod":       this->hostnameByMethod,
+            "hostnameLessByMethod":   this->hostnameLessByMethod,
+            "combinedRegexByMethod":  this->combinedRegexByMethod,
+            "combinedRegexDisabled":  this->combinedRegexDisabled,
+            "combinedRegexMarkMap":   this->combinedRegexMarkMap,
+            "routeMeta":              this->routeMeta
+        ];
+    }
+
+    /**
+     * Inverse of buildDispatcherDump(). Reconstructs every Route from the
+     * scalar `routes` entries (preserving subclass and routeId), restores
+     * every index, and marks the indexes clean so handle() skips rebuild.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function loadDispatcherFromArray(array dump) -> void
+    {
+        var routeData, route, routeClass, beforeMatch, converters,
+            convName, converter, rebuiltRoutes, methodRoutesRehydrated,
+            candidatesRehydrated, staticRehydrated, innerKey, innerVal,
+            scalarIdx, scalarSubKey, mostInnerVal, mostInnerArr;
+        int dumpVersion;
+
+        if !isset dump["version"] {
+            throw new Exception("Router cache is missing 'version' field");
+        }
+
+        let dumpVersion = (int) dump["version"];
+
+        if dumpVersion !== 1 {
+            throw new Exception(
+                "Router cache version " . dumpVersion . " is not supported (this build supports version 1)"
+            );
+        }
+
+        if !isset dump["routes"] {
+            throw new Exception("Router cache is missing 'routes' field");
+        }
+
+        let rebuiltRoutes = [];
+
+        for routeData in dump["routes"] {
+            let routeClass = routeData["class"];
+            let route      = new {routeClass}(routeData["pattern"], routeData["paths"], routeData["methods"]);
+
+            if routeData["hostname"] !== null {
+                route->setHostname(routeData["hostname"]);
+            }
+
+            if routeData["name"] !== null {
+                route->setName(routeData["name"]);
+            }
+
+            route->setRouteId(routeData["id"]);
+
+            let beforeMatch = routeData["beforeMatch"];
+            if beforeMatch !== null {
+                route->beforeMatch(beforeMatch);
+            }
+
+            let converters = routeData["converters"];
+            if typeof converters === "array" {
+                for convName, converter in converters {
+                    route->convert(convName, converter);
+                }
+            }
+
+            let rebuiltRoutes[] = route;
+        }
+
+        let this->routes = rebuiltRoutes;
+
+        let methodRoutesRehydrated = [];
+        for innerKey, innerVal in dump["methodRoutes"] {
+            let mostInnerArr = [];
+            for scalarIdx in innerVal {
+                let mostInnerArr[] = this->routes[scalarIdx];
+            }
+            let methodRoutesRehydrated[innerKey] = mostInnerArr;
+        }
+
+        let candidatesRehydrated = [];
+        for innerKey, innerVal in dump["candidatesByMethod"] {
+            let mostInnerArr = [];
+            for scalarIdx in innerVal {
+                let mostInnerArr[] = this->routes[scalarIdx];
+            }
+            let candidatesRehydrated[innerKey] = mostInnerArr;
+        }
+
+        let staticRehydrated = [];
+        for innerKey, innerVal in dump["staticByMethod"] {
+            let staticRehydrated[innerKey] = [];
+            for scalarSubKey, mostInnerVal in innerVal {
+                let mostInnerArr = [];
+                for scalarIdx in mostInnerVal {
+                    let mostInnerArr[] = this->routes[scalarIdx];
+                }
+                let staticRehydrated[innerKey][scalarSubKey] = mostInnerArr;
+            }
+        }
+
+        let this->methodRoutes           = methodRoutesRehydrated,
+            this->candidatesByMethod     = candidatesRehydrated,
+            this->staticByMethod         = staticRehydrated,
+            this->staticShadowedByMethod = dump["staticShadowedByMethod"],
+            this->hostnameByMethod       = dump["hostnameByMethod"],
+            this->hostnameLessByMethod   = dump["hostnameLessByMethod"],
+            this->combinedRegexByMethod  = dump["combinedRegexByMethod"],
+            this->combinedRegexDisabled  = dump["combinedRegexDisabled"],
+            this->combinedRegexMarkMap   = dump["combinedRegexMarkMap"],
+            this->routeMeta              = dump["routeMeta"],
+            this->keyRouteIds            = [],
+            this->keyRouteNames          = [],
+            this->methodRoutesDirty      = false;
+    }
+
+    /**
+     * File-shaped helper around buildDispatcherDump(). Writes the dump as
+     * a `<?php return [...];` file, atomically (temp + rename) so concurrent
+     * dumps don't corrupt the result.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function dumpDispatcher(string! path) -> void
+    {
+        var dump, php, tmpPath;
+
+        let dump    = this->buildDispatcherDump();
+        let php     = "<?php\nreturn " . var_export(dump, true) . ";\n";
+        let tmpPath = path . ".tmp." . (string) getmypid();
+
+        if file_put_contents(tmpPath, php) === false {
+            throw new Exception("Failed to write router cache temp file: " . tmpPath);
+        }
+
+        if !rename(tmpPath, path) {
+            unlink(tmpPath);
+            throw new Exception("Failed to commit router cache: " . path);
+        }
+    }
+
+    /**
+     * File-shaped helper around loadDispatcherFromArray(). Includes the
+     * file (opcache-friendly) and forwards the return value.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function loadDispatcher(string! path) -> void
+    {
+        var dump;
+
+        if !file_exists(path) {
+            throw new Exception("Router cache not found: " . path);
+        }
+
+        let dump = require path;
+
+        if typeof dump !== "array" {
+            throw new Exception(
+                "Router cache is corrupt or invalid (expected array, got " . gettype(dump) . "): " . path
+            );
+        }
+
+        this->loadDispatcherFromArray(dump);
+    }
+
+    /**
+     * Cache-instance convenience wrapper. On cache hit, restores the
+     * dispatcher immediately. On miss, defers cache population until the
+     * next handle() completes - at which point buildDispatcherDump() is
+     * written to the cache key.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function useCache(<CacheAdapterInterface> cache, string! key = "phalcon.router.dispatcher") -> void
+    {
+        var stored;
+
+        if cache->has(key) {
+            let stored = cache->get(key);
+
+            if typeof stored !== "array" {
+                throw new Exception(
+                    "Router cache value at key '" . key . "' is not an array"
+                );
+            }
+
+            this->loadDispatcherFromArray(stored);
+            return;
+        }
+
+        let this->pendingCache    = cache,
+            this->pendingCacheKey = key;
     }
 
     /**
@@ -1605,6 +1917,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if typeof eventsManager === "object" {
             eventsManager->fire("router:afterCheckRoutes", this);
+        }
+
+        if this->pendingCache !== null {
+            this->pendingCache->set(this->pendingCacheKey, this->buildDispatcherDump());
+            let this->pendingCache    = null,
+                this->pendingCacheKey = "";
         }
     }
 
