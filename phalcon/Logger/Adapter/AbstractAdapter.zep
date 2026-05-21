@@ -114,7 +114,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Commits the internal transaction
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws TransactionNotActive
      */
     public function commit() -> <AdapterInterface>
     {
@@ -169,7 +169,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Rollbacks the internal transaction
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws TransactionNotActive
      */
     public function rollback() -> <AdapterInterface>
     {

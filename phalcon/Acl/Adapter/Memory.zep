@@ -991,7 +991,7 @@ class Memory extends AbstractAdapter
      * @param string $elementName
      * @param string $suffix
      *
-     * @throws Exception
+     * @throws ElementNotFound
      */
     private function checkExists(
         array collection,

@@ -15,7 +15,6 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
-
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Collection\Exceptions\InvalidValueType;
 use Phalcon\Support\Helper\Json\Encode;
@@ -688,7 +687,7 @@ class Collection implements
     public function toJson(int options = 4194383) -> string
     {
         var result;
-        
+
         let result = (new Encode())->__invoke(this->jsonSerialize(), options);
 
         return result;
@@ -750,7 +749,7 @@ class Collection implements
      *
      * @return static
      */
-    protected function cloneEmpty(array data = []) -> <CollectionContract>
+    protected function cloneEmpty(array data = []) -> <CollectionInterface>
     {
         var className;
 

@@ -81,11 +81,11 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     * @param mixed $translateKey
+     * @param TKey $translateKey
      *
-     * @return mixed
+     * @return TValue|null
      */
-    public function offsetGet(mixed translateKey) -> mixed
+    public function offsetGet(mixed translateKey) -> string | null
     {
         return this->query(translateKey);
     }
