@@ -82,6 +82,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     const POSITION_LAST = 1;
 
     /**
+     * Number of alternatives per combined-regex chunk. Empirically derived
+     * (FastRoute uses ~10) — keeps each chunk below PCRE's optimizer cliff.
+     *
+     * @var int
+     */
+    const REGEX_CHUNK_SIZE = 10;
+
+    /**
      * @var int
      */
     const URI_SOURCE_GET_URL = 0;
@@ -985,11 +993,39 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 continue;
             }
 
-            let combinedAlternatives = array_reverse(combinedAlternatives);
-            let combinedPattern = "#^(?|" . implode("|", combinedAlternatives) . ")$#u";
+            /**
+             * Reverse alternatives so PCRE's left-to-right first-match
+             * gives reverse-attach-wins. Then chunk into groups of
+             * REGEX_CHUNK_SIZE so each chunk stays below the PCRE
+             * optimizer cliff. chunks[0] holds the LATEST-attached batch
+             * — handle() tries chunks 0..N in order.
+             */
+            var chunkedPatterns, chunkedMarkMaps, chunkOffset, chunkSlice,
+                chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId;
 
-            let this->combinedRegexByMethod[method] = [combinedPattern];
-            let this->combinedRegexMarkMap[method]  = [combinedMark];
+            let combinedAlternatives = array_reverse(combinedAlternatives);
+            let reversedMarkIds      = array_reverse(array_keys(combinedMark));
+
+            let chunkedPatterns = [],
+                chunkedMarkMaps = [],
+                chunkOffset     = 0;
+
+            while chunkOffset < count(combinedAlternatives) {
+                let chunkSlice       = array_slice(combinedAlternatives, chunkOffset, self::REGEX_CHUNK_SIZE),
+                    chunkMarkSubset  = array_slice(reversedMarkIds,      chunkOffset, self::REGEX_CHUNK_SIZE),
+                    chunkSliceMap    = [];
+
+                for chunkMarkId in chunkMarkSubset {
+                    let chunkSliceMap[chunkMarkId] = combinedMark[chunkMarkId];
+                }
+
+                let chunkedPatterns[] = "#^(?|" . implode("|", chunkSlice) . ")$#u";
+                let chunkedMarkMaps[] = chunkSliceMap;
+                let chunkOffset += self::REGEX_CHUNK_SIZE;
+            }
+
+            let this->combinedRegexByMethod[method] = chunkedPatterns;
+            let this->combinedRegexMarkMap[method]  = chunkedMarkMaps;
         }
 
         let this->methodRoutesDirty = false;

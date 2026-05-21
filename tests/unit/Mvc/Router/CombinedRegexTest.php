@@ -157,4 +157,53 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $this->assertContains('beforeCheckRoute', $fired);
         $this->assertContains('matchedRoute',     $fired);
     }
+
+    /**
+     * 25 dynamic routes (above the 10-per-chunk threshold). A route in the
+     * second chunk must still match, and a route in the third chunk must
+     * still match.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testChunkingBoundary(): void
+    {
+        $router = $this->getRouter(false);
+        for ($i = 0; $i < 25; $i++) {
+            $router->add(
+                "/r{$i}/{slug:[a-z]+}",
+                ['controller' => 'route_' . $i]
+            );
+        }
+
+        // /r22 was attached as index 22. After reversing the alternatives,
+        // the latest 10 attached (24..15) form chunk 0; r22 is in chunk 0.
+        $router->handle('/r22/widget');
+        $this->assertSame('route_22', $router->getControllerName());
+
+        // /r2 was attached as index 2. After reversing, it lands in chunk
+        // 2 (positions 20..24 of the reversed list).
+        $router->handle('/r2/widget');
+        $this->assertSame('route_2', $router->getControllerName());
+    }
+
+    /**
+     * With 25 catch-all routes attached, the latest-attached one wins
+     * regardless of which chunk it lives in (chunk 0 is tried first by
+     * design).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testChunkingPreservesReverseAttachOrder(): void
+    {
+        $router = $this->getRouter(false);
+        for ($i = 0; $i < 25; $i++) {
+            $router->add('/{anything' . $i . ':[a-z]+}', ['controller' => 'route_' . $i]);
+        }
+
+        $router->handle('/about');
+
+        $this->assertSame('route_24', $router->getControllerName());
+    }
 }
