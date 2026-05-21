@@ -173,7 +173,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @var mixed extension
      *
-     * @return Compiler
+     * @return static
      */
     public function addExtension(extension) -> <static>
     {
@@ -199,7 +199,7 @@ class Compiler implements InjectionAwareInterface
      * @param string name
      * @param mixed definition
      *
-     * @return Compiler
+     * @return static
      */
     public function addFilter(string! name, var definition) -> <static>
     {
@@ -214,7 +214,7 @@ class Compiler implements InjectionAwareInterface
      * @param string name
      * @param mixed definition
      *
-     * @return Compiler
+     * @return static
      */
     public function addFunction(string! name, var definition) -> <static>
     {

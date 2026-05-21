@@ -90,7 +90,7 @@ abstract class AbstractLinkProvider
      * @param mixed $link A link object that should be included in this
      *                    collection.
      *
-     * @return $this
+     * @return static
      */
     protected function doWithLink(link) -> <static>
     {
@@ -113,7 +113,7 @@ abstract class AbstractLinkProvider
      *
      * @param mixed $link The link to remove.
      *
-     * @return $this
+     * @return static
      */
     protected function doWithoutLink(link) -> <static>
     {

@@ -273,7 +273,7 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
+     * @return static
      * @throws AuthenticationFailed
      */
     private function checkAuth(<\Redis> connection) -> <static>
@@ -298,7 +298,7 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
+     * @return static
      * @throws ConnectionFailed
      */
     private function checkConnect(<\Redis> connection) -> <static>
@@ -362,7 +362,7 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
+     * @return static
      * @throws DatabaseSelectionFailed
      */
     private function checkIndex(<\Redis> connection) -> <static>

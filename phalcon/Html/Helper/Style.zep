@@ -32,7 +32,7 @@ class Style extends AbstractSeries
      * @param string $url
      * @param array  $attributes
      *
-     * @return $this
+     * @return static
      * @throws Exception
      */
     public function add(string url, array attributes = [], int position = -1) -> <static>

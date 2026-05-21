@@ -494,7 +494,7 @@ class Crypt implements CryptInterface
     /**
      * @param string $data
      *
-     * @return CryptInterface
+     * @return static
      */
     public function setAuthData(string data) -> <static>
     {
@@ -506,7 +506,7 @@ class Crypt implements CryptInterface
     /**
      * @param string $tag
      *
-     * @return CryptInterface
+     * @return static
      */
     public function setAuthTag(string tag) -> <static>
     {
@@ -518,7 +518,7 @@ class Crypt implements CryptInterface
     /**
      * @param int $length
      *
-     * @return CryptInterface
+     * @return static
      */
     public function setAuthTagLength(int length) -> <static>
     {
@@ -532,7 +532,7 @@ class Crypt implements CryptInterface
      *
      * @param string $cipher
      *
-     * @return CryptInterface
+     * @return static
      * @throws Exception
      */
     public function setCipher(string cipher) -> <static>
@@ -562,7 +562,7 @@ class Crypt implements CryptInterface
      *
      * @param string $key
      *
-     * @return CryptInterface
+     * @return static
      */
     public function setKey(string key) -> <static>
     {
@@ -576,7 +576,7 @@ class Crypt implements CryptInterface
      *
      * @param string $hashAlgorithm
      *
-     * @return CryptInterface
+     * @return static
      * @throws Exception
      */
     public function setHashAlgorithm(string hashAlgorithm) -> <static>
@@ -593,7 +593,7 @@ class Crypt implements CryptInterface
      *
      * @param int $scheme
      *
-     * @return CryptInterface
+     * @return static
      */
     public function setPadding(int scheme) -> <static>
     {
@@ -607,7 +607,7 @@ class Crypt implements CryptInterface
      *
      * @param bool $useSigning
      *
-     * @return CryptInterface
+     * @return static
      */
     public function useSigning(bool useSigning) -> <static>
     {
@@ -909,7 +909,7 @@ class Crypt implements CryptInterface
     /**
      * Initialize available cipher algorithms.
      *
-     * @return Crypt
+     * @return static
      * @throws Exception
      */
     protected function initializeAvailableCiphers() -> <static>

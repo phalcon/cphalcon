@@ -50,7 +50,7 @@ class Select extends AbstractList
      * @param array       $attributes
      * @param bool        $raw
      *
-     * @return Select
+     * @return static
      */
     public function add(
         string text,
@@ -82,7 +82,7 @@ class Select extends AbstractList
      * @param array  $attributes
      * @param bool   $raw
      *
-     * @return Select
+     * @return static
      */
     public function addPlaceholder(
         string text,
@@ -116,7 +116,7 @@ class Select extends AbstractList
      *
      * @param SelectData data
      *
-     * @return Select
+     * @return static
      */
     public function fromData(<SelectData> data) -> <static>
     {
@@ -151,7 +151,7 @@ class Select extends AbstractList
      * @param string $label
      * @param array  $attributes
      *
-     * @return Select
+     * @return static
      */
     public function optGroup(
         string label = null,
@@ -188,7 +188,7 @@ class Select extends AbstractList
      *
      * @param string $text
      *
-     * @return Select
+     * @return static
      */
     public function placeholder(string text) -> <static>
     {
@@ -213,7 +213,7 @@ class Select extends AbstractList
     /**
      * @param string $selected
      *
-     * @return Select
+     * @return static
      */
     public function selected(string selected) -> <static>
     {
@@ -230,7 +230,7 @@ class Select extends AbstractList
      *
      * @param bool $flag
      *
-     * @return Select
+     * @return static
      */
     public function strict(bool flag = true) -> <static>
     {

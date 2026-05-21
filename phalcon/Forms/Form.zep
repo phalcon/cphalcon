@@ -809,7 +809,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param Schema       $schema
      * @param FormsLocator $locator
      *
-     * @return Form
+     * @return static
      * @throws Exception
      */
     public function load(<Schema> schema, <FormsLocator> locator) -> <static>
@@ -917,7 +917,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the form's action
      *
-     * @return Form
+     * @return static
      */
     public function setAction(string! action) -> <static>
     {

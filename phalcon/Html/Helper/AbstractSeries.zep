@@ -34,7 +34,7 @@ abstract class AbstractSeries extends AbstractHelper
      * @param string $indent
      * @param string $delimiter
      *
-     * @return AbstractSeries
+     * @return static
      */
     public function __invoke(
         string indent = "    ",

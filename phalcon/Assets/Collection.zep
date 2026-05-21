@@ -405,7 +405,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param bool $flag
      *
-     * @return Collection
+     * @return static
      */
     public function join(bool flag) -> <static>
     {

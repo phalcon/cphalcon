@@ -84,7 +84,7 @@ class Line extends AbstractFormatter
      *
      * @param string $format
      *
-     * @return Line
+     * @return static
      */
     public function setFormat(string format) -> <static>
     {

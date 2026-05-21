@@ -94,7 +94,7 @@ abstract class AbstractChecked extends AbstractInput
      *
      * @param array $attributes
      *
-     * @return AbstractChecked
+     * @return static
      */
     public function label(array attributes = []) -> <static>
     {
@@ -131,7 +131,7 @@ abstract class AbstractChecked extends AbstractInput
      *
      * @param bool $flag
      *
-     * @return AbstractChecked
+     * @return static
      */
     public function strict(bool flag = true) -> <static>
     {

@@ -1356,7 +1356,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * @param bool $override
      *
-     * @return Request
+     * @return static
      */
     public function setHttpMethodParameterOverride(bool override) -> <static>
     {
@@ -1421,7 +1421,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Set a trusted proxy list for X-Forwarded-For header
      *
      * @param array $trustedProxies
-     * @return RequestInterface
+     * @return static
      * @throws Exception
      */
     public function setTrustedProxies(array trustedProxies) -> <static>
@@ -1446,7 +1446,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * The header return only 1 single IP address, prefixed with HTTP_ eg. HTTP_CLIENT_IP.
      *
      * @param  string $trustedProxyHeader
-     * @return RequestInterface
+     * @return static
      */
     public function setTrustedProxyHeader(string trustedProxyHeader) -> <static>
     {

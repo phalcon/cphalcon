@@ -578,7 +578,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * after a successful login or any other state change where rotating the
      * token is appropriate.
      *
-     * @return Security
+     * @return static
      */
     public function refreshToken() -> <static>
     {
@@ -606,7 +606,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param bool $autoRefresh
      *
-     * @return Security
+     * @return static
      */
     public function setAutoRefresh(bool autoRefresh) -> <static>
     {
@@ -620,7 +620,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $defaultHash
      *
-     * @return Security
+     * @return static
      */
     public function setDefaultHash(int defaultHash) -> <static>
     {
@@ -635,7 +635,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $randomBytes
      *
-     * @return Security
+     * @return static
      */
     public function setRandomBytes(int! randomBytes) -> <static>
     {
@@ -649,7 +649,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $workFactor
      *
-     * @return Security
+     * @return static
      */
     public function setWorkFactor(int workFactor) -> <static>
     {
