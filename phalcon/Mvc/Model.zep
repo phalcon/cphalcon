@@ -2025,9 +2025,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, _ in allAttributes {
             /**
              * If some attribute is not present in the snapshot, we assume the
-             * record as changed
+             * record as changed. array_key_exists() is used so a snapshot
+             * that legitimately stores `null` (e.g. a nullable DB column
+             * loaded from a fresh row) is not mistaken for an absent key
+             * under the post-5.13.0 Zephir `isset` semantics [#17042].
              */
-            if !isset snapshot[name] {
+            if !array_key_exists(name, snapshot) {
                 let changed[] = name;
 
                 continue;
@@ -2370,9 +2373,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, value in snapshot {
             /**
              * If some attribute is not present in the oldSnapshot, we assume
-             * the record as changed
+             * the record as changed. array_key_exists() is used so a
+             * snapshot that legitimately stores `null` is not mistaken for
+             * an absent key under the post-5.13.0 Zephir `isset` semantics
+             * [#17042].
              */
-            if !isset oldSnapshot[name] || value !== oldSnapshot[name] {
+            if !array_key_exists(name, oldSnapshot) || value !== oldSnapshot[name] {
                 let updated[] = name;
             }
         }
