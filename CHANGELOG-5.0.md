@@ -4,6 +4,8 @@
 
 ### Changed
 
+- `Phalcon\Mvc\Router::handle()` internal optimizations: O(1) hash lookup for literal-URI routes; per-HTTP-method buckets; hot-loop reads; [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
+- `Phalcon\Mvc\Router\Route::getCompiledHostName()` now uses cache for hostname/converters. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
 - Changed return types to `-> <static>` or `-> <self>` in various components. The change is a covariant narrowing on implementation methods and does not touch any interface contracts, so userland classes that implement Phalcon interfaces and return the interface type continue to work unchanged. [#17035](https://github.com/phalcon/cphalcon/issues/17035)
 
 ### Added
