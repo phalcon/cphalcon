@@ -215,7 +215,7 @@ final class CoverageGapsTest extends AbstractUnitTestCase
 
         // wasMatched is false (per current contract), but the not-found
         // paths populate the controller/action.
-        $this->assertSame('errors',   $router->getControllerName());
+        $this->assertSame('errors', $router->getControllerName());
         $this->assertSame('notFound', $router->getActionName());
     }
 
@@ -245,8 +245,8 @@ final class CoverageGapsTest extends AbstractUnitTestCase
         $paths = Route::getRoutePaths('Backend::Users::index');
 
         $this->assertSame('Backend', $paths['module']);
-        $this->assertSame('Users',   $paths['controller']);
-        $this->assertSame('index',   $paths['action']);
+        $this->assertSame('Users', $paths['controller']);
+        $this->assertSame('index', $paths['action']);
     }
 
     /**
@@ -276,8 +276,8 @@ final class CoverageGapsTest extends AbstractUnitTestCase
         $paths = Route::getRoutePaths('App\\Controllers\\Users::index');
 
         $this->assertSame('App\\Controllers', $paths['namespace']);
-        $this->assertSame('Users',            $paths['controller']);
-        $this->assertSame('index',            $paths['action']);
+        $this->assertSame('Users', $paths['controller']);
+        $this->assertSame('index', $paths['action']);
     }
 
     /**

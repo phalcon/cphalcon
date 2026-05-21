@@ -45,7 +45,7 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     public function testLaterAttachedRegexShadowsEarlierStatic(): void
     {
         $router = $this->getRouter(false);
-        $router->add('/about',         ['controller' => 'about']);
+        $router->add('/about', ['controller' => 'about']);
         $router->add('/{slug:[a-z]+}', ['controller' => 'catch_all']);
 
         $router->handle('/about');
@@ -64,7 +64,7 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/{slug:[a-z]+}', ['controller' => 'catch_all']);
-        $router->add('/about',         ['controller' => 'about']);
+        $router->add('/about', ['controller' => 'about']);
 
         $router->handle('/about');
 
@@ -81,13 +81,13 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     public function testStaticFastPathHonorsMethodConstraint(): void
     {
         $router = $this->getRouter(false);
-        $router->addGet('/users',  ['controller' => 'users', 'action' => 'index']);
+        $router->addGet('/users', ['controller' => 'users', 'action' => 'index']);
         $router->addPost('/users', ['controller' => 'users', 'action' => 'create']);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $router->handle('/users');
 
-        $this->assertSame('users',  $router->getControllerName());
+        $this->assertSame('users', $router->getControllerName());
         $this->assertSame('create', $router->getActionName());
     }
 
@@ -139,7 +139,7 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     public function testCrossBucketShadowingByStarRegex(): void
     {
         $router = $this->getRouter(false);
-        $router->addGet('/about',      ['controller' => 'about']);
+        $router->addGet('/about', ['controller' => 'about']);
         $router->add('/{slug:[a-z]+}', ['controller' => 'catch_all']);
 
         $_SERVER['REQUEST_METHOD'] = 'GET';

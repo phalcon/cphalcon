@@ -55,14 +55,16 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
 
         $dump = $router->buildDispatcherDump();
 
-        foreach ([
+        foreach (
+            [
             'version', 'routes',
             'methodRoutes', 'candidatesByMethod',
             'staticByMethod', 'staticShadowedByMethod',
             'hostnameByMethod', 'hostnameLessByMethod',
             'combinedRegexByMethod', 'combinedRegexDisabled', 'combinedRegexMarkMap',
             'routeMeta',
-        ] as $key) {
+            ] as $key
+        ) {
             $this->assertArrayHasKey($key, $dump, "dump missing key: $key");
         }
     }

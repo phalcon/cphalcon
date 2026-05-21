@@ -29,7 +29,7 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
-        $router->add('/users/{id:[0-9]+}',       ['controller' => 'users']);
+        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
 
         $router->handle('/users/42');
 
@@ -48,7 +48,7 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     public function testLaterAttachedDynamicRouteWins(): void
     {
         $router = $this->getRouter(false);
-        $router->add('/{anything:[a-z]+}',     ['controller' => 'first']);
+        $router->add('/{anything:[a-z]+}', ['controller' => 'first']);
         $router->add('/{anythingElse:[a-z]+}', ['controller' => 'second']);
 
         $router->handle('/about');
@@ -149,13 +149,13 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         });
         $router->setEventsManager($manager);
 
-        $router->add('/users/{id:[0-9]+}',       ['controller' => 'users']);
+        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
         $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
 
         $router->handle('/users/42');
 
         $this->assertContains('beforeCheckRoute', $fired);
-        $this->assertContains('matchedRoute',     $fired);
+        $this->assertContains('matchedRoute', $fired);
     }
 
     /**
