@@ -10,8 +10,9 @@
 
 namespace Phalcon\Filter\Validation;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exceptions\FieldNotPrintable;
+use Phalcon\Messages\Message;
 use Phalcon\Support\Helper\Arr\Whitelist;
 
 /**
@@ -163,7 +164,7 @@ abstract class AbstractValidator implements ValidatorInterface
         } elseif typeof field == "string" {
             let singleField = field;
         } else {
-            throw new Exception("The field can not be printed");
+            throw new FieldNotPrintable();
         }
 
         let replacements = array_merge(

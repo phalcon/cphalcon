@@ -14,6 +14,7 @@ use Exception;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Dispatcher\Exception as PhalconException;
+use Phalcon\Dispatcher\Exceptions\ForwardInInitializeForbidden;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
@@ -708,9 +709,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              * application to break out of the defined logic inside the
              * dispatcher which handles all dispatch exceptions.
              */
-            throw new PhalconException(
-                "Forwarding inside a controller's initialize() method is forbidden"
-            );
+            throw new ForwardInInitializeForbidden();
         }
 
         /**

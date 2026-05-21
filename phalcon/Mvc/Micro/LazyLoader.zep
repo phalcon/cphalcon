@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Mvc\Micro\Exceptions\LazyHandlerNotFound;
 use Phalcon\Mvc\Model\BinderInterface;
 
 /**
@@ -52,7 +53,7 @@ class LazyLoader
 
         if typeof handler != "object" {
             if !class_exists(definition) {
-                throw new Exception("Handler '" . definition ."' does not exist");
+                throw new LazyHandlerNotFound(definition);
             }
 
             let handler = create_instance(definition);

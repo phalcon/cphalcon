@@ -10,7 +10,10 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Exceptions\DeserializationFailed;
+use Phalcon\Logger\Exceptions\SerializationFailed;
+use Phalcon\Logger\Exceptions\TransactionAlreadyActive;
+use Phalcon\Logger\Exceptions\TransactionNotActive;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
@@ -56,12 +59,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Destructor cleanup
      *
-     * @throws Exception
+     * @throws TransactionAlreadyActive
      */
     public function __destruct()
     {
         if this->inTransaction {
-            throw new Exception("There is an active transaction");
+            throw new TransactionAlreadyActive();
         }
 
         this->close();
@@ -72,7 +75,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function __serialize() -> array
     {
-        throw new Exception("This object cannot be serialized");
+        throw new SerializationFailed();
     }
 
     /**
@@ -80,7 +83,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function __unserialize(array data) -> void
     {
-        throw new Exception("This object cannot be unserialized");
+        throw new DeserializationFailed();
     }
 
     /**
@@ -111,7 +114,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Commits the internal transaction
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws TransactionNotActive
      */
     public function commit() -> <AdapterInterface>
     {
@@ -166,7 +169,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Rollbacks the internal transaction
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws TransactionNotActive
      */
     public function rollback() -> <AdapterInterface>
     {
@@ -205,12 +208,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Checks if the transaction is active
      *
-     * @throws Exception
+     * @throws TransactionNotActive
      */
     private function checkTransaction() -> void
     {
         if (true !== this->inTransaction) {
-            throw new Exception("There is no active transaction");
+            throw new TransactionNotActive();
         }
     }
 

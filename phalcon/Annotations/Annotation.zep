@@ -10,6 +10,8 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Exceptions\UnknownAnnotationExpression;
+
 /**
  * Represents a single annotation in an annotations collection
  */
@@ -151,7 +153,7 @@ class Annotation
                 return new Annotation(expr);
 
             default:
-                throw new Exception("The expression ". type. " is unknown");
+                throw new UnknownAnnotationExpression(type);
         }
 
         return value;

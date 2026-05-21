@@ -10,10 +10,11 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exceptions\InvalidCallbackReturn;
+use Phalcon\Filter\Validation\ValidatorInterface;
+use Phalcon\Messages\Message;
 
 /**
  * Calls user function for validation
@@ -109,9 +110,7 @@ class Callback extends AbstractValidator
                 return returnedValue->validate(validation, field);
             }
 
-            throw new Exception(
-                "Callback must return bool or Phalcon\\Filter\\Validation\\Validator object"
-            );
+            throw new InvalidCallbackReturn();
         }
 
         return true;

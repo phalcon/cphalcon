@@ -14,7 +14,16 @@ use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Component;
-use Phalcon\Acl\Exception;
+use Phalcon\Acl\Exceptions\AccessRuleNotFound;
+use Phalcon\Acl\Exceptions\CircularInheritanceError;
+use Phalcon\Acl\Exceptions\ElementNotFound;
+use Phalcon\Acl\Exceptions\InvalidAccessList;
+use Phalcon\Acl\Exceptions\InvalidComponentImplementation;
+use Phalcon\Acl\Exceptions\InvalidRoleImplementation;
+use Phalcon\Acl\Exceptions\InvalidRoleType;
+use Phalcon\Acl\Exceptions\MissingFunctionParameters;
+use Phalcon\Acl\Exceptions\ParameterTypeMismatch;
+use Phalcon\Acl\Exceptions\RoleNotFoundException;
 use Phalcon\Acl\RoleAwareInterface;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
@@ -239,7 +248,7 @@ class Memory extends AbstractAdapter
         this->checkExists(this->componentsNames, componentName, "Component");
 
         if unlikely (typeof accessList !== "array" && typeof accessList !== "string") {
-            throw new Exception("Invalid value for the accessList");
+            throw new InvalidAccessList();
         }
 
         let exists = true;
@@ -313,10 +322,7 @@ class Memory extends AbstractAdapter
              * Check if the role to inherit is valid
              */
             if unlikely !isset this->roles[roleInheritName] {
-                throw new Exception(
-                    "Role '" . roleInheritName .
-                    "' (to inherit) does not exist in the role list"
-                );
+                throw new RoleNotFoundException(roleInheritName);
             }
 
             if roleName == roleInheritName {
@@ -345,10 +351,7 @@ class Memory extends AbstractAdapter
                     let usedRoleToInherits[checkRoleToInherit] = true;
 
                     if unlikely roleName == checkRoleToInherit {
-                        throw new Exception(
-                            "Role '" . roleInheritName .
-                            "' (to inherit) produces an infinite loop"
-                        );
+                        throw new CircularInheritanceError(roleInheritName);
                     }
 
                     /**
@@ -390,9 +393,7 @@ class Memory extends AbstractAdapter
         } elseif is_string(role) {
             let roleObject = new Role(role);
         } else {
-            throw new Exception(
-                "Role must be either a string or implement RoleInterface"
-            );
+            throw new InvalidRoleType();
         }
 
         let roleName = roleObject->getName();
@@ -609,10 +610,7 @@ class Memory extends AbstractAdapter
             } elseif roleName instanceof RoleInterface {
                 let roleName = roleName->getName();
             } else {
-                throw new Exception(
-                    "Object passed as roleName must implement " .
-                    "Phalcon\\Acl\\RoleAwareInterface or Phalcon\\Acl\\RoleInterface"
-                );
+                throw new InvalidRoleImplementation();
             }
         }
 
@@ -623,10 +621,7 @@ class Memory extends AbstractAdapter
             } elseif componentName instanceof ComponentInterface {
                 let componentName = componentName->getName();
             } else {
-                throw new Exception(
-                    "Object passed as componentName must implement " .
-                    "Phalcon\\Acl\\ComponentAwareInterface or Phalcon\\Acl\\ComponentInterface"
-                );
+                throw new InvalidComponentImplementation();
             }
         }
 
@@ -744,7 +739,7 @@ class Memory extends AbstractAdapter
                         is_object(parameters[parameterToCheck]) &&
                         !reflectionClass->isInstance(parameters[parameterToCheck])
                     ) {
-                        throw new Exception(
+                        throw new ParameterTypeMismatch(
                             "Your passed parameter does not have the " .
                             "same class as the parameter in defined function " .
                             "when checking if " . roleName . " can " . access .
@@ -802,7 +797,7 @@ class Memory extends AbstractAdapter
             }
 
             // We don't have enough parameters
-            throw new Exception(
+            throw new MissingFunctionParameters(
                 "You did not provide all necessary parameters for the " .
                 "defined function when checking if '" . roleName . "' can '" .
                 access . "' for '" . componentName . "'."
@@ -855,11 +850,8 @@ class Memory extends AbstractAdapter
                 let accessKey = componentName . "!" . accessName;
 
                 if unlikely !isset accessList[accessKey] {
-                    throw new Exception(
-                        "Access '" . accessName .
-                        "' does not exist in component '" . componentName . "'"
-                    );
-                }
+                        throw new AccessRuleNotFound(accessName, componentName);
+                    }
             }
 
             for accessName in access {
@@ -875,10 +867,7 @@ class Memory extends AbstractAdapter
                 let accessKey = componentName . "!" . access;
 
                 if unlikely !isset accessList[accessKey] {
-                    throw new Exception(
-                        "Access '" . access .
-                        "' does not exist in component '" . componentName . "'"
-                    );
+                    throw new AccessRuleNotFound(access, componentName);
                 }
             }
 
@@ -1002,7 +991,7 @@ class Memory extends AbstractAdapter
      * @param string $elementName
      * @param string $suffix
      *
-     * @throws Exception
+     * @throws ElementNotFound
      */
     private function checkExists(
         array collection,
@@ -1011,7 +1000,7 @@ class Memory extends AbstractAdapter
         string suffix = "ACL"
     ) -> void {
         if (true !== isset(collection[element])) {
-            throw new Exception(
+            throw new ElementNotFound(
                 elementName . " '" . element .
                 "' does not exist in the " . suffix
             );

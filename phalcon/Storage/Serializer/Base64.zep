@@ -10,7 +10,8 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Exceptions\InvalidSerializationInput;
+use Phalcon\Storage\Serializer\Exceptions\InvalidUnserializationInput;
 
 class Base64 extends AbstractSerializer
 {
@@ -22,9 +23,7 @@ class Base64 extends AbstractSerializer
 	public function serialize() -> string
 	{
 	    if typeof this->data !== "string" {
-	        throw new InvalidArgumentException(
-	        	"Data for the serializer must of type string"
-	        );
+	        throw new InvalidSerializationInput();
 	    }
 
 		return base64_encode(this->data);
@@ -42,9 +41,7 @@ class Base64 extends AbstractSerializer
 	    var result;
 
 	    if typeof data !== "string" {
-	        throw new InvalidArgumentException(
-	        	"Data for the unserializer must of type string"
-	        );
+	        throw new InvalidUnserializationInput();
 	    }
 
         let result = this->phpBase64Decode(data, true);

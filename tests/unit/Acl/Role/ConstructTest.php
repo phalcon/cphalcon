@@ -37,7 +37,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testAclRoleConstructWithWildcardThrowsException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Role name cannot be '*'");
+        $this->expectExceptionMessage("The role name cannot be '*'");
 
         (new Role('*'));
     }

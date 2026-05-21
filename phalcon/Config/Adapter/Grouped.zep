@@ -14,6 +14,7 @@ use Phalcon\Config\Config;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
+use Phalcon\Config\Exceptions\GroupedAdapterRequiresArray;
 use Phalcon\Factory\Exception as FactoryException;
 
 /**
@@ -104,10 +105,7 @@ class Grouped extends Config
 
             if "array" === configInstance["adapter"] {
                 if !isset configInstance["config"] {
-                    throw new Exception(
-                        "To use 'array' adapter you have to specify " .
-                        "the 'config' as an array."
-                    );
+                    throw new GroupedAdapterRequiresArray();
                 }
 
                 let configArray    = configInstance["config"],

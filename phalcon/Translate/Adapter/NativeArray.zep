@@ -10,21 +10,21 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\InvalidDataType;
+use Phalcon\Translate\Exceptions\MissingContent;
+use Phalcon\Translate\Exceptions\KeyNotFound;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class NativeArray
- *
  * Defines translation lists using PHP arrays
  *
- * @package Phalcon\Translate\Adapter
- *
- * @property array $translate
- * @property bool  $triggerError
+ * @phpstan-type TOptions array{
+ *      content?: array<string, string>,
+ *      triggerError?: bool
+ * }
  */
-class NativeArray extends AbstractAdapter implements ArrayAccess
+class NativeArray extends AbstractAdapter
 {
     /**
      * @var array
@@ -40,10 +40,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
      * NativeArray constructor.
      *
      * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                'content'      => '',
-     *                                'triggerError' => false
-     *                            ]
+     * @param TOptions            $options
      *
      * @throws Exception
      */
@@ -54,7 +51,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
         parent::__construct(interpolator, options);
 
         if unlikely !fetch data, options["content"] {
-            throw new Exception("Translation content was not provided");
+            throw new MissingContent();
         }
 
         if fetch error, options["triggerError"] {
@@ -62,7 +59,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
         }
 
         if unlikely typeof data !== "array" {
-            throw new Exception("Translation data must be an array");
+            throw new InvalidDataType();
         }
 
         let this->translate = data;
@@ -104,7 +101,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     public function notFound(string! index) -> string
     {
         if unlikely (true === this->triggerError) {
-            throw new Exception("Cannot find translation key: " . index);
+            throw new KeyNotFound(index);
         }
 
         return index;
@@ -113,8 +110,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     * @param string $index
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      * @throws Exception
@@ -133,7 +129,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the internal array
      *
-     * @return array
+     * @phpstan-return array<string, string>
      */
     public function toArray() -> array
     {

@@ -10,15 +10,18 @@
 
 namespace Phalcon\Db\Dialect;
 
-use Phalcon\Db\Dialect;
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Dialect;
+use Phalcon\Db\DialectInterface;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\ReturningRequiresColumn;
+use Phalcon\Db\Exceptions\UnrecognizedDataType;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\DialectInterface;
 
 /**
  * Generates database specific SQL for the PostgreSQL RDBMS
@@ -151,9 +154,7 @@ class Postgresql extends Dialect
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         let table = this->prepareTable(tableName, schemaName);
@@ -305,9 +306,7 @@ class Postgresql extends Dialect
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE MATERIALIZED VIEW "
@@ -323,9 +322,7 @@ class Postgresql extends Dialect
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -776,9 +773,7 @@ class Postgresql extends Dialect
 
             default:
                 if unlikely empty columnSql {
-                    throw new Exception(
-                        "Unrecognized PostgreSQL data type at column " . column->getName()
-                    );
+                    throw new UnrecognizedDataType("PostgreSQL", column->getName());
                 }
 
                 let typeValues = column->getTypeValues();
@@ -902,9 +897,7 @@ class Postgresql extends Dialect
         var first;
 
         if unlikely empty columns {
-            throw new Exception(
-                "RETURNING requires at least one column or '*'"
-            );
+            throw new ReturningRequiresColumn();
         }
 
         if count(columns) == 1 {

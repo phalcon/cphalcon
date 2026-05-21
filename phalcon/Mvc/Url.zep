@@ -10,11 +10,14 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Mvc\RouterInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Url\Exception;
+use Phalcon\Mvc\Url\Exceptions\MissingRouteName;
+use Phalcon\Mvc\Url\Exceptions\RouteNotFound;
+use Phalcon\Mvc\Url\Exceptions\RouterServiceUnavailable;
 use Phalcon\Mvc\Url\UrlInterface;
 
 /**
@@ -138,9 +141,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
 
         if typeof uri == "array" {
             if unlikely !fetch routeName, uri["for"] {
-                throw new Exception(
-                    "It's necessary to define the route name with the parameter 'for'"
-                );
+                throw new MissingRouteName();
             }
 
             let router = this->router;
@@ -152,15 +153,11 @@ class Url extends AbstractInjectionAware implements UrlInterface
                 let container = <DiInterface> this->container;
 
                 if unlikely typeof container != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'router' service"
-                    );
+                    throw new RouterServiceUnavailable();
                 }
 
                 if unlikely !container->has("router") {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'router' service"
-                    );
+                    throw new RouterServiceUnavailable();
                 }
 
                 let router       = <RouterInterface> container->getShared("router"),
@@ -173,9 +170,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
             let route = <RouteInterface> router->getRouteByName(routeName);
 
             if unlikely typeof route != "object" {
-                throw new Exception(
-                    "Cannot obtain a route using the name '" . routeName . "'"
-                );
+                throw new RouteNotFound(routeName);
             }
 
             /**

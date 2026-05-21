@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model\Transaction;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
 use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Mvc\Model\TransactionInterface;
 
@@ -109,9 +110,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         let this->container = container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
     }
 
@@ -207,9 +206,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         if this->number {

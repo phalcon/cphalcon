@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use RuntimeException;
+use Phalcon\Support\Helper\Str\Exceptions\SyntaxError;
 
 /**
  * Generates random text in accordance with the template. The template is
@@ -38,9 +38,7 @@ class Dynamic
         string pattern;
 
         if unlikely substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
-            throw new RuntimeException(
-                "Syntax error in string '" . text . "'"
-            );
+            throw new SyntaxError(text);
         }
 
         let ldS = preg_quote(leftDelimiter),

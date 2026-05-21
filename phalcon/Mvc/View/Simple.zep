@@ -15,9 +15,12 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
+use Phalcon\Mvc\View\Exceptions\SimpleViewNotFound;
+use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
+use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * Phalcon\Mvc\View\Simple
@@ -452,9 +455,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
                 if typeof di != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access the application services"
-                    );
+                    throw new SimpleViewServicesUnavailable();
                 }
 
                 for extension, engineService in registeredEngines {
@@ -480,9 +481,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
                             ]
                         );
                     } else {
-                        throw new Exception(
-                            "Invalid template engine registration for extension: " . extension
-                        );
+                        throw new InvalidEngineRegistration(extension);
                     }
 
                     let engines[extension] = engineObject;
@@ -579,9 +578,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
          * Always throw an exception if the view does not exist
          */
         if notExists {
-            throw new Exception(
-                "View '" . viewsDirPath . "' was not found in the views directory"
-            );
+            throw new SimpleViewNotFound(viewsDirPath);
         }
 
         /**

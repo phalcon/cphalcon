@@ -12,6 +12,8 @@ namespace Phalcon\Forms\Loader;
 
 use Phalcon\Contracts\Forms\Schema;
 use Phalcon\Forms\Exception;
+use Phalcon\Forms\Exceptions\SchemaEntryMissingKey;
+use Phalcon\Forms\Exceptions\SchemaEntryNotArray;
 
 /**
  * Supplies form element definitions from a PHP array.
@@ -55,21 +57,15 @@ class ArrayLoader implements Schema
     protected function validateDefinition(var definition, int index) -> void
     {
         if typeof definition !== "array" {
-            throw new Exception(
-                "Form schema definition at index " . index . " must be an array"
-            );
+            throw new SchemaEntryNotArray(index);
         }
 
         if !isset definition["type"] || empty definition["type"] {
-            throw new Exception(
-                "Form schema definition at index " . index . " is missing required key \"type\""
-            );
+            throw new SchemaEntryMissingKey(index, "type");
         }
 
         if !isset definition["name"] || empty definition["name"] {
-            throw new Exception(
-                "Form schema definition at index " . index . " is missing required key \"name\""
-            );
+            throw new SchemaEntryMissingKey(index, "name");
         }
     }
 }

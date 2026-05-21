@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudienceType;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
@@ -153,9 +154,7 @@ class Validator
         var item, tokenAudience;
 
         if (typeof audience !== "string" && typeof audience !== "array") {
-            throw new ValidatorException(
-                "Audience must be a string or an array"
-            );
+            throw new InvalidAudienceType();
         }
 
         if (typeof audience === "string") {

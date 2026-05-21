@@ -17,7 +17,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\FakeNativeAdapter;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\KeyNotFound;
 use Phalcon\Translate\InterpolatorFactory;
 
 final class NotFoundTest extends AbstractUnitTestCase
@@ -63,7 +63,7 @@ final class NotFoundTest extends AbstractUnitTestCase
     public function testTranslateAdapterNativearrayNotFoundTriggerError(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(KeyNotFound::class);
         $this->expectExceptionMessage('Cannot find translation key: unknown');
 
         $language = $this->getArrayConfig()['en'];
@@ -81,7 +81,7 @@ final class NotFoundTest extends AbstractUnitTestCase
     public function testTranslateAdapterNativearrayNotFoundTriggerErrorRandomVaue(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(KeyNotFound::class);
         $this->expectExceptionMessage('Cannot find translation key: unknown');
 
         $language = $this->getArrayConfig()['en'];

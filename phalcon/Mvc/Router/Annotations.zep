@@ -10,9 +10,11 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Annotations\Annotation;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router;
-use Phalcon\Annotations\Annotation;
+use Phalcon\Mvc\Router\Exceptions\AnnotationsServiceUnavailable;
+use Phalcon\Mvc\Router\Exceptions\InvalidCallbackParameter;
 
 /**
  * Phalcon\Mvc\Router\Annotations
@@ -109,9 +111,7 @@ class Annotations extends Router
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the 'annotations' service"
-            );
+            throw new AnnotationsServiceUnavailable();
         }
 
         let handlers = this->handlers;
@@ -470,9 +470,7 @@ class Annotations extends Router
                 return uncamelize(action, "-");
             };
         } else {
-            throw new Exception(
-                "The 'callback' parameter must be either a callable or NULL."
-            );
+            throw new InvalidCallbackParameter();
         }
     }
 

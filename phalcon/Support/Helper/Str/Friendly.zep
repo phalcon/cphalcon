@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Support\Helper\Exception;
+use Phalcon\Support\Helper\Str\Exceptions\InvalidReplaceFormat;
 
 /**
  * Changes a text to a URL friendly one. Replaces commonly known accented
@@ -26,7 +26,7 @@ class Friendly extends AbstractStr
      * @param mixed|null $replace
      *
      * @return string
-     * @throws Exception
+     * @throws InvalidReplaceFormat
      */
     public function __invoke(
         string! text,
@@ -64,12 +64,12 @@ class Friendly extends AbstractStr
      * @param mixed $replace
      *
      * @return array
-     * @throws Exception
+     * @throws InvalidReplaceFormat
      */
     private function checkReplace(replace) -> array
     {
         if typeof replace !== "array" && typeof replace !== "string" {
-            throw new Exception(
+            throw new InvalidReplaceFormat(
                 "Parameter replace must be an array or a string"
             );
         }
@@ -85,7 +85,6 @@ class Friendly extends AbstractStr
      * @param mixed $replace
      *
      * @return array
-     * @throws Exception
      */
     private function getMatrix(array replace) -> array
     {

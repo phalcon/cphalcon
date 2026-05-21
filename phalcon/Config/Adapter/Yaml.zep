@@ -12,6 +12,8 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
+use Phalcon\Config\Exceptions\CannotLoadConfigFile;
+use Phalcon\Config\Exceptions\MissingYamlExtension;
 
 /**
  * Reads YAML files and converts them to Phalcon\Config\Config objects.
@@ -61,7 +63,7 @@ class Yaml extends Config
         int ndocs = 0;
 
         if unlikely !this->phpExtensionLoaded("yaml") {
-            throw new Exception("Yaml extension is not loaded");
+            throw new MissingYamlExtension();
         }
 
         if empty(callbacks) {
@@ -75,9 +77,7 @@ class Yaml extends Config
         }
 
         if unlikely yamlConfig === false {
-            throw new Exception(
-                "Configuration file " . basename(filePath) . " can't be loaded"
-            );
+            throw new CannotLoadConfigFile(basename(filePath));
         }
 
         parent::__construct(yamlConfig);

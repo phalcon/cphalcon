@@ -10,11 +10,17 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
-use Phalcon\Di\Di;
 use Phalcon\Db\Column;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderColumnNotInMap;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderConditionInvalid;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\ModelRequired;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\NoPrimaryKey;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\OperatorNotAvailable;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Support\Settings;
 
@@ -701,15 +707,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let models = this->models;
         if typeof models == "array" {
             if unlikely !count(models) {
-                throw new Exception(
-                    "At least one model is required to build the query"
-                );
+                throw new ModelRequired();
             }
         } else {
             if unlikely !models {
-                throw new Exception(
-                    "At least one model is required to build the query"
-                );
+                throw new ModelRequired();
             }
         }
 
@@ -722,9 +724,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              */
             if typeof models == "array" {
                 if unlikely count(models) > 1 {
-                    throw new Exception(
-                        "Cannot build the query. Invalid condition"
-                    );
+                    throw new BuilderConditionInvalid();
                 }
 
                 let model = models[0];
@@ -761,9 +761,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                     if typeof columnMap == "array" {
                         if unlikely !fetch attributeField, columnMap[firstPrimaryKey] {
-                            throw new Exception(
-                                "Column '" . firstPrimaryKey . "' isn't part of the column map"
-                            );
+                            throw new BuilderColumnNotInMap(firstPrimaryKey);
                         }
                     } else {
                         let attributeField = firstPrimaryKey;
@@ -785,9 +783,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * A primary key is mandatory in these cases
              */
             if unlikely noPrimary {
-                throw new Exception(
-                    "Source related to this model does not have a primary key defined"
-                );
+                throw new NoPrimaryKey();
             }
         }
 
@@ -1051,9 +1047,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         /**
@@ -1587,12 +1581,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1635,12 +1624,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         int hiddenParam;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1689,12 +1673,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1736,12 +1715,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         int hiddenParam;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;

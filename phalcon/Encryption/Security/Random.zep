@@ -10,6 +10,8 @@
 
 namespace Phalcon\Encryption\Security;
 
+use Phalcon\Encryption\Security\Exceptions\InvalidRandomInput;
+
 /**
  * Phalcon\Encryption\Security\Random
  *
@@ -269,7 +271,7 @@ class Random
     public function number(int len) -> int
     {
         if unlikely len <= 0 {
-            throw new Exception("Input number must be a positive integer");
+            throw new InvalidRandomInput();
         }
 
         return random_int(0, len);

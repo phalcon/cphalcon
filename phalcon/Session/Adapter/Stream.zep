@@ -10,7 +10,9 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Session\Exception;
+use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
+use Phalcon\Session\Adapter\Exceptions\InvalidSavePath;
+use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
 
 /**
  * Phalcon\Session\Adapter\Stream
@@ -64,11 +66,11 @@ class Stream extends Noop
         let path = this->getArrVal(options, "savePath", this->phpIniGet("session.save_path"));
 
         if unlikely true === empty(path) {
-            throw new Exception("The session save path cannot be empty");
+            throw new InvalidSavePath();
         }
 
         if unlikely true !== this->phpIsWritable(path) {
-            throw new Exception("The session save path [" . path . "] is not writable");
+            throw new SavePathUnavailable(path);
         }
 
         let this->path = this->getDirSeparator(path);
@@ -108,7 +110,7 @@ class Stream extends Noop
             } else {
                 let last = "Unexpected gc error";
             }
-            throw new Exception(last);
+            throw new AdapterRuntimeError(last);
         }
 
         if (!empty(glob)) {

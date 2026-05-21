@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingForeignKeyChecks;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Reference;
@@ -61,9 +62,7 @@ class Mysql extends PdoAdapter
         );
 
         if unlikely !foreignKeyCheck->execute() {
-            throw new Exception(
-                "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1"
-            );
+            throw new MissingForeignKeyChecks();
         }
 
         return this->{"execute"}(

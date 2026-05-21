@@ -10,8 +10,8 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use LogicException;
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
+use Phalcon\Logger\Adapter\Exceptions\InvalidStreamMode;
 use Phalcon\Logger\Item;
 
 /**
@@ -70,7 +70,7 @@ class Stream extends AbstractAdapter
      * @param string $name
      * @param array  $options
      *
-     * @throws Exception
+     * @throws InvalidStreamMode
      */
     public function __construct(string name, array options = [])
     {
@@ -81,7 +81,7 @@ class Stream extends AbstractAdapter
          */
         let mode = true === isset(options["mode"]) ? options["mode"] : "ab";
         if (false !== mb_strpos(mode, "r")) {
-            throw new Exception("Adapter cannot be opened in read mode");
+            throw new InvalidStreamMode();
         }
 
         let this->name = name,
@@ -129,13 +129,7 @@ class Stream extends AbstractAdapter
             if (!is_resource(this->handler)) {
                 let this->handler = null;
 
-                throw new LogicException(
-                    "The file '" .
-                    this->name .
-                    "' cannot be opened with mode '" .
-                    this->mode .
-                    "'"
-                );
+                throw new FileOpenFailed(this->name, this->mode);
             }
         }
 

@@ -10,6 +10,17 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exceptions\ConflictTargetColumnRequired;
+use Phalcon\Db\Exceptions\ConflictUpdateColumnRequired;
+use Phalcon\Db\Exceptions\InvalidGroupByExpression;
+use Phalcon\Db\Exceptions\InvalidListExpression;
+use Phalcon\Db\Exceptions\InvalidOrderByExpression;
+use Phalcon\Db\Exceptions\InvalidSqlExpression;
+use Phalcon\Db\Exceptions\InvalidSqlExpressionType;
+use Phalcon\Db\Exceptions\InvalidUnaryExpression;
+use Phalcon\Db\Exceptions\MaterializedViewsNotSupported;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\ReturningNotSupported;
 use Phalcon\Support\Settings;
 
 /**
@@ -239,7 +250,7 @@ abstract class Dialect implements DialectInterface
         array placeholders;
 
         if unlikely !fetch type, expression["type"] {
-            throw new Exception("Invalid SQL expression");
+            throw new InvalidSqlExpression();
         }
 
         switch type {
@@ -395,7 +406,7 @@ abstract class Dialect implements DialectInterface
         /**
          * Expression type wasn't found
          */
-        throw new Exception("Invalid SQL expression type '" . type . "'");
+        throw new InvalidSqlExpressionType(type);
     }
 
     /**
@@ -483,9 +494,7 @@ abstract class Dialect implements DialectInterface
      */
     public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
     {
-        throw new Exception(
-            "Materialized views are not supported by this dialect"
-        );
+        throw new MaterializedViewsNotSupported();
     }
 
     /**
@@ -493,9 +502,7 @@ abstract class Dialect implements DialectInterface
      */
     public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
     {
-        throw new Exception(
-            "Materialized views are not supported by this dialect"
-        );
+        throw new MaterializedViewsNotSupported();
     }
 
     /**
@@ -506,9 +513,7 @@ abstract class Dialect implements DialectInterface
      */
     public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
     {
-        throw new Exception(
-            "Materialized views are not supported by this dialect"
-        );
+        throw new MaterializedViewsNotSupported();
     }
 
     /**
@@ -524,15 +529,11 @@ abstract class Dialect implements DialectInterface
         array assignments;
 
         if unlikely empty conflictColumns {
-            throw new Exception(
-                "ON CONFLICT requires at least one conflict-target column"
-            );
+            throw new ConflictTargetColumnRequired();
         }
 
         if unlikely empty updateColumns {
-            throw new Exception(
-                "ON CONFLICT DO UPDATE requires at least one update column"
-            );
+            throw new ConflictUpdateColumnRequired();
         }
 
         let assignments = [];
@@ -555,9 +556,7 @@ abstract class Dialect implements DialectInterface
      */
     public function returning(string! sqlQuery, array! columns) -> string
     {
-        throw new Exception(
-            "RETURNING clauses are not supported by this dialect"
-        );
+        throw new ReturningNotSupported();
     }
 
     /**
@@ -585,15 +584,11 @@ abstract class Dialect implements DialectInterface
             having, orderBy, limit, forUpdate, bindCounts;
 
         if unlikely !fetch tables, definition["tables"] {
-            throw new Exception(
-                "The index 'tables' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("tables");
         }
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         if fetch distinct, definition["distinct"] {
@@ -1063,7 +1058,7 @@ abstract class Dialect implements DialectInterface
 
             for field in expression {
                 if unlikely typeof field != "array" {
-                    throw new Exception("Invalid SQL-GROUP-BY expression");
+                    throw new InvalidGroupByExpression();
                 }
 
                 let fields[] = this->getSqlExpression(
@@ -1232,7 +1227,7 @@ abstract class Dialect implements DialectInterface
             return "(" . join(separator, items) . ")";
         }
 
-        throw new Exception("Invalid SQL-list expression");
+        throw new InvalidListExpression();
     }
 
     /**
@@ -1278,7 +1273,7 @@ abstract class Dialect implements DialectInterface
             for field in expression {
 
                 if unlikely typeof field != "array" {
-                    throw new Exception("Invalid SQL-ORDER-BY expression");
+                    throw new InvalidOrderByExpression();
                 }
 
                 let fieldSql = this->getSqlExpression(
@@ -1340,7 +1335,7 @@ abstract class Dialect implements DialectInterface
         }
 
         if unlikely !fetch value, expression["value"] {
-            throw new Exception("Invalid SQL expression");
+            throw new InvalidSqlExpression();
         }
 
         if typeof value === "array" {
@@ -1377,7 +1372,7 @@ abstract class Dialect implements DialectInterface
             return expression["op"] . " " . this->getSqlExpression(right, escapeChar, bindCounts);
         }
 
-        throw new Exception("Invalid SQL-unary expression");
+        throw new InvalidUnaryExpression();
     }
 
     /**

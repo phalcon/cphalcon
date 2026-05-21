@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use LogicException;
+use Phalcon\Logger\Adapter\Exceptions\SyslogOpenFailed;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
@@ -59,7 +59,7 @@ final class ProcessTest extends AbstractUnitTestCase
     {
         $fileName = $this->getNewFileName('log', 'log');
 
-        $this->expectException(LogicException::class);
+        $this->expectException(SyslogOpenFailed::class);
         $this->expectExceptionMessage(
             "Cannot open syslog for name [" . $fileName
             . "] and facility [8]"

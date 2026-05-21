@@ -13,19 +13,28 @@ namespace Phalcon\Mvc;
 use ArrayAccess;
 use Closure;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\Injectable;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\Micro\Exception;
+use Phalcon\Di\Injectable;
 use Phalcon\Di\ServiceInterface;
-use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Mvc\Micro\LazyLoader;
-use Phalcon\Http\ResponseInterface;
-use Phalcon\Mvc\Model\BinderInterface;
-use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Http\ResponseInterface;
+use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\CollectionInterface;
+use Phalcon\Mvc\Micro\Exception;
+use Phalcon\Mvc\Micro\Exceptions\ContainerRequired;
+use Phalcon\Mvc\Micro\Exceptions\ErrorHandlerNotCallable;
+use Phalcon\Mvc\Micro\Exceptions\HandlerNotCallable;
+use Phalcon\Mvc\Micro\Exceptions\InvalidRegisteredHandler;
+use Phalcon\Mvc\Micro\Exceptions\MissingCollectionMainHandler;
+use Phalcon\Mvc\Micro\Exceptions\NoHandlersToMount;
+use Phalcon\Mvc\Micro\Exceptions\NoMatchedRouteHandler;
+use Phalcon\Mvc\Micro\Exceptions\NotFoundHandlerNotCallable;
+use Phalcon\Mvc\Micro\Exceptions\ResponseHandlerNotCallable;
+use Phalcon\Mvc\Micro\LazyLoader;
+use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Mvc\Model\BinderInterface;
+use Phalcon\Mvc\Router\RouteInterface;
 use Throwable;
 
 /**
@@ -393,9 +402,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
         let container = this->container;
 
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access micro services"
-            );
+            throw new ContainerRequired();
         }
 
         try {
@@ -427,9 +434,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
             if matchedRoute !== null {
                 if unlikely !fetch handler, this->handlers[matchedRoute->getRouteId()] {
-                    throw new Exception(
-                        "Matched route does not have an associated handler"
-                    );
+                    throw new NoMatchedRouteHandler();
                 }
 
                 /**
@@ -462,9 +467,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                         let status = before->call(this);
                     } else {
                         if unlikely !is_callable(before) {
-                            throw new Exception(
-                                "'before' handler is not callable"
-                            );
+                            throw new HandlerNotCallable("before");
                         }
 
                         /**
@@ -573,9 +576,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                         let status = afterBinding->call(this);
                     } else {
                         if unlikely !is_callable(afterBinding) {
-                            throw new Exception(
-                                "'afterBinding' handler is not callable"
-                            );
+                            throw new HandlerNotCallable("afterBinding");
                         }
 
                         /**
@@ -619,9 +620,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                         let status = after->call(this);
                     } else {
                         if unlikely !is_callable(after) {
-                            throw new Exception(
-                                "One of the 'after' handlers is not callable"
-                            );
+                            throw new HandlerNotCallable("after");
                         }
 
                         let status = call_user_func(after);
@@ -650,9 +649,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                 let notFoundHandler = this->notFoundHandler;
 
                 if unlikely !is_callable(notFoundHandler) {
-                    throw new Exception(
-                        "Not-Found handler is not callable or is not defined"
-                    );
+                    throw new NotFoundHandlerNotCallable();
                 }
 
                 /**
@@ -685,9 +682,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                     let status = finish->call(this);
                 } else {
                     if unlikely !is_callable(finish) {
-                        throw new Exception(
-                            "One of the 'finish' handlers is not callable"
-                        );
+                        throw new HandlerNotCallable("finish");
                     }
 
                     /**
@@ -723,7 +718,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
              */
             if this->errorHandler !== null {
                 if unlikely !is_callable(this->errorHandler) {
-                    throw new Exception("Error handler is not callable");
+                    throw new ErrorHandlerNotCallable();
                 }
 
                 /**
@@ -756,9 +751,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
          */
         if this->responseHandler {
             if unlikely !is_callable(this->responseHandler) {
-                throw new Exception(
-                    "Response handler is not callable or is not defined"
-                );
+                throw new ResponseHandlerNotCallable();
             }
 
             let returnedValue = call_user_func(this->responseHandler);
@@ -873,13 +866,13 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
         let mainHandler = collection->getHandler();
 
         if unlikely empty mainHandler {
-            throw new Exception("Collection requires a main handler");
+            throw new MissingCollectionMainHandler();
         }
 
         let handlers = collection->getHandlers();
 
         if unlikely !count(handlers) {
-            throw new Exception("There are no handlers to mount");
+            throw new NoHandlersToMount();
         }
 
         /**
@@ -898,9 +891,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
         for handler in handlers {
             if unlikely typeof handler !== "array" {
-                throw new Exception(
-                    "One of the registered handlers is invalid"
-                );
+                throw new InvalidRegisteredHandler();
             }
 
             let methods    = handler[0];

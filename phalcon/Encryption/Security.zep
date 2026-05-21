@@ -14,8 +14,9 @@ use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Encryption\Security\Random;
 use Phalcon\Encryption\Security\Exception;
+use Phalcon\Encryption\Security\Exceptions\UnknownHashAlgorithm;
+use Phalcon\Encryption\Security\Random;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
@@ -256,21 +257,11 @@ class Security extends AbstractInjectionAware implements SecurityContract
         try {
             let hmac = hash_hmac(algorithm, data, key, raw);
         } catch \ValueError {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algorithm
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         if unlikely !hmac {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algorithm
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         return hmac;

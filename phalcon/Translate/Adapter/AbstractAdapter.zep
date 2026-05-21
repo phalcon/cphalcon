@@ -10,19 +10,21 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use ArrayAccess;
 use Phalcon\Support\Helper\Arr\Get;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\ImmutableObject;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class AbstractAdapter
+ * @psalm-type TOptions array{
+ *     defaultInterpolator?: string
+ * }
  *
- * @package Phalcon\Translate\Adapter
- *
- * @property string              $defaultInterpolator
- * @property InterpolatorFactory $interpolatorFactory
+ * @template TKey of string
+ * @template TValue of string
+ * @implements ArrayAccess<TKey, TValue>
  */
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
 {
     /**
      * @var string
@@ -37,8 +39,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * AbstractAdapter constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options
+     * @param TOptions            $options
      */
     public function __construct(
         <InterpolatorFactory> interpolator,
@@ -56,8 +57,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns the translation string of the given key (alias of method 't')
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -81,11 +81,11 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns the translation related to the given key
      *
-     * @param mixed $translateKey
+     * @param TKey $translateKey
      *
-     * @return mixed
+     * @return TValue|null
      */
-    public function offsetGet(mixed translateKey) -> mixed
+    public function offsetGet(mixed translateKey) -> string | null
     {
         return this->query(translateKey);
     }
@@ -96,11 +96,12 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $offset
      * @param mixed $value
      *
-     * @throws Exception
+     * @return void
+     * @throws ImmutableObject
      */
     public function offsetSet(var offset, var value) -> void
     {
-        throw new Exception("Translate is an immutable ArrayAccess object");
+        throw new ImmutableObject();
     }
 
     /**
@@ -108,18 +109,18 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param mixed $offset
      *
-     * @throws Exception
+     * @return void
+     * @throws ImmutableObject
      */
     public function offsetUnset(var offset) -> void
     {
-        throw new Exception("Translate is an immutable ArrayAccess object");
+        throw new ImmutableObject();
     }
 
     /**
      * Returns the translation string of the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -131,8 +132,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Replaces placeholders by the values passed
      *
-     * @param string $translation
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */

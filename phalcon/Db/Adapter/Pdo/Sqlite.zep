@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingSqliteDatabase;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
@@ -77,9 +78,7 @@ class Sqlite extends PdoAdapter
 
             unset descriptor["dbname"];
         } elseif unlikely !isset descriptor["dsn"] {
-            throw new Exception(
-                "The database must be specified with either 'dbname' or 'dsn'."
-            );
+            throw new MissingSqliteDatabase();
         }
 
         parent::connect(descriptor);

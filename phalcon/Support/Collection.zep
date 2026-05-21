@@ -14,10 +14,9 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
-use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Phalcon\Support\Collection\CollectionInterface;
+use Phalcon\Support\Collection\Exceptions\InvalidValueType;
 use Phalcon\Support\Helper\Json\Encode;
 use Traversable;
 
@@ -750,7 +749,7 @@ class Collection implements
      *
      * @return static
      */
-    protected function cloneEmpty(array data = []) -> <CollectionContract>
+    protected function cloneEmpty(array data = []) -> <CollectionInterface>
     {
         var className;
 
@@ -828,7 +827,7 @@ class Collection implements
      *
      * @param mixed $value
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidValueType
      */
     protected function validateType(var value) -> void
     {
@@ -862,10 +861,7 @@ class Collection implements
         }
 
         if (!ok) {
-            throw new InvalidArgumentException(
-                "Value must be of type '" . this->type
-                . "', '" . get_debug_type(value) . "' given"
-            );
+            throw new InvalidValueType(this->type, value);
         }
     }
 

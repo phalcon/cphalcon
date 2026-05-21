@@ -10,7 +10,7 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Exceptions\InvalidUnserializationInput;
 
 class Php extends AbstractSerializer
 {
@@ -44,9 +44,7 @@ class Php extends AbstractSerializer
         }
 
         if unlikely typeof data != "string" {
-            throw new InvalidArgumentException(
-                "Data for the unserializer must of type string"
-            );
+            throw new InvalidUnserializationInput();
         }
 
         globals_set("warning.enable", false);

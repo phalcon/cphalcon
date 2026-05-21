@@ -12,6 +12,8 @@ namespace Phalcon\Di;
 
 use Closure;
 use Phalcon\Di\Exception\ServiceResolutionException;
+use Phalcon\Di\Exceptions\DefinitionMustBeArrayForRead;
+use Phalcon\Di\Exceptions\DefinitionMustBeArrayForUpdate;
 use Phalcon\Di\Service\Builder;
 
 /**
@@ -75,9 +77,7 @@ class Service implements ServiceInterface
         var arguments, parameter;
 
         if unlikely typeof this->definition !== "array" {
-            throw new Exception(
-                "Definition must be an array to obtain its parameters"
-            );
+            throw new DefinitionMustBeArrayForRead();
         }
 
         /**
@@ -223,9 +223,7 @@ class Service implements ServiceInterface
         var arguments;
 
         if unlikely typeof this->definition !== "array" {
-            throw new Exception(
-                "Definition must be an array to update its parameters"
-            );
+            throw new DefinitionMustBeArrayForUpdate();
         }
 
         /**

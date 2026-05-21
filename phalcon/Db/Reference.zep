@@ -10,6 +10,11 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exceptions\ForeignKeyColumnsRequired;
+use Phalcon\Db\Exceptions\ReferencedColumnCountMismatch;
+use Phalcon\Db\Exceptions\ReferencedColumnsRequired;
+use Phalcon\Db\Exceptions\ReferencedTableRequired;
+
 /**
  * Allows to define reference constraints on tables
  *
@@ -100,21 +105,19 @@ class Reference implements ReferenceInterface
         let this->name = name;
 
         if unlikely !fetch referencedTable, definition["referencedTable"] {
-            throw new Exception("Referenced table is required");
+            throw new ReferencedTableRequired();
         }
 
         let this->referencedTable = referencedTable;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("Foreign key columns are required");
+            throw new ForeignKeyColumnsRequired();
         }
 
         let this->columns = columns;
 
         if unlikely !fetch referencedColumns, definition["referencedColumns"] {
-            throw new Exception(
-                "Referenced columns of the foreign key are required"
-            );
+            throw new ReferencedColumnsRequired();
         }
 
         let this->referencedColumns = referencedColumns;
@@ -136,9 +139,7 @@ class Reference implements ReferenceInterface
         }
 
         if unlikely count(columns) != count(referencedColumns) {
-            throw new Exception(
-                "Number of columns is not equals than the number of columns referenced"
-            );
+            throw new ReferencedColumnCountMismatch();
         }
     }
 

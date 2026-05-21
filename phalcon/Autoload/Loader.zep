@@ -10,6 +10,8 @@
 
 namespace Phalcon\Autoload;
 
+use Phalcon\Autoload\Exceptions\LoaderDirectoriesNotArray;
+use Phalcon\Autoload\Exceptions\LoaderMethodNotCallable;
 use Phalcon\Events\AbstractEventsAware;
 
 /**
@@ -436,9 +438,7 @@ class Loader extends AbstractEventsAware
                 return true;
             };
         } else {
-            throw new Exception(
-                "The 'method' parameter must be either a callable or NULL"
-            );
+            throw new LoaderMethodNotCallable();
         }
 
         return this;
@@ -722,9 +722,7 @@ class Loader extends AbstractEventsAware
         array results;
 
         if (!is_string(directories) && !is_array(directories)) {
-            throw new Exception(
-                "The directories parameter is not a string or array"
-            );
+            throw new LoaderDirectoriesNotArray();
         }
 
         if (is_string(directories)) {

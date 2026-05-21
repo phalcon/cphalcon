@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Router;
 
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router\Exceptions\InvalidRouterFactoryConfig;
 use Phalcon\Mvc\RouterInterface;
 
 /**
@@ -48,17 +49,13 @@ class RouterFactory
 
         if typeof config === "object" {
             if !(config instanceof ConfigInterface) {
-                throw new Exception(
-                    "RouterFactory::load requires an array or Phalcon\\Config\\ConfigInterface instance"
-                );
+                throw new InvalidRouterFactoryConfig();
             }
             let config = config->toArray();
         }
 
         if typeof config !== "array" {
-            throw new Exception(
-                "RouterFactory::load requires an array or Phalcon\\Config\\ConfigInterface instance"
-            );
+            throw new InvalidRouterFactoryConfig();
         }
 
         let defaultRoutes = true;

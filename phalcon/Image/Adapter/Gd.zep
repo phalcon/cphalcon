@@ -12,6 +12,11 @@ namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
+use Phalcon\Image\Exceptions\ExtensionNotLoaded;
+use Phalcon\Image\Exceptions\ImageLoadFailed;
+use Phalcon\Image\Exceptions\TextRenderingFailed;
+use Phalcon\Image\Exceptions\UnsupportedImageType;
+use Phalcon\Image\Exceptions\VersionMismatch;
 
 class Gd extends AbstractAdapter
 {
@@ -72,23 +77,13 @@ class Gd extends AbstractAdapter
                     break;
 
                 default:
-                    if (this->mime) {
-                        throw new Exception(
-                            "Installed GD does not support " . this->mime . " images"
-                        );
-                    }
-
-                    throw new Exception(
-                        "Installed GD does not support such images"
-                    );
+                    throw new UnsupportedImageType(this->mime);
             }
 
             imagesavealpha(this->image, true);
         } else {
             if (null === width || null === height) {
-                throw new Exception(
-                    "Failed to create image from file " . this->file
-                );
+                throw new ImageLoadFailed(this->file);
             }
 
             let this->image = imagecreatetruecolor(width, height);
@@ -129,9 +124,7 @@ class Gd extends AbstractAdapter
         var info, matches, version;
 
         if (true !== function_exists("gd_info")) {
-            throw new Exception(
-                "GD is either not installed or not enabled, check your configuration"
-            );
+            throw new ExtensionNotLoaded("GD");
         }
 
         let version = null;
@@ -547,9 +540,7 @@ class Gd extends AbstractAdapter
                 imagexbm(this->image, null);
                 break;
             default:
-                throw new Exception(
-                    "Installed GD does not support '" . extension . "' images"
-                );
+                throw new UnsupportedImageType(extension);
         }
 
         return ob_get_clean();
@@ -678,9 +669,7 @@ class Gd extends AbstractAdapter
                 imagexbm(this->image, file);
                 break;
             default:
-                throw new Exception(
-                    "Installed GD does not support '" . extension . "' images"
-                );
+                throw new UnsupportedImageType(extension);
         }
 
         let this->mime = image_type_to_mime_type(this->type);
@@ -759,7 +748,7 @@ class Gd extends AbstractAdapter
             let space = imagettfbbox(size, 0, fontFile, text);
 
             if (false === space) {
-                throw new Exception("Call to imagettfbbox() failed");
+                throw new TextRenderingFailed();
             }
 
             if (true === isset(space[0])) {
@@ -896,10 +885,7 @@ class Gd extends AbstractAdapter
         let version = this->getVersion();
 
         if (true !== version_compare(version, "2.0.1", ">=")) {
-            throw new Exception(
-                "Phalcon\\Image\\Adapter\\GD requires GD " .
-                "version '2.0.1' or greater, you have " . version
-            );
+            throw new VersionMismatch(version);
         }
     }
 }

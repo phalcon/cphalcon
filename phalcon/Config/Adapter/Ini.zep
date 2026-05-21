@@ -12,6 +12,7 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
+use Phalcon\Config\Exceptions\CannotLoadConfigFile;
 
 /**
  * Reads ini files and converts them to Phalcon\Config\Config objects.
@@ -73,9 +74,7 @@ class Ini extends Config
         let iniConfig = this->phpParseIniFile(filePath, true, mode);
 
         if unlikely iniConfig === false {
-            throw new Exception(
-                "Configuration file " . basename(filePath) . " cannot be loaded"
-            );
+            throw new CannotLoadConfigFile(basename(filePath));
         }
 
         let config = [];

@@ -16,6 +16,7 @@
 namespace Phalcon\DataMapper\Query;
 
 use BadMethodCallException;
+use Phalcon\DataMapper\Pdo\Exception\UnknownQueryMethod;
 
 /**
  * Select Query
@@ -90,9 +91,7 @@ class Select extends AbstractConditions
             );
         }
 
-        throw new BadMethodCallException(
-            "Unknown method: [" . method . "]"
-        );
+        throw new UnknownQueryMethod(method);
     }
 
     /**

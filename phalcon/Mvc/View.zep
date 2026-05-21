@@ -13,10 +13,15 @@ namespace Phalcon\Mvc;
 use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Events\ManagerInterface;
-use Phalcon\Mvc\View\Exception;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Mvc\View\Exception;
+use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
+use Phalcon\Mvc\View\Exceptions\InvalidViewsDirType;
+use Phalcon\Mvc\View\Exceptions\ViewNotFound;
+use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
+use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
 
 /**
  * Phalcon\Mvc\View
@@ -991,7 +996,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         var position, directory, newViewsDir;
 
         if typeof viewsDir !== "string" && typeof viewsDir !== "array" {
-            throw new Exception("Views directory must be a string or an array");
+            throw new InvalidViewsDirType();
         }
 
         if typeof viewsDir == "string" {
@@ -1001,9 +1006,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
             for position, directory in viewsDir {
                 if typeof directory != "string" {
-                    throw new Exception(
-                        "Views directory item must be a string"
-                    );
+                    throw new ViewsDirItemMustBeString();
                 }
 
                 let newViewsDir[position] = this->getDirSeparator(directory);
@@ -1122,9 +1125,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         if !silence {
-            throw new Exception(
-                "View '" . viewPath . "' was not found in any of the views directory"
-            );
+            throw new ViewNotFound(viewPath);
         }
     }
 
@@ -1166,9 +1167,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
                 if typeof di != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access application services"
-                    );
+                    throw new ViewServicesUnavailable();
                 }
 
                 for extension, engineService in registeredEngines {
@@ -1194,9 +1193,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                          * Engine can be a string representing a service in the DI
                          */
                         if typeof engineService != "string" {
-                            throw new Exception(
-                                "Invalid template engine registration for extension: " . extension
-                            );
+                            throw new InvalidEngineRegistration(extension);
                         }
 
                         let engines[extension] = di->get(

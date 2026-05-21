@@ -11,8 +11,18 @@
 namespace Phalcon\Encryption;
 
 use Phalcon\Encryption\Crypt\CryptInterface;
+use Phalcon\Encryption\Crypt\Exception\DecryptionFailed;
+use Phalcon\Encryption\Crypt\Exception\EmptyDecryptionKey;
+use Phalcon\Encryption\Crypt\Exception\EmptyEncryptionKey;
+use Phalcon\Encryption\Crypt\Exception\EncryptionFailed;
 use Phalcon\Encryption\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt\Exception\InvalidPaddingSize;
+use Phalcon\Encryption\Crypt\Exception\IvLengthCalculationFailed;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
+use Phalcon\Encryption\Crypt\Exception\MissingAuthData;
+use Phalcon\Encryption\Crypt\Exception\MissingOpensslExtension;
+use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
+use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
 
 /**
@@ -195,7 +205,7 @@ class Crypt implements CryptInterface
         }
 
         if true === empty(decryptKey) {
-            throw new Exception("Decryption key cannot be empty");
+            throw new EmptyDecryptionKey();
         }
 
         let cipher   = this->cipher,
@@ -302,7 +312,7 @@ class Crypt implements CryptInterface
         }
 
         if true === empty(encryptKey) {
-            throw new Exception("Encryption key cannot be empty");
+            throw new EmptyEncryptionKey();
         }
 
         let cipher   = this->cipher,
@@ -316,11 +326,11 @@ class Crypt implements CryptInterface
         try {
             let iv = this->phpOpensslRandomPseudoBytes(ivLength);
         } catch \ValueError {
-            throw new Exception("Cannot calculate Random Pseudo Bytes");
+            throw new RandomBytesGenerationFailed();
         }
 
         if false === iv {
-            throw new Exception("Cannot calculate Random Pseudo Bytes");
+            throw new RandomBytesGenerationFailed();
         }
 
         let padded = this->encryptGetPadded(mode, input, blockSize);
@@ -627,13 +637,7 @@ class Crypt implements CryptInterface
         let available = this->{method}(),
             lower     = mb_strtolower(cipher);
         if true !== in_array(lower, available) {
-            throw new Exception(
-                sprintf(
-                    "The %s algorithm '%s' is not supported on this system.",
-                    type,
-                    cipher
-                )
-            );
+            throw new UnsupportedAlgorithm(type, cipher);
         }
     }
 
@@ -664,9 +668,7 @@ class Crypt implements CryptInterface
             let paddingSize = blockSize - (strlen(input) % blockSize);
 
             if paddingSize >= 256 || paddingSize < 0 {
-                throw new Exception(
-                    "Padding size cannot be less than 0 or greater than 256"
-                );
+                throw new InvalidPaddingSize();
             }
 
             let service = this->padFactory->padNumberToService(paddingType),
@@ -808,7 +810,7 @@ class Crypt implements CryptInterface
         }
 
         if (false === decrypted) {
-            throw new Exception("Could not decrypt data");
+            throw new DecryptionFailed();
         }
 
         return decrypted;
@@ -865,9 +867,7 @@ class Crypt implements CryptInterface
             let authData = this->authData;
 
             if true === empty(authData) {
-                throw new Exception(
-                    "Auth data must be provided when using AEAD mode"
-                );
+                throw new MissingAuthData();
             }
 
             let authTag       = this->authTag,
@@ -896,7 +896,7 @@ class Crypt implements CryptInterface
         }
 
         if (false === encrypted) {
-            throw new Exception("Could not encrypt data");
+            throw new EncryptionFailed();
         }
 
         /**
@@ -918,7 +918,7 @@ class Crypt implements CryptInterface
         array allowed;
 
         if true !== this->phpFunctionExists("openssl_get_cipher_methods") {
-            throw new Exception("This class requires the openssl extension for PHP");
+            throw new MissingOpensslExtension();
         }
 
         let available = openssl_get_cipher_methods(true),
@@ -986,9 +986,7 @@ class Crypt implements CryptInterface
 
         let length = openssl_cipher_iv_length(cipher);
         if false === length {
-            throw new Exception(
-                "Cannot calculate the initialization vector (IV) length of the cipher"
-            );
+            throw new IvLengthCalculationFailed();
         }
 
         return length;
