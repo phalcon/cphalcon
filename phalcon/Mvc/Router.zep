@@ -117,21 +117,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected candidatesByMethod = [];
 
     /**
-     * Parallel to candidatesByMethod. Each entry mirrors the corresponding
-     * route as an array of cached scalars:
-     *   [
+     * Single-source per-route metadata cache. One entry per route, keyed
+     * by the route's intrinsic id. Replaces the previous per-method-bucket
+     * replication of metadata arrays. Built once in rebuildMethodIndex().
+     *
+     * Shape: routeMeta[routeId] = [
      *     "pattern":     string,        // compiled pattern
-     *     "isRegex":     bool,          // pattern contains "^"
-     *     "hostname":    string|null,   // raw hostname or null
-     *     "hostRegex":   string|null,   // compiled hostname regex (null = literal)
+     *     "isRegex":     bool,
+     *     "hostname":    string|null,
+     *     "hostRegex":   string|null,
      *     "beforeMatch": callable|null
      *   ]
      *
-     * Built in rebuildMethodIndex().
-     *
      * @var array
      */
-    protected candidatesMetaByMethod = [];
+    protected routeMeta = [];
 
     /**
      * Combined PCRE pattern per method bucket (chunked list of strings).
@@ -666,7 +666,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         let this->routes                 = [],
             this->methodRoutes           = [],
             this->candidatesByMethod     = [],
-            this->candidatesMetaByMethod = [],
+            this->routeMeta              = [],
             this->staticByMethod         = [],
             this->staticShadowedByMethod = [],
             this->hostnameByMethod       = [],
@@ -830,13 +830,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected function rebuildMethodIndex() -> void
     {
         var route, methods, method, methodSpecific, starRoutes,
-            candidates, idx, candidateRoute, candidatePattern, isRegex,
+            candidates, candidateRoute, candidatePattern, isRegex,
             bucketRoute, bucketPattern, staticUri, staticBucket,
             staticRoutesList;
 
         let this->methodRoutes           = [],
             this->candidatesByMethod     = [],
-            this->candidatesMetaByMethod = [],
+            this->routeMeta              = [],
             this->staticByMethod         = [],
             this->staticShadowedByMethod = [];
 
@@ -867,25 +867,28 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let this->candidatesByMethod[method] = array_merge(methodSpecific, starRoutes);
         }
 
-        for method, candidates in this->candidatesByMethod {
-            let this->candidatesMetaByMethod[method] = [];
+        /**
+         * Build the single-source per-route metadata cache, keyed by the
+         * route's intrinsic id. One entry per route — replaces the previous
+         * per-method-bucket replication.
+         */
+        let this->routeMeta = [];
 
-            for idx, candidateRoute in candidates {
-                let candidatePattern = candidateRoute->getCompiledPattern();
-                let isRegex          = false;
+        for candidateRoute in this->routes {
+            let candidatePattern = candidateRoute->getCompiledPattern();
+            let isRegex          = false;
 
-                if memstr(candidatePattern, "^") {
-                    let isRegex = true;
-                }
-
-                let this->candidatesMetaByMethod[method][idx] = [
-                    "pattern":     candidatePattern,
-                    "isRegex":     isRegex,
-                    "hostname":    candidateRoute->getHostName(),
-                    "hostRegex":   candidateRoute->getCompiledHostName(),
-                    "beforeMatch": candidateRoute->getBeforeMatch()
-                ];
+            if memstr(candidatePattern, "^") {
+                let isRegex = true;
             }
+
+            let this->routeMeta[candidateRoute->getRouteId()] = [
+                "pattern":     candidatePattern,
+                "isRegex":     isRegex,
+                "hostname":    candidateRoute->getHostName(),
+                "hostRegex":   candidateRoute->getCompiledHostName(),
+                "beforeMatch": candidateRoute->getBeforeMatch()
+            ];
         }
 
         /**
@@ -945,9 +948,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * are ordered in reverse-attach so PCRE's left-to-right first-match
          * yields reverse-iteration semantics.
          */
-        var combinedAlternatives, combinedMark, combinedPattern,
-            combinedBody, combinedBodyMatch, combinedShape,
-            hostnameBucketRef;
+        var combinedAlternatives, combinedMark, combinedBody,
+            combinedBodyMatch, combinedShape, hostnameBucketRef;
 
         let this->combinedRegexByMethod = [],
             this->combinedRegexMarkMap  = [],
@@ -1112,7 +1114,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string! uri) -> void
     {
-        var action, beforeMatch, candidateRoutes, candidatesMeta, container,
+        var action, beforeMatch, candidateRoutes, container,
             controller, converter, converters, currentHostName, eventsManager,
             handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
@@ -1176,8 +1178,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         let requestMethod   = request->getMethod(),
-            candidateRoutes = [],
-            candidatesMeta  = [];
+            candidateRoutes = [];
 
         if !fetch candidateRoutes, this->candidatesByMethod[requestMethod] {
             fetch candidateRoutes, this->candidatesByMethod["*"];
@@ -1185,14 +1186,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if typeof candidateRoutes !== "array" {
             let candidateRoutes = [];
-        }
-
-        if !fetch candidatesMeta, this->candidatesMetaByMethod[requestMethod] {
-            fetch candidatesMeta, this->candidatesMetaByMethod["*"];
-        }
-
-        if typeof candidatesMeta !== "array" {
-            let candidatesMeta = [];
         }
 
         /**
@@ -1310,7 +1303,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 }
 
                 let combinedRoute     = candidateRoutes[combinedRouteIdx],
-                    combinedRouteMeta = candidatesMeta[combinedRouteIdx];
+                    combinedRouteMeta = this->routeMeta[combinedRoute->getRouteId()];
 
                 let combinedBeforeMatch = combinedRouteMeta["beforeMatch"];
 
@@ -1367,7 +1360,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         if !routeFound {
             for routeIdx, route in array_reverse(candidateRoutes, true) {
-            let routeMeta = candidatesMeta[routeIdx],
+            let routeMeta = this->routeMeta[route->getRouteId()],
                 params    = [],
                 matches   = null;
 
